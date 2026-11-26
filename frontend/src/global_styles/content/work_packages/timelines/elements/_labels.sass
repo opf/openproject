@@ -25,6 +25,7 @@
     padding: 2px 5px
     // Ensure line-height is normal
     line-height: 1
+    top: -2px !important
 
   .labelLeft.not-empty
     @include timeline-label
@@ -37,8 +38,8 @@
   .labelHoverLeft.not-empty
     // Position container left of bar
     position: absolute
-    left: 0px
-    top: 0px
+    left: 0
+    top: 0
     // Then translate by its own width + some margin
     transform: translateX(calc(-100% - 15px))
     // Ensure line-height is normal
@@ -48,7 +49,7 @@
   .containerRight
     @include timeline-label
     position: absolute
-    top: 0px
+    top: 0
     margin: 0
     padding: 0
     left: 100%
@@ -92,5 +93,3 @@
 
   .hide-on-hover
     display: none
-
-

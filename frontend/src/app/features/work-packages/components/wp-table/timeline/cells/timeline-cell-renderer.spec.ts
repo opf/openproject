@@ -31,6 +31,7 @@ import { DisplayFieldService } from 'core-app/shared/components/fields/display/d
 import { TextDisplayField } from 'core-app/shared/components/fields/display/field-types/text-display-field.module';
 import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
 import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
 import { buildWorkPackage } from '../../../wp-fast-table/testing/work-package-fixture';
 import { configureTimelineTesting, mountTimeline } from '../testing/timeline-harness';
@@ -197,6 +198,12 @@ describe('TimelineCellRenderer', () => {
       vi.spyOn(mount.injector.get(WorkPackageViewBaselineService), 'isActive').mockReturnValue(true);
     }
 
+    function stubTranslations(translations:Record<string, string>) {
+      const i18n = mount.injector.get(I18nService);
+      vi.spyOn(i18n, 't').mockImplementation((key:string, options:Record<string, unknown> = {}) => (translations[key] ?? key)
+        .replace(/%\{(\w+)\}/g, (match, name) => (Object.hasOwn(options, name) ? String(options[name]) : match)));
+    }
+
     it('does not draw a baseline bar while the baseline filter is inactive', () => {
       const renderInfo = baselineInfo({ startDate: '2026-10-10', dueDate: '2026-10-15' });
       const element = renderer.render(renderInfo);
@@ -222,6 +229,7 @@ describe('TimelineCellRenderer', () => {
 
     it('draws a baseline bar without a connector when it overlaps the current bar', () => {
       activateBaseline();
+      stubTranslations({ 'js.work_packages.baseline.previous_dates_tooltip': 'Previous dates: %{start_date} - %{finish_date}' });
       const renderInfo = baselineInfo({ startDate: '2026-11-03', dueDate: '2026-11-06' });
       const element = renderer.render(renderInfo);
       mount.side.appendChild(element);
@@ -232,6 +240,10 @@ describe('TimelineCellRenderer', () => {
       expect(baselineBar).not.toBeNull();
       expect(baselineBar.style.left).toBe(`${33 * 30}px`);
       expect(baselineBar.style.width).toBe(`${4 * 30}px`);
+
+      const tooltip = mount.side.querySelector(`tool-tip[for="${baselineBar.id}"]`);
+      expect(tooltip).not.toBeNull();
+      expect(tooltip).toHaveTextContent(`Previous dates: ${moment('2026-11-03').format('L')} - ${moment('2026-11-06').format('L')}`);
       expect(mount.side.querySelector('.baseline-connector')).toBeNull();
     });
 
@@ -293,16 +305,19 @@ describe('TimelineCellRenderer', () => {
       renderer.update(element, null, renderInfo);
       expect(mount.side.querySelector('.baseline-bar')).not.toBeNull();
       expect(mount.side.querySelector('.baseline-connector')).not.toBeNull();
+      expect(mount.side.querySelector('tool-tip')).not.toBeNull();
 
       isActive.mockReturnValue(false);
       renderer.update(element, null, renderInfo);
 
       expect(mount.side.querySelector('.baseline-bar')).toBeNull();
       expect(mount.side.querySelector('.baseline-connector')).toBeNull();
+      expect(mount.side.querySelector('tool-tip')).toBeNull();
     });
 
     it('fades the baseline bar towards today when only a start date is present', () => {
       activateBaseline();
+      stubTranslations({ 'js.work_packages.baseline.previous_dates_tooltip': 'Previous dates: %{start_date} - %{finish_date}' });
       const renderInfo = baselineInfo({ startDate: '2026-10-10', dueDate: null });
       const element = renderer.render(renderInfo);
       mount.side.appendChild(element);
@@ -314,10 +329,16 @@ describe('TimelineCellRenderer', () => {
       expect(baselineBar.style.backgroundImage).toContain('linear-gradient');
       expect(baselineBar.style.left).toBe(`${9 * 30}px`);
       expect(parseFloat(baselineBar.style.width)).toBeGreaterThan(0);
+
+      // The due date is genuinely missing (not just faded to today for display), so the
+      // tooltip leaves that half blank instead of showing the substituted "today".
+      const tooltip = mount.side.querySelector(`tool-tip[for="${baselineBar.id}"]`);
+      expect(tooltip).toHaveTextContent(`Previous dates: ${moment('2026-10-10').format('L')} -`);
     });
 
     it('fades the baseline bar towards its missing start when only a due date is present', () => {
       activateBaseline();
+      stubTranslations({ 'js.work_packages.baseline.previous_dates_tooltip': 'Previous dates: %{start_date} - %{finish_date}' });
       const renderInfo = baselineInfo({ startDate: null, dueDate: '2026-10-05' });
       const element = renderer.render(renderInfo);
       mount.side.appendChild(element);
@@ -328,6 +349,11 @@ describe('TimelineCellRenderer', () => {
       expect(baselineBar.style.backgroundImage).toContain('linear-gradient');
       expect(baselineBar.style.left).toBe(`${4 * 30}px`);
       expect(baselineBar.style.width).toBe('30px');
+
+      // The start date is genuinely missing, so the tooltip leaves that half blank instead
+      // of showing the substituted due date used to draw a single-day bar.
+      const tooltip = mount.side.querySelector(`tool-tip[for="${baselineBar.id}"]`);
+      expect(tooltip).toHaveTextContent(`Previous dates: - ${moment('2026-10-05').format('L')}`);
 
       const connector = mount.side.querySelector<HTMLElement>('.baseline-connector')!;
       expect(connector).not.toBeNull();

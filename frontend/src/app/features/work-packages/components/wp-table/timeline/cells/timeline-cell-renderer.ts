@@ -36,6 +36,7 @@ import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
 import { lazyInject } from 'core-app/shared/helpers/angular/lazy-inject';
 import { getCSSVariable } from 'core-app/shared/helpers/dom-helpers';
+import { withTooltip } from 'core-app/shared/helpers/tooltip-helper';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
@@ -242,9 +243,7 @@ export class TimelineCellRenderer {
       direction = 'left';
       this.mouseDirection = 'left';
       this.mouseDownCursorType = 'col-resize';
-      if (projection.startDate === null) {
-        projection.startDate = projection.dueDate;
-      }
+      projection.startDate ??= projection.dueDate;
     } else if (target.classList.contains(classNameRightHandle) || dateForCreate) {
       // only right
       direction = 'right';
@@ -303,13 +302,13 @@ export class TimelineCellRenderer {
     if (Number.isNaN(due.valueOf()) && !Number.isNaN(start.valueOf())) {
       // Set due date to today
       due = moment();
-      bar.setAttribute('style', 'background-image: linear-gradient(90deg, rgba(255,255,255,0) 0%, #F1F1F1 100%) !important');
+      bar.setAttribute('style', 'background-image: linear-gradient(90deg, rgba(255,255,255,0) 0%, var(--body-background) 100%) !important');
     }
 
     // only finish date, fade out bar to the left
     if (Number.isNaN(start.valueOf()) && !Number.isNaN(due.valueOf())) {
       start = due.clone();
-      bar.setAttribute('style', 'background-image: linear-gradient(90deg, #F1F1F1 0%, rgba(255,255,255,0) 80%) !important');
+      bar.setAttribute('style', 'background-image: linear-gradient(90deg, var(--body-background) 0%, rgba(255,255,255,0) 80%) !important');
     }
 
     this.setElementPositionAndSize(element, renderInfo, start, due);
@@ -355,7 +354,7 @@ export class TimelineCellRenderer {
 
   protected displayDurationForDate(renderInfo:RenderInfo, date:Moment):number {
     const { workPackage } = renderInfo;
-    let duration = Number(moment.duration(workPackage.duration || 'P1D').asDays().toFixed(0));
+    let duration = Number(moment.duration(workPackage.duration ?? 'P1D').asDays().toFixed(0));
 
     if (workPackage.ignoreNonWorkingDays) {
       return duration;
@@ -519,6 +518,30 @@ export class TimelineCellRenderer {
     this.setElementPositionAndSize(element, renderInfo, start, due);
   }
 
+  /**
+   * The tooltip shown while hovering the baseline marker, stating the dates it represents.
+   */
+  protected baselineTooltip(start:Moment, due:Moment):string {
+    return this.I18n().t('js.work_packages.baseline.previous_dates_tooltip', {
+      start_date: this.formattedBaselineDate(start),
+      finish_date: this.formattedBaselineDate(due),
+    });
+  }
+
+  protected formattedBaselineDate(date:Moment):string {
+    return date.isValid() ? date.format('L') : '';
+  }
+
+  /**
+   * `withTooltip` appends a `<tool-tip>` element as a sibling of the control, referencing it
+   * by id; removing just the control would leave that tooltip orphaned in the row.
+   */
+  protected removeBaselineTooltip(control:HTMLElement) {
+    if (control.id) {
+      control.ownerDocument.querySelector(`tool-tip[for="${CSS.escape(control.id)}"]`)?.remove();
+    }
+  }
+
   cursorOrDatesAreNonWorking(evOrDates:MouseEvent|Moment[], renderInfo:RenderInfo, direction?:MouseDirection|null):boolean {
     if (renderInfo.workPackage.ignoreNonWorkingDays) {
       return false;
@@ -606,11 +629,12 @@ export class TimelineCellRenderer {
    */
   protected renderBaselineBar(renderInfo:RenderInfo, element:HTMLElement, currentStart:Moment, currentDue:Moment) {
     const row = element.parentElement!;
-    const previousBaselineBar = row.querySelector('.baseline-bar');
+    const previousBaselineBar = row.querySelector<HTMLElement>('.baseline-bar');
     const previousConnector = row.querySelector('.baseline-connector');
     const dates = this.wpTableBaseline().isActive() ? this.getBaselineDates(renderInfo) : null;
 
     if (previousBaselineBar) {
+      this.removeBaselineTooltip(previousBaselineBar);
       previousBaselineBar.remove();
     }
 
@@ -632,18 +656,18 @@ export class TimelineCellRenderer {
     // Only a start date, fade the bar out to the right, same as the current bar.
     if (Number.isNaN(due.valueOf()) && !Number.isNaN(start.valueOf())) {
       due = moment();
-      baselineBar.setAttribute('style', 'background-image: linear-gradient(90deg, rgba(255,255,255,0) 0%, #F1F1F1 100%) !important');
+      baselineBar.setAttribute('style', 'background-image: linear-gradient(90deg, rgba(255,255,255,0) 0%, var(--body-background) 100%) !important');
     }
 
     // Only a due date, fade the bar out to the left, same as the current bar.
     if (Number.isNaN(start.valueOf()) && !Number.isNaN(due.valueOf())) {
       start = due.clone();
-      baselineBar.setAttribute('style', 'background-image: linear-gradient(90deg, #F1F1F1 0%, rgba(255,255,255,0) 80%) !important');
+      baselineBar.setAttribute('style', 'background-image: linear-gradient(90deg, var(--body-background) 0%, rgba(255,255,255,0) 80%) !important');
     }
 
     this.positionBaselineElement(baselineBar, renderInfo, start, due);
 
-    row.insertBefore(baselineBar, element);
+    row.insertBefore(withTooltip(baselineBar, this.baselineTooltip(dates.start, dates.due), 'description'), element);
 
     if (due.isBefore(currentStart, 'day')) {
       // Baseline lies fully in the past, connect its end to the current bar's start

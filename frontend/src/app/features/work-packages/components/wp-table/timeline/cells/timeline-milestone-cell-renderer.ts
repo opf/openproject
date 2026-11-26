@@ -85,6 +85,12 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     element.style.left = `${left}px`;
   }
 
+  protected baselineTooltip(start:Moment, _due:Moment):string {
+    return this.I18n().t('js.work_packages.baseline.previous_date_tooltip', {
+      date: this.formattedBaselineDate(start),
+    });
+  }
+
   public canMoveDates(wp:WorkPackageResource) {
     const schema = this.schemaCache().of(wp);
     return (schema.date as IOPFieldSchema).writable && schema.isAttributeEditable('date');
