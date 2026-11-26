@@ -56,10 +56,9 @@ export class RefreshError extends Error {
 
 const REFRESH_THRESHOLD = 0.8; // 80% of the token lifetime
 const RETRY_DELAY_MS = 5000;
-const MAX_RETRIES = 3;
 const MIN_REFRESH_DELAY_MS = 1000;
 const ACQUIRE_INITIAL_DELAY_MS = 1000;
-const ACQUIRE_MAX_DELAY_MS = 30000;
+const MAX_BACKOFF_MS = 30000;
 
 const destroyedError = ():RefreshError => new RefreshError('unavailable', 'Token service destroyed');
 
@@ -82,7 +81,8 @@ export const PROVIDER_AUTH_ERROR_EVENT = 'op:provider-auth-error';
  *   │── sendToken() ───────────────────────┼──────────────────────────────────►│ onTokenSync updates context
  *   │  [schedule next refresh]             │                                   │
  *   │                                      │                                   │
- *   │  [5xx error] retry up to 3x          │                                   │
+ *   │  [5xx, network] retry silently,      │                                   │
+ *   │  delay doubles to 30s                │                                   │
  *   │── POST /refresh_token ──────────────►│                                   │
  *   │                                      │                                   │
  *   │  [401/403/404 or redirect to sign-in]│                                   │
@@ -93,7 +93,7 @@ export const PROVIDER_AUTH_ERROR_EVENT = 'op:provider-auth-error';
 export class TokenRefreshService {
   private refreshTimer:ReturnType<typeof setTimeout> | null = null;
   private destroyed = false;
-  private retryCount = 0;
+  private retryDelayMs = RETRY_DELAY_MS;
   private pendingAcquire:Promise<TokenResponse> | null = null;
   private cancelBackoff:(() => void) | null = null;
 
@@ -106,7 +106,7 @@ export class TokenRefreshService {
   ) {}
 
   scheduleRefresh(expiresInSeconds:number):void {
-    this.retryCount = 0;
+    this.retryDelayMs = RETRY_DELAY_MS;
     const delayMs = Math.max(
       MIN_REFRESH_DELAY_MS,
       Math.floor(expiresInSeconds * REFRESH_THRESHOLD * 1000),
@@ -194,13 +194,13 @@ export class TokenRefreshService {
         ? error
         : new RefreshError('unavailable', error instanceof Error ? error.message : 'Unknown error');
 
-      if (!refreshError.isRetryable || this.retryCount >= MAX_RETRIES) {
+      if (!refreshError.isRetryable) {
         this.onFailure(refreshError);
         return;
       }
 
-      this.retryCount += 1;
-      this.scheduleRetry();
+      this.scheduleRefreshAfter(this.retryDelayMs);
+      this.retryDelayMs = Math.min(this.retryDelayMs * 2, MAX_BACKOFF_MS);
     }
   }
 
@@ -227,7 +227,7 @@ export class TokenRefreshService {
         if (!(error instanceof RefreshError) || !error.isRetryable) throw error;
 
         await this.waitForBackoff(delayMs);
-        delayMs = Math.min(delayMs * 2, ACQUIRE_MAX_DELAY_MS);
+        delayMs = Math.min(delayMs * 2, MAX_BACKOFF_MS);
       }
     }
   }
@@ -245,10 +245,6 @@ export class TokenRefreshService {
         reject(destroyedError());
       };
     });
-  }
-
-  private scheduleRetry():void {
-    this.scheduleRefreshAfter(RETRY_DELAY_MS);
   }
 
   private scheduleRefreshAfter(delayMs:number):void {
