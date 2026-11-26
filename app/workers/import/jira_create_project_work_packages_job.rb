@@ -81,7 +81,7 @@ module Import
           jira_entity_id: jira_project.id,
           jira_entity_class: jira_project.class.to_s
         ).op_leg
-        @type_variants = Import::JiraTypeVariants::FindOrCreateService.new(user: @system_user, jira_import: @jira_import)
+        @type_variants_service = Import::JiraTypeVariants::ApplyService.new(user: @system_user, jira_import: @jira_import)
 
         setup_resolution_date_cf(jira_project)
         @sprint_field = Import::JiraIssueSprintField.from_staged_fields(@jira_import)
@@ -105,9 +105,8 @@ module Import
             ActiveRecord::Base.transaction do
               type = create_type(jira_issue)
               type_variant = type_variant(type)
-              enable_type(@project, type_variant)
               status = create_status(jira_issue)
-              update_workflows(type)
+              update_workflows(type_variant)
               new_custom_fields = new_custom_fields_in_type(jira_issue, type_variant, @custom_field_registry)
               update_custom_fields_in_type(type_variant, new_custom_fields) if new_custom_fields.any?
               priority = create_priority(jira_issue) || IssuePriority.default || IssuePriority.active.first
@@ -192,18 +191,8 @@ module Import
       service_call.result
     end
 
-    def enable_type(project, type_variant)
-      service_call = Projects::Types::AddService
-                       .new(user: @system_user, model: project)
-                       .call(variant: type_variant)
-      if service_call.failure?
-        Rails.logger.error service_call.message
-        raise service_call.message
-      end
-    end
-
     def type_variant(type)
-      service_call = @type_variants.call(type:, project: @project)
+      service_call = @type_variants_service.call(type:, project: @project)
       raise service_call.message if service_call.failure?
 
       service_call.result
@@ -324,13 +313,13 @@ module Import
       @labels_by_name ||= Hash.new { |cache, name| cache[name] = Label.named(name).first }
     end
 
-    def update_workflows(type)
-      Rails.logger.tagged("jira_object_type:issueType", "jira_object_id_or_name:#{type.name}") do
+    def update_workflows(type_variant)
+      Rails.logger.tagged("jira_object_type:issueType", "jira_object_id_or_name:#{type_variant.name}") do
         statuses = Status.all
         row = statuses.to_h { |status| [status.id.to_s, ["always"]] }
         status_params = statuses.to_h { |status| [status.id.to_s, row] }
         call = Workflows::BulkUpdateService
-                  .new(role: @project_role, workflow: type.default_variant.workflow, tab: "always")
+                  .new(role: @project_role, workflow: type_variant.workflow, tab: "always")
                   .call(status_params)
         if call.failure?
           Rails.logger.error call.message

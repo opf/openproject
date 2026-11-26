@@ -30,7 +30,7 @@
 require "spec_helper"
 
 RSpec.describe Import::JiraTypeVariants::FindOrCreateService do
-  shared_let(:user) { build_stubbed(:admin) }
+  shared_let(:user) { create(:admin) }
   shared_let(:jira_import) { create(:jira_import, author: user) }
   shared_let(:type) { create(:type, name: "Task") }
   shared_let(:project) { create(:project) }
