@@ -499,14 +499,14 @@ GEM
       ferrum (~> 0.19.1)
     dalli (5.3.3)
       logger
-    danger (9.6.1)
+    danger (9.6.2)
       base64 (~> 0.2)
       claide (~> 1.0)
       claide-plugins (>= 0.9.2)
       colored2 (>= 3.1, < 5)
       cork (~> 0.1)
       faraday (>= 0.9.0, < 3.0)
-      faraday-http-cache (~> 2.0)
+      faraday-http-cache (>= 2.0, < 4.0)
       git (>= 1.13)
       kramdown (>= 2.5.1, < 3.0)
       kramdown-parser-gfm (~> 1.0)
@@ -613,7 +613,7 @@ GEM
       logger
     faraday-follow_redirects (0.5.0)
       faraday (>= 1, < 3)
-    faraday-http-cache (2.8.0)
+    faraday-http-cache (3.0.0)
       faraday (>= 0.8)
     faraday-multipart (1.2.0)
       multipart-post (~> 2.0)
@@ -1889,7 +1889,7 @@ CHECKSUMS
   csv (3.3.7) sha256=15a3f16f6628da8664d455eb634e7f22031bcf53044923caf56975109e71b9f8
   cuprite (0.19) sha256=e56d59db56693bdfbffd533f715df366f03285ea4435e4c31603e146e0e02518
   dalli (5.3.3) sha256=9d1f05bba5bcdabae0481a978db6ec29979c6f78ae32148d8385d9af4ca8baef
-  danger (9.6.1) sha256=ca1b870fd8e9f27add22c5649e976efcfb3c76a57f5c7739bb3f1a72ce0506b7
+  danger (9.6.2) sha256=6c5529f23346ca0c5a24d34c6a9d7705c8bd71ab5cf697f931789792031a6685
   date (3.6.0) sha256=18ac945c4e24ebd93534f8eab8c2fd8c5604b3e977105b3798d62a1e8d27b580
   date_validator (0.12.0) sha256=68c9834da240347b9c17441c553a183572508617ebfbe8c020020f3192ce3058
   deckar01-task_list (2.3.4) sha256=66abdc7e009ea759732bb53867e1ea42de550e2aa03ac30a015cbf42a04c1667
@@ -1928,7 +1928,7 @@ CHECKSUMS
   factory_bot_rails (6.5.1) sha256=d3cc4851eae4dea8a665ec4a4516895045e710554d2b5ac9e68b94d351bc6d68
   faraday (2.15.1) sha256=8708154deda739c5e86cc42b74960e23e8491fce0eba9e11639a6a34b1ac288f
   faraday-follow_redirects (0.5.0) sha256=5cde93c894b30943a5d2b93c2fe9284216a6b756f7af406a1e55f211d97d10ad
-  faraday-http-cache (2.8.0) sha256=310bfdbc79488aaab4578e91bd04badfe154ca3d88fc06bfc98e36d42c2dd969
+  faraday-http-cache (3.0.0) sha256=44e0b5441825b80aa59446fdb0ceb5a1cf83e9f58fc89752b336d87a991c7994
   faraday-multipart (1.2.0) sha256=7d89a949693714176f612323ca13746a2ded204031a6ba528adee788694ef757
   faraday-net_http (3.5.0) sha256=2e7094c34e38754ee048cc3df47376f8657005d9375f8473bce1c3b526a22e36
   faraday-retry (2.4.0) sha256=7b79c48fb7e56526faf247b12d94a680071ff40c9fda7cf1ec1549439ad11ebe
