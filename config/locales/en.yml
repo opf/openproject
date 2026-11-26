@@ -1787,6 +1787,7 @@ en:
           reverting: "Reverting"
         step_not_available: "This action is not available for the current state of the import run."
         title: "Import run"
+        type_variant_description: "Imported from Jira project %{project_name}"
         wizard:
           application_trace: "Application trace"
           button_abort: "Abort"
