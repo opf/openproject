@@ -156,7 +156,7 @@ describe('Filters form navigation', () => {
     setUrl();
     const controller = await mount(['page', 'all'], STATUS_LIST_ROW);
 
-    controller.addFilterByName('status_id');
+    void controller.addFilterByName('status_id');
     expect(visit).not.toHaveBeenCalled();
 
     selectStatus('2');
@@ -171,7 +171,7 @@ describe('Filters form navigation', () => {
     setUrl();
     const controller = await mount(['page', 'all'], STATUS_LIST_ROW);
 
-    controller.addFilterByName('status_id');
+    void controller.addFilterByName('status_id');
     selectStatus('2,5');
     controller.autocompleteSendForm();
 
@@ -183,7 +183,7 @@ describe('Filters form navigation', () => {
     const controller = await mount(['page', 'all'], STATUS_LIST_ROW);
     ctx.container.querySelector<HTMLSelectElement>('[data-filter--filters-form-target="operator"]')!.value = '!*';
 
-    controller.addFilterByName('status_id');
+    void controller.addFilterByName('status_id');
 
     const url = visitedUrl();
     expect(url.searchParams.has('all')).toBe(false);
