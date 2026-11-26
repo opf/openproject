@@ -169,13 +169,9 @@ export class KeyboardShortcutService {
   private openProjectPage(target:MenuTarget, projectIdentifier:string):void {
     const projectPath = this.PathHelper[projectPaths[target]](projectIdentifier);
     const menu = document.querySelector(projectMenuSelector);
-    if (!menu) {
+    if (!menu || (target === 'wiki' && menu.querySelector('a.wiki-menu--main-item'))) {
       Turbo.visit(projectPath);
-    } else if (target === 'wiki') {
-      if (menu.querySelector('a.wiki-menu--main-item')) {
-        Turbo.visit(projectPath);
-      }
-    } else {
+    } else if (target !== 'wiki') {
       menu.querySelector<HTMLAnchorElement>(`a.${target}-menu-item`)?.click();
     }
   }
