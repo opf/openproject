@@ -82,7 +82,6 @@ export default defineConfig([
       'no-use-before-define': 'off',
       '@typescript-eslint/no-use-before-define': ['error', { functions: false, classes: false }],
       '@typescript-eslint/no-namespace': 'off',
-      '@typescript-eslint/space-infix-ops': 'off',
       'no-underscore-dangle': ['warn', { allowAfterThis: true, allowFunctionParams: true, enforceInMethodNames: true }],
       'no-return-assign': ['error', 'except-parens'],
       '@typescript-eslint/no-base-to-string': [
