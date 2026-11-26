@@ -36,9 +36,9 @@ module Llm
       return unless semantic_index&.indexing?
 
       progress = Llm::IndexingProgress.new(batch)
-      if progress.failed_count.positive?
+      if progress.failed_work_package_count.positive?
         semantic_index.fail_indexing!(
-          I18n.t("admin.semantic_indexes.indexing.failed_requests", count: progress.failed_count)
+          I18n.t("admin.semantic_indexes.indexing.failed_work_packages", count: progress.failed_work_package_count)
         )
       else
         semantic_index.finish_indexing!
