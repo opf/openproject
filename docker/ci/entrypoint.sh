@@ -113,7 +113,7 @@ setup_hocuspocus() {
 start_hocuspocus() {
   if [ -d "extensions/op-blocknote-hocuspocus" ]; then
     cd extensions/op-blocknote-hocuspocus
-    execute "SECRET=$OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__SECRET npm run start"
+    execute "SECRET=$OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__SECRET npm run start > ../../log/hocuspocus.log 2>&1"
     cd -
   else
     echo 'Could not find Hocuspocus in extensions/op-blocknote-hocuspocus!'
@@ -186,7 +186,7 @@ print_failed_examples() {
 
 	if [ -s "$failures_log" ]; then
 		echo "Failures of all processes:"
-		grep -v '^Randomized with seed' "$failures_log" | cat -s
+		cat "$failures_log"
 	fi
 }
 
