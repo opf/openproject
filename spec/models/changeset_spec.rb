@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe Changeset do
+RSpec.describe Changeset, with_config: { scm: { subversion: { allowed_local_paths: ["/"] } } } do
   let(:email) { "bob@bobbit.org" }
 
   with_virtual_subversion_repository do

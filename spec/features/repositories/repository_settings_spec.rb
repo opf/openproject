@@ -38,7 +38,12 @@ RSpec.describe "Repository Settings", :js do
   # Allow to override configuration values to determine
   # whether to activate managed repositories
   let(:enabled_scms) { %w[subversion git] }
-  let(:config) { nil }
+  let(:config) do
+    {
+      subversion: { allowed_local_paths: ["/"] },
+      git: { allowed_local_paths: ["/"] }
+    }
+  end
 
   before do
     allow(User).to receive(:current).and_return current_user

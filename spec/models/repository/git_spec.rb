@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe Repository::Git do
+RSpec.describe Repository::Git, with_config: { scm: { git: { allowed_local_paths: ["/"] } } } do
   let(:encoding) { "UTF-8" }
   let(:instance) { build(:repository_git, path_encoding: encoding) }
   let(:adapter) { instance.scm }
@@ -157,7 +157,7 @@ RSpec.describe Repository::Git do
     let(:checkout_root) { "/tmp/git-checkouts" }
     let(:managed_git_root) { "/tmp/managed-git" }
     let(:managed_svn_root) { "/tmp/managed-svn" }
-    let(:config) { { manages: managed_git_root } }
+    let(:config) { { manages: managed_git_root, allowed_local_paths: ["/"] } }
 
     before do
       allow(OpenProject::SsrfProtection).to receive(:resolver).and_return(->(_) { [IPAddr.new("93.184.215.14")] })
@@ -185,6 +185,44 @@ RSpec.describe Repository::Git do
       let(:url) { "https://git.example.org/git/foo" }
 
       it_behaves_like "repository url is valid"
+    end
+
+    context "with no allowed local paths" do
+      let(:config) { {} }
+
+      context "and an https URL" do
+        let(:url) { "https://git.example.org/git/foo" }
+
+        it_behaves_like "repository url is valid"
+      end
+
+      context "and a local path" do
+        let(:url) { "/srv/git/repo.git" }
+
+        it "is invalid" do
+          expect(instance).not_to be_valid
+          expect(instance.errors.details[:url]).to include(error: :not_in_allowed_local_paths)
+        end
+      end
+    end
+
+    context "with allowed local paths" do
+      let(:config) { { allowed_local_paths: ["/srv/git"] } }
+
+      context "and a path inside them" do
+        let(:url) { "file:///srv/git/repo.git" }
+
+        it_behaves_like "repository url is valid"
+      end
+
+      context "and a path that only shares their prefix" do
+        let(:url) { "/srv/git-other/repo.git" }
+
+        it "is invalid" do
+          expect(instance).not_to be_valid
+          expect(instance.errors.details[:url]).to include(error: :not_in_allowed_local_paths)
+        end
+      end
     end
 
     context "with an https URL to an internal host" do
