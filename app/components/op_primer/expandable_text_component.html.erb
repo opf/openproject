@@ -6,7 +6,7 @@
   <%= render Primer::Alpha::HiddenTextExpander.new(**@expander_arguments) %>
 <% end %>
 
-<% if @expansion.dialog? %>
+<% if @expansion.dialog? && @render_dialog %>
   <% unless dialog? %>
     <% with_dialog(title: I18n.t("js.label_expand_text"), visually_hide_title: true) do |dialog| %>
       <% dialog.with_header %>

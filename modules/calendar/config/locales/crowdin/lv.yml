@@ -9,4 +9,4 @@ lv:
   plugin_openproject_calendar:
     description: Provides calendar views.
     name: OpenProject Calendar
-  project_module_calendar_view: Calendars
+  project_module_calendar_view: Kalendāri

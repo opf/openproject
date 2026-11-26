@@ -199,7 +199,7 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
   }
 
   private getAriaLabel(field:DisplayField, schema:ISchemaProxy, span:HTMLElement):string {
-    const attribute = `${field.displayName} ${this.getLabelContent(field, span)}`;
+    const attribute = this.getLabelContent(field, span);
 
     if (field.writable && !!schema.isAttributeEditable(field.name)) {
       return this.I18n.t('js.inplace.button_edit', { attribute });

@@ -29,6 +29,7 @@ import { debugLog } from 'core-app/shared/helpers/debug_output';
 import {
   ErrorReporterBase,
   MessageSeverity,
+  toError,
 } from 'core-app/core/errors/error-reporter-base';
 
 export class LocalReporter extends ErrorReporterBase {
@@ -36,9 +37,14 @@ export class LocalReporter extends ErrorReporterBase {
     this.handleOfflineMessage('captureMessage', [msg, severity]);
   }
 
-  public captureException(err:Error|string):void {
+  public captureException(err:unknown):void {
     this.handleOfflineMessage('captureException', [err]);
-    throw (err as Error);
+
+    // Angular's global error listeners call preventDefault() only after the
+    // ErrorHandler returns. Throwing here keeps the error uncaught, so it
+    // still reaches the browser console and the browser error check of
+    // feature specs.
+    throw toError(err);
   }
 
   /**

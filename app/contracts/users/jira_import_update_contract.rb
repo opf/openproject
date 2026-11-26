@@ -34,9 +34,13 @@ module Users
     private
 
     def user_limit_not_exceeded
-      if OpenProject::Enterprise.user_limit_reached?
+      if activating_user? && OpenProject::Enterprise.user_limit_reached?
         errors.add :base, :user_limit_reached
       end
+    end
+
+    def activating_user?
+      model.status_changed? && model.active?
     end
   end
 end

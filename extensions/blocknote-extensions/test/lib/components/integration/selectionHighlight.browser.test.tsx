@@ -1,6 +1,6 @@
 import { describe, it, expect, afterEach, vi } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
-import { NodeSelection } from 'prosemirror-state';
+import { NodeSelection, TextSelection } from 'prosemirror-state';
 import { renderEditor } from '../../../helpers/renderEditor';
 import {
   insertBlockWorkPackageViaSlashMenu,
@@ -41,6 +41,109 @@ describe('Block WP – blue border on focus (BNE-95)', () => {
 
     await userEvent.click(page.getByTestId('block-wp-wrapper'));
     await expect.poll(blockIsSelected).toBe(true);
+  });
+
+  it('does not mark the card below the gap cursor between two cards as selected', async () => {
+    const card = { type: 'openProjectWorkPackageBlock', props: { wpid: 123 } };
+    renderEditor({ initialContent: [{ type: 'paragraph', content: 'above' }, card, card] });
+    await expect.poll(() => document.querySelectorAll('[data-testid="block-card"]').length).toBe(2);
+
+    await userEvent.click(page.getByText('above'));
+    await userEvent.keyboard('{End}{ArrowDown}{ArrowDown}');
+    await expect.poll(() => document.querySelector('.ProseMirror-gapcursor')).not.toBeNull();
+
+    const selectedFlags = [...document.querySelectorAll('[data-testid="block-wp-wrapper"]')]
+      .map((wrapper) => wrapper.hasAttribute('data-selected'));
+    expect(selectedFlags).toEqual([false, false]);
+  });
+});
+
+const inlineWorkPackage = { type: 'openProjectWorkPackageInline', props: { wpid: '123', size: 's', displayId: '123' } };
+const inlineAttribute = {
+  type: 'openProjectWorkPackageAttributeInline',
+  props: { wpid: '321', displayId: 'PROJ-321', attribute: 'status', display: 'value' },
+};
+
+async function renderAndWaitFor(initialContent:unknown[], ownElement:string) {
+  let editor:AnyEditor | undefined;
+  renderEditor({ initialContent, onEditor: (created) => { editor = created; } });
+  await expect.poll(() => document.querySelector(ownElement)).not.toBeNull();
+  return editor!;
+}
+
+async function selectInlineWithArrowKey(initialContent:unknown[], ownElement:string) {
+  const editor = await renderAndWaitFor(initialContent, ownElement);
+  const view = editor.prosemirrorView;
+  let positionAfter = -1;
+  view.state.doc.descendants((node, position) => {
+    if (node.isInline && !node.isText) positionAfter = position + node.nodeSize;
+  });
+  editor.focus();
+  view.dispatch(view.state.tr.setSelection(TextSelection.create(view.state.doc, positionAfter)));
+
+  await userEvent.keyboard('{ArrowLeft}');
+}
+
+async function selectBlockWithArrowKey(block:object, ownElement:string) {
+  const editor = await renderAndWaitFor([{ type: 'paragraph', content: 'above' }, block], ownElement);
+  editor.focus();
+  editor.setTextCursorPosition(editor.document[0], 'end');
+
+  await userEvent.keyboard('{ArrowDown}');
+}
+
+async function selectionOverlaysAround(ownElement:string) {
+  const element = document.querySelector(ownElement)!;
+  await expect.poll(() => element.closest('.ProseMirror-selectednode')).not.toBeNull();
+  const selectedNode = element.closest('.ProseMirror-selectednode')!;
+  return [element, selectedNode].map((candidate) => getComputedStyle(candidate, '::after').content);
+}
+
+const noOverlays = ['none', 'none'];
+
+describe('Work package elements - only their own selection ring (BNE-180)', () => {
+  it('shows no BlockNote overlay on a block work package', async () => {
+    await selectBlockWithArrowKey(
+      { type: 'openProjectWorkPackageBlock', props: { wpid: 123, size: 'm', displayId: '123' } },
+      '[data-testid="block-wp-wrapper"]',
+    );
+
+    expect(await selectionOverlaysAround('[data-testid="block-wp-wrapper"]')).toEqual(noOverlays);
+    expect(blockIsSelected()).toBe(true);
+  });
+
+  it('shows no BlockNote overlay on a work package attribute block', async () => {
+    await selectBlockWithArrowKey(
+      {
+        type: 'openProjectWorkPackageAttributeBlock',
+        props: { wpid: '321', displayId: 'PROJ-321', attribute: 'description', display: 'value' },
+      },
+      '.op-bn-wp-attribute-block',
+    );
+
+    expect(await selectionOverlaysAround('.op-bn-wp-attribute-block')).toEqual(noOverlays);
+  });
+
+  it('shows no BlockNote overlay on an inline work package', async () => {
+    await selectInlineWithArrowKey([{ type: 'paragraph', content: ['before ', inlineWorkPackage] }], '.op-bn-inline-wp');
+
+    expect(await selectionOverlaysAround('.op-bn-inline-wp')).toEqual(noOverlays);
+  });
+
+  it('shows no BlockNote overlay on an inline work package attribute', async () => {
+    await selectInlineWithArrowKey([{ type: 'paragraph', content: ['before ', inlineAttribute] }], '.op-bn-wp-attribute');
+
+    expect(await selectionOverlaysAround('.op-bn-wp-attribute')).toEqual(noOverlays);
+  });
+
+  it('shows no BlockNote overlay on an inline work package inside a table', async () => {
+    const table = {
+      type: 'table',
+      content: { type: 'tableContent', rows: [{ cells: [['before ', inlineWorkPackage]] }] },
+    };
+    await selectInlineWithArrowKey([table], '.op-bn-inline-wp');
+
+    expect(await selectionOverlaysAround('.op-bn-inline-wp')).toEqual(noOverlays);
   });
 });
 

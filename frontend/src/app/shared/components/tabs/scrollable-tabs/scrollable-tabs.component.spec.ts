@@ -79,6 +79,20 @@ describe('ScrollableTabsComponent', () => {
     expect(gantt).toHaveFocus();
   });
 
+  it('scrolls to the current tab whose id from the URL needs quoting in a selector', async () => {
+    const tabs = Array.from({ length: 20 }, (_, index) => ({ id: `tab-${index}`, name: `Tab number ${index}` }));
+    (fixture.nativeElement as HTMLElement).style.width = '300px';
+    fixture.componentRef.setInput('tabs', [...tabs, { id: '1 "quoted"', name: 'Overview' }]);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    fixture.componentRef.setInput('currentTabId', '1 "quoted"');
+    fixture.detectChanges();
+
+    const pane = fixture.nativeElement.querySelector('.op-tab-row') as HTMLElement;
+    expect(pane.scrollLeft).toBeGreaterThan(0);
+  });
+
   it('ignores activation of a disabled tab', () => {
     const selected = vi.fn();
     fixture.componentInstance.tabSelected.subscribe(selected);

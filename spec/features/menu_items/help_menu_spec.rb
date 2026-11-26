@@ -42,6 +42,7 @@ RSpec.describe "Help menu items", :js do
     it "renders a dropdown" do
       visit home_path
 
+      expect(help_item[:accesskey]).to eq("6")
       help_item.click
 
       within help_menu_dropdown_selector do
@@ -72,6 +73,7 @@ RSpec.describe "Help menu items", :js do
       visit home_path
 
       expect(help_item[:href]).to eq(custom_url)
+      expect(help_item[:accesskey]).to eq("6")
       expect(page).to have_no_css(help_menu_dropdown_selector, visible: :hidden)
     end
   end

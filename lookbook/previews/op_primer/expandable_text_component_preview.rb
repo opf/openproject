@@ -73,5 +73,14 @@ module OpPrimer
     def dialog
       render_with_template
     end
+
+    # Inside phrasing content such as a heading, use `tag: :span` since a heading
+    # cannot contain divs. A heading cannot contain a dialog either, so pass
+    # `render_dialog: false` and render the dialog with the given `dialog_id`
+    # outside the heading.
+    # @display min_height 300px
+    def in_heading_with_external_dialog
+      render_with_template
+    end
   end
 end

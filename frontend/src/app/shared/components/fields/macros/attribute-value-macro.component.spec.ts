@@ -28,8 +28,12 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
+import { onTestFinished, vi } from 'vitest';
 
-import { AttributeValueMacroComponent } from 'core-app/shared/components/fields/macros/attribute-value-macro.component';
+import {
+  ATTRIBUTE_MACRO_CLASS,
+  AttributeValueMacroComponent,
+} from 'core-app/shared/components/fields/macros/attribute-value-macro.component';
 import { AttributeModelLoaderService } from 'core-app/shared/components/fields/macros/attribute-model-loader.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
@@ -38,9 +42,15 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 describe('AttributeValueMacroComponent', () => {
   let fixture:ComponentFixture<AttributeValueMacroComponent>;
+  let requireResource:ReturnType<typeof vi.fn>;
 
-  function render(dataset:Record<string, string>, resourceType = 'WorkPackage'):Promise<AttributeValueMacroComponent> {
+  function render(
+    dataset:Record<string, string>,
+    resourceType = 'WorkPackage',
+    parent?:HTMLElement,
+  ):Promise<AttributeValueMacroComponent> {
     const resource = { _type: resourceType } as HalResource;
+    requireResource = vi.fn(() => of(resource));
 
     const schema = {
       attributeFromLocalizedName: (name:string) => name,
@@ -55,7 +65,7 @@ describe('AttributeValueMacroComponent', () => {
       declarations: [AttributeValueMacroComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
-        { provide: AttributeModelLoaderService, useValue: { require: () => of(resource) } },
+        { provide: AttributeModelLoaderService, useValue: { require: requireResource } },
         { provide: SchemaCacheService, useValue: { ensureLoaded: () => Promise.resolve(schema), proxied: () => schemaProxy } },
         { provide: DisplayFieldService, useValue: {} },
         { provide: I18nService, useValue: { t: (key:string) => key } },
@@ -67,6 +77,7 @@ describe('AttributeValueMacroComponent', () => {
     Object.entries(dataset).forEach(([key, value]) => {
       element.dataset[key] = value;
     });
+    parent?.append(element);
 
     fixture.detectChanges();
     return fixture.whenStable().then(() => fixture.componentInstance);
@@ -87,6 +98,27 @@ describe('AttributeValueMacroComponent', () => {
 
       expect(component.fieldName).toEqual('targetVersions');
       expect(component.layout).toEqual('multiline');
+    });
+  });
+
+  describe('with an attribute name that needs quoting in a selector', () => {
+    it('renders the attribute', async () => {
+      const component = await render({ model: 'workPackage', id: '42', attribute: 'Customer "VIP"' });
+
+      expect(component.fieldName).toEqual('Customer "VIP"');
+    });
+
+    it('detects a macro nested in a macro for the same attribute', async () => {
+      const ancestor = document.createElement('div');
+      ancestor.classList.add(ATTRIBUTE_MACRO_CLASS);
+      Object.assign(ancestor.dataset, { model: 'workPackage', id: '42', attribute: 'Customer "VIP"' });
+      document.body.append(ancestor);
+      onTestFinished(() => ancestor.remove());
+
+      const component = await render({ model: 'workPackage', id: '42', attribute: 'Customer "VIP"' }, 'WorkPackage', ancestor);
+
+      expect(component.error).toEqual('js.editor.macro.error');
+      expect(requireResource).not.toHaveBeenCalled();
     });
   });
 

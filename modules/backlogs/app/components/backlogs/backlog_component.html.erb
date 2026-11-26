@@ -25,73 +25,71 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<%= component_wrapper(tag: "turbo-frame", refresh: :morph, style: "display:contents") do %>
-  <%=
-    render(Primer::Beta::Subhead.new(hide_border: true, pb: 0)) do |head|
-      head.with_heading(
-        tag: :h3,
-        size: :medium,
-        font_weight: :bold,
-        display: :inline_flex,
-        align_items: :center,
-        classes: "gap-2"
-      ) do
-        concat t(:label_backlog)
-        concat render(
-          Primer::Beta::Counter.new(
-            scheme: :primary,
-            count: total,
-            round: true,
-            limit: 1_000,
-            hide_if_zero: true
-          )
+<%=
+  render(Primer::Beta::Subhead.new(hide_border: true, pb: 0)) do |head|
+    head.with_heading(
+      tag: :h3,
+      size: :medium,
+      font_weight: :bold,
+      display: :inline_flex,
+      align_items: :center,
+      classes: "gap-2"
+    ) do
+      concat t(:label_backlog)
+      concat render(
+        Primer::Beta::Counter.new(
+          scheme: :primary,
+          count: total,
+          round: true,
+          limit: 1_000,
+          hide_if_zero: true
         )
-      end
+      )
     end
-  %>
+  end
+%>
 
-  <%= render(Primer::OpenProject::FlexLayout.new(justify_content: :space_between, align_items: :center)) do |flex| %>
+<%= render(Primer::OpenProject::FlexLayout.new(justify_content: :space_between, align_items: :center)) do |flex| %>
+  <% flex.with_column do %>
+    <%= render Backlogs::BacklogFilterSelectPanelComponent.new(project:, field_name: :bucket_ids) %>
+  <% end %>
+  <% if backlog_bucket_creation_allowed? %>
     <% flex.with_column do %>
-      <%= render Backlogs::BacklogFilterSelectPanelComponent.new(project:, field_name: :bucket_ids) %>
-    <% end %>
-    <% if backlog_bucket_creation_allowed? %>
-      <% flex.with_column do %>
-        <%=
-          render Primer::Beta::Button.new(
-            tag: :a,
-            href: new_dialog_project_backlogs_buckets_path(project, backlog_filter_params),
-            aria: { label: t(".button_new_backlog_bucket") },
-            data: {
-              controller: "async-dialog",
-              test_selector: "op-backlog-buckets--new-backlog-bucket-button"
-            }
-          ) do |button|
-            button.with_leading_visual_icon(icon: :plus)
-            BacklogBucket.human_model_name
-          end
-        %>
-      <% end %>
+      <%=
+        render Primer::Beta::Button.new(
+          tag: :a,
+          href: new_dialog_project_backlogs_buckets_path(project, backlog_filter_params),
+          aria: { label: t(".button_new_backlog_bucket") },
+          data: {
+            controller: "async-dialog",
+            test_selector: "op-backlog-buckets--new-backlog-bucket-button"
+          }
+        ) do |button|
+          button.with_leading_visual_icon(icon: :plus)
+          BacklogBucket.human_model_name
+        end
+      %>
     <% end %>
   <% end %>
+<% end %>
 
-  <% buckets.each do |bucket| %>
-    <%=
-      render Backlogs::BucketComponent.new(
-        project:,
-        backlog_bucket: bucket,
-        work_packages: work_packages_for(bucket),
-        current_user:
-      )
-    %>
-  <% end %>
+<% buckets.each do |bucket| %>
+  <%=
+    render Backlogs::BucketComponent.new(
+      project:,
+      backlog_bucket: bucket,
+      work_packages: work_packages_for(bucket),
+      current_user:
+    )
+  %>
+<% end %>
 
-  <% if backlog_filters.show_inbox? %>
-    <%=
-      render Backlogs::InboxComponent.new(
-        work_packages: work_packages_for_inbox,
-        project:,
-        current_user:
-      )
-    %>
-  <% end %>
+<% if backlog_filters.show_inbox? %>
+  <%=
+    render Backlogs::InboxComponent.new(
+      work_packages: work_packages_for_inbox,
+      project:,
+      current_user:
+    )
+  %>
 <% end %>

@@ -1,0 +1,66 @@
+<%
+  server_name = ENV.fetch("SERVER_NAME") { "_default_" }
+  location = ENV.fetch("OPENPROJECT_RAILS__RELATIVE__URL__ROOT", "").chomp("/")
+  app_host = ENV.fetch("APP_HOST", "127.0.0.1")
+  public_path = "#{ENV.fetch('APP_PATH')}/public"
+%>
+{
+	admin off
+	persist_config off
+	auto_https off
+	servers {
+		trusted_proxies static 0.0.0.0/0 ::/0
+	}
+}
+<% unless server_name == "_default_" %>
+
+:80 {
+	root * /var/www/html
+	file_server
+}
+<% end %>
+
+<%= server_name == "_default_" ? ":80" : "http://#{server_name}" %> {
+	encode zstd gzip
+
+	handle /hocuspocus* {
+		uri strip_prefix /hocuspocus
+		reverse_proxy <%= app_host %>:1234
+	}
+
+	@public {
+		path_regexp public ^<%= location %>(/.+)$
+		not path */
+	}
+	handle @public {
+		@file file {
+			root <%= public_path %>
+			try_files {re.public.1}
+		}
+		handle @file {
+			@hashed {
+				path <%= location %>/assets/*
+				not path <%= location %>/assets/frontend/assets/*
+			}
+			header @hashed Cache-Control "public, max-age=31536000, immutable"
+
+			# Angular copies frontend/src/assets to this folder.
+			# These files are fonts, images etc. and have no content hash. Do not mark them as immutable.
+			@unhashed path <%= location %>/assets/frontend/assets/*
+			header @unhashed Cache-Control "public, max-age=31536000"
+
+			root * <%= public_path %>
+			rewrite * {re.public.1}
+			file_server {
+				precompressed br gzip
+			}
+		}
+		handle {
+			reverse_proxy <%= app_host %>:8080
+		}
+	}
+
+	handle {
+		reverse_proxy <%= app_host %>:8080
+	}
+}

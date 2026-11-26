@@ -38,7 +38,21 @@ module OpenProject::JournalFormatter::CauseMeetingRendering
     return false unless meeting_cause?
 
     @meeting = Meeting.find_by(id: cause["meeting_id"])
-    @meeting.present? && !@meeting.visible?(User.current)
+    return false if @meeting.nil?
+
+    !@meeting.visible?(User.current) || outcome_removed?
+  end
+
+  def outcome_removed?
+    tracks_specific_outcome? && !MeetingOutcome.exists?(cause["outcome_id"])
+  end
+
+  # outcome_id is written once at creation and never rewritten, so a deleted
+  # outcome leaves a dangling id (caught by exists? above), not a missing key.
+  # An absent outcome_id therefore means a legacy cause from before this field
+  # existed. We can't know which outcome it was, so we leave it visible.
+  def tracks_specific_outcome?
+    cause["outcome_id"].present?
   end
 
   def meeting_template_cause?

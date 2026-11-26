@@ -172,12 +172,12 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupComponent, type: :compo
   context "when read-only" do
     let(:readonly) { true }
 
-    it "renders labels only, with no sortable wiring or row actions", :aggregate_failures do
+    it "renders labels without sortable wiring, but still offers the row's actions menu", :aggregate_failures do
       render_group
 
       expect(page).to have_no_css("[data-controller*='sortable-lists']")
       expect(page).to have_no_button(accessible_name: "Drag to reorder")
-      expect(page).to have_no_test_selector("type-form-configuration-attribute-actions-assignee")
+      expect(page).to have_test_selector("type-form-configuration-attribute-actions-assignee")
       expect(page).to have_text("Details")
       expect(page).to have_text("Assignee")
     end

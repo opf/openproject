@@ -30,18 +30,36 @@ import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helpe
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
-import Mousetrap from 'mousetrap';
+import { HotkeyDispatcher } from 'core-common/hotkeys/hotkey-dispatcher';
+import { accessKeys } from 'core-app/shared/directives/a11y/access-keys';
 
-const accessKeys = {
-  preview: 1,
-  newWorkPackage: 2,
-  edit: 3,
-  quickSearch: 4,
-  projectSearch: 5,
-  help: 6,
-  moreMenu: 7,
-  details: 8,
+type AccessKeyName = keyof typeof accessKeys;
+
+type AccessKeyShortcut = Exclude<AccessKeyName, 'newWorkPackage'>;
+
+type MenuTarget = 'overview'|'work-packages'|'activity'|'calendar-view'|'news'|'wiki';
+
+const projectPaths = {
+  overview: 'projectPath',
+  'work-packages': 'workPackagesPath',
+  activity: 'projectActivityPath',
+  'calendar-view': 'projectCalendarPath',
+  news: 'projectNewsPath',
+  wiki: 'projectWikiPath',
+} as const satisfies Record<MenuTarget, keyof PathHelperService>;
+
+const globalPathSuffixes:Record<MenuTarget, string|null> = {
+  overview: null,
+  'work-packages': '/work_packages',
+  activity: '/activity',
+  'calendar-view': '/calendars',
+  news: '/news',
+  wiki: '/wiki_pages',
 };
+
+const projectMenuSelector = '#main-menu';
+const modulesMenuSelector = '#op-app-header--modules-menu-list';
+const quickAddWorkPackageSelector = '#op-app-header--quick-add-menu-list a[href*="/work_packages/new"]';
 
 // this could be extracted into a separate component if it grows
 const accessibleListSelector = 'table.keyboard-accessible-list';
@@ -55,27 +73,26 @@ export class KeyboardShortcutService {
   private readonly currentProject = inject(CurrentProjectService);
   private readonly configurationService = inject(ConfigurationService);
 
-  // maybe move it to a .constant
-  private shortcuts:Record<string, () => void> = {
+  private readonly dispatcher = new HotkeyDispatcher({
     '?': () => this.showHelpModal(),
-    'g m': this.globalAction('myPagePath'),
-    'g o': this.projectScoped('projectPath'),
-    'g w p': this.projectScoped('workPackagesPath'),
-    'g w i': this.projectScoped('projectWikiPath'),
-    'g a': this.projectScoped('projectActivityPath'),
-    'g c': this.projectScoped('projectCalendarPath'),
-    'g n': this.projectScoped('projectNewsPath'),
-    'n w p': this.projectScoped('projectWorkPackageNewPath'),
+    'Shift+?': () => this.showHelpModal(),
+    'g m': () => Turbo.visit(this.PathHelper.myPagePath()),
+    'g o': this.menuLink('overview'),
+    'g w p': this.menuLink('work-packages'),
+    'g w i': this.menuLink('wiki'),
+    'g a': this.menuLink('activity'),
+    'g c': this.menuLink('calendar-view'),
+    'g n': this.menuLink('news'),
+    'n w p': this.newWorkPackage(),
 
     'g e': this.accessKey('edit'),
-    'g p': this.accessKey('preview'),
     'd w p': this.accessKey('details'),
     'm': this.accessKey('moreMenu'),
     'p': this.accessKey('projectSearch'),
     's': this.accessKey('quickSearch'),
     'k': () => this.focusPrevItem(),
     'j': () => this.focusNextItem(),
-  };
+  }, { repeat: ['j', 'k'] });
 
   /**
    * Register the keyboard shortcuts.
@@ -83,59 +100,77 @@ export class KeyboardShortcutService {
   public register():void {
     void this.configurationService.initialize().then(() => {
       if (!this.configurationService.disableKeyboardShortcuts()) {
-        Object.entries(this.shortcuts).forEach(([key, action]) => Mousetrap.bind(key, action));
+        this.dispatcher.start();
       }
     });
   }
 
-  public accessKey(keyName:'preview'|'newWorkPackage'|'edit'|'quickSearch'|'projectSearch'|'help'|'moreMenu'|'details'):() => void {
-    const key = accessKeys[keyName];
-
+  public accessKey(keyName:AccessKeyShortcut):() => void {
     return () => {
-      const elem = document.querySelector<HTMLElement>(`[accesskey="${key}"]`);
-      if (!elem) {
-        // eslint-disable-next-line no-console
-        console.log(`No element with access key ${key} (${keyName})`);
-        return;
+      const elem = this.accessKeyOwner(keyName);
+      if (elem) {
+        this.activate(elem);
       }
+    };
+  }
 
-      if (elem instanceof HTMLInputElement || elem.getAttribute('id') === 'global-search-input') {
-        // timeout with delay so that the key is not
-        // triggered on the input
-        setTimeout(() => this.FocusHelper.focus(elem), 200);
-      } else if (elem instanceof HTMLAnchorElement) {
-        this.clickLink(elem);
+  /**
+   * Activates the create button of the page, or else opens the new work package form
+   * for the first type offered by the quick-add menu of the header.
+   */
+  public newWorkPackage():() => void {
+    return () => {
+      const createButton = this.accessKeyOwner('newWorkPackage');
+      if (createButton?.checkVisibility()) {
+        this.activate(createButton);
       } else {
-        elem.click();
+        document.querySelector<HTMLAnchorElement>(quickAddWorkPackageSelector)?.click();
       }
     };
   }
 
-  public globalAction(action:keyof PathHelperService) {
-    return ():void => {
-      window.location.href = (this.PathHelper[action] as () => string)();
-    };
-  }
-
-  public projectScoped(action:keyof PathHelperService) {
+  /**
+   * Opens the page behind a menu item: the project's page inside a project, the global page outside of one.
+   * Does nothing when the menu that is rendered does not offer the page, for example for a disabled module.
+   */
+  public menuLink(target:MenuTarget):() => void {
     return ():void => {
       const projectIdentifier = this.currentProject.identifier;
       if (projectIdentifier) {
-        window.location.href = (this.PathHelper[action] as (identifier:string|null) => string)(projectIdentifier);
+        this.openProjectPage(target, projectIdentifier);
+      } else {
+        this.openGlobalPage(target);
       }
     };
   }
 
-  clickLink(link:HTMLAnchorElement):void {
-    const event = new MouseEvent('click', {
-      view: window,
-      bubbles: true,
-      cancelable: true,
-    });
-    const cancelled = !link.dispatchEvent(event);
+  private accessKeyOwner(keyName:AccessKeyName):HTMLElement|undefined {
+    const candidates = Array.from(document.querySelectorAll<HTMLElement>(`[accesskey="${accessKeys[keyName]}"]`));
+    return candidates.find((candidate) => candidate.checkVisibility()) ?? candidates[0];
+  }
 
-    if (!cancelled) {
-      window.location.href = link.href;
+  private activate(elem:HTMLElement):void {
+    if (elem instanceof HTMLInputElement || elem.getAttribute('id') === 'global-search-input') {
+      this.FocusHelper.focus(elem);
+    } else {
+      elem.click();
+    }
+  }
+
+  private openProjectPage(target:MenuTarget, projectIdentifier:string):void {
+    const projectPath = this.PathHelper[projectPaths[target]](projectIdentifier);
+    const menu = document.querySelector(projectMenuSelector);
+    if (!menu || (target === 'wiki' && menu.querySelector('a.wiki-menu--main-item'))) {
+      Turbo.visit(projectPath);
+    } else if (target !== 'wiki') {
+      menu.querySelector<HTMLAnchorElement>(`a.${target}-menu-item`)?.click();
+    }
+  }
+
+  private openGlobalPage(target:MenuTarget):void {
+    const suffix = globalPathSuffixes[target];
+    if (suffix) {
+      document.querySelector<HTMLAnchorElement>(`${modulesMenuSelector} a[href$="${suffix}"]`)?.click();
     }
   }
 

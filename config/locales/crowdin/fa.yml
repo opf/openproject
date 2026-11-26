@@ -1829,6 +1829,7 @@ fa:
               label_import_data: در حال Import
               label_progress: Import در حال انجام است...
               label_resolution_statuses_explanation: وضعیت‌های اضافی حاصل از ترکیب وضعیت و نتیجه حل مسئله (مثلاً «انجام‌شده - رفع‌شده»)
+              label_sprint_explanation: Sprints that contain at least one issue
               label_users_import_explanation: کاربران درگیر در پروژه‌های انتخاب‌شده، همراه با عضویت گروه‌ها
               title: واردکردن داده‌ها
             fetch_data:
@@ -5959,13 +5960,13 @@ fa:
       shared: فهرست‌های پروژه اشتراک‌گذاری‌شده
     phase_status:
       description:
-        completed: Marking a phase as complete will complete all previous phases.
-        in_progress: Marking a phase as in progress will complete all previous phases and open all future phases.
-        open: Re-opening a phase will also open all future phases.
+        completed: This will also mark all previous phases as complete.
+        in_progress: This will complete all previous phases and mark future phases as not started.
+        open: This will mark all future phases as not started.
       title:
         completed: Completed
         in_progress: In progress
-        open: Open
+        open: Not started
     settings:
       actions:
         label_disable_all: غیرفعال‌کردن همه
@@ -7354,6 +7355,7 @@ fa:
         delete_group: حذف بخش
         drag_to_activate: برای فعال‌کردن، فیلدها را از اینجا Drag کنید
         drag_to_reorder: برای تغییر ترتیب Drag کنید
+        edit_custom_field: Edit custom field
         edit_query: ویرایش Query
         empty_group_hint: ویژگی‌ها را اینجا Drag کنید
         exclusions:

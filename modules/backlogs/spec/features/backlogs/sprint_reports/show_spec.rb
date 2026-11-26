@@ -185,6 +185,39 @@ RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
         expect(page).to have_css(".blankslate", text: "Sprint start and finish dates are necessary for the report to show.")
       end
     end
+
+    context "when the sprint is still in planning although its planned dates have passed",
+            with_ee: %i[baseline_comparison sprint_report_pro_widgets] do
+      shared_let(:sprint) do
+        create(:sprint, project:, name: "Sprint 42", start_date: 10.days.ago.to_date, finish_date: 3.days.ago.to_date)
+      end
+      shared_let(:sprint_goal) { create(:sprint_goal, sprint:, project:, text: "Add sprint goal widget") }
+
+      it "shows only the goal widget and a blankslate on the never executed dates", :aggregate_failures do
+        expect(page).to have_css(".widget-boxes .widget-box", count: 1)
+        expect(page).to have_css(".widget-boxes .widget-box", text: "Add sprint goal widget")
+
+        expect(page).to have_css(".blankslate", text: "Planned sprint dates are in the past")
+        expect(page).to have_css(
+          ".blankslate",
+          text: "The sprint was planned, but it was never executed. Change the planned start and finish dates " \
+                "to a future time in order to see the sprint report."
+        )
+      end
+
+      context "when the sprint was executed over those dates" do
+        shared_let(:sprint) do
+          create(:sprint, project:, name: "Sprint 42", start_date: 10.days.ago.to_date, finish_date: 3.days.ago.to_date,
+                          status: :completed, started_at: 10.days.ago, completed_at: 3.days.ago)
+        end
+        shared_let(:sprint_goal) { create(:sprint_goal, sprint:, project:, text: "Add sprint goal widget") }
+
+        it "shows the report", :aggregate_failures do
+          expect(page).to have_no_css(".blankslate", text: "Planned sprint dates are in the past")
+          expect(page).to have_css(".widget-boxes .widget-box", count: all_widgets.count)
+        end
+      end
+    end
   end
 
   describe "work package tables", with_ee: %i[baseline_comparison sprint_report_pro_widgets] do

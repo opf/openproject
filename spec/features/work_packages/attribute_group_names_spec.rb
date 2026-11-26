@@ -27,16 +27,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Backlogs
-  module SprintReports
-    class MissingDatesBlankslateComponent < ApplicationComponent
-      def call
-        render(Primer::Beta::Blankslate.new(border: true, spacious: true)) do |blankslate|
-          blankslate.with_visual_icon(icon: :calendar)
-          blankslate.with_heading(tag: :h3).with_content(t(".heading"))
-          blankslate.with_description_content(t(".description"))
-        end
-      end
+require "spec_helper"
+
+RSpec.describe "Work package attribute group names", :js do
+  shared_let(:admin) { create(:admin) }
+  shared_let(:type) { create(:type) }
+  shared_let(:project) { create(:project, types: [type]) }
+  shared_let(:work_package) { create(:work_package, project:, type:, assigned_to: admin) }
+
+  let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
+
+  before do
+    type.default_variant.tap do |variant|
+      variant.attribute_groups = [["Customer's details", %w[assignee]]]
+      variant.save!
+    end
+
+    login_as admin
+  end
+
+  it "shows a group whose name needs quoting in a selector" do
+    wp_page.visit!
+
+    wp_page.expect_group("Customer's details") do
+      expect(page).to have_text(admin.name)
     end
   end
 end
