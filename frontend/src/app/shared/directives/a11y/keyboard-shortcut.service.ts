@@ -33,7 +33,6 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
 import { HotkeyDispatcher } from 'core-common/hotkeys/hotkey-dispatcher';
 
 const accessKeys = {
-  preview: 1,
   newWorkPackage: 2,
   edit: 3,
   quickSearch: 4,
@@ -65,6 +64,7 @@ const globalPathSuffixes:Record<MenuTarget, string|null> = {
 
 const projectMenuSelector = '#main-menu';
 const modulesMenuSelector = '#op-app-header--modules-menu-list';
+const quickAddWorkPackageSelector = '#op-app-header--quick-add-menu-list a[href*="/work_packages/new"]';
 
 // this could be extracted into a separate component if it grows
 const accessibleListSelector = 'table.keyboard-accessible-list';
@@ -88,10 +88,9 @@ export class KeyboardShortcutService {
     'g a': this.menuLink('activity'),
     'g c': this.menuLink('calendar-view'),
     'g n': this.menuLink('news'),
-    'n w p': this.projectScoped('projectWorkPackageNewPath'),
+    'n w p': this.newWorkPackage(),
 
     'g e': this.accessKey('edit'),
-    'g p': this.accessKey('preview'),
     'd w p': this.accessKey('details'),
     'm': this.accessKey('moreMenu'),
     'p': this.accessKey('projectSearch'),
@@ -111,23 +110,26 @@ export class KeyboardShortcutService {
     });
   }
 
-  public accessKey(keyName:'preview'|'newWorkPackage'|'edit'|'quickSearch'|'projectSearch'|'help'|'moreMenu'|'details'):() => void {
-    const key = accessKeys[keyName];
-
+  public accessKey(keyName:keyof typeof accessKeys):() => void {
     return () => {
-      const elem = document.querySelector<HTMLElement>(`[accesskey="${key}"]`);
-      if (!elem) {
-        // eslint-disable-next-line no-console
-        console.log(`No element with access key ${key} (${keyName})`);
-        return;
+      const elem = this.accessKeyOwner(keyName);
+      if (elem) {
+        this.activate(elem);
       }
+    };
+  }
 
-      if (elem instanceof HTMLInputElement || elem.getAttribute('id') === 'global-search-input') {
-        this.FocusHelper.focus(elem);
-      } else if (elem instanceof HTMLAnchorElement) {
-        this.clickLink(elem);
+  /**
+   * Activates the create button of the page, or else opens the new work package form
+   * for the first type offered by the quick-add menu of the header.
+   */
+  public newWorkPackage():() => void {
+    return () => {
+      const createButton = this.accessKeyOwner('newWorkPackage');
+      if (createButton?.checkVisibility()) {
+        this.activate(createButton);
       } else {
-        elem.click();
+        document.querySelector<HTMLAnchorElement>(quickAddWorkPackageSelector)?.click();
       }
     };
   }
@@ -145,6 +147,19 @@ export class KeyboardShortcutService {
         this.openGlobalPage(target);
       }
     };
+  }
+
+  private accessKeyOwner(keyName:keyof typeof accessKeys):HTMLElement|undefined {
+    const candidates = Array.from(document.querySelectorAll<HTMLElement>(`[accesskey="${accessKeys[keyName]}"]`));
+    return candidates.find((candidate) => candidate.checkVisibility()) ?? candidates[0];
+  }
+
+  private activate(elem:HTMLElement):void {
+    if (elem instanceof HTMLInputElement || elem.getAttribute('id') === 'global-search-input') {
+      this.FocusHelper.focus(elem);
+    } else {
+      elem.click();
+    }
   }
 
   private openProjectPage(target:MenuTarget, projectIdentifier:string):void {
@@ -165,28 +180,6 @@ export class KeyboardShortcutService {
     const suffix = globalPathSuffixes[target];
     if (suffix) {
       document.querySelector<HTMLAnchorElement>(`${modulesMenuSelector} a[href$="${suffix}"]`)?.click();
-    }
-  }
-
-  public projectScoped(action:keyof PathHelperService) {
-    return ():void => {
-      const projectIdentifier = this.currentProject.identifier;
-      if (projectIdentifier) {
-        window.location.href = (this.PathHelper[action] as (identifier:string|null) => string)(projectIdentifier);
-      }
-    };
-  }
-
-  clickLink(link:HTMLAnchorElement):void {
-    const event = new MouseEvent('click', {
-      view: window,
-      bubbles: true,
-      cancelable: true,
-    });
-    const cancelled = !link.dispatchEvent(event);
-
-    if (!cancelled) {
-      window.location.href = link.href;
     }
   }
 

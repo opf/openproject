@@ -304,13 +304,96 @@ describe('KeyboardShortcutService', () => {
       expect(onClick).toHaveBeenCalledOnce();
     });
 
-    it('logs instead of throwing when no element has the access key', () => {
+    it('clicks the first visible element with the access key', () => {
+      const hidden = outsideButton();
+      hidden.setAttribute('accesskey', '3');
+      hidden.hidden = true;
+      const visible = outsideButton();
+      visible.setAttribute('accesskey', '3');
+      const onHiddenClick = vi.fn();
+      const onVisibleClick = vi.fn();
+      hidden.addEventListener('click', onHiddenClick);
+      visible.addEventListener('click', onVisibleClick);
+      document.body.append(hidden, visible);
+
+      service.accessKey('edit')();
+
+      expect(onVisibleClick).toHaveBeenCalledOnce();
+      expect(onHiddenClick).not.toHaveBeenCalled();
+    });
+
+    it('falls back to the first element when none is visible', () => {
+      const first = outsideButton();
+      const second = outsideButton();
+      const onFirstClick = vi.fn();
+      const onSecondClick = vi.fn();
+      [first, second].forEach((button) => {
+        button.setAttribute('accesskey', '3');
+        button.hidden = true;
+      });
+      first.addEventListener('click', onFirstClick);
+      second.addEventListener('click', onSecondClick);
+      document.body.append(first, second);
+
+      service.accessKey('edit')();
+
+      expect(onFirstClick).toHaveBeenCalledOnce();
+      expect(onSecondClick).not.toHaveBeenCalled();
+    });
+
+    it('does nothing and does not throw when no element has the access key', () => {
       const log = vi.spyOn(console, 'log').mockImplementation(() => undefined);
 
       expect(() => service.accessKey('moreMenu')()).not.toThrow();
 
-      expect(log).toHaveBeenCalledWith('No element with access key 7 (moreMenu)');
+      expect(log).not.toHaveBeenCalled();
       log.mockRestore();
+    });
+  });
+
+  describe('newWorkPackage', () => {
+    const quickAddMenu = () => {
+      fixture.insertAdjacentHTML('beforeend', `
+        <ul id="op-app-header--quick-add-menu-list">
+          <li><a href="/projects/demo/work_packages/new?type=1">Task</a></li>
+          <li><a href="/projects/demo/work_packages/new?type=2">Bug</a></li>
+          <li><a href="/projects/new">Project</a></li>
+        </ul>
+      `);
+    };
+
+    it('clicks the visible access key 2 element', () => {
+      quickAddMenu();
+      const task = followed('Task');
+      const create = outsideButton();
+      create.setAttribute('accesskey', '2');
+      const onClick = vi.fn();
+      create.addEventListener('click', onClick);
+      document.body.append(create);
+
+      service.newWorkPackage()();
+
+      expect(onClick).toHaveBeenCalledOnce();
+      expect(task).not.toHaveBeenCalled();
+    });
+
+    it('follows the first quick-add work package type link otherwise', () => {
+      quickAddMenu();
+      const task = followed('Task');
+      const bug = followed('Bug');
+      const project = followed('Project');
+
+      service.newWorkPackage()();
+
+      expect(task).toHaveBeenCalledOnce();
+      expect(bug).not.toHaveBeenCalled();
+      expect(project).not.toHaveBeenCalled();
+    });
+
+    it('does nothing when neither exists', () => {
+      expect(() => service.newWorkPackage()()).not.toThrow();
+
+      expect(visit).not.toHaveBeenCalled();
     });
   });
 
