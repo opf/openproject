@@ -34,13 +34,13 @@ module Llm
 
     queue_with_priority :low
 
-    discard_on StandardError do |job, _error|
-      job.enqueue_per_work_package
-    end
-
     good_job_control_concurrency_with(perform_limit: 5)
 
     class TransientError < StandardError; end
+
+    discard_on Llm::Errors::InvalidInputError do |job, _error|
+      job.enqueue_per_work_package
+    end
 
     retry_on TransientError, wait: :polynomially_longer, attempts: 10
 
@@ -53,9 +53,9 @@ module Llm
       work_packages = WorkPackage.where(id: work_package_ids)
       Llm::WorkPackages::EmbedService.new(semantic_index, work_packages).call
     rescue Llm::Errors::Error => e
-      raise unless Llm::Errors.transient?(e)
+      raise TransientError, e.message if Llm::Errors.transient?(e)
 
-      raise TransientError, e.message
+      raise
     end
 
     def enqueue_per_work_package

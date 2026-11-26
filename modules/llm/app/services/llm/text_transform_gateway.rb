@@ -84,7 +84,7 @@ module Llm
     # Llm::Errors drops the server's message, so the parameter it names is only
     # found on the original RubyLLM error.
     def reasoning_rejected?(error)
-      error.instance_of?(Llm::Errors::ApiError) &&
+      error.instance_of?(Llm::Errors::InvalidInputError) &&
         error.status == 400 &&
         error.cause&.message.to_s.match?(/reasoning|thinking/i)
     end

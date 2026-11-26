@@ -60,11 +60,20 @@ RSpec.describe Llm::Errors do
       expect(translated).to be_a(Llm::Errors::RateLimitedError)
     end
 
-    it "maps a bad request onto an api error carrying the status" do
+    it "maps a bad request onto an invalid input error carrying the status" do
       translated = described_class.translate(RubyLLM::BadRequestError.new(rubyllm_response(400), "bad"))
 
-      expect(translated).to be_a(Llm::Errors::ApiError)
+      expect(translated).to be_a(Llm::Errors::InvalidInputError)
       expect(translated.status).to eq(400)
+    end
+
+    [413, 422].each do |status|
+      it "maps a #{status} onto an invalid input error carrying the status" do
+        translated = described_class.translate(RubyLLM::Error.new(rubyllm_response(status), "refused"))
+
+        expect(translated).to be_a(Llm::Errors::InvalidInputError)
+        expect(translated.status).to eq(status)
+      end
     end
 
     # A server that does not implement the endpoint answers 404/405/501, which
@@ -73,7 +82,7 @@ RSpec.describe Llm::Errors do
     it "maps an unimplemented endpoint onto an api error carrying the status" do
       translated = described_class.translate(RubyLLM::Error.new(rubyllm_response(404), "not found"))
 
-      expect(translated).to be_a(Llm::Errors::ApiError)
+      expect(translated).to be_an_instance_of(Llm::Errors::ApiError)
       expect(translated.status).to eq(404)
     end
 
@@ -180,7 +189,9 @@ RSpec.describe Llm::Errors do
       "an unreadable answer" => Llm::Errors::ParseError.new("Response is not valid JSON"),
       "an unusable configuration" => Llm::Errors::ConfigurationError.new("The connection is not usable as configured"),
       "an api_format no adapter serves" => Llm::Adapters::UnsupportedFormat.new("unknown"),
-      "a bad request" => api_error(400),
+      "a bad request" => Llm::Errors::InvalidInputError.new("Server responded with 400", status: 400),
+      "an exceeded context window reported as throttling" =>
+        Llm::Errors::ContextLengthError.new("Prompt exceeds the model's context window", status: 429),
       "a missing endpoint" => api_error(404),
       "a refused method" => api_error(405),
       "an unimplemented endpoint" => api_error(501),

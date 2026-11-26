@@ -66,8 +66,10 @@ module Llm
       end
     end
 
+    # The server refused the input itself, e.g. as malformed or too large.
+    class InvalidInputError < ApiError; end
     # The prompt exceeded the model's context window.
-    class ContextLengthError < ApiError; end
+    class ContextLengthError < InvalidInputError; end
     # The server is throttling us.
     class RateLimitedError < ApiError; end
 
@@ -89,6 +91,8 @@ module Llm
         @status = status
       end
     end
+
+    INVALID_INPUT_STATUSES = [400, 413, 422].freeze
 
     module_function
 
@@ -123,10 +127,11 @@ module Llm
         ConfigurationError.new("The connection is not usable as configured")
       else
         # Covers BadRequestError, PaymentRequiredError, ServerError,
-        # ServiceUnavailableError, OverloadedError and the middleware's catch-all
-        # -- the last of which is how 404/405/501 arrive, i.e. a server that does
-        # not implement the endpoint we asked for.
-        ApiError.new("Server responded with #{status || 'an error'}", status:)
+        # ServiceUnavailableError, OverloadedError and the middleware's catch-all,
+        # through which 413 and 422 arrive, as do the 404/405/501 of a server that
+        # does not implement the endpoint we asked for.
+        error_class = status.in?(INVALID_INPUT_STATUSES) ? InvalidInputError : ApiError
+        error_class.new("Server responded with #{status || 'an error'}", status:)
       end
     end
 
@@ -151,8 +156,8 @@ module Llm
     # connection.
     def transient?(error)
       case error
+      when InvalidInputError, SsrfError, InvalidUrlError then false
       when ApiError then transient_status?(error.status)
-      when SsrfError, InvalidUrlError then false
       else error.is_a?(ConnectionError)
       end
     end
