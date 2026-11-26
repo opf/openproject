@@ -5,7 +5,3 @@ ignore:
   # none of which are used.
   - GHSA-pf75-2v58-7mxg
   - GHSA-vvhm-j6m8-64cw
-  # ruby_llm: fixed in 2.x. Remove once the 2.x upgrade (#27043) is merged.
-  - GHSA-5m38-526f-3498
-  - GHSA-57hg-jgw4-wcqw
-  - GHSA-42r3-x6vx-x49x
