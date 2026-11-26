@@ -149,6 +149,16 @@ module Queries::Filters::Shared
 
         context.include_subprojects? ? project.self_and_descendants : Project.where(id: project)
       end
+
+      def values_of_several_projects?(values)
+        values.filter_map(&:project_id).uniq.many?
+      end
+
+      def label_with_project(label, value)
+        return label if value.project.nil?
+
+        I18n.t("custom_fields.project_specific_values.value_with_project", value: label, project: value.project.name)
+      end
     end
   end
 end

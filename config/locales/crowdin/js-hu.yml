@@ -322,6 +322,7 @@ hu:
         only_start: "%{from}-tól helyi idő szerint."
         two_values: "%{from} - %{to} helyi idő szerint."
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: Speciális beállítások
       load_error_message: Hiba történt az eredmény betöltésekor.

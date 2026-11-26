@@ -85,9 +85,9 @@ module Repositories
         PipelineStatuses::SCHEDULED
       when :running
         PipelineStatuses::RUNNING
-      when :cancelling
+      when :canceling
         PipelineStatuses::CANCELLING
-      when :cancelled
+      when :canceled
         PipelineStatuses::CANCELLED
       when :manual
         PipelineStatuses::MANUAL

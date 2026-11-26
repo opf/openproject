@@ -28,9 +28,14 @@
 #++
 
 module CustomOptions
-  class UpdateContract < ::ModelContract
-    include RequiresAdminGuard
+  class UpdateContract < BaseContract
+    include RequiresEnterpriseGuard
+
+    self.enterprise_action = :project_specific_list_values
+    self.enterprise_condition = -> { model.project_id.present? }
 
     attribute :value
+
+    validate :validate_additional_values_allowed
   end
 end

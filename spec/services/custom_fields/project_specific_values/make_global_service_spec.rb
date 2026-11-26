@@ -37,8 +37,9 @@ RSpec.describe CustomFields::ProjectSpecificValues::MakeGlobalService,
   shared_let(:other_project) { create(:project) }
 
   let(:traits) { [] }
+  let(:user) { admin }
 
-  subject(:service_call) { described_class.new(user: admin, model: custom_field).call(project:, value:) }
+  subject(:service_call) { described_class.new(user:, model: custom_field).call(project:, value:) }
 
   context "for a list custom field" do
     let(:custom_field) do
@@ -72,6 +73,16 @@ RSpec.describe CustomFields::ProjectSpecificValues::MakeGlobalService,
       it "fails" do
         expect(service_call).to be_failure
         expect(value.reload.project).to eq(other_project)
+      end
+    end
+
+    context "as a user allowed to manage custom field values in the project" do
+      let(:user) { create(:user, member_with_permissions: { project => %i[manage_work_package_custom_field_values] }) }
+
+      it "keeps the value in the project" do
+        expect(service_call).to be_failure
+        expect(service_call.errors.symbols_for(:base)).to include(:error_unauthorized)
+        expect(value.reload.project).to eq(project)
       end
     end
 

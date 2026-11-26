@@ -59,6 +59,7 @@ class WorkPackage < ApplicationRecord
   belongs_to :type
   belongs_to :status, class_name: "Status"
   belongs_to :author, class_name: "User"
+  belongs_to :reporter, class_name: "User", optional: true
   belongs_to :assigned_to, class_name: "Principal", optional: true
   belongs_to :responsible, class_name: "Principal", optional: true
   belongs_to :project_phase_definition, class_name: "Project::PhaseDefinition", optional: true
@@ -203,6 +204,8 @@ class WorkPackage < ApplicationRecord
 
   include WorkPackage::Journalized
   prepend Journable::Timestamps
+
+  historic_columns_from_current_record :identifier, :sequence_number
 
   def self.status_based_mode?
     Setting.work_package_done_ratio == "status"

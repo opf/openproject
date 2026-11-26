@@ -45,7 +45,7 @@ de:
       end_time: Endzeit
       start_time: Startzeit
       title: Kostenbericht als XLS-Export
-    invalid_filters: 'The export could not be generated: %{errors}'
+    invalid_filters: 'Der Export konnte nicht erstellt werden: %{errors}'
     timesheet:
       button: Stundenzettel als PDF exportieren
       overview_per_user_day: 'Übersicht: Stunden pro Benutzer pro Tag'
@@ -54,11 +54,11 @@ de:
       time: Zeit
       timesheet: Stundenzettel
       title: Ihr PDF-Export des Stundenzettels
-  filter_error_invalid_date: "%{filter}: %{value} is not a valid date."
-  filter_error_invalid_integer: "%{filter}: %{value} is not a valid integer."
+  filter_error_invalid_date: "%{filter}: %{value} ist kein gültiges Datum."
+  filter_error_invalid_integer: "%{filter}: %{value} ist keine gültige Zahl."
   filter_error_missing_values:
-    one: "%{filter} requires a value."
-    other: "%{filter} requires %{count} values."
+    one: "%{filter} benötigt einen Wert."
+    other: "%{filter} benötigt %{count} Werte."
   information_restricted_depending_on_permission: Abhängig von Ihren Berechtigungen können die Informationen auf dieser Seite eingeschränkt sein.
   label_click_to_edit: Zum Bearbeiten hier klicken.
   label_closed: Geschlossen

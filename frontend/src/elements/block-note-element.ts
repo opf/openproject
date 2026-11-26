@@ -66,7 +66,7 @@ class BlockNoteElement extends HTMLElement {
     if (blockNoteStylesheetUrl) {
       shadowRoot.appendChild(stylesheetLink(blockNoteStylesheetUrl));
       // BlockNote portals its mobile formatting toolbar into `document.body`, outside the shadow root.
-      if (!document.head.querySelector(`link[rel="stylesheet"][href="${blockNoteStylesheetUrl}"]`)) {
+      if (!document.head.querySelector(`link[rel="stylesheet"][href="${CSS.escape(blockNoteStylesheetUrl)}"]`)) {
         document.head.appendChild(stylesheetLink(blockNoteStylesheetUrl));
       }
     }

@@ -57,7 +57,7 @@ module WorkPackageTypes
       end
 
       def button_links
-        [action_menu]
+        project.archived? ? [] : [action_menu]
       end
 
       private

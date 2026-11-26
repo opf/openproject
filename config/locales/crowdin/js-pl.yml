@@ -308,6 +308,7 @@ pl:
         only_start: Od %{from} wg czasu lokalnego.
         two_values: "%{from} - %{to} wg czasu lokalnego."
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: Zaawansowane ustawienia
       load_error_message: Podczas ładowania formularza wystąpił błąd

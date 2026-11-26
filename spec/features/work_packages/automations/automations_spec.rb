@@ -636,6 +636,7 @@ RSpec.describe "Automations", :js, with_ee: %i[custom_actions] do
       previous_identifier = project.identifier
       project.update!(identifier: "RENAMED")
       project.handle_semantic_rename(previous_identifier)
+      work_package.reload
     end
 
     it "works when clicking two buttons" do

@@ -32,7 +32,8 @@ module Import
     module JiraImportCustomFields
       JIRA_IMPORT_GROUP_KEY = "Jira import"
       SYSTEM_FIELD_CUSTOM_FIELDS = {
-        "resolutiondate" => { name: "Resolution Date", field_format: "datetime" }
+        "resolutiondate" => { name: "Resolution Date", field_format: "datetime" },
+        "environment" => { name: "Environment", field_format: "text" }
       }.freeze
 
       def create_system_field_custom_fields

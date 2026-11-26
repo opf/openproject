@@ -1913,6 +1913,7 @@ fr:
               label_import_data: Importation en cours
               label_progress: Importation en cours...
               label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
+              label_sprint_explanation: Sprints that contain at least one issue
               label_users_import_explanation: Utilisateurs impliqués dans les projets sélectionnés (y compris les membres de groupes)
               title: Importation des données
             fetch_data:
@@ -2599,6 +2600,7 @@ fr:
     public: Public
     reason: Raison
     recipient: Destinataire
+    reporter: Reporter
     required: Obligatoire
     responsible: Responsable
     role: Rôle
@@ -2940,7 +2942,8 @@ fr:
         remember_items_and_projects: Remember to set values for this custom field, and to make sure it is used in at least one project.
       projects:
         additional_values_disabled_notice: Project admins can no longer add values to this custom field. Existing project-specific values stay available.
-        additional_values_disabled_project_notice: Project admins can no longer add values to this custom field. However, existing project-specific values are still available and can be enabled or disabled.
+        additional_values_disabled_project_notice: Project admins can no longer add values to this custom field. However, existing project-specific values stay available.
+        available_values: Available values
         configure: Configurez les valeurs spécifiques au projet pour %{project}
         delete_value_dialog:
           description: This action will irreversibly remove the value from %{project}. Any assigned values will be permanently deleted.
@@ -2971,16 +2974,19 @@ fr:
         quick_filter:
           all: Tous les projets
           with_project_specific_values: Avec des valeurs spécifiques au projet
+        required_value_notice: Cannot be disabled because a child project-specific value is enabled
         types_column: Affiché dans le type
         value_actions: Value actions
         value_dialog:
           edit_title: Edit value
           name: Name
-          name_caption: Only available in %{project}.
+          name_caption_html: Only available in <strong>%{project}</strong>.
           parent: Add to parent
+          short_caption: Optionally pick a shorter name or code for this value.
           title: Add project-specific value
           title_with_parent: Add project-specific value to “%{parent}”
           top_level: Top level
+          weight_caption: Each value has a weight associated with it.
         values_empty_state:
           description: Ajoutez des valeurs à ce champ personnalisé afin de sélectionner celles qui seront disponibles dans ce projet.
           title: Ce champ personnalisé ne contient encore aucune valeur
@@ -3069,16 +3075,17 @@ fr:
       project_admins:
         additional_values_caption: Added values are only available in the project they were created in. You can make them available to all projects later.
         remaining_values_count:
-          one: 1 project-specific value
+          one: "%{count} project-specific value"
           other: "%{count} project-specific values"
         remaining_values_warning:
-          one: 1 project already has %{values}. They remain available in that project but project admins can no longer add new ones unless ‘%{setting}’ is checked.
+          one: "%{count} project already has %{values}. They remain available in that project but project admins can no longer add new ones unless ‘%{setting}’ is checked."
           other: "%{count} projects already have %{values}. They remain available in those projects but project admins can no longer add new ones unless ‘%{setting}’ is checked."
         value_management_caption: Project admins can enable or disable certain values for their project. All global values will be visible to them.
       switch_warning:
         all: All values will be available in all projects.
         allow: No values will be available to any project unless you manually activate them in each project individually.
         block: All values will be available in all projects unless you manually deactivate them in individual projects.
+      value_with_project: "%{value} (%{project})"
     reorder_alphabetical: Réorganiser les valeurs par ordre alphabétique
     reorder_confirmation: 'Attention : l''ordre actuel des valeurs disponibles ainsi que toutes les valeurs non enregistrées seront perdus. Voulez-vous vraiment continuer ?'
     semantic_keys:
@@ -4261,6 +4268,10 @@ fr:
   label_custom_field_default_type: Type défaut
   label_custom_field_new: Nouveau champ personnalisé
   label_custom_field_plural: Champs personnalisés
+  label_custom_field_values_all: All custom fields
+  label_custom_field_values_customizable: Customizable in this project
+  label_custom_field_values_customized: Customized in this project
+  label_custom_field_values_uniform: Same values in all projects
   label_custom_pdf_export_settings: Paramètres d'exportation PDF personnalisés
   label_custom_style: Apparence
   label_custom_style_description: Choisissez l'apparence d'OpenProject avec des thèmes, sélectionnez les couleurs par défaut à utiliser dans l'application et l'apparence des exportations.
@@ -6120,13 +6131,13 @@ fr:
       shared: Listes de projets partagées
     phase_status:
       description:
-        completed: Marking a phase as complete will complete all previous phases.
-        in_progress: Marking a phase as in progress will complete all previous phases and open all future phases.
-        open: Re-opening a phase will also open all future phases.
+        completed: This will also mark all previous phases as complete.
+        in_progress: This will complete all previous phases and mark future phases as not started.
+        open: This will mark all future phases as not started.
       title:
         completed: Terminés
         in_progress: En cours
-        open: Ouverte
+        open: Not started
     settings:
       actions:
         label_disable_all: Désactiver tout
@@ -6170,9 +6181,18 @@ fr:
         changes_text: 'Starting with version 18.0, custom fields are no longer enabled or disabled for each project. They are part of forms, which types and variants use. The list below shows the custom fields on the work packages of this project, and the variants that include them.
 
           '
+        column_format: Format
         column_name: Champ personnalisé
-        column_variants: Variantes
+        column_types: Displayed in type
         no_results_title_text: Il n'y a actuellement aucun champ personnalisé disponible.
+        project_specific_values_count:
+          one: "%{count} project-specific value"
+          other: "%{count} project-specific values"
+        search_label: Search custom fields
+        values_description: 'Choose which values of %{custom_field} your team can use in %{project}. Global values are shared with other projects and managed by administrators. Project-specific values are only available in this project.
+
+          '
+        values_filter: Values
       forums:
         no_results_content_text: Créer un nouveau forum
         no_results_title_text: Il n'y a actuellement aucun forum pour le projet.
@@ -7548,6 +7568,7 @@ fr:
         delete_group: Supprimer la section
         drag_to_activate: Faites glisser les champs à partir d'ici pour les activer
         drag_to_reorder: Faire glisser
+        edit_custom_field: Edit custom field
         edit_query: Modifier la requête
         empty_group_hint: Faites glisser les attributs ici
         exclusions:

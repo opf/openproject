@@ -308,6 +308,7 @@ fa:
         only_start: از %{from} به وقت محلی شما.
         two_values: "%{from} - %{to} به وقت محلی شما."
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: تنظیمات پیشرفته
       load_error_message: هنگام بارگذاری فرم خطایی رخ داد

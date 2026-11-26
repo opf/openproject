@@ -11,30 +11,13 @@ permissions: {}
 jobs:
   setup:
     if: github.repository == 'opf/openproject'
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    outputs:
-      latest_release_branch: ${{ steps.find_latest_release.outputs.branch }}
-    steps:
-      - id: find_latest_release
-        env:
-          GITHUB_TOKEN: ${{ secrets.OPENPROJECTCI_GH_CORE_PAT }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
-        run: |
-          BRANCH=$(gh api --paginate \
-            "repos/$GITHUB_REPOSITORY/branches?protected=true&per_page=100" --jq '.[].name' | \
-            grep '^release/' | sort --version-sort | tail -1
-          )
-          if [ "$BRANCH" = "" ]; then
-            echo "Invalid release branch found: $BRANCH"
-            exit 1
-          fi
-
-          echo "branch=${BRANCH}" >> $GITHUB_OUTPUT
+    permissions:
+      contents: read
+    uses: $/.github/workflows/release-branches.yml
 
   merge-or-create-pr:
     env:
-      RELEASE_BRANCH: ${{ needs.setup.outputs.latest_release_branch }}
+      RELEASE_BRANCH: ${{ needs.setup.outputs.latest }}
 
     permissions:
       contents: write # for git push

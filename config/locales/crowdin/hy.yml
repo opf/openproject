@@ -1913,6 +1913,7 @@ hy:
               label_import_data: Ներկայումս ներմուծվում է
               label_progress: Ներմուծումն ընթացքի մեջ է...
               label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
+              label_sprint_explanation: Sprints that contain at least one issue
               label_users_import_explanation: Ընտրված նախագծերում ներգրավված օգտատերերը (ներառյալ խմբային անդամակցությունները)
               title: Ներմուծել տվյալները
             fetch_data:
@@ -2597,6 +2598,7 @@ hy:
     public: Հանրային
     reason: Պատճառ
     recipient: Ստացող
+    reporter: Reporter
     required: Պարտադիր
     responsible: Հաշվետու
     role: Դեր
@@ -2940,7 +2942,8 @@ hy:
         remember_items_and_projects: Remember to set values for this custom field, and to make sure it is used in at least one project.
       projects:
         additional_values_disabled_notice: Project admins can no longer add values to this custom field. Existing project-specific values stay available.
-        additional_values_disabled_project_notice: Project admins can no longer add values to this custom field. However, existing project-specific values are still available and can be enabled or disabled.
+        additional_values_disabled_project_notice: Project admins can no longer add values to this custom field. However, existing project-specific values stay available.
+        available_values: Available values
         configure: Configure project-specific values for %{project}
         delete_value_dialog:
           description: This action will irreversibly remove the value from %{project}. Any assigned values will be permanently deleted.
@@ -2971,16 +2974,19 @@ hy:
         quick_filter:
           all: All projects
           with_project_specific_values: With project-specific values
+        required_value_notice: Cannot be disabled because a child project-specific value is enabled
         types_column: Displayed in type
         value_actions: Value actions
         value_dialog:
           edit_title: Edit value
           name: Name
-          name_caption: Only available in %{project}.
+          name_caption_html: Only available in <strong>%{project}</strong>.
           parent: Add to parent
+          short_caption: Optionally pick a shorter name or code for this value.
           title: Add project-specific value
           title_with_parent: Add project-specific value to “%{parent}”
           top_level: Top level
+          weight_caption: Each value has a weight associated with it.
         values_empty_state:
           description: Add values to this custom field to choose which of them are available in this project.
           title: This custom field has no values yet
@@ -3069,16 +3075,17 @@ hy:
       project_admins:
         additional_values_caption: Added values are only available in the project they were created in. You can make them available to all projects later.
         remaining_values_count:
-          one: 1 project-specific value
+          one: "%{count} project-specific value"
           other: "%{count} project-specific values"
         remaining_values_warning:
-          one: 1 project already has %{values}. They remain available in that project but project admins can no longer add new ones unless ‘%{setting}’ is checked.
+          one: "%{count} project already has %{values}. They remain available in that project but project admins can no longer add new ones unless ‘%{setting}’ is checked."
           other: "%{count} projects already have %{values}. They remain available in those projects but project admins can no longer add new ones unless ‘%{setting}’ is checked."
         value_management_caption: Project admins can enable or disable certain values for their project. All global values will be visible to them.
       switch_warning:
         all: All values will be available in all projects.
         allow: No values will be available to any project unless you manually activate them in each project individually.
         block: All values will be available in all projects unless you manually deactivate them in individual projects.
+      value_with_project: "%{value} (%{project})"
     reorder_alphabetical: Վերադասավորել արժեքներն այբբենական կարգով
     reorder_confirmation: Նախազգուշացում՝ հասանելի արժեքների ընթացիկ դասավորությունը, ինչպես նաև բոլոր չպահպանված արժեքները կկորչեն։ Համոզվա՞ծ եք, որ ցանկանում եք շարունակել։
     semantic_keys:
@@ -4259,6 +4266,10 @@ hy:
   label_custom_field_default_type: Դատարկ տեսակ
   label_custom_field_new: Նոր հատուկ դաշտ
   label_custom_field_plural: Հատուկ դաշտեր
+  label_custom_field_values_all: All custom fields
+  label_custom_field_values_customizable: Customizable in this project
+  label_custom_field_values_customized: Customized in this project
+  label_custom_field_values_uniform: Same values in all projects
   label_custom_pdf_export_settings: PDF արտահանման հատուկ կարգավորումներ
   label_custom_style: Ձևավորում
   label_custom_style_description: Ընտրեք, թե ինչպիսի տեսք ունենա OpenProject-ը Ձեզ համար՝ թեմաների միջոցով, ընտրեք հավելվածում օգտագործվող Ձեր կանխադրված գույները և արտահանումների տեսքը։
@@ -6116,13 +6127,13 @@ hy:
       shared: Համօգտագործված նախագծերի ցանկեր
     phase_status:
       description:
-        completed: Marking a phase as complete will complete all previous phases.
-        in_progress: Marking a phase as in progress will complete all previous phases and open all future phases.
-        open: Re-opening a phase will also open all future phases.
+        completed: This will also mark all previous phases as complete.
+        in_progress: This will complete all previous phases and mark future phases as not started.
+        open: This will mark all future phases as not started.
       title:
         completed: Completed
         in_progress: In progress
-        open: Open
+        open: Not started
     settings:
       actions:
         label_disable_all: Անջատել բոլորը
@@ -6166,9 +6177,18 @@ hy:
         changes_text: 'Starting with version 18.0, custom fields are no longer enabled or disabled for each project. They are part of forms, which types and variants use. The list below shows the custom fields on the work packages of this project, and the variants that include them.
 
           '
+        column_format: Format
         column_name: Custom field
-        column_variants: Variants
+        column_types: Displayed in type
         no_results_title_text: Ներկայումս հասանելի հատուկ դաշտեր չկան։
+        project_specific_values_count:
+          one: "%{count} project-specific value"
+          other: "%{count} project-specific values"
+        search_label: Search custom fields
+        values_description: 'Choose which values of %{custom_field} your team can use in %{project}. Global values are shared with other projects and managed by administrators. Project-specific values are only available in this project.
+
+          '
+        values_filter: Values
       forums:
         no_results_content_text: Ստեղծել նոր ֆորում
         no_results_title_text: Ներկայումս նախագծում ֆորումներ չկան։
@@ -7549,6 +7569,7 @@ hy:
         delete_group: Ջնջել բաժինը
         drag_to_activate: Ակտիվացնելու համար քաշեք դաշտերն այստեղից
         drag_to_reorder: Քաշեք՝ վերադասավորելու համար
+        edit_custom_field: Edit custom field
         edit_query: Խմբագրել հարցումը
         empty_group_hint: Քաշեք հատկանիշներն այստեղ
         exclusions:

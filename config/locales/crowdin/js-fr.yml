@@ -308,6 +308,7 @@ fr:
         only_start: À partir de %{from} dans votre heure locale.
         two_values: "%{from} - %{to} dans votre heure locale."
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: Paramètres avancés
       load_error_message: Une erreur s'est produite lors du chargement du formulaire

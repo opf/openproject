@@ -52,11 +52,12 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
   context "when read-only" do
     let(:readonly) { true }
 
-    it "omits the handle and actions menu", :aggregate_failures do
+    it "omits the handle but offers the actions menu with an enable/disable item", :aggregate_failures do
       render_row
 
       expect(page).to have_no_test_selector("type-form-configuration-attribute-handle-assignee")
-      expect(page).to have_no_test_selector("type-form-configuration-attribute-actions-assignee")
+      expect(page).to have_test_selector("type-form-configuration-attribute-actions-assignee")
+      expect(page).to have_test_selector("type-form-configuration-toggle-exclusion-assignee", visible: :all)
       expect(page).to have_text("Assignee")
     end
 
@@ -96,9 +97,9 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
         render_row
 
         action = page.find(:test_id, "type-form-configuration-toggle-required-custom_field_5", visible: :all)
-        expect(action[:"aria-disabled"]).to eq("true")
-        expect(page).to have_css("tool-tip[for='#{action[:id]}']",
-                                 visible: :all, text: "Switch this custom field on before requiring it for this type.")
+        expect(action[:class]).to include("ActionListItem--disabled")
+        expect(action.find("[aria-disabled]")[:"aria-disabled"]).to eq("true")
+        expect(action).to have_text("Switch this custom field on before requiring it for this type.")
       end
 
       it "offers, disabled, to stop requiring a field required for all types", :aggregate_failures do
@@ -106,7 +107,8 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
 
         action = page.find(:test_id, "type-form-configuration-toggle-required-custom_field_5", visible: :all)
         expect(action).to have_text("Do not require for this type")
-        expect(action[:"aria-disabled"]).to eq("true")
+        expect(action[:class]).to include("ActionListItem--disabled")
+        expect(action.find("[aria-disabled]")[:"aria-disabled"]).to eq("true")
       end
     end
   end
@@ -114,10 +116,11 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
   # The switch itself is covered by ExclusionToggleComponent; what matters here is that the row
   # hands it this attribute's key and label, and asks for it only in read-only mode.
   describe "the exclusion toggle" do
-    it "is not rendered in editable mode" do
+    it "is not rendered in editable mode, nor is the enable/disable item", :aggregate_failures do
       render_row
 
       expect(page).to have_no_test_selector("toggle-form-config-exclusion-assignee")
+      expect(page).to have_no_test_selector("type-form-configuration-toggle-exclusion-assignee", visible: :all)
     end
 
     context "when read-only" do
@@ -129,6 +132,13 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
         toggle = page.find("[data-test-selector='toggle-form-config-exclusion-assignee'] > button")
         expect(toggle["aria-label"]).to eq("Inherit Assignee")
         expect(toggle["aria-pressed"]).to eq("true")
+      end
+
+      it "labels the switch with the standard On/Off", :aggregate_failures do
+        render_row
+
+        switch = page.find(:test_id, "toggle-form-config-exclusion-assignee", visible: :all)
+        expect(switch.text(:all)).to include("On").and(include("Off"))
       end
 
       describe "for a custom field" do
@@ -185,5 +195,40 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
     expect(page).to have_no_test_selector("type-form-configuration-attribute-handle-assignee")
     expect(page).to have_no_css("[data-sortable-lists--item-target='moveItem']", visible: :all)
     expect(page).to have_test_selector("type-form-configuration-delete-attribute-assignee", visible: :all)
+  end
+
+  describe "the edit custom field action" do
+    let(:custom_field_attribute) do
+      { id: 2, key: "custom_field_5", is_cf: true, required_globally: false,
+        required_for_variant: false, translation: "Alt description" }
+    end
+
+    context "for a global admin" do
+      current_user { create(:admin) }
+
+      it "links to the custom field's admin page for a custom field", :aggregate_failures do
+        render_row(attribute: custom_field_attribute)
+
+        action = page.find(:test_id, "type-form-configuration-edit-custom-field-custom_field_5", visible: :all)
+        href = Rails.application.routes.url_helpers.edit_admin_settings_work_package_custom_field_path(5)
+        expect(action).to have_link(href:)
+      end
+
+      it "offers nothing for a built-in attribute" do
+        render_row
+
+        expect(page).to have_no_test_selector("type-form-configuration-edit-custom-field-assignee", visible: :all)
+      end
+    end
+
+    context "for a non-admin" do
+      current_user { create(:user) }
+
+      it "is not offered even for a custom field" do
+        render_row(attribute: custom_field_attribute)
+
+        expect(page).to have_no_test_selector("type-form-configuration-edit-custom-field-custom_field_5", visible: :all)
+      end
+    end
   end
 end

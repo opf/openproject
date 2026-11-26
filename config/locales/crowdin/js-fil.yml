@@ -308,6 +308,7 @@ fil:
         only_start: Mula sa %{from} sa iyong lokal na oras.
         two_values: "%{from} - %{to} sa iyong lokal na oras."
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: Naka-advance ang mga setting
       load_error_message: There was an error loading the form

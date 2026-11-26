@@ -179,8 +179,8 @@ da:
       axis_criteria: Aksekriterier
       description:
         caption: "%{label}: data"
-        date: Date
-        week: Week of
+        date: Dato
+        week: Uge fra
       errors:
         could_not_load: Dataene til grafen kunne ikke indlæses. Der mangler måske de nødvendige tilladelser.
       modal_title: Konfiguration af arbejdspakkegraf
@@ -308,6 +308,7 @@ da:
         only_start: Fra %{from} i din lokale tid.
         two_values: "%{from} - %{to} i din lokale tid."
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: Avancerede indstillinger
       load_error_message: Der opstod en fejl under indlæsning af formularen

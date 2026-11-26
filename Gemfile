@@ -44,7 +44,7 @@ gem "responders", "~> 3.2"
 
 gem "ffi", "~> 1.17"
 
-gem "connection_pool", "~> 3.0.2"
+gem "connection_pool", "~> 3.0.3"
 
 gem "rdoc", ">= 2.4.2"
 
@@ -69,7 +69,7 @@ gem "awesome_nested_set", "~> 3.9.0"
 gem "closure_tree", "~> 9.8.0"
 gem "rubytree", "~> 2.2.2"
 
-gem "addressable", "~> 2.9.1"
+gem "addressable", "~> 2.9.2"
 
 # Remove whitespace from model input
 gem "auto_strip_attributes", "~> 3.0"
@@ -201,9 +201,9 @@ gem "fog-aws"
 gem "ssrf_filter", "~> 1.6"
 gem "web-push", "~> 3.1"
 
-gem "aws-sdk-core", "~> 3.264"
+gem "aws-sdk-core", "~> 3.267"
 # File upload via fog + screenshots on travis
-gem "aws-sdk-s3", "~> 1.238"
+gem "aws-sdk-s3", "~> 1.241"
 
 gem "openproject-token", "~> 8.17.0"
 
@@ -234,13 +234,34 @@ gem "yabeda-rails"
 
 # opentelemetry
 gem "opentelemetry-exporter-otlp", "~> 0.37.0", require: false
-gem "opentelemetry-instrumentation-all", "~> 0.99.0", require: false
-gem "opentelemetry-sdk", "~> 1.13", require: false
+gem "opentelemetry-sdk", require: false
+# opentelemetry instrumentations, see config/initializers/opentelemetry.rb
+# Available Ruby instrumentations can be found here:
+# https://github.com/open-telemetry/opentelemetry-ruby-contrib/tree/main/instrumentation
+gem "opentelemetry-instrumentation-action_mailer", require: false
+gem "opentelemetry-instrumentation-action_pack", require: false
+gem "opentelemetry-instrumentation-action_view", require: false
+gem "opentelemetry-instrumentation-active_job", require: false
+gem "opentelemetry-instrumentation-active_record", require: false
+gem "opentelemetry-instrumentation-active_storage", require: false
+gem "opentelemetry-instrumentation-active_support", require: false
+gem "opentelemetry-instrumentation-aws_sdk", require: false
+gem "opentelemetry-instrumentation-dalli", require: false
+gem "opentelemetry-instrumentation-excon", require: false
+gem "opentelemetry-instrumentation-faraday", require: false
+gem "opentelemetry-instrumentation-grape", require: false
+gem "opentelemetry-instrumentation-httpx", require: false
+gem "opentelemetry-instrumentation-net_http", require: false
+gem "opentelemetry-instrumentation-pg", require: false
+gem "opentelemetry-instrumentation-rack", require: false
+gem "opentelemetry-instrumentation-rails", require: false
+gem "opentelemetry-instrumentation-rake", require: false
+gem "opentelemetry-instrumentation-redis", require: false
 
 gem "openproject-octicons", "~>19.38.0"
 gem "openproject-octicons_helper", "~>19.38.0"
-gem "openproject-primer_view_components", "~> 0.96.0"
-gem "view_component", "~> 4.16.0"
+gem "openproject-primer_view_components", "~> 0.97.0"
+gem "view_component", "~> 4.25.0"
 
 # Lookbook
 gem "lookbook", "2.3.15"

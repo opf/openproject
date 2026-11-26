@@ -308,6 +308,7 @@ hy:
         only_start: "%{from}-ից Ձեր տեղական ժամանակով։"
         two_values: "%{from} - %{to} Ձեր տեղական ժամանակով։"
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: Ընդլայնված կարգավորումներ
       load_error_message: Ձևը բեռնելիս սխալ առաջացավ

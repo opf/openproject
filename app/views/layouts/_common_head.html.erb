@@ -20,7 +20,10 @@
       data-id="<%= User.current.id %>"
       data-time-zone="<%= User.current.time_zone.tzinfo.name %>">
 
-<% if Setting.demo_projects_available %><meta name="demo_projects_available" content="true"><% end %>
+<% if Setting.demo_projects_available %>
+  <meta name="demo_projects_available" content="true">
+  <meta name="demo_project_identifier" content="<%= Projects::DemoProject.identifier %>">
+<% end %>
 <% if Setting.boards_demo_data_available %><meta name="boards_demo_data_available" content="true"><% end %>
 <% if Setting.demo_view_of_type_team_planner_seeded %><meta name="demo_view_of_type_team_planner_seeded" content="true"><% end %>
 <%= csrf_meta_tags %>

@@ -66,6 +66,8 @@ properties:
     $ref: './schema_property_model.yml'
   author:
     $ref: './schema_property_model.yml'
+  reporter:
+    $ref: './schema_property_model.yml'
   position:
     $ref: './schema_property_model.yml'
   project:

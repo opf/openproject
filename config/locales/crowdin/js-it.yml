@@ -308,6 +308,7 @@ it:
         only_start: Dalle %{from} sul tuo fuso orario.
         two_values: "%{from} - %{to} sul tuo fuso orario."
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: Impostazioni avanzate
       load_error_message: Si è verificato un errore caricando il modulo

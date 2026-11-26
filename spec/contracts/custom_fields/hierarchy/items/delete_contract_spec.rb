@@ -49,4 +49,54 @@ RSpec.describe CustomFields::Hierarchy::Items::DeleteContract,
 
     it_behaves_like "contract is invalid", base: :root_item
   end
+
+  context "for a project item" do
+    let(:project) { create(:project) }
+    let(:allow_additional_project_values) { true }
+    let(:custom_field) { create(:hierarchy_wp_custom_field, allow_additional_project_values:) }
+    let(:item) { create(:hierarchy_item, parent: root, label: "Chewie", project:) }
+
+    it_behaves_like "contract is valid for active admins and invalid for regular users"
+
+    context "as a user allowed to manage custom field values in the project" do
+      let(:current_user) { build_stubbed(:user) }
+
+      before do
+        mock_permissions_for(current_user) do |mock|
+          mock.allow_in_project :manage_work_package_custom_field_values, project:
+        end
+      end
+
+      it_behaves_like "contract is valid"
+
+      context "without the enterprise feature", with_ee: %i[custom_field_hierarchies] do
+        it_behaves_like "contract is valid"
+      end
+
+      context "when the custom field does not allow additional project values" do
+        let(:allow_additional_project_values) { false }
+
+        it_behaves_like "contract is valid"
+      end
+
+      context "with a value of another project" do
+        let(:item) { create(:hierarchy_item, parent: root, label: "Chewie", project: create(:project)) }
+
+        it_behaves_like "contract user is unauthorized"
+      end
+    end
+  end
+
+  context "as a user allowed to manage custom field values in a project for a global item" do
+    let(:current_user) { build_stubbed(:user) }
+    let(:custom_field) { create(:hierarchy_wp_custom_field, allow_additional_project_values: true) }
+
+    before do
+      mock_permissions_for(current_user) do |mock|
+        mock.allow_in_project :manage_work_package_custom_field_values, project: create(:project)
+      end
+    end
+
+    it_behaves_like "contract user is unauthorized"
+  end
 end

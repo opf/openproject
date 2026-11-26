@@ -308,6 +308,7 @@ nl:
         only_start: Van %{from} in uw lokale tijd.
         two_values: "%{from} - %{to} in uw lokale tijd."
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: Geavanceerde instellingen
       load_error_message: Er is een fout opgetreden bij het laden van het formulier

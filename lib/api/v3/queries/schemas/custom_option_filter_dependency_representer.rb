@@ -36,7 +36,7 @@ module API
                                          has_default: false,
                                          required: true,
                                          values_callback: ->(*) {
-                                           represented.visible_custom_options
+                                           visible_custom_options
                                          },
                                          value_representer: CustomOptions::CustomOptionRepresenter,
                                          link_factory: ->(value) {
@@ -63,7 +63,13 @@ module API
           def visible_options_cache_key
             return unless filter.custom_field.project_specific_values_supported?
 
-            OpenProject::Cache::CacheKey.expand(filter.visible_custom_options.pluck(:id))
+            projects = visible_custom_options.filter_map(&:project).uniq
+
+            OpenProject::Cache::CacheKey.expand([visible_custom_options.map(&:id), projects.map(&:cache_key_with_version)])
+          end
+
+          def visible_custom_options
+            @visible_custom_options ||= filter.visible_custom_options.to_a
           end
         end
       end

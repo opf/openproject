@@ -33,7 +33,7 @@ See COPYRIGHT and LICENSE files for more details.
       leading_icon: :plus,
       label: t("custom_fields.admin.projects.value_dialog.title"),
       tag: :a,
-      href: new_admin_settings_work_package_custom_field_project_specific_value_path(custom_field, project),
+      href: helpers.new_value_path,
       data: { controller: "async-dialog" }
     ) do
       t("custom_fields.admin.projects.new_value")

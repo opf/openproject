@@ -308,6 +308,7 @@ tr:
         only_start: Yerel zamanınıza göre %{from} dan itibaren.
         two_values: "%{from} - %{to} yerel saatinizle."
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: Gelişmiş ayarlar
       load_error_message: Form yüklenirken bir hata oluştu

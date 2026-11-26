@@ -31,7 +31,11 @@ module CustomFields
   module Hierarchy
     module Items
       class BaseContract < ::ModelContract
-        include RequiresAdminGuard
+        include AuthorizesProjectValueManagement
+        include RequiresEnterpriseGuard
+
+        self.enterprise_action = :project_specific_list_values
+        self.enterprise_condition = -> { model.project_id.present? }
 
         attribute :label
         attribute :short

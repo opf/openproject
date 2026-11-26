@@ -47,7 +47,7 @@ export const en = {
       'loadFailed': "Formularen til arbejdspakken kunne ikke indlæses: {{message}}",
       'notAllowed': "Du har ikke tilladelse til at oprette arbejdspakker.",
       'validationFailed': "Ret de fremhævede felter nedenfor.",
-      'requiredField': "Feltet er påkrævet.",
+      'requiredField': "Feltet er obligatorisk.",
       'notANumber': "Angiv et tal.",
       'notAWholeNumber': "Angiv et helt tal uden decimaltegn.",
       'unsupportedField': "\"{{field}}\" kan ikke angives her.",

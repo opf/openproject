@@ -193,7 +193,7 @@ RSpec.describe "Admin project-specific values of a work package custom field", :
       end
     end
 
-    describe "adding a value to a project" do
+    describe "adding a value to a project", with_ee: %i[project_specific_list_values] do
       let(:new_path) { new_admin_settings_work_package_custom_field_project_specific_value_path(custom_field, using_project) }
 
       context "for a list custom field" do
@@ -223,7 +223,7 @@ RSpec.describe "Admin project-specific values of a work package custom field", :
         end
       end
 
-      context "for a hierarchy custom field", with_ee: %i[custom_field_hierarchies] do
+      context "for a hierarchy custom field", with_ee: %i[custom_field_hierarchies project_specific_list_values] do
         let(:custom_field) do
           create(:hierarchy_wp_custom_field, types: [feature], allow_additional_project_values: true)
         end
@@ -261,7 +261,7 @@ RSpec.describe "Admin project-specific values of a work package custom field", :
       end
     end
 
-    describe "editing a value of a project" do
+    describe "editing a value of a project", with_ee: %i[project_specific_list_values] do
       let(:edit_path) do
         lambda do |value|
           edit_admin_settings_work_package_custom_field_project_specific_value_path(custom_field, using_project, value.id)
@@ -305,7 +305,7 @@ RSpec.describe "Admin project-specific values of a work package custom field", :
         end
       end
 
-      context "for a hierarchy custom field", with_ee: %i[custom_field_hierarchies] do
+      context "for a hierarchy custom field", with_ee: %i[custom_field_hierarchies project_specific_list_values] do
         let(:custom_field) do
           create(:hierarchy_wp_custom_field, types: [feature], allow_additional_project_values: true)
         end
@@ -398,6 +398,16 @@ RSpec.describe "Admin project-specific values of a work package custom field", :
           expect(CustomValue.exists?(custom_value.id)).to be(false)
         end
 
+        it "shows the error when deleting the last value of the custom field" do
+          custom_field.custom_options.where(project_id: nil).delete_all
+
+          delete destroy_path.call(own_option)
+
+          expect(response).to redirect_to(values_path)
+          expect(flash[:error]).to eq(I18n.t("activerecord.errors.models.custom_field.at_least_one_custom_option"))
+          expect(CustomOption.exists?(own_option.id)).to be(true)
+        end
+
         it "does not find a global value" do
           delete destroy_path.call(custom_field.custom_options.find_by!(value: "A"))
 
@@ -463,6 +473,45 @@ RSpec.describe "Admin project-specific values of a work package custom field", :
         post enable_all_path
 
         expect(response).to have_http_status(:not_found)
+      end
+    end
+
+    context "when project admins can no longer add values but the project already added some",
+            with_ee: %i[project_specific_list_values] do
+      let!(:own_option) { create(:custom_option, custom_field:, value: "Own", project: using_project) }
+      let(:edit_path) do
+        edit_admin_settings_work_package_custom_field_project_specific_value_path(custom_field, using_project, own_option.id)
+      end
+      let(:make_global_path) do
+        make_global_admin_settings_work_package_custom_field_project_specific_value_path(custom_field, using_project,
+                                                                                         own_option.id)
+      end
+
+      it "does not edit the value" do
+        get edit_path, as: :turbo_stream
+
+        expect(response).to have_http_status(:not_found)
+      end
+
+      it "does not rename the value" do
+        patch destroy_path.call(own_option), params: { label: "Renamed" }
+
+        expect(response).to have_http_status(:not_found)
+        expect(own_option.reload.value).to eq("Own")
+      end
+
+      it "does not make the value available to all projects" do
+        post make_global_path
+
+        expect(response).to have_http_status(:not_found)
+        expect(own_option.reload.project).to eq(using_project)
+      end
+
+      it "deletes the value" do
+        delete destroy_path.call(own_option)
+
+        expect(response).to redirect_to(values_path)
+        expect(CustomOption.exists?(own_option.id)).to be(false)
       end
     end
   end

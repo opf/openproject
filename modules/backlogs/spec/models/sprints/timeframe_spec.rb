@@ -69,6 +69,10 @@ RSpec.describe Sprints::Timeframe do
     it "still reports the planned finish" do
       expect(timeframe.planned_finish).to eq sprint.finish_date.in_time_zone.end_of_day
     end
+
+    it "was executed" do
+      expect(timeframe).not_to be_never_executed
+    end
   end
 
   context "when the sprint was completed before its finish date" do
@@ -143,6 +147,14 @@ RSpec.describe Sprints::Timeframe do
     it "has not begun" do
       expect(timeframe).not_to be_begun
     end
+
+    it "can still be executed, its planned finish being ahead" do
+      expect(timeframe).not_to be_never_executed
+    end
+
+    it "is reportable" do
+      expect(timeframe).to be_reportable
+    end
   end
 
   context "when the sprint has not been started although its planned start has passed" do
@@ -192,6 +204,22 @@ RSpec.describe Sprints::Timeframe do
 
     it "has begun, its planned timeframe standing in for the history it never had" do
       expect(timeframe).to be_begun
+    end
+
+    it "was never executed" do
+      expect(timeframe).to be_never_executed
+    end
+
+    it "is not reportable, there being no history to report and none to come" do
+      expect(timeframe).not_to be_reportable
+    end
+  end
+
+  context "when the sprint has no dates planned" do
+    let(:sprint) { build_stubbed(:sprint, start_date: nil, finish_date: nil) }
+
+    it "is not reportable" do
+      expect(timeframe).not_to be_reportable
     end
   end
 end

@@ -308,6 +308,7 @@ ru:
         only_start: С %{from} по вашему местному времени.
         two_values: "%{from} - %{to} по вашему местному времени."
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: Расширенные настройки
       load_error_message: Произошла ошибка при загрузке формы

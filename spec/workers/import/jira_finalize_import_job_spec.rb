@@ -30,27 +30,91 @@
 require "spec_helper"
 
 RSpec.describe Import::JiraFinalizeImportJob do
-  shared_let(:author) { create(:admin) }
+  subject(:perform) { described_class.perform_now(jira_import.id) }
 
-  let(:jira_import) { create(:jira_import, jira: create(:jira), author:) }
+  let(:jira) { create(:jira) }
+  let(:author) { create(:admin) }
+  let(:jira_import) { create(:jira_import, jira:, author:) }
+
+  def imported_user(status: :locked, active_in_jira: true)
+    user = create(:user, status:)
+    jira_user = create(:jira_user, jira_import:, payload: { "active" => active_in_jira })
+    create(:jira_open_project_reference,
+           jira_import:,
+           op_entity_id: user.id,
+           jira_entity_id: jira_user.id)
+    user
+  end
+
+  before do
+    allow(Import::JiraImportStateMachine).to receive(:enqueued_job_id).and_return("stubbed-job-id")
+    login_as(author)
+
+    %w[instance_meta_fetching instance_meta_done configuring projects_meta_fetching
+       projects_meta_done importing imported finalizing].each do |state|
+      jira_import.transition_to!(state)
+    end
+  end
+
+  it "activates the users that are active in Jira and finishes" do
+    active_user = imported_user
+    inactive_user = imported_user(active_in_jira: false)
+
+    perform
+
+    expect(active_user.reload).to be_active
+    expect(inactive_user.reload).to be_locked
+    expect(jira_import.reload.current_state).to eq("finalizing_done")
+  end
+
+  context "when an imported user was deleted during the review" do
+    let!(:remaining_user) { imported_user }
+
+    before { imported_user.destroy }
+
+    it "activates the remaining users and finishes" do
+      perform
+
+      expect(remaining_user.reload).to be_active
+      expect(jira_import.reload.current_state).to eq("finalizing_done")
+    end
+  end
 
   context "when finalizing fails" do
     before do
-      allow(Import::JiraImportStateMachine).to receive(:enqueued_job_id).and_return("stubbed-job-id")
-      login_as(author)
-      %w[instance_meta_fetching instance_meta_done configuring projects_meta_fetching
-         projects_meta_done importing imported finalizing].each do |state|
-        jira_import.transition_to!(state)
-      end
       allow(Import::JiraImport).to receive(:find).with(jira_import.id).and_return(jira_import)
       allow(jira_import).to receive(:destroy_jira_objects).and_raise("Something went wrong")
-
-      described_class.perform_now(jira_import.id)
     end
 
     it "transitions the import to finalizing_error" do
+      perform
+
       expect(jira_import.reload.current_state).to eq("finalizing_error")
       expect(jira_import.last_transition.metadata).to include("error" => "Something went wrong")
+    end
+  end
+
+  context "when the user limit is reached" do
+    before { allow(OpenProject::Enterprise).to receive(:user_limit_reached?).and_return(true) }
+
+    it "fails with the user limit error" do
+      imported_user
+
+      perform
+
+      expect(jira_import.reload.current_state).to eq("finalizing_error")
+      expect(jira_import.last_transition.metadata["error"])
+        .to eq("User limit reached. No more accounts can be created on the current plan.")
+    end
+
+    context "when an earlier attempt already activated the users" do
+      it "finishes" do
+        imported_user(status: :active)
+
+        perform
+
+        expect(jira_import.reload.current_state).to eq("finalizing_done")
+      end
     end
   end
 end

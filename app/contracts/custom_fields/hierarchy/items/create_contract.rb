@@ -34,14 +34,6 @@ module CustomFields
         attribute :project_id do
           validate_additional_values_allowed
         end
-
-        private
-
-        def validate_additional_values_allowed
-          return if model.project_id.nil? || custom_field.nil? || custom_field.allow_additional_project_values
-
-          errors.add(:project_id, :additional_values_not_allowed)
-        end
       end
     end
   end

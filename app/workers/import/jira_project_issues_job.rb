@@ -50,21 +50,24 @@ module Import
       Import::JiraIssue.where(jira_import:, jira_project_id:)
     end
 
-    def create_member(project, user)
+    def create_members(project, users)
       raise "#{self.class} must set @system_user and @project_role to create members" unless @system_user && @project_role
-      # Jira omits the author on entities left by anonymous, application or purged accounts,
-      # and DeletedUser stands in for a Jira account that was not imported.
-      return if user.nil? || user.is_a?(DeletedUser)
 
-      service_call = Members::CreateService
-                       .new(user: @system_user, contract_class: EmptyContract)
-                       .call(
-                         project:,
-                         roles: [@project_role],
-                         user_id: user.id,
-                         principal: user
-                       )
-      handle_member_creation_failure(service_call) if service_call.failure?
+      Array(users).uniq.each do |user|
+        # Jira omits the author on entities left by anonymous, application or purged accounts,
+        # and DeletedUser stands in for a Jira account that was not imported.
+        next if user.nil? || user.is_a?(DeletedUser)
+
+        service_call = Members::CreateService
+                         .new(user: @system_user, contract_class: EmptyContract)
+                         .call(
+                           project:,
+                           roles: [@project_role],
+                           user_id: user.id,
+                           principal: user
+                         )
+        handle_member_creation_failure(service_call) if service_call.failure?
+      end
     end
 
     def handle_member_creation_failure(service_call)

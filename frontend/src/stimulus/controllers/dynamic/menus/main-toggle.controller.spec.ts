@@ -28,7 +28,7 @@
 import { waitFor } from '@testing-library/dom';
 import { vi, type Mock } from 'vitest';
 
-import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
+import { setupStimulusTest, type StimulusTestContext, stubPendingPluginContext, stubPluginContext } from 'core-stimulus/test-helpers';
 import type MainToggleControllerType from './main-toggle.controller';
 
 describe('Main menu toggle controller', () => {
@@ -36,7 +36,6 @@ describe('Main menu toggle controller', () => {
   let MainToggleController:typeof MainToggleControllerType;
   let syncWithPage:Mock;
   let toggle:Mock;
-  let originalOpenProject:typeof window.OpenProject;
 
   const pluginContext = () => ({
     injector: { get: () => ({ syncWithPage, toggle }) },
@@ -49,10 +48,7 @@ describe('Main menu toggle controller', () => {
   beforeEach(async () => {
     syncWithPage = vi.fn();
     toggle = vi.fn();
-    originalOpenProject = window.OpenProject;
-    window.OpenProject = {
-      getPluginContext: () => Promise.resolve(pluginContext()),
-    } as unknown as typeof window.OpenProject;
+    stubPluginContext(pluginContext());
 
     ctx = await setupStimulusTest({
       controllers: { 'menus--main-toggle': MainToggleController },
@@ -61,7 +57,6 @@ describe('Main menu toggle controller', () => {
 
   afterEach(() => {
     ctx.dispose();
-    window.OpenProject = originalOpenProject;
     vi.restoreAllMocks();
   });
 
@@ -92,10 +87,7 @@ describe('Main menu toggle controller', () => {
   });
 
   it('does not initialize the menu when disconnected before the context resolves', async () => {
-    let resolveContext!:(context:unknown) => void;
-    window.OpenProject = {
-      getPluginContext: () => new Promise((resolve) => { resolveContext = resolve; }),
-    } as unknown as typeof window.OpenProject;
+    const resolveContext = stubPendingPluginContext();
 
     const controller = await renderToggle();
     const button = ctx.container.querySelector('button')!;

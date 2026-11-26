@@ -1795,6 +1795,7 @@ zh-CN:
               label_import_data: 当前正在导入
               label_progress: 正在导入…
               label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
+              label_sprint_explanation: Sprints that contain at least one issue
               label_users_import_explanation: 参与所选项目的用户（包括群组成员资格）
               title: 导入数据
             fetch_data:
@@ -2476,6 +2477,7 @@ zh-CN:
     public: 公开
     reason: 原因
     recipient: 收件人
+    reporter: Reporter
     required: 必填
     responsible: 负责人
     role: 角色
@@ -2817,7 +2819,8 @@ zh-CN:
         remember_items_and_projects: Remember to set values for this custom field, and to make sure it is used in at least one project.
       projects:
         additional_values_disabled_notice: Project admins can no longer add values to this custom field. Existing project-specific values stay available.
-        additional_values_disabled_project_notice: Project admins can no longer add values to this custom field. However, existing project-specific values are still available and can be enabled or disabled.
+        additional_values_disabled_project_notice: Project admins can no longer add values to this custom field. However, existing project-specific values stay available.
+        available_values: Available values
         configure: Configure project-specific values for %{project}
         delete_value_dialog:
           description: This action will irreversibly remove the value from %{project}. Any assigned values will be permanently deleted.
@@ -2848,16 +2851,19 @@ zh-CN:
         quick_filter:
           all: 所有项目
           with_project_specific_values: With project-specific values
+        required_value_notice: Cannot be disabled because a child project-specific value is enabled
         types_column: Displayed in type
         value_actions: Value actions
         value_dialog:
           edit_title: Edit value
           name: Name
-          name_caption: Only available in %{project}.
+          name_caption_html: Only available in <strong>%{project}</strong>.
           parent: Add to parent
+          short_caption: Optionally pick a shorter name or code for this value.
           title: Add project-specific value
           title_with_parent: Add project-specific value to “%{parent}”
           top_level: Top level
+          weight_caption: Each value has a weight associated with it.
         values_empty_state:
           description: Add values to this custom field to choose which of them are available in this project.
           title: This custom field has no values yet
@@ -2954,6 +2960,7 @@ zh-CN:
         all: All values will be available in all projects.
         allow: No values will be available to any project unless you manually activate them in each project individually.
         block: All values will be available in all projects unless you manually deactivate them in individual projects.
+      value_with_project: "%{value} (%{project})"
     reorder_alphabetical: 按字母顺序重新排序
     reorder_confirmation: 警告：当前的可用值顺序以及所有未保存的值都将丢失。确定要继续吗？
     semantic_keys:
@@ -4102,6 +4109,10 @@ zh-CN:
   label_custom_field_default_type: 空类型
   label_custom_field_new: 新的自定义字段
   label_custom_field_plural: 自定义字段
+  label_custom_field_values_all: All custom fields
+  label_custom_field_values_customizable: Customizable in this project
+  label_custom_field_values_customized: Customized in this project
+  label_custom_field_values_uniform: Same values in all projects
   label_custom_pdf_export_settings: 自定义 PDF 导出设置
   label_custom_style: 设计
   label_custom_style_description: 选择主题来定制OpenProject的外观，选择应用中的默认颜色以及导出的样式。
@@ -5943,13 +5954,13 @@ zh-CN:
       shared: 共享项目列表
     phase_status:
       description:
-        completed: Marking a phase as complete will complete all previous phases.
-        in_progress: Marking a phase as in progress will complete all previous phases and open all future phases.
-        open: Re-opening a phase will also open all future phases.
+        completed: This will also mark all previous phases as complete.
+        in_progress: This will complete all previous phases and mark future phases as not started.
+        open: This will mark all future phases as not started.
       title:
         completed: 已完成
         in_progress: 进行中
-        open: 打开
+        open: Not started
     settings:
       actions:
         label_disable_all: 全部禁用
@@ -5993,9 +6004,17 @@ zh-CN:
         changes_text: 'Starting with version 18.0, custom fields are no longer enabled or disabled for each project. They are part of forms, which types and variants use. The list below shows the custom fields on the work packages of this project, and the variants that include them.
 
           '
+        column_format: Format
         column_name: 自定义字段
-        column_variants: 变体
+        column_types: Displayed in type
         no_results_title_text: 目前没有可用的自定义字段。
+        project_specific_values_count:
+          other: "%{count} project-specific values"
+        search_label: Search custom fields
+        values_description: 'Choose which values of %{custom_field} your team can use in %{project}. Global values are shared with other projects and managed by administrators. Project-specific values are only available in this project.
+
+          '
+        values_filter: Values
       forums:
         no_results_content_text: 创建新论坛
         no_results_title_text: 此项目当前无论坛。
@@ -7348,6 +7367,7 @@ zh-CN:
         delete_group: 删除小节
         drag_to_activate: 从此处拖动字段，以将其激活
         drag_to_reorder: 拖动以重新排序
+        edit_custom_field: Edit custom field
         edit_query: 编辑查询
         empty_group_hint: 将特性拖动到此处
         exclusions:

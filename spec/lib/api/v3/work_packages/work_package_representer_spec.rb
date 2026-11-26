@@ -45,6 +45,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
   let(:parent) { nil }
   let(:priority) { build_stubbed(:priority, updated_at: Time.zone.now) }
   let(:assignee) { nil }
+  let(:reporter) { nil }
   let(:responsible) { nil }
   let(:schedule_manually) { nil }
   let(:start_date) { Time.zone.today.to_datetime }
@@ -70,6 +71,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
                   project_phase_definition:,
                   priority:,
                   assigned_to: assignee,
+                  reporter:,
                   responsible:,
                   estimated_hours:,
                   derived_estimated_hours:,
@@ -568,6 +570,18 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
 
+    describe "reporter" do
+      context "as a user" do
+        let(:reporter) { build_stubbed(:user) }
+
+        it_behaves_like "has a titled link" do
+          let(:link) { "reporter" }
+          let(:href) { "/api/v3/users/#{work_package.reporter.id}" }
+          let(:title) { work_package.reporter.name }
+        end
+      end
+    end
+
     describe "assignee" do
       context "as a user" do
         let(:assignee) { build_stubbed(:user) }
@@ -847,6 +861,17 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
             .to be_json_eql(other_version.name.to_json)
             .at_path("_embedded/observedInVersions/0/name")
         end
+      end
+    end
+
+    describe "labels" do
+      before { work_package.label_name_replacements = ["Needs triage"] }
+
+      it "links the pending label by title without an href and does not embed it" do
+        expect(subject).to have_json_size(1).at_path("_links/labels")
+        expect(subject).to be_json_eql(nil.to_json).at_path("_links/labels/0/href")
+        expect(subject).to be_json_eql("Needs triage".to_json).at_path("_links/labels/0/title")
+        expect(subject).to have_json_size(0).at_path("_embedded/labels")
       end
     end
 

@@ -127,7 +127,7 @@ export class OpBasicSingleDatePickerComponent implements ControlValueAccessor, O
 
   private applyInputAttrs():void {
     const el = this.input?.nativeElement
-      ?? this.elementRef.nativeElement.querySelector<HTMLInputElement>(`input[id="${this.id}"]`);
+      ?? this.elementRef.nativeElement.querySelector<HTMLInputElement>(`input[id="${CSS.escape(this.id)}"]`);
     if (el) {
       Object.entries(this._inputAttrs).forEach(([key, val]) => el.setAttribute(key, val));
     }
@@ -235,7 +235,7 @@ export class OpBasicSingleDatePickerComponent implements ControlValueAccessor, O
 
   private appendToBodyOrDialog():HTMLElement|undefined {
     if (this.inDialog) {
-      return document.querySelector<HTMLElement>(`#${this.inDialog}`)!;
+      return document.getElementById(this.inDialog)!;
     }
 
     return undefined;
