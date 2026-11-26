@@ -42,7 +42,7 @@ jobs:
       contents: read
     services:
       postgres:
-        image: pgvector/pgvector:pg18-bookworm
+        image: openproject/postgres:18
         env:
           POSTGRES_DB: app
           POSTGRES_USER: app

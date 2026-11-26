@@ -35,7 +35,7 @@ Also set `POSTGRES_VERSION=17` in `.env`. The explicit image above preserves the
 
 For development Compose, use `pgdata` as the source for `db` and apply the same override to `db-test` with source `pgdata-test`.
 
-If you deliberately switch an existing PostgreSQL 17 deployment to pgvector, use `pgvector/pgvector:pg17-bookworm` with the same PostgreSQL 17 mount target. Back up first, check locale/collation compatibility, and follow the pgvector instructions below. Selecting `POSTGRES_VERSION=17` alone does not restore the old mount layout.
+If you deliberately switch an existing PostgreSQL 17 deployment to pgvector, use `openproject/postgres:17` with the same PostgreSQL 17 mount target. Back up first, check locale/collation compatibility, and follow the pgvector instructions below. Selecting `POSTGRES_VERSION=17` alone does not restore the old mount layout.
 
 ### Packaged installations
 
@@ -43,7 +43,7 @@ Existing configured installations retain their current database server. Running 
 
 ### Helm
 
-Do not substitute a `pgvector/pgvector` image into the existing Bitnami subchart: its startup scripts, paths, and environment variables differ.
+Do not substitute an `openproject/postgres` image into the existing Bitnami subchart: its startup scripts, paths, and environment variables differ.
 
 Before updating a chart, pin `postgresql.image.repository` and `postgresql.image.tag` to the image you currently use. For PostgreSQL 17, pin the complete PostgreSQL 17 tag from your deployment, rather than assuming the tag is simply `17`. The current legacy chart defaults to PostgreSQL 15; those installations must retain their actual PostgreSQL 15 image until migrated.
 
@@ -75,7 +75,7 @@ These instructions apply to `opf/openproject-docker-compose`. Run the dump with 
    PGDATA=/var/lib/openproject/pgdata18
    ```
 
-   Remove any PostgreSQL 17 override. The new image is `pgvector/pgvector:pg18-bookworm`, and its volume is mounted at `/var/lib/postgresql`. The actual cluster resides in `18/docker` beneath that mount. Do not point this at your old data directory.
+   Remove any PostgreSQL 17 override. The new image is `openproject/postgres:18`, and its volume is mounted at `/var/lib/postgresql`. The actual cluster resides in `18/docker` beneath that mount. Do not point this at your old data directory.
 
 4. Start only the database and wait for readiness:
 
@@ -135,7 +135,7 @@ Use the previous OpenProject image for the dump. Record its exact tag, environme
      -e PGDATA=/var/lib/postgresql/data \
      -e LANG=C.UTF-8 -e LC_ALL=C.UTF-8 \
      -v /var/lib/openproject/pgdata18:/var/lib/postgresql/data \
-     pgvector/pgvector:pg18-bookworm
+     openproject/postgres:18
    docker exec openproject-pg-restore pg_isready -U postgres -d postgres
    ```
 

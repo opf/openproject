@@ -506,7 +506,7 @@ Read more: [What's new user guide](../../user-guide/home/#whats-new), [Blog arti
 
 ### PostgreSQL 18 and pgvector
 
-New packaged, all-in-one (AIO), and Docker Compose installations now default to PostgreSQL 18 with pgvector available. OpenProject handles extension creation during application migrations. Compose uses the upstream `pgvector/pgvector` image. AIO bundles only PostgreSQL 17 and 18; PostgreSQL 13 and 15 users must migrate before switching images.
+New packaged, all-in-one (AIO), and Docker Compose installations now default to PostgreSQL 18 with pgvector available. OpenProject handles extension creation during application migrations. Compose uses the `openproject/postgres` image, which is the official PostgreSQL image with pgvector added. AIO bundles only PostgreSQL 17 and 18; PostgreSQL 13 and 15 users must migrate before switching images.
 
 Existing databases are **not upgraded automatically**. Packaged installations retain their current database server. AIO now stops on a database-version mismatch instead of automatically selecting the older server; set `PGVERSION=17` to keep using PostgreSQL 17 data.
 
