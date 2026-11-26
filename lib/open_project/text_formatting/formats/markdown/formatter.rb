@@ -43,7 +43,6 @@ module OpenProject::TextFormatting::Formats::Markdown
       OpenProject::TextFormatting::Filters::AutolinkFilter,
       OpenProject::TextFormatting::Filters::AutolinkCustomProtocolsFilter,
       OpenProject::TextFormatting::Filters::UntrustedSourceFilter,
-      OpenProject::TextFormatting::Filters::RelativeLinkFilter,
       OpenProject::TextFormatting::Filters::FigureWrappedFilter
     ].freeze
 
@@ -64,6 +63,7 @@ module OpenProject::TextFormatting::Formats::Markdown
     # Element filters run last, in order, as one Selma pass over the
     # generated HTML, or over the Nokogiri tree for document callers.
     ELEMENT_FILTERS = [
+      OpenProject::TextFormatting::Filters::RelativeLinkFilter,
       OpenProject::TextFormatting::Filters::LinkAttributeFilter,
       OpenProject::TextFormatting::Filters::ExternalLinkCaptureFilter,
       OpenProject::TextFormatting::Filters::BemCssFilter

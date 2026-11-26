@@ -29,19 +29,21 @@
 
 module OpenProject::TextFormatting
   module Filters
-    class RelativeLinkFilter < DomFilter
-      def call
-        # We only care for absolute rendering
-        unless context[:only_path] == false
-          return doc
-        end
+    class RelativeLinkFilter < ElementFilter
+      match_elements %(a[href^="/"])
 
-        rewriter = ::OpenProject::TextFormatting::Helpers::LinkRewriter.new context
-        doc.css('a[href^="/"]').each do |node|
-          node["href"] = rewriter.replace node["href"]
-        end
+      def applicable?
+        context[:only_path] == false
+      end
 
-        doc
+      private
+
+      def process(node, _tag_name)
+        node["href"] = rewriter.replace(node["href"])
+      end
+
+      def rewriter
+        @rewriter ||= ::OpenProject::TextFormatting::Helpers::LinkRewriter.new(context)
       end
     end
   end
