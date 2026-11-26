@@ -105,11 +105,13 @@ class ParallelFailuresFormatter
       ### #{failure.example.full_description}
 
       ```
-      rspec #{failure.example.location_rerun_argument}
-
       #{failure_message(failure)}
 
       #{failure.formatted_backtrace.join("\n")}
+      ```
+
+      ```
+      rspec #{failure.example.location_rerun_argument}
       ```
 
     MARKDOWN

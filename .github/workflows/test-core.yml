@@ -103,6 +103,11 @@ jobs:
             cat tmp/parallel_failures_summary.md
           } >> "$GITHUB_STEP_SUMMARY"
         fi
+        if [ -s log/hocuspocus.log ]; then
+          echo "::group::Hocuspocus log"
+          cat log/hocuspocus.log
+          echo "::endgroup::"
+        fi
     - name: Report flaky specs
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
