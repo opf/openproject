@@ -164,15 +164,13 @@ export class ApiV3WorkPackagesPaths extends ApiV3Collection<WorkPackageResource,
    * typeahead matches with the semantic matches (server-side, behind the
    * semantic_search feature flag) and ranks by exact match, then RRF score.
    * Degrades to plain typeahead results when semantic search is unavailable.
+   *
+   * With a semanticTerm, the semantic matches are those of that term, and only if
+   * the server has embedded it before, so the request never waits for an embedding.
    */
-  public filterByHybridTypeaheadOrId(term:string, idOnly = false, additionalParams:Record<string, string> = {}):ApiV3WorkPackageCachedSubresource {
+  public filterByHybridTypeahead(term:string, semanticTerm?:string, additionalParams:Record<string, string> = {}):ApiV3WorkPackageCachedSubresource {
     const filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
-
-    if (idOnly) {
-      filters.add('id', '=', [term]);
-    } else {
-      filters.add('hybridTypeahead', '**', [term]);
-    }
+    filters.add('hybridTypeahead', '**', semanticTerm ? [term, semanticTerm] : [term]);
 
     const params = {
       sortBy: '[["exactMatch","desc"],["hybridScore","desc"]]',

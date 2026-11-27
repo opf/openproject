@@ -26,8 +26,8 @@
 //++
 
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener, Input, OnDestroy, ViewChild, ViewEncapsulation, inject } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { first, map, switchMap } from 'rxjs/operators';
+import { BehaviorSubject, concat, Observable, of, timer } from 'rxjs';
+import { first, map, switchMap, tap } from 'rxjs/operators';
 import { GlobalSearchService } from 'core-app/core/global_search/services/global-search.service';
 import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
 import { DeviceService } from 'core-app/core/browser/device.service';
@@ -106,6 +106,11 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   public expanded = false;
 
   private _searchTermInitialized = false;
+
+  // On top of the autocompleter debounce, as embedding the term calls an external API.
+  private static readonly EMBEDDING_DEBOUNCE_MS = 500;
+
+  private lastEmbeddedTerm:string|null = null;
 
   // Computed placeholder that changes based on expanded state
   public get effectivePlaceholder():string {
@@ -325,9 +330,8 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
 
     return this
       .fetchSearchResults(hashFreeQuery, hashFreeQuery !== query)
-      .get()
       .pipe(
-        map((collection) => this.searchResultsToOptions(collection.elements, hashFreeQuery))
+        map((results) => this.searchResultsToOptions(results, hashFreeQuery))
       );
   }
 
@@ -378,12 +382,35 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     return this.configuration.activeFeatureFlags.includes('semanticSearch');
   }
 
-  private fetchSearchResults(query:string, idOnly:boolean):ApiV3WorkPackageCachedSubresource {
-    const workPackages = this.apiV3Service.work_packages;
-    if (this.hybridSearchAvailable && !idOnly) {
-      return workPackages.filterByHybridTypeaheadOrId(query, idOnly, { pageSize: '20' });
+  private fetchSearchResults(query:string, idOnly:boolean):Observable<WorkPackageResource[]> {
+    if (!this.hybridSearchAvailable || idOnly) {
+      return this.elementsOf(this.apiV3Service.work_packages.filterByTypeaheadOrId(query, idOnly, { pageSize: '20' }));
     }
-    return workPackages.filterByTypeaheadOrId(query, idOnly, { pageSize: '20' });
+
+    if (query === this.lastEmbeddedTerm) {
+      return this.fetchHybridSearchResults(query);
+    }
+
+    // Text matches for the current term right away, with the semantic matches of the
+    // last embedded term, then the matches of the current term once typing pauses.
+    const embedded$ = timer(GlobalSearchInputComponent.EMBEDDING_DEBOUNCE_MS).pipe(
+      switchMap(() => this.fetchHybridSearchResults(query)),
+      tap(() => { this.lastEmbeddedTerm = query; }),
+    );
+    return concat(this.fetchHybridSearchResults(query, this.semanticTermFor(query)), embedded$);
+  }
+
+  private fetchHybridSearchResults(query:string, semanticTerm?:string):Observable<WorkPackageResource[]> {
+    return this.elementsOf(this.apiV3Service.work_packages.filterByHybridTypeahead(query, semanticTerm, { pageSize: '20' }));
+  }
+
+  // Semantic matches of an earlier term are only kept while the user extends it.
+  private semanticTermFor(query:string):string {
+    return this.lastEmbeddedTerm && query.startsWith(this.lastEmbeddedTerm) ? this.lastEmbeddedTerm : query;
+  }
+
+  private elementsOf(resource:ApiV3WorkPackageCachedSubresource):Observable<WorkPackageResource[]> {
+    return resource.get().pipe(map((collection) => collection.elements));
   }
 
   private searchResultsToOptions(results:WorkPackageResource[], query:string) {
