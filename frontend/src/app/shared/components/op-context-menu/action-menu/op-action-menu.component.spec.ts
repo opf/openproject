@@ -103,6 +103,17 @@ describe('OpActionMenuComponent', () => {
     expect(item).not.toHaveClass('__hl_uppercase');
   });
 
+  it('shows a description below the label', () => {
+    fixture.componentRef.setInput('items', [{ linkText: 'Closed', description: 'Sets the work package to read only' }]);
+    fixture.detectChanges();
+
+    const item = within(menu()).getByRole('menuitem', { name: /Closed/, hidden: true });
+    const wrap = item.querySelector<HTMLElement>('.ActionListItem-descriptionWrap')!;
+
+    expect(within(wrap).getByText('Closed')).toHaveClass('ActionListItem-label');
+    expect(within(wrap).getByText('Sets the work package to read only')).toHaveClass('ActionListItem-description');
+  });
+
   it('puts octiconClass on the leading Octicon', () => {
     fixture.componentRef.setInput('items', [{ linkText: 'Locked', octicon: 'lock', octiconClass: '__hl_foreground __hl_status_3' }]);
     fixture.detectChanges();
