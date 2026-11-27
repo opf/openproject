@@ -135,7 +135,7 @@ RSpec.describe "API v3 Meeting Sections sub-resource", content_type: :json do
       let(:permissions) { [] }
 
       it "returns 422 and does not create a section" do
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(meeting.sections.find_by(title: "New Section")).to be_nil
       end
     end
@@ -146,7 +146,7 @@ RSpec.describe "API v3 Meeting Sections sub-resource", content_type: :json do
       end
 
       it "returns 422 and does not create a section" do
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(meeting.sections.find_by(title: "New Section")).to be_nil
       end
     end
@@ -300,7 +300,7 @@ RSpec.describe "API v3 Meeting Sections sub-resource", content_type: :json do
       subject(:response) { patch path, body }
 
       it "responds with 422 and does not change the title" do
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(backlog.reload.title).to eq(original_title)
       end
     end
@@ -311,7 +311,7 @@ RSpec.describe "API v3 Meeting Sections sub-resource", content_type: :json do
       before { delete path }
 
       it "responds with 422 and keeps the backlog" do
-        expect(last_response).to have_http_status(:unprocessable_entity)
+        expect(last_response).to have_http_status(:unprocessable_content)
         expect(MeetingSection).to exist(backlog.id)
       end
     end

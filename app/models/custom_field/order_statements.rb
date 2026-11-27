@@ -199,7 +199,7 @@ module CustomField::OrderStatements
   # Values not usable in the project of the customized work package sort and group together as a
   # single value that does not reveal which values they are.
   def disclosed_sql(expression, replacement)
-    return expression if project_specific_value_restriction.nil?
+    return expression unless project_specific_values_supported?
 
     project_sql = "SELECT project_id AS id FROM #{WorkPackage.quoted_table_name} WHERE id = cv.customized_id"
 

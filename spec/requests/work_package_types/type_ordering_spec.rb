@@ -58,7 +58,7 @@ RSpec.describe "Type ordering", :skip_csrf,
 
   def expect_refused(*names)
     aggregate_failures do
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect_order(*names)
     end
   end

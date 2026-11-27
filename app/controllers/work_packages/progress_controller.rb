@@ -78,7 +78,7 @@ class WorkPackages::ProgressController < ApplicationController
           # Angular has context as to the success or failure of
           # the request in order to fetch the new set of Work Package
           # attributes in the ancestry solely on success.
-          respond_with_turbo_streams(status: :unprocessable_entity)
+          respond_with_turbo_streams(status: :unprocessable_content)
         end
       end
     else
@@ -112,7 +112,7 @@ class WorkPackages::ProgressController < ApplicationController
           # Angular has context as to the success or failure of
           # the request in order to fetch the new set of Work Package
           # attributes in the ancestry solely on success.
-          respond_with_turbo_streams(status: :unprocessable_entity)
+          respond_with_turbo_streams(status: :unprocessable_content)
         end
       end
     end

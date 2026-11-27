@@ -18,6 +18,7 @@
 /config/initializers/bcrypt.rb @opf/security
 /config/initializers/filter_parameter_logging.rb @opf/security
 /config/brakeman.ignore @opf/security
+/.bundler-audit.yml @opf/security
 /SECURITY.md @opf/security
 /docs/security-and-privacy/ @opf/security
 /lib_static/open_project/authentication.rb @opf/security

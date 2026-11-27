@@ -34,6 +34,13 @@ RSpec.describe Category do
   let(:created_category) { create(:category, project:, assigned_to: assignee) }
   let(:assignee) { nil }
 
+  describe "associations" do
+    subject { described_class.new }
+
+    it { is_expected.to have_many(:work_package_categories).dependent(:delete_all) }
+    it { is_expected.to have_many(:categorized_work_packages).through(:work_package_categories).source(:work_package) }
+  end
+
   describe "#create" do
     it "is creatable and takes the attributes" do
       category = described_class.create project:, name: "New category"
@@ -73,6 +80,29 @@ RSpec.describe Category do
 
       expect(work_package.reload.category)
         .to eq other_category
+    end
+
+    it "removes the category from the join table" do
+      created_category.destroy
+
+      expect(work_package.reload.categories).to be_empty
+    end
+
+    it "moves the join table rows to the category it reassigns to" do
+      other_category = create(:category, project:)
+
+      created_category.destroy(other_category)
+
+      expect(work_package.reload.categories).to contain_exactly(other_category)
+    end
+
+    it "does not duplicate a category the work package already has when reassigning" do
+      other_category = create(:category, project:)
+      WorkPackageCategory.create!(work_package:, category: other_category)
+
+      created_category.destroy(other_category)
+
+      expect(work_package.reload.categories).to eq [other_category]
     end
   end
 end

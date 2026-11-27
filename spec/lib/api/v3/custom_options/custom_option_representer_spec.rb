@@ -48,6 +48,21 @@ RSpec.describe API::V3::CustomOptions::CustomOptionRepresenter do
         let(:href) { api_v3_paths.custom_option custom_option.id }
         let(:title) { custom_option.to_s }
       end
+
+      it_behaves_like "has no link" do
+        let(:link) { "project" }
+      end
+
+      context "for an option added by a project" do
+        let(:project) { build_stubbed(:project) }
+        let(:custom_option) { build_stubbed(:custom_option, custom_field:, project:) }
+
+        it_behaves_like "has a titled link" do
+          let(:link) { "project" }
+          let(:href) { api_v3_paths.project(project.id) }
+          let(:title) { project.name }
+        end
+      end
     end
 
     it 'has the type "CustomOption"' do

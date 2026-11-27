@@ -3,7 +3,7 @@ sidebar_navigation:
   title: Project attributes
   priority: 300
 description: Viewing, creating and modifying project attributes in OpenProject
-keywords: project attributes, create, project settings, attribute help text, help text, help attribute, hierarchy, calculated value, weighted item list
+keywords: project attributes, create, project settings, attribute help text, help text, help attribute, hierarchy, calculated value, weighted list
 ---
 
 # Project attributes
@@ -111,10 +111,10 @@ Once you create a project attribute, you can [enable it for specific projects](#
 There are multiple format options for project attributes in OpenProject. You can select one of the following formats:
 
 - **Boolean** - creates a project attribute, that is either true or false. It is represented by a checkbox that can be checked or unchecked.
-- **Calculated value** (Enterprise add-on) - creates a project attribute that enables automatic computations based on formulas using numeric project attributes, for example from **Weighted item lists**.
+- **Calculated value** (Enterprise add-on) - creates a project attribute that enables automatic computations based on formulas using numeric project attributes, for example from **Weighted lists**.
 - **Date** - creates a project attribute, which allows selecting dates from a date picker.
 - **Float** - creates a project attribute for rational numbers.
-- **Hierarchy (Enterprise add-on)** -  creates a project attribute, which allows selecting one or multiple items from a hierarchical list structure. The structure can be created in the _Items_ tab of the project attribute.
+- **Hierarchy (Enterprise add-on)** -  creates a project attribute, which allows selecting one or multiple values from a hierarchical list structure. The structure can be created in the _Values_ tab of the project attribute.
 - **Integer** - creates a project attribute for integers.
 - **Link (URL)** - creates a project attribute for URLs.
 - **List** - creates a project attribute with flat list options.
@@ -122,7 +122,7 @@ There are multiple format options for project attributes in OpenProject. You can
 - **Long text** - creates a project attribute for cases where longer text needs to be entered.
 - **User** - creates a project attribute, which allows selecting users that are allowed to access the entity containing the project attribute.
 - **Version** - creates a project attribute, which allows selecting one or multiple versions. Versions are created on the project level in _Backlogs_ module.
-- **Weighted item list (Enterprise add-on)** - creates a project attribute similar to the _Hierarchy_ type, which allows selecting one or multiple items, but with underlying numerical values used for project evaluation (e.g., **calculated values project attributes**).
+- **Weighted list (Enterprise add-on)** - creates a project attribute similar to the _Hierarchy_ type, which allows selecting one or multiple values, but with underlying numerical values used for project evaluation (e.g., **calculated values project attributes**).
 
 ### Hierarchy project attribute (Enterprise add-on)
 
@@ -130,27 +130,27 @@ There are multiple format options for project attributes in OpenProject. You can
 
 Project attributes of the **Hierarchy** type function in the same way as work package custom fields of the **Hierarchy** type. For detailed information, please refer to [Work package custom fields documentation](../../custom-fields/#hierarchy-custom-field-enterprise-add-on).
 
-### Weighted item list project attribute (Enterprise add-on)
+### Weighted list project attribute (Enterprise add-on)
 
 [feature: weighted_item_lists ]
 
-Weighted item list project attributes function similarly to the **Hierarchy** type. They let you define a structured list of items arranged in a hierarchy for users to choose from.
+Weighted list project attributes function similarly to the **Hierarchy** type. They let you define a structured list of values arranged in a hierarchy for users to choose from.
 
-To set up a project attribute of the **Weighted item list** type, follow the same procedure as when adding a standard project attribute and select the Weighted item list option.
+To set up a project attribute of the **Weighted list** type, follow the same procedure as when adding a standard project attribute and select the Weighted list option.
 
-Adding and modifying items within a weighted item list works in the same way as for a hierarchy project attribute.
+Adding and modifying values within a weighted list works in the same way as for a hierarchy project attribute.
 
-In contrast to Hierarchy, items in a weighted item list do not include a Short value but instead require a Weight.
+In contrast to Hierarchy, values in a weighted list do not include a Short value but instead require a Weight.
 
 This numeric value is required and can be used in calculations — for example, within a project attribute of type Calculated value
 
-Check _Allow multi-select_ to let users select multiple items. In a calculated value, a multi-select weighted item list provides the weights of all selected items, which can be combined using [aggregate functions](#aggregate-functions) such as `SUM` or `AVG`.
+Check _Allow multi-select_ to let users select multiple values. In a calculated value, a multi-select weighted list provides the weights of all selected values, which can be combined using [aggregate functions](#aggregate-functions) such as `SUM` or `AVG`.
 
 ### Calculated value project attribute (Enterprise add-on)
 
 [feature: calculated_values ]
 
-**Calculated values** enable automatic computations based on formulas using numeric and boolean project attributes, including scores from Weighted item lists or even other calculated values. The computed result is displayed directly on the project overview and in the project list. It automatically updates whenever one of its source attributes (e.g., Benefit or Effort in the example below) is changed. This allows teams to calculate project scores and prioritize consistently across the portfolio.
+**Calculated values** enable automatic computations based on formulas using numeric and boolean project attributes, including scores from Weighted lists or even other calculated values. The computed result is displayed directly on the project overview and in the project list. It automatically updates whenever one of its source attributes (e.g., Benefit or Effort in the example below) is changed. This allows teams to calculate project scores and prioritize consistently across the portfolio.
 
 To set up a project attribute of the **Calculated value** type, follow the same procedure as when adding a standard project attribute and select the _Calculated value_ option. Define the name, section it will appear in and the calculation formula.
 
@@ -160,7 +160,7 @@ In the example below, a project attribute called **Initiative score (calculated)
 
 #### Formula syntax reference
 
-Formulas support the literals, operators, functions and keywords listed below, and can reference other project attributes — integer, float, boolean, weighted item list scores and other calculated values. Multi-select weighted item lists can only be used within [aggregate functions](#aggregate-functions) such as `AVG`, `COUNT` or `SUM`. Using them with other functions or operators that require a single value as an input, e.g. `Reasons * 2` fails to calculate.
+Formulas support the literals, operators, functions and keywords listed below, and can reference other project attributes — integer, float, boolean, weighted list scores and other calculated values. Multi-select weighted lists can only be used within [aggregate functions](#aggregate-functions) such as `AVG`, `COUNT` or `SUM`. Using them with other functions or operators that require a single value as an input, e.g. `Reasons * 2` fails to calculate.
 
 ##### Literals
 
@@ -197,16 +197,16 @@ Operators with higher precedence evaluate before those with lower. Operators wit
 
 ##### Aggregate functions
 
-| Name        | Description                                     | Examples                                                                                                                     |
-|-------------|-------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------- |
-| `AVG`       | Arithmetic mean of arguments                    | `AVG(1, 2)` => `1.5`<br>`AVG(Reasons)` => average selected item weight                                                       |
-| `COUNT`     | Number of arguments                             | `COUNT(1, 2, 3)` => `3`<br>`COUNT(Reasons)` => number of selected items                                                      |
-| `MAX`       | Largest argument                                | `MAX(3, 1, 2)` => `3`<br>`MAX(Reasons)` => maximum selected item weight                                                      |
-| `MIN`       | Smallest argument                               | `MIN(3, 1, 2)` => `1`<br>`MIN(Reasons)` => minimum selected item weight                                                      |
-| `MUL`       | Product of arguments                            | `MUL(2, 3, 4)` => `24`<br>`MUL(Reasons)` => product of selected items' weights                                               |
-| `SUM`       | Sum of arguments                                | `SUM(1, 2, 3)` => `6`<br>`SUM(Reasons)` => sum of selected items' weights<br>`SUM(Reasons, 2)` => sum of weights and numbers |
+| Name        | Description                                     | Examples                                                                                                                      |
+|-------------|-------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------ |
+| `AVG`       | Arithmetic mean of arguments                    | `AVG(1, 2)` => `1.5`<br>`AVG(Reasons)` => average selected value weight                                                       |
+| `COUNT`     | Number of arguments                             | `COUNT(1, 2, 3)` => `3`<br>`COUNT(Reasons)` => number of selected values                                                      |
+| `MAX`       | Largest argument                                | `MAX(3, 1, 2)` => `3`<br>`MAX(Reasons)` => maximum selected value weight                                                      |
+| `MIN`       | Smallest argument                               | `MIN(3, 1, 2)` => `1`<br>`MIN(Reasons)` => minimum selected value weight                                                      |
+| `MUL`       | Product of arguments                            | `MUL(2, 3, 4)` => `24`<br>`MUL(Reasons)` => product of selected values' weights                                               |
+| `SUM`       | Sum of arguments                                | `SUM(1, 2, 3)` => `6`<br>`SUM(Reasons)` => sum of selected values' weights<br>`SUM(Reasons, 2)` => sum of weights and numbers |
 
-Aggregate functions also accept multi-select weighted item lists as arguments, using the weights of all selected items,
+Aggregate functions also accept multi-select weighted lists as arguments, using the weights of all selected values,
 (e.g. `SUM(Reasons)`, `SUM(Reasons, 42, OtherReasons)`).
 
 ##### Comparison operators

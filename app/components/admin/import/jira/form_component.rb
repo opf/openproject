@@ -33,22 +33,18 @@ module Admin::Import::Jira
     include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
 
+    FORM_ID = "jira-configuration-form"
+
     def self.wrapper_key = :jira_form
 
     private
 
     def wrapper_options
-      data = {
-        controller: "admin--jira-configuration-form " \
-                    "show-when-value-selected",
-        "admin--jira-configuration-form-test-connection-path-value": test_connection_admin_import_jira_index_path
-      }
-      data[:"admin--jira-configuration-form-jira-id-value"] = model.id.to_s if model.persisted?
-      { data: }
+      { data: { controller: "admin--jira-configuration-form show-when-value-selected" } }
     end
 
     def form_options
-      form_target.merge(model:)
+      form_target.merge(model:, id: FORM_ID)
     end
 
     def form_target

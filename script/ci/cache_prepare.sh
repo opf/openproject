@@ -40,7 +40,7 @@ run "bundle exec rake db:create db:migrate"
 
 run "cd frontend; npm install ; cd -"
 
-run "bundle exec rake assets:precompile assets:clean"
+run "bundle exec rake assets:precompile"
 
 run "cp -rp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json"
 

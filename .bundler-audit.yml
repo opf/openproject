@@ -1,0 +1,4 @@
+---
+ignore: []
+  # This will list the GHSA ids of vulnerabilities we are aware of and that
+  # we cannot update right now, but have assessed that they cannot be exploited via OpenProject

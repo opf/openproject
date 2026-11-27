@@ -151,7 +151,7 @@ RSpec.describe FormConfigurations::GroupsController do
             params: { form_configuration_id: form.id, key: "Related", query: "invalid JSON" },
             format: :turbo_stream
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(response).to have_turbo_stream(action: "flash", target: "op-primer-flash-component")
       expect(response).not_to have_turbo_stream(action: "update",
                                                 target: "work-package-types-form-configuration-main-content-component")
@@ -164,7 +164,7 @@ RSpec.describe FormConfigurations::GroupsController do
             params: { form_configuration_id: form.id, key: "Missing", query: "{}" },
             format: :turbo_stream
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(response).not_to have_turbo_stream(action: "update",
                                                 target: "work-package-types-form-configuration-main-content-component")
     end
@@ -188,7 +188,7 @@ RSpec.describe FormConfigurations::GroupsController do
               },
               format: :turbo_stream
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.body).to include("Second group")
         expect(response.body).to include("Group names must be unique.")
         expect(response.body).not_to include("Form Group names must be unique.")
@@ -217,7 +217,7 @@ RSpec.describe FormConfigurations::GroupsController do
               },
               format: :turbo_stream
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
 
@@ -231,7 +231,7 @@ RSpec.describe FormConfigurations::GroupsController do
               },
               format: :turbo_stream
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response).to have_turbo_stream(action: "flash", target: "op-primer-flash-component")
         expect(response.body).to include("The requested form item could not be found.")
       end
@@ -252,7 +252,7 @@ RSpec.describe FormConfigurations::GroupsController do
             params: { form_configuration_id: form.id, key: "Related", group: { name: "" } },
             format: :turbo_stream
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(response.body).to include("Unavailable value")
     end
   end
@@ -290,7 +290,7 @@ RSpec.describe FormConfigurations::GroupsController do
            },
            format: :turbo_stream
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(response.body).to include('action="update"')
       expect(response.body).to include('target="work-package-types-form-configuration-main-content-component"')
       expect(response.body).not_to include("Form Group names must be unique.")
@@ -304,7 +304,7 @@ RSpec.describe FormConfigurations::GroupsController do
            },
            format: :turbo_stream
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(response.body).to include('target="work-package-types-form-configuration-main-content-component"')
     end
 
@@ -319,7 +319,7 @@ RSpec.describe FormConfigurations::GroupsController do
            },
            format: :turbo_stream
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(response.body.scan('data-group-key="Existing group"').count).to eq(1)
       expect(response.body).to include('data-group-key="__new_form_configuration_group__"')
       summary = Nokogiri::HTML.fragment(response.body)
@@ -336,7 +336,7 @@ RSpec.describe FormConfigurations::GroupsController do
            },
            format: :turbo_stream
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(response.body).to include("Details")
       expect(response.body).to include("Group names must be unique.")
     end

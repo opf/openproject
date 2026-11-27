@@ -70,7 +70,7 @@ class CustomStylesController < ApplicationController
       redirect_to custom_style_path
     else
       flash[:error] = @custom_style.errors.full_messages
-      render action: :show, status: :unprocessable_entity
+      render action: :show, status: :unprocessable_content
     end
   end
 
@@ -83,7 +83,7 @@ class CustomStylesController < ApplicationController
       redirect_to custom_style_path
     else
       flash[:error] = error || @custom_style.errors.full_messages
-      render action: :show, status: :unprocessable_entity
+      render action: :show, status: :unprocessable_content
     end
   end
 

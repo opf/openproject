@@ -34,9 +34,10 @@ module Admin
       class ValuesComponent < ApplicationComponent
         include OpPrimer::ComponentHelpers
 
-        Row = Data.define(:id, :label, :depth, :caption, :enabled)
+        Row = Data.define(:id, :label, :depth, :caption, :enabled, :project_specific?, :required?,
+                          :parent_project_specific?)
 
-        MAX_INDENTATION = 12
+        INDENTATION_PER_LEVEL = 16
 
         def initialize(custom_field:, project:)
           super()
@@ -50,41 +51,46 @@ module Admin
         attr_reader :custom_field, :project
 
         def rows
-          @rows ||= custom_field.list? ? option_rows : item_rows
+          @rows ||= values_toggleable? ? all_rows : all_rows.select(&:enabled)
+        end
+
+        def all_rows
+          custom_field.list? ? option_rows : item_rows
         end
 
         def option_rows
-          custom_field.custom_options.map do |option|
-            Row.new(id: option.id, label: option.value, depth: 0, caption: nil, enabled: enabled?(option))
+          custom_field.custom_options.where(project_id: [nil, project.id]).map do |option|
+            Row.new(id: option.id, label: option.value, depth: 0, caption: nil, enabled: enabled?(option),
+                    project_specific?: option.project_id.present?, required?: false, parent_project_specific?: false)
           end
         end
 
-        # The items come in pre-order, so every parent's depth is known before its children.
+        # The items come in pre-order, so every parent's row is known before its children.
         def item_rows
-          depths = { custom_field.hierarchy_root.id => -1 }
+          rows = { custom_field.hierarchy_root.id => nil }
 
           hierarchy_items.map do |item|
-            depths[item.id] = depths.fetch(item.parent_id) + 1
-            item_row(item, depths[item.id])
+            rows[item.id] = item_row(item, rows.fetch(item.parent_id))
           end
         end
 
-        def item_row(item, depth)
-          Row.new(id: item.id, label: item.label, depth:, caption: item_caption(item), enabled: enabled?(item))
+        def item_row(item, parent_row)
+          Row.new(id: item.id, label: item.label, depth: parent_row ? parent_row.depth + 1 : 0,
+                  caption: item_caption(item), enabled: enabled?(item),
+                  project_specific?: item.project_id.present?, required?: required_item_ids.include?(item.id),
+                  parent_project_specific?: parent_row&.project_specific? || false)
+        end
+
+        def required_item_ids
+          @required_item_ids ||= custom_field.required_value_ids_in(project).to_set
         end
 
         def hierarchy_items
-          ::CustomFields::Hierarchy::HierarchicalItemService
-            .new
-            .get_descendants(item: custom_field.hierarchy_root, include_self: false)
-            .value_or([])
+          custom_field.hierarchy_root.descendants_preordered.where(project_id: [nil, project.id])
         end
 
         def item_caption(item)
-          parts = []
-          parts << NumberFormatHelper.number_with_limit(item.weight) if custom_field.field_format_weighted_item_list?
-          parts << I18n.t("custom_fields.admin.hierarchy.subitems", count: item.children_count) if item.children_count.positive?
-          parts.join(" · ").presence
+          ::CustomFields::Hierarchy::HierarchicalItemFormatter.new(label: false).format(item:).presence
         end
 
         def enabled?(value)
@@ -95,8 +101,34 @@ module Admin
           EnterpriseToken.allows_to?(:project_specific_list_values)
         end
 
+        def values_toggleable?
+          return @values_toggleable if defined?(@values_toggleable)
+
+          @values_toggleable = custom_field.values_toggleable_by?(User.current, project)
+        end
+
+        def required_notice?(row)
+          values_toggleable? && row.required?
+        end
+
+        def make_global?(row)
+          own_value_changeable?(row) && User.current.active_admin?
+        end
+
+        def value_menu?(row)
+          row.project_specific? || sub_values_addable?
+        end
+
+        def sub_values_addable?
+          custom_field.allow_additional_project_values? && custom_field.hierarchical_list?
+        end
+
+        def own_value_changeable?(row)
+          row.project_specific? && custom_field.allow_additional_project_values?
+        end
+
         def indentation(row)
-          [row.depth * 3, MAX_INDENTATION].min
+          "padding-left: #{row.depth * INDENTATION_PER_LEVEL}px"
         end
 
         # Toggling a hierarchy item can change other items as well, so the list is reloaded afterwards.
@@ -106,25 +138,9 @@ module Admin
             data: {
               controller: "reload-frame-on-event",
               reload_frame_on_event_event_name_value: "toggleSwitchSuccess",
-              reload_frame_on_event_url_value: values_path
+              reload_frame_on_event_url_value: helpers.values_path
             }
           }
-        end
-
-        def values_path
-          project_values_admin_settings_work_package_custom_field_path(custom_field, project)
-        end
-
-        def toggle_path(row)
-          toggle_project_value_admin_settings_work_package_custom_field_path(custom_field, project, row.id)
-        end
-
-        def enable_all_path
-          enable_all_project_values_admin_settings_work_package_custom_field_path(custom_field, project)
-        end
-
-        def disable_all_path
-          disable_all_project_values_admin_settings_work_package_custom_field_path(custom_field, project)
         end
       end
     end

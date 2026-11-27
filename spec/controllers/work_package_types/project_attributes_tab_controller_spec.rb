@@ -167,7 +167,7 @@ RSpec.describe WorkPackageTypes::ProjectAttributesTabController do
       it "shows an error message" do
         put :enable_all_of_section, params: params, format: :turbo_stream
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.body).to include("Project attributes could not be updated.")
       end
     end

@@ -34,7 +34,7 @@ module Projects
 
     def show
       name = params[:name].to_s.strip
-      return render json: {}, status: :unprocessable_entity if name.blank?
+      return render json: {}, status: :unprocessable_content if name.blank?
 
       identifier = Project.suggest_identifier(name)
       render json: { identifier: }

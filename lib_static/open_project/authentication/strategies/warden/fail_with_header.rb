@@ -34,7 +34,7 @@ module OpenProject
         module FailWithHeader
           def fail_with_header!(error:, error_description: nil)
             headers(
-              "WWW-Authenticate" => OpenProject::Authentication::WWWAuthenticate.response_header(
+              "www-authenticate" => OpenProject::Authentication::WWWAuthenticate.response_header(
                 env:,
                 scope:,
                 error:,

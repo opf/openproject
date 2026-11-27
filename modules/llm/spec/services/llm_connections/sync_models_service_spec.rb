@@ -254,7 +254,7 @@ RSpec.describe LlmConnections::SyncModelsService, :llm_server_helpers, :webmock 
   describe "a first sync" do
     let(:connection) { create(:llm_connection, base_url:, api_key: "sk-test", options: { "kept" => "as is" }) }
 
-    it "stores the catalogue and records what it learnt about the deployment" do
+    it "stores the catalogue and records what it learned about the deployment" do
       freeze_time do
         service.call
 
@@ -265,7 +265,7 @@ RSpec.describe LlmConnections::SyncModelsService, :llm_server_helpers, :webmock 
       end
     end
 
-    it "adds the server flavour to the options without dropping the others" do
+    it "adds the server flavor to the options without dropping the others" do
       service.call
 
       expect(connection.reload.options).to eq("kept" => "as is", "server_flavour" => "vllm")
@@ -344,8 +344,8 @@ RSpec.describe LlmConnections::SyncModelsService, :llm_server_helpers, :webmock 
 
     before do
       models_request
-      info = RubyLLM::Model::Info.new(id: "claude-sonnet-4-5", name: "Claude Sonnet 4.5", context_window: 200_000,
-                                      provider: "anthropic", modalities: { output: ["text"] })
+      info = RubyLLM::Model.new(id: "claude-sonnet-4-5", name: "Claude Sonnet 4.5", context_window: 200_000,
+                                provider: "anthropic", modalities: { output: ["text"] })
       allow(RubyLLM.models).to receive(:by_provider).with(:anthropic).and_return([info])
     end
 

@@ -49,7 +49,7 @@ module SquashTMIntegration
           redirect_to squashtm_integration_admin_server_path, status: :see_other
         else
           @server = result.result
-          render :show, status: :unprocessable_entity
+          render :show, status: :unprocessable_content
         end
       end
 

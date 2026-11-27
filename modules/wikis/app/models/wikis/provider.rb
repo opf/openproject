@@ -67,8 +67,12 @@ module Wikis
       def registry_prefix = raise SubclassResponsibilityError
     end
 
+    def registry_entry(registry_path)
+      Adapters::Registry["#{self.class.registry_prefix}.#{registry_path}"]
+    end
+
     def resolve(registry_path, **init_options)
-      Adapters::Registry["#{self.class.registry_prefix}.#{registry_path}"].new(model: self, **init_options)
+      registry_entry(registry_path).new(model: self, **init_options)
     end
 
     def inspect

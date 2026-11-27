@@ -79,7 +79,7 @@ module Admin
         redirect_back_or_default({ action: "index" })
       else
         @cost_type.rates.build(valid_from: Time.zone.today) if @cost_type.rates.empty?
-        render action: :edit, status: :unprocessable_entity, layout: !request.xhr?
+        render action: :edit, status: :unprocessable_content, layout: !request.xhr?
       end
     rescue ActiveRecord::StaleObjectError
       # Optimistic locking exception
@@ -93,7 +93,7 @@ module Admin
         flash[:notice] = t(:notice_successful_update)
         redirect_to redirect_target_after_update
       else
-        render action: render_action_for_failed_update, status: :unprocessable_entity, layout: !request.xhr?
+        render action: render_action_for_failed_update, status: :unprocessable_content, layout: !request.xhr?
       end
     rescue ActiveRecord::StaleObjectError
       # Optimistic locking exception

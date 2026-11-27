@@ -167,9 +167,17 @@ export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
       this.workPackage = wp;
     }
 
-    this.titleService.setFirstPart(this.workPackage.subjectWithType(-1));
+    this.applyTitle();
 
     this.cdRef.detectChanges();
+  }
+
+  // setFirstPart is not idempotent, and the same work package can be emitted twice.
+  protected applyTitle():void {
+    const title = this.workPackage.subjectWithType(-1);
+    if (!this.titleService.hasFirstPart(title)) {
+      this.titleService.setFirstPart(title);
+    }
   }
 
   /**

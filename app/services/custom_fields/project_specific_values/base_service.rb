@@ -31,8 +31,8 @@
 module CustomFields
   module ProjectSpecificValues
     # Subclasses decide which values end up usable in the project. This base class stores that
-    # set as the restriction rows of the custom field's mode, so the same set always results in
-    # the same rows.
+    # set, together with the ancestors of the values the project added, as the restriction rows
+    # of the custom field's mode, so the same set always results in the same rows.
     class BaseService < ::BaseServices::BaseContracted
       def initialize(user:, model:, contract_class: BaseContract)
         super(user:, contract_class:)
@@ -41,12 +41,18 @@ module CustomFields
 
       private
 
+      def before_perform(service_call)
+        self.contract_options = { project: }
+
+        service_call
+      end
+
       def usable_value_ids
         raise SubclassResponsibilityError
       end
 
       def persist(service_call)
-        listed_ids = listed_value_ids(usable_value_ids.to_set)
+        listed_ids = listed_value_ids((usable_value_ids | model.required_value_ids_in(project)).to_set)
 
         delete_outdated_restrictions(listed_ids)
         insert_restrictions(listed_ids - restrictions.pluck(value_column))

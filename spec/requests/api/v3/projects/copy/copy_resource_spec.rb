@@ -82,7 +82,7 @@ RSpec.describe "API::V3::Projects::Copy::CopyAPI", content_type: :json, with_goo
   describe "#POST /api/v3/projects/:id/copy" do
     describe "with empty params" do
       it "returns 422", :aggregate_failures do
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
 
         expect(response.body)
           .to be_json_eql("Error".to_json)
@@ -239,7 +239,7 @@ RSpec.describe "API::V3::Projects::Copy::CopyAPI", content_type: :json, with_goo
         end
 
         it "returns 422" do
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
         end
 
         it "explains the identifier format error" do

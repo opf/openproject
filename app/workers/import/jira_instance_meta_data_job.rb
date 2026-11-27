@@ -29,8 +29,11 @@
 
 module Import
   class JiraInstanceMetaDataJob < ApplicationJob
+    # Declared before the concurrency extension, so that its retry_on keeps handling exceeded limits.
+    rescue_from StandardError, with: :transition_to_error
+
     include GoodJob::ActiveJobExtensions::Concurrency
-    include JiraJobUtils
+    include JiraJobLogging
 
     good_job_control_concurrency_with(
       total_limit: 2,
@@ -43,30 +46,20 @@ module Import
       I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title")
     end
 
-    # rubocop:disable-next Metrics/AbcSize
     def perform(jira_import_id)
-      jira_import = nil
-      tagged_log("jira_import_id:#{jira_import_id}") do
-        Rails.logger.info "Fetching instance meta data started"
-        jira_import = Import::JiraImport.find(jira_import_id)
-        jira = jira_import.jira
-        @client = jira.client
-        ensure_administrator_credentials!(jira)
-        jira_import.update!(available: collect_metadata)
-        jira_import.transition_to!(:instance_meta_done)
-        Rails.logger.info "Fetching instance meta data finished"
-      end
-    rescue StandardError => e
-      tagged_log("jira_import_id:#{jira_import_id}") do
-        Rails.logger.error "Fetching instance meta data failed: #{e.message}"
-      end
-      jira_import&.transition_to!(:instance_meta_error, error: e.message, error_backtrace: e.backtrace)
+      @jira_import = Import::JiraImport.find(jira_import_id)
+      jira = @jira_import.jira
+      connection_check = Import::Jiras::CheckConnectionService.new(jira).call
+      return stop_after_failed_connection_check(@jira_import) if connection_check.failure?
+
+      @client = jira.client
+      @jira_import.update!(available: collect_metadata)
+      @jira_import.transition_to!(:instance_meta_done)
     end
 
-    def ensure_administrator_credentials!(jira)
-      return if @client.administrator?
-
-      raise I18n.t(:"admin.jira.run.not_administrator_error.#{jira.auth_method}")
+    def stop_after_failed_connection_check(jira_import)
+      Rails.logger.warn "Fetching instance meta data stopped by the failed connection check"
+      jira_import.transition_to!(:instance_meta_error, error: I18n.t(:"admin.jira.run.connection_check_error"))
     end
 
     def collect_metadata
@@ -92,7 +85,7 @@ module Import
 
     def collect_projects
       @client.projects.filter_map do |project|
-        Rails.logger.tagged("jira_object_type:project", "jira_object_id_or_name:#{project['key']}") do
+        with_log_context(jira_object_type: "project", jira_object_id_or_name: project["key"]) do
           Rails.logger.debug "Fetched project"
         end
         next unless project_browsable?(project["key"])
@@ -106,13 +99,19 @@ module Import
       true
     rescue Import::JiraClient::ApiError => e
       if e.status == 400
-        Rails.logger.tagged("jira_object_type:project", "jira_object_id_or_name:#{project_key}") do
+        with_log_context(jira_object_type: "project", jira_object_id_or_name: project_key) do
           Rails.logger.warn "Project is not browsable (#{e.message}), excluding it from instance meta data"
         end
         false
       else
         raise e
       end
+    end
+
+    private
+
+    def transition_to_error(error)
+      @jira_import&.transition_to!(:instance_meta_error, error: error.message, error_backtrace: error.backtrace)
     end
   end
 end

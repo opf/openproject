@@ -101,12 +101,6 @@ Rails.application.configure do
   # Tell Active Support which deprecation messages to disallow.
   config.active_support.disallowed_deprecation_warnings = []
 
-  # Disable asset digests
-  config.assets.compile = true
-  config.assets.compress = false
-  config.assets.digest = false
-  config.assets.debug = false
-
   # Raises error for missing translations.
   config.i18n.raise_on_missing_translations = true
 
@@ -120,11 +114,6 @@ Rails.application.configure do
 
   # Use in-memory store for testing
   Rack::Attack.cache.store = ActiveSupport::Cache::MemoryStore.new
-
-  if ENV["TEST_ENV_NUMBER"]
-    assets_cache_path = Rails.root.join("tmp/cache/assets/paralleltests#{ENV['TEST_ENV_NUMBER']}")
-    config.assets.cache = Sprockets::Cache::FileStore.new(assets_cache_path)
-  end
 
   # Speed up tests by lowering BCrypt's cost function
   BCrypt::Engine.cost = BCrypt::Engine::MIN_COST

@@ -32,7 +32,8 @@ module Import
     module JiraImportCustomFields
       JIRA_IMPORT_GROUP_KEY = "Jira import"
       SYSTEM_FIELD_CUSTOM_FIELDS = {
-        "resolutiondate" => { name: "Resolution Date", field_format: "datetime" }
+        "resolutiondate" => { name: "Resolution Date", field_format: "datetime" },
+        "environment" => { name: "Environment", field_format: "text" }
       }.freeze
 
       def create_system_field_custom_fields
@@ -369,7 +370,7 @@ module Import
       end
 
       def reuse_custom_field(custom_field, jira_field)
-        Rails.logger.tagged("jira_object_type:customField", "jira_object_id_or_name:#{custom_field.name}") do
+        with_log_context(jira_object_type: "customField", jira_object_id_or_name: custom_field.name) do
           Rails.logger.debug "Reusing custom field"
         end
         create_reference!(op_leg: custom_field, jira_leg: jira_field, jira_import: @jira_import, uses_existing: true)
@@ -390,16 +391,14 @@ module Import
       end
 
       def create_work_package_custom_field(error_name:, **params)
-        Rails.logger.tagged("jira_object_type:customField", "jira_object_id_or_name:#{params[:name]}") do
+        with_log_context(jira_object_type: "customField", jira_object_id_or_name: params[:name]) do
           Rails.logger.debug "Creating custom field"
           service_call = CustomFields::CreateService
             .new(user: @system_user)
             .call(type: "WorkPackageCustomField", is_required: false, is_for_all: false, **params)
           return service_call.result if service_call.success?
 
-          message = I18n.t("admin.jira.errors.custom_field_creation_failed", name: error_name, message: service_call.message)
-          Rails.logger.error message
-          raise message
+          raise I18n.t("admin.jira.errors.custom_field_creation_failed", name: error_name, message: service_call.message)
         end
       end
 

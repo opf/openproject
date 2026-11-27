@@ -82,7 +82,7 @@ module ::ResourceManagement
                .new(user: current_user, model: build_view(view_class:))
                .call(create_params)
 
-      call.success? ? render_create_success(call.result) : render_configure_step(call.result, status: :unprocessable_entity)
+      call.success? ? render_create_success(call.result) : render_configure_step(call.result, status: :unprocessable_content)
     end
 
     def update
@@ -90,7 +90,7 @@ module ::ResourceManagement
                .new(user: current_user, model: @view)
                .call(view_params)
 
-      call.success? ? render_update_success(call.result) : render_edit_step(call.result, status: :unprocessable_entity)
+      call.success? ? render_update_success(call.result) : render_edit_step(call.result, status: :unprocessable_content)
     end
 
     def destroy

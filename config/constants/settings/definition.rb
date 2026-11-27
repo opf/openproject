@@ -178,7 +178,7 @@ module Settings
       autologin: {
         format: :integer,
         default: 0,
-        allowed: [1, 7, 14, 30, 60, 90, 365]
+        allowed: [0, 1, 7, 14, 30, 60, 90, 365]
       },
       autologin_cookie_name: {
         description: "Cookie name for autologin cookie",
@@ -646,6 +646,23 @@ module Settings
                      "Changing this invalidates all existing hashed tokens.",
         format: :string,
         default: -> { SecureRandom.hex(32) },
+        persist_on_first_read: true,
+        secret: true
+      },
+      web_push_enabled: {
+        format: :boolean,
+        default: false
+      },
+      web_push_vapid_private_key: {
+        description: "The VAPID private key used to sign browser notification pushes, given as the " \
+                     "base64 DER (PKCS#8) encoding of a prime256v1 key. If you leave this unset, OpenProject " \
+                     "generates a key the first time it is needed, stores it in the database and lets " \
+                     "administrators renew it from the administration page. If you set it through this " \
+                     "environment variable, the key is managed by you: the administration page can no longer " \
+                     "renew it, and you rotate it by changing the variable. Whichever way the key changes, " \
+                     "every existing browser notification subscription becomes invalid.",
+        format: :string,
+        default: -> { OpenProject::WebPush.generate_private_key },
         persist_on_first_read: true,
         secret: true
       },
@@ -1478,6 +1495,11 @@ module Settings
         format: :integer,
         writable: false,
         default: 5_000
+      },
+      work_package_multiple_categories: {
+        description: "Enable multiple category assignments on work packages.",
+        format: :boolean,
+        default: false
       },
       work_package_multiple_versions: {
         description: "Enable multiple version assignments on work packages.",

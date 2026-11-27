@@ -79,7 +79,7 @@ RSpec.describe "BCF XML API v1 bcf_xml resource" do
       end
 
       it "responds with correct Content-Disposition" do
-        expect(subject.header["Content-Disposition"])
+        expect(subject.headers["Content-Disposition"])
           .to match(/attachment; filename="OpenProject_Work_packages_\d\d\d\d-\d\d-\d\d.bcf"/)
       end
 

@@ -27,10 +27,8 @@ Review this against how your teams actually use Jira. If anything here would be 
 
 **Not migrated at all, for any issue:**
 
-- [ ] Reporter (Planned: [JIM-270](https://community.openproject.org/projects/JIM/work_packages/JIM-270))
-- [ ] Web links (Planned: [JIM-206](https://community.openproject.org/projects/JIM/work_packages/JIM-206))
+- [ ] Web links (workaround planned: [JIM-206](https://community.openproject.org/projects/JIM/work_packages/JIM-206)).
 - [ ] Votes (workaround planned: [JIM-207](https://community.openproject.org/projects/JIM/work_packages/JIM-207), open feature request: [OP-3251](https://community.openproject.org/projects/OP/work_packages/OP-3251))
-- [ ] Environment (Planned: [JIM-257](https://community.openproject.org/projects/JIM/work_packages/JIM-257))
 - [ ] Security Level (Planned: [JIM-219](https://community.openproject.org/projects/JIM/work_packages/JIM-219)) - **Note: The Security Level is currently ignored. Thus, issues with a Security Level set will be imported as regular work packages at this point.**
 - [ ] Components (Planned: [JIM-107](https://community.openproject.org/projects/JIM/work_packages/JIM-107))
 - [ ] Visibility settings of comments
@@ -40,7 +38,7 @@ Review this against how your teams actually use Jira. If anything here would be 
 
 - [ ] Epic Link / Epic Name
 - [ ] Story Points (native OpenProject field, currently Story Points are imported into a custom field instead)
-- [ ] User picker / multi-user picker values, unless the referenced user is also referenced elsewhere on an imported issue (as creator, assignee, watcher, comment or attachment author, or an @mention). Otherwise the value comes across empty, with no reliable way to prevent this in advance.
+- [ ] User picker / multi-user picker values, unless the referenced user is also referenced elsewhere on an imported issue (as creator, reporter, assignee, watcher, comment or attachment author, or an @mention). Otherwise the value comes across empty, with no reliable way to prevent this in advance.
 - [ ] Version-picker
 - [ ] Any third-party plugin-provided custom field type e.g. Scripted Fields
 - [ ] Per-context custom field values (Jira Field Contexts) - At the moment OpenProject does not support different option sets per project or issue type; a custom field's options are always global.
@@ -65,7 +63,7 @@ For anything on this list your teams actually rely on, decide now how you'll han
 
 ## OpenProject-side prerequisites
 
-- [ ] Confirm your Jira instance is reachable from OpenProject by using [the connection test](../#test-configuration).
+- [ ] Confirm your Jira instance is reachable from OpenProject by using [the connection test](../#connection-check).
 - [ ] If you're on an OpenProject Enterprise plan, check your available user seats against the number of currently-active Jira users you're about to migrate. Not relevant if you're on the free Community edition. Increase your seat count before the migration.
 - [ ] **Enable project-based semantic identifiers** in OpenProject.
 - [ ] **Disable "Use current date as start date for new work packages" setting** in OpenProject. This is currently needed due to a [known issue](https://community.openproject.org/projects/JIM/work_packages/JIM-155/activity) in the importer.

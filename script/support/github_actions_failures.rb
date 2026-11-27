@@ -39,10 +39,8 @@ module GithubActionsFailures
   class TestsGroup
     attr_accessor :test_env_number, :seed, :files
 
-    # parallel tests run in `docker/ci/entrypoint.sh` does not output command
-    # showing test groups, seeds and files anymore. Not sure how to fix it. Use
-    # a null object when the information is not available to avoid errors in the
-    # meantime.
+    # Job logs from before the switch to parallel_rspec do not contain the
+    # command of each tests group.
     def self.null
       @null ||= new.tap do |null_test_group|
         null_test_group.test_env_number = "0 (info not available)"
@@ -68,11 +66,14 @@ module GithubActionsFailures
     SPEC_FAILURES_PATTERN = %r{^\S+ rspec (\S+) #.+$}
     SPEC_LOADING_ERRORS_PATTERN = %r{^\S+ An error occurred while loading (\S+)\.\r?$}
     SCREENSHOT_PATTERN = /\{"message":"Screenshot captured for failed feature test"[^\n]+$/
+    # Printed by `print_failed_examples` in docker/ci/entrypoint.sh, followed by
+    # the failures of all processes, which are also in each process's output.
+    FAILURES_REPORT_HEADER = "Failures of all processes:"
     # Looks like this in the job log:
     # rubocop:disable Layout/LineLength
-    # Process 28: TEST_ENV_NUMBER=28 RUBYOPT=-I/usr/local/bundle/bundler/gems/turbo_tests-3148ae6c3482/lib -r/usr/local/bundle/gems/bundler-2.5.23/lib/bundler/setup -W0 RSPEC_SILENCE_FILTER_ANNOUNCEMENTS=1 /usr/local/bundle/gems/bundler-2.5.23/exe/bundle exec rspec --seed 52674 --format TurboTests::JsonRowsFormatter --out tmp/test-pipes/subprocess-28 --format ParallelTests::RSpec::RuntimeLogger --out spec/support/turbo_runtime_features.log spec/features/api_docs/index_spec.rb spec/features/custom_fields/reorder_options_spec.rb spec/features/projects/projects_portfolio_spec.rb spec/features/projects/template_spec.rb spec/features/versions/edit_spec.rb spec/features/work_packages/details/markdown/description_editor_spec.rb spec/features/work_packages/table/hierarchy/hierarchy_parent_below_spec.rb spec/features/work_packages/table/inline_create/inline_create_refresh_spec.rb spec/features/work_packages/table/invalid_query_spec.rb spec/features/work_packages/tabs/activity_revisions_spec.rb
+    # bin/rspec --seed 52674 -O .rspec_parallel spec/features/api_docs/index_spec.rb spec/features/custom_fields/reorder_options_spec.rb spec/features/projects/projects_portfolio_spec.rb spec/features/projects/template_spec.rb spec/features/versions/edit_spec.rb
     # rubocop:enable Layout/LineLength
-    TESTS_GROUP_PATTERN = /Process \d+: TEST_ENV_NUMBER=\d+ [^\n]+$/
+    TESTS_GROUP_PATTERN = %r{bin/rspec --seed \d+ [^\n]+$}
     BRANCH_MERGE_PATTERN = /Merge \w{40} into (\w{40})$/
 
     def self.scan_logs(logs)
@@ -134,8 +135,9 @@ module GithubActionsFailures
     end
 
     def find_failures_explanation(log)
+      failures_report = log.split(FAILURES_REPORT_HEADER, 2).last
       explanations = []
-      log.split("\n").each do |line|
+      failures_report.split("\n").each do |line|
         if line.end_with?("Failures:") .. line.end_with?("Failed examples:")
           explanations << line
         end
@@ -178,7 +180,7 @@ module GithubActionsFailures
       tests_groups = log
         .scan(TESTS_GROUP_PATTERN)
         .flatten
-        .map { build_tests_group_from_command(it) }
+        .map.with_index(1) { |command, number| build_tests_group_from_command(command, number) }
 
       errors.each do |error|
         error.tests_group = tests_groups.find { it.include_error?(error) } || TestsGroup.null
@@ -190,13 +192,12 @@ module GithubActionsFailures
       @merge_branch_sha = merge_branch_sha if merge_branch_sha
     end
 
-    def build_tests_group_from_command(line)
+    def build_tests_group_from_command(line, number)
       tests_group = TestsGroup.new
+      tests_group.test_env_number = number
       parts = line.split
       while parts.any?
         case part = parts.shift
-        when /^TEST_ENV_NUMBER=/
-          tests_group.test_env_number = part.delete_prefix("TEST_ENV_NUMBER=")
         when "--seed"
           tests_group.seed = parts.shift
         when /_spec.rb$/

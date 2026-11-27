@@ -111,14 +111,14 @@ RSpec.describe "layouts/base" do
 
       it "renders main favicon" do
         expect(rendered).to have_css(
-          "link[type='image/x-icon'][href*='/assets/favicon.ico']",
+          "link[type='image/x-icon'][href='#{view.asset_path('favicon.ico')}']",
           visible: :all
         )
       end
 
       it "renders apple icons" do
         expect(rendered).to have_css(
-          "link[type='image/png'][href*='/assets/apple-touch-icon-120x120.png']",
+          "link[type='image/png'][href='#{view.asset_path('apple-touch-icon-120x120.png')}']",
           visible: :all
         )
       end
@@ -131,10 +131,10 @@ RSpec.describe "layouts/base" do
       # in one place, and 2. the view itself makes this request, so this is an appropriate
       # location for it.
       it "icons actually exist" do
-        visit "assets/favicon.ico"
+        visit view.asset_path("favicon.ico")
         expect(page.status_code).to eq(200)
 
-        visit "assets/apple-touch-icon-120x120.png"
+        visit view.asset_path("apple-touch-icon-120x120.png")
         expect(page.status_code).to eq(200)
       end
     end
@@ -148,23 +148,23 @@ RSpec.describe "layouts/base" do
 
       it "renders main favicon" do
         expect(rendered).to have_css(
-          "link[type='image/x-icon'][href*='/assets/development/favicon.ico']",
+          "link[type='image/x-icon'][href='#{view.asset_path('development/favicon.ico')}']",
           visible: :all
         )
       end
 
       it "renders apple icons" do
         expect(rendered).to have_css(
-          "link[type='image/png'][href*='/assets/development/apple-touch-icon-120x120.png']",
+          "link[type='image/png'][href='#{view.asset_path('development/apple-touch-icon-120x120.png')}']",
           visible: :all
         )
       end
 
       it "icons actually exist" do
-        visit "assets/development/favicon.ico"
+        visit view.asset_path("development/favicon.ico")
         expect(page.status_code).to eq(200)
 
-        visit "assets/development/apple-touch-icon-120x120.png"
+        visit view.asset_path("development/apple-touch-icon-120x120.png")
         expect(page.status_code).to eq(200)
       end
     end

@@ -248,7 +248,7 @@ RSpec.describe WorkPackages::ProgressController do
         params["work_package"]["estimated_hours"] = "-1"
         patch("update", params:, as: :turbo_stream)
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response).to have_turbo_stream action: "update"
         # the flash is not rendered with the progress field errors, as they are already in the progress modal
         expect(response).not_to have_turbo_stream action: "flash"
@@ -269,7 +269,7 @@ RSpec.describe WorkPackages::ProgressController do
         params["work_package"]["estimated_hours"] = "0"
         patch("update", params:, as: :turbo_stream)
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response).to have_turbo_stream action: "flash"
         expect(turbo_stream_template(action: "flash")).to include("Subject can't be blank.")
       end

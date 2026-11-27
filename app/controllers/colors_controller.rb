@@ -60,7 +60,7 @@ class ColorsController < ApplicationController
       flash[:notice] = I18n.t(:notice_successful_create)
       redirect_to colors_settings_path
     else
-      render action: :new, status: :unprocessable_entity
+      render action: :new, status: :unprocessable_content
     end
   end
 
@@ -71,7 +71,7 @@ class ColorsController < ApplicationController
       flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to colors_settings_path
     else
-      render action: :edit, status: :unprocessable_entity
+      render action: :edit, status: :unprocessable_content
     end
   end
 

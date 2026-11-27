@@ -300,6 +300,7 @@ namespace :copyright do
     excluded = %w[
       **/vendor/**/*
       app/views/pwa/_offline_script.js
+      app/views/pwa/_service_worker_bundle.js
     ]
 
     rewrite_copyright("js", excluded, :js, path,

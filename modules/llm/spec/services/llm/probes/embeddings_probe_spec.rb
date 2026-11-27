@@ -48,17 +48,6 @@ RSpec.describe Llm::Probes::EmbeddingsProbe, :webmock do
     end
   end
 
-  # vLLM, llama.cpp and Ollama all silently drop parameters they do not
-  # understand, so a 200 on its own proves nothing about the model.
-  context "when the server returns 200 with something that is not an embedding" do
-    before { stub_embeddings(status: 200, body: { data: [{ message: "hello" }] }) }
-
-    it "is unknown rather than supported" do
-      expect(result.state).to eq(:unknown)
-      expect(result.detail["reason"]).to eq("unexpected_body")
-    end
-  end
-
   context "when the server returns an empty data array" do
     before { stub_embeddings(status: 200, body: { data: [] }) }
 

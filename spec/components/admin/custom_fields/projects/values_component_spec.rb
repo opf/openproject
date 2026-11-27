@@ -35,9 +35,16 @@ RSpec.describe Admin::CustomFields::Projects::ValuesComponent, type: :component 
 
   shared_let(:project) { create(:project) }
 
+  let(:vc_test_controller_class) { Admin::Settings::WorkPackageCustomFields::ProjectSpecificValuesController }
+  let(:row) { ->(value) { rendered.css("[data-test-selector='custom-field-project-value-#{value.id}']") } }
+
   subject(:rendered) { render_inline(described_class.new(custom_field:, project:)) }
 
-  let(:row) { ->(value) { rendered.css("[data-test-selector='custom-field-project-value-#{value.id}']") } }
+  current_user { build_stubbed(:admin) }
+
+  before do
+    allow(vc_test_controller).to receive_messages(custom_field:, configured_project: project)
+  end
 
   context "for a list custom field", with_ee: %i[project_specific_list_values] do
     let(:custom_field) { create(:list_wp_custom_field, :project_specific_allowlist, possible_values: %w[A B]) }
@@ -48,20 +55,33 @@ RSpec.describe Admin::CustomFields::Projects::ValuesComponent, type: :component 
       create(:project_specific_value_restriction, project:, custom_option: option_a)
     end
 
-    it "offers to enable and to disable all values" do
+    it "names the list as the available values" do
+      expect(rendered.css(".Box-header").text).to include(I18n.t("custom_fields.admin.projects.available_values"))
+      expect(rendered.css(".Box-header").text).not_to include(custom_field.name)
+    end
+
+    it "offers to enable and to disable all values outside of the values frame to show the result" do
+      expect(rendered).to have_css(
+        "a[data-turbo-frame='_top']",
+        text: I18n.t("custom_fields.admin.projects.enable_all")
+      )
       expect(rendered).to have_link(
         I18n.t("custom_fields.admin.projects.enable_all"),
-        href: enable_all_project_values_admin_settings_work_package_custom_field_path(custom_field, project)
+        href: enable_all_admin_settings_work_package_custom_field_project_specific_values_path(custom_field, project)
+      )
+      expect(rendered).to have_css(
+        "a[data-turbo-frame='_top']",
+        text: I18n.t("custom_fields.admin.projects.disable_all")
       )
       expect(rendered).to have_link(
         I18n.t("custom_fields.admin.projects.disable_all"),
-        href: disable_all_project_values_admin_settings_work_package_custom_field_path(custom_field, project)
+        href: disable_all_admin_settings_work_package_custom_field_project_specific_values_path(custom_field, project)
       )
     end
 
     it "toggles each value on its own" do
       expect(row.call(option_a).css("toggle-switch").attr("src").value)
-        .to eq(toggle_project_value_admin_settings_work_package_custom_field_path(custom_field, project, option_a.id))
+        .to eq(toggle_admin_settings_work_package_custom_field_project_specific_value_path(custom_field, project, option_a.id))
     end
 
     it "lists the options in order with whether they are enabled in the project" do
@@ -69,6 +89,256 @@ RSpec.describe Admin::CustomFields::Projects::ValuesComponent, type: :component 
         .to eq(%w[A B])
       expect(row.call(option_a).css("button[aria-pressed='true']")).to be_present
       expect(row.call(option_b).css("button[aria-pressed='false']")).to be_present
+    end
+  end
+
+  context "for a list custom field with values added by projects", with_ee: %i[project_specific_list_values] do
+    let(:custom_field) { create(:list_wp_custom_field, :project_specific_allowlist, possible_values: %w[A]) }
+    let!(:own_option) { create(:custom_option, custom_field:, value: "Own", project:) }
+    let!(:foreign_option) { create(:custom_option, custom_field:, value: "Foreign", project: create(:project)) }
+
+    it "only lists the global values and the values of the project" do
+      expect(row.call(custom_field.custom_options.find_by!(value: "A"))).to be_present
+      expect(row.call(own_option)).to be_present
+      expect(row.call(foreign_option)).to be_empty
+    end
+
+    it "marks the values of the project as project-specific" do
+      expect(row.call(own_option).text).to include(I18n.t("custom_fields.project_specific_values.label"))
+      expect(row.call(custom_field.custom_options.find_by!(value: "A")).text)
+        .not_to include(I18n.t("custom_fields.project_specific_values.label"))
+    end
+
+    it "only allows to enable or disable the global values" do
+      expect(row.call(custom_field.custom_options.find_by!(value: "A")).css("toggle-switch")).to be_present
+      expect(row.call(own_option).css("toggle-switch")).to be_empty
+    end
+  end
+
+  context "for a hierarchy custom field with values added by projects",
+          with_ee: %i[custom_field_hierarchies project_specific_list_values] do
+    let(:custom_field) { create(:hierarchy_wp_custom_field, :project_specific_allowlist) }
+    let!(:global_item) { create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "Global", short: "GL") }
+    let!(:own_item) { create(:hierarchy_item, parent: global_item, label: "Own", project:) }
+    let!(:foreign_item) { create(:hierarchy_item, parent: global_item, label: "Foreign", project: create(:project)) }
+
+    it "shows the short name of the values that have one" do
+      expect(row.call(global_item).text).to include("(GL)")
+      expect(row.call(own_item).text).not_to include("(")
+    end
+
+    it "only lists the global values and the values of the project" do
+      expect(row.call(global_item)).to be_present
+      expect(row.call(own_item)).to be_present
+      expect(row.call(foreign_item)).to be_empty
+    end
+
+    it "marks the values of the project as project-specific" do
+      expect(row.call(own_item).text).to include(I18n.t("custom_fields.project_specific_values.label"))
+      expect(row.call(global_item).text).not_to include(I18n.t("custom_fields.project_specific_values.label"))
+    end
+
+    it "only allows to enable or disable the global values" do
+      expect(row.call(global_item).css("toggle-switch")).to be_present
+      expect(row.call(own_item).css("toggle-switch")).to be_empty
+    end
+
+    context "with another global value" do
+      let!(:other_global_item) { create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "Other global") }
+
+      it "does not allow to disable the parents of the values of the project" do
+        expect(row.call(global_item).css("toggle-switch button[disabled]")).to be_present
+        expect(row.call(other_global_item).css("toggle-switch button[disabled]")).to be_empty
+      end
+
+      it "explains why the parents of the values of the project cannot be disabled" do
+        expect(row.call(global_item).text).to include(I18n.t("custom_fields.admin.projects.required_value_notice"))
+        expect(row.call(other_global_item).text).not_to include(I18n.t("custom_fields.admin.projects.required_value_notice"))
+      end
+    end
+  end
+
+  context "for a list custom field only allowing additional project values",
+          with_ee: %i[project_specific_list_values] do
+    let(:custom_field) do
+      create(:list_wp_custom_field, possible_values: %w[A], allow_additional_project_values: true)
+    end
+    let(:option) { custom_field.custom_options.first }
+
+    it "lists the values without allowing to enable or disable them" do
+      expect(row.call(option)).to be_present
+      expect(row.call(option).css("toggle-switch")).to be_empty
+      expect(rendered).to have_no_link(I18n.t("custom_fields.admin.projects.enable_all"))
+      expect(rendered).to have_no_link(I18n.t("custom_fields.admin.projects.disable_all"))
+    end
+  end
+
+  context "for a user managing the values in the project", with_ee: %i[project_specific_list_values] do
+    let(:permissions) { %i[manage_work_package_custom_field_values] }
+    let(:project_level_value_management) { true }
+    let(:custom_field) do
+      create(:list_wp_custom_field, :project_specific_allowlist,
+             possible_values: %w[A B], project_level_value_management:, allow_additional_project_values: true)
+    end
+    let(:option) { custom_field.custom_options.find_by!(value: "A") }
+    let(:disabled_option) { custom_field.custom_options.find_by!(value: "B") }
+    let!(:own_option) { create(:custom_option, custom_field:, value: "Own", project:) }
+    let(:current_user) { create(:user, member_with_permissions: { project => permissions }) }
+
+    before do
+      create(:project_specific_value_restriction, project:, custom_option: option)
+    end
+
+    it "allows to enable or disable the values" do
+      expect(row.call(option).css("toggle-switch")).to be_present
+      expect(rendered).to have_link(I18n.t("custom_fields.admin.projects.enable_all"))
+      expect(rendered).to have_link(I18n.t("custom_fields.admin.projects.disable_all"))
+    end
+
+    it "lists the values disabled in the project as well" do
+      expect(row.call(disabled_option)).to be_present
+    end
+
+    it "does not offer to make a value of the project available to all projects" do
+      expect(row.call(own_option).css(".ActionListItem-label").map { it.text.strip })
+        .to eq([I18n.t("custom_fields.admin.projects.edit_value"), I18n.t(:button_delete)])
+    end
+
+    context "when the project may only add values" do
+      let(:project_level_value_management) { false }
+
+      it "does not allow to enable or disable the values" do
+        expect(row.call(option).css("toggle-switch")).to be_empty
+        expect(rendered).to have_no_link(I18n.t("custom_fields.admin.projects.enable_all"))
+        expect(rendered).to have_no_link(I18n.t("custom_fields.admin.projects.disable_all"))
+      end
+
+      it "only lists the values enabled in the project" do
+        expect(row.call(option)).to be_present
+        expect(row.call(own_option)).to be_present
+        expect(row.call(disabled_option)).to be_empty
+      end
+    end
+
+    context "without the permission to manage the values" do
+      let(:permissions) { %i[view_work_packages] }
+
+      it "does not allow to enable or disable the values" do
+        expect(row.call(option).css("toggle-switch")).to be_empty
+        expect(rendered).to have_no_link(I18n.t("custom_fields.admin.projects.enable_all"))
+      end
+
+      it "only lists the values enabled in the project" do
+        expect(row.call(option)).to be_present
+        expect(row.call(disabled_option)).to be_empty
+      end
+    end
+  end
+
+  describe "the value menu", with_ee: %i[custom_field_hierarchies project_specific_list_values] do
+    let(:menu_items) do
+      ->(value) { row.call(value).css(".ActionListItem-label").map { it.text.strip } }
+    end
+    let(:own_value_actions) do
+      [I18n.t("custom_fields.admin.projects.edit_value"),
+       I18n.t(:button_add_sub_value),
+       I18n.t("custom_fields.admin.projects.make_available_to_all_projects"),
+       I18n.t(:button_delete)]
+    end
+
+    context "for a hierarchy custom field allowing additional project values" do
+      let(:custom_field) do
+        create(:hierarchy_wp_custom_field, :project_specific_allowlist, allow_additional_project_values: true)
+      end
+      let!(:global_item) { create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "Global") }
+      let!(:own_item) { create(:hierarchy_item, parent: global_item, label: "Own", project:) }
+
+      it "only offers to add sub-values to global values" do
+        expect(menu_items.call(global_item)).to eq([I18n.t(:button_add_sub_value)])
+      end
+
+      it "offers all actions for the values of the project" do
+        expect(menu_items.call(own_item)).to eq(own_value_actions)
+      end
+
+      it "opens a dialog to edit a value of the project" do
+        dialog_path = edit_admin_settings_work_package_custom_field_project_specific_value_path(
+          custom_field, project, own_item.id
+        )
+
+        expect(row.call(own_item).css("a[href='#{dialog_path}'][data-controller='async-dialog']")).to be_present
+      end
+
+      it "opens a dialog to add a sub-value" do
+        dialog_path = new_admin_settings_work_package_custom_field_project_specific_value_path(
+          custom_field, project, parent_id: global_item.id
+        )
+
+        expect(row.call(global_item).css("a[href='#{dialog_path}'][data-controller='async-dialog']")).to be_present
+      end
+
+      it "asks for confirmation before making a value of the project available to all projects" do
+        make_global_path = make_global_admin_settings_work_package_custom_field_project_specific_value_path(
+          custom_field, project, own_item.id
+        )
+        link = row.call(own_item).css("a[href='#{make_global_path}'][data-turbo-method='post'][data-turbo-frame='_top']")
+
+        expect(link.attr("data-turbo-confirm").value)
+          .to eq(I18n.t("custom_fields.admin.projects.make_available_to_all_projects_confirm", value: "Own"))
+      end
+
+      context "with a value below a value of the project" do
+        let!(:own_sub_item) { create(:hierarchy_item, parent: own_item, label: "Own sub", project:) }
+
+        it "does not offer to make it available to all projects" do
+          make_global_item = row.call(own_sub_item).css(".ActionListItem").find do |item|
+            item.text.include?(I18n.t("custom_fields.admin.projects.make_available_to_all_projects"))
+          end
+
+          expect(make_global_item.classes).to include("ActionListItem--disabled")
+        end
+      end
+
+      it "opens a dialog to delete a value of the project" do
+        dialog_path = deletion_dialog_admin_settings_work_package_custom_field_project_specific_value_path(
+          custom_field, project, own_item.id
+        )
+
+        expect(row.call(own_item).css("a[href='#{dialog_path}'][data-controller='async-dialog']")).to be_present
+      end
+    end
+
+    context "for a list custom field allowing additional project values" do
+      let(:custom_field) do
+        create(:list_wp_custom_field, :project_specific_allowlist, possible_values: %w[A],
+                                                                   allow_additional_project_values: true)
+      end
+      let!(:own_option) { create(:custom_option, custom_field:, value: "Own", project:) }
+
+      it "offers no actions for global values" do
+        expect(row.call(custom_field.custom_options.find_by!(value: "A")).css("action-menu")).to be_empty
+      end
+
+      it "offers all actions but adding sub-values for the values of the project" do
+        expect(menu_items.call(own_option)).to eq(own_value_actions - [I18n.t(:button_add_sub_value)])
+      end
+    end
+
+    context "for a hierarchy custom field not allowing additional project values" do
+      let(:custom_field) { create(:hierarchy_wp_custom_field, :project_specific_allowlist) }
+      let!(:global_item) { create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "Global") }
+
+      it "offers no actions for global values" do
+        expect(row.call(global_item).css("action-menu")).to be_empty
+      end
+
+      context "with a value the project added before" do
+        let!(:own_item) { create(:hierarchy_item, parent: global_item, label: "Own", project:) }
+
+        it "only offers to delete it" do
+          expect(menu_items.call(own_item)).to eq([I18n.t(:button_delete)])
+        end
+      end
     end
   end
 
@@ -99,12 +369,15 @@ RSpec.describe Admin::CustomFields::Projects::ValuesComponent, type: :component 
     let(:custom_field) { create(:weighted_item_list_wp_custom_field, :project_specific_allowlist) }
     let!(:parent) { create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "High", weight: 10) }
     let!(:child) { create(:hierarchy_item, parent:, label: "Urgent", weight: 15) }
+    let!(:grandchild) { create(:hierarchy_item, parent: child, label: "Critical", weight: 20) }
 
-    it "indents sub-items and shows their weight and number of sub-items" do
-      expect(row.call(parent).text).to include("High", "10", I18n.t("custom_fields.admin.hierarchy.subitems", count: 1))
-      expect(row.call(child).text).to include("Urgent", "15")
-      expect(row.call(child).css(".pl-3")).to be_present
-      expect(row.call(parent).css(".pl-3")).to be_empty
+    it "indents sub-values and shows their weight" do
+      expect(row.call(parent).text).to include("High", "(10)")
+      expect(row.call(parent).text).not_to include(I18n.t("custom_fields.admin.hierarchy.subitems", count: 1))
+      expect(row.call(child).text).to include("Urgent", "(15)")
+      expect(row.call(parent).css("[style='padding-left: 0px']")).to be_present
+      expect(row.call(child).css("[style='padding-left: 16px']")).to be_present
+      expect(row.call(grandchild).css("[style='padding-left: 32px']")).to be_present
     end
   end
 end

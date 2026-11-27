@@ -46,8 +46,8 @@ module Queries::Filters::Shared
       end
 
       def allowed_values
-        if custom_field.list? && custom_field.project_specific_value_restriction
-          visible_custom_options.map { |option| [option.value, option.id.to_s] }
+        if custom_field.list? && custom_field.project_specific_values_supported?
+          visible_option_values
         else
           options = field_format == "version" ? { scope: :visible } : {}
           custom_field.possible_values_options(project, options:)
@@ -55,7 +55,17 @@ module Queries::Filters::Shared
       end
 
       def visible_custom_options
-        custom_field.visible_values_for(::User.current, within: projects_of_query)
+        custom_field.visible_values_for(::User.current, within: projects_of_query).preload(:project)
+      end
+
+      def visible_option_values
+        options = visible_custom_options.to_a
+        name_projects = values_of_several_projects?(options)
+
+        options.map do |option|
+          label = name_projects ? label_with_project(option.value, option) : option.value
+          [label, option.id.to_s]
+        end
       end
 
       def ar_object_filter?

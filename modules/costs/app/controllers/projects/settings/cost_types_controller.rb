@@ -65,7 +65,7 @@ class Projects::Settings::CostTypesController < Projects::SettingsController
   end
 
   def reject_toggle(error_message)
-    respond_with_status(:unprocessable_entity, error_message:)
+    respond_with_status(:unprocessable_content, error_message:)
   end
 
   def respond_with_status(status, error_message: nil)

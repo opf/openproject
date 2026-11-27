@@ -185,7 +185,7 @@ RSpec.describe "Admin text actions", :skip_csrf,
              }
            }
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(page).to have_text("Work package types can't be blank")
       expect(AI::TextAction.count).to eq(0)
     end
@@ -227,7 +227,7 @@ RSpec.describe "Admin text actions", :skip_csrf,
       patch admin_text_action_path(action),
             params: { ai_text_action: { label: "" } }
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(action.reload.label).not_to eq("")
     end
   end

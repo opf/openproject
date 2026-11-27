@@ -144,7 +144,7 @@ class ProjectsController < ApplicationController
     else
       @target_project = service_call.result
       flash.now[:error] = I18n.t(:notice_unsuccessful_create_with_reason, reason: service_call.message)
-      render action: :copy_form, status: :unprocessable_entity
+      render action: :copy_form, status: :unprocessable_content
     end
   end
 
@@ -173,7 +173,7 @@ class ProjectsController < ApplicationController
              .call(deactivate_work_package_attachments: params[:value] != "1")
 
     if call.failure?
-      render json: call.errors.full_messages.join(" "), status: :unprocessable_entity
+      render json: call.errors.full_messages.join(" "), status: :unprocessable_content
     else
       head :no_content
     end
@@ -236,7 +236,7 @@ class ProjectsController < ApplicationController
       if service_call.message.present?
         flash.now[:error] = I18n.t(:notice_unsuccessful_create_with_reason, reason: service_call.message)
       end
-      render action: :new, status: :unprocessable_entity, layout: "no_menu"
+      render action: :new, status: :unprocessable_content, layout: "no_menu"
     end
   end
 
@@ -261,7 +261,7 @@ class ProjectsController < ApplicationController
       @new_project = service_call.result
       params[:step] = 2
       flash.now[:error] = I18n.t(:notice_unsuccessful_create_with_reason, reason: service_call.message)
-      render action: :new, status: :unprocessable_entity, layout: "no_menu"
+      render action: :new, status: :unprocessable_content, layout: "no_menu"
     end
   end
 
@@ -276,7 +276,7 @@ class ProjectsController < ApplicationController
   def clear_custom_field_errors!(project)
     # Delete custom field errors from project
     project.errors.attribute_names
-      .select { |key| key.to_s.start_with?("custom_field") }
+      .select { |key| CustomField.custom_field_attribute?(key) }
       .each { |key| project.errors.delete(key) }
 
     # Clear errors on custom value objects

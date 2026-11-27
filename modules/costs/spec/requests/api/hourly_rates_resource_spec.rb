@@ -171,7 +171,7 @@ RSpec.describe "API v3 hourly rates", content_type: :json do
       patch api_v3_paths.hourly_rate(user.id, project_rate.id),
             { _links: { project: { href: api_v3_paths.project(other_project.id) } } }.to_json
 
-      expect(last_response).to have_http_status(:unprocessable_entity)
+      expect(last_response).to have_http_status(:unprocessable_content)
       expect(project_rate.reload.project_id).to eq(project.id)
     end
   end

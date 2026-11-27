@@ -42,6 +42,18 @@ RSpec.describe WorkPackageTypes::ReloadableConfigurationFrameComponent, type: :c
     expect(frame["data-reload-frame-on-event-url-value"]).to eq("/reload/here")
   end
 
+  it "leaves navigation from inside the frame to the frame by default" do
+    render_inline(described_class.new(reload_url: "/reload/here")) { "The wrapped editor" }
+
+    expect(page.find("turbo-frame##{described_class::FRAME_ID}")[:target]).to be_nil
+  end
+
+  it "can send navigation from inside the frame to the whole page" do
+    render_inline(described_class.new(reload_url: "/reload/here", target: "_top")) { "The wrapped editor" }
+
+    expect(page.find("turbo-frame##{described_class::FRAME_ID}")[:target]).to eq("_top")
+  end
+
   it "has no src, so it is not fetched on page load" do
     render_inline(described_class.new(reload_url: "/reload/here")) { "The wrapped editor" }
 

@@ -49,7 +49,7 @@ RSpec.describe Projects::IdentifierController do
         previous_identifier = project.identifier
         put :update, params: { project_id: project.id, project: { identifier: "bad identifier" }, format: :turbo_stream }
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.body).to include("Identifier is invalid")
         expect(project.reload.identifier).to eq(previous_identifier)
       end

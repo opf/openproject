@@ -72,9 +72,9 @@ module OpenProject
         retry_after = match_data[:period] - (now % match_data[:period])
 
         headers = {
-          "RateLimit-Limit" => match_data[:limit].to_s,
-          "RateLimit-Remaining" => "0",
-          "RateLimit-Reset" => (now + (match_data[:period] - (now % match_data[:period]))).to_s
+          "ratelimit-limit" => match_data[:limit].to_s,
+          "ratelimit-remaining" => "0",
+          "ratelimit-reset" => (now + (match_data[:period] - (now % match_data[:period]))).to_s
         }
 
         body = response_body(request:, now:, retry_after:)
@@ -86,7 +86,7 @@ module OpenProject
       end
 
       def blocked_response
-        [429, { "Content-Type" => "text/plain" }, [blocked_response_body]]
+        [429, { "content-type" => "text/plain" }, [blocked_response_body]]
       end
 
       def blocked_response_body

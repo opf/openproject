@@ -45,6 +45,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
   let(:parent) { nil }
   let(:priority) { build_stubbed(:priority, updated_at: Time.zone.now) }
   let(:assignee) { nil }
+  let(:reporter) { nil }
   let(:responsible) { nil }
   let(:schedule_manually) { nil }
   let(:start_date) { Time.zone.today.to_datetime }
@@ -70,6 +71,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
                   project_phase_definition:,
                   priority:,
                   assigned_to: assignee,
+                  reporter:,
                   responsible:,
                   estimated_hours:,
                   derived_estimated_hours:,
@@ -568,6 +570,18 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
 
+    describe "reporter" do
+      context "as a user" do
+        let(:reporter) { build_stubbed(:user) }
+
+        it_behaves_like "has a titled link" do
+          let(:link) { "reporter" }
+          let(:href) { "/api/v3/users/#{work_package.reporter.id}" }
+          let(:title) { work_package.reporter.name }
+        end
+      end
+    end
+
     describe "assignee" do
       context "as a user" do
         let(:assignee) { build_stubbed(:user) }
@@ -850,6 +864,17 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
 
+    describe "labels" do
+      before { work_package.label_name_replacements = ["Needs triage"] }
+
+      it "links the pending label by title without an href and does not embed it" do
+        expect(subject).to have_json_size(1).at_path("_links/labels")
+        expect(subject).to be_json_eql(nil.to_json).at_path("_links/labels/0/href")
+        expect(subject).to be_json_eql("Needs triage".to_json).at_path("_links/labels/0/title")
+        expect(subject).to have_json_size(0).at_path("_embedded/labels")
+      end
+    end
+
     describe "project" do
       it_behaves_like "has workspace linked"
     end
@@ -972,7 +997,9 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
 
-    describe "category" do
+    describe "category",
+             with_flag: { work_package_multiple_categories: false },
+             with_settings: { work_package_multiple_categories: false } do
       let(:embedded_path) { "_embedded/category" }
       let(:href_path) { "_links/category/href" }
 
@@ -986,7 +1013,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         let!(:category) { build_stubbed(:category) }
 
         before do
-          work_package.category = category
+          allow(work_package).to receive(:categories).and_return([category])
         end
 
         it_behaves_like "has a titled link" do
@@ -999,6 +1026,83 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
           expect(subject).to have_json_type(Hash).at_path("_embedded/category")
           expect(subject).to be_json_eql("Category".to_json).at_path("#{embedded_path}/_type")
           expect(subject).to be_json_eql(category.name.to_json).at_path("#{embedded_path}/name")
+        end
+      end
+
+      context "when more than one category is set" do
+        let!(:backend) { create(:category, name: "Backend") }
+        let!(:api) { create(:category, name: "api") }
+
+        before do
+          allow(work_package).to receive(:categories).and_return([backend, api])
+        end
+
+        it_behaves_like "has a titled link" do
+          let(:link) { "category" }
+          let(:href) { api_v3_paths.category(api.id) }
+          let(:title) { api.name }
+        end
+      end
+
+      context "when multiple categories is active",
+              with_flag: { work_package_multiple_categories: true },
+              with_settings: { work_package_multiple_categories: true } do
+        let(:category) { build_stubbed(:category) }
+
+        before do
+          allow(work_package).to receive(:categories).and_return([category])
+        end
+
+        it "renders neither the deprecated category link nor the embedded resource" do
+          expect(subject).not_to have_json_path("_links/category")
+          expect(subject).not_to have_json_path("_embedded/category")
+        end
+      end
+    end
+
+    describe "categories" do
+      context "when no category is set" do
+        it "renders an empty links collection and an empty embedded collection" do
+          expect(subject).to have_json_size(0).at_path("_links/categories")
+          expect(subject).to have_json_size(0).at_path("_embedded/categories")
+        end
+      end
+
+      context "when categories are set" do
+        let(:backend) { build_stubbed(:category, name: "Backend") }
+        let(:api) { build_stubbed(:category, name: "api") }
+
+        before do
+          allow(work_package).to receive(:categories).and_return([api, backend])
+        end
+
+        it "lists the categories in the links collection" do
+          expect(subject).to have_json_size(2).at_path("_links/categories")
+          expect(subject).to be_json_eql(api_v3_paths.category(api.id).to_json).at_path("_links/categories/0/href")
+          expect(subject).to be_json_eql(api.name.to_json).at_path("_links/categories/0/title")
+          expect(subject).to be_json_eql(api_v3_paths.category(backend.id).to_json).at_path("_links/categories/1/href")
+        end
+
+        it "lists the categories in the embedded collection" do
+          expect(subject).to have_json_size(2).at_path("_embedded/categories")
+          expect(subject).to be_json_eql("Category".to_json).at_path("_embedded/categories/0/_type")
+          expect(subject).to be_json_eql(api.name.to_json).at_path("_embedded/categories/0/name")
+        end
+      end
+
+      context "when categories are assigned but not yet persisted" do
+        let(:project) { create(:project) }
+        let!(:backend) { create(:category, project:, name: "Backend") }
+        let!(:api) { create(:category, project:, name: "api") }
+
+        before do
+          work_package.category_ids_replacements = [api.id, backend.id]
+        end
+
+        it "renders the pending categories ordered by id" do
+          expect(subject).to have_json_size(2).at_path("_links/categories")
+          expect(subject).to be_json_eql(api_v3_paths.category(backend.id).to_json).at_path("_links/categories/0/href")
+          expect(subject).to be_json_eql(api_v3_paths.category(api.id).to_json).at_path("_links/categories/1/href")
         end
       end
     end
@@ -1501,12 +1605,8 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
 
       context "with format weighted item list" do
         let(:custom_field) { build_stubbed(:weighted_item_list_wp_custom_field) }
-        let(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
-        let(:contract_class) { CustomFields::Hierarchy::InsertWeightedItemContract }
         let(:weighted_item) do
-          service
-            .insert_item(contract_class:, parent: custom_field.hierarchy_root, label: "TIE Fighter", weight: 16.7)
-            .value!
+          create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "TIE Fighter", weight: 16.7)
         end
         let(:value) { weighted_item.id }
 
@@ -1519,12 +1619,8 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
 
       context "with format hierarchy" do
         let(:custom_field) { build_stubbed(:hierarchy_wp_custom_field) }
-        let(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
-        let(:contract_class) { CustomFields::Hierarchy::InsertListItemContract }
         let(:item) do
-          service
-            .insert_item(contract_class:, parent: custom_field.hierarchy_root, label: "TIE Fighter", short: "TF")
-            .value!
+          create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "TIE Fighter", short: "TF")
         end
         let(:value) { item.id }
 

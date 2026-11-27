@@ -16,3 +16,10 @@ rules:
       - test-core.yml
       # Frontend unit tests cache npm packages; only triggered on push/PR from trusted branches
       - test-frontend-unit.yml
+      # Check-only jobs; nothing built here is published
+      - i18n-tasks.yml
+      - migrate-without-optional-extensions.yml
+  adhoc-packages:
+    ignore:
+      # The workflow installs a pinned bundler-audit version. It only reads the lockfile of the release branch.
+      - bundle-audit.yml

@@ -84,7 +84,7 @@ RSpec.describe Projects::StatusController do
         put :update, params: { project_id: project, status_code: :foo }, format: :turbo_stream
 
         expect(response).not_to be_successful
-        expect(response).to have_http_status :unprocessable_entity
+        expect(response).to have_http_status :unprocessable_content
         expect(assigns(:project)).to eq project
         expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
       end

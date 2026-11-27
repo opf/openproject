@@ -96,7 +96,7 @@ RSpec.describe "Header What's new", :skip_csrf, type: :rails_request do
     it "rejects an unknown item" do
       post read_header_whats_new_path, params: { key: "unknown" }, as: :turbo_stream
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(user.reload.pref.whats_new_read_keys(release.version_key)).to be_empty
     end
 

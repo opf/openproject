@@ -28,7 +28,7 @@
 import { waitFor } from '@testing-library/dom';
 import { vi, type Mock } from 'vitest';
 
-import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
+import { setupStimulusTest, type StimulusTestContext, stubPendingPluginContext, stubPluginContext } from 'core-stimulus/test-helpers';
 import type RequirePasswordConfirmationControllerType from './require-password-confirmation.controller';
 
 describe('Require password confirmation controller', () => {
@@ -36,7 +36,6 @@ describe('Require password confirmation controller', () => {
   let RequirePasswordConfirmationController:typeof RequirePasswordConfirmationControllerType;
   let myPasswordConfirmationDialogPath:Mock;
   let fetchSpy:Mock;
-  let originalOpenProject:typeof window.OpenProject;
 
   beforeAll(async () => {
     ({ default: RequirePasswordConfirmationController } = await import('./require-password-confirmation.controller'));
@@ -49,12 +48,9 @@ describe('Require password confirmation controller', () => {
       text: () => Promise.resolve(''),
     } as unknown as Response);
 
-    originalOpenProject = window.OpenProject;
-    window.OpenProject = {
-      getPluginContext: () => Promise.resolve({
-        services: { pathHelperService: { myPasswordConfirmationDialogPath } },
-      }),
-    } as unknown as typeof window.OpenProject;
+    stubPluginContext({
+      services: { pathHelperService: { myPasswordConfirmationDialogPath } },
+    });
 
     ctx = await setupStimulusTest({
       controllers: { 'require-password-confirmation': RequirePasswordConfirmationController },
@@ -63,7 +59,6 @@ describe('Require password confirmation controller', () => {
 
   afterEach(() => {
     ctx.dispose();
-    window.OpenProject = originalOpenProject;
     vi.restoreAllMocks();
   });
 
@@ -175,10 +170,7 @@ describe('Require password confirmation controller', () => {
   });
 
   it('intercepts submits arriving before the plugin context resolves', async () => {
-    let resolveContext!:(context:unknown) => void;
-    window.OpenProject = {
-      getPluginContext: () => new Promise((resolve) => { resolveContext = resolve; }),
-    } as unknown as typeof window.OpenProject;
+    const resolveContext = stubPendingPluginContext();
 
     const form = await renderForm();
 

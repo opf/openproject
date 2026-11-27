@@ -66,7 +66,7 @@ module Bim
         max_size = Setting.attachment_max_size.to_i.kilobytes
         if params[:fileSize].to_i > max_size
           render json: { error: I18n.t("bim.error_direct_upload_file_too_large", size: max_size) },
-                 status: :unprocessable_entity
+                 status: :unprocessable_content
           return
         end
 
@@ -132,7 +132,7 @@ module Bim
           redirect_to action: :index
         else
           flash.now[:error] = service_result.message
-          render action: :new, status: :unprocessable_entity
+          render action: :new, status: :unprocessable_content
         end
       end
 
@@ -149,7 +149,7 @@ module Bim
           redirect_to action: :index
         else
           flash.now[:error] = service_result.message
-          render action: :edit, status: :unprocessable_entity
+          render action: :edit, status: :unprocessable_content
         end
       end
 
