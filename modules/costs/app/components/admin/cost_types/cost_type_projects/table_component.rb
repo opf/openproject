@@ -33,6 +33,8 @@ module Admin
       class TableComponent < ::Projects::TableComponent
         include ::Projects::Concerns::TableComponent::StreamablePaginationLinksConstraints
 
+        options :cost_type
+
         def columns
           @columns ||= query.selects.grep_v(Queries::Selects::NotExistingSelect)
         end

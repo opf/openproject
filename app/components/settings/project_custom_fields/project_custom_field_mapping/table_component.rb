@@ -31,6 +31,7 @@ module Settings
   module ProjectCustomFields
     module ProjectCustomFieldMapping
       class TableComponent < Admin::CustomFields::CustomFieldProjects::TableComponent
+        options :custom_field
       end
     end
   end
