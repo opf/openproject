@@ -94,7 +94,7 @@ module Wikis
         ->(pages) {
           render(Wikis::BrowsePagesFragmentComponent.new(pages, path, fetch_provider.id, wikis_selectable:), layout: false)
         },
-        ->(failure) { render "search_error", layout: false, locals: { message: humanize_error_message(failure) } }
+        ->(_) { head :internal_server_error }
       )
     end
 
