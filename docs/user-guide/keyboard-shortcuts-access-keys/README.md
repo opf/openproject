@@ -86,16 +86,17 @@ Please also refer to the documentation on [working in the rich text editor in Op
 
 ## Navigate work package tables
 
-The work package table can be used entirely with the keyboard. It has a single position in the page's tab order: press <kbd>Tab</kbd> to move into the table and use the arrow keys to move between cells and rows. Press <kbd>Tab</kbd> again to leave the table.
+The work package table can be used with the keyboard. It has a single position in the page's tab order: Press <kbd>Tab</kbd> to move into the table, then use the arrow keys to move between cells and rows. Press <kbd>Tab</kbd> again to leave the table and continue to the next part of the page.
 
 | Shortcut (Windows / Linux) | Shortcut (Mac) | Action |
 | -------------------------- | -------------- | ------ |
 | Arrow keys | Arrow keys | **Move** between cells and rows. |
-| <kbd>Space</kbd> | <kbd>Space</kbd> | **Select or deselect** the focused work package. |
-| <kbd>Shift</kbd> + <kbd>↑</kbd> / <kbd>↓</kbd> | <kbd>Shift</kbd> + <kbd>↑</kbd> / <kbd>↓</kbd> | **Extend the selection** to the previous or next work package. |
-| <kbd>Ctrl</kbd> + <kbd>A</kbd> | <kbd>Cmd</kbd> + <kbd>A</kbd> | **Select all** work packages. |
-| <kbd>Shift</kbd> + <kbd>F10</kbd> or <kbd>Menu</kbd> | <kbd>Shift</kbd> + <kbd>F10</kbd> | **Open the context menu** of the focused work package. When it closes, the focus returns to the cell. |
-| <kbd>Enter</kbd> or <kbd>F2</kbd> | <kbd>Enter</kbd> or <kbd>F2</kbd> | **Open an editable cell.** |
-| <kbd>Esc</kbd> | <kbd>Esc</kbd> | **Close** an open menu or editor. If nothing is open, clear the selection. |
+| <kbd>Home</kbd> / <kbd>End</kbd> | <kbd>Home</kbd> / <kbd>End</kbd> | **Move** to the first or last cell in the row. |
+| <kbd>Page Up</kbd> / <kbd>Page Down</kbd> | <kbd>Page Up</kbd> / <kbd>Page Down</kbd> | **Move** up or down one page of rows. |
+| <kbd>Ctrl</kbd> + <kbd>Home</kbd> / <kbd>End</kbd> | <kbd>Cmd</kbd> + <kbd>Home</kbd> / <kbd>End</kbd> | **Move** to the first or last cell of the table. |
+| <kbd>Shift</kbd> + <kbd>Space</kbd> | <kbd>Shift</kbd> + <kbd>Space</kbd> | **Select or deselect** the focused work package. |
+| <kbd>Enter</kbd> | <kbd>Enter</kbd> | **Edit** the cell, follow its only link or button, or move into its controls (<kbd>Tab</kbd> between them, <kbd>Esc</kbd> to
+return to the cell). |
+| <kbd>F2</kbd> | <kbd>F2</kbd> | **Edit** the cell. |
 
-To change the manual sort order without drag and drop, use the move actions in the context menu of a work package.
+To change the sort order without drag and drop, use **Move up**, **Move down**, **Move to top** or **Move to bottom** in the context menu (manually sorted tables only).
