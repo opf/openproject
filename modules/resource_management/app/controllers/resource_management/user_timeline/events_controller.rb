@@ -127,9 +127,15 @@ module ResourceManagement
       end
 
       def edit_url_for(allocation)
-        return unless visible_work_package_ids.include?(allocation.entity_id) && may_allocate?(allocation)
+        return unless editable?(allocation)
 
-        edit_allocation_path(@project ? allocation.project : nil, allocation)
+        edit_allocation_path(@project, allocation)
+      end
+
+      def editable?(allocation)
+        visible_work_package_ids.include?(allocation.entity_id) &&
+          (@project.nil? || allocation.project == @project) &&
+          may_allocate?(allocation)
       end
 
       # The permission lives on the allocation's own project, which on a global

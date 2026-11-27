@@ -141,10 +141,12 @@ module ResourcePlannerViews::UserCardList
     end
 
     # The permission lives on the project of the allocated work package, which on
-    # a global planner differs from row to row.
+    # a global planner differs from row to row. A project planner only edits its
+    # own project's allocations.
     def editable?(allocation)
       allocation_project = work_package_for(allocation)&.project
       return false if allocation_project.nil?
+      return false if project && allocation_project != project
 
       @editable ||= {}
       @editable.fetch(allocation_project.id) do

@@ -189,12 +189,8 @@ RSpec.describe "User timeline feeds", type: :rails_request, with_ee: %i[resource
                                                                       allocate_user_resources])])
       end
 
-      it "links the edit action to the allocation's own project" do
-        edit_url = bar_event.dig("extendedProps", "editUrl")
-        expect(edit_url).to eq(edit_project_resource_allocation_path(other_project, other_allocation))
-
-        get edit_url, as: :turbo_stream
-        expect(response).to have_http_status(:ok)
+      it "offers no click action, even though the viewer may allocate in that project" do
+        expect(bar_event.dig("extendedProps", "editUrl")).to be_nil
       end
 
       it "names the project on the bar" do

@@ -201,6 +201,27 @@ RSpec.describe "User resource allocations requests", type: :rails_request, with_
                                                                                ResourceAllocation.find_by(entity: visible_wp)))
       end
     end
+
+    context "when the user may allocate in the other project as well" do
+      shared_let(:user) do
+        create(:user,
+               member_with_permissions: {
+                 project => %i[view_resource_planners allocate_user_resources view_work_packages],
+                 other_project => %i[view_resource_planners allocate_user_resources view_work_packages]
+               })
+      end
+
+      it "offers edit only for the allocations in the planner's project" do
+        get path, as: :turbo_stream
+
+        expect(response.body)
+          .to include(edit_project_resource_allocation_path(project, ResourceAllocation.find_by(entity: visible_wp)))
+        expect(response.body)
+          .not_to include(edit_project_resource_allocation_path(project, ResourceAllocation.find_by(entity: foreign_wp)))
+        expect(response.body)
+          .not_to include(project_resource_allocation_path(project, ResourceAllocation.find_by(entity: foreign_wp)))
+      end
+    end
   end
 
   describe "authorization" do
