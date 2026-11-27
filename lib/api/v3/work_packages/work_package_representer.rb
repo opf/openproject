@@ -35,6 +35,7 @@ module API
         include API::V3::Workspaces::LinkedResource
         include API::Decorators::DateProperty
         include API::Decorators::FormattableProperty
+        include API::Decorators::ExcludableProperty
         include API::Caching::CachedRepresenter
         include ::API::V3::Attachments::AttachableRepresenterMixin
         extend ::API::V3::Utilities::CustomFieldInjector::RepresenterClass
@@ -50,7 +51,6 @@ module API
         def initialize(model, current_user:, embed_links: false, timestamps: nil, query: nil, excludes: {})
           @query = query
           @timestamps = timestamps || query.try(:timestamps) || []
-          # FIXME: We could do the expansion here, as this is all fixed at class-level
           @excludes = excludes || {}
 
           model = load_complete_model(model)

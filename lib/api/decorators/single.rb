@@ -110,6 +110,23 @@ module API
       def model_required?
         true
       end
+
+      def to_json(options = {})
+        super(options.merge(to_json_option_extras))
+      end
+
+      # Meant to be overloaded by a subclass. MUST be a hash. Will be passed
+      # to #to_json.
+      def to_json_option_extras
+        {}
+      end
+
+      # Only used by CachedRepresenter to construct a cache key. Currently
+      # only overloaded by ExcludableProperty. This is here to make the load
+      # order of concerns irrelevant.
+      def expanded_exclusions
+        []
+      end
     end
   end
 end

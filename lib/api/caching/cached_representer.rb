@@ -38,8 +38,6 @@ module API
 
       included do
         def to_json(options = {})
-          options = options.merge(to_json_option_extras)
-
           return super if no_caching?
 
           cached_json_rep = OpenProject::Cache.fetch(json_cache_key) do
@@ -228,19 +226,6 @@ module API
         def no_caching?
           self.class.cached_representer_configuration[:disabled]
         end
-
-        # FIXME: move elsewhere (no relation to caching)
-        def expanded_exclusions
-          self.class.expand_exclusions(@excludes&.keys)&.map(&:to_sym) | []
-        end
-
-        def to_json_option_extras
-          if expanded_exclusions.present?
-            { exclude: expanded_exclusions }
-          else
-            {}
-          end
-        end
       end
 
       class_methods do
@@ -260,22 +245,6 @@ module API
         def links(name, options = {}, &)
           rel_hash = name.is_a?(Hash) ? name : { rel: name }
           super(rel_hash.merge(options), &)
-        end
-
-        # FIXME: move elsewhere (no relation to caching)
-        def expand_exclusions(exclusions)
-          return if exclusions.blank?
-
-          exclusions.flat_map do |name|
-            case name.to_s
-            when "@formattable"
-              representable_attrs.each_with_object([]) do |definition, result|
-                result << definition.name if definition[:formattable]
-              end
-            else
-              name.to_sym
-            end
-          end
         end
       end
     end
