@@ -76,10 +76,11 @@ RSpec.describe "API v3 work packages hybrid typeahead (search bar)", content_typ
     it "returns the union of typeahead and semantic matches ordered by RRF score" do
       get_with_hybrid_typeahead("login")
       expect(last_response).to have_http_status 200
-      # both_wp: 1/61 (text rank 1) + 1/62 (semantic rank 2)
+      # Text matches weigh twice as much as semantic matches:
+      # both_wp: 2/61 (text rank 1) + 1/62 (semantic rank 2)
+      # text_only_wp: 2/62 (text rank 2)
       # semantic_only_wp: 1/61 (semantic rank 1)
-      # text_only_wp: 1/62 (text rank 2)
-      expect(element_ids).to eq [both_wp.id, semantic_only_wp.id, text_only_wp.id]
+      expect(element_ids).to eq [both_wp.id, text_only_wp.id, semantic_only_wp.id]
     end
 
     it "boosts an exact id match to the top via exactMatch" do

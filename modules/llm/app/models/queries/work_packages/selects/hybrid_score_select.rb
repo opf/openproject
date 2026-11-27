@@ -30,14 +30,16 @@
 # Orders work packages matched by the hybrid search filter by their reciprocal rank
 # fusion (RRF) score, computed entirely in SQL: each work package's rank in the
 # text-based result list (by recency) and in the semantic result list (by vector
-# distance) contributes 1 / (RRF_K + rank). Work packages matched by both lists get
-# both terms. Higher score sorts first ("desc").
+# distance) contributes weight / (RRF_K + rank). Work packages matched by both lists
+# get both terms. Higher score sorts first ("desc").
 #
 # When the query cannot be embedded (feature flag off, no active index, embedding
 # request failed), the semantic term is a NULL rank and scores 0, so the order
 # degrades to the plain text ranking.
 class Queries::WorkPackages::Selects::HybridScoreSelect < Queries::WorkPackages::Selects::WorkPackageSelect
   RRF_K = 60
+  TEXT_WEIGHT = 2.0
+  SEMANTIC_WEIGHT = 1.0
 
   # Constant fallback (always evaluates to 0, i.e. "no score"). Deliberately a CASE
   # expression, not a bare integer literal — Postgres treats a bare integer in ORDER BY
@@ -58,8 +60,8 @@ class Queries::WorkPackages::Selects::HybridScoreSelect < Queries::WorkPackages:
     return NO_SCORE_SQL unless filter
     return NO_SCORE_SQL if filter.values.first.blank?
 
-    "COALESCE(1.0 / (#{RRF_K} + (#{text_rank_sql(filter)})), 0) " \
-      "+ COALESCE(1.0 / (#{RRF_K} + (#{semantic_rank_sql(filter.values.first)})), 0)"
+    "COALESCE(#{TEXT_WEIGHT} / (#{RRF_K} + (#{text_rank_sql(filter)})), 0) " \
+      "+ COALESCE(#{SEMANTIC_WEIGHT} / (#{RRF_K} + (#{semantic_rank_sql(filter.values.first)})), 0)"
   end
 
   # Rank of the work package within the text-matched set. The plain hybrid search

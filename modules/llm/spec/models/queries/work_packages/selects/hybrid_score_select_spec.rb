@@ -32,12 +32,13 @@ require_module_spec_helper
 
 RSpec.describe Queries::WorkPackages::Selects::HybridScoreSelect do
   shared_let(:admin) { create(:admin) }
-  # Text match (most recent), no semantic match: text rank 1, RRF 1/61.
+  # Scores below use TEXT_WEIGHT = 2 and SEMANTIC_WEIGHT = 1.
+  # Text match (most recent), no semantic match: text rank 1, RRF 2/61.
   shared_let(:text_recent) do
     create(:work_package, subject: "Login problems guide", updated_at: 1.day.ago)
   end
   # Text match (older) and semantic match (closest): text rank 2 + semantic rank 1,
-  # RRF 1/62 + 1/61 — the highest score.
+  # RRF 2/62 + 1/61 — the highest score.
   shared_let(:both) do
     create(:work_package, subject: "Login problems handbook", updated_at: 3.days.ago)
   end
@@ -77,6 +78,20 @@ RSpec.describe Queries::WorkPackages::Selects::HybridScoreSelect do
     query.add_filter("hybrid_search", "**", ["login problems"])
 
     expect(query.results.work_packages.to_a).to eq([both, text_recent, semantic_only])
+  end
+
+  context "with a lower ranked text match" do
+    # Text match (oldest), no semantic match: text rank 3, RRF 2/63. Unweighted it
+    # would score 1/63 and rank below the semantic-only match (1/62).
+    let!(:text_old) do
+      create(:work_package, subject: "Login problems archive", updated_at: 5.days.ago)
+    end
+
+    it "weights text matches above semantic matches of similar rank" do
+      query.add_filter("hybrid_search", "**", ["login problems"])
+
+      expect(query.results.work_packages.to_a).to eq([both, text_recent, text_old, semantic_only])
+    end
   end
 
   it "uses a constant order when no hybrid search filter is present" do
