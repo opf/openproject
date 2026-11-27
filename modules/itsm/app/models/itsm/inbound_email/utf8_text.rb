@@ -31,10 +31,11 @@ module ITSM
   class InboundEmail
     module Utf8Text
       def self.call(value)
+        return unless value
+
         case value
-        when Array then value.map { call(it) }
-        when String then value.dup.force_encoding(Encoding::UTF_8).scrub.delete("\u0000")
-        else value
+        in Array then value.map { call(it) }
+        in String then value.dup.force_encoding(Encoding::UTF_8).scrub.delete("\u0000")
         end
       end
     end
