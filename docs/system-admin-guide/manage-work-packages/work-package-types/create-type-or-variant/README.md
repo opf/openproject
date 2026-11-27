@@ -21,20 +21,25 @@ For guidance on choosing between them, see [Manage work package types](../).
 
 ## Step 1: Start
 
-The **Start** step lets you choose how to configure the new type or variant.
+The **Start** step explains how the new type or variant is configured. No configuration is required at this stage. Click **Start** to proceed to the next step.
 
 ![Start screen of the wizard for creating a work package type or variant](openproject_system_guide_create_work_package_type_start.png)
 
-When creating a **type**, you can configure its settings and choose whether to use existing forms and workflows, copy an existing configuration, or start from scratch.
+When creating a **type**, you configure its settings directly. For forms and workflows, you can select an existing one, create a copy, or start from scratch.
 
-When creating a **variant**, you can choose to use the same settings as its parent type or configure the variant independently:
+When creating a **variant**, you can choose how most settings, such as defaults, project attributes, and PDF export, are configured:
 
-- **Use same settings as type:** The variant inherits its configuration from the parent type. Changes to inherited settings are reflected in the variant.
-- **Manual configuration:** The variant uses its own configuration, which you can initialize by copying existing settings or starting from scratch. Later changes to the parent type are not automatically applied.
+- **Use the same settings as the type:** The variant inherits the settings of its parent type. Subsequent changes to these settings on the parent type are automatically reflected in the variant.
+- **Manual configuration:** The variant has its own settings. You can copy the current settings of the parent type or start from scratch. Subsequent changes to the parent type's settings do not affect the variant.
 
-Forms and workflows are reusable objects that can be shared between types and variants.
+### Forms and workflows
 
-Choose the appropriate configuration option and continue to the next step.
+Forms and workflows are reusable objects and are handled differently from inherited settings. A new variant initially uses the same form and workflow as its parent type. You can keep these, select other existing forms or workflows, or create new ones.
+
+Keep in mind:
+
+- Editing a shared form or workflow affects all types and variants that use it.
+- If the parent type is later assigned a different form or workflow, the variant retains its own selection.
 
 ## Step 2: Details
 

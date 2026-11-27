@@ -75,11 +75,14 @@ Before deleting a variant, check which projects use it and make sure those proje
 
 ### Migrated variants
 
-When upgrading to OpenProject 18.0, OpenProject may automatically create variants to preserve project-specific custom field configurations. These variants are labeled **Migrated** in the overview, making them easy to identify.
+When upgrading to OpenProject 18.0, OpenProject automatically creates variants to preserve configurations where custom fields were disabled in individual projects. The variants are created based on the combinations of disabled custom fields:
 
-You can use the **Migrated** filter to find these variants and review their configurations alongside manually created variants.
+- **Project-specific variant:** Created when a particular combination of disabled fields occurs in only one project.
+- **Global variant:** Created when the same combination occurs in multiple projects.
 
-Migrated variants help preserve existing project settings during the upgrade. Before changing or deleting one, check which projects use it and whether they still need its configuration.
+Migrated variants are named using the pattern **[Type name] without [field name]** and are labeled **Migrated** in the Types overview.
+
+Use the **Migrated** filter to find these variants. Before changing or deleting a migrated variant, check which projects use it and whether the configuration is still needed.
 
 ## Configure a type or variant
 

@@ -44,9 +44,20 @@ For more information, see [When to create a type or a variant](../work-package-t
 
 ## Can project administrators create their own type variants?
 
-Yes, if an instance administrator has enabled this option for the relevant work package type. Project administrators can then create project-specific variants that are available only in their project.
+Yes, provided both of the following conditions are met:
+
+- An instance administrator has enabled **Allow project-specific variants** for the relevant work package type. This option is enabled by default.
+- The project administrator's role includes the **Manage type variants** permission.
+
+Project administrators can then navigate to **Project settings → Work packages** and select **Add a project-specific variant** to create a variant for their project.
 
 Instance administrators can manage variants across projects and make project-specific variants available to other projects.
+
+## Can I activate multiple variants of the same type in new projects?
+
+No. Only one configuration per work package type can be activated by default in new projects: either the original type or one of its variants.
+
+If you select another variant or the original type for activation in new projects, it replaces the previous selection.
 
 ## What happens when I change a shared workflow or form?
 
