@@ -38,12 +38,11 @@ RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
   shared_let(:project) { create(:project, types: [epic_type, create(:type_task)]) }
   shared_let(:closed_status) { create(:closed_status) }
   shared_let(:sprint) do
-    create(:sprint,
+    create(:sprint, :active,
            project:,
            name: "Sprint 42",
            start_date: Date.yesterday,
            finish_date: Date.tomorrow,
-           status: :active,
            started_at: 12.hours.ago)
   end
   shared_let(:sprint_goal) { create(:sprint_goal, sprint:, project:, text: "Add sprint goal widget") }
@@ -78,14 +77,13 @@ RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
 
   describe "navigation between reports" do
     let!(:previous_sprint) do
-      create(:sprint,
+      create(:sprint, :completed,
              project:,
              name: "Sprint 41",
              start_date: 20.days.ago,
              finish_date: 10.days.ago,
              started_at: 20.days.ago,
-             completed_at: 10.days.ago,
-             status: :completed)
+             completed_at: 10.days.ago)
     end
 
     before { visit_sprint_report }
@@ -207,8 +205,9 @@ RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
 
       context "when the sprint was executed over those dates" do
         shared_let(:sprint) do
-          create(:sprint, project:, name: "Sprint 42", start_date: 10.days.ago.to_date, finish_date: 3.days.ago.to_date,
-                          status: :completed, started_at: 10.days.ago, completed_at: 3.days.ago)
+          create(:sprint, :completed, project:, name: "Sprint 42",
+                                      start_date: 10.days.ago.to_date, finish_date: 3.days.ago.to_date,
+                                      started_at: 10.days.ago, completed_at: 3.days.ago)
         end
         shared_let(:sprint_goal) { create(:sprint_goal, sprint:, project:, text: "Add sprint goal widget") }
 

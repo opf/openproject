@@ -40,20 +40,18 @@ RSpec.describe "Velocity chart widget", :js, with_flag: :sprint_reports do
   end
 
   shared_let(:previous_sprint) do
-    create(:sprint,
+    create(:sprint, :completed,
            project:,
            name: "Sprint 1",
-           status: :completed,
            start_date: 4.weeks.ago.to_date,
            finish_date: 2.weeks.ago.to_date,
            started_at: 4.weeks.ago,
            completed_at: 2.weeks.ago)
   end
   shared_let(:sprint) do
-    create(:sprint,
+    create(:sprint, :active,
            project:,
            name: "Sprint 2",
-           status: :active,
            start_date: 1.week.ago.to_date,
            finish_date: 1.week.from_now.to_date,
            started_at: 1.week.ago)

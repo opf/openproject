@@ -33,33 +33,35 @@ require Rails.root.join("modules/backlogs/db/migrate/20260825103847_backfill_spr
 RSpec.describe BackfillSprintStartedAndCompletedAt, type: :model do
   subject(:migrate) { ActiveRecord::Migration.suppress_messages { described_class.migrate(:up) } }
 
-  let!(:in_planning) { create(:sprint, status: "in_planning") }
+  let(:project) { create(:project) }
+
+  let!(:in_planning) { legacy_sprint("in_planning") }
 
   let!(:active) do
-    create(:sprint, status: "active", start_date: Date.new(2026, 1, 5), finish_date: Date.new(2026, 1, 20))
+    legacy_sprint("active", start_date: Date.new(2026, 1, 5), finish_date: Date.new(2026, 1, 20))
   end
 
   let!(:completed) do
-    create(:sprint, status: "completed", start_date: Date.new(2026, 2, 1), finish_date: Date.new(2026, 2, 14))
+    legacy_sprint("completed", start_date: Date.new(2026, 2, 1), finish_date: Date.new(2026, 2, 14))
   end
 
   let!(:active_without_dates) do
-    build(:sprint, status: "active", start_date: nil, finish_date: nil).tap { |s| s.save!(validate: false) }
+    legacy_sprint("active", start_date: nil, finish_date: nil)
   end
 
   let!(:already_started) do
-    create(:sprint, status: "active", start_date: Date.new(2026, 3, 1), finish_date: Date.new(2026, 3, 14)).tap do |s|
-      s.update_column(:started_at, Time.zone.parse("2026-03-01 09:17:42 UTC"))
-    end
+    legacy_sprint("active", start_date: Date.new(2026, 3, 1), finish_date: Date.new(2026, 3, 14),
+                            started_at: Time.zone.parse("2026-03-01 09:17:42 UTC"))
   end
 
   let!(:already_started_and_completed) do
-    create(:sprint, status: "completed", start_date: Date.new(2026, 4, 1), finish_date: Date.new(2026, 4, 14)).tap do |s|
-      s.update_columns(
-        started_at: Time.zone.parse("2026-04-01 09:17:42 UTC"),
-        completed_at: Time.zone.parse("2026-04-14 16:03:11 UTC")
-      )
-    end
+    legacy_sprint("completed", start_date: Date.new(2026, 4, 1), finish_date: Date.new(2026, 4, 14),
+                               started_at: Time.zone.parse("2026-04-01 09:17:42 UTC"),
+                               completed_at: Time.zone.parse("2026-04-14 16:03:11 UTC"))
+  end
+
+  def legacy_sprint(status, **)
+    Sprint.new(project:, name: "Legacy sprint", status:, **).tap { it.save!(validate: false) }
   end
 
   it "leaves sprints that are still in planning untouched" do

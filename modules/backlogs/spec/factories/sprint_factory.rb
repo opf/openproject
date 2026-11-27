@@ -33,21 +33,37 @@ FactoryBot.define do
   factory :sprint do
     sequence(:name) { |n| "Sprint #{n}" }
     project
-    status { "in_planning" }
     start_date { Time.zone.today }
     finish_date { Time.zone.today + 14.days }
 
+    transient do
+      status { nil }
+      status_from_trait { nil }
+    end
+
+    callback(:after_build, :after_stub) do |sprint, context|
+      if context.status.in?(Sprint.statuses)
+        fail ArgumentError, "Use trait :#{context.status} instead of setting status", caller
+      elsif context.status
+        fail ArgumentError, "Use trait :in_planning, :active or :completed instead of setting status", caller
+      end
+
+      sprint.status = context.status_from_trait || "in_planning"
+    end
+
+    callback(:after_stub) { |sprint, _context| sprint.clear_status_change } # stubs should not be dirty
+
     trait :in_planning do
-      status { "in_planning" }
+      status_from_trait { "in_planning" }
     end
 
     trait :active do
-      status { "active" }
+      status_from_trait { "active" }
       started_at { time_from_date.call(start_date) }
     end
 
     trait :completed do
-      status { "completed" }
+      status_from_trait { "completed" }
       start_date { Time.zone.today - 14.days }
       finish_date { Time.zone.today }
       started_at { time_from_date.call(start_date) }

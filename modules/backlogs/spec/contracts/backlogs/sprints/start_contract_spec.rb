@@ -35,12 +35,8 @@ RSpec.describe Backlogs::Sprints::StartContract do
 
   let(:project) { create(:project) }
   let(:user) { create(:user) }
-  let(:sprint) do
-    create(:sprint,
-           project:,
-           status: sprint_status)
-  end
-  let(:sprint_status) { "in_planning" }
+  let(:sprint) { create(:sprint, sprint_status, project:) }
+  let(:sprint_status) { :in_planning }
   let(:permissions) { [:start_complete_sprint] }
 
   subject(:contract) { described_class.new(sprint, user) }
@@ -63,33 +59,33 @@ RSpec.describe Backlogs::Sprints::StartContract do
     end
 
     context "when sprint is active" do
-      let(:sprint_status) { "active" }
+      let(:sprint_status) { :active }
 
       it_behaves_like "contract is invalid", status: :must_be_in_planning
     end
 
     context "when sprint is completed" do
-      let(:sprint_status) { "completed" }
+      let(:sprint_status) { :completed }
 
       it_behaves_like "contract is invalid", status: :must_be_in_planning
     end
 
     context "when the sprint has no start date" do
-      let(:sprint) { create(:sprint, project:, status: sprint_status, start_date: nil) }
+      let(:sprint) { create(:sprint, sprint_status, project:, start_date: nil) }
 
       it_behaves_like "contract is invalid", base: :dates_required
     end
 
     context "when the sprint has no finish date" do
-      let(:sprint) { create(:sprint, project:, status: sprint_status, finish_date: nil) }
+      let(:sprint) { create(:sprint, sprint_status, project:, finish_date: nil) }
 
       it_behaves_like "contract is invalid", base: :dates_required
     end
 
     context "when the sprint's finish date is in the past" do
       let(:sprint) do
-        create(:sprint, project:, status: sprint_status,
-                        start_date: 2.weeks.ago.to_date, finish_date: Date.yesterday)
+        create(:sprint, sprint_status, project:,
+                                       start_date: 2.weeks.ago.to_date, finish_date: Date.yesterday)
       end
 
       it_behaves_like "contract is invalid", status: :finish_date_in_past
@@ -97,8 +93,8 @@ RSpec.describe Backlogs::Sprints::StartContract do
 
     context "when the sprint finishes today" do
       let(:sprint) do
-        create(:sprint, project:, status: sprint_status,
-                        start_date: 2.weeks.ago.to_date, finish_date: Time.zone.today)
+        create(:sprint, sprint_status, project:,
+                                       start_date: 2.weeks.ago.to_date, finish_date: Time.zone.today)
       end
 
       it_behaves_like "contract is valid"
@@ -107,8 +103,8 @@ RSpec.describe Backlogs::Sprints::StartContract do
     context "when the date is already past in the user's time zone but not in UTC" do
       let(:user) { create(:user, preferences: { time_zone: "Pacific/Auckland" }) }
       let(:sprint) do
-        create(:sprint, project:, status: sprint_status,
-                        start_date: Date.new(2026, 11, 5), finish_date: Date.new(2026, 11, 19))
+        create(:sprint, sprint_status, project:,
+                                       start_date: Date.new(2026, 11, 5), finish_date: Date.new(2026, 11, 19))
       end
 
       # 2026-11-19 20:00 UTC is already 2026-11-20 in Auckland (UTC+13).
@@ -119,7 +115,7 @@ RSpec.describe Backlogs::Sprints::StartContract do
 
     context "when another active sprint exists in the project" do
       before do
-        create(:sprint, project:, status: "active")
+        create(:sprint, :active, project:)
       end
 
       it_behaves_like "contract is invalid", status: :only_one_active_sprint_allowed
@@ -133,7 +129,7 @@ RSpec.describe Backlogs::Sprints::StartContract do
 
     context "when an active sprint exists in a different, unrelated project" do
       before do
-        create(:sprint, project: create(:project), status: "active")
+        create(:sprint, :active, project: create(:project))
       end
 
       it_behaves_like "contract is valid"
@@ -144,7 +140,7 @@ RSpec.describe Backlogs::Sprints::StartContract do
       let(:project) { create(:project, parent:, sprint_sharing: "receive_shared") }
 
       before do
-        create(:sprint, project: parent, status: "active")
+        create(:sprint, :active, project: parent)
       end
 
       it_behaves_like "contract is invalid",

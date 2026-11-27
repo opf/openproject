@@ -35,8 +35,8 @@ RSpec.describe Backlogs::Sprints::FinishContract do
 
   let(:project) { build_stubbed(:project) }
   let(:user) { build_stubbed(:user) }
-  let(:sprint) { build_stubbed(:sprint, project:, status: sprint_status) }
-  let(:sprint_status) { "active" }
+  let(:sprint) { build_stubbed(:sprint, sprint_status, project:) }
+  let(:sprint_status) { :active }
   let(:unfinished_count) { 0 }
   let(:permissions) { [:start_complete_sprint] }
 
@@ -58,13 +58,13 @@ RSpec.describe Backlogs::Sprints::FinishContract do
     end
 
     context "when the sprint is not active" do
-      let(:sprint_status) { "in_planning" }
+      let(:sprint_status) { :in_planning }
 
       it_behaves_like "contract is invalid", status: :not_active
     end
 
     context "when the sprint is completed" do
-      let(:sprint_status) { "completed" }
+      let(:sprint_status) { :completed }
 
       it_behaves_like "contract is invalid", status: :not_active
     end

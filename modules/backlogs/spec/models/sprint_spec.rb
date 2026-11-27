@@ -90,21 +90,21 @@ RSpec.describe Sprint do
       end
 
       it "prevents multiple active sprints in the same project" do
-        create(:sprint, project:, status: "active")
+        create(:sprint, :active, project:)
         expect(sprint).not_to be_valid
         expect(sprint.errors[:status]).to include("only one active sprint is allowed per project.")
       end
 
       it "allows multiple active sprints in different projects" do
         other_project = create(:project)
-        create(:sprint, project: other_project, status: "active")
+        create(:sprint, :active, project: other_project)
         expect(sprint).to be_valid
       end
 
       it "prevents an active sprint when another active sprint is shared into the project" do
         parent = create(:project, sprint_sharing: "share_subprojects")
         receiving_project = create(:project, parent:, sprint_sharing: "receive_shared")
-        create(:sprint, project: parent, status: "active")
+        create(:sprint, :active, project: parent)
         sprint.project = receiving_project
 
         expect(sprint).not_to be_valid
@@ -118,8 +118,8 @@ RSpec.describe Sprint do
       end
 
       it "allows multiple non-active sprints in the same project" do
-        create(:sprint, project:, status: "completed")
-        create(:sprint, project:, status: "in_planning")
+        create(:sprint, :completed, project:)
+        create(:sprint, :in_planning, project:)
         sprint.status = "in_planning"
         expect(sprint).to be_valid
       end

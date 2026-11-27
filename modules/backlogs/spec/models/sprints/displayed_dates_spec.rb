@@ -51,7 +51,7 @@ RSpec.describe Sprints::DisplayedDates do
   end
 
   context "when the sprint is in planning" do
-    let(:sprint) { build_stubbed(:sprint, status: :in_planning, start_date:, finish_date:) }
+    let(:sprint) { build_stubbed(:sprint, :in_planning, start_date:, finish_date:) }
 
     it_behaves_like "displays", start: :planned, finish: :planned
 
@@ -67,7 +67,7 @@ RSpec.describe Sprints::DisplayedDates do
   end
 
   context "when the sprint is in planning with only a start date" do
-    let(:sprint) { build_stubbed(:sprint, status: :in_planning, start_date:, finish_date: nil) }
+    let(:sprint) { build_stubbed(:sprint, :in_planning, start_date:, finish_date: nil) }
 
     it "has a planned range that is still open" do
       expect(displayed_dates).to be_planned
@@ -76,13 +76,13 @@ RSpec.describe Sprints::DisplayedDates do
   end
 
   context "when the sprint is in planning but carries a start timestamp" do
-    let(:sprint) { build_stubbed(:sprint, status: :in_planning, start_date:, finish_date:, started_at:) }
+    let(:sprint) { build_stubbed(:sprint, :in_planning, start_date:, finish_date:, started_at:) }
 
     it_behaves_like "displays", start: :planned, finish: :planned
   end
 
   context "when the sprint is in planning without dates" do
-    let(:sprint) { build_stubbed(:sprint, status: :in_planning, start_date: nil, finish_date: nil) }
+    let(:sprint) { build_stubbed(:sprint, :in_planning, start_date: nil, finish_date: nil) }
 
     it "has nothing to display" do
       expect(displayed_dates).not_to be_any
@@ -91,7 +91,7 @@ RSpec.describe Sprints::DisplayedDates do
   end
 
   context "when the sprint is active" do
-    let(:sprint) { build_stubbed(:sprint, status: :active, start_date:, finish_date:, started_at:) }
+    let(:sprint) { build_stubbed(:sprint, :active, start_date:, finish_date:, started_at:) }
 
     it_behaves_like "displays", start: :actual, finish: :planned
 
@@ -106,14 +106,14 @@ RSpec.describe Sprints::DisplayedDates do
   end
 
   context "when the sprint is active without a start timestamp" do
-    let(:sprint) { build_stubbed(:sprint, status: :active, start_date:, finish_date:, started_at: nil) }
+    let(:sprint) { build_stubbed(:sprint, :active, start_date:, finish_date:, started_at: nil) }
 
     it_behaves_like "displays", start: :planned, finish: :planned
   end
 
   context "when the sprint is completed" do
     let(:sprint) do
-      build_stubbed(:sprint, status: :completed, start_date:, finish_date:, started_at:, completed_at:)
+      build_stubbed(:sprint, :completed, start_date:, finish_date:, started_at:, completed_at:)
     end
 
     it_behaves_like "displays", start: :actual, finish: :actual
@@ -125,7 +125,7 @@ RSpec.describe Sprints::DisplayedDates do
 
   context "when the sprint is completed without a completion timestamp" do
     let(:sprint) do
-      build_stubbed(:sprint, status: :completed, start_date:, finish_date:, started_at:, completed_at: nil)
+      build_stubbed(:sprint, :completed, start_date:, finish_date:, started_at:, completed_at: nil)
     end
 
     it_behaves_like "displays", start: :actual, finish: :planned
@@ -133,7 +133,7 @@ RSpec.describe Sprints::DisplayedDates do
 
   context "when the sprint is completed without planned dates" do
     let(:sprint) do
-      build_stubbed(:sprint, status: :completed, start_date: nil, finish_date: nil, started_at:, completed_at:)
+      build_stubbed(:sprint, :completed, start_date: nil, finish_date: nil, started_at:, completed_at:)
     end
 
     it "still has dates to display" do

@@ -34,11 +34,10 @@ RSpec.describe Backlogs::Sprints::UpdateContract do
   include_context "as sprint contract"
 
   let(:sprint) do
-    build_stubbed(:sprint,
+    build_stubbed(:sprint, sprint_status,
                   name: sprint_name,
                   project: sprint_project,
                   start_date: sprint_start_date,
-                  finish_date: sprint_finish_date,
-                  status: sprint_status)
+                  finish_date: sprint_finish_date)
   end
 end
