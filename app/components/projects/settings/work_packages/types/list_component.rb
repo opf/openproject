@@ -38,32 +38,33 @@ module Projects
 
           FRAME_ID = "project-types-list"
 
-          def initialize(project:, created_by_migration: false)
+          def initialize(project:, query: nil, created_by_migration: false)
             super()
 
             @project = project
+            @query = query&.strip.presence
             @created_by_migration = created_by_migration
           end
 
           private
 
-          attr_reader :project, :created_by_migration
+          attr_reader :project, :query, :created_by_migration
 
           def migration_filter? = created_by_migration
 
           def active_project_types
-            @active_project_types ||= begin
-              project_types = project
-                                .project_types
-                                .includes(:variant, type: :color)
-                                .sort_by { |project_type| project_type.type.position }
+            @active_project_types ||= project.project_types
+                                             .includes(:variant, type: :color)
+                                             .select { |project_type| matches_filters?(project_type) }
+                                             .sort_by { |project_type| project_type.type.position }
+          end
 
-              if migration_filter?
-                project_types.select { |project_type| selectable_variants(project_type).any? }
-              else
-                project_types
-              end
-            end
+          def type_name_matches?(project_type)
+            query.nil? || project_type.type.name.downcase.include?(query.downcase)
+          end
+
+          def matches_filters?(project_type)
+            (!migration_filter? && type_name_matches?(project_type)) || selectable_variants(project_type).exists?
           end
 
           def manages_types?
@@ -88,6 +89,7 @@ module Projects
 
           def selectable_variants(project_type)
             scope = project_type.type.variants.non_default_variants.available_in(project)
+            scope = scope.with_name_like(query) unless type_name_matches?(project_type)
             scope = scope.created_by_migration if migration_filter?
             scope.in_display_order
           end
@@ -100,10 +102,12 @@ module Projects
             project_type.variant.default?
           end
 
-          def collapsed?(project_type) = !migration_filter? && base_type_in_use?(project_type)
+          def filtered? = query.present? || migration_filter?
+
+          def collapsed?(project_type) = !filtered? && base_type_in_use?(project_type)
 
           def empty_state_arguments
-            if migration_filter?
+            if filtered?
               { title: t("types.index.filter_no_results"), icon: :search }
             else
               { title: t("projects.settings.types.empty_state.title"),
