@@ -29,7 +29,6 @@
 
 module ITSM
   class InboundEmail
-    # PostgreSQL rejects NUL bytes in text, although they are valid UTF-8.
     module Utf8Text
       def self.call(value)
         case value
