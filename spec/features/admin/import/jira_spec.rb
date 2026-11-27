@@ -45,6 +45,14 @@ RSpec.describe "Jira instance configuration", :js do
       expect(page).to have_text("The token must belong to a Jira administrator.")
     end
 
+    it "masks the credential inputs" do
+      expect(page).to have_field("Personal access token (PAT)", type: "password")
+
+      choose "Basic auth"
+
+      expect(page).to have_field("Password", type: "password")
+    end
+
     it "cancels back to the Jira import overview" do
       click_on "Cancel"
 
@@ -83,12 +91,13 @@ RSpec.describe "Jira instance configuration", :js do
       expect(page).to have_checked_field("Exclude resolution fields for this configuration")
     end
 
-    it "shows an error when name is blank" do
+    it "shows an error and clears the token input when name is blank" do
       fill_in "Jira Server/Data Center URL", with: "https://jira.example.com"
       fill_in "Personal access token (PAT)", with: "secret_token"
       click_on "Add configuration"
 
       expect(page).to have_text("Jira instance name can't be blank")
+      expect(page).to have_field("Personal access token (PAT)", with: "")
     end
 
     it "shows an error when URL is blank" do
@@ -124,7 +133,7 @@ RSpec.describe "Jira instance configuration", :js do
         find("[href='/admin/import/jira/9/clear_credential?field=personal_access_token']").click
       end
 
-      expect(page).to have_field("Personal access token (PAT)", disabled: false)
+      expect(page).to have_field("Personal access token (PAT)", type: "password", disabled: false)
       expect(jira.reload.personal_access_token).to be_nil
     end
 
