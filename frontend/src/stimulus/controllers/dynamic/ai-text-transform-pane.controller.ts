@@ -43,6 +43,8 @@ const POLL_HIDDEN = 5000;
 const POLL_RETRIES = 5;
 const RETRY_MIN = 1000;
 const APPLY_TIMEOUT = 300;
+const BOTTOM_TOLERANCE = 4;
+const MORE_BELOW_CLASS = 'op-ai-result-pane--more-below';
 
 type Geometry = Partial<Record<typeof GEOMETRY_PROPERTIES[number], string>>;
 
@@ -75,7 +77,7 @@ let rememberedGeometry:Geometry|null = null;
 const clamp = (value:number, min:number, max:number) => Math.min(Math.max(min, value), max);
 
 export default class AiTextTransformPaneController extends Controller<HTMLElement> {
-  static targets = ['pane', 'state', 'error', 'errorMessage'];
+  static targets = ['pane', 'scroll', 'state', 'error', 'errorMessage', 'notice'];
 
   static values = {
     closeForm: String,
@@ -86,6 +88,8 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
 
 
   declare readonly paneTarget:HTMLElement;
+  declare readonly scrollTarget:HTMLElement;
+  declare readonly hasScrollTarget:boolean;
   declare readonly errorTarget:HTMLElement;
   declare readonly errorMessageTarget:HTMLElement;
   declare readonly hasErrorTarget:boolean;
@@ -97,6 +101,11 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
   private dragOffset:{ x:number; y:number }|null = null;
   private resizeStart:ResizeStart|null = null;
   private pointerListeners:AbortController|null = null;
+  private scrollWatch:{ element:HTMLElement; mutations:MutationObserver; resizes:ResizeObserver; listeners:AbortController }|null = null;
+  private followsOutput = true;
+  private knownScroll = { top: 0, height: 0, viewport: 0 };
+
+  private viewportHeight = 0;
 
   private run = { state: '', seq: '0', requestId: '', pollUrl: '' };
   private pollTimer:ReturnType<typeof setTimeout>|null = null;
@@ -133,6 +142,7 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
     this.dialogListeners?.abort();
     this.dialogListeners = null;
     this.endPointerAction();
+    this.unwatchScroll();
     this.stopPolling();
     this.clearApplyTimer();
     if (!this.moving) {
@@ -140,6 +150,44 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
     }
     if (!this.element.isConnected) {
       this.abandon();
+    }
+  }
+
+  scrollTargetConnected(element:HTMLElement):void {
+    this.unwatchScroll();
+    const listeners = new AbortController();
+    const resizes = new ResizeObserver((entries) => this.scrollAreaResized(
+      entries.some((entry) => entry.target === element) && this.viewportShrank(element),
+    ));
+    const mutations = new MutationObserver((records) => {
+      this.observeContentResizes(resizes, element, records);
+      this.outputChanged();
+    });
+    mutations.observe(element, { childList: true, characterData: true, subtree: true });
+    resizes.observe(element);
+    Array.from(element.children).forEach((child) => resizes.observe(child));
+    element.addEventListener('scroll', () => this.scrolled(), { passive: true, signal: listeners.signal });
+    this.scrollWatch = { element, mutations, resizes, listeners };
+    this.viewportHeight = element.clientHeight;
+    this.followsOutput = this.scrolledToEnd;
+    this.rememberScrollPosition();
+    this.showMoreBelow();
+  }
+
+  scrollTargetDisconnected(element:HTMLElement):void {
+    if (this.scrollWatch?.element === element) {
+      this.unwatchScroll();
+    }
+  }
+
+  noticeTargetConnected(element:HTMLElement):void {
+    if (!this.hasScrollTarget) {
+      return;
+    }
+
+    this.catchUpWithUnseenScroll();
+    if (this.followsOutput) {
+      this.reveal(element);
     }
   }
 
@@ -332,6 +380,85 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
     return this.paneTarget.style.left !== '';
   }
 
+  private get scrolledToEnd():boolean {
+    const { scrollHeight, scrollTop, clientHeight } = this.scrollTarget;
+    return scrollHeight - scrollTop - clientHeight <= BOTTOM_TOLERANCE;
+  }
+
+  // Scroll events arrive with the next frame, after output or the pane may have changed, so only a move tells what the user did.
+  // The user aimed at the layout they saw before that change, and the browser may have clamped the position to the new one.
+  private catchUpWithUnseenScroll():void {
+    const { scrollTop } = this.scrollTarget;
+    const { top, height, viewport } = this.knownScroll;
+    const atEnd = this.scrolledToEnd || height - scrollTop - viewport <= BOTTOM_TOLERANCE;
+    if (scrollTop < top && !atEnd) {
+      this.followsOutput = false;
+    } else if (scrollTop > top && atEnd) {
+      this.followsOutput = true;
+    }
+  }
+
+  private rememberScrollPosition():void {
+    const { scrollTop, scrollHeight, clientHeight } = this.scrollTarget;
+    this.knownScroll = { top: scrollTop, height: scrollHeight, viewport: clientHeight };
+  }
+
+  private scrolled():void {
+    this.catchUpWithUnseenScroll();
+    this.rememberScrollPosition();
+    this.showMoreBelow();
+  }
+
+  private outputChanged():void {
+    this.catchUpWithUnseenScroll();
+    if (this.followsOutput) {
+      this.scrollTarget.scrollTop = this.scrollTarget.scrollHeight;
+    }
+    this.rememberScrollPosition();
+    this.showMoreBelow();
+  }
+
+  private reveal(element:HTMLElement):void {
+    this.followsOutput = false;
+    element.scrollIntoView({ block: 'nearest' });
+  }
+
+  // Scroll events arrive before resize observations, so only this keeps the height the last observation saw.
+  private viewportShrank(element:HTMLElement):boolean {
+    const shrank = element.clientHeight < this.viewportHeight;
+    this.viewportHeight = element.clientHeight;
+    return shrank;
+  }
+
+  private scrollAreaResized(viewportShrank:boolean):void {
+    if (viewportShrank || this.run.state === 'generating') {
+      this.outputChanged();
+    } else {
+      this.scrolled();
+    }
+    this.followsOutput = this.scrolledToEnd;
+  }
+
+  private observeContentResizes(resizes:ResizeObserver, scrollArea:HTMLElement, records:MutationRecord[]):void {
+    records
+      .filter((record) => record.target === scrollArea)
+      .forEach((record) => {
+        record.removedNodes.forEach((node) => node instanceof Element && resizes.unobserve(node));
+        record.addedNodes.forEach((node) => node instanceof Element && resizes.observe(node));
+      });
+  }
+
+  private showMoreBelow():void {
+    this.scrollTarget.classList.toggle(MORE_BELOW_CLASS, !this.scrolledToEnd);
+  }
+
+  private unwatchScroll():void {
+    this.scrollWatch?.mutations.disconnect();
+    this.scrollWatch?.resizes.disconnect();
+    this.scrollWatch?.listeners.abort();
+    this.scrollWatch = null;
+  }
+
   private schedulePoll():void {
     if (this.pollTimer || this.pollInFlight) {
       return;
@@ -416,6 +543,7 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
     if (this.hasErrorTarget) {
       this.errorMessageTarget.textContent = message;
       this.errorTarget.hidden = false;
+      this.keepInViewport();
     }
   }
 

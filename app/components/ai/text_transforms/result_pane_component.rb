@@ -48,6 +48,18 @@ module AI
 
       attr_reader :pane
 
+      def error_banner
+        return unless pane.run
+
+        render(Primer::BaseComponent.new(tag: :div, hidden: true, mb: 3, role: :alert, classes: "op-ai-result-pane--error",
+                                         test_selector: "ai-text-transform-pane-error",
+                                         data: target(:error))) do
+          render(Primer::Alpha::Banner.new(scheme: :danger)) do
+            render(Primer::Beta::Text.new(tag: :span, data: target(:errorMessage)))
+          end
+        end
+      end
+
       def wrapper_data
         {
           test_selector: "ai-text-transform-result",

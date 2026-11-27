@@ -8,6 +8,10 @@
   min-height: min(240px, calc(100vh - var(--header-height) - var(--base-size-8) - var(--base-size-24)))
   max-height: calc(100vh - var(--header-height) - var(--base-size-8) - var(--base-size-24))
 
+  // The banner and the buttons below the result need room, so that the result does not shrink to nothing.
+  &:has(.op-ai-result-pane--error:not([hidden]))
+    min-height: min(360px, calc(100vh - var(--header-height) - var(--base-size-8) - var(--base-size-24)))
+
   &[popover]
     left: auto
     bottom: auto
@@ -25,6 +29,24 @@
 
     &:active
       cursor: grabbing
+
+  &--more-below::after
+    content: ""
+    display: block
+    position: sticky
+    bottom: 0
+    height: var(--base-size-8)
+    margin-top: calc(-1 * var(--base-size-8))
+    pointer-events: none
+    background: linear-gradient(to top, color-mix(in srgb, var(--borderColor-emphasis) 40%, transparent), transparent)
+
+  // The gradient may not show in forced colors, so a border marks more content below. It keeps one width, so that the cue never resizes the scroll area.
+  @media (forced-colors: active)
+    .Box-body
+      border-bottom: var(--base-size-4) solid Canvas
+
+      &.op-ai-result-pane--more-below
+        border-bottom-color: CanvasText
 
   &--grip
     display: inline-flex

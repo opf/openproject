@@ -53,6 +53,13 @@ RSpec.describe AI::TextTransforms::ResultPaneComponent, type: :component do
     expect(subject).to have_css(".Box .Box-footer", text: "Replace")
   end
 
+  it "scrolls the result in the body that carries the more-below cue styles" do
+    expect(subject).to have_css(
+      ".op-ai-result-pane .Box-body[data-ai-text-transform-pane-target='scroll']",
+      text: "Login works again."
+    )
+  end
+
   it "attaches the pane controller to the wrapper" do
     expect(subject).to have_css(
       "[data-test-selector='ai-text-transform-result'][data-controller='ai-text-transform-pane']" \
@@ -91,6 +98,33 @@ RSpec.describe AI::TextTransforms::ResultPaneComponent, type: :component do
 
   it "has a close button in the header" do
     expect(subject).to have_css(".Box-header button[aria-label='Close'][data-action='click->ai-text-transform-pane#close']")
+  end
+
+  it "prepares a hidden error banner for the pane controller outside the scrolled body" do
+    expect(subject).to have_css(
+      ".Box-footer [data-test-selector='ai-text-transform-pane-error'][data-ai-text-transform-pane-target='error'] " \
+      ".Banner--error [data-ai-text-transform-pane-target='errorMessage']",
+      visible: :hidden
+    )
+    expect(subject).to have_no_css(".Box-body [data-ai-text-transform-pane-target='error']", visible: :all)
+  end
+
+  it "announces the error banner as an alert" do
+    expect(subject).to have_css(
+      "[data-test-selector='ai-text-transform-pane-error'][role='alert'].op-ai-result-pane--error",
+      visible: :hidden
+    )
+  end
+
+  context "when the request was rejected" do
+    let(:pane) do
+      AI::TextTransforms::ResultPaneState.rejected(message: "Too long", label: "Fix grammar", scope: "document",
+                                                   request_id: SecureRandom.uuid)
+    end
+
+    it "has no error banner for the pane controller" do
+      expect(subject).to have_no_test_selector("ai-text-transform-pane-error", visible: :all)
+    end
   end
 
   it "renders each section in its own streamable wrapper" do

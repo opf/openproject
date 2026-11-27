@@ -29,6 +29,7 @@ import { fireEvent } from '@testing-library/dom';
 import type { Mock, MockInstance } from 'vitest';
 import AiTextTransformPaneController from './ai-text-transform-pane.controller';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
+import { nextTask } from 'core-common/testing/timing';
 
 describe('AiTextTransformPaneController', () => {
   let ctx:StimulusTestContext;
@@ -347,6 +348,301 @@ describe('AiTextTransformPaneController', () => {
       expect(removedPane).not.toBeInTheDocument();
     });
   });
+  describe('streaming output', () => {
+    const scrollArea = () => byTestId('scroll-area');
+    const lines = (count:number) => '<p style="margin: 0; height: 20px;">Line</p>'.repeat(count);
+    const distanceToEnd = () => scrollArea().scrollHeight - scrollArea().scrollTop - scrollArea().clientHeight;
+
+    const details = (open:boolean, lineCount:number) =>
+      `<details${open ? ' open' : ''}><summary style="height: 20px;">More</summary>${lines(lineCount)}</details>`;
+
+    const banner = (attributes:string) =>
+      `<div style="height: 20px;" ${attributes}><span data-ai-text-transform-pane-target="errorMessage"></span></div>`;
+
+    const runState = (state:string) => `<span hidden data-ai-text-transform-pane-target="state" data-state="${state}" data-seq="0"
+      data-poll-url="/ai/text_transform_panes/run?request_id=request&scope=document"></span>`;
+
+    async function mountScrollArea(output = '', banners = ''):Promise<void> {
+      pane().insertAdjacentHTML('beforeend', `
+        <div data-testid="scroll-area" data-ai-text-transform-pane-target="scroll" style="overflow: auto; height: 100px;">
+          ${banners}<div data-testid="output">${output}</div>
+        </div>`);
+      await ctx.nextFrame();
+    }
+
+    function isInScrollView(element:HTMLElement):boolean {
+      const area = scrollArea().getBoundingClientRect();
+      const { top, bottom } = element.getBoundingClientRect();
+      return top >= area.top && bottom <= area.bottom;
+    }
+
+    async function showLines(count:number):Promise<void> {
+      byTestId('output').innerHTML = lines(count);
+      await ctx.nextFrame();
+    }
+
+    async function scrollTo(top:number):Promise<void> {
+      scrollArea().scrollTop = top;
+      fireEvent.scroll(scrollArea());
+      await ctx.nextFrame();
+    }
+
+    it('follows new output while scrolled to the end', async () => {
+      await mountScrollArea();
+      await showLines(20);
+      expect(scrollArea().scrollTop).toBeGreaterThan(0);
+      expect(distanceToEnd()).toBe(0);
+
+      await showLines(30);
+      expect(distanceToEnd()).toBe(0);
+    });
+
+    it('stops following once the user scrolls up', async () => {
+      await mountScrollArea();
+      await showLines(20);
+      await scrollTo(50);
+      await showLines(30);
+
+      expect(scrollArea().scrollTop).toBe(50);
+    });
+
+    it('follows again once the user scrolls back to the end', async () => {
+      await mountScrollArea();
+      await showLines(20);
+      await scrollTo(0);
+      await scrollTo(scrollArea().scrollHeight);
+      await showLines(30);
+
+      expect(distanceToEnd()).toBe(0);
+    });
+
+    it('keeps following when the pane is resized at the end', async () => {
+      await mountScrollArea();
+      await showLines(20);
+      scrollArea().style.height = '60px';
+      await ctx.nextFrame();
+
+      expect(distanceToEnd()).toBe(0);
+    });
+
+    it('keeps following when the pane shrinks before the scroll event of following', async () => {
+      await mountScrollArea();
+      await nextTask();
+      byTestId('output').innerHTML = lines(20);
+      await Promise.resolve();
+      scrollArea().style.height = '60px';
+      await ctx.nextFrame();
+      await ctx.nextFrame();
+      await showLines(30);
+
+      expect(distanceToEnd()).toBe(0);
+    });
+
+    it('follows again when the pane shrinks right after the user scrolled back to the end', async () => {
+      await mountScrollArea();
+      await showLines(20);
+      await scrollTo(0);
+      scrollArea().scrollTop = scrollArea().scrollHeight;
+      scrollArea().style.height = '60px';
+      await ctx.nextFrame();
+      await ctx.nextFrame();
+      await showLines(30);
+
+      expect(distanceToEnd()).toBe(0);
+    });
+
+    [2, 2.5].forEach((nudge) => {
+      it(`keeps following after a ${nudge}px nudge up whose scroll event comes first`, async () => {
+        await mountScrollArea();
+        await showLines(20);
+        await scrollTo(scrollArea().scrollTop - nudge);
+        await showLines(30);
+
+        expect(distanceToEnd()).toBe(0);
+      });
+
+      it(`keeps following after a ${nudge}px nudge up that new output overtakes`, async () => {
+        await mountScrollArea();
+        await showLines(20);
+        scrollArea().scrollTop -= nudge;
+        byTestId('output').innerHTML = lines(30);
+        await ctx.nextFrame();
+        await showLines(40);
+
+        expect(distanceToEnd()).toBe(0);
+      });
+    });
+
+    it('marks the scroll area while more output sits below the visible part', async () => {
+      await mountScrollArea();
+      await showLines(20);
+      expect(scrollArea()).not.toHaveClass('op-ai-result-pane--more-below');
+
+      await scrollTo(0);
+      expect(scrollArea()).toHaveClass('op-ai-result-pane--more-below');
+
+      await scrollTo(scrollArea().scrollHeight);
+      expect(scrollArea()).not.toHaveClass('op-ai-result-pane--more-below');
+    });
+
+    it('opens a long finished result at its start and marks that more follows', async () => {
+      await mountScrollArea(lines(20));
+
+      expect(scrollArea().scrollTop).toBe(0);
+      expect(scrollArea()).toHaveClass('op-ai-result-pane--more-below');
+    });
+
+    it('follows output that grows without new nodes while the run generates', async () => {
+      vi.spyOn(window, 'fetch').mockReturnValue(new Promise(() => {}));
+      await mountScrollArea(lines(20) + details(false, 10), runState('generating'));
+      await scrollTo(scrollArea().scrollHeight);
+      ctx.container.querySelector('details')!.open = true;
+      await ctx.nextFrame();
+
+      expect(distanceToEnd()).toBe(0);
+    });
+
+    it('keeps a finished result where it is when its content grows without new nodes', async () => {
+      await mountScrollArea(lines(20) + details(false, 10), runState('done'));
+      await scrollTo(scrollArea().scrollHeight);
+      ctx.container.querySelector('details')!.open = true;
+      await ctx.nextFrame();
+
+      expect(isInScrollView(ctx.container.querySelector('summary')!)).toBe(true);
+      expect(scrollArea()).toHaveClass('op-ai-result-pane--more-below');
+    });
+
+    it('keeps a finished result where it is when content growth also grows the scroll area', async () => {
+      await mountScrollArea(details(false, 25), runState('done'));
+      ctx.container.querySelector('details')!.open = true;
+      scrollArea().style.height = '150px';
+      await ctx.nextFrame();
+
+      expect(scrollArea().scrollTop).toBe(0);
+      expect(isInScrollView(ctx.container.querySelector('summary')!)).toBe(true);
+    });
+
+    it('keeps following a finished result when the scroll area itself is resized at its end', async () => {
+      await mountScrollArea(lines(20), runState('done'));
+      await scrollTo(scrollArea().scrollHeight);
+      scrollArea().style.height = '60px';
+      await ctx.nextFrame();
+
+      expect(distanceToEnd()).toBe(0);
+    });
+
+    it('keeps watching the current scroll area when an earlier one disconnects', async () => {
+      await mountScrollArea();
+      const earlier = scrollArea();
+      pane().insertAdjacentHTML('beforeend', `
+        <div data-testid="current" data-ai-text-transform-pane-target="scroll" style="overflow: auto; height: 100px;"></div>`);
+      await ctx.nextFrame();
+      earlier.remove();
+      await ctx.nextFrame();
+      byTestId('current').innerHTML = lines(20);
+      await ctx.nextFrame();
+
+      expect(byTestId('current').scrollHeight - byTestId('current').scrollTop - byTestId('current').clientHeight).toBe(0);
+    });
+
+    it('follows output that grows without new nodes after the output was replaced', async () => {
+      vi.spyOn(window, 'fetch').mockReturnValue(new Promise(() => {}));
+      await mountScrollArea('', runState('generating'));
+      byTestId('output').outerHTML = `<div data-testid="output">${lines(20)}${details(false, 10)}</div>`;
+      await ctx.nextFrame();
+      await scrollTo(scrollArea().scrollHeight);
+      ctx.container.querySelector('details')!.open = true;
+      await ctx.nextFrame();
+
+      expect(distanceToEnd()).toBe(0);
+    });
+
+    it('keeps an upward scroll that new output overtakes before the scroll event', async () => {
+      await mountScrollArea();
+      await showLines(20);
+      scrollArea().scrollTop = 50;
+      byTestId('output').innerHTML = lines(30);
+      await ctx.nextFrame();
+      await showLines(40);
+
+      expect(scrollArea().scrollTop).toBe(50);
+    });
+
+    it('follows again when new output overtakes the scroll event of reaching the end', async () => {
+      await mountScrollArea();
+      await showLines(20);
+      await scrollTo(0);
+      scrollArea().scrollTop = scrollArea().scrollHeight;
+      byTestId('output').innerHTML = lines(30);
+      await ctx.nextFrame();
+      expect(distanceToEnd()).toBe(0);
+
+      await showLines(40);
+      expect(distanceToEnd()).toBe(0);
+    });
+
+    const mountErrorBanner = () => pane().insertAdjacentHTML('beforeend', `
+      <div data-testid="error" data-ai-text-transform-pane-target="error" style="height: 20px;" hidden>
+        <span data-ai-text-transform-pane-target="errorMessage"></span>
+      </div>
+      <form id="apply"></form>`);
+
+    it('shows the error banner of a failed Replace outside the scroll area, leaving the reading position', async () => {
+      mountErrorBanner();
+      await mountScrollArea();
+      await showLines(20);
+      await scrollTo(100);
+      document.getElementById('apply')!.dispatchEvent(new CustomEvent('turbo:submit-end', { bubbles: true, detail: { success: false } }));
+      await ctx.nextFrame();
+
+      expect(byTestId('error')).toBeVisible();
+      expect(scrollArea()).not.toContainElement(byTestId('error'));
+      expect(scrollArea().scrollTop).toBe(100);
+    });
+
+    it('shows the error banner outside the scroll area when polling gives up after the user scrolled up', async () => {
+      vi.spyOn(window, 'fetch').mockResolvedValue(new Response(null, { status: 404 }));
+      mountErrorBanner();
+      await mountScrollArea('', runState('generating'));
+      await showLines(20);
+      await scrollTo(100);
+      await vi.waitFor(() => expect(byTestId('error')).toBeVisible(), { timeout: 2000 });
+
+      expect(scrollArea()).not.toContainElement(byTestId('error'));
+      expect(scrollArea().scrollTop).toBe(100);
+    });
+
+    it('reveals a notice that arrives above followed output', async () => {
+      await mountScrollArea();
+      await showLines(20);
+      scrollArea().innerHTML = `${banner('data-testid="notice" data-ai-text-transform-pane-target="notice"')}<div>${lines(20)}</div>`;
+      await ctx.nextFrame();
+
+      expect(isInScrollView(byTestId('notice'))).toBe(true);
+    });
+
+    it('keeps the reading position when a notice arrives after the user scrolled up', async () => {
+      await mountScrollArea();
+      await showLines(20);
+      await scrollTo(100);
+      scrollArea().innerHTML = `${banner('data-testid="notice" data-ai-text-transform-pane-target="notice"')}<div>${lines(20)}</div>`;
+      await ctx.nextFrame();
+
+      expect(scrollArea().scrollTop).toBe(100);
+      expect(isInScrollView(byTestId('notice'))).toBe(false);
+    });
+
+    it('drops the mark once output shrinks to fit without removing nodes', async () => {
+      await mountScrollArea(details(true, 20));
+      expect(scrollArea()).toHaveClass('op-ai-result-pane--more-below');
+
+      ctx.container.querySelector('details')!.open = false;
+      await ctx.nextFrame();
+
+      expect(scrollArea()).not.toHaveClass('op-ai-result-pane--more-below');
+    });
+  });
+
   describe('running', () => {
     const RUN = '9b2f6a8e-1c5d-4e7f-8a9b-0c1d2e3f4a5b';
     const REQUEST_ID = '5f0c1b9a-2d3e-4f50-8a6b-7c8d9e0f1a2b';
