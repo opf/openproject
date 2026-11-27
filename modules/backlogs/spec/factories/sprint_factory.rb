@@ -35,6 +35,10 @@ FactoryBot.define do
     start_date { Time.zone.today }
     finish_date { Time.zone.today + 14.days }
 
+    trait :in_planning do
+      status { "in_planning" }
+    end
+
     trait :active do
       status { "active" }
       started_at { Time.zone.now }
