@@ -26,7 +26,13 @@
 //++
 
 import '@openproject/primer-view-components/app/components/primer/alpha/action_menu/action_menu_element.js';
-import { Component } from '@angular/core';
+import '@openproject/primer-view-components/app/components/primer/alpha/tool_tip.js';
+import { AsyncPipe } from '@angular/common';
+import { EMPTY, of } from 'rxjs';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ActionsService } from 'core-app/core/state/actions/actions.service';
+import { IanBellService } from 'core-app/features/in-app-notifications/bell/state/ian-bell.service';
+import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { screen, within } from '@testing-library/dom';
 import { userEvent } from 'vitest/browser';
@@ -37,27 +43,13 @@ import { OpActionMenuComponent } from 'core-app/shared/components/op-context-men
 import {
   OpActionMenuTriggerDirective,
 } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu-trigger.directive';
-import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { WorkPackageReminderModalComponent } from 'core-app/features/work-packages/components/wp-reminder-modal/wp-reminder.modal';
 import { ReminderPreset } from 'core-app/features/work-packages/components/wp-reminder-modal/reminder.types';
 import { WorkPackageReminderContextMenuDirective } from './wp-reminder-context-menu.directive';
-
-@Component({
-  imports: [OpActionMenuComponent, OpActionMenuTriggerDirective, WorkPackageReminderContextMenuDirective],
-  template: `
-    <op-action-menu wpReminderContextMenu
-      [wpReminderContextMenu-workPackage]="workPackage"
-      label="Set a reminder">
-      <button opActionMenuTrigger type="button">Set reminder</button>
-    </op-action-menu>
-  `,
-})
-class HostComponent {
-  workPackage = { id: '42' } as WorkPackageResource;
-}
+import { WorkPackageReminderButtonComponent } from './wp-reminder-button.component';
 
 describe('WorkPackageReminderContextMenuDirective', () => {
-  let fixture:ComponentFixture<HostComponent>;
+  let fixture:ComponentFixture<WorkPackageReminderButtonComponent>;
   let show:ReturnType<typeof vi.fn>;
 
   const openMenu = async () => {
@@ -74,6 +66,7 @@ describe('WorkPackageReminderContextMenuDirective', () => {
           work_packages: {
             reminders: {
               title: { new: 'Set a reminder' },
+              button_label: 'Set reminder',
               presets: {
                 tomorrow: 'Tomorrow',
                 three_days: 'In 3 days',
@@ -89,14 +82,19 @@ describe('WorkPackageReminderContextMenuDirective', () => {
     show = vi.fn();
 
     await TestBed.configureTestingModule({
-      imports: [HostComponent],
+      declarations: [WorkPackageReminderButtonComponent],
+      imports: [AsyncPipe, OpActionMenuComponent, OpActionMenuTriggerDirective, WorkPackageReminderContextMenuDirective, OpTooltipDirective],
       providers: [
         { provide: I18nService, useValue: { t: (key:string) => window.I18n.t(key) } },
         { provide: OpModalService, useValue: { show } },
+        { provide: IanBellService, useValue: {} },
+        { provide: ActionsService, useValue: { ofType: () => EMPTY } },
+        { provide: ApiV3Service, useValue: { work_packages: { id: () => ({ reminders: { get: () => of({ total: 0 }) } }) } } },
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(HostComponent);
+    fixture = TestBed.createComponent(WorkPackageReminderButtonComponent);
+    fixture.componentRef.setInput('workPackage', { id: '42' });
     await fixture.whenStable();
   });
 
@@ -105,7 +103,9 @@ describe('WorkPackageReminderContextMenuDirective', () => {
   it('lists the presets', async () => {
     const menu = await openMenu();
 
-    expect(within(menu).getAllByRole('menuitem').map((item) => item.textContent?.trim())).toEqual([
+    const group = within(menu).getByRole('group', { name: 'Set a reminder' });
+    expect(within(menu).getByText('Set a reminder')).toBeVisible();
+    expect(within(group).getAllByRole('menuitem').map((item) => item.textContent?.trim())).toEqual([
       'Tomorrow',
       'In 3 days',
       'In a week',

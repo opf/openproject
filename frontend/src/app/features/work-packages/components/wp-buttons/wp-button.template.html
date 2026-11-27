@@ -7,5 +7,5 @@
         [label]="label"
         [attr.accesskey]="accessKey"
         (click)="performAction($event)">
-  <op-icon icon-classes="{{ iconClass }} button--icon" />
+  <svg octicon [icon]="icon" size="small" aria-hidden="true"></svg>
 </button>

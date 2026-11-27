@@ -10,7 +10,7 @@
   [ngClass]="{ '-active': isActive }"
   data-test-selector="wp-filter-button"
   >
-  <op-icon icon-classes="{{ iconClass }} button--icon" />
+  <svg filter-icon class="button--icon" size="small" aria-hidden="true"></svg>
   <span class="button--text">
     {{ buttonText }}
     @if (initialized) {

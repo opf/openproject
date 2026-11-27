@@ -86,6 +86,8 @@ describe('OpSettingsMenuDirective', () => {
   const names = (menu:HTMLElement) => within(menu)
     .getAllByRole('menuitem')
     .map((item) => item.textContent?.trim());
+  const outline = (menu:HTMLElement) => Array.from(menu.children)
+    .map((row) => (row.getAttribute('role') === 'separator' ? '---' : row.textContent?.trim()));
 
   const createHost = async (hosted:Partial<HostComponent> = {}) => {
     fixture = TestBed.createComponent(HostComponent);
@@ -150,16 +152,19 @@ describe('OpSettingsMenuDirective', () => {
     await createHost();
     const menu = await openMenu();
 
-    expect(names(menu)).toEqual([
+    expect(outline(menu)).toEqual([
       'Configure view',
+      'Rename view',
       'Add columns',
+      'Visibility settings',
+      '---',
       'Sort by',
       'Group by',
-      'Rename view',
+      '---',
       'Save',
       'Save as',
       'Export',
-      'Visibility settings',
+      '---',
       'Delete',
     ]);
     within(menu).getAllByRole('menuitem').forEach((item) => expect(item.querySelector('svg')).not.toBeNull());
@@ -199,7 +204,7 @@ describe('OpSettingsMenuDirective', () => {
     await createHost({ hideTableOptions: true });
     const menu = await openMenu();
 
-    expect(names(menu)).toEqual(['Rename view', 'Save', 'Save as', 'Visibility settings', 'Delete']);
+    expect(outline(menu)).toEqual(['Rename view', 'Visibility settings', '---', 'Save', 'Save as', '---', 'Delete']);
   });
 
   it('leaves out the column and grouping actions on a mobile screen, keeping the arrow keys moving', async () => {
@@ -211,17 +216,17 @@ describe('OpSettingsMenuDirective', () => {
     await settle();
     const menu = await screen.findByRole('menu', { name: 'More actions' });
 
-    expect(names(menu)).toEqual(['Configure view', 'Sort by', 'Rename view', 'Save', 'Save as', 'Export', 'Visibility settings', 'Delete']);
+    expect(names(menu)).toEqual(['Configure view', 'Rename view', 'Visibility settings', 'Sort by', 'Save', 'Save as', 'Export', 'Delete']);
     await waitFor(() => expect(within(menu).getByRole('menuitem', { name: 'Configure view' })).toHaveFocus());
     await userEvent.keyboard('{ArrowDown}');
-    expect(within(menu).getByRole('menuitem', { name: 'Sort by' })).toHaveFocus();
+    expect(within(menu).getByRole('menuitem', { name: 'Rename view' })).toHaveFocus();
   });
 
   it('offers calendar subscription only when asked to', async () => {
     await createHost({ showCalendarSharingOption: true });
     const menu = await openMenu();
 
-    expect(names(menu)).toContain('Subscribe to calendar');
+    expect(outline(menu).slice(-6)).toEqual(['Save', 'Save as', 'Subscribe to calendar', 'Export', '---', 'Delete']);
     expect(within(menu).getByRole('menuitem', { name: 'Subscribe to calendar' }).querySelector('svg')).not.toBeNull();
   });
 
