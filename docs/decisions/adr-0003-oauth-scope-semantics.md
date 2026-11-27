@@ -38,14 +38,14 @@ We need a way to restrict:
 
 ## Decision Drivers
 
-* There are simple use cases where exactly one token is handed out and we want to be able to restrict this token as specifically as possible
-* When configuring OAuth clients we often don't know ahead of time on which specific resource instances the client will need to operate
+* There are simple use cases where exactly one token is handed out and we want to be able to restrict this token as specifically as possible (One-time uploads to S3, external scripts like ScriptRunner, external AI agents like Chomper, external services like Hocuspocus/YHub, ...)
+* When configuring OAuth clients we often don't know ahead of time on which specific resource instances the client will need to operate (Mobile client, Nextcloud integration, ...)
     * However, we can often know which resource classes will be involved
     * ... and sometimes we can narrow it down to a certain set of instances
 * The most typical unit to grant permissions in OpenProject is the workspace (i.e. projects, portfolios and programs), though exceptions exist
     * Scopes should therefore be able to restrict access to resources within certain workspaces, or more generally a certain
       *resource location*
-* OpenProject is capable of accepting JWTs signed by configured OpenID Connect providers granting access to its APIs as well
+* OpenProject is capable of accepting JWTs signed by configured OpenID Connect providers granting access to its APIs as well (openDesk, Nextcloud Hub, ...)
     * We want to support such external identity providers as good as we can
 * New use cases for scopes may come up that are unrelated to resources
 * We will not be able to implement all use cases from the start, but we search for a solution that can be expanded well to the use cases known
