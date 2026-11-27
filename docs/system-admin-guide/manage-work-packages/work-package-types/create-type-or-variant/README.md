@@ -10,7 +10,7 @@ keywords: create work package type, create type variant, work package configurat
 
 You can create new work package types and variants in OpenProject to configure how different kinds of work are organized and managed. A type represents a category of work, such as a task, bug, or milestone, while a variant lets you use a different configuration of an existing type in selected projects.
 
-Both are created using the same eight-step wizard. The main difference is how their initial settings are configured.
+Both are created using the same wizard. It has eight steps. The main difference between types and variants is how their initial settings are configured.
 
 To get started, navigate to *Administration → Work packages → Types*.
 
@@ -42,7 +42,7 @@ In the **Details** step, configure the basic properties of the type or variant. 
 
 ![Details step for configuring a new work package type](openproject_system_guide_create_work_package_type_details.png)
 
-Enter the required information and continue to **Defaults**.
+Enter the required information and click Continue. The type or variant is saved at this point. If you click Cancel in a later step, you leave the wizard, but the type or variant is not deleted.
 
 ## Step 3: Defaults
 
@@ -110,7 +110,7 @@ For more information, see [Configure PDF exports for work package types](../pdf-
 
 ## Finish creating the type or variant
 
-After clicking **Finish**, the new type or variant appears in the Types overview. Click its name to open the configuration view, where you can review and update its settings using the available tabs.
+After you click **Finish**, you leave the wizard. You can find the type or variant in the Types overview. Click its name to open the configuration view, where you can review and update its settings using the available tabs.
 
 ![Detailed configuration view of a work package type showing the Details, Defaults, Variants, Form, Workflow, Project attributes, Projects, and Generate PDF tabs](openproject_system_guide_work_package_type_configuration_tabs.png)
 

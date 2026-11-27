@@ -10,7 +10,7 @@ keywords: custom field FAQ, project custom field, create own attribute, required
 
 ## Where can I manage custom fields?
 
-Starting with OpenProject 18.0, custom fields are managed directly within the relevant sections of the system administration rather than in a central Custom fields overview.
+Starting with OpenProject 18.0, custom fields are now managed in the area they belong to. The Custom fields section remains as an overview with links to these areas.
 
 For an overview of the available custom field formats and configuration options, see [Manage custom fields](../).
 
