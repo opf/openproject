@@ -30,23 +30,21 @@
 module Projects
   module Concerns
     module TableComponent
+      # For tables that turbo streams re-render from actions other than their index one (e.g. link, unlink):
+      # - pagination links are built with url_for, which targets the current action by default, so
+      #   url_for_action points them back at the index action;
+      # - pagination links are turbo stream requests replacing the table in place, so "advance" pushes
+      #   their URL to the browser history, keeping the page on reload and back navigation.
       module StreamablePaginationLinksConstraints
-        # @override optional_pagination_options are passed to the pagination_options
-        # which are passed to #pagination_links_full in pagination_helper.rb
-        #
-        # In Turbo streamable components, we need to be able to specify the url_for(action:) so that links are
-        # generated in the context of the component index action, instead of any turbo stream actions performing
-        # partial updates on the page.
-        #
-        # params[:url_for_action] is passed to the pagination_options making its way down to any pagination links
-        # that are generated via link_to which calls url_for which uses the params[:url_for_action] to specify
-        # the controller action that link_to should use.
-        #
-        # data-turbo-action="advance" is added to the pagination links ensure links pushState to the browser
-        #
+        extend ActiveSupport::Concern
+
+        included do
+          options :url_for_action
+        end
+
         def optional_pagination_options
           super.tap do |options|
-            options[:params] = { action: params[:url_for_action] } if params[:url_for_action]
+            options[:params] = { action: url_for_action } if url_for_action
             options[:turbo_action] = "advance"
           end
         end

@@ -330,4 +330,30 @@ RSpec.describe PaginationHelper do
       expect(session[:per_page]).to eq(limit)
     end
   end
+
+  describe "#paginate_within_bounds" do
+    shared_let(:statuses) { create_list(:status, 3) }
+    let(:scope) { Status.where(id: statuses.map(&:id)).order(:id) }
+
+    it "returns the requested page when it is in range", :aggregate_failures do
+      result = helper.paginate_within_bounds(scope, page: 2, per_page: 2)
+
+      expect(result.current_page).to eq(2)
+      expect(result).to eq([statuses.last])
+    end
+
+    it "falls back to the last page when the requested page is past it", :aggregate_failures do
+      result = helper.paginate_within_bounds(scope, page: 9, per_page: 2)
+
+      expect(result.current_page).to eq(2)
+      expect(result.per_page).to eq(2)
+      expect(result).to eq([statuses.last])
+    end
+
+    it "keeps an empty scope on page 1" do
+      result = helper.paginate_within_bounds(Status.none, page: 3, per_page: 2)
+
+      expect(result.current_page).to eq(1)
+    end
+  end
 end

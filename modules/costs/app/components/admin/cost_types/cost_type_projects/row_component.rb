@@ -55,7 +55,7 @@ module Admin
 
         def detach_from_project_url
           url_helpers.admin_cost_type_project_path(
-            cost_type_id: @table.params[:cost_type].id,
+            cost_type_id: @table.cost_type.id,
             cost_types_project: { project_id: project.id },
             page: current_page
           )

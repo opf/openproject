@@ -36,12 +36,12 @@ module WorkPackageTypes
 
       FRAME_ID = "admin-types-list"
 
-      def initialize(types:, expanded_type_id: nil, page_args: {}, query: nil, created_by_migration: nil)
+      def initialize(types:, expanded_type_id: nil, query: nil, created_by_migration: nil)
         super()
 
         @types = types
         @expanded_type_id = expanded_type_id
-        @page_args = page_args.presence || { page: types.current_page, per_page: types.per_page }
+        @page_args = { page: types.current_page, per_page: types.per_page }
         @query = query.presence
         @created_by_migration = created_by_migration.presence
       end

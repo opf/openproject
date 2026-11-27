@@ -39,12 +39,12 @@ module Admin
 
     def index
       @query = build_query
-      @members = @query
-                   .results
-                   .includes(:project)
-                   .where(entity_id: nil, entity_type: nil)
-                   .page(page_param)
-                   .per_page(per_page_param)
+      @members = paginate_within_bounds(
+        @query
+          .results
+          .includes(:project)
+          .where(entity_id: nil, entity_type: nil)
+      )
 
       render layout: !turbo_frame_request?
     end

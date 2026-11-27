@@ -161,7 +161,7 @@ module Statuses
     def move_status(menu, move_to, label, icon)
       menu.with_item(label:,
                      tag: :button,
-                     href: move_status_path(status, **page_args.to_h),
+                     href: move_status_path(status, **page_args),
                      form_arguments: { method: :put, inputs: [{ name: "move_to", value: move_to.to_s }] }) do |item|
         item.with_leading_visual_icon(icon:)
       end

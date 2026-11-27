@@ -80,7 +80,7 @@ class ProjectsController < ApplicationController
         update_via_turbo_stream(
           component: Filter::FilterButtonComponent.new(query: @query, disable_buttons: false)
         )
-        replace_via_turbo_stream(component: Projects::TableComponent.new(query: @query, current_user:, params:))
+        replace_via_turbo_stream(component: Projects::TableComponent.new(query: @query, current_user:))
 
         filtered_params = params.permit(:controller, :action, :query_id, :filters, :columns, :sortBy, :page, :per_page)
         current_url = url_for(filtered_params)

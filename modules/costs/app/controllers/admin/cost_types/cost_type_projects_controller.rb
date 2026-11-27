@@ -91,7 +91,8 @@ class Admin::CostTypes::CostTypeProjectsController < ApplicationController
     update_via_turbo_stream(
       component: Admin::CostTypes::CostTypeProjects::TableComponent.new(
         query: available_cost_types_projects_query,
-        params: params.merge({ cost_type: @cost_type, url_for_action: })
+        cost_type: @cost_type,
+        url_for_action:
       )
     )
   end

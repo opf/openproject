@@ -39,12 +39,10 @@ class NewsController < ApplicationController
 
   accept_rss_key_auth :index
 
-  def index # rubocop:disable Metrics/AbcSize
+  def index
     scope = @project ? @project.news : News.visible
 
-    @news = scope.merge(News.latest_for(current_user, count: 0))
-                  .page(page_param)
-                  .per_page(per_page_param)
+    @news = paginate_within_bounds(scope.merge(News.latest_for(current_user, count: 0)))
 
     respond_to do |format|
       format.html do

@@ -63,7 +63,7 @@ See COPYRIGHT and LICENSE files for more details.
     render(
       Admin::CostTypes::CostTypeProjects::TableComponent.new(
         query: @available_cost_types_projects_query,
-        params: params.merge({ cost_type: @cost_type })
+        cost_type: @cost_type
       )
     )
   end

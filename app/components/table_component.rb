@@ -154,9 +154,7 @@ class TableComponent < ApplicationComponent
   end
 
   def paginate_collection(query)
-    query
-      .page(helpers.page_param(controller.params))
-      .per_page(helpers.per_page_param)
+    helpers.paginate_within_bounds(query)
   end
 
   def test_selector

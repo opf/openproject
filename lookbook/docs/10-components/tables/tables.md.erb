@@ -74,6 +74,26 @@ end
 
 Define the actions in the row component as `button_links`. See the example code:
 
+**Pagination**
+
+A table renders its pagination links below the rows whenever its rows respond to `total_entries`, i.e. when they are a will_paginate collection.
+
+Paginate with `paginate_within_bounds` from `PaginationHelper`, never with `.page(page_param).per_page(per_page_param)`. The page size is stored in the session and shared by every list, so a link to page 3 can outlive the list's third page; `paginate_within_bounds` then falls back to the last page, where a plain `.page` would make the pagination raise.
+
+```ruby
+class ModuleAController < ApplicationController
+  include PaginationHelper
+
+  def index
+    @rows = paginate_within_bounds(ModuleA.visible.order(:name))
+  end
+end
+```
+
+A sortable `TableComponent` paginates its rows itself, so pass it an unpaginated relation. A `BorderBoxTableComponent` is not sortable: paginate its rows in the controller, or in the component via `helpers.paginate_within_bounds`.
+
+Build links that must keep the page context, such as row actions, from the rows rather than the request: `{ page: rows.current_page, per_page: rows.per_page }` is the page actually shown.
+
 ### Full example
 
 <%= embed OpenProject::Deprecated::TablePreview, :default, panels: %i[source] %>

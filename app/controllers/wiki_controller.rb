@@ -263,11 +263,11 @@ class WikiController < ApplicationController
   # show page history
   def history
     # don't load text
-    @versions = @page.journals
-                     .select(:id, :user_id, :notes, :created_at, :version)
-                     .order(version: :desc)
-                     .page(page_param)
-                     .per_page(per_page_param)
+    @versions = paginate_within_bounds(
+      @page.journals
+           .select(:id, :user_id, :notes, :created_at, :version)
+           .order(version: :desc)
+    )
 
     render layout: !request.xhr?
   end

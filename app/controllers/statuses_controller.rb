@@ -41,7 +41,6 @@ class StatusesController < ApplicationController
   def index
     @query = load_query
     @statuses = paginated_statuses
-    @page_args = page_args
   end
 
   def new
@@ -110,7 +109,7 @@ class StatusesController < ApplicationController
   end
 
   def index_component
-    Statuses::IndexComponent.new(statuses: paginated_statuses, query: @query, page_args:)
+    Statuses::IndexComponent.new(statuses: paginated_statuses, query: @query)
   end
 
   def load_query
@@ -118,11 +117,7 @@ class StatusesController < ApplicationController
   end
 
   def paginated_statuses
-    @query.results.page(page_param).per_page(per_page_param)
-  end
-
-  def page_args
-    { page: page_param, per_page: per_page_param }
+    paginate_within_bounds(@query.results)
   end
 
   def move_in_direction(status)

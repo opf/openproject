@@ -37,7 +37,7 @@ RSpec.describe Statuses::RowComponent, type: :component do
   end
 
   let(:table) do
-    Statuses::TableComponent.new(rows: Status.all, query:, page_args: { page: 1, per_page: 20 },
+    Statuses::TableComponent.new(rows: Status.page(1).per_page(20), query:,
                                  workflow_counts: Status.workflow_counts(Status.all))
   end
   let(:query) { Queries::Statuses::StatusQuery.new(user: User.current) }

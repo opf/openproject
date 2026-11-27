@@ -41,7 +41,7 @@ module Admin
 
     def index
       @query = ParamsToQueryService.new(Label, current_user, query_class: Queries::Labels::LabelQuery).call(params)
-      @labels = @query.results.paginate(page: page_param, per_page: per_page_param)
+      @labels = paginate_within_bounds(@query.results)
     end
 
     def search

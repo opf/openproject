@@ -27,11 +27,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject
-  module Deprecated
-    # @logical_path OpenProject/deprecated
-    class PaginationPreview < Lookbook::Preview
-      def default; end
-    end
+require "spec_helper"
+
+RSpec.describe "Storage projects", type: :rails_request, with_settings: { per_page_options: "1,20" } do
+  shared_let(:storage) { create(:nextcloud_storage_with_complete_configuration) }
+  shared_let(:projects) { create_list(:project, 3) }
+
+  current_user { create(:admin) }
+
+  before do
+    projects.each { create(:project_storage, project: it, storage:) }
+  end
+
+  it "shows the last page when the requested page is past it", :aggregate_failures do
+    get admin_settings_storage_project_storages_path(storage, page: 9, per_page: 1)
+
+    expect(response).to have_http_status(:ok)
+    expect(page).to have_text("(3 - 3/3)")
   end
 end

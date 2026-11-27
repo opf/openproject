@@ -257,13 +257,13 @@ class BudgetsController < ApplicationController
   end
 
   def visible_sorted_budgets
-    Budget
-      .visible(current_user)
-      .order(sort_clause)
-      .includes(:author)
-      .where(project_id: @project.id)
-      .page(page_param)
-      .per_page(per_page_param)
+    paginate_within_bounds(
+      Budget
+        .visible(current_user)
+        .order(sort_clause)
+        .includes(:author)
+        .where(project_id: @project.id)
+    )
   end
 
   def check_if_workpackages_need_reassignment
