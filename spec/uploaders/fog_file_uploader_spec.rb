@@ -70,6 +70,49 @@ RSpec.describe FogFileUploader,
   end
 
   describe "#local_file" do
+    it "downloads the stored file under its original filename" do
+      file = uploader.local_file
+
+      expect(File.basename(file.path)).to eq("test.bin")
+      expect(file.read).to eq(content)
+    end
+
+    context "when the stored file is empty" do
+      let(:empty_file) { Tempfile.create(["empty", ".txt"]) }
+
+      before do
+        uploader.store!(File.open(empty_file.path))
+      end
+
+      after do
+        File.unlink(empty_file.path)
+      end
+
+      it "returns an empty file" do
+        expect(uploader.local_file.read).to eq("")
+      end
+    end
+
+    context "when the stored file does not exist" do
+      before do
+        uploader.file.delete
+      end
+
+      it "returns nil" do
+        expect(uploader.local_file).to be_nil
+      end
+    end
+
+    context "without a file" do
+      before do
+        uploader.remove!
+      end
+
+      it "returns nil" do
+        expect(uploader.local_file).to be_nil
+      end
+    end
+
     it "removes the downloaded copy when the executor completes" do
       path = Rails.application.executor.wrap do
         file = uploader.local_file

@@ -79,31 +79,26 @@ class FogFileUploader < CarrierWave::Uploader::Base
     "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
   end
 
-  def remote_file
-    @remote_file || file
-  end
-
   DOWNLOADS_KEY = :fog_file_uploader_downloads
 
   def self.discard_downloads
     ActiveSupport::IsolatedExecutionState.delete(DOWNLOADS_KEY)&.each(&:discard_download)
   end
 
+  ##
+  # Returns the file as a local File, or nil if there is no such file in the storage.
+  #
+  # A stored file is downloaded into a temporary directory under its original filename.
+  # The download is removed when the current request or job completes.
   def local_file
-    @remote_file ||= file
-    downloading = !cached?
-    cache_stored_file!
-    remember_download if downloading
-    super
+    return super if cached?
+
+    @local_file ||= download
   end
 
   def discard_download
-    return unless cached? && cache_id == @download_cache_id
-
-    FileUtils.rm_rf(cache_path(nil))
-    @file = @remote_file
-    @cache_id = @download_cache_id = nil
-    self.staged = false
+    FileUtils.rm_rf(@download_dir) if @download_dir
+    @local_file = @download_dir = nil
   end
 
   ##
@@ -111,7 +106,7 @@ class FogFileUploader < CarrierWave::Uploader::Base
   #
   # @param output [IO] Stream to copy the file to
   def stream_to(output)
-    fog_directory_files.get(remote_file.path) do |chunk, _remaining_bytes, _total_bytes|
+    fog_directory_files.get(file.path) do |chunk, _remaining_bytes, _total_bytes|
       output.write(chunk)
     end
   end
@@ -143,7 +138,7 @@ class FogFileUploader < CarrierWave::Uploader::Base
     set_content_type!(url_options, options:)
     set_expires_at!(url_options, options:)
 
-    remote_file.url url_options
+    file.url url_options
   end
 
   ##
@@ -154,15 +149,38 @@ class FogFileUploader < CarrierWave::Uploader::Base
   #
   #   Excon::Errors::Forbidden: Expected(200) <=> Actual(403 Forbidden)
   def readable?
-    remote_file&.exists?
+    file&.exists?
   rescue Excon::Errors::Forbidden
     false
   end
 
   private
 
+  def download
+    return if file.nil?
+
+    path = create_download_path
+    stored_file = File.open(path, "wb") { |local| stream_to(local) }
+
+    if stored_file
+      File.open(path, "rb")
+    else
+      discard_download
+      nil
+    end
+  end
+
+  # Named like a cache entry, so Attachment.clean_cached_files! also removes downloads
+  # that were made outside of a request or job and are thus never discarded.
+  def create_download_path
+    @download_dir = File.join(cache_dir, CarrierWave.generate_cache_id)
+    FileUtils.mkdir_p(@download_dir)
+    remember_download
+
+    File.join(@download_dir, File.basename(file.path))
+  end
+
   def remember_download
-    @download_cache_id = cache_id
     return unless Rails.application.executor.active?
 
     (ActiveSupport::IsolatedExecutionState[DOWNLOADS_KEY] ||= []) << self
