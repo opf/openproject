@@ -38,34 +38,30 @@ class WorkPackageMailer < ApplicationMailer
 
     author = journal.user
 
-    User.execute_as recipient do
-      set_work_package_headers(@work_package)
+    set_work_package_headers(@work_package)
 
-      message_id journal, recipient
-      references journal
+    message_id journal, recipient
+    references journal
 
-      send_localized_mail(recipient) do
-        I18n.t(:"mail.mention.subject",
-               user_name: author.name,
-               id: @work_package.formatted_id,
-               subject: @work_package.subject)
-      end
+    send_localized_mail(recipient) do
+      I18n.t(:"mail.mention.subject",
+             user_name: author.name,
+             id: @work_package.formatted_id,
+             subject: @work_package.subject)
     end
   end
 
   def watcher_changed(work_package, user, watcher_changer, action)
-    User.execute_as user do
-      @work_package = work_package
-      @watcher_changer = watcher_changer
-      @action = action
+    @work_package = work_package
+    @watcher_changer = watcher_changer
+    @action = action
 
-      set_work_package_headers(work_package)
-      message_id work_package, user
-      references work_package
+    set_work_package_headers(work_package)
+    message_id work_package, user
+    references work_package
 
-      send_localized_mail(user) do
-        subject_for_work_package(work_package)
-      end
+    send_localized_mail(user) do
+      subject_for_work_package(work_package)
     end
   end
 

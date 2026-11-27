@@ -78,19 +78,17 @@ class MemberMailer < ApplicationMailer
   end
 
   def send_mail(current_user, member, subject, message)
-    User.execute_as(member.principal) do
-      message_id member, current_user
+    message_id member, current_user
 
-      @sender = current_user
-      @roles = member.roles
-      @principal = member.principal
-      @message = message
+    @sender = current_user
+    @roles = member.roles
+    @principal = member.principal
+    @message = message
 
-      yield if block_given?
+    yield if block_given?
 
-      mail to: member.principal,
-           subject:
-    end
+    mail to: member.principal,
+         subject:
   end
 
   def in_member_locale(member, &)
