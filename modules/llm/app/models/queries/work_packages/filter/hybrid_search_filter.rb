@@ -34,6 +34,12 @@
 # matches exactly the text-based results. Unlike the semantic filter, a failed
 # embedding is not a validation error here — hybrid search silently falls back to
 # text search.
+#
+# A second value names the term the semantic arm searches for instead of the first
+# one. That term is only looked up in the embedding cache, never sent to the embedding
+# API, so the typeahead can keep showing the semantic matches of the last term it
+# embedded alongside text matches for the current term without waiting for a new
+# embedding.
 class Queries::WorkPackages::Filter::HybridSearchFilter <
   Queries::WorkPackages::Filter::WorkPackageFilter
   def type
@@ -45,7 +51,7 @@ class Queries::WorkPackages::Filter::HybridSearchFilter <
   end
 
   def where
-    return "1=0" if values.first.blank?
+    return "1=0" if search_term.blank?
 
     parts = [text_where, semantic_where].compact_blank
     return "1=0" if parts.empty?
@@ -59,6 +65,18 @@ class Queries::WorkPackages::Filter::HybridSearchFilter <
     text_filter.where
   end
 
+  def search_term
+    values.first
+  end
+
+  def query_vector
+    if values.second.present?
+      Llm::WorkPackages::SemanticSearch.cached_query_vector(values.second)
+    else
+      Llm::WorkPackages::SemanticSearch.query_vector(search_term)
+    end
+  end
+
   # Joins the text arm needs when embedded in the rank subquery of the hybrid
   # score select. Empty for the plain search arm; the typeahead arm overrides this.
   def text_joins_sql
@@ -68,6 +86,7 @@ class Queries::WorkPackages::Filter::HybridSearchFilter <
   # The semantic arm, "1=0" when semantic search is unavailable or the query
   # cannot be embedded.
   def semantic_where
+    vector = query_vector
     return "1=0" if vector.nil? || semantic_index_id.nil?
 
     "#{WorkPackage.table_name}.id IN (" \
@@ -78,12 +97,8 @@ class Queries::WorkPackages::Filter::HybridSearchFilter <
 
   def text_filter
     @text_filter ||= ::Queries::WorkPackages::Filter::SearchFilter.create!(
-      name: :search, context:, operator: "**", values:
+      name: :search, context:, operator: "**", values: [search_term]
     )
-  end
-
-  def vector
-    Llm::WorkPackages::SemanticSearch.query_vector(values.first)
   end
 
   def semantic_index_id

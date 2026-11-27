@@ -55,7 +55,7 @@ class Queries::WorkPackages::Selects::ExactMatchSelect < Queries::WorkPackages::
     typeahead_filter = query&.filters&.find { |filter| TYPEAHEAD_FILTER_FIELDS.include?(filter.field.to_s) }
     return NO_EXACT_MATCH_SQL unless typeahead_filter
 
-    exact_match_condition_sql(typeahead_filter.values.join(" ")) || NO_EXACT_MATCH_SQL
+    exact_match_condition_sql(typeahead_filter.search_term) || NO_EXACT_MATCH_SQL
   end
 
   # Returns a SQL fragment ("CASE WHEN <exact-match> THEN 1 ELSE 0 END") that evaluates to 1

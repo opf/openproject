@@ -58,10 +58,10 @@ class Queries::WorkPackages::Selects::HybridScoreSelect < Queries::WorkPackages:
   def self.rrf_order_sql(query)
     filter = query&.filters&.find { |f| HYBRID_FILTER_FIELDS.include?(f.field.to_s) }
     return NO_SCORE_SQL unless filter
-    return NO_SCORE_SQL if filter.values.first.blank?
+    return NO_SCORE_SQL if filter.search_term.blank?
 
     "COALESCE(#{TEXT_WEIGHT} / (#{RRF_K} + (#{text_rank_sql(filter)})), 0) " \
-      "+ COALESCE(#{SEMANTIC_WEIGHT} / (#{RRF_K} + (#{semantic_rank_sql(filter.values.first)})), 0)"
+      "+ COALESCE(#{SEMANTIC_WEIGHT} / (#{RRF_K} + (#{semantic_rank_sql(filter)})), 0)"
   end
 
   # Rank of the work package within the text-matched set. The plain hybrid search
@@ -82,7 +82,7 @@ class Queries::WorkPackages::Selects::HybridScoreSelect < Queries::WorkPackages:
     table = WorkPackage.table_name
     if filter.field.to_s == "hybrid_typeahead"
       exact_match = ::Queries::WorkPackages::Selects::ExactMatchSelect
-        .exact_match_condition_sql(filter.values.join(" "))
+        .exact_match_condition_sql(filter.search_term)
       exact_match ||= ::Queries::WorkPackages::Selects::ExactMatchSelect::NO_EXACT_MATCH_SQL
       "#{exact_match} DESC, #{table}.updated_at DESC, #{table}.id DESC"
     else
@@ -92,8 +92,8 @@ class Queries::WorkPackages::Selects::HybridScoreSelect < Queries::WorkPackages:
 
   # Rank of the work package within the semantic result set, most similar first.
   # NULL when the query vector is unavailable, scoring 0 in the RRF sum.
-  def self.semantic_rank_sql(value)
-    vector = Llm::WorkPackages::SemanticSearch.query_vector(value)
+  def self.semantic_rank_sql(filter)
+    vector = filter.query_vector
     semantic_index = Llm::WorkPackages::SemanticSearch.active_semantic_index
     return "NULL" if vector.nil? || semantic_index.nil?
 

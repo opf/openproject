@@ -37,6 +37,10 @@ class Queries::WorkPackages::Filter::TypeaheadFilter <
     %i[type status]
   end
 
+  def search_term
+    values.join(" ")
+  end
+
   def where
     parts = values.map(&:split).flatten
 

@@ -57,8 +57,8 @@ RSpec.describe "API v3 work packages hybrid typeahead (search bar)", content_typ
     create(:work_package_embedding, work_package: text_only_wp, semantic_index:, embedding: [-0.1, -0.2, -0.3])
   end
 
-  def get_with_hybrid_typeahead(term)
-    filters = [{ hybridTypeahead: { operator: "**", values: [term] } }].to_json
+  def get_with_hybrid_typeahead(*values)
+    filters = [{ hybridTypeahead: { operator: "**", values: } }].to_json
     sort_by = [["exactMatch", "desc"], ["hybridScore", "desc"]].to_json
     get "#{api_v3_paths.work_packages}?filters=#{CGI.escape(filters)}&sortBy=#{CGI.escape(sort_by)}&pageSize=20"
   end
@@ -87,6 +87,35 @@ RSpec.describe "API v3 work packages hybrid typeahead (search bar)", content_typ
       get_with_hybrid_typeahead(both_wp.id.to_s)
       expect(last_response).to have_http_status 200
       expect(element_ids.first).to eq both_wp.id
+    end
+  end
+
+  context "with a semantic term from an earlier search" do
+    before do
+      allow(Llm::WorkPackages::SemanticSearch).to receive(:query_vector)
+    end
+
+    it "combines the typeahead matches of the term with the cached semantic matches" do
+      allow(Llm::WorkPackages::SemanticSearch).to receive(:cached_query_vector)
+        .with("sign in")
+        .and_return(WorkPackageEmbedding.vector_literal([0.1, 0.2, 0.3]))
+
+      get_with_hybrid_typeahead("login page", "sign in")
+      expect(last_response).to have_http_status 200
+      # text_only_wp: 2/61 (text rank 1)
+      # semantic_only_wp: 1/61 (semantic rank 1)
+      # both_wp: 1/62 (semantic rank 2), no typeahead match for "login page"
+      expect(element_ids).to eq [text_only_wp.id, semantic_only_wp.id, both_wp.id]
+      expect(Llm::WorkPackages::SemanticSearch).not_to have_received(:query_vector)
+    end
+
+    it "returns only the typeahead matches when the semantic term is not cached" do
+      allow(Llm::WorkPackages::SemanticSearch).to receive(:cached_query_vector).and_return(nil)
+
+      get_with_hybrid_typeahead("login page", "sign in")
+      expect(last_response).to have_http_status 200
+      expect(element_ids).to eq [text_only_wp.id]
+      expect(Llm::WorkPackages::SemanticSearch).not_to have_received(:query_vector)
     end
   end
 

@@ -48,7 +48,7 @@ class Queries::WorkPackages::Filter::HybridTypeaheadFilter <
 
   def text_filter
     @text_filter ||= ::Queries::WorkPackages::Filter::TypeaheadFilter.create!(
-      name: :typeahead, context:, operator: "**", values:
+      name: :typeahead, context:, operator: "**", values: [search_term]
     )
   end
 end

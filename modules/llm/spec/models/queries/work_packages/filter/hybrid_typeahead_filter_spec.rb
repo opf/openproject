@@ -91,6 +91,28 @@ RSpec.describe Queries::WorkPackages::Filter::HybridTypeaheadFilter do
     end
   end
 
+  describe "with a separate semantic term" do
+    let(:instance) do
+      described_class.create!(name: :hybrid_typeahead, operator: "**", values: ["handbook", "login problems"])
+    end
+
+    it "matches the text term textually and the semantic term by its cached embedding" do
+      allow(Llm::WorkPackages::SemanticSearch).to receive(:cached_query_vector)
+        .with("login problems")
+        .and_return(WorkPackageEmbedding.vector_literal([0.1, 0.2, 0.3]))
+
+      expect(matching_work_packages).to contain_exactly(both, semantic_only)
+      expect(Llm::WorkPackages::SemanticSearch).not_to have_received(:query_vector)
+    end
+
+    it "degrades to typeahead results of the text term when the semantic term is not cached" do
+      allow(Llm::WorkPackages::SemanticSearch).to receive(:cached_query_vector).and_return(nil)
+
+      expect(matching_work_packages).to contain_exactly(both)
+      expect(Llm::WorkPackages::SemanticSearch).not_to have_received(:query_vector)
+    end
+  end
+
   describe "when semantic search is unavailable" do
     before do
       allow(Llm::WorkPackages::SemanticSearch).to receive(:query_vector).and_call_original
