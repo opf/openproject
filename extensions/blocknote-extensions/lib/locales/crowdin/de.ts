@@ -80,7 +80,7 @@ export const en = {
     },
     'options': {
       'openInNewTab': "In neuer Registerkarte öffnen",
-      'openWorkPackage': 'Open {{id}}',
+      'openWorkPackage': "{{id}} öffnen",
       'changeSize': "Größe ändern",
       'changeSizeAriaLabel': "Größe ändern: {{size}}",
       'menuAriaLabel': "Optionen für Arbeitspaket {{id}}",
@@ -91,7 +91,7 @@ export const en = {
       'inlineSizeLabel': "Inline Größe",
       'blockSizeLabel': "Blockgröße",
       'chipAriaLabel': "Arbeitspaket {{id}}",
-      'idDash': 'dash'
+      'idDash': "Bindestrich"
     },
     'preview': {
       'showAriaLabel': "Details zum Arbeitspaket {{id}} anzeigen"
@@ -140,10 +140,10 @@ export const en = {
         'both': "Bezeichnung + Wert"
       },
       'options': {
-        'menuAriaLabel': 'Options for {{attribute}} of work package {{id}}',
-        'removeAriaLabel': 'Remove work package attribute',
-        'selectedDescription': '{{attribute}} of work package {{id}}',
-        'selectedValueDescription': '{{attribute}} of work package {{id}}: {{value}}'
+        'menuAriaLabel': "Optionen für {{attribute}} des Arbeitspakets {{id}}",
+        'removeAriaLabel': "Arbeitspaket-Attribut entfernen",
+        'selectedDescription': "{{attribute}} des Arbeitspakets {{id}}",
+        'selectedValueDescription': "{{attribute}} des Arbeitspakets {{id}}: {{value}}"
       },
       'dialog': {
         'title': "Arbeitspaket-Attribut einfügen",

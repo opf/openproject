@@ -975,6 +975,7 @@ lt:
         edit: Masinis redagavimas
         move: Masinis projekto pakeitimas
       button_clear: Valyti
+      button_edit_subject: Edit subject
       comment_added: Komentaras sėkmingai pridėtas.
       comment_send_failed: Įvyko klaida. Neįmanoma pateikti komentaro.
       comment_updated: Komentaras sėkmingai atnaujintas.

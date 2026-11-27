@@ -1867,9 +1867,10 @@ ko:
     labels:
       delete_dialog_component:
         confirmation: 이 작업은 되돌릴 수 없음을 이해합니다
-        description_html: 이렇게 하면 모든 프로젝트의 모든 작업 패키지에서 <strong>%{name}</strong> 레이블이 제거됩니다.
         heading: 이 레이블을 삭제하시겠습니까?
         title: 이 레이블을 삭제하시겠습니까?
+        usage_description_html:
+          other: This will remove the label <strong>%{name}</strong> from %{count} work packages that currently use it. Are you sure you want to delete it?
       dialog_component:
         create_title: 레이블 만들기
         rename_title: '"%{name}" 이름 바꾸기'
@@ -3672,40 +3673,36 @@ ko:
     blocks:
       community: OpenProject 커뮤니티
       new_features:
-        '17_9':
-          new_features_list:
-            line_0: 문서에서 바로 작업 패키지를 생성합니다.
-            line_1: 백로그에서 작업 패키지를 검색하고 필터링합니다.
-            line_2: 작업 패키지를 삭제할 때 하위 항목을 유지할지 여부를 선택합니다.
-            line_3: MCP 서버를 사용하여 시간을 추적하고, 해당 표시 ID로 작업 패키지를 검색하는 등의 작업을 수행합니다(Professional 플랜).
-            line_4: 계획된 노동 시간을 시간, 일, 주 또는 월 단위로 입력합니다.
-            line_5: Jira Migrator를 사용할 때 가져오기 진행률을 확인합니다.
-            line_6: Community Edition에서 날짜 알림을 사용합니다.
-          new_features_title: '이 릴리스에는 다음과 같은 다양한 새로운 기능과 개선 사항이 포함되어 있습니다.
-
-            '
         '18_0':
           new_features_list:
             line_0:
-              description: Use with shared and project-specific workflows and forms
+              description: Customize types with shared or project-specific workflows and forms.
               title: Type variants
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#work-package-types-and-variants-workflows-and-forms
             line_1:
-              description: Sprint reports, including many new charts
-              title: Agile Reporting
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              description: Track sprint progress (Community edition) and gain deeper insights with Created vs. Resolved and Epic progress charts (Professional plan).
+              title: Agile reporting
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#agile-planning-and-reporting
             line_2:
-              description: Summarize text, change formats, base it on templates
-              title: AI Text Actions
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              description: Proofread, rewrite, and structure text directly in OpenProject (Professional plan).
+              title: AI Text Assistant
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#ai-text-assistant-and-mcp-server
             line_3:
-              description: Create and reuse tags
-              title: 레이블
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              description: Organize and find related work packages more easily.
+              title: Work package labels
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#labels-for-work-packages
             line_4:
-              description: Configure or delegate custom fields per project
-              title: Project-specific values
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              description: Plan resources across projects and with placeholder users and manage work package allocations and personal day planning (Premium plan).
+              title: Extended resource management
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#resource-management-and-personal-planning
+            line_5:
+              description: Benefit from improved keyboard navigation, screen reader support, and color contrast checking.
+              title: Enhanced accessibility
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#accessibility
+            line_6:
+              description: Connect external AI assistants to OpenProject.
+              title: MCP Server released to Community
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#ai-text-assistant-and-mcp-server
           new_features_title: '이 릴리스에는 다음과 같은 다양한 새로운 기능과 개선 사항이 포함되어 있습니다.
 
             '
@@ -6765,7 +6762,7 @@ ko:
       status_color_text: |
         이 상태 색상을 할당하거나 변경하려면 클릭하세요.
         상태 버튼에 표시되고 테이블의 작업 패키지를 강조 표시하는 데 사용할 수 있습니다.
-      status_default_text: 새 작업 패키지는 기본적으로 이 유형으로 설정됩니다. 읽기 전용으로 설정할 수 없습니다.
+      status_default_text: New work packages are by default set to this status. They cannot be read-only.
       status_excluded_from_totals_text: |-
         계층의 총 작업, 남은 작업 및 완료 %에서 이 상태의 작업 패키지를
         제외하려면 이 옵션을 선택하세요.

@@ -2228,9 +2228,13 @@ uk:
     labels:
       delete_dialog_component:
         confirmation: Я розумію, що цю дію не можна буде скасувати
-        description_html: Це призведе до видалення мітки <strong>%{name}</strong> зі всіх пакетів робіт у всіх проєктах.
         heading: Видалити цю мітку?
         title: Видалити цю мітку?
+        usage_description_html:
+          one: This will remove the label <strong>%{name}</strong> from %{count} work package that currently uses it. Are you sure you want to delete it?
+          few: This will remove the label <strong>%{name}</strong> from %{count} work packages that currently use it. Are you sure you want to delete it?
+          many: This will remove the label <strong>%{name}</strong> from %{count} work packages that currently use it. Are you sure you want to delete it?
+          other: This will remove the label <strong>%{name}</strong> from %{count} work packages that currently use it. Are you sure you want to delete it?
       dialog_component:
         create_title: Створити мітку
         rename_title: Перейменувати «%{name}»
@@ -4136,40 +4140,36 @@ uk:
     blocks:
       community: Спільнота OpenProject
       new_features:
-        '17_9':
-          new_features_list:
-            line_0: Створення пакетів робіт безпосередньо в розділі «Документи».
-            line_1: Пошук і фільтрування пакетів робіт серед невиконаних завдань.
-            line_2: Можливість вибирати, чи зберігати нащадків під час видалення пакета робіт.
-            line_3: Використання сервера MCP для обліку робочого часу, пошуку пакетів робіт за їхнім ID тощо (тарифний план Professional).
-            line_4: Запис запланованого робочого навантаження у годинах, днях, тижнях або місяцях.
-            line_5: Відстеження прогресу імпорту під час використання Jira Migrator.
-            line_6: Нагадування про дати у версії Community Edition.
-          new_features_title: 'Цей випуск включає різноманітні нові функції і покращення, зокрема:
-
-            '
         '18_0':
           new_features_list:
             line_0:
-              description: Use with shared and project-specific workflows and forms
+              description: Customize types with shared or project-specific workflows and forms.
               title: Type variants
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#work-package-types-and-variants-workflows-and-forms
             line_1:
-              description: Sprint reports, including many new charts
-              title: Agile Reporting
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              description: Track sprint progress (Community edition) and gain deeper insights with Created vs. Resolved and Epic progress charts (Professional plan).
+              title: Agile reporting
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#agile-planning-and-reporting
             line_2:
-              description: Summarize text, change formats, base it on templates
-              title: AI Text Actions
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              description: Proofread, rewrite, and structure text directly in OpenProject (Professional plan).
+              title: AI Text Assistant
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#ai-text-assistant-and-mcp-server
             line_3:
-              description: Create and reuse tags
-              title: Мітки
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              description: Organize and find related work packages more easily.
+              title: Work package labels
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#labels-for-work-packages
             line_4:
-              description: Configure or delegate custom fields per project
-              title: Project-specific values
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              description: Plan resources across projects and with placeholder users and manage work package allocations and personal day planning (Premium plan).
+              title: Extended resource management
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#resource-management-and-personal-planning
+            line_5:
+              description: Benefit from improved keyboard navigation, screen reader support, and color contrast checking.
+              title: Enhanced accessibility
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#accessibility
+            line_6:
+              description: Connect external AI assistants to OpenProject.
+              title: MCP Server released to Community
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#ai-text-assistant-and-mcp-server
           new_features_title: 'Цей випуск включає різноманітні нові функції і покращення, такі як:
 
             '
@@ -7314,7 +7314,7 @@ uk:
       status_color_text: |
         Натисніть, щоб призначити або змінити колір цього статусу.
         Він відображається в кнопці стану і може використовуватися для виділення робочих пакетів у таблиці.
-      status_default_text: Цей тип за замовчуванням мають нові пакети робіт. Вони не можуть бути доступні лише для читання.
+      status_default_text: New work packages are by default set to this status. They cannot be read-only.
       status_excluded_from_totals_text: Поставте цей прапорець, щоб виключити пакети робіт із цим статусом із підсумків атрибутів «Робота», «Залишок роботи» й «% завершення» в ієрархії.
       status_percent_complete_text_html: |-
         У [режимі обчислення прогресу на основі статусу](setting_url) для атрибута «% завершення» пакета робіт автоматично встановлюється це значення, коли вибрано цей статус.

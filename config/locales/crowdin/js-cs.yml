@@ -979,6 +979,7 @@ cs:
         edit: Hromadná úprava
         move: Hromadná změna projektu
       button_clear: Vyčistit
+      button_edit_subject: Edit subject
       comment_added: Komentář byl úspěšně přidán.
       comment_send_failed: Došlo k chybě. Nelze odeslat komentář.
       comment_updated: Komentář byl úspěšně aktualizován.
