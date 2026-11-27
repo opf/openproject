@@ -72,7 +72,7 @@ rake copyright:authors:show['../Path/to/repository/']
 
 2. Add a copyright notice to all the source files
 
- There is a rake task in the core to perform this job. Use `rake copyright:update['path_to_plugin']` (e.g. `rake copyright:update['../plugins/openproject-global_roles']`) to add the copyright header in `COPYRIGHT_short` to all relevant plugin files.
+ Use `bin/copycop -a path_to_plugin` to add the copyright header in `COPYRIGHT_short` to all relevant plugin files, see the [copyright notice guide](../style-guide/#copyright-notices).
  If no such file exists, `COPYRIGHT_short` from the core is used.
 
 3. Check for existence of `doc/COPYRIGHT.md` and `doc/GPL.txt` if referenced by the copyright notice.
