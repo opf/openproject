@@ -160,6 +160,31 @@ export class ApiV3WorkPackagesPaths extends ApiV3Collection<WorkPackageResource,
   }
 
   /**
+   * Hybrid variant of filterByTypeaheadOrId for the global search bar: unions the
+   * typeahead matches with the semantic matches (server-side, behind the
+   * semantic_search feature flag) and ranks by exact match, then RRF score.
+   * Degrades to plain typeahead results when semantic search is unavailable.
+   */
+  public filterByHybridTypeaheadOrId(term:string, idOnly = false, additionalParams:Record<string, string> = {}):ApiV3WorkPackageCachedSubresource {
+    const filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
+
+    if (idOnly) {
+      filters.add('id', '=', [term]);
+    } else {
+      filters.add('hybridTypeahead', '**', [term]);
+    }
+
+    const params = {
+      sortBy: '[["exactMatch","desc"],["hybridScore","desc"]]',
+      offset: '1',
+      pageSize: '10',
+      ...additionalParams,
+    };
+
+    return this.filtered(filters, params);
+  }
+
+  /**
    * Returns work packages within the ids array to be updated since <timestamp>
    * @param ids work package IDs to filter for
    * @param timestamp The timestamp to clip at

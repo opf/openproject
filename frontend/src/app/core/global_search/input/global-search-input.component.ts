@@ -43,6 +43,7 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ApiV3Service } from '../../apiv3/api-v3.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import {
   ApiV3WorkPackageCachedSubresource,
 } from 'core-app/core/apiv3/endpoints/work_packages/api-v3-work-package-cached-subresource';
@@ -86,6 +87,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly I18n = inject(I18nService);
   readonly apiV3Service = inject(ApiV3Service);
+  readonly configuration = inject(ConfigurationService);
   readonly pathHelperService = inject(PathHelperService);
   readonly halResourceService = inject(HalResourceService);
   readonly globalSearchService = inject(GlobalSearchService);
@@ -372,11 +374,16 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     return query;
   }
 
+  private get hybridSearchAvailable():boolean {
+    return this.configuration.activeFeatureFlags.includes('semanticSearch');
+  }
+
   private fetchSearchResults(query:string, idOnly:boolean):ApiV3WorkPackageCachedSubresource {
-    return this
-      .apiV3Service
-      .work_packages
-      .filterByTypeaheadOrId(query, idOnly, { pageSize: '20' });
+    const workPackages = this.apiV3Service.work_packages;
+    if (this.hybridSearchAvailable && !idOnly) {
+      return workPackages.filterByHybridTypeaheadOrId(query, idOnly, { pageSize: '20' });
+    }
+    return workPackages.filterByTypeaheadOrId(query, idOnly, { pageSize: '20' });
   }
 
   private searchResultsToOptions(results:WorkPackageResource[], query:string) {
