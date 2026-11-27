@@ -62,12 +62,6 @@ $grid--widget-padding: 20px 20px 20px 20px
     &.-column
       width: $grid--gap-width
 
-  .op-widget-box--header:has(.grid--area-drag-handle)
-    display: flex
-    justify-content: space-between
-    align-items: center
-    padding-left: 0
-
   &.-drop-target,
   &.-passive
     border-width: 1px
@@ -81,6 +75,14 @@ $grid--widget-padding: 20px 20px 20px 20px
 
   &.-drop-only
     display: none
+
+.grid--area,
+.grid--area-content.cdk-drag-preview
+  .op-widget-box--header:has(.grid--area-drag-handle)
+    display: flex
+    justify-content: space-between
+    align-items: center
+    padding-left: 0
 
 .grid--resizer
   position: absolute
@@ -101,7 +103,8 @@ $grid--widget-padding: 20px 20px 20px 20px
   opacity: 0
   cursor: grab
 
-  .grid--area.-widgeted:hover &
+  .grid--area.-widgeted:hover &,
+  .grid--area-content.cdk-drag-preview &
     opacity: 1
 
 .grid--area-content
@@ -120,7 +123,6 @@ $grid--widget-padding: 20px 20px 20px 20px
   &.cdk-drag-preview
     overflow: hidden
     background: white
-    padding: $grid--widget-padding
     @include widget-box--style
     @include widget-box--hover-style
     border-radius: 3px
@@ -195,10 +197,7 @@ $grid--widget-padding: 20px 20px 20px 20px
 
 .cdk-drag-preview
   background: white
-  padding: $grid--widget-padding
   @include widget-box--style
-  margin-left: -$grid--widget-padding
-  margin-top: -$grid--widget-padding
 
 .grid--add-widget-ee
   .op-toast
