@@ -79,6 +79,7 @@ export default class ProjectStorageFormController extends Controller {
   declare readonly projectFolderIdInputTarget:HTMLInputElement;
   declare readonly projectFolderIdValidationTarget:HTMLSpanElement;
   declare readonly selectedFolderTextTarget:HTMLSpanElement;
+  declare readonly hasSelectedFolderTextTarget:boolean;
 
   declare readonly hasProjectFolderIdValidationTarget:boolean;
   declare readonly hasProjectFolderSectionTarget:boolean;
@@ -131,11 +132,16 @@ export default class ProjectStorageFormController extends Controller {
       case 'manual':
         this.projectFolderIdInputTarget.value = manual ?? '';
 
-        this.fetchProjectFolder().subscribe((projectFolder) => {
-          this.selectedFolderTextTarget.innerText = projectFolder === null
-            ? this.placeholderFolderNameValue
-            : projectFolder.name;
-        });
+        // Without access to the storage the form offers a login button instead of the folder.
+        if (this.hasSelectedFolderTextTarget) {
+          this.fetchProjectFolder().subscribe((projectFolder) => {
+            if (!this.hasSelectedFolderTextTarget) return;
+
+            this.selectedFolderTextTarget.innerText = projectFolder === null
+              ? this.placeholderFolderNameValue
+              : projectFolder.name;
+          });
+        }
 
         break;
       case 'automatic':

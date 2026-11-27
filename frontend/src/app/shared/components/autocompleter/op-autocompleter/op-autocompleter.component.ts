@@ -265,6 +265,8 @@ export class OpAutocompleterComponent<T = IAutocompleteItem>
 
   @Input() public resetOnChange = false;
 
+  private resettingSelection = false;
+
   // a function for setting the options of ng-select
   @Input() public getOptionsFn:(searchTerm:string) => Observable<T[]>;
 
@@ -460,6 +462,14 @@ export class OpAutocompleterComponent<T = IAutocompleteItem>
   }
 
   public changed(val:unknown):void {
+    // Clearing the model after a change emits a change of its own; it is not a
+    // selection, so it only syncs the cleared value.
+    if (this.resettingSelection) {
+      this.writeValue(val);
+      this.syncHiddenField(this.mappedInputValue);
+      return;
+    }
+
     this.writeValue(val);
     this.onTouched(val);
     this.onChange(val);
@@ -468,7 +478,12 @@ export class OpAutocompleterComponent<T = IAutocompleteItem>
     this.change.emit(val);
 
     if (this.resetOnChange) {
-      this.ngSelectInstance.clearModel();
+      this.resettingSelection = true;
+      try {
+        this.ngSelectInstance.clearModel();
+      } finally {
+        this.resettingSelection = false;
+      }
     }
 
     this.cdRef.detectChanges();

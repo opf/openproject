@@ -33,10 +33,15 @@ module Members
     # rubocop:enable OpenProject/AddPreviewForViewComponent
     include ApplicationHelper
 
-    def initialize(project: nil, filter_options: nil)
+    def initialize(roles_available:, project: nil, filter_options: nil)
       super
       @project = project
       @members_filter_options = filter_options
+      @roles_available = roles_available
+    end
+
+    def show_add_button?
+      @roles_available && authorize_for(:members, :new)
     end
 
     def add_button_data_attributes

@@ -31,7 +31,11 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% content_for :content_header do %>
   <%= render ::Members::IndexPageHeaderComponent.new(project: @project) %>
-  <%= render ::Members::IndexSubHeaderComponent.new(project: @project, filter_options: @members_filter_options) %>
+  <%= render ::Members::IndexSubHeaderComponent.new(
+        project: @project,
+        filter_options: @members_filter_options,
+        roles_available: @roles.any?
+      ) %>
 
   <%= error_messages_for "member" %>
 

@@ -34,6 +34,7 @@ import { NgSelectComponent, NgSelectConfig } from '@ng-select/ng-select';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { UserResource } from 'core-app/features/hal/resources/user-resource';
 import { repositionDropdownBugfix } from 'core-app/shared/components/autocompleter/op-autocompleter/autocompleter.helper';
+import { closeOnOverflowContainerScroll } from 'core-app/shared/components/fields/edit/field-types/close-on-overflow-container-scroll';
 
 @Component({
   templateUrl: './multi-select-edit-field.component.html',
@@ -71,8 +72,6 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
   public currentValueInvalid = false;
 
   public showAddNewUserButton:boolean;
-
-  private hiddenOverflowContainer = '.__hidden_overflow_container';
 
   private nullOption:ValueOption;
 
@@ -143,10 +142,8 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
     (this.resource as Record<string, ValueOption[]>)[this.name] = (Array.isArray(val) ? val : [val]).map((el) => mapper(el));
   }
 
-  public onOpen() {
-    document.querySelector(this.hiddenOverflowContainer)?.addEventListener('scroll', () => {
-      this.ngSelectComponent.close();
-    }, { once: true });
+  public onOpen():void {
+    closeOnOverflowContainerScroll(() => this.ngSelectComponent.close());
   }
 
   public onClose() {

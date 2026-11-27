@@ -146,8 +146,8 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
     );
     this.calendar.resize$
       .pipe(
-        this.untilDestroyed(),
         debounceTime(50),
+        this.untilDestroyed(),
       )
       .subscribe(() => {
         this.ucCalendar.getApi().updateSize();

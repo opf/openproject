@@ -47,15 +47,17 @@ export default class MembersFormController extends Controller {
 
   declare readonly addMemberFormTarget:HTMLElement;
 
+  declare readonly hasAddMemberFormTarget:boolean;
+
   declare readonly addMemberButtonTarget:HTMLButtonElement;
+
+  declare readonly hasAddMemberButtonTarget:boolean;
 
   declare readonly membershipEditFormTargets:HTMLElement[];
 
   declare readonly errorExplanationTarget:HTMLElement;
 
-  declare readonly hasErrorExplanationTarget:HTMLElement;
-
-  private autocompleter:HTMLElement;
+  declare readonly hasErrorExplanationTarget:boolean;
 
   connect() {
     // Show/Hide content when page is loaded
@@ -67,13 +69,11 @@ export default class MembersFormController extends Controller {
       window.OpenProject.guardedLocalStorage('showFilter', 'false');
     }
 
-    this.autocompleter = this.addMemberFormTarget.querySelector('opce-members-autocompleter')!;
-
     if (this.hasErrorExplanationTarget && this.errorExplanationTarget.textContent !== '') {
       this.showAddMemberForm();
     }
 
-    if (this.addMemberButtonTarget.getAttribute('data-trigger-initially')) {
+    if (this.addMemberButton?.getAttribute('data-trigger-initially')) {
       this.showAddMemberForm();
     }
   }
@@ -87,17 +87,24 @@ export default class MembersFormController extends Controller {
   }
 
   hideAddMemberForm() {
-    this.addMemberFormTarget.style.display = 'none';
-    this.addMemberButtonTarget.focus();
-    this.addMemberButtonTarget.removeAttribute('disabled');
+    if (this.hasAddMemberFormTarget) {
+      this.addMemberFormTarget.style.display = 'none';
+    }
+
+    this.addMemberButton?.focus();
+    this.addMemberButton?.removeAttribute('disabled');
   }
 
   showAddMemberForm() {
+    if (!this.hasAddMemberFormTarget) {
+      return;
+    }
+
     this.addMemberFormTarget.style.display = 'block';
     this.hideFilter();
     this.filterMemberButtonTarget.classList.remove('-active');
     window.OpenProject.guardedLocalStorage('showFilter', 'false');
-    this.addMemberButtonTarget.setAttribute('disabled', 'true');
+    this.addMemberButton?.setAttribute('disabled', 'true');
 
     this.focusAutocompleter();
   }
@@ -125,7 +132,11 @@ export default class MembersFormController extends Controller {
   }
 
   focusAutocompleter():void {
-    const input = this.autocompleter.querySelector<HTMLInputElement>('.ng-input input');
+    const input = this.addMemberFormTarget.querySelector<HTMLInputElement>('opce-members-autocompleter .ng-input input');
     input?.focus();
+  }
+
+  private get addMemberButton():HTMLButtonElement|undefined {
+    return this.hasAddMemberButtonTarget ? this.addMemberButtonTarget : undefined;
   }
 }

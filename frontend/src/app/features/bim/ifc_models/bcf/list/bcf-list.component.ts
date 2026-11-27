@@ -109,7 +109,7 @@ export class BcfListComponent extends WorkPackageListViewComponent implements Un
 
       const wp = this.states.workPackages.get(workPackageId).value;
 
-      if (wp && this.viewer.viewerVisible() && wp.bcfViewpoints) {
+      if (wp && this.viewer.viewerVisible() && wp.bcfViewpoints?.length) {
         this.viewer.showViewpoint(wp, 0);
       }
     }

@@ -314,6 +314,26 @@ describe('autocompleter form boundary', () => {
     expect(submitted()).toEqual(['']);
   });
 
+  it('resets the selection once after a change', async () => {
+    fixture.componentRef.setInput('items', items);
+    fixture.componentRef.setInput('bindLabel', 'name');
+    fixture.componentRef.setInput('resetOnChange', true);
+    fixture.componentRef.setInput('focusDirectly', false);
+    await render(fixture, () => fixture.componentInstance);
+    const component = fixture.componentInstance;
+    const select = component.ngSelectInstance;
+    const clearModel = vi.spyOn(select, 'clearModel');
+    const emitted = vi.fn();
+    component.change.subscribe(emitted);
+
+    select.select(select.itemsList.items[0]);
+    await settle(fixture);
+
+    expect(clearModel).toHaveBeenCalledOnce();
+    expect(emitted).toHaveBeenCalledExactlyOnceWith(items[0]);
+    expect(select.selectedItems).toHaveLength(0);
+  });
+
   it('retains an unbound scalar and a custom asynchronous tag result', async () => {
     const tag = { token: 'custom-tag' };
     fixture.componentRef.setInput('items', []);

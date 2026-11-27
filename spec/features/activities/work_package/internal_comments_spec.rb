@@ -263,6 +263,7 @@ RSpec.describe "Work package internal comments",
       it "allows mentioning project members but they are sanitized when the checkbox is checked" do
         activity_tab.type_comment("@")
 
+        expect(page).to have_css(".mention-list-item", count: 5)
         expect(page.all(".mention-list-item").map(&:text))
           .to contain_exactly("A Viewer", "Group", "Project Admin", "Internal Viewer", "Internal ViewerCommenter")
 
@@ -275,8 +276,8 @@ RSpec.describe "Work package internal comments",
         activity_tab.check_internal_comment_checkbox
 
         page.within_test_selector("op-work-package-journal-form-element") do
-          expect(page.all("a.mention").map(&:text))
-            .to contain_exactly("@Internal Viewer")
+          expect(page).to have_css("a.mention", count: 1)
+          expect(page).to have_css("a.mention", text: "@Internal Viewer")
 
           expect(page).to have_text("@A Viewer") & have_text("@Group")
         end
@@ -373,6 +374,18 @@ RSpec.describe "Work package internal comments",
       page.execute_script(<<~JS)
         localStorage.setItem = Storage.prototype.setItem;
       JS
+    end
+
+    it "ignores and forgets a corrupt saved state" do
+      key = "work-package-#{work_package.id}-internal-comment-state"
+      page.execute_script("localStorage.setItem(arguments[0], '{')", key)
+
+      wp_page.visit!
+      wp_page.wait_for_activity_tab
+
+      activity_tab.open_new_comment_editor
+      activity_tab.expect_internal_comment_unchecked
+      expect(page.evaluate_script("localStorage.getItem(#{key.to_json})")).to be_nil
     end
   end
 
