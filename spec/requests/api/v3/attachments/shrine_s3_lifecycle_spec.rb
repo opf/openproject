@@ -97,22 +97,28 @@ RSpec.describe "Shrine S3 attachment lifecycle", if: ENV.fetch("SHRINE_TEST_S3_E
     expect(Attachments::FinishDirectUploadJob).to have_been_enqueued.with(id)
 
     stage = links.fetch("addAttachment").fetch("form_fields").fetch("key")
-    final = "uploads/attachment/file/#{id}/example.txt"
-    Attachment.transaction do
-      Attachments::FinishDirectUploadJob.perform_now(id)
-      expect(Attachment.find(id)).to be_status_uploaded
-      expect(storage.exists?(final)).to be(true)
-      expect(storage.exists?(stage)).to be(true)
-      raise ActiveRecord::Rollback
-    end
+    verify_finalization_rollback(id, stage)
     expect(Attachment.find(id)).to be_status_prepared
-    expect(storage.exists?(final)).to be(false)
     expect(read_via_api(links.fetch("downloadLocation"))).to eq(bytes)
 
     Attachments::FinishDirectUploadJob.perform_now(id)
     expect(storage.exists?(stage)).to be(false)
     expect(Attachment.find(id).digest).to eq(Digest::MD5.hexdigest(bytes))
     expect(read_via_api(links.fetch("downloadLocation"))).to eq(bytes)
+  end
+
+  def verify_finalization_rollback(id, stage)
+    final = nil
+    Attachment.transaction do
+      Attachments::FinishDirectUploadJob.perform_now(id)
+      row = Attachment.find(id)
+      expect(row).to be_status_uploaded
+      final = "uploads/#{row.file_data.fetch('id')}"
+      expect(storage.exists?(final)).to be(true)
+      expect(storage.exists?(stage)).to be(true)
+      raise ActiveRecord::Rollback
+    end
+    expect(storage.exists?(final)).to be(false)
   end
 
   def verify_metadata_rollback(row)

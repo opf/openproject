@@ -31,6 +31,11 @@ namespace :attachments do
     Attachment.clean_cached_files!
   end
 
+  desc "Prepare files for a CarrierWave application rollback. Stop all application and worker processes first."
+  task prepare_carrierwave_rollback: :environment do
+    Attachment.where.not(file_data: nil).find_each { |attachment| attachment.file.prepare_carrierwave_rollback! }
+  end
+
   desc "Copies all attachments from the current to the given storage."
   task :copy_to, [:to] => :environment do |_task, args|
     if args.empty?

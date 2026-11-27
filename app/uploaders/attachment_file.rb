@@ -64,7 +64,7 @@ class AttachmentFile
     return unless @cached
 
     cached = @cached
-    reference = reference_for(model[:file])
+    reference = next_reference
     register_storage_callbacks(reference, @previous_file, cached)
     stored = AttachmentShrine.upload(cached, :store, location: reference.id)
     model.update_column(:file_data, stored.data)
@@ -139,6 +139,22 @@ class AttachmentFile
                  response_content_type: options[:content_type])
   end
 
+  def archive_path
+    persisted_reference.id
+  end
+
+  def prepare_carrierwave_rollback!
+    model.with_lock do
+      return unless model.file_data
+
+      current = persisted_reference
+      legacy = reference_for(model[:file])
+      copy_verified(current, legacy) if current.id != legacy.id
+      verify_legacy_file!(legacy)
+      model.update_column(:file_data, nil)
+    end
+  end
+
   def delete
     @cached&.delete
     persisted_reference&.delete
@@ -155,9 +171,8 @@ class AttachmentFile
   end
 
   def capture_previous_file
-    current = model.class.lock.select(:id, :file, :file_data, :digest).find(model.id)
+    current = model.class.lock.select(:id, :file, :file_data).find(model.id)
     @previous_file = stored_reference(current[:file], current.file_data)
-    @previous_digest = current.digest
     # Another writer may have changed a column that equals this instance's original value.
     %i[file filesize content_type charset digest].each { |attribute| model.public_send("#{attribute}_will_change!") }
   end
@@ -173,59 +188,52 @@ class AttachmentFile
   end
 
   def register_storage_callbacks(reference, old, cached)
-    record_id = model.id
     transaction = model.class.current_transaction
-    backup = snapshot(reference, old)
-
     transaction.after_rollback do
-      restore_storage(record_id, reference, backup)
+      reference.delete
       @latest_assignment == cached.id ? @cached = cached : cached.delete
     end
 
     transaction.after_commit do
       cached.delete
-      backup&.delete
-      delete_replaced_file(record_id, old, reference)
+      old&.delete
     end
   end
 
-  def snapshot(reference, old)
-    return unless old && reference.exists?
+  def next_reference
+    return reference_for(model[:file]) unless @previous_file
 
-    backup = AttachmentShrine.upload(reference, :cache)
-    if reference.id == old.id
-      backup.metadata["previous_digest"] = @previous_digest
+    AttachmentRevisionLock.acquire(model.id)
+    reference_for(model[:file], directory: "attachment/revisions/#{model.id}/#{SecureRandom.uuid}")
+  end
+
+  def copy_verified(current, legacy)
+    current.open do |bytes|
+      AttachmentShrine.upload(bytes, :store, location: legacy.id, metadata: current.metadata)
     end
-    backup
+    raise IOError, "Failed to verify attachment #{model.id}" unless fingerprint(current) == fingerprint(legacy)
   end
 
-  def delete_replaced_file(record_id, old, reference)
-    return unless old && old.id != reference.id
+  def verify_legacy_file!(legacy)
+    size, md5 = fingerprint(legacy, Digest::MD5.new)
+    return if size == model.filesize && (model.digest.blank? || md5 == model.digest)
 
-    old.delete unless model.class.where(id: record_id).pick(:file) == old.original_filename
+    raise IOError, "File size or digest differs for attachment #{model.id}"
   end
 
-  # Multiple saves may replace the same key before rollback. Only the snapshot matching
-  # the surviving database row can restore that key.
-  def restore_storage(record_id, reference, backup)
-    name, digest, mime_type = model.class.where(id: record_id).pick(:file, :digest, :content_type)
-    if backup.nil? || reference.original_filename != name
-      reference.delete
-    elsif snapshot_digest(backup) == digest
-      backup.open do |bytes|
-        AttachmentShrine.upload(bytes, :store, location: reference.id, metadata: { "filename" => name, "mime_type" => mime_type })
+  def fingerprint(file, digest = Digest::SHA256.new)
+    size = 0
+    file.open do |io|
+      while (chunk = io.read(1024 * 1024))
+        digest << chunk
+        size += chunk.bytesize
       end
     end
-  ensure
-    backup&.delete
+    [size, digest.hexdigest]
   end
 
-  def snapshot_digest(backup)
-    backup.metadata["previous_digest"] || Digest::MD5.file(backup.storage.path(backup.id)).hexdigest
-  end
-
-  def reference_for(name)
-    AttachmentShrine.uploaded_file("id" => "attachment/file/#{model.id}/#{File.basename(name)}",
+  def reference_for(name, directory: "attachment/file/#{model.id}")
+    AttachmentShrine.uploaded_file("id" => "#{directory}/#{File.basename(name)}",
                                    "storage" => "store",
                                    "metadata" => { "filename" => name, "size" => model.filesize,
                                                    "mime_type" => model.content_type })

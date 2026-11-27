@@ -61,6 +61,38 @@ RSpec.describe Attachment, "Shrine storage" do
     expect(copy.file.read).to eq("first")
   end
 
+  it "leaves the committed bytes untouched while a same-name replacement is uncommitted" do
+    row = create(:attachment, file: upload)
+    original_path = row.file.path
+
+    described_class.transaction(requires_new: true) do
+      row.update!(file: upload("revision"))
+      expect(row.file.path).not_to eq(original_path)
+      expect(File.binread(original_path)).to eq("first")
+      expect(row.filename).to eq("plan.txt")
+      expect(row.file.read).to eq("revision")
+      raise ActiveRecord::Rollback
+    end
+  end
+
+  it "materializes the latest replacement for the previous release and can be run twice" do
+    row = create(:attachment, file: upload)
+    row.update!(file: upload("revision"))
+    2.times { row.file.prepare_carrierwave_rollback! }
+    expect(row.reload.file_data).to be_nil
+    previous = LocalFileUploader.new(row, :file)
+    previous.retrieve_from_store!(row[:file])
+    expect(previous.read).to eq("revision")
+    expect(row.filename).to eq("plan.txt")
+  end
+
+  it "retains Shrine metadata if a canonical file fails verification during rollback preparation" do
+    row = create(:attachment, file: upload)
+    File.binwrite(row.file.path, "other")
+    expect { row.file.prepare_carrierwave_rollback! }.to raise_error(IOError, /digest/)
+    expect(row.reload.file_data).to be_present
+  end
+
   it "restores the original bytes and metadata on same-key replacement rollback" do
     original = create(:attachment, file: upload)
     original.reload
