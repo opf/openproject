@@ -75,7 +75,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::AddedTable,
     let(:added_after_start_ids) { [] }
 
     include_examples "renders a blankslate",
-                     description: "Work packages that were added after the sprint start date will appear here."
+                     description: "Work packages that were added after the sprint starts will appear here."
   end
 
   context "when the sprint is running" do
@@ -145,6 +145,6 @@ RSpec.describe Backlogs::SprintReports::Widgets::AddedTable,
     let(:added_after_start_ids) { super().map { it + 1000 } }
 
     include_examples "renders a blankslate",
-                     description: "Work packages that were added after the sprint start date will appear here."
+                     description: "Work packages that were added after the sprint starts will appear here."
   end
 end

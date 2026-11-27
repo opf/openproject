@@ -37,20 +37,14 @@ export function appendCollapsedState(
   }
 }
 
-export function hasUnsavedChanges():boolean {
-  let hasTextChanges = false;
+export function hasUnsavedChanges(root:ParentNode):boolean {
+  const inputs = root.querySelectorAll<HTMLInputElement>('input[type="text"], input[type="number"], input[type="hidden"][data-initial-value]');
+  const hasTextChanges = Array.from(inputs).some((input) => {
+    const { initialValue } = input.dataset;
 
-  document.querySelectorAll('input[type="text"], input[type="number"]').forEach((input) => {
-    const currentValue = (input as HTMLInputElement).value;
-    const initialValue = (input as HTMLInputElement).dataset.initialValue;
-
-    if (initialValue === undefined) {
-      if (currentValue.trim().length > 0) {
-        hasTextChanges = true;
-      }
-    } else if (currentValue !== initialValue) {
-      hasTextChanges = true;
-    }
+    return initialValue === undefined
+      ? input.value.trim() !== input.defaultValue.trim()
+      : input.value !== initialValue;
   });
 
   return hasTextChanges || window.OpenProject.pageWasEdited;
