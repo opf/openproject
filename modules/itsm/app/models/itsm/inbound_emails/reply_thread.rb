@@ -45,11 +45,11 @@ module ITSM
 
       attr_reader :headers, :project
 
-      # Matching in both directions also finds the request when a reply was processed before the email it answers.
       def by_headers
         messages = EmailMessage.in_project(project)
 
         messages.where(message_id: [headers.in_reply_to, *headers.references].compact)
+          # Also finds the request when a reply to this email was processed before it.
           .or(messages.referring_to(headers.message_id))
           .order(:id)
           .first
@@ -60,7 +60,7 @@ module ITSM
         work_package = subject_work_package
         return if work_package.nil?
 
-        EmailThread.in_project(project).with_participant(headers.from_address).find_by(work_package:)
+        EmailThread.with_participant(headers.from_address).find_by(work_package:)
       end
 
       def subject_work_package
