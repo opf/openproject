@@ -47,8 +47,12 @@ class Queries::WorkPackages::Selects::ExactMatchSelect < Queries::WorkPackages::
   # the query's active typeahead search term first when sorted "desc"; falls back to a
   # constant (no reordering) when no typeahead filter is active, or its value isn't
   # boostable.
+  # The hybrid typeahead filter (llm module) carries the same search term and gets
+  # the same exact-match boost.
+  TYPEAHEAD_FILTER_FIELDS = %w[typeahead hybrid_typeahead].freeze
+
   def self.exact_match_order_sql(query)
-    typeahead_filter = query&.filters&.find { |filter| filter.field.to_s == "typeahead" }
+    typeahead_filter = query&.filters&.find { |filter| TYPEAHEAD_FILTER_FIELDS.include?(filter.field.to_s) }
     return NO_EXACT_MATCH_SQL unless typeahead_filter
 
     exact_match_condition_sql(typeahead_filter.values.join(" ")) || NO_EXACT_MATCH_SQL

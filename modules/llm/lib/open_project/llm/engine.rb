@@ -178,6 +178,7 @@ module OpenProject::Llm
     config.to_prepare do
       ::Queries::Register.register(::Query) do
         filter Queries::WorkPackages::Filter::HybridSearchFilter
+        filter Queries::WorkPackages::Filter::HybridTypeaheadFilter
         select Queries::WorkPackages::Selects::HybridScoreSelect
       end
     end

@@ -51,8 +51,10 @@ class Queries::WorkPackages::Selects::HybridScoreSelect < Queries::WorkPackages:
         sortable: ->(query = nil) { rrf_order_sql(query) }
   end
 
+  HYBRID_FILTER_FIELDS = %w[hybrid_search hybrid_typeahead].freeze
+
   def self.rrf_order_sql(query)
-    filter = query&.filters&.find { |f| f.field.to_s == "hybrid_search" }
+    filter = query&.filters&.find { |f| HYBRID_FILTER_FIELDS.include?(f.field.to_s) }
     return NO_SCORE_SQL unless filter
     return NO_SCORE_SQL if filter.values.first.blank?
 
@@ -60,16 +62,30 @@ class Queries::WorkPackages::Selects::HybridScoreSelect < Queries::WorkPackages:
       "+ COALESCE(1.0 / (#{RRF_K} + (#{semantic_rank_sql(filter.values.first)})), 0)"
   end
 
-  # Rank of the work package within the text-matched set, most recently updated first.
+  # Rank of the work package within the text-matched set. The plain hybrid search
+  # ranks by recency; the hybrid typeahead mirrors the typeahead sort (exact
+  # id/identifier match first, then recency).
   def self.text_rank_sql(filter)
     table = WorkPackage.table_name
     <<~SQL.squish
       (SELECT t.rn FROM (
-        SELECT #{table}.id, ROW_NUMBER() OVER (ORDER BY #{table}.updated_at DESC, #{table}.id DESC) AS rn
-        FROM #{table}
+        SELECT #{table}.id, ROW_NUMBER() OVER (ORDER BY #{text_rank_order_sql(filter)}) AS rn
+        FROM #{table} #{filter.text_joins_sql}
         WHERE (#{filter.text_where})
       ) AS t WHERE t.id = #{table}.id)
     SQL
+  end
+
+  def self.text_rank_order_sql(filter)
+    table = WorkPackage.table_name
+    if filter.field.to_s == "hybrid_typeahead"
+      exact_match = ::Queries::WorkPackages::Selects::ExactMatchSelect
+        .exact_match_condition_sql(filter.values.join(" "))
+      exact_match ||= ::Queries::WorkPackages::Selects::ExactMatchSelect::NO_EXACT_MATCH_SQL
+      "#{exact_match} DESC, #{table}.updated_at DESC, #{table}.id DESC"
+    else
+      "#{table}.updated_at DESC, #{table}.id DESC"
+    end
   end
 
   # Rank of the work package within the semantic result set, most similar first.

@@ -59,6 +59,12 @@ class Queries::WorkPackages::Filter::HybridSearchFilter <
     text_filter.where
   end
 
+  # Joins the text arm needs when embedded in the rank subquery of the hybrid
+  # score select. Empty for the plain search arm; the typeahead arm overrides this.
+  def text_joins_sql
+    ""
+  end
+
   # The semantic arm, "1=0" when semantic search is unavailable or the query
   # cannot be embedded.
   def semantic_where
