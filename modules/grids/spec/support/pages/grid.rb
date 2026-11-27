@@ -79,8 +79,7 @@ module Pages
       area = area_of(row_number, column_number, location)
       area.hover
 
-      add_widget_button = area.find(".grid--widget-add", visible: :all)
-      add_widget_button.click
+      area.find_button(accessible_name: I18n.t("js.grid.add_widget"), exact: true, visible: :all).click
 
       within(".spot-modal", &)
     end
