@@ -107,6 +107,9 @@ fi
 # Allow other tasks to run before the environment is loaded
 ${CLI} run rake "packager:before_postinstall"
 
+# The bundled PostgreSQL addon installs pgvector, so opt in to its checks and migrations
+${CLI} config:set OPENPROJECT_WITH_PGVECTOR=true
+
 # Use the OpenProject internal setup
 ${CLI} run rake "db:migrate"
 ${CLI} run rake "db:seed packager:postinstall"

@@ -31,6 +31,9 @@ module OpenProject
   module Llm
     # pgvector is optional while installations catch up on installing it.
     #
+    # It requires opt-in by setting OPENPROJECT_WITH_PGVECTOR=true.
+    # Skipping with OPENPROJECT_SKIP_OPTIONAL_MIGRATIONS has higher priority.
+    #
     # Migrations that need it live in db/migrate_optional/pgvector, which is only added to
     # the migration paths once the extension is installed or can be created. Until then they are
     # neither run nor reported as pending, and a later db:migrate picks them up.
@@ -42,8 +45,12 @@ module OpenProject
     # db/structure.sql that does not depend on the extension regardless of the database used.
     module Pgvector
       EXTENSION = "vector"
+      OPT_IN_ENV_VAR = "OPENPROJECT_WITH_PGVECTOR"
       SKIP_ENV_VAR = "OPENPROJECT_SKIP_OPTIONAL_MIGRATIONS"
       DOCS_URL = "https://www.openproject.org/docs/installation-and-operations/system-requirements/#pgvector"
+
+      # halfvec type requires pgvector 0.7.0
+      MIN_VERSION = Gem::Version.new("0.7.0")
 
       Failure = Data.define(:reason, :detail)
 
@@ -66,9 +73,10 @@ module OpenProject
         end
 
         def available?
+          return false unless opted_in?
           return @available if defined?(@available)
 
-          @available = extension_installed? && migrations_applied?
+          @available = extension_installed? && version_supported? && migrations_applied?
         end
 
         def extension_available?
@@ -79,6 +87,19 @@ module OpenProject
           catalog_contains?("SELECT 1 FROM pg_extension WHERE extname = '#{EXTENSION}'")
         end
 
+        def extension_version
+          catalog_value("SELECT extversion FROM pg_extension WHERE extname = '#{EXTENSION}'")
+        end
+
+        # The version CREATE EXTENSION would install when the extension is not installed yet
+        def installable_version
+          catalog_value("SELECT default_version FROM pg_available_extensions WHERE name = '#{EXTENSION}'")
+        end
+
+        def version_supported?
+          sufficient_version?(extension_version)
+        end
+
         def migrations_applied?
           !migration_context.needs_migration?
         end
@@ -87,16 +108,20 @@ module OpenProject
           ENV[SKIP_ENV_VAR] == "true"
         end
 
-        def include_migrations_path_if_installed!
-          return if migrations_skipped?
+        def opted_in?
+          ENV[OPT_IN_ENV_VAR] == "true"
+        end
 
-          include_migrations_path! if extension_installed?
+        def include_migrations_path_if_installed!
+          return if migrations_skipped? || !opted_in?
+
+          include_migrations_path! if extension_installed? && version_supported?
         rescue ActiveRecord::ConnectionNotEstablished, ActiveRecord::NoDatabaseError
           # No database yet, e.g. before db:create. db:migrate decides again.
         end
 
         def include_migrations_path_if_installable!
-          return if migrations_skipped?
+          return if migrations_skipped? || !opted_in?
 
           failure = check_if_installable
           include_migrations_path! if failure.nil?
@@ -106,9 +131,11 @@ module OpenProject
         # The extension lives in pg_catalog, so once installed it is shared by every schema
         # and need not be checked for installability again.
         def migrate_pending_if_installable!
-          return if migrations_skipped?
+          return if migrations_skipped? || !opted_in?
 
           if extension_installed?
+            return unless version_supported?
+
             include_migrations_path!
           elsif include_migrations_path_if_installable!
             return
@@ -154,7 +181,14 @@ module OpenProject
         def check_if_installable
           return Failure.new(reason: :unavailable, detail: nil) unless extension_available?
 
+          version = extension_installed? ? extension_version : installable_version
+          return Failure.new(reason: :outdated, detail: version) unless sufficient_version?(version)
+
           try_creating_extension
+        end
+
+        def sufficient_version?(version)
+          version.present? && Gem::Version.new(version.to_s) >= MIN_VERSION
         end
 
         # Managed services such as AWS RDS grant extensions through their own roles and allow lists,
@@ -191,13 +225,22 @@ module OpenProject
             TEXT
           when :read_only
             "The database connection is read-only."
+          when :outdated
+            version = failure.detail.presence || "unknown"
+            <<~TEXT.chomp
+              The pgvector extension is version #{version}, but version #{MIN_VERSION} or newer is required.
+            TEXT
           else
             "Creating the pgvector extension failed: #{failure.detail}"
           end
         end
 
         def catalog_contains?(sql)
-          connection.select_value(sql).present?
+          catalog_value(sql).present?
+        end
+
+        def catalog_value(sql)
+          connection.select_value(sql)
         end
 
         def migration_context

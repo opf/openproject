@@ -28,6 +28,7 @@
 #++
 
 ENV["RAILS_ENV"] ||= "test"
+ENV["OPENPROJECT_WITH_PGVECTOR"] ||= "true"
 require_relative "../script/support/rspec_coverage" if ENV["COVERAGE"] == "1"
 require_relative "../config/environment"
 require "factory_bot"

@@ -16,6 +16,8 @@ export PGPASSWORD=${PGPASSWORD:=p4ssw0rd}
 export DATABASE_URL="postgres://$PGUSER:$PGPASSWORD@$PGHOST/appdb"
 # Hocuspocus will not start without a secret and it needs to be the same in OpenProject
 export OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__SECRET=secret12345
+# the CI database ships pgvector so opt in
+export OPENPROJECT_WITH_PGVECTOR=true
 
 run_psql() {
 	psql -v ON_ERROR_STOP=1 "$@"
