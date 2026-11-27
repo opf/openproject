@@ -7,7 +7,7 @@ keywords: OAuth application settings
 ---
 # OAuth applications
 
-To configure OpenProject to act as a server to an OAuth client application, please navigate to _Administration_ -> _Authentication_ -> _OAuth applications_.
+OAuth allows other applications to integrate with OpenProject and obtain access tokens on behalf of your users. To configure OpenProject to act as a server to an OAuth client application, please navigate to _Administration_ -> _Authentication_ -> _OAuth applications_.
 
 ## Add a new authentication application for OAuth
 
@@ -15,35 +15,33 @@ To add a new OAuth application, click the green **+ OAuth application** button.
 
 ![OAuth applications in OpenProject system administration](openproject_system_admin_guide_oauth_application_button.png)
 
-You can configure the following options to add your OAuth application:
+The form for a new OAuth application is divided into three sections.
 
-1. Enter the **Name** of your OAuth application.
-2. Define a **Redirect URL** where users are redirected to
-   after having authorized OAuth2 access in OpenProject.
-   This URL is provided by your client application.
-   In the case of locally running Postman you can use the special string:
-   `urn:ietf:wg:oauth:2.0:oob`
-   Postman 9.6 and higher also provides a Web URL that you can use:
-   `https://oauth.pstmn.io/v1/callback`.
-3. Set the **Scopes** that the OAuth client application will be
-   able to access. Multiple selection is possible.
-   If no scope is checked, per default **api_v3** is assumed.
-   **api_v3** is the standard OpenProject API, while
-   [bcf_v2_1](../../../api/bcf-rest-api) is specific to the BIM edition of
-   OpenProject.
-4. Check if the application will be **Confidential**.
-   This is typically the case for client applications
-   running on a server or desktop but requires the
-   client application to ensure it.
-5. (Optional) Choose **Client Credentials User** and define a
-   user on whose behalf requests will be performed.
-6. Press **Create** to add your OAuth application.
+Under **Basic details**, configure the following options:
+
+1. **Active:** Enable the application, allowing it to obtain access tokens. This option is selected by default.
+2. **Name:** The name of your OAuth application. It is displayed to users when they authorize the application.
+3. **Redirect URI:** The URLs that users can be redirected to after they have authorized OAuth2 access in OpenProject. Enter one URL per line. These URLs are provided by your client application. If your application does not need a redirect URL, use the URL shown below the field: `urn:ietf:wg:oauth:2.0:oob`.
+   For a locally running Postman, you can also use this special string. Postman 9.6 and higher also provides a web URL that you can use: `https://oauth.pstmn.io/v1/callback`.
+4. **Confidential:** Selected by default. Keep it checked if the application is able to keep a client secret confidential. Web applications can usually do this, while native mobile apps and single-page apps usually cannot.
+
+Under **Scopes**, select what the OAuth client application will be able to access. Most scopes are shown with a short explanation. Multiple selection is possible. If no scope is checked, **api_v3** is assumed. The available scopes are:
+
+- **Access to APIv3 (api_v3):** Full read and write access to the standard OpenProject API on behalf of the user.
+- **scim_v2:** Access to the [SCIM API](../scim/).
+- **Access to Model Context Protocol (mcp):** Access to the [MCP Server](../../ai/mcp-server/) endpoints, a limited subset of APIv3 tailored for AI agents.
+- **Access to the BCF v2.1 API (bcf_v2_1):** Full read and write access to the [BCF API](../../../api/bcf-rest-api) on behalf of the user. This scope is specific to the BIM edition of OpenProject.
+
+Under **Client credentials**, you can optionally choose a user on whose behalf requests are performed when clients use the client credentials flow to obtain an access token. Leave the field empty to only allow the authorization code flow.
+
+Click **Create** to add your OAuth application.
 
 ![Add a new OAuth application in OpenProject administration](openproject_system_admin_guide_oauth_application_new.png)
 
-> [!TIP]
-> Don't forget to note down your `Client ID` and your `Client secret`
-in a safe space. You will need them later.
+After the application is created, its details page shows the **Client ID**, the **Client secret**, and the OAuth endpoints, such as the **Auth URL** and the **Access token URL**. Use the copy icon next to a value to copy it to your clipboard.
+
+> [!IMPORTANT]
+> The client secret is only shown once, right after the application has been created. Copy it and keep it secure, since it cannot be retrieved later. Treat it like a password.
 
 ## OAuth endpoints
 
