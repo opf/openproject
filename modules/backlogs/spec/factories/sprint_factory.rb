@@ -28,6 +28,8 @@
 #++
 
 FactoryBot.define do
+  time_from_date = ->(date) { [date.midday, Time.zone.now].min if date }
+
   factory :sprint do
     sequence(:name) { |n| "Sprint #{n}" }
     project
@@ -41,13 +43,15 @@ FactoryBot.define do
 
     trait :active do
       status { "active" }
-      started_at { Time.zone.now }
+      started_at { time_from_date.call(start_date) }
     end
 
     trait :completed do
       status { "completed" }
-      started_at { 1.week.ago }
-      completed_at { Time.zone.now }
+      start_date { Time.zone.today - 14.days }
+      finish_date { Time.zone.today }
+      started_at { time_from_date.call(start_date) }
+      completed_at { time_from_date.call(finish_date) }
     end
   end
 end
