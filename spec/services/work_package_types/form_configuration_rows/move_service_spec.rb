@@ -136,6 +136,14 @@ RSpec.describe WorkPackageTypes::FormConfigurationRows::MoveService do
     expect(OpenProject::Mutex).to have_received(:with_advisory_lock_transaction).with(form, "layout")
   end
 
+  it "touches the form so the cached work package schema is invalidated" do
+    expect { move(date, **into(details, "")) }.to change { form.reload.updated_at }
+  end
+
+  it "does not touch the form when the move fails" do
+    expect { move(priority, **into(other, "999999")) }.not_to change { form.reload.updated_at }
+  end
+
   context "with a non-admin user" do
     let(:user) { create(:user) }
 

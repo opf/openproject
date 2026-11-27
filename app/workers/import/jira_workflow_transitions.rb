@@ -31,7 +31,7 @@ module Import
   module JiraWorkflowTransitions
     module_function
 
-    def allow_all(role, workflow)
+    def allow_all_status_transitions(role, workflow)
       Rails.logger.tagged("jira_object_type:workflow", "jira_object_id_or_name:#{workflow.name}") do
         call = Workflows::BulkUpdateService
                  .new(role:, workflow:, tab: "always")

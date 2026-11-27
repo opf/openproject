@@ -30,6 +30,7 @@ import {
   afterNextRender,
   afterRenderEffect,
   AfterViewInit,
+  booleanAttribute,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -126,11 +127,13 @@ export class OpActionMenuComponent implements AfterContentChecked, AfterViewInit
 
   readonly items = model<OpContextMenuItem[]>([]);
   readonly label = input.required<string>();
+  readonly showHeading = input(false, { transform: booleanAttribute });
   readonly align = input<ActionMenuAlign>('start');
   /** Positions the overlay against this element instead of the invoker. */
   readonly anchor = input<HTMLElement>();
 
   readonly visibleItems = computed(() => visibleMenuItems(this.items()));
+  readonly heading = computed(() => (this.showHeading() ? this.label() : null));
 
   readonly trigger = contentChild(OpActionMenuTriggerDirective);
 

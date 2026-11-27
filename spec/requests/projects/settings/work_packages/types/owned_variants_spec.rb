@@ -203,7 +203,7 @@ RSpec.describe "Configuring the variants a project owns",
     it "removes it" do
       variant = create(:project_owned_type_variant, type:, project:, variant_name: "Doomed")
 
-      delete project_type_variant_path(project_id: project, type_id: type.id, id: variant.id)
+      delete project_type_variant_path(project_id: project, type_id: type.id, id: variant.id), as: :turbo_stream
 
       expect(TypeVariant).not_to exist(variant.id)
     end
@@ -320,23 +320,26 @@ RSpec.describe "Configuring the variants a project owns",
     end
   end
 
-  # Leaving one of these screens has to land on the list it was started from.
-  describe "leaving a variant screen" do
-    it "returns to the project's own list after deleting a variant" do
+  # A deletion repaints the list it was triggered from in place rather than redirecting away.
+  describe "the list a deletion repaints" do
+    it "morphs the project's own list after deleting a variant" do
       variant = create(:project_owned_type_variant, type:, project:, variant_name: "Leaving")
 
-      delete project_type_variant_path(project_id: project, type_id: type.id, id: variant.id)
+      delete project_type_variant_path(project_id: project, type_id: type.id, id: variant.id), as: :turbo_stream
 
-      expect(response).to redirect_to(project_settings_work_packages_types_path(project))
+      expect(response.body).to include(Projects::Settings::WorkPackages::Types::ListComponent.component_id)
+      expect(response.body).to include(project.identifier)
     end
 
-    it "returns to administration's list when administration deletes one" do
+    it "morphs administration's list when administration deletes one" do
       login_as create(:admin)
       global = create(:type_variant, type:, variant_name: "Global leaving")
 
-      delete type_variant_path(type_id: type.id, id: global.id)
+      delete type_variant_path(type_id: type.id, id: global.id), as: :turbo_stream
 
-      expect(response).to redirect_to(types_path)
+      expect(response.body).to include(WorkPackageTypes::Types::GroupedListComponent.component_id)
+      expect(response.body).to include(type.name)
+      expect(response.body).not_to include("Global leaving")
     end
   end
 

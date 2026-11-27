@@ -33,10 +33,12 @@ export default class extends Controller {
   static values = {
     cancelUrl: String,
     autofocus: Boolean,
+    initialPresenterId: String,
   };
 
   declare cancelUrlValue:string;
   declare autofocusValue:boolean;
+  declare initialPresenterIdValue:string;
 
   static targets = ['notesInput'];
   declare readonly notesInputTarget:HTMLInputElement;
@@ -55,6 +57,12 @@ export default class extends Controller {
     this.element.querySelectorAll('input[type="text"], input[type="number"]').forEach((input) => {
       (input as HTMLInputElement).dataset.initialValue = (input as HTMLInputElement).value;
     });
+  }
+
+  recordInitialPresenter({ target }:Event):void {
+    if (target instanceof HTMLInputElement) {
+      target.dataset.initialValue ??= this.initialPresenterIdValue;
+    }
   }
 
   focusInput():void {

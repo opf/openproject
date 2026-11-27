@@ -51,7 +51,14 @@ class AttributeHelpText::Project < AttributeHelpText
     ::Project.model_name.human
   end
 
-  def self.visible_condition(_user)
-    ::AttributeHelpText.where(attribute_name: available_attributes.keys)
+  def self.visible_condition(user)
+    visible_cf_names = ProjectCustomField
+      .visible(user)
+      .pluck(:id)
+      .map { |id| "custom_field_#{id}" }
+
+    ::AttributeHelpText
+      .where(attribute_name: visible_cf_names)
+      .or(::AttributeHelpText.where.not("attribute_name LIKE 'custom_field_%'"))
   end
 end

@@ -142,7 +142,7 @@ Please add the new status to the workflow for all work packages you want to use 
 
 ### Is it possible to adapt or rename the status list (i.e. the available work package statuses)?
 
-Yes, this is absolutely possible. To do this, you would first have to [create new statuses](../../../system-admin-guide/manage-work-packages/work-package-status/).
+Yes, this is absolutely possible. To do this, you would first have to [create new statuses](../../../system-admin-guide/manage-work-packages/work-package-statuses/).
 In the second step you can then [assign them to workflows](../../../system-admin-guide/manage-work-packages/work-package-workflows).
 
 ### We like for each department to have their own custom "status" with different value options in OpenProject. How do we do this?

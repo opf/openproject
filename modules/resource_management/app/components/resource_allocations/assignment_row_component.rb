@@ -41,10 +41,9 @@ module ResourceAllocations
     end
 
     def work_package
-      entity = allocation.entity
-      return hidden_work_package unless entity.is_a?(WorkPackage) && visible_work_package?(entity)
+      return hidden_work_package unless work_package_visible?
 
-      render(WorkPackages::InfoLineComponent.new(work_package: entity, show_subject: true, show_status: true))
+      render(WorkPackages::InfoLineComponent.new(work_package: allocation.entity, show_subject: true, show_status: true))
     end
 
     def dates
@@ -100,7 +99,7 @@ module ResourceAllocations
     end
 
     def can_manage?
-      allowed_in_allocation_project?(:allocate_user_resources)
+      table.editable_ids.include?(allocation.id)
     end
 
     def allowed_in_allocation_project?(permission)
@@ -197,13 +196,13 @@ module ResourceAllocations
       allocation.start_date.present? && allocation.start_date < Time.zone.today
     end
 
-    def visible_work_package?(work_package)
-      table.visible_work_package_ids.include?(work_package.id)
+    def work_package_visible?
+      allocation.entity_type == "WorkPackage" && table.visible_work_package_ids.include?(allocation.entity_id)
     end
 
     def hidden_work_package
       render(Primer::Beta::Text.new(color: :muted)) do
-        I18n.t("resource_management.work_package_allocations_dialog.hidden_user")
+        I18n.t("resource_management.timeline.undisclosed.work_package")
       end
     end
   end

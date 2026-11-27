@@ -77,10 +77,12 @@ RSpec.describe WorkPackageTypes::VariantsController do
       context "for the base variant" do
         let(:variant) { type.default_variant }
 
-        before { post :make_default, params: { type_id: type.id, id: variant.id } }
+        before { post :make_default, params: { type_id: type.id, id: variant.id }, format: :turbo_stream }
 
-        it "marks it as the one new projects start with" do
-          expect(response).to redirect_to(types_path)
+        it "marks it as the one new projects start with and morphs the list" do
+          expect(response).to have_http_status(:ok)
+          expect(response.body).to include(WorkPackageTypes::Types::GroupedListComponent.component_id)
+          expect(response.body).to include(I18n.t("types.index.enabled_in_new_projects"))
           expect(variant.reload).to be_enabled_in_new_projects
         end
       end
@@ -88,10 +90,12 @@ RSpec.describe WorkPackageTypes::VariantsController do
       context "for a named variant" do
         let!(:variant) { create(:type_variant, type:) }
 
-        before { post :make_default, params: { type_id: type.id, id: variant.id } }
+        before { post :make_default, params: { type_id: type.id, id: variant.id }, format: :turbo_stream }
 
         it "marks it too: either variant of a type can be the one new projects start with" do
-          expect(response).to redirect_to(types_path)
+          expect(response).to have_http_status(:ok)
+          expect(response.body).to include(WorkPackageTypes::Types::GroupedListComponent.component_id)
+          expect(response.body).to include(variant.variant_name).and include(I18n.t("types.index.enabled_in_new_projects"))
           expect(variant.reload).to be_enabled_in_new_projects
         end
       end
@@ -112,51 +116,64 @@ RSpec.describe WorkPackageTypes::VariantsController do
       let(:type) { create(:type, default_variant_enabled_in_all_projects: true) }
       let(:variant) { type.default_variant }
 
-      before { post :remove_default, params: { type_id: type.id, id: variant.id } }
+      before { post :remove_default, params: { type_id: type.id, id: variant.id }, format: :turbo_stream }
 
-      it "clears the flag" do
-        expect(response).to redirect_to(types_path)
+      it "clears the flag and morphs the list" do
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include(WorkPackageTypes::Types::GroupedListComponent.component_id)
+        expect(response.body).not_to include(I18n.t("types.index.enabled_in_new_projects"))
         expect(variant.reload).not_to be_enabled_in_new_projects
       end
     end
 
     describe "DELETE destroy" do
-      let!(:variant) { create(:type_variant, type:) }
+      let(:type) { create(:type, name: "Reportable") }
+      let!(:variant) { create(:type_variant, type:, variant_name: "Doomed") }
+      let!(:survivor) { create(:type_variant, type:, variant_name: "Survivor") }
 
-      before { delete :destroy, params: { type_id: type.id, id: variant.id } }
+      before { delete :destroy, params: { type_id: type.id, id: variant.id }, format: :turbo_stream }
 
-      it "deletes it and falls back to the types index" do
-        expect(response).to redirect_to(types_path)
+      it "deletes it and morphs the admin types list in place" do
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include(WorkPackageTypes::Types::GroupedListComponent.component_id)
+        expect(response.body).to include("Reportable").and include("Survivor")
+        expect(response.body).not_to include("Doomed")
         expect(TypeVariant).not_to exist(id: variant.id)
       end
     end
 
-    describe "returning to where the action was triggered" do
+    describe "morphing the list the action was triggered from" do
       let!(:variant) { create(:type_variant, type:) }
-      let(:back_url) { type_variants_path(type_id: type.id) }
+      let(:variants_tab) { WorkPackageTypes::VariantsListComponent::LIST_CONTEXT }
 
-      it "sends make_default back to the variants tab" do
-        post :make_default, params: { type_id: type.id, id: variant.id, back_url: }
+      it "morphs the variants tab list after make_default" do
+        post :make_default, params: { type_id: type.id, id: variant.id, list_context: variants_tab },
+                            format: :turbo_stream
 
-        expect(response).to redirect_to(back_url)
+        expect(response.body).to include(WorkPackageTypes::VariantsListComponent.component_id)
+        expect(response.body).to include(variant.variant_name).and include(I18n.t("types.index.enabled_in_new_projects"))
       end
 
-      it "sends remove_default back to the variants tab" do
-        post :remove_default, params: { type_id: type.id, id: variant.id, back_url: }
+      it "morphs the variants tab list after remove_default" do
+        variant.update!(enabled_in_new_projects: true)
 
-        expect(response).to redirect_to(back_url)
+        post :remove_default, params: { type_id: type.id, id: variant.id, list_context: variants_tab },
+                              format: :turbo_stream
+
+        expect(response.body).to include(WorkPackageTypes::VariantsListComponent.component_id)
+        expect(response.body).to include(variant.variant_name)
+        expect(response.body).not_to include(I18n.t("types.index.enabled_in_new_projects"))
       end
 
-      it "sends destroy back to the variants tab" do
-        delete :destroy, params: { type_id: type.id, id: variant.id, back_url: }
+      it "morphs the variants tab list in place on destroy" do
+        survivor = create(:type_variant, type:, variant_name: "Survivor")
 
-        expect(response).to redirect_to(back_url)
-      end
+        delete :destroy, params: { type_id: type.id, id: variant.id, list_context: variants_tab },
+                         format: :turbo_stream
 
-      it "ignores a back_url pointing at another host" do
-        post :make_default, params: { type_id: type.id, id: variant.id, back_url: "https://evil.example.com/types" }
-
-        expect(response).to redirect_to(types_path)
+        expect(response.body).to include(WorkPackageTypes::VariantsListComponent.component_id)
+        expect(response.body).to include(survivor.variant_name)
+        expect(response.body).not_to include(variant.variant_name)
       end
     end
 
@@ -229,6 +246,35 @@ RSpec.describe WorkPackageTypes::VariantsController do
         end
       end
 
+    end
+
+    describe "morphing the admin list while a filter is active" do
+      let(:type) { create(:type, name: "Reportable") }
+      let!(:doomed) { create(:type_variant, type:, variant_name: "Doomed") }
+
+      it "carries the query filter so a non-matching sibling stays hidden after a destroy morph" do
+        create(:type_variant, type:, variant_name: "Hardware")
+        create(:type_variant, type:, variant_name: "Software")
+
+        delete :destroy, params: { type_id: type.id, id: doomed.id, query: "hard" }, format: :turbo_stream
+
+        expect(response.body).to include(WorkPackageTypes::Types::GroupedListComponent.component_id)
+        expect(response.body).to include("Hardware")
+        expect(response.body).not_to include("Software")
+      end
+
+      it "carries the migrated filter so a non-migrated sibling stays hidden after a destroy morph" do
+        create(:type_variant, type:, variant_name: "From migration", created_by_migration: true)
+        create(:type_variant, type:, variant_name: "Hand made")
+
+        delete :destroy, params: { type_id: type.id, id: doomed.id,
+                                   created_by_migration: WorkPackageTypes::MigrationFilterComponent::MIGRATED },
+                         format: :turbo_stream
+
+        expect(response.body).to include(WorkPackageTypes::Types::GroupedListComponent.component_id)
+        expect(response.body).to include("From migration")
+        expect(response.body).not_to include("Hand made")
+      end
     end
   end
 

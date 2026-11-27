@@ -104,6 +104,8 @@ module Llm
         error
       when RubyLLM::Error, RubyLLM::ConfigurationError, RubyLLM::ModelNotFoundError
         from_ruby_llm(error)
+      when ->(e) { e.cause.is_a?(RubyLLM::Error) }
+        from_ruby_llm(error.cause)
       else
         from_transport(error)
       end

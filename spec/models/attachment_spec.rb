@@ -495,6 +495,42 @@ RSpec.describe Attachment do
     end
   end
 
+  describe "file available notification on commit" do
+    before do
+      allow(OpenProject::Notifications).to receive(:send).and_call_original
+    end
+
+    context "with virus scanning disabled", with_settings: { antivirus_scan_mode: :disabled } do
+      it "notifies that the file is available" do
+        attachment.save
+
+        expect(OpenProject::Notifications)
+          .to have_received(:send).with(OpenProject::Events::ATTACHMENT_FILE_AVAILABLE, attachment:)
+      end
+    end
+
+    context "with virus scanning enabled",
+            with_ee: %i[virus_scanning],
+            with_settings: { antivirus_scan_mode: :clamav_socket } do
+      it "does not notify before the file is scanned" do
+        attachment.save
+
+        expect(OpenProject::Notifications)
+          .not_to have_received(:send).with(OpenProject::Events::ATTACHMENT_FILE_AVAILABLE, anything)
+      end
+    end
+
+    context "for a pending direct upload", with_settings: { antivirus_scan_mode: :disabled } do
+      it "does not notify before the upload is finished" do
+        attachment.status = :prepared
+        attachment.save
+
+        expect(OpenProject::Notifications)
+          .not_to have_received(:send).with(OpenProject::Events::ATTACHMENT_FILE_AVAILABLE, anything)
+      end
+    end
+  end
+
   describe "full text extraction job on commit" do
     let(:created_attachment) do
       create(:attachment,

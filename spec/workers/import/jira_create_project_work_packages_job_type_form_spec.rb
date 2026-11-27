@@ -112,9 +112,9 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
       Type.find_by!(name: type).default_variant.attribute_groups.map { |group| [group.key, group.attributes] }
     end
 
-    it "sets the issue's value and leaves the form as the other job left it" do
+    it "sets the issue's value and leaves the form unchanged" do
       groups_from_other_job = nil
-      as_another_job_before_locking(FormConfiguration) do
+      as_concurrent_job(FormConfiguration) do
         add_custom_field("CF String", type: "Task")
         groups_from_other_job = form_groups_of("Task")
       end

@@ -145,6 +145,28 @@ class ResourceAllocation < ApplicationRecord
     Principal.visible(user).where(id: principal_ids).pluck(:id).to_set
   end
 
+  # The edit routes resolve allocations within the planner's project, so a
+  # project planner only edits its own project's allocations.
+  def self.editable_ids(allocations, user, project:)
+    work_package_allocations = allocations.select { |allocation| allocation.entity_type == "WorkPackage" }
+    return Set.new if work_package_allocations.empty?
+
+    editable_work_package_ids = editable_work_packages(user, project)
+                                  .where(id: work_package_allocations.map(&:entity_id))
+                                  .pluck(:id)
+                                  .to_set
+
+    work_package_allocations
+      .select { |allocation| editable_work_package_ids.include?(allocation.entity_id) }
+      .to_set(&:id)
+  end
+
+  def self.editable_work_packages(user, project)
+    scope = WorkPackage.visible(user).where(project: Project.allowed_to(user, :allocate_user_resources))
+    project ? scope.where(project:) : scope
+  end
+  private_class_method :editable_work_packages
+
   # Without a project (a global planner) each allocation is counted against the
   # project of its own work package, since a placeholder's candidates are its
   # members.

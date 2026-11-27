@@ -127,37 +127,30 @@ module ResourceManagement
       end
 
       def edit_url_for(allocation)
-        return unless may_allocate?(allocation)
+        return unless editable_ids.include?(allocation.id)
 
         edit_allocation_path(@project, allocation)
       end
 
-      # The permission lives on the allocation's own project, which on a global
-      # planner differs from bar to bar.
-      def may_allocate?(allocation)
-        allocation_project = allocation.project
-        return false if allocation_project.nil?
-
-        @may_allocate ||= {}
-        @may_allocate.fetch(allocation_project.id) do
-          @may_allocate[allocation_project.id] =
-            current_user.allowed_in_project?(:allocate_user_resources, allocation_project)
-        end
+      def editable_ids
+        @editable_ids ||= ResourceAllocation.editable_ids(allocations_by_principal.values.flatten, current_user,
+                                                          project: @project)
       end
 
       def render_bar(allocation)
         ResourcePlannerViews::UserTimeline::AllocationBarComponent
           .new(allocation:, overbooked: overbooked?(allocation), overbooked_dates: overbooked_dates_of(allocation),
-               visible_work_package_ids:, project_names: (visible_project_names if @project.nil?))
+               visible_work_package_ids:, project_names: visible_project_names)
           .render_in(view_context)
       end
 
-      # A global planner's bars span projects, so each one names its own. Only the
-      # projects the viewer may see are resolved; the rest stay undisclosed.
+      # A user's bars span projects, so those outside the current project name
+      # their own. Only the projects the viewer may see are resolved; the rest stay
+      # undisclosed.
       def visible_project_names
         @visible_project_names ||= begin
           project_ids = allocation_entities.map(&:project_id).uniq
-          Project.visible(current_user).where(id: project_ids).pluck(:id, :name).to_h
+          Project.visible(current_user).where(id: project_ids).where.not(id: @project).pluck(:id, :name).to_h
         end
       end
 

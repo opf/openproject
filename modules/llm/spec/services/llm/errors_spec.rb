@@ -118,6 +118,29 @@ RSpec.describe Llm::Errors do
       expect(described_class.translate(original)).to be(original)
     end
 
+    it "maps a server error that HTTP/2 re-raised as a protocol error by its cause" do
+      wrapped = begin
+        begin
+          raise RubyLLM::BadRequestError.new(rubyllm_response(400), "Reasoning is mandatory")
+        rescue RubyLLM::BadRequestError => e
+          raise HTTP2::Error::ProtocolError, e.message
+        end
+      rescue HTTP2::Error::ProtocolError => e
+        e
+      end
+
+      translated = described_class.translate(wrapped)
+
+      expect(translated).to be_a(Llm::Errors::ApiError)
+      expect(translated.status).to eq(400)
+    end
+
+    it "keeps a protocol error without a server response a transport error" do
+      translated = described_class.translate(HTTP2::Error::ProtocolError.new("payload too large"))
+
+      expect(translated).not_to be_a(Llm::Errors::ApiError)
+    end
+
     # An OpenAI-compatible gateway echoes the submitted Authorization header,
     # upstream provider URLs and internal hostnames in its error payloads, and
     # RubyLLM puts that payload straight into the exception message.

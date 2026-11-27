@@ -80,14 +80,6 @@ RSpec.describe Bim::IfcModels::UpdateService do
       .to receive(:call)
       .and_return(set_attributes_result)
   end
-  let(:conversion_job) do
-    double("ifc_conversion_job").tap do |job|
-      allow(job)
-        .to receive(:perform_later)
-
-      stub_const("Bim::IfcModels::IfcConversionJob", job)
-    end
-  end
   let(:ifc_attachment) { build_stubbed(:attachment) }
   let(:other_attachment) do
     build_stubbed(:attachment).tap do |a|
@@ -127,13 +119,6 @@ RSpec.describe Bim::IfcModels::UpdateService do
         .to eql model
     end
 
-    it "schedules no conversion job" do
-      expect(conversion_job)
-        .not_to receive(:perform_later)
-
-      subject
-    end
-
     it "leaves attachments not marked for destruction" do
       expect(other_attachment)
         .not_to receive(:destroy)
@@ -147,14 +132,6 @@ RSpec.describe Bim::IfcModels::UpdateService do
         { name: "Some name",
           identifier: "Some identifier",
           ifc_attachment: }
-      end
-
-      it "schedules conversion job" do
-        expect(conversion_job)
-          .to receive(:perform_later)
-          .with(model)
-
-        subject
       end
 
       it "destroys all attachments marked for destruction" do
@@ -202,13 +179,6 @@ RSpec.describe Bim::IfcModels::UpdateService do
           allow(ifc_attachment)
             .to receive(:new_record?)
             .and_return(true)
-        end
-
-        it "schedules no conversion job" do
-          expect(conversion_job)
-            .not_to receive(:perform_later)
-
-          subject
         end
 
         it "does not destroy attachments marked for destruction" do

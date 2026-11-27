@@ -46,12 +46,12 @@ RSpec.describe "GET /types/:type_id/variants/:id/deletion_dialog", :aggregate_fa
   end
 
   shared_examples "returning to the page the menu was opened from" do
-    it "returns there once deleted" do
-      open_dialog(back_url: type_variants_path(type_id: bug.id))
+    it "carries that list's context into the deletion form, so the morph repaints it" do
+      open_dialog(list_context: WorkPackageTypes::VariantsListComponent::LIST_CONTEXT)
 
       expect(dialog).to have_css(
         "form[action='#{type_variant_path(type_id: bug.id, id: variant.id,
-                                          back_url: type_variants_path(type_id: bug.id))}']"
+                                          list_context: WorkPackageTypes::VariantsListComponent::LIST_CONTEXT)}']"
       )
     end
   end

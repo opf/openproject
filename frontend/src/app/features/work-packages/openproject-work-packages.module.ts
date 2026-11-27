@@ -409,6 +409,7 @@ import {
 } from 'core-app/features/work-packages/routing/wp-split-create/wp-split-create-entry.component';
 import { WorkPackageProjectAttributesTabComponent } from 'core-app/features/work-packages/components/wp-single-view-tabs/project-attributes-tab/op-project-attributes-tab.component';
 
+import { DynamicIconDirective } from 'core-app/shared/components/primer/dynamic-icon.directive';
 import { PrimerButtonComponent } from 'core-app/shared/components/primer/button.component';
 
 @NgModule({
@@ -451,6 +452,7 @@ import { PrimerButtonComponent } from 'core-app/shared/components/primer/button.
     OpSortableListsListDirective,
     OpSortableListsItemDirective,
     OpTooltipDirective,
+    DynamicIconDirective,
     PrimerButtonComponent,
   ],
   providers: [

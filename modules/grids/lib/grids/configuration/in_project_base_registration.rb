@@ -59,6 +59,24 @@ module Grids::Configuration
       user.allowed_in_any_work_package?(:view_work_packages, in_project: project)
     }
 
+    query_widgets_validation = ->(*) {
+      model.widgets.reject(&:marked_for_destruction?).each do |widget|
+        query_id = widget.options&.[]("queryId")
+        previous_query_id = widget.persisted? ? widget.options_was&.[]("queryId") : nil
+
+        next if query_id.to_s == previous_query_id.to_s
+
+        if previous_query_id.present?
+          errors.add(:widgets, :query_unchangeable)
+        elsif !::Query.exists?(id: query_id, project_id: model.project_id, user_id: user.id)
+          errors.add(:widgets, :invalid_query)
+        end
+      end
+    }
+
+    validations :create, query_widgets_validation
+    validations :update, query_widgets_validation
+
     widget_strategy "work_packages_table" do
       after_destroy remove_query_lambda
 

@@ -100,11 +100,11 @@ RSpec.shared_context "with jira project import data" do
     create_time_entries
   end
 
-  # Jobs run with the query cache on, so a read they repeat can return a stale answer.
   def with_query_cache(&) = ActiveRecord::Base.cache(&)
 
-  # Pretend another job did this right before this one takes the lock: the write leaves our query cache alone.
-  def as_another_job_before_locking(locked_class, &)
+  # Runs the block right before this job takes the lock, as if another job did it concurrently
+  # through its own database connection.
+  def as_concurrent_job(locked_class, &)
     allow(OpenProject::Mutex).to receive(:with_advisory_lock)
       .and_wrap_original do |original, resource_class, *args, **options, &block|
       ActiveRecord::Base.uncached(dirties: false, &) if resource_class == locked_class

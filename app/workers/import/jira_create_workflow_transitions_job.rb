@@ -40,7 +40,9 @@ module Import
         Rails.logger.debug "Creating workflow transitions started"
         role = Role.find_by!(name: "JiraMember")
         workflows_of_imported_types(jira_import_id).each do |workflow|
-          OpenProject::Mutex.with_advisory_lock_transaction(workflow) { JiraWorkflowTransitions.allow_all(role, workflow) }
+          OpenProject::Mutex.with_advisory_lock_transaction(workflow) do
+            JiraWorkflowTransitions.allow_all_status_transitions(role, workflow)
+          end
         end
         Rails.logger.debug "Creating workflow transitions finished"
       end

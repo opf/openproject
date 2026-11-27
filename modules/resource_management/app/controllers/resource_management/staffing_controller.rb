@@ -159,7 +159,8 @@ module ::ResourceManagement
       ResourceAllocations::AssignmentListComponent.new(
         project: @project,
         allocations:,
-        visible_work_package_ids: visible_work_package_ids(allocations)
+        visible_work_package_ids: visible_work_package_ids(allocations),
+        editable_ids: ResourceAllocation.editable_ids(allocations, current_user, project: @project)
       )
     end
 
@@ -172,7 +173,8 @@ module ::ResourceManagement
 
       ResourceAllocations::GlobalAssignmentListComponent.new(
         sections: staffable_projects.map { |project| [project, by_project.fetch(project.id, [])] },
-        visible_work_package_ids: visible_work_package_ids(allocations)
+        visible_work_package_ids: visible_work_package_ids(allocations),
+        editable_ids: ResourceAllocation.editable_ids(allocations, current_user, project: nil)
       )
     end
 

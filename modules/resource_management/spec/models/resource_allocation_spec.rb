@@ -885,4 +885,53 @@ RSpec.describe ResourceAllocation do
       expect(described_class.overbooked_ids([filter])).to be_empty
     end
   end
+
+  describe ".editable_ids" do
+    shared_let(:project) { create(:project, enabled_module_names: %w[resource_management work_package_tracking]) }
+    shared_let(:other_project) { create(:project, enabled_module_names: %w[resource_management work_package_tracking]) }
+    shared_let(:own_allocation) { create(:resource_allocation, entity: create(:work_package, project:)) }
+    shared_let(:other_allocation) { create(:resource_allocation, entity: create(:work_package, project: other_project)) }
+    shared_let(:allocations) { [own_allocation, other_allocation] }
+
+    let(:permissions) { %i[view_work_packages allocate_user_resources] }
+    let(:user) { create(:user, member_with_permissions: { project => permissions, other_project => permissions }) }
+
+    it "lists every allocation on a visible work package the user may allocate in" do
+      expect(described_class.editable_ids(allocations, user, project: nil))
+        .to eq(Set[own_allocation.id, other_allocation.id])
+    end
+
+    it "lists only the given project's allocations" do
+      expect(described_class.editable_ids(allocations, user, project:)).to eq(Set[own_allocation.id])
+    end
+
+    it "includes filter-based allocations" do
+      filter = create(:resource_allocation, :with_user_filter, entity: own_allocation.entity, filter_name: "Developer")
+
+      expect(described_class.editable_ids([filter], user, project:)).to eq(Set[filter.id])
+    end
+
+    it "checks any number of allocations in a fixed number of queries" do
+      loaded_allocations = allocations.map(&:reload)
+      user
+
+      expect { described_class.editable_ids(loaded_allocations, user, project: nil) }.to have_a_query_limit(2)
+    end
+
+    context "when the user may not allocate" do
+      let(:permissions) { %i[view_work_packages] }
+
+      it "is empty" do
+        expect(described_class.editable_ids(allocations, user, project: nil)).to be_empty
+      end
+    end
+
+    context "when the user may allocate but not see the work packages" do
+      let(:permissions) { %i[allocate_user_resources] }
+
+      it "is empty" do
+        expect(described_class.editable_ids(allocations, user, project: nil)).to be_empty
+      end
+    end
+  end
 end

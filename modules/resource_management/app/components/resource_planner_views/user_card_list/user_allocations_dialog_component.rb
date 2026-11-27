@@ -140,17 +140,9 @@ module ResourcePlannerViews::UserCardList
       "#{helpers.format_date(allocation.start_date)} - #{helpers.format_date(allocation.end_date)}"
     end
 
-    # The permission lives on the project of the allocated work package, which on
-    # a global planner differs from row to row.
     def editable?(allocation)
-      allocation_project = work_package_for(allocation)&.project
-      return false if allocation_project.nil?
-
-      @editable ||= {}
-      @editable.fetch(allocation_project.id) do
-        @editable[allocation_project.id] =
-          User.current.allowed_in_project?(:allocate_user_resources, allocation_project)
-      end
+      @editable_ids ||= ResourceAllocation.editable_ids(allocations, User.current, project:)
+      @editable_ids.include?(allocation.id)
     end
 
     def overbooked_message

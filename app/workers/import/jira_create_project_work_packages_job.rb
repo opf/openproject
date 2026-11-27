@@ -269,7 +269,7 @@ module Import
       OpenProject::Mutex.with_advisory_lock_transaction(workflow) do
         next if Status.uncached { type_has_status?(type, status) }
 
-        JiraWorkflowTransitions.allow_all(@project_role, workflow)
+        JiraWorkflowTransitions.allow_all_status_transitions(@project_role, workflow)
       end
     end
 
@@ -411,6 +411,7 @@ module Import
             target_versions:,
             observed_in_versions:,
             sprint: sprint_for(jira_issue),
+            start_date: nil,
             due_date:,
             # Otherwise SetAttributesService moves the due date to the next working day.
             ignore_non_working_days: due_on_non_working_day?(due_date),

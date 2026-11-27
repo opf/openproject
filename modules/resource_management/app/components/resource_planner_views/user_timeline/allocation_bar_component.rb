@@ -33,10 +33,9 @@ module ResourcePlannerViews
       # A user's bars span every project they are allocated in, including ones the
       # viewer cannot open. Those keep their hours — the load is real and feeds the
       # utilization maths — but disclose nothing about the work package.
-      # `project_names` is only given on a global planner, where the bar has to say
-      # which project the work sits in; it holds the visible projects alone, so an
-      # entry is missing exactly when the project must stay undisclosed.
-      def initialize(allocation:, overbooked: false, overbooked_dates: [], visible_work_package_ids: nil, project_names: nil)
+      # `project_names` holds the visible projects other than the current one, so an
+      # entry is missing exactly when the bar must not name its project.
+      def initialize(allocation:, visible_work_package_ids:, project_names:, overbooked: false, overbooked_dates: [])
         super
         @allocation = allocation
         @overbooked = overbooked
@@ -50,14 +49,10 @@ module ResourcePlannerViews
       attr_reader :allocation, :visible_work_package_ids, :project_names
 
       def project_name
-        return if project_names.nil?
-
         project_names[allocation.entity&.project_id]
       end
 
       def entity_visible?
-        return true if visible_work_package_ids.nil?
-
         visible_work_package_ids.include?(allocation.entity_id)
       end
 

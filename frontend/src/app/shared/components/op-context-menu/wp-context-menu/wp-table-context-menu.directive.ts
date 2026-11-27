@@ -72,7 +72,7 @@ export class WorkPackageTableContextMenu extends WorkPackageViewContextMenu {
       { direction: 'down', linkText: I18n.t('js.label_sort_lower'), octicon: 'chevron-down' },
       { direction: 'bottom', linkText: I18n.t('js.label_sort_lowest'), octicon: 'move-to-bottom' },
     ];
-    this.itemGroups.prepend('organize', {
+    this.itemGroups.prepend('move', {
       linkText: I18n.t('js.button_move_to_position'),
       octicon: 'op-arrow-in',
       children: entries.map(({ direction, linkText, octicon }) => ({

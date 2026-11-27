@@ -69,6 +69,7 @@ module Attachments
     def handle_success_response(attachment)
       Rails.logger.warn { "Scanned file #{attachment.id}. No viruses found." }
       attachment.update!(status: :scanned)
+      attachment.notify_file_available
     end
 
     def handle_virus_response(attachment, virus_name)

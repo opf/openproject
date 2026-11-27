@@ -149,6 +149,28 @@ RSpec.describe "Work package type variants tab", :js do
                                text: I18n.t("types.edit.variants.created_by_migration_filter.all"))
     end
 
+    it "keeps the migration filter applied after deleting a variant" do
+      kept = create(:type_variant, type: bug_type, variant_name: "Imported too", created_by_migration: true)
+      refresh
+
+      within_test_selector("type-variants-migration-filter") do
+        click_on I18n.t("types.edit.variants.created_by_migration_filter.migrated")
+      end
+      expect(page).to have_text(converted.variant_name)
+      expect(page).to have_no_text(hardware.variant_name)
+
+      within(".Box-row", text: converted.variant_name) { find("action-menu > button").click }
+      click_on I18n.t(:button_delete)
+      within("#unused-variant-deletion-dialog[open]") { click_on I18n.t(:button_delete) }
+
+      expect(page).to have_no_text(converted.variant_name)
+      expect(page).to have_css(".SegmentedControl-item--selected",
+                               text: I18n.t("types.edit.variants.created_by_migration_filter.migrated"))
+      expect(page).to have_text(kept.variant_name)
+      expect(page).to have_no_text(hardware.variant_name)
+      expect(TypeVariant).not_to exist(id: converted.id)
+    end
+
     it "keeps the name filter while the migration filter is applied" do
       first("[data-action~='click:sub-header#expandFilterInput']").click
       fill_in "query", with: "Converted"
