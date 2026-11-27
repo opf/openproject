@@ -128,6 +128,7 @@ en:
   ifc_models:
     conversion:
       missing_commands: "The following IFC converter commands are missing on this system: %{names}"
+      virus_scan_failed: "The file could not be scanned for viruses. An administrator can rescan it in the virus scanning settings."
     conversion_status:
       completed: 'Completed'
       error: 'Error'

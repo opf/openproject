@@ -31,7 +31,10 @@ module Attachments
   class VirusScanJob < ApplicationJob
     class VirusScanFailed < StandardError; end
 
-    retry_on VirusScanFailed, wait: 5.seconds, attempts: 3
+    retry_on VirusScanFailed, wait: 5.seconds, attempts: 3 do |job, error|
+      OpenProject::Notifications.send(OpenProject::Events::ATTACHMENT_SCAN_FAILED, attachment: job.arguments.first)
+      raise error
+    end
     discard_on ActiveJob::DeserializationError
 
     queue_with_priority :low

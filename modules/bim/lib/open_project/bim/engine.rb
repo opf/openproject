@@ -242,6 +242,13 @@ module OpenProject::Bim
 
           ::Bim::IfcModels::IfcConversionJob.perform_later(attachment.container)
         end
+
+        OpenProject::Notifications.subscribe(OpenProject::Events::ATTACHMENT_SCAN_FAILED) do |payload|
+          attachment = payload[:attachment]
+          next unless attachment.ifc_file? && attachment.container.pending?
+
+          attachment.container.update!(conversion_error_message: I18n.t("ifc_models.conversion.virus_scan_failed"))
+        end
       end
     end
 

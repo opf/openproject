@@ -100,6 +100,32 @@ RSpec.describe Attachments::VirusScanJob,
 
         expect(attachment).not_to have_received(:update!)
       end
+
+      it "does not notify that the scan failed before the last attempt" do
+        allow(OpenProject::Notifications).to receive(:send)
+
+        subject
+
+        expect(OpenProject::Notifications)
+          .not_to have_received(:send).with(OpenProject::Events::ATTACHMENT_SCAN_FAILED, anything)
+      end
+
+      context "on the last attempt" do
+        subject do
+          job = described_class.new(attachment)
+          2.times { job.perform_now }
+          job.perform_now
+        end
+
+        it "notifies that the scan failed and fails the job" do
+          allow(OpenProject::Notifications).to receive(:send)
+
+          expect { subject }.to raise_error(described_class::VirusScanFailed)
+
+          expect(OpenProject::Notifications)
+            .to have_received(:send).with(OpenProject::Events::ATTACHMENT_SCAN_FAILED, attachment:)
+        end
+      end
     end
 
     context "when virus is found" do

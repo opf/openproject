@@ -79,6 +79,37 @@ RSpec.describe "Scheduling the IFC model conversion", type: :job, with_config: {
 
       expect(conversion_job).to have_been_enqueued.with(ifc_model)
     end
+
+    context "when the scan fails on the last attempt" do
+      let(:clamav_client) { instance_double(ClamAV::Client, execute: ClamAV::ErrorResponse.new("Unavailable")) }
+
+      def scan_on_last_attempt(attachment)
+        job = Attachments::VirusScanJob.new(attachment)
+        3.times { job.perform_now }
+      rescue Attachments::VirusScanJob::VirusScanFailed
+        nil
+      end
+
+      it "shows the failed scan on the model and does not convert it" do
+        ifc_model = create_ifc_model(ifc_file)
+
+        scan_on_last_attempt(ifc_model.ifc_attachment)
+
+        expect(ifc_model.reload).to be_pending
+        expect(ifc_model.conversion_error_message).to eq(I18n.t("ifc_models.conversion.virus_scan_failed"))
+        expect(conversion_job).not_to have_been_enqueued
+      end
+
+      it "converts the model once a rescan succeeds" do
+        ifc_model = create_ifc_model(ifc_file)
+        scan_on_last_attempt(ifc_model.ifc_attachment)
+
+        allow(clamav_client).to receive(:execute).and_return(ClamAV::SuccessResponse.new("OK"))
+        Attachments::VirusScanJob.perform_now(ifc_model.ifc_attachment.reload)
+
+        expect(conversion_job).to have_been_enqueued.with(ifc_model)
+      end
+    end
   end
 
   context "with a direct upload", :with_direct_uploads, with_settings: { antivirus_scan_mode: :disabled } do
