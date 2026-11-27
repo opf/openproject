@@ -29,6 +29,10 @@
 
 class Queries::WorkPackages::Filter::CategoryFilter <
   Queries::WorkPackages::Filter::WorkPackageFilter
+  def human_name
+    WorkPackage.human_attribute_name(Setting::WorkPackageMultipleCategories.active? ? :categories : :category)
+  end
+
   def allowed_values
     all_project_categories.map { |s| [s.name, s.id.to_s] }
   end
@@ -56,7 +60,24 @@ class Queries::WorkPackages::Filter::CategoryFilter <
     true
   end
 
+  def where
+    case operator
+    when "!" then "NOT EXISTS (#{category_associations_sql(values)})"
+    when "!*" then "NOT EXISTS (#{category_associations_sql})"
+    when "*" then "EXISTS (#{category_associations_sql})"
+    else "EXISTS (#{category_associations_sql(values)})"
+    end
+  end
+
   private
+
+  def category_associations_sql(category_ids = nil)
+    scope = WorkPackageCategory
+      .where("#{WorkPackageCategory.table_name}.work_package_id = #{WorkPackage.table_name}.id")
+    scope = scope.where(category_id: category_ids) if category_ids
+
+    scope.select(1).to_sql
+  end
 
   def all_project_categories
     @all_project_categories ||= project.categories
