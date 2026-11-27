@@ -258,7 +258,7 @@ Furthermore, you can highlight the entire row by an attribute. The following att
 
 ![Highlighting of an entire row in work packages table is activated in OpenProject](openproject_user_guide_wp_table_highlighting_row_on.png)
 
-You can configure the colors for attribute highlighting in the system administration. Find out how to set it for the color of the priority [here](../../../system-admin-guide/manage-work-packages/work-package-priorities/#edit-or-remove-work-package-priority) and for the color of the status [here](../../../system-admin-guide/manage-work-packages/work-package-status/#edit-re-order-or-remove-a-work-package-status).
+You can configure the colors for attribute highlighting in the system administration. Find out how to set it for the color of the priority [here](../../../system-admin-guide/manage-work-packages/work-package-priorities/#edit-or-remove-work-package-priority) and for the color of the status [here](../../../system-admin-guide/manage-work-packages/work-package-statuses/#edit-reorder-or-remove-a-work-package-status).
 
 ## Save work package views
 

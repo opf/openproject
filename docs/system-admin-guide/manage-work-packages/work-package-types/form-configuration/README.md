@@ -1,84 +1,53 @@
 ---
 sidebar_navigation:
-  title: Form configuration
+  title: Form
   priority: 800
-description: Configure work package forms for work package types in OpenProject.
-keywords: work package form, form configuration, work package types, attributes, custom fields, related work packages
+description: Assign work package forms and configure field visibility for work package types and variants in OpenProject.
+keywords: work package form, form configuration, work package types, type variants, reusable forms, attributes, custom fields, field visibility
 ---
 
-# Work package form configuration (Enterprise add-on)
+# Configure forms for work package types and variants
 
-You can customize the work package form for each work package type to display the attributes most relevant to your team's workflow. Attributes can be added, removed, and arranged within the form as needed.
+Forms determine which attributes, custom fields, and sections are displayed in work packages. Starting with OpenProject 18.0, forms are reusable and can be shared across multiple work package types and variants.
 
-In the Enterprise edition, you can also create and rename sections and add a related work packages table.
+To manage the form associated with a type or variant, navigate to *Administration → Work packages → Types*, select the relevant type or variant, and open the **Form** tab.
 
-[feature: edit_attribute_groups ]
+![Form tab showing the assigned form and field visibility settings for a work package type](openproject_system_guide_wp_form_configuration.png)
 
-To configure the work package form for a type, navigate to **Administration → Work packages → Types**, select a type, and open the **Form configuration** tab.
+## Assign a form to a type or variant
 
-The form preview on the right shows the attributes that are currently displayed when creating or editing work packages of this type. Attributes are organized into sections.
+Use the **Form** dropdown at the top of the page to select an existing form. Using a shared form allows you to maintain a consistent layout across multiple types and variants without having to configure each one individually.
 
-On the left side are all available attributes and [custom fields](../../../custom-fields) that are not currently used in the form. You can filter them using the search field.  User created custom fields are distinguished from system **Built-in** attributes by a label indicating the field's format. 
+If you need a separate form, click **+ Form** and configure the new form in the dialog. Once you click **Create**, you are taken to the form editor under *Administration → Work packages → Forms*.
 
->[!TIP]
-> Built-in fields can not be permanently removed. If you delete them from the form, they will appear on the left side.
+Forms can also be selected or created when [creating a work package type or variant](../create-type-or-variant/).
 
-To customize the form:
+## Configure field visibility
 
-- Add attributes and custom fields by dragging them from the left side into the desired section.
-- Remove attributes from the form using the **(...)** menu next to the attribute.
-- Reorder attributes and sections using drag and drop or the available move options from the **(...)** menu.
-- Rename sections using the **(...)** menu.
+The **Form** tab displays the attributes and custom fields included in the assigned form, organized into their respective sections.
 
-> [!NOTE]
-> If you use custom fields, remember that they must also be activated for the relevant projects before they can be used.
+Use the toggle next to a field to enable or disable it for the selected type or variant. Alternatively, open the **More (three dots)** menu next to the field and select **Enable** or **Disable**.
 
-![Sys-admin-type-form-configuration](openproject_system_guide_wp_form_configuration.png)
+This allows you to hide individual fields without removing them from the shared form or affecting other types and variants using the same form.
 
-To add a new section, click **+ Add** and select **Section**. Enter a name for the section and then drag attributes into it.
+## Edit the assigned form
 
-To add a related work packages table, click **+ Add** and select **Related work packages table**.
+To change the layout, attributes, or sections of the assigned form, click **Edit this form**. This takes you directly to the form editor under *Administration → Work packages → Forms*.
 
-If you want to restore the default form layout for this type, click **Reset form**. This resets the entire form configuration, including all sections and attribute assignments.
+Changes to the shared form affect all types and variants using it. If you need a different form layout without affecting other types or variants, create a separate form instead.
 
-![Add button for attribute group](openproject_system_guide_wp_add_section.png)
+For detailed instructions on arranging attributes, configuring attribute groups, and adding tables of related work packages, see [Configure a work package form](../../work-package-forms/#configure-a-work-package-form).
 
-Changes are saved automatically. Users creating or editing a work package of this type will see the form exactly as configured.
+## Custom fields in work package forms
 
-Watch the following video to see how you can customize your work packages with custom fields and configure the work package forms:
+Starting with OpenProject 18.0, work package custom fields are no longer activated or deactivated individually for each project. Instead, their availability is determined by the forms and field visibility settings of the types and variants used in a project.
 
-<video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Forms-and-Custom-Fields-1.mp4"></video>
+To make a custom field available in work packages, add it to the relevant form and make sure it is enabled for the corresponding type or variant.
 
-### Required fields for work package types
+For more information, see [Make custom fields available in work packages](../../work-package-custom-fields/#make-custom-fields-available-in-work-packages).
 
-> [!IMPORTANT]
-> This feature is currently available on the **Dev branch**.
+## Further reading
 
-Administrators can define which custom fields are mandatory for a specific work package type.
-
-To make a custom field required, select the **More (⋯)** menu at the right end of the custom field row and select **Require in this type**.
-
-![More menu for a work package custom field with the "Require in this type" option](require-custom-field-for-work-package-type.png)
-
-Once marked as required, the custom field is labeled **Required in this type**.
-
-![Work package custom field with the "Required in this type" label](custom-field-required-for-work-package-type.png)
-
-
-## Add table of related work packages to a work package form (Enterprise add-on)
-
-You can add a related work packages table to your work package form. Click the **+ Add** button and select **Related work packages table**.
-
-[feature: work_package_query_relation_columns ]
-
-![Sys-admin-table-of-related-work-packages](openproject_system_guide_table_of_related_wp.png)
-
-You can configure which related work packages should be displayed in the table, for example child work packages or work packages with a specific relation type. You can also define how the table is filtered, grouped, sorted, and displayed. Configure the table in the same way as a regular [work package table](../../../../user-guide/work-packages/work-package-table-configuration/).
-
-When you have finished configuring the table, click **Apply** to add it to the form.
-
-![Work package table configuration for work package form in OpenProject administration](openproject_system_admin_guide_filter_wp.png)
-
-The related work packages table is then displayed directly in the work package form. It automatically shows work packages that match the configured relation and filters. Users can also create new related work packages directly from the table.
-
-![A work package in OpenProject displaying related work packages table](open_project_admin_related_wp_table.png)
+- [Manage work package forms](../../work-package-forms/)
+- [Manage work package types](../)
+- [Activate work package types and variants for projects](../projects/)
