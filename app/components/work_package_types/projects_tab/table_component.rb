@@ -34,7 +34,7 @@ module WorkPackageTypes
       main_column :name, :variant
       mobile_labels :variant
 
-      WIZARD_PAGINATION_PARAMS = %w[filters step back_url started_form_configuration_id].freeze
+      WIZARD_PAGINATION_PARAMS = %w[filters step back_url started_form_configuration_id started_workflow_id].freeze
 
       attr_reader :variant
 

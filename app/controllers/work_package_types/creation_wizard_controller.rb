@@ -44,7 +44,7 @@ module WorkPackageTypes
     before_action :find_variant, only: %i[show update projects]
     before_action :set_current_step, only: %i[show update]
     before_action :set_back_url
-    before_action :set_started_form_configuration_id
+    before_action :set_started_ids
 
     def show
       load_query if @current_step == :projects
@@ -206,6 +206,7 @@ module WorkPackageTypes
     def update_form_configuration
       return advance if @variant.project_owned?
 
+      discard_abandoned(::FormConfiguration, @started_form_configuration_id)
       form = @variant.form_configuration
       return name_reference(form, ::FormConfigurations::UpdateService) if params[:form_configuration].present?
       return advance unless form&.used_by_one_variant?
@@ -216,12 +217,17 @@ module WorkPackageTypes
     def update_workflows
       return advance if @variant.project_owned?
 
+      discard_abandoned(::Workflow, @started_workflow_id)
       workflow = @variant.workflow
       return name_reference(workflow, ::Workflows::UpdateService) if params[:workflow].present?
       return advance unless workflow&.used_by_one_variant?
       return render :show, status: :unprocessable_entity unless update_matrix.success?
 
       ask_for_name(workflow)
+    end
+
+    def discard_abandoned(model_class, started_id)
+      NamedReferences::DiscardStartedService.new(model_class:).call(started_id)
     end
 
     def ask_for_name(record)
@@ -286,10 +292,17 @@ module WorkPackageTypes
       @back_url = RedirectPolicy.new(params[:back_url], hostname: request.host, default: nil).redirect_url
     end
 
-    def carried_params = { back_url: @back_url, started_form_configuration_id: @started_form_configuration_id }.compact
+    def carried_params
+      {
+        back_url: @back_url,
+        started_form_configuration_id: @started_form_configuration_id,
+        started_workflow_id: @started_workflow_id
+      }.compact
+    end
 
-    def set_started_form_configuration_id
-      @started_form_configuration_id = params[:started_form_configuration_id].presence&.to_i
+    def set_started_ids
+      @started_form_configuration_id = NamedReferences::DiscardStartedService.id_in(params, ::FormConfiguration)
+      @started_workflow_id = NamedReferences::DiscardStartedService.id_in(params, ::Workflow)
     end
 
     # @variant is the type itself while a type is being created until there is a variant to be used

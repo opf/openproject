@@ -51,7 +51,9 @@ module WorkPackageTypes
     end
 
     def change_dialog
-      respond_with_dialog NamedReferences::ChangeDialogComponent.new(variant: @variant, model_class:, back_url:)
+      respond_with_dialog NamedReferences::ChangeDialogComponent.new(
+        variant: @variant, model_class:, back_url:, excluded_id: started_id
+      )
     end
 
     def change
@@ -91,6 +93,7 @@ module WorkPackageTypes
         return reject_missing_copy_source(start_variant_form_configuration_path(@variant, **dialog_params))
       end
 
+      discard_previously_started
       service_call = start_form
       return render_name_errors(service_call.result) unless service_call.success?
 
@@ -101,6 +104,9 @@ module WorkPackageTypes
     private
 
     def model_class = ::FormConfiguration
+
+    # Discarded before starting so that the next one takes over its name.
+    def discard_previously_started = NamedReferences::DiscardStartedService.new(model_class:).call(started_id)
 
     def start_form
       ::FormConfigurations::CreateService.new(user: current_user)
@@ -117,11 +123,10 @@ module WorkPackageTypes
     def return_to(form)
       return edit_form_configuration_path(form) if back_url.nil?
 
-      uri = URI.parse(back_url)
-      uri.query = Rack::Utils.parse_nested_query(uri.query.to_s)
-                             .merge("started_form_configuration_id" => form.id).to_query
-      uri.to_s
+      NamedReferences::DiscardStartedService.carry_in(back_url, form)
     end
+
+    def started_id = NamedReferences::DiscardStartedService.id_in(params, model_class)
 
     def back_url
       @back_url ||= RedirectPolicy.new(params[:back_url], hostname: request.host, default: nil).redirect_url
@@ -146,13 +151,18 @@ module WorkPackageTypes
       NamedReferences::StartDialogComponent.new(
         model_class:,
         url:,
-        candidates: ::FormConfiguration.in_display_order.to_a,
+        candidates: ::FormConfiguration.in_display_order.where.not(id: started_id).to_a,
         error:,
         type_record_id: @variant.type_form_configuration&.id
       )
     end
 
-    def dialog_params = { back_url: }.compact
+    def dialog_params
+      {
+        back_url:,
+        **NamedReferences::DiscardStartedService.params_for(model_class, started_id)
+      }.compact
+    end
 
     def provisional_name = ::FormConfiguration.implicit_name(@variant.composite_name)
 

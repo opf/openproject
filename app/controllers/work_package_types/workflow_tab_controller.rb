@@ -41,9 +41,9 @@ module WorkPackageTypes
     end
 
     def change_dialog
-      respond_with_dialog NamedReferences::ChangeDialogComponent.new(variant: @variant,
-                                                                     model_class: ::Workflow,
-                                                                     back_url:)
+      respond_with_dialog NamedReferences::ChangeDialogComponent.new(
+        variant: @variant, model_class: ::Workflow, back_url:, excluded_id: started_id
+      )
     end
 
     def change
@@ -87,6 +87,7 @@ module WorkPackageTypes
       end
       return confirm_new_workflow if new_workflow_needs_confirmation?
 
+      discard_previously_started
       service_call = start_workflow
       return render_form_errors(service_call.result) unless service_call.success?
 
@@ -183,10 +184,12 @@ module WorkPackageTypes
     def return_to(workflow)
       return edit_workflow_path(workflow) if back_url.nil?
 
-      uri = URI.parse(back_url)
-      uri.query = Rack::Utils.parse_nested_query(uri.query.to_s)
-                             .merge("started_workflow_id" => workflow.id).to_query
-      uri.to_s
+      NamedReferences::DiscardStartedService.carry_in(back_url, workflow)
+    end
+
+    # Discarded before starting so that the next one takes over its name.
+    def discard_previously_started
+      NamedReferences::DiscardStartedService.new(model_class: ::Workflow).call(started_id)
     end
 
     def start_workflow
@@ -203,6 +206,8 @@ module WorkPackageTypes
 
       flash[:notice] = t(:notice_successful_update) if back_url.nil?
     end
+
+    def started_id = NamedReferences::DiscardStartedService.id_in(params, ::Workflow)
 
     def back_url
       @back_url ||= RedirectPolicy.new(params[:back_url], hostname: request.host, default: nil).redirect_url
@@ -221,13 +226,18 @@ module WorkPackageTypes
       NamedReferences::StartDialogComponent.new(
         model_class: ::Workflow,
         url:,
-        candidates: Workflow.in_display_order.to_a,
+        candidates: Workflow.in_display_order.where.not(id: started_id).to_a,
         error:,
         type_record_id: @variant.type_reference_id(Workflow.variant_reflection)
       )
     end
 
-    def dialog_params = { back_url: }.compact
+    def dialog_params
+      {
+        back_url:,
+        **NamedReferences::DiscardStartedService.params_for(::Workflow, started_id)
+      }.compact
+    end
 
     def provisional_name = Workflow.implicit_name(@variant.composite_name)
 

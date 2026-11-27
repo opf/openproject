@@ -33,12 +33,14 @@ module WorkPackageTypes
       include OpPrimer::ComponentHelpers
       include WorkPackageTypes::VariantRoutes
 
-      def initialize(type:, current_step:, variant: nil, back_url: nil, started_form_configuration_id: nil)
+      def initialize(type:, current_step:, variant: nil, back_url: nil, started_form_configuration_id: nil,
+                     started_workflow_id: nil)
         super(type)
 
         @current_step = current_step
         @back_url = back_url
         @started_form_configuration_id = started_form_configuration_id
+        @started_workflow_id = started_workflow_id
         # Creating a type hands in the type itself, or nothing at all. Settle what the wizard is
         # editing once here, so nothing below has to ask what it was given.
         @variant = variant.is_a?(TypeVariant) ? variant : type.default_variant
@@ -84,7 +86,11 @@ module WorkPackageTypes
       end
 
       def carried_params
-        { back_url:, started_form_configuration_id: @started_form_configuration_id }.compact
+        {
+          back_url:,
+          started_form_configuration_id: @started_form_configuration_id,
+          started_workflow_id: @started_workflow_id
+        }.compact
       end
 
       def step_form_url
