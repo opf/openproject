@@ -58,11 +58,9 @@ module ResourceAllocations
       overbooked_ids.include?(allocation.id)
     end
 
-    def editable?
-      return @editable if defined?(@editable)
-
-      @editable = work_package.project.present? &&
-        User.current.allowed_in_project?(:allocate_user_resources, work_package.project)
+    def editable?(allocation)
+      @editable_ids ||= ResourceAllocation.editable_ids(allocations, User.current, project:)
+      @editable_ids.include?(allocation.id)
     end
   end
 end
