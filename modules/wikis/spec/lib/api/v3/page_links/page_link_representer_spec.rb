@@ -38,7 +38,11 @@ module API
         let(:inline_page_link) { build_stubbed(:inline_wiki_page_link) }
         let(:current_user) { create(:user) }
 
-        let(:represented) { inline_page_link }
+        let(:represented) do
+          inline_page_link.tap do |l|
+            def l.title = "The title of the linked page"
+          end
+        end
         let(:project) { represented.linkable.project }
 
         let(:embed_links) { false }
@@ -51,7 +55,7 @@ module API
             it_behaves_like "has a titled link" do
               let(:link) { "self" }
               let(:href) { "/api/v3/wiki_page_links/#{represented.id}" }
-              let(:title) { represented.identifier }
+              let(:title) { "The title of the linked page" }
             end
           end
 

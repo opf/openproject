@@ -40,7 +40,11 @@ module API
         let(:relation_page_link) { build_stubbed(:relation_wiki_page_link) }
         let(:embed_links) { false }
 
-        let(:represented) { relation_page_link }
+        let(:represented) do
+          relation_page_link.tap do |l|
+            def l.title = "The title of the linked page"
+          end
+        end
         let(:project) { represented.linkable.project }
 
         let(:representer) { described_class.new(represented, current_user:, embed_links:) }
