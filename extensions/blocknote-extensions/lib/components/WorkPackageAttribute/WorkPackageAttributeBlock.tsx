@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { BlockNoteEditor } from '@blocknote/core';
 import { useSelectedBlocks } from '@blocknote/react';
 import { selectBlockNode } from '../../utils/selection';
+import { useCloseOptionsOnDeselect } from '../../hooks/useCloseOptionsOnDeselect';
 import { blockDragProps } from '../../utils/blockDrag';
 import type { AttributeDisplay } from './display';
 import { useWorkPackageAttribute } from './useWorkPackageAttribute';
@@ -30,6 +31,7 @@ export function WorkPackageAttributeBlock({ blockId, content, editor, onDisplayC
     onActivate: () => selectBlockNode(editor, blockId),
   });
   const selected = useSelectedBlocks(editor).some((block) => block.id === blockId);
+  useCloseOptionsOnDeselect(selected, options);
   const [menuAnchor, setMenuAnchor] = useState<HTMLSpanElement | null>(null);
 
   return (

@@ -28,6 +28,7 @@ import { useOptionsHost } from '../../utils/optionsHost';
 import { isKeyboardClick, menuButtonProps } from '../../utils/a11y';
 import { describeLinkedWorkPackage, unavailableKindOf, workPackageLabel } from '../WorkPackage/description';
 import { usePressOutside } from '../../hooks/usePressOutside';
+import { useCloseOptionsOnDeselect } from '../../hooks/useCloseOptionsOnDeselect';
 import type { BlockNoteEditor } from '@blocknote/core';
 
 export interface InlineWorkPackageChipProps {
@@ -74,6 +75,7 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
   const { previewOpen, closePreview, triggerProps, cardProps } = preview;
 
   const isEditorSelected = useIsNodeInSelection(chipRef, editor);
+  useCloseOptionsOnDeselect(isEditorSelected, options);
 
   useSuppressFormattingToolbar(editor, options.isOpen || previewOpen);
 
