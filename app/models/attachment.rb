@@ -71,7 +71,9 @@ class Attachment < ApplicationRecord
                   { controller: "/attachments", action: "download", id: o.id, filename: o.filename }
                 end)
 
-  mount_uploader :file, OpenProject::Configuration.file_uploader
+  before_save -> { file.write_identifier }
+  after_save :persist_attachment_file
+  after_destroy_commit -> { file.delete }
 
   after_commit :enqueue_jobs, on: :create, if: -> { !internal_container? && !incomplete_import? }
   after_commit :delete_staged_direct_upload, on: :destroy, if: :prepared?
@@ -247,14 +249,29 @@ class Attachment < ApplicationRecord
     File.extname filename
   end
 
-  def file=(file)
-    # Take size, type, digest from source before CarrierWave caches it in super.
-    # FogFileUploader may move the source into the cache (MovableSource), after which +file.path+ no longer exists.
-    set_file_size file
-    set_content_type file
-    set_digest file if File.readable?(file.path)
+  def file
+    @file ||= AttachmentFile.new(self)
+  end
 
+  def initialize_dup(other)
     super
+    @file = nil
+    self.file_data = nil
+  end
+
+  def reload(...)
+    super.tap { @file = nil }
+  end
+
+  def file=(source)
+    assign_file(source, filename: source.try(:original_filename).presence || File.basename(source.path))
+  end
+
+  def assign_file(source, filename:)
+    set_file_size source
+    set_content_type source
+    set_digest source
+    file.assign(source, filename:)
   end
 
   def set_file_size(file)
@@ -289,7 +306,7 @@ class Attachment < ApplicationRecord
 
   def copy
     attachment = dup
-    attachment.file = diskfile
+    file.copy_to(attachment)
 
     yield attachment if block_given?
 
@@ -364,6 +381,7 @@ class Attachment < ApplicationRecord
   #
   # @param age_in_seconds [Integer] Delete all cached files older than this many seconds.
   def self.clean_cached_files!(age_in_seconds: Setting.attachments_cleanup_period_hours.to_i.hours.to_i)
+    AttachmentShrine.storage_for(:cache).clear! { |path| path.mtime < age_in_seconds.seconds.ago }
     uploader = OpenProject::Configuration.file_uploader
     cache_storage = uploader.cache_storage
 
@@ -393,6 +411,10 @@ class Attachment < ApplicationRecord
   end
 
   private
+
+  def persist_attachment_file
+    file.persist
+  end
 
   def delete_staged_direct_upload
     DirectFogUploader.delete_staged_upload(self)

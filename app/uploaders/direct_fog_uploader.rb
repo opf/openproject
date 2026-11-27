@@ -27,91 +27,71 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative "fog_file_uploader"
+class DirectFogUploader
+  attr_reader :key
 
-class DirectFogUploader < FogFileUploader
-  include CarrierWaveDirect::Uploader
-
-  ##
-  # This needs to be true so that the necessary condition is included
-  # in S3 upload policy (only relevant for direct uploads).
-  def will_include_content_type
-    true
+  def initialize(attachment)
+    @filename = attachment[:file]
+    @key = "uploads/direct_uploads/attachment/#{attachment.id}/#{@filename}"
+    @storage = AttachmentShrine.storage_for(:s3)
   end
 
-  def upload_expiration
-    OpenProject::Configuration.fog_direct_upload_expires_in
+  def self.for_attachment(attachment)
+    new(attachment)
   end
 
-  # The signed policy restricts the key via `starts-with`, so this must never be a prefix
-  # of the final store_dir the attachment is served from.
-  def store_dir
-    "uploads/direct_uploads/attachment/#{model.id}"
+  def self.delete_staged_upload(attachment)
+    for_attachment(attachment).delete
+  rescue StandardError => e
+    OpenProject.logger.error("Failed to delete staged upload of attachment #{attachment.id}: #{e.message}")
   end
 
-  class << self
-    def for_attachment(attachment)
-      new(attachment).tap do |uploader|
-        uploader.retrieve_from_store!(attachment[:file])
-        uploader.key = uploader.file.path
+  def self.direct_fog_hash(attachment:, success_action_redirect: nil, success_action_status: "201",
+                           max_file_size: Setting.attachment_max_size * 1024)
+    success = if success_action_redirect.present?
+                { success_action_redirect: }
+              else
+                { success_action_status: }
+              end
+    for_attachment(attachment).form(content_type: attachment.content_type, max_file_size:, **success)
+  end
+
+  def form(content_type:, max_file_size:, **success)
+    expiration = OpenProject::Configuration.fog_direct_upload_expires_in.seconds.from_now
+    form = @storage.presign(key, method: :post, signature_expiration: expiration, content_length_range: 0..max_file_size,
+                                 content_type:, **success)
+    fields = form.fetch(:fields).symbolize_keys
+    fields[:bucket] = @storage.bucket.name if @storage.client.config.force_path_style
+    fields.merge(uri: form.fetch(:url))
+  end
+
+  def download_url(options = {})
+    expiry = OpenProject::Configuration.fog_download_url_expires_in
+    @storage.url(key, response_content_type: options[:content_type],
+                      response_content_disposition: options[:content_disposition],
+                      expires_in: [options[:expires_in], expiry].compact.min.to_i)
+  end
+
+  def readable?
+    @storage.exists?(key)
+  rescue Aws::S3::Errors::Forbidden
+    false
+  end
+
+  def with_local_file
+    Tempfile.create(["staged-upload", File.extname(@filename)], binmode: true) do |file|
+      input = @storage.open(key, rewindable: false)
+      begin
+        IO.copy_stream(input, file)
+      ensure
+        input.close
       end
+      file.rewind
+      yield file
     end
+  end
 
-    def delete_staged_upload(attachment)
-      for_attachment(attachment).remote_file.delete
-    rescue StandardError => e
-      OpenProject.logger.error("Failed to delete staged upload of attachment #{attachment.id}: #{e.message}")
-    end
-
-    ##
-    # Generates the direct upload form for the given attachment.
-    #
-    # @param attachment [Attachment] The attachment for which a file is to be uploaded.
-    # @param success_action_redirect [String] URL to redirect to if successful (none by default, using status).
-    # @param success_action_status [String] The HTTP status to return on success (201 by default).
-    # @param max_file_size [Integer] The maximum file size to be allowed in bytes.
-    def direct_fog_hash(
-      attachment:,
-      success_action_redirect: nil,
-      success_action_status: "201",
-      max_file_size: Setting.attachment_max_size * 1024
-    )
-      uploader = direct_fog_hash_uploader attachment, success_action_redirect, success_action_status
-      hash = uploader
-        .direct_fog_hash(enforce_utf8: false, max_file_size:)
-        .merge(extra_fog_hash_attributes(uploader:))
-
-      if success_action_redirect.present?
-        hash.merge(success_action_redirect:)
-      else
-        hash.merge(success_action_status:)
-      end
-    end
-
-    def extra_fog_hash_attributes(uploader:)
-      return {} unless include_content_type?(uploader)
-
-      {
-        "Content-Type": uploader.fog_attributes[:"Content-Type"]
-      }
-    end
-
-    private
-
-    def include_content_type?(uploader)
-      uploader.will_include_content_type && uploader.fog_attributes.include?(:"Content-Type")
-    end
-
-    def direct_fog_hash_uploader(attachment, success_action_redirect, success_action_status)
-      for_attachment(attachment).tap do |uploader|
-        if success_action_redirect.present?
-          uploader.success_action_redirect = success_action_redirect
-          uploader.use_action_status = false
-        else
-          uploader.success_action_status = success_action_status
-          uploader.use_action_status = true
-        end
-      end
-    end
+  def delete
+    @storage.delete(key)
   end
 end

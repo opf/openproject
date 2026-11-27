@@ -29,20 +29,15 @@
 
 module DirectUploadHelpers
   def stage_direct_upload(attachment, content: "test content")
-    mock_bucket_files.create(key: direct_upload_staging_key(attachment), body: content)
+    AttachmentShrine.storage_for(:s3).upload(StringIO.new(content), direct_upload_staging_key(attachment))
   end
 
   def staged_direct_upload(attachment)
-    mock_bucket_files.head(direct_upload_staging_key(attachment))
+    upload = DirectFogUploader.for_attachment(attachment)
+    upload if upload.readable?
   end
 
   def direct_upload_staging_key(attachment)
     DirectFogUploader.for_attachment(attachment).key
-  end
-
-  private
-
-  def mock_bucket_files
-    Fog::Storage.new(MockCarrierwave.credentials).directories.get(MockCarrierwave.bucket).files
   end
 end

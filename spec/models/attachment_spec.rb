@@ -168,27 +168,6 @@ RSpec.describe Attachment do
       expect(attachment.digest)
         .to eql Digest::MD5.file(file.path).hexdigest
     end
-
-    context "when CarrierWave moves the source file during cache" do
-      it "still detects size, content type, and digest from the original file" do
-        expected_size = file.size
-        expected_digest = Digest::MD5.file(file.path).hexdigest
-
-        # Simulate FogFileUploader::MovableSource: cache! moves (deletes) the source.
-        # rubocop:disable RSpec/AnyInstance
-        allow_any_instance_of(LocalFileUploader).to receive(:cache!) do |_uploader, new_file|
-          path = new_file.respond_to?(:path) ? new_file.path : new_file.to_s
-          FileUtils.rm_f(path) if path.present? && File.exist?(path)
-        end
-        # rubocop:enable RSpec/AnyInstance
-
-        moved = described_class.new(author:, container: work_package, content_type: nil, file:)
-
-        expect(moved.filesize).to eq expected_size
-        expect(moved.content_type).to eq "image/jpeg"
-        expect(moved.digest).to eq expected_digest
-      end
-    end
   end
 
   describe "content type detection" do
@@ -267,8 +246,6 @@ RSpec.describe Attachment do
     subject { create(:attachment) }
   end
 
-  # We just use with_direct_uploads here to make sure the
-  # FogAttachment class is defined and Fog is mocked.
   describe "#external_url", :with_direct_uploads do
     let(:author) { create(:user) }
 
@@ -276,9 +253,9 @@ RSpec.describe Attachment do
     let(:text_path) { Rails.root.join("spec/fixtures/files/testfile-utf8.txt") }
     let(:binary_path) { Rails.root.join("spec/fixtures/files/textfile.txt.gz") }
 
-    let(:image_attachment) { FogAttachment.new author:, file: File.open(image_path) }
-    let(:text_attachment) { FogAttachment.new author:, file: File.open(text_path) }
-    let(:binary_attachment) { FogAttachment.new author:, file: File.open(binary_path) }
+    let(:image_attachment) { described_class.new author:, file: File.open(image_path) }
+    let(:text_attachment) { described_class.new author:, file: File.open(text_path) }
+    let(:binary_attachment) { described_class.new author:, file: File.open(binary_path) }
 
     shared_examples "it has a temporary download link" do
       let(:url_options) { {} }
@@ -350,7 +327,7 @@ RSpec.describe Attachment do
 
     describe "for a text file belonging to an export" do
       let(:export_attachment) do
-        FogAttachment.new author:, container: create(:work_packages_export), file: File.open(text_path)
+        described_class.new author:, container: create(:work_packages_export), file: File.open(text_path)
       end
 
       before { export_attachment.save! }

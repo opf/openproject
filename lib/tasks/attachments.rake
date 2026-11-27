@@ -39,70 +39,18 @@ namespace :attachments do
     end
 
     storage_name = args[:to].to_sym
-    current_uploader = OpenProject::Configuration.file_uploader
-    target_uploader = OpenProject::Configuration.available_file_uploaders[storage_name]
-
-    if target_uploader.nil?
-      puts "unknown storage: #{args[:to]}"
-      exit 1
+    unless OpenProject::Configuration.available_file_uploaders.key?(storage_name)
+      abort "Unknown or unconfigured attachment storage: #{storage_name}"
+    end
+    if storage_name == OpenProject::Configuration.attachments_storage.to_sym
+      abort "Attachments already use #{storage_name} storage"
     end
 
-    if target_uploader == current_uploader
-      puts "attachments already in #{target_uploader} storage"
-      exit 1
+    storage = AttachmentShrine.permanent_storage(storage_name)
+    Attachment.find_each do |attachment|
+      copied = attachment.file.copy_to_storage(storage)
+      puts "Attachment #{attachment.id}: #{copied ? 'copied' : 'missing file'}"
     end
-
-    if target_uploader == :fog && (
-         OpenProject::Configuration.fog_credentials.empty? ||
-         OpenProject::Configuration.fog_directory.nil?)
-      puts "the fog storage is not configured"
-      exit 1
-    end
-
-    target_attachment = Class.new(Attachment) do
-      def self.store_all!(attachments)
-        attachments.each_with_index do |attachment, index|
-          print "Copying attachment #{attachment.id} [#{index + 1}/#{attachments.size}] \
-                 (#{attachment.file.path}) ... ".squish
-          STDOUT.flush
-
-          if store! attachment
-            puts " ok"
-          else
-            puts " failed (missing file)"
-          end
-        end
-      end
-
-      ##
-      # Given an attachment using the source uploader creates a TargetAttachment
-      # which uses the destination uploader to store the original attachment's
-      # file in the target location.
-      def self.store!(attachment)
-        return nil unless attachment.attributes["file"].present? &&
-                          File.exist?(attachment.file.path)
-
-        new.tap do |target|
-          target.id = attachment.id
-          target.file = attachment.file.local_file
-          target.file.store!
-        end
-      end
-
-      ##
-      # Pretends to be a plain old Attachment in order not to break store paths.
-      def self.to_s
-        "attachment"
-      end
-    end
-
-    attachments = Attachment.all
-
-    puts "Copying #{attachments.size} attachments to #{storage_name}."
-    puts
-
-    target_attachment.mount_uploader :file, target_uploader
-    target_attachment.store_all! attachments
   end
 
   desc "Extract text content from attachment that were not extracted yet synchronously."

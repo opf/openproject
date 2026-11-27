@@ -60,10 +60,7 @@ module Attachments
 
     def persist(call)
       super.tap do |service_result|
-        if attachment.save
-          # Stores the final file before the commit, so an uploaded attachment never points to a missing file.
-          attachment.store_file!
-        else
+        unless attachment.save
           service_result.errors = attachment.errors
           service_result.success = false
         end
@@ -99,7 +96,7 @@ module Attachments
       attachment.extend(OpenProject::ChangedBySystem)
       attachment.change_by_system do
         attachment.status = :uploaded
-        attachment.file = staged_upload.local_file
+        staged_upload.with_local_file { |file| attachment.assign_file(file, filename: attachment[:file]) }
       end
     end
 

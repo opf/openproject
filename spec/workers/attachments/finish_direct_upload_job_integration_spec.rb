@@ -49,7 +49,7 @@ RSpec.describe Attachments::FinishDirectUploadJob, "integration", :with_direct_u
   end
 
   def stored_content
-    File.read(Attachment.find(pending_attachment.id).diskfile.path)
+    Attachment.find(pending_attachment.id).file.read
   end
 
   shared_examples_for "completing direct upload of attachment" do |expect_extract_fulltext_job: true|
@@ -180,7 +180,7 @@ RSpec.describe Attachments::FinishDirectUploadJob, "integration", :with_direct_u
       before do
         pending_scope = instance_double(ActiveRecord::Relation, find_by: pending_attachment)
         allow(Attachment).to receive(:pending_direct_upload).and_return(pending_scope)
-        allow(pending_attachment).to receive(:store_file!).and_raise("storage failure")
+        allow(AttachmentShrine.storage_for(:store)).to receive(:upload).and_raise("storage failure")
       end
 
       it "keeps the staged upload and the prepared attachment" do
@@ -194,7 +194,10 @@ RSpec.describe Attachments::FinishDirectUploadJob, "integration", :with_direct_u
     context "with an isolated upload cache" do
       let(:cache_dir) { Dir.mktmpdir }
 
-      before { allow(FogFileUploader).to receive(:cache_dir).and_return(cache_dir) }
+      before do
+        allow(AttachmentShrine).to receive(:storage_for).with(:cache).and_return(Shrine::Storage::FileSystem.new(cache_dir))
+      end
+
       after { FileUtils.rm_rf(cache_dir) }
 
       it "leaves no copy of the upload in the cache" do
@@ -206,7 +209,7 @@ RSpec.describe Attachments::FinishDirectUploadJob, "integration", :with_direct_u
 
     context "without a staged upload" do
       before do
-        staged_direct_upload(pending_attachment).destroy
+        DirectFogUploader.for_attachment(pending_attachment).delete
       end
 
       it "removes the pending attachment" do

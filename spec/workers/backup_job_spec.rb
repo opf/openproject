@@ -157,7 +157,7 @@ RSpec.describe BackupJob, type: :model do
       let!(:pending_import) { create(:attachment, :pending_import) }
       let!(:failed_import) { create(:attachment, :failed_import) }
       let(:stored_backup) { Attachment.where(container_type: "Export").last }
-      let(:backup_files) { Zip::File.open(stored_backup.file.path) { |zip| zip.entries.map(&:name) } }
+      let(:backup_files) { Zip::File.open(stored_backup.diskfile.path) { |zip| zip.entries.map(&:name) } }
 
       def backed_up_attachment(attachment)
         "attachment/file/#{attachment.id}/#{attachment.filename}"
@@ -198,7 +198,7 @@ RSpec.describe BackupJob, type: :model do
         end
 
         it "includes the attachment's original content" do
-          Zip::File.open(stored_backup.file.path) do |zip|
+          Zip::File.open(stored_backup.diskfile.path) do |zip|
             expect(zip.read(backed_up_attachment(attachment))).to eq File.binread(attachment.diskfile.path)
           end
         end
@@ -219,29 +219,7 @@ RSpec.describe BackupJob, type: :model do
     it_behaves_like "it creates a backup"
   end
 
-  context(
-    "with remote storage",
-    with_config: {
-      attachments_storage: :fog,
-      fog: {
-        directory: MockCarrierwave.bucket,
-        credentials: MockCarrierwave.credentials
-      }
-    }
-  ) do
-    let(:dummy_file) { Pathname("#{LocalFileUploader.cache_dir}/1639754082-3468-0002-0911/file.ext") }
-
-    before do
-      dummy_file.parent.mkpath
-      dummy_file.write("dummy")
-
-      allow_any_instance_of(LocalFileUploader).to receive(:local_file).and_return(File.new(dummy_file))
-    end
-
-    after do
-      dummy_file.unlink
-    end
-
+  context "with remote storage", :with_direct_uploads do
     it_behaves_like "it creates a backup", remote_storage: true
   end
 
@@ -273,9 +251,9 @@ RSpec.describe BackupJob, type: :model do
     let!(:unreadable_attachment) { create(:attachment) }
 
     let(:stored_backup) { Attachment.where(container_type: "Export").last }
-    let(:backup_files) { Zip::File.open(stored_backup.file.path) { |zip| zip.entries.map(&:name) } }
+    let(:backup_files) { Zip::File.open(stored_backup.diskfile.path) { |zip| zip.entries.map(&:name) } }
     let(:missing_attachments_txt) do
-      Zip::File.open(stored_backup.file.path) { |zip| zip.read("MISSING_ATTACHMENTS.txt") }
+      Zip::File.open(stored_backup.diskfile.path) { |zip| zip.read("MISSING_ATTACHMENTS.txt") }
     end
 
     def backed_up_attachment(attachment)
@@ -294,7 +272,7 @@ RSpec.describe BackupJob, type: :model do
       # Attachments are re-queried from the database inside the job, so there is no handle to the
       # specific instances whose uploader needs stubbing.
       # rubocop:disable RSpec/AnyInstance
-      allow_any_instance_of(LocalFileUploader).to receive(:readable?) do |uploader|
+      allow_any_instance_of(AttachmentFile).to receive(:readable?) do |uploader|
         uploader.model.id != unreadable_attachment.id
       end
       # rubocop:enable RSpec/AnyInstance
@@ -357,7 +335,7 @@ RSpec.describe BackupJob, type: :model do
     let!(:failing_attachment) { create(:attachment) }
 
     let(:stored_backup) { Attachment.where(container_type: "Export").last }
-    let(:backup_files) { Zip::File.open(stored_backup.file.path) { |zip| zip.entries.map(&:name) } }
+    let(:backup_files) { Zip::File.open(stored_backup.diskfile.path) { |zip| zip.entries.map(&:name) } }
     let(:failing_entry) { "attachment/file/#{failing_attachment.id}/#{failing_attachment.filename}" }
 
     def backed_up_attachment(attachment)
@@ -376,7 +354,7 @@ RSpec.describe BackupJob, type: :model do
       # Attachments are re-queried from the database inside the job, so there is no handle to the
       # specific instances whose uploader needs stubbing.
       # rubocop:disable RSpec/AnyInstance
-      allow_any_instance_of(LocalFileUploader).to receive(:stream_to).and_wrap_original do |method, output|
+      allow_any_instance_of(AttachmentFile).to receive(:stream_to).and_wrap_original do |method, output|
         if method.receiver.model.id == failing_attachment.id
           output.write("truncated-bytes")
           raise StandardError, "download failed"
@@ -395,7 +373,7 @@ RSpec.describe BackupJob, type: :model do
 
     it "lists the failed attachment in MISSING_ATTACHMENTS.txt" do
       expect(backup_files).to include "MISSING_ATTACHMENTS.txt"
-      missing = Zip::File.open(stored_backup.file.path) { |zip| zip.read("MISSING_ATTACHMENTS.txt") }
+      missing = Zip::File.open(stored_backup.diskfile.path) { |zip| zip.read("MISSING_ATTACHMENTS.txt") }
       expect(missing).to include(failing_attachment.id.to_s)
     end
 

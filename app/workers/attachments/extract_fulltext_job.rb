@@ -47,17 +47,16 @@ module Attachments
       init
       update
     ensure
-      FileUtils.rm @file.path if delete_file?
+      @file.is_a?(Tempfile) ? @file.close! : @file&.close
     end
 
     private
 
     def init
-      carrierwave_uploader = @attachment.file
-      @filename = carrierwave_uploader.file.filename
+      @filename = @attachment.filename
 
       if @attachment.readable?
-        @file = carrierwave_uploader.local_file
+        @file = @attachment.diskfile
         resolver = Plaintext::Resolver.new(@file, @attachment.content_type)
         @text = resolver.text
       end
@@ -83,14 +82,6 @@ module Attachments
 
     def find_attachment(id)
       Attachment.find_by(id:)
-    end
-
-    def remote_file?
-      !@attachment&.file.is_a?(LocalFileUploader)
-    end
-
-    def delete_file?
-      remote_file? && @file
     end
 
     def log_error(message, cause)
