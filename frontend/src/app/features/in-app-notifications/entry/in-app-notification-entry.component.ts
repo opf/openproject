@@ -34,13 +34,16 @@ import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { INotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 import { IanCenterService } from 'core-app/features/in-app-notifications/center/state/ian-center.service';
 import { DeviceService } from 'core-app/core/browser/device.service';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
+import {
+  notificationResourceId,
+  notificationWorkPackageId,
+} from 'core-app/features/in-app-notifications/notification-resource-id';
+import { hasNotificationReason } from 'core-app/features/in-app-notifications/entry/has-notification-reason';
 
 @Component({
   selector: 'op-in-app-notification-entry',
@@ -72,7 +75,6 @@ export class InAppNotificationEntryComponent extends UntilDestroyedMixin impleme
   private latestWorkPackage:WorkPackageResource|null = null;
 
   showDateAlert = false;
-  hasReminderAlert = false;
 
   loading$ = this.storeService.query.selectLoading();
 
@@ -91,19 +93,16 @@ export class InAppNotificationEntryComponent extends UntilDestroyedMixin impleme
 
   workPackageId:string|null;
 
-  ngOnInit():void {
-    const href = this.notification._links.resource?.href;
-    this.workPackageId = href && HalResource.matchFromLink(href, 'work_packages');
+  documentId:string|null;
 
-    this.hasReminderAlert = this.hasNotificationReason('reminder');
-    this.showDateAlert = this.hasNotificationReason('dateAlert');
+  ngOnInit():void {
+    this.workPackageId = notificationWorkPackageId(this.notification);
+    this.documentId = notificationResourceId(this.notification, 'documents');
+
+    this.showDateAlert = hasNotificationReason(this.aggregatedNotifications, 'dateAlert');
     this.buildTranslatedReason();
     this.buildProject();
     this.loadWorkPackage();
-  }
-
-  private hasNotificationReason(reason:string):boolean {
-    return this.aggregatedNotifications.some((notification) => notification.reason === reason);
   }
 
   private loadWorkPackage() {
@@ -132,6 +131,15 @@ export class InAppNotificationEntryComponent extends UntilDestroyedMixin impleme
     }, 250);
   }
 
+  onRowKeydown(event:Event):void {
+    if (!this.workPackageId) {
+      return;
+    }
+
+    event.preventDefault();
+    this.onClick();
+  }
+
   showDetails():void {
     if (!this.workPackageId) {
       return;
@@ -157,10 +165,6 @@ export class InAppNotificationEntryComponent extends UntilDestroyedMixin impleme
     Turbo.visit(link, { action: 'advance' });
   }
 
-  onLinkClick(e:Event):void {
-    e.stopPropagation();
-  }
-
   projectClicked(event:MouseEvent):void {
     event.stopPropagation();
   }
@@ -172,10 +176,6 @@ export class InAppNotificationEntryComponent extends UntilDestroyedMixin impleme
 
   isMobile():boolean {
     return this.deviceService.isMobile;
-  }
-
-  typeHighlightingClass(workPackage:WorkPackageResource):string {
-    return Highlighting.typeClass(workPackage.type.id!);
   }
 
   private buildTranslatedReason() {

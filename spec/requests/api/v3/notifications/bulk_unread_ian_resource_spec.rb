@@ -85,6 +85,29 @@ RSpec.describe API::V3::Notifications::NotificationsAPI,
         .to all(be_truthy)
     end
 
+    context "with a document notification not supporting in app notifications" do
+      shared_let(:document_project) do
+        create(:project,
+               enabled_module_names: %w[documents],
+               members: { recipient => create(:project_role, permissions: %i[view_documents]) })
+      end
+      shared_let(:non_ian_document_notification) do
+        create(:notification,
+               recipient:,
+               resource: create(:document, project: document_project),
+               journal: nil,
+               read_ian: nil)
+      end
+
+      it "does not turn it into an in app notification" do
+        expect(non_ian_document_notification.reload.read_ian)
+          .to be_nil
+
+        expect(Notification.where(id: [notification1.id, notification2.id, notification3.id]).pluck(:read_ian))
+          .to all(be_falsey)
+      end
+    end
+
     context "with a filter for id" do
       let(:filters) do
         [

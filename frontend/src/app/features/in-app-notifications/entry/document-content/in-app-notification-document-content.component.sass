@@ -1,0 +1,18 @@
+.op-ian-document-content
+  display: contents
+
+.op-ian-item
+  &--top-line_without-status
+    grid-template-columns: max-content minmax(0, max-content) minmax(0, max-content) auto minmax(20px, max-content)
+    grid-template-areas: "resourceLabel project reason count buttons"
+
+  &--resource-label
+    grid-area: resourceLabel
+
+  &--document-title
+    grid-column: 1 / -1
+    color: inherit
+    &:hover,
+    &:focus-visible
+      color: inherit
+      text-decoration: none
