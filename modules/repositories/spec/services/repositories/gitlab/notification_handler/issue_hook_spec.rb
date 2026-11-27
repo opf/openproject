@@ -77,6 +77,7 @@ RSpec.describe Repositories::Gitlab::NotificationHandler::IssueHook do
         "updated_at" => Time.current.iso8601
       },
       "labels" => labels,
+      "project" => { "id" => 1 },
       "repository" => {
         "name" => "Hot Do",
         "url" => "git@79dfcd98b723:root/hot_do.git",

@@ -69,6 +69,7 @@ RSpec.describe Repositories::Gitlab::NotificationHandler::NoteHook do
         "updated_at" => "2024-03-04 16:09:08 UTC",
         "labels" => [{ "id" => 1, "title" => "feature", "color" => "#009966" }]
       },
+      "project" => { "id" => 1 },
       "repository" => {
         "name" => "Hot Do",
         "homepage" => "http://79dfcd98b723/root/hot_do"
@@ -88,6 +89,7 @@ RSpec.describe Repositories::Gitlab::NotificationHandler::NoteHook do
         provider:,
         external_id: "1005",
         display_id: "5",
+        external_project_id: "1",
         web_url: issue_url,
         title: "An Issue title",
         description: "The issue's description",

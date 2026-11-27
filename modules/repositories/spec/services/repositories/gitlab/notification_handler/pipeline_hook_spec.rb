@@ -149,8 +149,8 @@ RSpec.describe Repositories::Gitlab::NotificationHandler::PipelineHook do
 
       expect(pipeline.reload).to have_attributes(
         provider:,
-        merge_request:,
-        external_id: 3105,
+        merge_requests: [merge_request],
+        external_id: "3105",
         external_project_id: "1",
         status: "failed",
         web_url: "http://79dfcd98b723/root/hot_do/-/pipelines/3105",
@@ -159,6 +159,21 @@ RSpec.describe Repositories::Gitlab::NotificationHandler::PipelineHook do
         completed_at: Time.zone.parse("2024-03-02 11:00:07 UTC")
       )
       expect(pipeline.repository_user).to have_attributes(external_id: "1", username: "root")
+    end
+
+    it "stores the jobs of the pipeline" do
+      pipeline = process
+
+      expect(pipeline.jobs.sole).to have_attributes(
+        external_id: "34",
+        external_source_id: "gitlab",
+        name: "unit-test-job",
+        stage: "test",
+        status: "skipped",
+        web_url: "http://79dfcd98b723/root/hot_do/-/jobs/34",
+        started_at: Time.zone.parse("2024-03-02 09:01:05 UTC"),
+        completed_at: nil
+      )
     end
 
     it "calls the pipeline upsert service" do
@@ -178,7 +193,7 @@ RSpec.describe Repositories::Gitlab::NotificationHandler::PipelineHook do
 
     it "attaches the pipeline to the merge request in the matching repository" do
       expect { process }.to change(Repositories::Pipeline, :count).by(1)
-      expect(Repositories::Pipeline.last.merge_request).to eq(merge_request)
+      expect(Repositories::Pipeline.last.merge_requests).to contain_exactly(merge_request)
     end
   end
 
@@ -198,7 +213,7 @@ RSpec.describe Repositories::Gitlab::NotificationHandler::PipelineHook do
 
     it "attaches the pipeline to the merge request at the payload URL, not the pipeline's project" do
       expect { process }.to change(Repositories::Pipeline, :count).by(1)
-      expect(Repositories::Pipeline.last.merge_request).to eq(target_project_merge_request)
+      expect(Repositories::Pipeline.last.merge_requests).to contain_exactly(target_project_merge_request)
     end
   end
 
@@ -207,23 +222,51 @@ RSpec.describe Repositories::Gitlab::NotificationHandler::PipelineHook do
       create(:repository_pipeline,
              provider:,
              merge_request:,
-             external_id: 5,
+             external_id: "5",
+             external_project_id: "1",
              web_url: "http://79dfcd98b723/root/hot_do/-/pipelines/5",
              status: "running")
     end
 
     it "updates the stored pipeline and corrects its external ID" do
       expect { process }.not_to change(Repositories::Pipeline, :count)
-      expect(pipeline.reload).to have_attributes(external_id: 3105, status: "failed")
+      expect(pipeline.reload).to have_attributes(external_id: "3105", status: "failed")
     end
   end
 
   context "when the pipeline is already known" do
-    let!(:pipeline) { create(:repository_pipeline, provider:, merge_request:, external_id: 3105, status: "running") }
+    let!(:pipeline) do
+      create(:repository_pipeline, provider:, merge_request:, external_id: "3105", external_project_id: "1", status: "running")
+    end
 
     it "updates the pipeline" do
       expect { process }.not_to change(Repositories::Pipeline, :count)
       expect(pipeline.reload.status).to eq("failed")
+    end
+
+    it "updates known jobs instead of duplicating them" do
+      create(:repository_pipeline_job, pipeline:, external_id: "34", status: "running")
+
+      expect { process }.not_to change(Repositories::PipelineJob, :count)
+      expect(pipeline.jobs.sole.status).to eq("skipped")
+    end
+  end
+
+  context "when the pipeline is already known for another merge request" do
+    shared_let(:other_merge_request) { create(:repository_merge_request, provider:) }
+
+    let!(:pipeline) do
+      create(:repository_pipeline,
+             provider:,
+             merge_request: other_merge_request,
+             external_id: "3105",
+             external_project_id: "1",
+             status: "running")
+    end
+
+    it "links the pipeline to both merge requests" do
+      expect { process }.not_to change(Repositories::Pipeline, :count)
+      expect(pipeline.reload.merge_requests).to contain_exactly(merge_request, other_merge_request)
     end
   end
 
@@ -242,7 +285,7 @@ RSpec.describe Repositories::Gitlab::NotificationHandler::PipelineHook do
 
     it "attaches the pipeline to the merge request found by its ID" do
       expect { process }.to change(Repositories::Pipeline, :count).by(1)
-      expect(Repositories::Pipeline.last.merge_request).to eq(merge_request)
+      expect(Repositories::Pipeline.last.merge_requests).to contain_exactly(merge_request)
     end
   end
 end

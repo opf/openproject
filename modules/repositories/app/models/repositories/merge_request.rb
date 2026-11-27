@@ -35,8 +35,14 @@ module Repositories
     belongs_to :provider
     belongs_to :repository_user, class_name: "Repositories::User", optional: true
 
-    has_many :pipelines, dependent: :destroy
-    has_one :latest_pipeline, -> { chronological.reverse_order }, class_name: "Pipeline", inverse_of: false, dependent: nil
+    has_many :merge_request_pipelines, dependent: :destroy
+    has_many :pipelines, through: :merge_request_pipelines
+    has_one :latest_merge_request_pipeline,
+            -> { joins(:pipeline).merge(Pipeline.chronological.reverse_order) },
+            class_name: "MergeRequestPipeline",
+            inverse_of: false,
+            dependent: nil
+    has_one :latest_pipeline, through: :latest_merge_request_pipeline, source: :pipeline
 
     has_many :merge_request_work_packages, dependent: :destroy
     has_many :work_packages, through: :merge_request_work_packages

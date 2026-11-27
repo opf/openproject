@@ -40,6 +40,25 @@ RSpec.describe FillFromGitlab, type: :model do
   let(:wp_two) { create(:work_package, project: wp_one.project) }
   let(:wp_three) { create(:work_package, project: wp_one.project) }
   let(:gitlab_ids) { (1..).each }
+  let(:connection) { ActiveRecord::Base.connection }
+
+  before do
+    # Restore the pipeline columns that later migrations replaced with jobs and a join table.
+    ActiveRecord::Migration.suppress_messages do
+      connection.add_column :repository_pipelines, :merge_request_id, :bigint
+      connection.add_column :repository_pipelines, :ci_details, :jsonb
+    end
+    Repositories::Pipeline.reset_column_information
+  end
+
+  after do
+    ActiveRecord::Migration.suppress_messages do
+      %i[merge_request_id ci_details].each do |column|
+        connection.remove_column :repository_pipelines, column if connection.column_exists?(:repository_pipelines, column)
+      end
+    end
+    Repositories::Pipeline.reset_column_information
+  end
 
   # The GitLab tables are only written by the code this migration replaces, so the
   # spec builds their rows itself instead of relying on models that no longer exist.
@@ -214,8 +233,8 @@ RSpec.describe FillFromGitlab, type: :model do
       mr = Repositories::MergeRequest.find_by!(web_url: merge_request.gitlab_html_url)
       user = Repositories::User.find_by!(external_id: alice.gitlab_id.to_s)
 
-      expect(Repositories::Pipeline.where(merge_request: mr).pluck(:external_id, :repository_user_id))
-        .to contain_exactly([first_pipeline.gitlab_id, user.id], [second_pipeline.gitlab_id, user.id])
+      expect(Repositories::Pipeline.where(merge_request_id: mr.id).pluck(:external_id, :repository_user_id))
+        .to contain_exactly([first_pipeline.gitlab_id.to_s, user.id], [second_pipeline.gitlab_id.to_s, user.id])
     end
 
     it "maps open draft merge requests to the draft state" do

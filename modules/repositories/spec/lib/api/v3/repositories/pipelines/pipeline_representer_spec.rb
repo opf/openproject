@@ -32,10 +32,14 @@ require "spec_helper"
 RSpec.describe API::V3::Repositories::Pipelines::PipelineRepresenter do
   let(:repository_user) { build_stubbed(:repository_user) }
   let(:merge_request) { build_stubbed(:repository_merge_request) }
-  let(:pipeline) { build_stubbed(:repository_pipeline, repository_user:, merge_request:) }
+  let(:pipeline) { build_stubbed(:repository_pipeline, repository_user:) }
   let(:representer) { described_class.new(pipeline, current_user: build_stubbed(:user)) }
 
   subject(:generated) { representer.to_json }
+
+  before do
+    allow(pipeline).to receive(:merge_requests).and_return([merge_request])
+  end
 
   it "fulfills the documented schema" do
     expect(generated).to match_json_schema.from_docs("repository_pipeline_model")
@@ -53,6 +57,12 @@ RSpec.describe API::V3::Repositories::Pipelines::PipelineRepresenter do
     let(:link) { "mergeRequest" }
     let(:href) { "/api/v3/repository_merge_requests/#{merge_request.id}" }
     let(:title) { merge_request.title }
+  end
+
+  it "links the merge requests" do
+    expect(generated)
+      .to be_json_eql([{ href: "/api/v3/repository_merge_requests/#{merge_request.id}", title: merge_request.title }].to_json)
+      .at_path("_links/mergeRequests")
   end
 
   describe "properties" do
@@ -79,7 +89,7 @@ RSpec.describe API::V3::Repositories::Pipelines::PipelineRepresenter do
     end
 
     context "for a pipeline that has not started yet" do
-      let(:pipeline) { build_stubbed(:repository_pipeline, merge_request:, started_at: nil) }
+      let(:pipeline) { build_stubbed(:repository_pipeline, started_at: nil) }
 
       it { is_expected.to be_json_eql(nil.to_json).at_path("startedAt") }
     end

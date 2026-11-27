@@ -38,11 +38,18 @@ module API
           self_link path: :repository_pipeline,
                     title_getter: ->(*) { represented.status }
 
+          # Deprecated in favor of `mergeRequests`, since a pipeline can belong to several merge requests
           link :mergeRequest do
-            {
-              href: api_v3_paths.repository_merge_request(represented.merge_request_id),
-              title: represented.merge_request.title
-            }
+            merge_request = represented.merge_requests.min_by(&:id)
+            next if merge_request.nil?
+
+            { href: api_v3_paths.repository_merge_request(merge_request.id), title: merge_request.title }
+          end
+
+          links :mergeRequests do
+            represented.merge_requests.map do |merge_request|
+              { href: api_v3_paths.repository_merge_request(merge_request.id), title: merge_request.title }
+            end
           end
 
           property :id
@@ -56,7 +63,7 @@ module API
           date_time_property :created_at
           date_time_property :updated_at
 
-          self.to_preload = %i[repository_user merge_request]
+          self.to_preload = %i[repository_user merge_requests]
 
           def _type
             "RepositoryPipeline"

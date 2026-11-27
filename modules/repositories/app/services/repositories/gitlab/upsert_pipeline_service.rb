@@ -38,7 +38,10 @@ module Repositories::Gitlab
       return if merge_request.nil?
 
       find_or_initialize(payload, provider, merge_request).tap do |pipeline|
-        pipeline.update!(merge_request:, **extract_params(payload, provider))
+        pipeline.transaction do
+          pipeline.update!(merge_requests: pipeline.merge_requests | [merge_request], **extract_params(payload, provider))
+          upsert_jobs(pipeline, payload)
+        end
       end
     end
 
@@ -55,7 +58,7 @@ module Repositories::Gitlab
     end
 
     def find_or_initialize(payload, provider, merge_request)
-      provider.pipelines.find_by(external_id: payload.object_attributes.id) ||
+      provider.pipelines.find_by(external_project_id: payload.project.id.to_s, external_id: payload.object_attributes.id.to_s) ||
         merge_request.pipelines.find_by(web_url: legacy_web_url(payload)) ||
         provider.pipelines.new
     end
@@ -65,15 +68,32 @@ module Repositories::Gitlab
     # rubocop:disable-next Metrics/AbcSize
     def extract_params(payload, provider)
       {
-        external_id: payload.object_attributes.id,
+        external_id: payload.object_attributes.id.to_s,
         external_project_id: payload.project.id.to_s,
         repository_user: repository_user(payload.user, provider),
         status: payload.object_attributes.status,
         web_url: web_url(payload),
         details_url: "#{payload.project.web_url}/-/commit/#{payload.object_attributes.sha[0..7]}",
-        ci_details: payload.builds,
         started_at: payload.object_attributes.created_at,
         completed_at: payload.object_attributes.finished_at
+      }
+    end
+
+    def upsert_jobs(pipeline, payload)
+      payload.builds.each do |build|
+        pipeline.jobs.find_or_initialize_by(external_id: build.id.to_s).update!(job_params(build, payload))
+      end
+    end
+
+    def job_params(build, payload)
+      {
+        external_source_id: "gitlab",
+        name: build.name,
+        stage: build.stage,
+        status: build.status,
+        web_url: "#{payload.project.web_url}/-/jobs/#{build.id}",
+        started_at: build.created_at,
+        completed_at: build.finished_at
       }
     end
 

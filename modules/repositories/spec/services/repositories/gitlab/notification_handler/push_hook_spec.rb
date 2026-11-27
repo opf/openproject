@@ -293,6 +293,7 @@ RSpec.describe Repositories::Gitlab::NotificationHandler::PushHook do
         message: commit_message,
         author_name: "Some committer",
         author_email: "some_committer@example.com",
+        external_project_id: "1",
         project_name: "Test",
         web_url: "http://c7e7cd2d54c3/openprojecttest/test/-/commit/a265d6b7bcf836b77ed9e32f824b231585c6a355",
         work_packages: [work_package]

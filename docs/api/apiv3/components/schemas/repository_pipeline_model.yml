@@ -56,6 +56,7 @@ properties:
     required:
       - self
       - mergeRequest
+      - mergeRequests
     properties:
       self:
         allOf:
@@ -66,13 +67,26 @@ properties:
               **Resource**: RepositoryPipeline
             readOnly: true
       mergeRequest:
+        deprecated: true
         allOf:
           - "$ref": "./link.yml"
           - description: |-
-              The merge request the pipeline was run for
+              One of the merge requests the pipeline was run for
+
+              **Deprecated:** Use `mergeRequests` instead, since a pipeline can be run for several merge requests.
 
               **Resource**: RepositoryMergeRequest
             readOnly: true
+      mergeRequests:
+        type: array
+        items:
+          allOf:
+            - "$ref": "./link.yml"
+            - description: |-
+                A merge request the pipeline was run for
+
+                **Resource**: RepositoryMergeRequest
+              readOnly: true
 examples:
   - _type: RepositoryPipeline
     _links:
@@ -82,6 +96,9 @@ examples:
       mergeRequest:
         href: "/api/v3/repository_merge_requests/1"
         title: Fix crash when saving
+      mergeRequests:
+        - href: "/api/v3/repository_merge_requests/1"
+          title: Fix crash when saving
     id: 99
     status: success
     webUrl: https://gitlab.example.com/my-group/my-project/-/pipelines/99

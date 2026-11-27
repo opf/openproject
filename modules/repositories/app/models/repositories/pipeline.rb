@@ -33,10 +33,15 @@ module Repositories
     self.table_name = "repository_pipelines"
 
     belongs_to :provider
-    belongs_to :merge_request
     belongs_to :repository_user, class_name: "Repositories::User", optional: true
 
-    scope :visible, ->(user = ::User.current) { where(merge_request: MergeRequest.visible(user)) }
+    has_many :merge_request_pipelines, dependent: :destroy
+    has_many :merge_requests, through: :merge_request_pipelines
+    has_many :jobs, class_name: "PipelineJob", dependent: :destroy
+
+    scope :visible, ->(user = ::User.current) {
+      where(id: MergeRequestPipeline.where(merge_request: MergeRequest.visible(user)).select(:pipeline_id))
+    }
     scope :chronological, -> { order(arel_table[:started_at].asc.nulls_last, :id) }
   end
 end
