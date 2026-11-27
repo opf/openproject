@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -54,6 +53,7 @@ module Projects
 
           def addable_variants
             @addable_variants ||= ::TypeVariant
+                                    .available_in(project)
                                     .where.not(type_id: project.project_types.select(:type_id))
                                     .includes(:type)
                                     .sort_by { |variant| [variant.type.position, variant.variant_name.to_s] }

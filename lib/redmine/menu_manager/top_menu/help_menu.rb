@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -45,6 +44,7 @@ module Redmine::MenuManager::TopMenu::HelpMenu
                                             pl: 1,
                                             test_selector: "header-help-button",
                                             aria: { label: I18n.t(:label_help) },
+                                            accesskey: accesskey(:help),
                                             data: { allow_external_link: true },
                                             **item.html_options))
       else
@@ -66,6 +66,7 @@ module Redmine::MenuManager::TopMenu::HelpMenu
                             scheme: :invisible,
                             classes: "op-app-header--primer-button",
                             test_selector: "header-help-button",
+                            accesskey: accesskey(:help),
                             "aria-label": I18n.t(:label_help))
 
       add_onboarding_item(menu)

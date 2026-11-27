@@ -15,24 +15,21 @@ The approach below is meant to be a thin abstraction layer on top of Hotwire's T
 
 **Component Setup**
 
-- Components must include `OpTurbo::Streamable` module
+- Components must include the [`OpTurbo::Streamable`](https://github.com/opf/openproject/blob/dev/app/components/concerns/op_turbo/streamable.rb) module
 - Requires `component_wrapper` in templates for turbo-stream updates
 - Can specify insert targets for append/prepend operations
 
 **Controller Integration**
 
-- Controllers must include `OpTurbo::ComponentStream` module, which provides methods for turbo-stream operations:
-  - `update_via_turbo_stream`
-  - `replace_via_turbo_stream`
-  - `remove_via_turbo_stream`
-  - `modify_via_turbo_stream`
-  - `append_via_turbo_stream`
-  - `prepend_via_turbo_stream`
-  - `add_before_via_turbo_stream`
-  - `render_error_flash_message_via_turbo_stream`
-  - `update_flash_message_via_turbo_stream`
-  - `scroll_into_view_via_turbo_stream`
-- Uses `respond_with_turbo_streams` to handle responses
+- Controllers must include the [`OpTurbo::ComponentStream`](https://github.com/opf/openproject/blob/dev/app/controllers/concerns/op_turbo/component_stream.rb) module, which provides methods for turbo-stream operations. The most common ones are:
+  - Components: `update_via_turbo_stream`, `replace_via_turbo_stream`, `remove_via_turbo_stream`, `append_via_turbo_stream`, `prepend_via_turbo_stream`, `add_before_via_turbo_stream`, `add_after_via_turbo_stream`, and the generic `modify_via_turbo_stream`
+  - Flash messages: `render_success_flash_message_via_turbo_stream`, `render_error_flash_message_via_turbo_stream`, and the generic `render_flash_message_via_turbo_stream`
+  - Dialogs: `respond_with_dialog`, `dialog_via_turbo_stream`, `close_dialog_via_turbo_stream`, `update_dialog_title_via_turbo_stream`
+  - Page and frames: `scroll_into_view_via_turbo_stream`, `set_page_title_via_turbo_stream`, `reload_page_via_turbo_stream`, `reload_frame_via_turbo_stream`, `set_frame_src_via_turbo_stream`, `dispatch_event_via_turbo_stream`
+
+  See the module itself for the full list and their options.
+- Uses `respond_with_turbo_streams(status:)` to handle responses. The status can be a symbol or a `ServiceResult`, which maps to `:ok` or `:unprocessable_entity`.
+- [`OpTurbo::FlashStreamHelper`](https://github.com/opf/openproject/blob/dev/app/controllers/concerns/op_turbo/flash_stream_helper.rb) adds `respond_with_flash`, `respond_with_flash_error` and `respond_with_flash_success` for responses that only show a flash message.
 
 ## Example
 
@@ -60,17 +57,13 @@ class JournalIndexComponent < ApplicationComponent
     true
   end
 
-  def insert_target_modifier_id
-    "work-package-journals"
-  end
-
   # ...
 end
 ```
 
 with the following template:
 
-```ruby
+```erb
 <%=
   component_wrapper do # wrapper is required for turbo-stream updates!
     flex_layout do |journals_index_wrapper_container|
@@ -90,6 +83,8 @@ with the following template:
   end
 %>
 ```
+
+Appended or prepended components are inserted into the element with the id `insert_target_modifier_id`, which defaults to `"#{wrapper_key}-insert-target-modifier"` and can be overridden. Alternatively, `insert_target_container` renders such an element for you. For a real example, see [`WorkPackages::ActivitiesTab::Journals::LazyIndexComponent`](https://github.com/opf/openproject/blob/dev/app/components/work_packages/activities_tab/journals/lazy_index_component.rb).
 
 And this is the show component:
 
@@ -111,7 +106,7 @@ end
 
 with the following template:
 
-```ruby
+```erb
 <%=
   component_wrapper do # wrapper is required for turbo-stream updates!
     render(border_box_container()) do |border_box_component|
@@ -145,7 +140,7 @@ class JournalController < ApplicationController
   end
 
   def create
-    journal = Journal.create(journal_params) # in real life this is done through a service obviosuly ;)
+    journal = Journal.create(journal_params) # in real life this is done through a service obviously ;)
 
     if journal.errors.empty?
       # append the new model to the index component
@@ -155,7 +150,7 @@ class JournalController < ApplicationController
         target_component: JournalIndexComponent.new(work_package: @work_package)
       )
       # Note: the target_component does not get rendered
-      # the instatiation is just required for the turbo-stream generation
+      # the instantiation is just required for the turbo-stream generation
 
       # you can use multiple turbo_stream methods in one controller action
       # e.g. update the new component to render an initial form
@@ -163,20 +158,16 @@ class JournalController < ApplicationController
         component: JournalNewComponent.new(work_package: journal.work_package)
       )
     else
-      # optionally set a turbo status for the response
-      @turbo_status = :bad_request
-
       # trigger a flash message via turbo-stream
-      # more on this here lookbook/pages/patterns/flash_banner
-      update_flash_message_via_turbo_stream(
-        message: journal.errors.full_messages.join(", "),
-        scheme: :danger
+      # more on this in the flash banner pattern in Lookbook
+      render_error_flash_message_via_turbo_stream(
+        message: journal.errors.full_messages.join(", ")
       )
     end
 
     # respond with turbo streams which were collected in the @turbo_streams variable behind the scenes
-    # handy if this method is just meant to respond to turbo-stream requests
-    respond_with_turbo_streams
+    # the status is passed explicitly, as each turbo stream call above sets its own default status
+    respond_with_turbo_streams(status: journal.errors.empty? ? :ok : :bad_request)
   end
 
   # ...
@@ -185,7 +176,7 @@ end
 
 ## Mixing turbo-streams and other responses
 
-TODO: Discuss the below example
+To respond to other formats as well, pass a block to `respond_with_turbo_streams`. It is called with the `respond_to` format object, so you can add an HTML response for requests that do not accept turbo streams:
 
 ```ruby
 class JournalController < ApplicationController
@@ -196,17 +187,12 @@ class JournalController < ApplicationController
   def update
     # ...
 
-    respond_to do |format|
-      format.html do
-        # ...
-      end
-      format.turbo_stream do
-        update_via_turbo_stream(
-          component: JournalShowComponent.new(journal: journal)
-        )
+    update_via_turbo_stream(
+      component: JournalShowComponent.new(journal: journal)
+    )
 
-        render turbo_stream: resolve_turbo_streams, status: :ok
-      end
+    respond_with_turbo_streams do |format|
+      format.html { redirect_to journal_path(journal) }
     end
   end
 
@@ -216,16 +202,16 @@ end
 
 ## Usage alongside Primer Forms/Buttons
 
-TODO: is `turbo: true` required here?
+Turbo Drive is enabled globally, so forms and links only need `turbo_stream: true` to request a turbo-stream response:
 
-```ruby
+```erb
 <%=
   component_wrapper do
     # ...
     primer_form_with(
       model: journal,
       method: :put,
-      data: { turbo: true, turbo_stream: true }, # add this!
+      data: { turbo_stream: true }, # add this!
       url: journal_path(id: journal.id)
     ) do |f|
       # ...
@@ -235,15 +221,16 @@ TODO: is `turbo: true` required here?
 %>
 ```
 
-Rendering of a cancel button to remove the edition form. The button calls the `cancel_edit` action on the controller. The `cancel_edit` action sends a turbo stream `replace` to replace the journal edit form with the journal view.
+Rendering of a cancel button to remove the edit form. The button calls the `cancel_edit` action on the controller. The `cancel_edit` action sends a turbo stream `replace` to replace the journal edit form with the journal view.
 
-```ruby
+```erb
 <%=
   component_wrapper do
     # ...
     render(Primer::Beta::Button.new(
+      tag: :a,
       href: cancel_edit_journal_path(journal.id),
-      data: { turbo: true, turbo_stream: true } # add this!
+      data: { turbo_stream: true } # add this!
     )) do
       t("button_cancel")
     end
@@ -254,21 +241,19 @@ Rendering of a cancel button to remove the edition form. The button calls the `c
 
 ## Requesting turbo-streams within Stimulus controllers
 
-If for some reason you need to request a turbo-stream programmatically from within a Stimulus controller, you can use the `TurboRequestsService` to do so.
-
-TODO: Discuss the TurboRequestsService API
+If for some reason you need to request a turbo-stream programmatically from within a Stimulus controller, you can use the [`TurboRequestsService`](https://github.com/opf/openproject/blob/dev/frontend/src/app/core/turbo/turbo-requests.service.ts) to do so. Get hold of it with the [`useAngularServices`](https://github.com/opf/openproject/blob/dev/frontend/src/stimulus/mixins/use-angular-services.ts) mixin, which handles waiting for the Angular plugin context and controllers that disconnect in the meantime:
 
 ```typescript
 import { Controller } from '@hotwired/stimulus';
+import { ServiceKey, useAngularServices } from 'core-stimulus/mixins/use-angular-services';
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
 
 export default class IndexController extends Controller {
+  static services:ServiceKey[] = ['turboRequests'];
+  declare turboRequests:TurboRequestsService;
 
-  private turboRequests:TurboRequestsService;
-
-  async connect() {
-    const context = await window.OpenProject.getPluginContext();
-    this.turboRequests = context.services.turboRequests;
+  initialize() {
+    useAngularServices(this);
   }
 
   private async someMethod() {
@@ -282,3 +267,5 @@ export default class IndexController extends Controller {
   }
 }
 ```
+
+Besides `request(url, init)`, the service provides `requestStream(url)` for GET requests of turbo streams, `submitForm(form, params, url)` to submit a form and render its turbo-stream response, and `abortRequest(requestId)` to cancel a pending request.

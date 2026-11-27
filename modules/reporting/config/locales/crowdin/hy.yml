@@ -22,8 +22,15 @@
 ---
 hy:
   activerecord:
+    errors:
+      models:
+        cost_report:
+          pivot_axes_do_not_match_group_bys: The rows and columns must together cover exactly the grouping criteria of the query.
     models:
       cost_query:
+        one: Cost report
+        other: Cost reports
+      cost_report:
         one: Cost report
         other: Cost reports
   button_save_report_as: Պահպանել հաշվետվությունը որպես...
@@ -38,6 +45,7 @@ hy:
       end_time: Ավարտի ժամ
       start_time: Սկզբի ժամ
       title: Ձեր ծախսերի հաշվետվությունների XLS արտահանում
+    invalid_filters: 'The export could not be generated: %{errors}'
     timesheet:
       button: Արտահանել աշխատաժամանակի տեղեկագիրը PDF-ով
       overview_per_user_day: Ընդհանուր տեսք՝ ժամերն ըստ օգտատիրոջ և օրվա
@@ -46,6 +54,11 @@ hy:
       time: Ժամ
       timesheet: Աշխատաժամանակի տեղեկագիր
       title: Ձեր աշխատաժամանակի տեղեկագրի PDF արտահանում
+  filter_error_invalid_date: "%{filter}: %{value} is not a valid date."
+  filter_error_invalid_integer: "%{filter}: %{value} is not a valid integer."
+  filter_error_missing_values:
+    one: "%{filter} requires a value."
+    other: "%{filter} requires %{count} values."
   information_restricted_depending_on_permission: Կախված Ձեր թույլտվություններից՝ այս էջը կարող է պարունակել սահմանափակ հասանելիությամբ տեղեկություն։
   label_click_to_edit: Սեղմեք խմբագրելու համար։
   label_closed: փակ
@@ -99,7 +112,6 @@ hy:
   plugin_openproject_reporting:
     description: Այս հավելումը թույլ է տալիս ստեղծել հատուկ ծախսերի հաշվետվություններ՝ զտմամբ և խմբավորմամբ, որոնք ստեղծվել են OpenProject-ի Ժամանակ և ծախսեր հավելումի կողմից։
     name: OpenProject-ի հաշվետվություն
-  project_module_reporting_module: Ծախսերի հաշվետվություններ
   reporting:
     group_by:
       selected_columns: Ընտրված սյունակներ
@@ -107,5 +119,3 @@ hy:
   text_costs_are_rounded_note: Ցուցադրվող արժեքները կլորացված են։ Բոլոր հաշվարկները հիմնված են չկլորացված արժեքների վրա։
   toggle_multiselect: ակտիվացնել/ապաակտիվացնել բազմակի ընտրությունը
   units: Միավորներ
-  validation_failure_date: վավեր ամսաթիվ չէ
-  validation_failure_integer: վավեր ամբողջ թիվ չէ

@@ -23,7 +23,7 @@
               id="selected-type"
               tabindex="1"
               name="selected-type"
-              (change)="selectedType = $event.target.value"
+              (change)="selectedType = typeSelect.value"
               class="form--select">
               <option [textContent]="text.none"
                 [selected]="!selectedType"
@@ -48,7 +48,8 @@
               type="checkbox"
               tabindex="2"
               id="wp_button_macro_style"
-              (change)="buttonStyle = $event.target.checked"
+              #styleInput
+              (change)="buttonStyle = styleInput.checked"
               [checked]="buttonStyle"
               name="button_style"
               />

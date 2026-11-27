@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 require "spec_helper"
 
@@ -379,11 +378,10 @@ RSpec.describe "Work package reminder modal",
         work_package_page.visit!
         work_package_page.click_reminder_button
 
-        within "#reminder-dropdown-menu" do
-          expect(page).to have_css(".dropdown-menu", aria: { label: "Set a reminder" })
-          expect(page).to have_css(".op-menu--headline", text: "SET A REMINDER", aria: { hidden: true })
+        within(:menu, "Set a reminder") do
+          expect(page).to have_selector(:menuitem, count: 5)
 
-          click_link_or_button "Tomorrow"
+          find(:menuitem, "Tomorrow", exact: true).click
         end
 
         wait_for_network_idle

@@ -20,20 +20,23 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
-import { UIRouterGlobals } from '@uirouter/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { randomString } from 'core-app/shared/helpers/random-string';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { accessKeys } from 'core-app/shared/directives/a11y/access-keys';
+import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
+import { EditableAttributeFieldComponent } from 'core-app/shared/components/fields/edit/field/editable-attribute-field.component';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-subject',
   templateUrl: './wp-subject.html',
   standalone: false,
@@ -43,10 +46,27 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
   changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class WorkPackageSubjectComponent extends UntilDestroyedMixin {
-  protected uiRouterGlobals = inject(UIRouterGlobals);
   protected apiV3Service = inject(ApiV3Service);
+
+  private readonly I18n = inject(I18nService);
+
+  private readonly editForm = inject(EditFormComponent, { optional: true });
+
+  protected readonly accessKeys = accessKeys;
 
   @Input() workPackage:WorkPackageResource;
 
+  public readonly text = {
+    edit: this.I18n.t('js.work_packages.button_edit_subject'),
+  };
+
   public readonly uniqueElementIdentifier = `work-packages--subject-type-row-${randomString(16)}`;
+
+  protected editSubject(field:EditableAttributeFieldComponent):void {
+    if (field.active) {
+      this.editForm?.activeFields[field.fieldName]?.focus();
+    } else {
+      field.handleUserActivate(null);
+    }
+  }
 }

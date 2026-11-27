@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -55,11 +54,7 @@ module WorkPackageTypes
       return if blueprint.nil?
 
       valid_tokens = flat_valid_token_list
-      invalid_tokens = blueprint.scan(WorkPackageTypes::PatternResolver::TOKEN_REGEX)
-                                .reduce([]) do |acc, match|
-        token = WorkPackageTypes::Patterns::PatternToken.build(match).key
-        valid_tokens.include?(token) ? acc : acc << token
-      end
+      invalid_tokens = WorkPackageTypes::Patterns::PatternToken.scan_tokens(blueprint).reject { |t| valid_tokens.include?(t.key) }
 
       if invalid_tokens.any?
         errors.add(:patterns, :invalid_tokens)

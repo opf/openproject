@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -58,6 +57,10 @@ module Backlogs
 
     private
 
+    def displayed_dates
+      @displayed_dates ||= ::Sprints::DisplayedDates.new(sprint)
+    end
+
     def list_type
       Backlogs::Target::SprintId.new(sprint.id).list_type
     end
@@ -71,7 +74,12 @@ module Backlogs
     end
 
     def disable_start_sprint_action?
-      sprint.in_planning? && !(sprint.date_range_set? && project_is_allowed_to_activate_sprint?)
+      sprint.in_planning? &&
+        !(sprint.date_range_set? && !finish_date_in_past? && project_is_allowed_to_activate_sprint?)
+    end
+
+    def finish_date_in_past?
+      ::Backlogs::Sprints::StartContract.finish_date_in_past?(user: current_user, sprint:)
     end
 
     def start_sprint_button_arguments
@@ -115,6 +123,30 @@ module Backlogs
 
     def story_points_total
       work_packages.filter_map(&:story_points).sum
+    end
+
+    def estimated_hours_total
+      @estimated_hours_total ||= work_packages.filter_map(&:estimated_hours).sum
+    end
+
+    def show_velocity?
+      case project.estimation_unit
+      when Project::BACKLOGS_UNIT_NONE
+        false
+      when Project::BACKLOGS_UNIT_TIME
+        estimated_hours_total.positive?
+      else
+        true
+      end
+    end
+
+    def velocity_text
+      case project.estimation_unit
+      when Project::BACKLOGS_UNIT_TIME
+        DurationConverter.output(estimated_hours_total)
+      else
+        "#{story_points_total} #{t(:"backlogs.points_label", count: story_points_total)}"
+      end
     end
 
     # Starting a sprint can be blocked by three independent rules:
@@ -162,6 +194,8 @@ module Backlogs
         t(".start_sprint_disabled_reason_receiving_shared_sprints")
       elsif !sprint.date_range_set?
         t(".start_sprint_disabled_reason_missing_dates")
+      elsif finish_date_in_past?
+        t(".start_sprint_disabled_reason_finish_date_in_past")
       elsif sprint.owned_by?(project) || project_has_another_active_visible_sprint?
         t(".start_sprint_disabled_reason_active_sprint")
       else
@@ -191,7 +225,7 @@ module Backlogs
     end
 
     def show_burndown_link?
-      sprint.active? && !OpenProject::FeatureDecisions.sprint_reports_active?
+      sprint.active? && !OpenProject::FeatureDecisions.sprint_reports_active? && !project.estimation_unit_none?
     end
 
     def show_report_link?

@@ -1,0 +1,15 @@
+# /api/v3/spec.json
+---
+get:
+  summary: Get specification (JSON)
+  operationId: get_spec_json
+  tags:
+    - OpenAPI
+  description: Returns the OpenAPI specification in JSON format.
+  responses:
+    200:
+      description: OpenAPI specification
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/spec_model.yml"

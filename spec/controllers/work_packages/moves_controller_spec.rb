@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -372,6 +371,55 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
         end
       end
 
+      context "with labels" do
+        let(:existing_label) { create(:label) }
+        let(:new_label) { create(:label) }
+
+        before do
+          create(:labeling, label: existing_label, labelable: work_package)
+
+          post :create,
+               params: {
+                 ids: [work_package.id],
+                 label_ids:
+               }
+        end
+
+        subject { work_package.reload.labels }
+
+        context "when labels are selected" do
+          let(:label_ids) { [new_label.id.to_s] }
+
+          it "replaces the work package's labels" do
+            expect(subject).to contain_exactly(new_label)
+          end
+        end
+
+        context "when none is selected" do
+          let(:label_ids) { ["none"] }
+
+          it "clears the work package's labels" do
+            expect(subject).to be_empty
+          end
+        end
+
+        context "when none is selected together with a label" do
+          let(:label_ids) { ["none", new_label.id.to_s] }
+
+          it "clears the work package's labels" do
+            expect(subject).to be_empty
+          end
+        end
+
+        context "when no change is selected" do
+          let(:label_ids) { [""] }
+
+          it "keeps the work package's labels" do
+            expect(subject).to contain_exactly(existing_label)
+          end
+        end
+      end
+
       context "with another budget" do
         let(:target_budget) { create(:budget, project:) }
 
@@ -446,6 +494,36 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
           it "redirects to the work package copy" do
             copy = WorkPackage.order(id: :desc).first
             expect(subject).to redirect_to(work_package_path(copy))
+          end
+        end
+
+        context "with labels" do
+          let(:existing_label) { create(:label) }
+          let(:new_label) { create(:label) }
+          let(:label_params) { {} }
+
+          before do
+            create(:labeling, label: existing_label, labelable: work_package)
+
+            post :create,
+                 params: {
+                   ids: [work_package.id],
+                   copy: ""
+                 }.merge(label_params)
+          end
+
+          subject { WorkPackage.where(project_id: project.id).where.not(id: work_package.id).order(:id).last.labels }
+
+          it "copies the source's labels" do
+            expect(subject).to contain_exactly(existing_label)
+          end
+
+          context "when labels are selected" do
+            let(:label_params) { { label_ids: [new_label.id] } }
+
+            it "applies the selected labels to the copy" do
+              expect(subject).to contain_exactly(new_label)
+            end
           end
         end
 
@@ -611,7 +689,7 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
 
             it "reports the one child work package" do
               expect(response.body).to have_css "a.work_package", count: 2
-              expect(response.body).to have_css ".contextual-info", text: "(+ One descendant work package)"
+              expect(response.body).to have_css ".contextual-info", text: "(+ 1 descendant work package)"
             end
           end
 

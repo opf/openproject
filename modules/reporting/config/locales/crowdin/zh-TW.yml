@@ -22,8 +22,14 @@
 ---
 zh-TW:
   activerecord:
+    errors:
+      models:
+        cost_report:
+          pivot_axes_do_not_match_group_bys: 行與列的組合必須完全涵蓋該查詢的分組條件。
     models:
       cost_query:
+        other: 成本報告
+      cost_report:
         other: 成本報告
   button_save_report_as: 另存報表...
   comments: 留言
@@ -37,6 +43,7 @@ zh-TW:
       end_time: 結束時間
       start_time: 開始時間
       title: 您的成本報表(以XLS匯出)
+    invalid_filters: 'The export could not be generated: %{errors}'
     timesheet:
       button: 匯出 PDF 時間表
       overview_per_user_day: 總覽： 每位使用者每天的使用時數
@@ -45,6 +52,10 @@ zh-TW:
       time: 時間
       timesheet: 時間表
       title: 您的時間表PDF匯出
+  filter_error_invalid_date: "%{filter}: %{value} is not a valid date."
+  filter_error_invalid_integer: "%{filter}: %{value} is not a valid integer."
+  filter_error_missing_values:
+    other: "%{filter} requires %{count} values."
   information_restricted_depending_on_permission: 根據您的許可權, 此頁可能包含受限資訊。
   label_click_to_edit: 按一下編輯
   label_closed: 已關閉
@@ -98,7 +109,6 @@ zh-TW:
   plugin_openproject_reporting:
     description: 本外掛允許透過OpenProject 時間及成本外掛，建立具篩選及群組的客製化成本報表
     name: OpenProject 報表
-  project_module_reporting_module: 成本報告
   reporting:
     group_by:
       selected_columns: 選擇列
@@ -106,5 +116,3 @@ zh-TW:
   text_costs_are_rounded_note: 顯示的值四捨五入
   toggle_multiselect: 啟動/停用多選
   units: 單位
-  validation_failure_date: 不是一個有效日期
-  validation_failure_integer: 不是一個有效的整數

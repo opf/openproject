@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -56,11 +55,12 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::DefaultsService do
       end
     end
 
-    context "when the source resolves through a link", with_flag: { type_variants: true } do
-      let(:owner) { create(:type, patterns: { subject: { blueprint: "Inherited {{id}}", enabled: true } }).default_variant }
-      let(:source) { create(:type).default_variant }
+    context "when the source resolves through a link" do
+      let(:source) { create(:type_variant, type: owner_type) }
+      let(:owner_type) { create(:type, patterns: { subject: { blueprint: "Inherited {{id}}", enabled: true } }) }
+      let(:owner) { owner_type.default_variant }
 
-      before { link_configuration(source, source: owner, aspect: TypeVariant::DEFAULTS) }
+      before { link_configuration(source, aspect: TypeVariant::DEFAULTS) }
 
       it "adopts the resolved owner's patterns" do
         expect(service_call).to be_success

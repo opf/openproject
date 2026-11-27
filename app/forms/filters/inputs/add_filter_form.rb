@@ -22,17 +22,17 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 class Filters::Inputs::AddFilterForm < ApplicationForm
-  def initialize(allowed_filters:, active_filter_names:)
+  def initialize(allowed_filters:, active_filter_names:, rows_path: nil)
     super()
     @allowed_filters = allowed_filters
     @active_filter_names = active_filter_names
+    @rows_path = rows_path
   end
 
   form do |form|
@@ -43,7 +43,8 @@ class Filters::Inputs::AddFilterForm < ApplicationForm
       prompt: I18n.t(:actionview_instancetag_blank_option),
       data: {
         "filter--filters-form-target": "addFilterSelect",
-        action: "change->filter--filters-form#addFilter:prevent"
+        action: "change->filter--filters-form#addFilter:prevent",
+        "rows-url": @rows_path
       }
     ) do |select|
       @allowed_filters.each do |filter|

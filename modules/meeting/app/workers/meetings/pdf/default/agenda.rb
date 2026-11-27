@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -73,7 +72,7 @@ module Meetings::PDF::Default::Agenda
   end
 
   def write_agenda_items(section)
-    section.agenda_items.each_with_index do |item, index|
+    section.ordered_agenda_items.each_with_index do |item, index|
       write_agenda_item_hr if index > 0
       write_optional_page_break
       write_agenda_item(item)

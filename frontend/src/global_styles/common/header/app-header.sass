@@ -13,8 +13,22 @@
   border-bottom-color: var(--header-border-bottom-color)
   width: 100vw
 
+  --focus-outlineColor: var(--header-item-font-color)
+
+  .Overlay,
+  .ng-dropdown-panel
+    --focus-outlineColor: var(--borderColor-accent-emphasis)
+
   @media screen and (max-width: $breakpoint-md)
     grid-template-columns: minmax(0, auto) 1fr auto
+
+    .op-app-header--start
+      min-width: 0
+      overflow: hidden
+
+      .op-app-menu,
+      .op-logo
+        min-width: 0
 
   @media screen and (max-width: $breakpoint-sm)
     position: fixed

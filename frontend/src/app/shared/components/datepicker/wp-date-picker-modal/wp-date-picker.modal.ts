@@ -20,16 +20,31 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+
+function workPackageFrom(value:unknown):HalResource {
+  if (!(value instanceof HalResource)) throw new Error('Date picker requires a work package');
+  return value;
+}
+
+function isChangeset(value:unknown):value is ResourceChangeset {
+  return value instanceof ResourceChangeset;
+}
+
+function changesetFrom(value:unknown):ResourceChangeset {
+  if (!isChangeset(value)) throw new Error('Date picker requires a changeset');
+  return value;
+}
 
 @Component({
   templateUrl: './wp-date-picker.modal.html',
@@ -43,12 +58,16 @@ export class OpWpDatePickerModalComponent extends OpModalComponent implements On
 
   showCloseButton = false;
 
+  readonly resource = workPackageFrom(this.locals.resource);
+
+  readonly change = changesetFrom(this.locals.change);
+
   ngOnInit() {
     super.ngOnInit();
     this.updateFrameSrc();
   }
 
-  public handleSuccessfulCreate(JSONResponse:{ duration:number, startDate:Date, dueDate:Date, includeNonWorkingDays:boolean, scheduleManually:boolean }):void {
+  public handleSuccessfulCreate(JSONResponse:unknown):void {
     document.dispatchEvent(
       new CustomEvent('date-picker-modal:create', {
         detail: JSONResponse,
@@ -75,43 +94,37 @@ export class OpWpDatePickerModalComponent extends OpModalComponent implements On
   }
 
   public updateFrameSrc():void {
+    const { resource } = this;
+    if (resource.id === null) throw new Error('Date picker requires a work package ID');
     const url = new URL(
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      this.pathHelper.workPackageDatepickerDialogContentPath(this.locals.resource.id as string),
+      this.pathHelper.workPackageDatepickerDialogContentPath(resource.id),
       window.location.origin,
     );
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    url.searchParams.set('field', this.locals.name);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
-    url.searchParams.set('work_package[initial][start_date]', this.nullAsEmptyStringFormatter(this.locals.resource.startDate));
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
-    url.searchParams.set('work_package[initial][due_date]', this.nullAsEmptyStringFormatter(this.locals.resource.dueDate));
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
-    url.searchParams.set('work_package[initial][duration]', this.nullAsEmptyStringFormatter(this.locals.resource.duration));
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument
-    url.searchParams.set('work_package[initial][ignore_non_working_days]', this.nullAsEmptyStringFormatter(this.locals.resource.includeNonWorkingDays));
+    url.searchParams.set('field', this.locals.name as string);
+    url.searchParams.set('work_package[initial][start_date]', this.nullAsEmptyStringFormatter(resource.startDate));
+    url.searchParams.set('work_package[initial][due_date]', this.nullAsEmptyStringFormatter(resource.dueDate));
+    url.searchParams.set('work_package[initial][duration]', this.nullAsEmptyStringFormatter(resource.duration));
+    url.searchParams.set('work_package[initial][ignore_non_working_days]', this.nullAsEmptyStringFormatter(resource.includeNonWorkingDays));
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
-    url.searchParams.set('work_package[start_date]', this.nullAsEmptyStringFormatter(this.locals.resource.startDate));
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
-    url.searchParams.set('work_package[due_date]', this.nullAsEmptyStringFormatter(this.locals.resource.dueDate));
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
-    url.searchParams.set('work_package[duration]', this.nullAsEmptyStringFormatter(this.locals.resource.duration));
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument
-    url.searchParams.set('work_package[ignore_non_working_days]', this.nullAsEmptyStringFormatter(this.locals.resource.includeNonWorkingDays));
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    if (this.locals.resource?.id === 'new' && this.locals.resource.startDate) {
+    url.searchParams.set('work_package[start_date]', this.nullAsEmptyStringFormatter(resource.startDate));
+    url.searchParams.set('work_package[due_date]', this.nullAsEmptyStringFormatter(resource.dueDate));
+    url.searchParams.set('work_package[duration]', this.nullAsEmptyStringFormatter(resource.duration));
+    url.searchParams.set('work_package[ignore_non_working_days]', this.nullAsEmptyStringFormatter(resource.includeNonWorkingDays));
+    if (resource.id === 'new' && resource.startDate) {
       url.searchParams.set('work_package[start_date_touched]', 'true');
     }
 
     this.turboFrameSrc = url.toString();
   }
 
-  private nullAsEmptyStringFormatter(value:null|undefined|string):string {
+  private nullAsEmptyStringFormatter(value:unknown):string {
     if (value === undefined || value === null) {
       return '';
     }
-    return value;
+    if (typeof value !== 'string' && typeof value !== 'boolean' && typeof value !== 'number') {
+      throw new Error('Invalid date picker parameter');
+    }
+    return String(value);
   }
 }

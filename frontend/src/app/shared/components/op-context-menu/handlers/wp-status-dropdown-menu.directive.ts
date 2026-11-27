@@ -20,77 +20,82 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { StateService } from '@uirouter/core';
 import { Directive, Input, inject } from '@angular/core';
+import { OpActionMenuItems } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu-items';
+import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 import {
-  OpContextMenuTrigger
-} from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
-
-import {
-  HalResourceEditingService
+  HalResourceEditingService,
 } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
+import { StatusResource } from 'core-app/features/hal/resources/status-resource';
 import {
-  Highlighting
+  Highlighting,
 } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
-import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 import {
-  WorkPackageNotificationService
+  WorkPackageNotificationService,
 } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
-import { HalError } from 'core-app/features/hal/services/hal-error';
+import { IOPFieldSchema } from 'core-app/features/hal/interfaces';
 
 @Directive({
+  // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[wpStatusDropdown]',
-  standalone: false,
 })
-export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
-  readonly $state = inject(StateService);
+export class WorkPackageStatusDropdownDirective extends OpActionMenuItems {
   protected workPackageNotificationService = inject(WorkPackageNotificationService);
   protected halEditing = inject(HalResourceEditingService);
   protected toastService = inject(ToastService);
   protected I18n = inject(I18nService);
-  protected halEvents = inject(HalEventsService);
 
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('wpStatusDropdown-workPackage') public workPackage:WorkPackageResource;
 
-  protected open(evt:Event) {
+  private latestUpdate = 0;
+
+  protected buildItems():Promise<OpContextMenuItem[]> {
     const change = this.halEditing.changeFor(this.workPackage);
 
-    change.getForm().then((form:any) => {
-      const statuses = form.schema.status.allowedValues;
-      this.buildItems(statuses);
-
-      const { writable } = change.schema.status;
+    return change.getForm().then((form) => {
+      const { writable } = change.schema.status as IOPFieldSchema;
       if (!writable) {
         this.toastService.addError(this.I18n.t('js.work_packages.message_work_package_status_blocked'));
-      } else {
-        this.opContextMenu.show(this, evt);
+        return [];
       }
+
+      const statuses = form.schema.status!.allowedValues as HalResource[];
+      return statuses.map((status) => this.buildItem(status));
     });
   }
 
-  public get locals() {
+  private buildItem(status:HalResource):OpContextMenuItem {
+    const readonly = !!status.isReadonly;
+
     return {
-      items: this.items,
-      contextMenuId: 'wp-status-context-menu',
+      linkText: status.name,
+      title: readonly ? this.I18n.t('js.work_packages.message_work_package_read_only') : undefined,
+      ...(readonly
+        ? { octicon: 'lock' as const, octiconClass: Highlighting.foregroundClass('status', status.id!) }
+        : { dotClass: Highlighting.dotClass('status', status.id!) }),
+      onClick: () => {
+        this.updateStatus(status);
+        return true;
+      },
     };
   }
 
   private updateStatus(status:HalResource) {
     const change = this.halEditing.changeFor(this.workPackage);
-    change.projectedResource.status = status;
+    change.projectedResource.status = status as StatusResource;
+    this.latestUpdate += 1;
+    const update = this.latestUpdate;
 
     if (!isNewResource(this.workPackage)) {
       this.halEditing
@@ -99,22 +104,12 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
           this.workPackageNotificationService.showSave(this.workPackage);
         })
         .catch((e:unknown) => {
-          this.workPackageNotificationService.showError((e as HalError).resource, change.projectedResource);
+          if (update === this.latestUpdate && change.projectedResource.status === status) {
+            change.reset('status');
+            change.push();
+          }
+          this.workPackageNotificationService.handleRawError(e, change.projectedResource);
         });
     }
-  }
-
-  private buildItems(statuses:CollectionResource<HalResource>) {
-    this.items = statuses.map((status:HalResource) => ({
-      disabled: false,
-      linkText: status.name,
-      postIcon: status.isReadonly ? 'icon-locked' : null,
-      postIconTitle: this.I18n.t('js.work_packages.message_work_package_read_only'),
-      class: Highlighting.inlineClass('status', status.id!),
-      onClick: () => {
-        this.updateStatus(status);
-        return true;
-      },
-    }));
   }
 }

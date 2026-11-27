@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -37,7 +36,7 @@ import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/r
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { ICKEditorContext } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
 import { GridResource } from 'core-app/features/hal/resources/grid-resource';
-import { HalSource } from 'core-app/features/hal/interfaces';
+import { HalSource, HalSourceLink } from 'core-app/features/hal/interfaces';
 
 @Injectable()
 export class CustomTextEditFieldService extends EditFieldHandler {
@@ -172,10 +171,10 @@ export class CustomTextEditFieldService extends EditFieldHandler {
         type: 'full',
         macros: 'resource',
       } as ICKEditorContext),
-      canAddAttachments: value.grid.canAddAttachments as boolean,
+      canAddAttachments: value.grid.canAddAttachments,
       _links: {
         addAttachment: grid.addAttachment as { href?:string },
-        attachments: grid.attachments as { href?:string },
+        attachments: grid.attachments,
         schema: {
           href: schemaHref,
         },
@@ -183,8 +182,7 @@ export class CustomTextEditFieldService extends EditFieldHandler {
     };
 
     if (grid.prepareAttachment as { href?:string }) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      resourceSource._links.prepareAttachment = grid.prepareAttachment;
+      resourceSource._links.prepareAttachment = grid.prepareAttachment as HalSourceLink;
     }
 
     const resource = this.halResource.createHalResource(resourceSource, true);

@@ -22,19 +22,22 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module DeployTargets
-  class TableComponent < ::TableComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+  class TableComponent < ::OpPrimer::BorderBoxTableComponent
     columns :host, :type, :created_at
     options :current_user
 
     def initial_sort
       %i[id asc]
+    end
+
+    def mobile_title
+      I18n.t(:label_deploy_target_plural)
     end
 
     def headers
@@ -45,6 +48,14 @@ module DeployTargets
 
     def header_options(name)
       { caption: User.human_attribute_name(name) }
+    end
+
+    def has_actions?
+      true
+    end
+
+    def sortable?
+      true
     end
   end
 end

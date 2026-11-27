@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -33,7 +32,7 @@ import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
 import { Injectable, inject } from '@angular/core';
-import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
+import { QueryFilterInstanceResource, QueryFilterValue } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { ApiV3Filter, ApiV3FilterBuilder, FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { PaginationService } from 'core-app/shared/components/table-pagination/pagination-service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -101,8 +100,6 @@ export interface QueryRequestParams {
   valid_subset?:boolean;
 }
 
-type QueryFilterValue = HalResource|string|boolean;
-
 interface QueryValueLink {
   href:string;
 }
@@ -113,7 +110,7 @@ export class UrlParamsHelperService {
 
 
   // copied more or less from angular buildUrl
-  public buildQueryString(params:any) {
+  public buildQueryString(params:object|null|undefined) {
     if (!params) {
       return undefined;
     }
@@ -217,7 +214,7 @@ export class UrlParamsHelperService {
       const filterProps:QueryPropsFilter[] = filters.map((filter) => ({
         n: filter.id,
         o: filter.operator.id,
-        v: filter.values.map((value:HalResource|string) => this.queryFilterValueToParam(value)),
+        v: filter.values.map((value) => this.queryFilterValueToParam(value)),
       }));
 
       return { f: filterProps };
@@ -256,7 +253,7 @@ export class UrlParamsHelperService {
     const properties = JSON.parse(updateJson) as QueryProps;
 
     if (properties.c) {
-      queryData['columns[]'] = properties.c.map((column:any) => column);
+      queryData['columns[]'] = properties.c.map((column) => column);
     }
     if (properties.s) {
       queryData.showSums = properties.s;
@@ -287,7 +284,7 @@ export class UrlParamsHelperService {
     }
 
     if (properties.hla) {
-      queryData['highlightedAttributes[]'] = properties.hla.map((column:any) => column);
+      queryData['highlightedAttributes[]'] = properties.hla.map((column) => column);
     }
 
     if (properties.hi !== undefined) {
@@ -317,9 +314,9 @@ export class UrlParamsHelperService {
       queryData.filters = JSON.stringify(filters);
     }
 
-    // Sortation
+    // Sorting
     if (properties.t) {
-      queryData.sortBy = JSON.stringify(properties.t.split(',').map((sort:any) => sort.split(':')));
+      queryData.sortBy = JSON.stringify(properties.t.split(',').map((sort) => sort.split(':')));
     }
 
     if (properties.ts) {
@@ -372,14 +369,14 @@ export class UrlParamsHelperService {
     // Filters
     queryData.filters = this.buildV3GetFiltersAsJson(query.filters, contextual);
 
-    // Sortation
+    // Sorting
     queryData.sortBy = this.buildV3GetSortByFromQuery(query);
     queryData.timestamps = query.timestamps.join(',');
 
     return Object.assign(additionalParams, queryData);
   }
 
-  public queryFilterValueToParam(value:HalResource|string|boolean):string {
+  public queryFilterValueToParam(value:QueryFilterValue|boolean):string {
     if (typeof (value) === 'boolean') {
       return value ? 't' : 'f';
     }
@@ -388,23 +385,31 @@ export class UrlParamsHelperService {
       return '';
     }
 
-    const halValue = value as HalResource;
-    if (halValue.id) {
-      return halValue.id.toString();
-    }
-    if (halValue.href) {
-      return halValue.href.split('/').pop()!;
+    if (typeof value === 'string' || typeof value === 'number') {
+      return value.toString();
     }
 
-    return value.toString();
+    if (value.id) {
+      return value.id.toString();
+    }
+    if (value.href) {
+      return value.href.split('/').pop()!;
+    }
+
+    if (value instanceof HalResource) {
+      return value.toString();
+    }
+
+    return String(value.id ?? '');
   }
 
   private buildV3GetColumnsFromQueryResource(query:QueryResource):string[] {
     if (query.columns) {
-      return query.columns.map((column:any) => column.id || idFromLink(column.href)) as string[];
+      return query.columns.map((column) => column.id || idFromLink(column.href));
     }
-    if (query._links.columns) {
-      return query._links.columns.map((column:HalLink) => idFromLink(column.href)) as string[];
+    const links = query._links as { columns?:HalLink[] };
+    if (links.columns) {
+      return links.columns.map((column:HalLink) => idFromLink(column.href));
     }
 
     return [];
@@ -450,14 +455,14 @@ export class UrlParamsHelperService {
   }
 
   public buildV3GetFilterIdFromFilter(filter:QueryFilterInstanceResource) {
-    const href = filter.filter ? filter.filter.href : filter._links.filter.href;
+    const href = filter.filter ? filter.filter.href : (filter._links as { filter:HalLink }).filter.href;
 
-    return idFromLink(href as string);
+    return idFromLink(href);
   }
 
   public buildV3GetValuesFromFilter(filter:QueryFilterInstanceResource|QueryFilterResource):string[] {
     if (filter.values) {
-      return (filter.values as QueryFilterValue[]).map((v) => this.queryFilterValueToParam(v));
+      return (filter.values as (QueryFilterValue|boolean)[]).map((v) => this.queryFilterValueToParam(v));
     }
     return (filter._links as { values:QueryValueLink[] }).values.map((v) => idFromLink(v.href));
   }
@@ -466,13 +471,13 @@ export class UrlParamsHelperService {
     if (filter.operator) {
       return filter.operator.id || idFromLink(filter.operator.href);
     }
-    const { href } = filter._links.operator;
+    const { href } = (filter._links as { operator:HalLink }).operator;
 
-    return idFromLink(href as string);
+    return idFromLink(href);
   }
 
   private buildV3GetSortByFromQuery(query:QueryResource) {
-    const sortBys = query.sortBy ? query.sortBy : query._links.sortBy;
+    const sortBys = query.sortBy ? query.sortBy : (query._links as { sortBy:QuerySortByResource[] }).sortBy;
     const sortByIds = sortBys.map((sort:QuerySortByResource) => {
       if (sort.id) {
         return sort.id;

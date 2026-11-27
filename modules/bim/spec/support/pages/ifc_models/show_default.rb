@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -65,7 +64,7 @@ module Pages
       end
 
       def finished_loading
-        expect(page).to have_css(".xeokit-busy-modal", visible: :all, wait: 30)
+        expect(page).to have_css(".xeokit-toolbar", wait: 30)
       end
 
       def model_viewer_visible(visible)
@@ -105,18 +104,18 @@ module Pages
       end
 
       def page_shows_a_refresh_button(visible)
-        expect(page).to have_conditional_selector(visible, ".toolbar-item a.refresh-button")
+        expect(page).to have_conditional_selector(visible, :button, accessible_name: I18n.t("js.bcf.refresh_work_package"))
       end
 
       def click_refresh_button
-        page.find(".toolbar-item a.refresh-button").click
+        click_on accessible_name: I18n.t("js.bcf.refresh_work_package")
       end
 
       def switch_view(value)
         retry_block do
-          page.find_by_id("bcf-view-toggle-button").click
+          click_on "bcf-view-toggle-button"
           within("#bcf-view-context-menu") do
-            page.find(".menu-item", text: value, exact_text: true).click
+            click_on value, exact: true
           end
         end
       end

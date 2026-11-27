@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 class Projects::FiltersController < ApplicationController
   include Queries::Loading
@@ -37,7 +36,7 @@ class Projects::FiltersController < ApplicationController
   before_action :load_query_or_deny_access
 
   def show
-    render Projects::ProjectsFiltersComponent.new(query: @query), layout: false
+    render Projects::ProjectsFiltersComponent.new(query: @query, lazy_rows: true), layout: false
   end
 
   private

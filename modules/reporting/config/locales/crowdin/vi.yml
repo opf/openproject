@@ -22,8 +22,14 @@
 ---
 vi:
   activerecord:
+    errors:
+      models:
+        cost_report:
+          pivot_axes_do_not_match_group_bys: The rows and columns must together cover exactly the grouping criteria of the query.
     models:
       cost_query:
+        other: Cost reports
+      cost_report:
         other: Cost reports
   button_save_report_as: Lưu báo cáo dưới dạng...
   comments: bình luận
@@ -37,6 +43,7 @@ vi:
       end_time: Thời gian kết thúc
       start_time: Thời gian bắt đầu
       title: Xuất báo cáo chi phí XLS của bạn
+    invalid_filters: 'The export could not be generated: %{errors}'
     timesheet:
       button: Xuất bảng chấm công PDF
       overview_per_user_day: 'Tổng quan: Số giờ mỗi người dùng mỗi ngày'
@@ -45,6 +52,10 @@ vi:
       time: thời gian
       timesheet: bảng chấm công
       title: Xuất bảng chấm công PDF của bạn
+  filter_error_invalid_date: "%{filter}: %{value} is not a valid date."
+  filter_error_invalid_integer: "%{filter}: %{value} is not a valid integer."
+  filter_error_missing_values:
+    other: "%{filter} requires %{count} values."
   information_restricted_depending_on_permission: Tùy thuộc vào quyền của bạn, trang này có thể chứa thông tin bị hạn chế.
   label_click_to_edit: Bấm để chỉnh sửa.
   label_closed: đóng cửa
@@ -98,7 +109,6 @@ vi:
   plugin_openproject_reporting:
     description: Plugin này cho phép tạo báo cáo chi phí tùy chỉnh với tính năng lọc và nhóm được tạo bởi plugin Thời gian và chi phí OpenProject.
     name: Báo cáo OpenProject
-  project_module_reporting_module: Các báo cáo chi phí
   reporting:
     group_by:
       selected_columns: Cột đã chọn
@@ -106,5 +116,3 @@ vi:
   text_costs_are_rounded_note: Các giá trị hiển thị được làm tròn. Tất cả các tính toán đều dựa trên các giá trị không làm tròn.
   toggle_multiselect: kích hoạt/hủy kích hoạt đa lựa chọn
   units: đơn vị
-  validation_failure_date: không phải là một ngày hợp lệ
-  validation_failure_integer: không phải là số nguyên hợp lệ

@@ -22,8 +22,15 @@
 ---
 et:
   activerecord:
+    errors:
+      models:
+        cost_report:
+          pivot_axes_do_not_match_group_bys: The rows and columns must together cover exactly the grouping criteria of the query.
     models:
       cost_query:
+        one: Cost report
+        other: Cost reports
+      cost_report:
         one: Cost report
         other: Cost reports
   button_save_report_as: Salvesta aruanne kui...
@@ -38,6 +45,7 @@ et:
       end_time: End time
       start_time: Algusaeg
       title: Your Cost Reports XLS export
+    invalid_filters: 'The export could not be generated: %{errors}'
     timesheet:
       button: Export PDF timesheet
       overview_per_user_day: 'Overview: Hours per user per day'
@@ -46,6 +54,11 @@ et:
       time: Aeg
       timesheet: Timesheet
       title: Your PDF timesheet export
+  filter_error_invalid_date: "%{filter}: %{value} is not a valid date."
+  filter_error_invalid_integer: "%{filter}: %{value} is not a valid integer."
+  filter_error_missing_values:
+    one: "%{filter} requires a value."
+    other: "%{filter} requires %{count} values."
   information_restricted_depending_on_permission: Depending on your permissions this page might contain restricted information.
   label_click_to_edit: Muutmiseks kliki.
   label_closed: suletud
@@ -99,7 +112,6 @@ et:
   plugin_openproject_reporting:
     description: This plugin allows creating custom cost reports with filtering and grouping created by the OpenProject Time and costs plugin.
     name: OpenProject Reporting
-  project_module_reporting_module: Kulude aruanded
   reporting:
     group_by:
       selected_columns: Selected columns
@@ -107,5 +119,3 @@ et:
   text_costs_are_rounded_note: Displayed values are rounded. All calculations are based on the non-rounded values.
   toggle_multiselect: activate/deactivate multiselect
   units: Ühikud
-  validation_failure_date: pole korrektne kuupäev
-  validation_failure_integer: pole täisarv

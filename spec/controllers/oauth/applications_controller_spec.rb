@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -80,7 +79,7 @@ RSpec.describe OAuth::ApplicationsController do
     end
 
     it do
-      get :edit, params: { id: 1, application: { name: "foo" } }
+      get :edit, params: { id: 1, doorkeeper_application: { name: "foo" } }
       expect(response.status).to be 200
       expect(response).to render_template :edit
     end
@@ -89,7 +88,7 @@ RSpec.describe OAuth::ApplicationsController do
   describe "#create" do
     it do
       post :create, params: {
-        application: {
+        doorkeeper_application: {
           name: "foo",
           redirect_uri: "urn:ietf:wg:oauth:2.0:oob"
         }
@@ -111,7 +110,7 @@ RSpec.describe OAuth::ApplicationsController do
     end
 
     it do
-      patch :update, params: { id: 1, application: { name: "foo" } }
+      patch :update, params: { id: 1, doorkeeper_application: { name: "foo" } }
       expect(response).to redirect_to action: :index
     end
   end

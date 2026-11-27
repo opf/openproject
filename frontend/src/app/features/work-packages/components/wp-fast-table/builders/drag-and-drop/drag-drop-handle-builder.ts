@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -32,6 +31,7 @@ import { Injector } from '@angular/core';
 import { TableDragActionsRegistryService } from 'core-app/features/work-packages/components/wp-table/drag-and-drop/actions/table-drag-actions-registry.service';
 import { TableDragActionService } from 'core-app/features/work-packages/components/wp-table/drag-and-drop/actions/table-drag-action.service';
 import { internalSortColumn } from 'core-app/features/work-packages/components/wp-fast-table/builders/internal-sort-columns';
+import { grabberIconData, toDOMString } from '@openproject/octicons-angular';
 
 /** Debug the render position */
 const RENDER_DRAG_AND_DROP_POSITION = false;
@@ -60,10 +60,11 @@ export class DragDropHandleBuilder {
 
     td.classList.add('wp-table--sort-td', internalSortColumn.id, 'hide-when-print');
 
-    // Wrap handle as span
-    const span = document.createElement('span');
-    span.classList.add('wp-table--drag-and-drop-handle', 'icon-drag-handle');
-    td.appendChild(span);
+    const handle = document.createElement('span');
+    handle.classList.add('wp-table--drag-and-drop-handle', 'DragHandle');
+    handle.setAttribute('aria-hidden', 'true');
+    handle.innerHTML = toDOMString(grabberIconData, 'small', { class: 'octicon' });
+    td.appendChild(handle);
 
     if (RENDER_DRAG_AND_DROP_POSITION) {
       const text = document.createElement('span');

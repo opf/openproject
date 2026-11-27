@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -50,7 +49,6 @@ module OpenProject::Storages
     include OpenProject::Plugins::ActsAsOpEngine
 
     patches %i[WorkPackage]
-    patch_with_namespace :API, :V3, :WorkPackages, :WorkPackagePayloadRepresenter
 
     initializer "openproject_storages.feature_decisions" do
       OpenProject::FeatureDecisions.add :storage_file_picking_select_all
@@ -299,38 +297,53 @@ module OpenProject::Storages
           filter ::Queries::Storages::ProjectStorages::Filter::ProjectIdFilter
         end
       end
-
-      WorkPackages::SetAttributesService.include Storages::FileLinks::SetReplacements
-
-      WorkPackages::CreateService.include Storages::FileLinks::ReplaceFileLinks
-      WorkPackages::UpdateService.include Storages::FileLinks::ReplaceFileLinks
-
-      WorkPackages::CreateContract.include Storages::FileLinks::ValidateReplacements
-      WorkPackages::UpdateContract.include Storages::FileLinks::ValidateReplacements
-
-      API::V3::WorkPackages::WorkPackageRepresenter.include ::API::V3::FileLinks::FileLinkRelationRepresenter
     end
 
-    # This helper methods adds a method on the `api_v3_paths` helper. It is created with one parameter (storage_id)
-    # and the return value is a string.
-    add_api_path :storages do
-      "#{root}/storages"
+    include_module "Storages::FileLinks::SetReplacements", into: "WorkPackages::SetAttributesService"
+    include_module "Storages::FileLinks::ReplaceFileLinks", into: %w[WorkPackages::CreateService WorkPackages::UpdateService]
+    include_module "Storages::FileLinks::ValidateReplacements", into: %w[WorkPackages::CreateContract WorkPackages::UpdateContract]
+
+    extend_api_response(:v3, :work_packages, :work_package) do
+      link :fileLinks, cache_if: -> { current_user.allowed_in_project?(:view_file_links, represented.project) } do
+        {
+          href: api_v3_paths.file_links(represented.id)
+        }
+      end
+
+      link :addFileLink, cache_if: -> { current_user.allowed_in_project?(:manage_file_links, represented.project) } do
+        {
+          href: api_v3_paths.file_links(represented.id),
+          method: :post
+        }
+      end
     end
 
-    add_api_path :project_storages do
-      "#{root}/project_storages"
+    extend_api_response(:v3, :work_packages, :work_package_payload) do
+      property :file_links,
+               exec_context: :decorator,
+               getter: ->(*) {},
+               setter: ->(fragment:, **) do
+                 next unless fragment.is_a?(Array)
+
+                 ids = fragment.map do |link|
+                   ::API::Utilities::ResourceLinkParser.parse_id link["href"],
+                                                                 property: :file_link,
+                                                                 expected_version: "3",
+                                                                 expected_namespace: :file_links
+                 end
+
+                 represented.file_links_ids = ids
+               end,
+               skip_render: ->(*) { true },
+               linked_resource: true,
+               uncacheable: true
     end
 
-    add_api_path :project_storage do |id|
-      "#{project_storages}/#{id}"
-    end
+    add_api_resource_paths :storage, only: %i[index show]
+    add_api_resource_paths :project_storage, only: %i[index show]
 
     add_api_path :project_storage_open do |id|
       "#{project_storage(id)}/open"
-    end
-
-    add_api_path :storage do |storage_id|
-      "#{storages}/#{storage_id}"
     end
 
     add_api_path :storage_open do |storage_id|
@@ -361,9 +374,7 @@ module OpenProject::Storages
       "#{work_package(work_package_id)}/file_links"
     end
 
-    add_api_path :file_link do |file_link_id|
-      "#{root}/file_links/#{file_link_id}"
-    end
+    add_api_resource_paths :file_link, only: :show
 
     add_api_path :file_link_download do |file_link_id|
       "#{file_link(file_link_id)}/download"

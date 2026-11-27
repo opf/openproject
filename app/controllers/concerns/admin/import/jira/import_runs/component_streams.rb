@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -43,7 +42,7 @@ module Admin::Import::Jira::ImportRuns
             method: "morph"
           )
           update_via_turbo_stream(
-            component: ::Admin::Import::Jira::ImportRuns::StreamableStatusBadgeComponent.new(@jira_import),
+            component: ::Admin::Import::Jira::ImportRuns::StreamableStatusLabelComponent.new(@jira_import),
             method: "morph"
           )
           render turbo_stream: resolve_turbo_streams

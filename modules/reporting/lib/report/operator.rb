@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -352,6 +351,10 @@ class Report::Operator
     end
   end
 
+  def validate(*values)
+    super.tap { |errors| validate_value_count(values.flatten.compact_blank, errors) }
+  end
+
   def inspect
     "#<#{self.class.name}:#{name.inspect}>"
   end
@@ -384,6 +387,10 @@ class Report::Operator
 
   def rename_to(new_name)
     @name = new_name
+  end
+
+  def validate_value_count(values, errors)
+    errors[:missing_values] << arity if arity.positive? && values.any? && values.size < arity
   end
 
   # Done with class method definition, let's initialize the operators

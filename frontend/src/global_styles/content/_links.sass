@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -29,24 +28,6 @@
 a
   img
     border: 0
-  &.sort
-    padding-right: 16px
-    background-position: 100% 50%
-    background-repeat: no-repeat
-    &.asc:after
-      @include icon-font-common
-      @include icon-mixin-sort-ascending
-      margin-left: 5px
-      font-size: 1.2em
-      vertical-align: text-bottom
-
-    &.desc:after
-      @include icon-font-common
-      @include icon-mixin-sort-descending
-      margin-left: 5px
-      font-size: 1.2em
-      vertical-align: text-bottom
-
   &.issue.closed, &.issue.closed:hover,
   &.work_package.closed, &.work_package.closed:hover
     text-decoration: line-through

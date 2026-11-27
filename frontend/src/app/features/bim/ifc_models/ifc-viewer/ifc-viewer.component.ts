@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -148,8 +147,7 @@ export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
         const toolbarIcons = this.xeokitToolbarIcons.nativeElement;
         const toolbar = this.toolbarElement.nativeElement;
 
-        for (let i = 0; i < toolbarIcons.children.length; i++) {
-          const replacer = toolbarIcons.children[i];
+        for (const replacer of toolbarIcons.children) {
           const target = replacer.id.replace('xeokit-replace-', '');
 
           const targetElement = toolbar.querySelector(`.xeokit-btn.xeokit-${target}`);
@@ -190,14 +188,18 @@ export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   @HostListener('window:mousedown', ['$event.target'])
-  disableKeyboard(target:Element):void {
-    if (this.modelCount && !this.outerContainer.nativeElement.contains(target)) {
+  disableKeyboard(target:EventTarget|null):void {
+    if (this.modelCount && target instanceof Element && !this.outerContainer.nativeElement.contains(target)) {
       this.keyboardEnabled = false;
       this.ifcViewerService.setKeyboardEnabled(false);
     }
   }
 
   enableFromIcon(event:MouseEvent):boolean {
+    if (this.keyboardEnabled) {
+      return false;
+    }
+
     this.enableKeyBoard();
 
     // Focus on the canvas

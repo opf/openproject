@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -46,7 +45,7 @@ RSpec.describe "rendering the login buttons", :js do
       visit project_path(public_project)
 
       click_link_or_button "Sign in"
-      expect(page).to have_link("mock_auth", href: %r{/login/omniauth/mock_auth})
+      expect(page).to have_link("Continue with mock_auth", href: %r{/login/omniauth/mock_auth})
     end
   end
 end

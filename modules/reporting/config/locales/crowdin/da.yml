@@ -22,8 +22,15 @@
 ---
 da:
   activerecord:
+    errors:
+      models:
+        cost_report:
+          pivot_axes_do_not_match_group_bys: Rækker og kolonner skal tilsammen dække præcis visningens grupperingskriterier.
     models:
       cost_query:
+        one: Omkostningsrapport
+        other: Omkostningsrapporter
+      cost_report:
         one: Omkostningsrapport
         other: Omkostningsrapporter
   button_save_report_as: Gem rapport som...
@@ -38,6 +45,7 @@ da:
       end_time: Sluttidspunkt
       start_time: Starttidspunkt
       title: Din XLS-eksport af omkostningsrapporter
+    invalid_filters: 'Eksporten kunne ikke dannes: %{errors}'
     timesheet:
       button: Eksporter PDF-timeseddel
       overview_per_user_day: 'Oversigt: Timer pr. bruger pr. dag'
@@ -46,6 +54,11 @@ da:
       time: Tidspunkt
       timesheet: Timeseddel
       title: Eksport af din PDF-timeseddel
+  filter_error_invalid_date: "%{filter}: %{value} er ikke en gyldig dato."
+  filter_error_invalid_integer: "%{filter}: %{value} er ikke et gyldigt heltal."
+  filter_error_missing_values:
+    one: "%{filter} kræver en værdi."
+    other: "%{filter} kræver %{count} værdier."
   information_restricted_depending_on_permission: Afhængigt af dine tilladelser kan denne side indeholde oplysninger du ikke kan se.
   label_click_to_edit: Klik for at redigere.
   label_closed: lukket
@@ -99,7 +112,6 @@ da:
   plugin_openproject_reporting:
     description: Pluginnet gør det muligt at oprette egne omkostningsrapporter med filtrering og gruppering ud fra data fra OpenProject-pluginnet Tid og omkostninger.
     name: OpenProject Reporting
-  project_module_reporting_module: Omkostningsrapporter
   reporting:
     group_by:
       selected_columns: Valgte kolonner
@@ -107,5 +119,3 @@ da:
   text_costs_are_rounded_note: De viste værdier er afrundede. Alle beregninger udføres med de præcise værdier.
   toggle_multiselect: slå valg af flere til/fra
   units: Enheder
-  validation_failure_date: er en ugyldig dato
-  validation_failure_integer: er et ugyldigt heltal

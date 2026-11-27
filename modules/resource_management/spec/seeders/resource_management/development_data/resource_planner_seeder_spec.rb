@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -127,14 +126,11 @@ RSpec.describe ResourceManagement::DevelopmentData::ResourcePlannerSeeder do
     end
 
     it "creates a filter-based allocation without a concrete user" do
-      generic = ResourceAllocation.find_by(principal_explicit: false)
+      generic = ResourceAllocation.where.not(placeholder_user_id: nil).first
 
-      expect(generic).to have_attributes(
-        principal: nil,
-        entity: upload,
-        filter_name: "Software Developer"
-      )
-      expect(generic.user_filter).to be_present
+      expect(generic).to have_attributes(principal: nil, entity: upload)
+      expect(generic.placeholder_user.name).to eq("Software Developer")
+      expect(generic.placeholder_user.user_filter).to be_present
     end
 
     it "overbooks Wanda through two overlapping full allocations" do

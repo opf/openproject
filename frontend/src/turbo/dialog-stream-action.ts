@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -65,7 +64,7 @@ export function registerDialogStreamAction() {
 
     if (existingElement instanceof HTMLDialogElement) {
       // a dialog with this id already exists: update (morph) its contents.
-      Idiomorph.morph(existingElement, dialog.innerHTML, { morphStyle: 'innerHTML' });
+      void Idiomorph.morph(existingElement, dialog.innerHTML, { morphStyle: 'innerHTML' });
       dialogToShow = existingElement;
     } else {
       // no dialog with this id exists: append <dialog-helper> to the body.
@@ -73,6 +72,15 @@ export function registerDialogStreamAction() {
 
       // Remove the dialog on close
       dialog.addEventListener('close', () => {
+        // Primer reopens a dialog that lost its modal state by closing and calling
+        // showModal() again, and swallows the close event with a `once` listener it
+        // registers just before. Ours is older, so it survives the swallow and would
+        // tear down a dialog that is on screen again. The close event is queued, so
+        // the reopen has already happened by the time we run.
+        if (dialog.open) {
+          return;
+        }
+
         if (dialog.parentElement?.tagName === 'DIALOG-HELPER') {
           dialog.parentElement.remove();
         } else {

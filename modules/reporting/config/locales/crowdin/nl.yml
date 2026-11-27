@@ -22,8 +22,15 @@
 ---
 nl:
   activerecord:
+    errors:
+      models:
+        cost_report:
+          pivot_axes_do_not_match_group_bys: The rows and columns must together cover exactly the grouping criteria of the query.
     models:
       cost_query:
+        one: Cost report
+        other: Cost reports
+      cost_report:
         one: Cost report
         other: Cost reports
   button_save_report_as: Rapport opslaan als...
@@ -38,6 +45,7 @@ nl:
       end_time: Eindtijd
       start_time: Starttijd
       title: Jouw kostenrapporten XLS export
+    invalid_filters: 'The export could not be generated: %{errors}'
     timesheet:
       button: Exporteer PDF-tijdregistratie
       overview_per_user_day: 'Overview: Hours per user per day'
@@ -46,6 +54,11 @@ nl:
       time: Tijd
       timesheet: Tijdregistratie
       title: Uw PDF-tijdregistratie export
+  filter_error_invalid_date: "%{filter}: %{value} is not a valid date."
+  filter_error_invalid_integer: "%{filter}: %{value} is not a valid integer."
+  filter_error_missing_values:
+    one: "%{filter} requires a value."
+    other: "%{filter} requires %{count} values."
   information_restricted_depending_on_permission: Afhankelijk van uw rechten, kan de informatie op deze pagina beperkt zijn.
   label_click_to_edit: Klik om te bewerken.
   label_closed: gesloten
@@ -99,7 +112,6 @@ nl:
   plugin_openproject_reporting:
     description: Deze plugin maakt het mogelijk om aangepaste kostenrapporten te maken met filtering en groepering gemaakt door de OpenProject Tijd en Kosten plugin.
     name: OpenProject Rapportage
-  project_module_reporting_module: Kostenrapporten
   reporting:
     group_by:
       selected_columns: Geselecteerde kolommen
@@ -107,5 +119,3 @@ nl:
   text_costs_are_rounded_note: De getoonde waarden zijn afgerond. Alle berekeningen zijn op niet-afgeronde waarden gebaseerd.
   toggle_multiselect: activeer / deactiveer meervoudige selectie
   units: Eenheden
-  validation_failure_date: is geen geldige datum
-  validation_failure_integer: is geen geldig geheel getal

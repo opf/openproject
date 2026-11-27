@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -36,8 +35,10 @@ import {
   HalResourceEditingService,
 } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { Observable, of } from 'rxjs';
+import { accessKeys } from 'core-app/shared/directives/a11y/access-keys';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-details-toolbar',
   templateUrl: './wp-details-toolbar.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -53,7 +54,9 @@ export class WorkPackageSplitViewToolbarComponent implements OnInit {
 
   @Input() displayNotificationsButton:boolean;
 
-  public displayShareButton$:false|Observable<boolean> = false;
+  protected readonly accessKeys = accessKeys;
+
+  public displayShareButton$:Observable<boolean> = of(false);
   public displayReminderButton$:Observable<boolean> = of(false);
 
   public text = {
@@ -61,7 +64,6 @@ export class WorkPackageSplitViewToolbarComponent implements OnInit {
   };
 
   ngOnInit() {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
     this.displayShareButton$ = this.currentUserService.hasCapabilities$('work_package_shares/index', this.workPackage.project.id);
     this.displayReminderButton$ = this.currentUserService.isLoggedInAndHasCapabalities$(
       'work_packages/read',

@@ -9,49 +9,35 @@ keywords: keyboard shortcuts and access keys
 
 OpenProject (since version 3.0) offers useful keyboard shortcuts to  enhance your productivity. We use both access keys and regular  shortcuts. When using access keys, press the modifier keys and the  access key number. For the regular shortcuts just type the listed keys  on any OpenProject page.
 
+> [!TIP]
+> You can turn keyboard shortcuts off: open the user menu, navigate to **Account settings** → **Interface** and select **Disable keyboard shortcuts** (see [Disable keyboard shortcuts](../account-settings/interface/#disable-keyboard-shortcuts)). Access keys keep working.
+
 ## Shortcuts
 
-### Regular Shortcuts
+| Action | Shortcut | Access key | Inside a project | Outside a project |
+| ------ | -------- | ---------- | ---------------- | ----------------- |
+| Global search | <kbd>s</kbd> | <kbd>4</kbd> | Focus global search | Focus global search |
+| Project search | <kbd>p</kbd> | <kbd>5</kbd> | Open the project select | Open the project select |
+| Go to My page | <kbd>g</kbd> <kbd>m</kbd> | – | My page | My page |
+| Open shortcuts help | <kbd>?</kbd> | – | Open keyboard shortcuts docs (this page) | Open keyboard shortcuts docs (this page) |
+| Open help menu | – | <kbd>6</kbd> | Open the help menu, or the custom help link if your administrator set one | Open the help menu, or the custom help link if your administrator set one |
+| Go to Overview | <kbd>g</kbd> <kbd>o</kbd> | – | Project overview | – |
+| Go to Work packages | <kbd>g</kbd> <kbd>w</kbd> <kbd>p</kbd> | – | Project work packages | Work packages |
+| Go to Wiki | <kbd>g</kbd> <kbd>w</kbd> <kbd>i</kbd> | – | Project wiki start page | Wikis |
+| Go to Activity | <kbd>g</kbd> <kbd>a</kbd> | – | Project activity | Activity |
+| Go to Calendar | <kbd>g</kbd> <kbd>c</kbd> | – | Project calendars | Calendars |
+| Go to News | <kbd>g</kbd> <kbd>n</kbd> | – | Project news | News |
+| New work package | <kbd>n</kbd> <kbd>w</kbd> <kbd>p</kbd> | <kbd>2</kbd> | Open the Create menu on work package and Gantt lists, otherwise the new work package form with the first type. The access key works on those lists only | Open the Create menu on work package and Gantt lists, otherwise the new work package form with the first type. The access key works on those lists only |
+| Edit | <kbd>g</kbd> <kbd>e</kbd> | <kbd>3</kbd> | Work package subject; Edit button of a wiki page, wiki annotate page or news item; first BIM IFC model | Work package subject; Edit button of a user or placeholder user |
+| Open the More menu | <kbd>m</kbd> | <kbd>7</kbd> | Work package list, full view and split view | Work package list, full view and split view |
+| Toggle the details view | <kbd>d</kbd> <kbd>w</kbd> <kbd>p</kbd> | <kbd>8</kbd> | Work package list | Work package list |
+| Select the next list item (<kbd>j</kbd>) or previous list item (<kbd>k</kbd>) | <kbd>j</kbd> / <kbd>k</kbd> | – | Work package tables | Work package tables |
 
-- Global Search: s
-- Project Search: p
-- Go to: My page: g m
-- Open Help Page: –
-- Open regular shortcuts List: ?
-- Go to: Overview: g o
-- Go to: Work Packages: g w p
-- Go to: Wiki: g w i
-- Go to: Activity: g a
-- Go to: Calendar: g c
-- Go to: News: g n
-- Go to: Timelines: g t
-- New: Work Package: n w p
-- Go to: Edit (only on certain detail pages): g e
-- Open ‘More’ Menu (only on certain detail pages): m
-- Go to: Preview (only on edit pages): g p
-- Select previous list item (only on some lists): j
-- Select next list item (only on some lists): k
+A shortcut does nothing when its target is not on the page, for example when the module is disabled in the project and its page is missing from the menu.
 
-### Access Keys
+On narrow screens, open the search with its button before using <kbd>s</kbd> or access key <kbd>4</kbd>.
 
-- Global Search: 4
-- Project Search: 5
-- Go to: My page: –
-- Open Help Page: 6
-- Open regular shortcuts List: –
-- Go to: Overview: –
-- Go to: Work Packages: –
-- Go to: Wiki: –
-- Go to: Activity: –
-- Go to: Calendar: –
-- Go to: News: –
-- Go to: Timelines: –
-- New: Work Package: 2
-- Go to: Edit (only on certain detail pages): 3
-- Open ‘More’ Menu (only on certain detail pages): 7
-- Go to: Preview (only on edit pages): 1
-- Select previous list item (only on some lists): –
-- Select next list item (only on some lists): –
+On narrow screens, Firefox does not react to access key <kbd>3</kbd> on pages whose header has only an Edit action; use <kbd>g</kbd> <kbd>e</kbd> there.
 
 ------
 
@@ -59,25 +45,23 @@ OpenProject (since version 3.0) offers useful keyboard shortcuts to  enhance you
 
 ### Windows
 
-- Internet Explorer: Alt + &lt;access key number&gt;
-- Firefox: Alt + Shift + &lt;access key number&gt;
-- Google Chrome: Alt + &lt;access key number&gt;
-- Safari: Alt + &lt;access key number&gt;
+- Firefox: <kbd>Alt</kbd> + <kbd>Shift</kbd> + access key
+- Google Chrome and Microsoft Edge: <kbd>Alt</kbd> + access key
 
 ------
 
 ### Linux
 
-- Firefox: Alt + Shift + &lt;access key number&gt;
-- Google Chrome: Alt + Mod + &lt;access key number&gt;
+- Firefox: <kbd>Alt</kbd> + <kbd>Shift</kbd> + access key
+- Google Chrome: <kbd>Alt</kbd> + access key
 
 ------
 
 ### macOS
 
-- Firefox:  Ctrl + Opt + &lt;access key number&gt;
-- Google Chrome: Ctrl + Opt + &lt;access key number&gt;
-- Safari: Ctrl + Opt + &lt;access key number&gt;
+- Firefox: <kbd>Ctrl</kbd> + <kbd>Opt</kbd> + access key
+- Google Chrome: <kbd>Ctrl</kbd> + <kbd>Opt</kbd> + access key
+- Safari: <kbd>Ctrl</kbd> + <kbd>Opt</kbd> + access key
 
 ------
 
@@ -87,6 +71,14 @@ To quickly save changes in a rich text editor (for example a work package descri
 
 | Shortcut (Windows / Linux) | Shortcut (Mac) | Action                                                       |
 | -------------------------- | -------------- | ------------------------------------------------------------ |
-| CTRL + ENTER               | CMD + ENTER    | **Save changes.**<br>For inline-editable fields, save the field and close it.<br>For pages with a full WYSIWYG (meetings, wiki pages), submit the form. |
+| <kbd>Ctrl</kbd> + <kbd>Enter</kbd> | <kbd>Cmd</kbd> + <kbd>Enter</kbd> | **Save changes.**<br>For inline-editable fields, save the field and close it.<br>For pages with a full WYSIWYG (meetings, wiki pages), submit the form. |
 
 Please also refer to documentation  on [working in Rich text editor in OpenProject](../wysiwyg).
+
+## Clear a work package selection
+
+<kbd>Esc</kbd> clears every work package selection on the page, in tables and card views alike, wherever the focus is. An open menu, dialog or editable field receives the <kbd>Esc</kbd> first, so one keypress never both dismisses something and clears the selection.
+
+| Shortcut (Windows / Linux) | Shortcut (Mac) | Action                                             |
+| -------------------------- | -------------- | -------------------------------------------------- |
+| <kbd>Esc</kbd> | <kbd>Esc</kbd> | **Clear the selection** in every table and card view on the page. |

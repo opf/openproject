@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -74,6 +73,14 @@ module Settings
     # @return [Array] The allowed values for the setting
     def setting_allowed_values(name)
       Settings::Definition[name].allowed
+    end
+
+    # Checks if a setting's definition is marked as secret
+    #
+    # @param name [Symbol] The name of the setting
+    # @return [Boolean] `true` if the setting is secret, `false` otherwise
+    def setting_secret?(name)
+      Settings::Definition[name].secret?
     end
 
     # Checks if a setting is disabled.

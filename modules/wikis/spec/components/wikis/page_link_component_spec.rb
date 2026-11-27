@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -127,7 +126,7 @@ RSpec.describe Wikis::PageLinkComponent, type: :component do
     end
 
     context "if the page access is forbidden" do
-      let(:error_code) { :forbidden }
+      let(:error_code) { :unauthorized }
 
       it "renders an error text" do
         expect(page).not_to have_link

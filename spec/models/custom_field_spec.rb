@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -63,6 +62,125 @@ RSpec.describe CustomField do
 
     it "is false for a custom comment attribute name" do
       expect(described_class.custom_field_attribute?("custom_comment_12")).to be(false)
+    end
+
+    it "is false for nil" do
+      expect(described_class.custom_field_attribute?(nil)).to be(false)
+    end
+  end
+
+  describe ".id_from_attribute_name" do
+    it "returns the id for a custom field attribute name" do
+      expect(described_class.id_from_attribute_name("custom_field_12")).to eq(12)
+    end
+
+    it "returns the id for a custom field attribute name given as a symbol" do
+      expect(described_class.id_from_attribute_name(:custom_field_12)).to eq(12)
+    end
+
+    it "returns nil for a name with a suffix after the id" do
+      expect(described_class.id_from_attribute_name("custom_field_12_comment")).to be_nil
+    end
+
+    it "returns nil for a custom comment attribute name" do
+      expect(described_class.id_from_attribute_name("custom_comment_12")).to be_nil
+    end
+
+    it "returns nil for a non custom field attribute name" do
+      expect(described_class.id_from_attribute_name("subject")).to be_nil
+    end
+
+    it "returns nil for nil" do
+      expect(described_class.id_from_attribute_name(nil)).to be_nil
+    end
+  end
+
+  describe ".column_name?" do
+    it "is true for a custom field column name" do
+      expect(described_class.column_name?("cf_12")).to be(true)
+    end
+
+    it "is true for a custom field column name given as a symbol" do
+      expect(described_class.column_name?(:cf_12)).to be(true)
+    end
+
+    it "is false for a name with a suffix after the id" do
+      expect(described_class.column_name?("cf_12x")).to be(false)
+    end
+
+    it "is false for a name with a prefix before cf" do
+      expect(described_class.column_name?("xcf_12")).to be(false)
+    end
+
+    it "is false for a custom comment column name" do
+      expect(described_class.column_name?("cfc_12")).to be(false)
+    end
+
+    it "is false for nil" do
+      expect(described_class.column_name?(nil)).to be(false)
+    end
+  end
+
+  describe ".id_from_column_name" do
+    it "returns the id for a custom field column name" do
+      expect(described_class.id_from_column_name("cf_12")).to eq(12)
+    end
+
+    it "returns the id for a custom field column name given as a symbol" do
+      expect(described_class.id_from_column_name(:cf_12)).to eq(12)
+    end
+
+    it "returns nil for a name with a suffix after the id" do
+      expect(described_class.id_from_column_name("cf_12x")).to be_nil
+    end
+
+    it "returns nil for a custom comment column name" do
+      expect(described_class.id_from_column_name("cfc_12")).to be_nil
+    end
+
+    it "returns nil for a custom field attribute name" do
+      expect(described_class.id_from_column_name("custom_field_12")).to be_nil
+    end
+
+    it "returns nil for nil" do
+      expect(described_class.id_from_column_name(nil)).to be_nil
+    end
+  end
+
+  describe ".column_name_pattern_for" do
+    subject(:pattern) { described_class.column_name_pattern_for([4, 12]) }
+
+    it "matches the column names of the given ids" do
+      expect(pattern).to match("cf_4")
+      expect(pattern).to match("cf_12")
+    end
+
+    it "does not match the column name of another id" do
+      expect(pattern).not_to match("cf_1")
+    end
+
+    context "with non-numeric ids" do
+      subject(:pattern) { described_class.column_name_pattern_for([".*"]) }
+
+      it "does not interpolate them into the pattern" do
+        expect(pattern).not_to match("cf_12")
+      end
+    end
+
+    it "does not match a column name that only starts with a given id" do
+      expect(pattern).not_to match("cf_123")
+    end
+
+    it "captures the id" do
+      expect(pattern.match("cf_12")[:id]).to eq("12")
+    end
+
+    context "without ids" do
+      subject(:pattern) { described_class.column_name_pattern_for([]) }
+
+      it "does not match any custom field column name" do
+        expect(pattern).not_to match("cf_4")
+      end
     end
   end
 
@@ -105,6 +223,13 @@ RSpec.describe CustomField do
   end
 
   describe "#valid?" do
+    it "allows an existing field whose registered format is currently unavailable" do
+      field.save!
+      allow(OpenProject::CustomFieldFormat).to receive(:available_formats).and_return([])
+
+      expect(field).to be_valid
+    end
+
     describe "WITH a text field WITH minimum length blank" do
       before do
         field.field_format = "text"
@@ -493,7 +618,7 @@ RSpec.describe CustomField do
         end
       end
 
-      context "for a custom field bound to role assigment" do
+      context "for a custom field bound to role assignment" do
         let(:project_role) { build_stubbed(:project_role) }
         let(:field) { build(:project_custom_field, :user, role_id: project_role.id) }
 
@@ -661,158 +786,119 @@ RSpec.describe CustomField do
 
   describe "#multi_value_possible?" do
     context "with a wp list cf" do
-      let(:field) { build_stubbed(:list_wp_custom_field) }
+      subject { build_stubbed(:list_wp_custom_field) }
 
-      it "is true" do
-        expect(field)
-          .to be_multi_value_possible
-      end
+      it { is_expected.to be_multi_value_possible }
     end
 
     context "with a wp user cf" do
-      let(:field) { build_stubbed(:user_wp_custom_field) }
+      subject { build_stubbed(:user_wp_custom_field) }
 
-      it "is true" do
-        expect(field)
-          .to be_multi_value_possible
-      end
+      it { is_expected.to be_multi_value_possible }
     end
 
     context "with a wp int cf" do
-      let(:field) { build_stubbed(:integer_wp_custom_field) }
+      subject { build_stubbed(:integer_wp_custom_field) }
 
-      it "is false" do
-        expect(field)
-          .not_to be_multi_value_possible
-      end
+      it { is_expected.not_to be_multi_value_possible }
     end
 
     context "with a project list cf" do
-      let(:field) { build_stubbed(:list_project_custom_field) }
+      subject { build_stubbed(:list_project_custom_field) }
 
-      it "is true" do
-        expect(field)
-          .to be_multi_value_possible
-      end
+      it { is_expected.to be_multi_value_possible }
     end
 
     context "with a project user cf" do
-      let(:field) { build_stubbed(:user_project_custom_field) }
+      subject { build_stubbed(:user_project_custom_field) }
 
-      it "is true" do
-        expect(field)
-          .to be_multi_value_possible
-      end
+      it { is_expected.to be_multi_value_possible }
     end
 
     context "with a project int cf" do
-      let(:field) { build_stubbed(:integer_project_custom_field) }
+      subject { build_stubbed(:integer_project_custom_field) }
 
-      it "is false" do
-        expect(field)
-          .not_to be_multi_value_possible
-      end
+      it { is_expected.not_to be_multi_value_possible }
+    end
+
+    context "with a project weighted_item_list cf" do
+      subject { build_stubbed(:weighted_item_list_project_custom_field) }
+
+      it { is_expected.to be_multi_value_possible }
+    end
+
+    context "with a wp weighted_item_list cf" do
+      subject { build_stubbed(:weighted_item_list_wp_custom_field) }
+
+      it { is_expected.not_to be_multi_value_possible }
     end
 
     context "with a project calculated value cf" do
-      let(:field) { build_stubbed(:calculated_value_project_custom_field) }
+      subject { build_stubbed(:calculated_value_project_custom_field) }
 
-      it "is false" do
-        expect(field)
-          .not_to be_multi_value_possible
-      end
+      it { is_expected.not_to be_multi_value_possible }
     end
 
     context "with a time_entry user cf" do
-      let(:field) { build_stubbed(:time_entry_custom_field, :user) }
+      subject { build_stubbed(:time_entry_custom_field, :user) }
 
-      it "is true" do
-        expect(field)
-          .to be_multi_value_possible
-      end
+      it { is_expected.to be_multi_value_possible }
     end
 
     context "with a time_entry list cf" do
-      let(:field) { build_stubbed(:time_entry_custom_field, :list) }
+      subject { build_stubbed(:time_entry_custom_field, :list) }
 
-      it "is true" do
-        expect(field)
-          .to be_multi_value_possible
-      end
+      it { is_expected.to be_multi_value_possible }
     end
   end
 
   describe "#allow_non_open_versions?" do
     context "with a wp list cf" do
-      let(:field) { build_stubbed(:list_wp_custom_field) }
+      subject { build_stubbed(:list_wp_custom_field) }
 
-      it "is false" do
-        expect(field)
-          .not_to be_allow_non_open_versions_possible
-      end
+      it { is_expected.not_to be_allow_non_open_versions_possible }
     end
 
     context "with a wp user cf" do
-      let(:field) { build_stubbed(:user_wp_custom_field) }
+      subject { build_stubbed(:user_wp_custom_field) }
 
-      it "is false" do
-        expect(field)
-          .not_to be_allow_non_open_versions_possible
-      end
+      it { is_expected.not_to be_allow_non_open_versions_possible }
     end
 
     context "with a wp int cf" do
-      let(:field) { build_stubbed(:integer_wp_custom_field) }
+      subject { build_stubbed(:integer_wp_custom_field) }
 
-      it "is false" do
-        expect(field)
-          .not_to be_allow_non_open_versions_possible
-      end
+      it { is_expected.not_to be_allow_non_open_versions_possible }
     end
 
     context "with a work package user cf" do
-      let(:field) { build_stubbed(:wp_custom_field, :user) }
+      subject { build_stubbed(:wp_custom_field, :user) }
 
-      it "is false" do
-        expect(field)
-          .not_to be_allow_non_open_versions_possible
-      end
+      it { is_expected.not_to be_allow_non_open_versions_possible }
     end
 
     context "with a work package version cf" do
-      let(:field) { build_stubbed(:wp_custom_field, :version) }
+      subject { build_stubbed(:wp_custom_field, :version) }
 
-      it "is true" do
-        expect(field)
-          .to be_allow_non_open_versions_possible
-      end
+      it { is_expected.to be_allow_non_open_versions_possible }
     end
 
     context "with a version cf for version" do
-      let(:field) { build_stubbed(:version_custom_field, :version) }
+      subject { build_stubbed(:version_custom_field, :version) }
 
-      it "is true" do
-        expect(field)
-          .to be_allow_non_open_versions_possible
-      end
+      it { is_expected.to be_allow_non_open_versions_possible }
     end
 
     context "with a project version cf" do
-      let(:field) { build_stubbed(:project_custom_field, :version) }
+      subject { build_stubbed(:project_custom_field, :version) }
 
-      it "is true" do
-        expect(field)
-          .to be_allow_non_open_versions_possible
-      end
+      it { is_expected.to be_allow_non_open_versions_possible }
     end
 
     context "with a time entry version cf" do
-      let(:field) { build_stubbed(:time_entry_custom_field, :version) }
+      subject { build_stubbed(:time_entry_custom_field, :version) }
 
-      it "is true" do
-        expect(field)
-          .to be_allow_non_open_versions_possible
-      end
+      it { is_expected.to be_allow_non_open_versions_possible }
     end
   end
 
@@ -903,7 +989,11 @@ RSpec.describe CustomField do
         it "handles custom field with format #{field_format}" do
           field = build(:custom_field, field_format:)
 
-          input = field_format == "date" ? "2025.10.27" : "1"
+          input = case field_format
+                  when "date" then "2025.10.27"
+                  when "datetime" then "2025-10-27T12:30:00Z"
+                  else "1"
+                  end
 
           if field_format == "empty"
             expect(field.cast_value(input)).to be_nil

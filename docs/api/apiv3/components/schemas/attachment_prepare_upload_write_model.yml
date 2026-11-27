@@ -37,10 +37,10 @@ properties:
       hash:
         type: string
         description: The hexadecimal representation of the digested hash value.
-example:
-  fileName: cat.png
-  fileSize: 24
-  contentType: image/png
-  description:
-    format: plain
-    raw: A picture of a cute cat
+examples:
+  - fileName: cat.png
+    fileSize: 24
+    contentType: image/png
+    description:
+      format: plain
+      raw: A picture of a cute cat

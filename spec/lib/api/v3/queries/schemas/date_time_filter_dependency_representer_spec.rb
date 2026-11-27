@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -93,6 +92,20 @@ RSpec.describe API::V3::Queries::Schemas::DateTimeFilterDependencyRepresenter do
         context "for operator 'Queries::Operators::BetweenDate'" do
           let(:operator) { Queries::Operators::BetweenDateTime }
           let(:type) { "[2]DateTime" }
+
+          it_behaves_like "filter dependency"
+        end
+
+        context "for operator 'Queries::Operators::GreaterOrEqualDateTime'" do
+          let(:operator) { Queries::Operators::GreaterOrEqualDateTime }
+          let(:type) { "[1]DateTime" }
+
+          it_behaves_like "filter dependency"
+        end
+
+        context "for operator 'Queries::Operators::LessOrEqualDateTime'" do
+          let(:operator) { Queries::Operators::LessOrEqualDateTime }
+          let(:type) { "[1]DateTime" }
 
           it_behaves_like "filter dependency"
         end

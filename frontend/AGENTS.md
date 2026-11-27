@@ -2,45 +2,27 @@
 
 ## Directory Structure
 
-- `./src/` - Frontend code
-  - `./src/app/` - Legacy Angular modules/components
-  - `./src/common/` - Framework-agnostic modules (the `core-common` alias), importable from both Angular and Stimulus. Code belongs here when it depends on neither framework and both sides need it; a helper only Stimulus controllers use belongs in `./src/stimulus/helpers/` instead.
-  - `./src/stimulus/` - Stimulus controllers
-  - `./src/turbo/` - Turbo integration
+- `./src/app/` — legacy Angular modules and components
+- `./src/common/` — framework-agnostic modules (the `core-common` alias)
+- `./src/stimulus/` — Stimulus controllers
+- `./src/turbo/` — Turbo integration
 
-## Configuration Files
+Where a given module belongs is explained in [doc/README.md](./doc/README.md#directory-structure).
 
-- `eslint.config.mjs` - JavaScript/TypeScript linting
-- `../package.json` / `./frontend/package.json` - Node.js dependencies
+## Commands
 
-## Version Requirements
-
-- Node: `^24.22.1` (see `package.json` engines)
-
-## Setup
-
-```bash
-npm ci && cd ..   # Install Node packages
-```
+Check Node.js and npm against `engines` in [package.json](./package.json) and the repository root [package.json](../package.json). Lint, typecheck, and test commands: [frontend tests](../docs/development/testing/running-tests-locally/README.md#frontend-tests) and [code format](../docs/development/style-guide/frontend/README.md#code-format).
 
 ## Code Style
 
-### JavaScript/TypeScript
-- **New development**: Use Hotwire (Turbo + Stimulus) with server-rendered HTML
-- **Legacy code**: Follow ESLint rules
-- Prefer TypeScript over JavaScript
-- Use [Primer Design System](https://primer.style/product/) via ViewComponent
+New UI uses Hotwire (Turbo + Stimulus) with server-rendered HTML and [Primer](https://primer.style/product/) via ViewComponent. Remaining Angular components are being migrated to custom elements in the meantime. Prefer TypeScript over JavaScript.
 
-## Linting
+Patterns and formatting conventions: [frontend style guide](../docs/development/style-guide/frontend/README.md).
+Components and design system: [design system](../docs/development/design-system/README.md).
 
-```bash
-# JavaScript/TypeScript
-npx eslint src/ && cd ..
-```
+## Further documentation
 
-## Testing
-
-```bash
-# Frontend (Jasmine/Karma)
-npm test && cd ..
-```
+- [doc/TESTING.md](./doc/TESTING.md) — writing frontend specs, the Stimulus helpers, coverage
+- [doc/PLUGINS.md](./doc/PLUGINS.md) — linking plugin frontends during development
+- [doc/README.md](./doc/README.md) — dev server, builds, dependencies
+- [Sortable lists selection contract](src/stimulus/controllers/dynamic/sortable-lists/README.md) — consumer wiring, item identity, selection gestures, and presentation

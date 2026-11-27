@@ -22,10 +22,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
+#++
+
 module EnvData
   class CustomDesignSeeder < Seeder
     def seed_data!
@@ -72,17 +73,25 @@ module EnvData
     end
 
     def seed_colors
-      OpenProject::CustomStyles::Design.customizable_variables.each do |variable|
-        key = variable.to_s.underscore
-        value = Setting.seed_design[key]
+      blank, present = seeded_color_values.partition { |_, value| value.blank? }.map(&:to_h)
 
-        if value.blank?
-          DesignColor.where(variable:).delete_all
-        else
-          design_color = DesignColor.find_or_initialize_by(variable:)
-          design_color.hexcode = value
-          design_color.save!
-        end
+      DesignColor.where(variable: blank.keys).delete_all if blank.any?
+      upsert_colors(present)
+    end
+
+    def upsert_colors(hexcodes)
+      existing = DesignColor.where(variable: hexcodes.keys).index_by(&:variable)
+
+      hexcodes.each do |variable, hexcode|
+        design_color = existing.fetch(variable) { DesignColor.new(variable:) }
+        design_color.hexcode = hexcode
+        design_color.save!
+      end
+    end
+
+    def seeded_color_values
+      OpenProject::CustomStyles::Design.customizable_variables.index_with do |variable|
+        Setting.seed_design[variable.to_s.underscore]
       end
     end
 

@@ -22,34 +22,25 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module OpPrimer
-  class EmailUpdatesModeSelectorComponent < Primer::Component
-    include OpTurbo::Streamable
-    include OpPrimer::ComponentHelpers
-
+  class EmailUpdatesModeSelectorComponent < ModeSelectorComponent
     def initialize(enabled:, path:, title:, enabled_description:, disabled_description:, alt_text: nil, show_button: true,
                    method: :get)
-      super()
-
       if !show_button && alt_text.blank?
         raise ArgumentError, "alt_text must be provided when the button is shown conditionally"
 
       end
 
       @enabled = enabled
-      @path = path
-      @title = title
       @enabled_description = enabled_description
       @disabled_description = disabled_description
-      @alt_text = alt_text
-      @show_button = show_button
-      @method = method
+      super(title:, state:, description:, path:, button_label:, button_icon:, alt_text:, show_button:, method:,
+            test_selector: "email-updates-mode-selector")
     end
 
     private

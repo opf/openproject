@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -184,7 +183,8 @@ RSpec.describe "Project attributes activity", :js, with_settings: { journal_aggr
         expect(page).to have_no_text(comment_cf.name)
         expect(page).to have_no_text(admin_only_cf.name)
         expect(page).to have_no_text(admin_only_comment_cf.name)
-        expect(page).to have_text(I18n.t(:"journals.changes_retracted"), count: 5)
+        expect(page).to have_text(I18n.t(:text_journal_permission_denied), count: 8)
+        expect(page).to have_text(I18n.t(:"journals.changes_retracted"), count: 1)
       end
     end
 
@@ -200,7 +200,8 @@ RSpec.describe "Project attributes activity", :js, with_settings: { journal_aggr
         expect(page).to have_text(comment_cf.name)
         expect(page).to have_no_text(admin_only_cf.name)
         expect(page).to have_no_text(admin_only_comment_cf.name)
-        expect(page).to have_text(I18n.t(:"journals.changes_retracted"), count: 5)
+        expect(page).to have_text(I18n.t(:text_journal_permission_denied), count: 4)
+        expect(page).to have_text(I18n.t(:"journals.changes_retracted"), count: 1)
       end
     end
 

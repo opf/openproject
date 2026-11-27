@@ -22,5 +22,5 @@ properties:
           - $ref: './link.yml'
           - description: |-
               This schema
-              
+
               **Resource**: Schema

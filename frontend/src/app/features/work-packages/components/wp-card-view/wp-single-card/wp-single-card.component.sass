@@ -14,10 +14,8 @@
   --op-wp-single-card-bg-color: var(--box-list-item-bg-color)
   display: flex
   user-select: none
-  // Leave space for the shadow to be displayed
-  width: calc(100% - 2px)
   border: 1px solid var(--box-list-item-border-color)
-  border-radius: 2px
+  border-radius: var(--borderRadius-medium)
   padding: 10px
   position: relative
   box-shadow: 1px 1px 3px 0px var(--borderColor-default)
@@ -25,7 +23,9 @@
   color: var(--body-font-color)
   font-size: var(--body-font-size)
 
-  &:hover
+  &:hover,
+  &:focus-visible,
+  &:has(:focus-visible)
     --op-wp-single-card-bg-color: var(--box-list-item-bg-hover-color)
 
     .op-wp-single-card--inline-buttons
@@ -125,6 +125,13 @@
       margin-right: 5px
       max-width: 6.5rem
       display: flex
+
+      &:empty
+        display: none
+    // Without a status button or baseline icon, the ID takes over the empty
+    // status column so that the first line is not indented by its gap.
+    &:has(> &-status-baseline:empty) &-id
+      grid-column-start: status
     &-status
       overflow: hidden
     &-baseline
@@ -160,7 +167,25 @@
     position: absolute
     top: 0
     left: 0
-    border-radius: 2px 2px 0 0
+    border-radius: var(--borderRadius-medium) var(--borderRadius-medium) 0 0
+
+  // Primer's role=button ring is an inset outline, which the highlight bar and
+  // the inline-buttons fade paint over, so it is drawn on a layer above them.
+  &:focus-visible
+    outline: none
+
+    &::after
+      content: ""
+      position: absolute
+      inset: -1px
+      border: 2px solid var(--focus-outlineColor)
+      border-radius: inherit
+      pointer-events: none
+      z-index: 3
+
+  &:focus-visible &--highlighting
+    inset: 1px 1px auto
+    width: auto
 
   &--card-actions
     display: flex

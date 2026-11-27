@@ -1,0 +1,6 @@
+[
+  { "value": "42John Doe", "expectedHue": 291 },
+  { "value": "123Jane Smith", "expectedHue": 243 },
+  { "value": "500Alice Wonderland Something Long", "expectedHue": 335 },
+  { "value": "28😋Robin Example", "expectedHue": 288 }
+]

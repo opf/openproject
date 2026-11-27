@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -604,12 +603,20 @@ RSpec.describe Journable::Timestamps do
           end
         end
 
+        describe "for the semantic identifier", with_settings: { work_packages_identifier: "semantic" } do
+          before { work_package.update_columns(identifier: "PROJ-7", sequence_number: 7) }
+
+          it "exposes the current semantic identifier", :aggregate_failures do
+            expect(subject.display_id).to eq "PROJ-7"
+            expect(subject.to_param).to eq "PROJ-7"
+          end
+        end
+
         context "with a custom field present" do
           let!(:custom_field) do
             create(:string_wp_custom_field,
                    name: "String CF",
-                   types: project.enabled_types,
-                   projects: [project])
+                   types: project.enabled_types)
           end
 
           let!(:monday_customizable_journal) do
@@ -710,7 +717,7 @@ RSpec.describe Journable::Timestamps do
         work_package.update_attribute :position, position
       end
 
-      describe "when retrieving the position of the current (nin-historic) record" do
+      describe "when retrieving the position of the current (non-historic) record" do
         subject { work_package.position }
 
         it "returns the value of the work_packages table" do

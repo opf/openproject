@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -83,7 +82,7 @@ export default class HierarchyItemController extends Controller {
 
     if (event.dataTransfer) {
       const origin = event.dataTransfer.getData('application/dragkey');
-      const originElement = document.querySelector<HTMLElement>(`[data-hierarchy-item-id='${origin}']`);
+      const originElement = document.querySelector<HTMLElement>(`[data-hierarchy-item-id="${CSS.escape(origin)}"]`);
       if (!originElement) { return; }
 
       originElement.style.opacity = '1';

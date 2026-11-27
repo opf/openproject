@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -52,7 +51,17 @@ RSpec.describe Users::JiraImportUpdateContract do
         allow(OpenProject::Enterprise).to receive(:user_limit_reached?).and_return(true)
       end
 
-      it_behaves_like "contract is invalid", base: :user_limit_reached
+      context "when activating a previously inactive user" do
+        let(:user) { build_stubbed(:user, status: :locked) }
+
+        before { user.status = :active }
+
+        it_behaves_like "contract is invalid", base: :user_limit_reached
+      end
+
+      context "when updating an already active user" do
+        it_behaves_like "contract is valid"
+      end
     end
   end
 end

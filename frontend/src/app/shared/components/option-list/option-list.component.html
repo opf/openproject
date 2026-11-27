@@ -8,7 +8,7 @@
       [attr.name]="name"
       [value]="option.value"
       [(ngModel)]="selected"
-      [disabled]="option.disabled"
+      [disabled]="!!option.disabled"
       />
     <div>
       <p class="op-option-list--item-title">{{ option.title }}</p>

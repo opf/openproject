@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -30,14 +29,14 @@
 
 import { Directive, effect, ElementRef, inject, input, Renderer2 } from '@angular/core';
 import { closestNaturalHeight, sizeMap, SVGData, SVGSize } from '@openproject/octicons-angular';
-import { ICON_MAP } from './dynamic-icon-map';
+import { DynamicIconName, ICON_MAP, isDynamicIconName } from './dynamic-icon-map';
 
 @Directive({ selector: 'svg[octicon]' })
 export class DynamicIconDirective {
   private el = inject<ElementRef<SVGElement>>(ElementRef);
   private renderer = inject(Renderer2);
 
-  readonly icon = input.required<string>();
+  readonly icon = input.required<DynamicIconName>();
   readonly size = input<SVGSize>('medium');
 
   constructor() {
@@ -50,19 +49,19 @@ export class DynamicIconDirective {
   }
 
   private renderIcon(name:string) {
-    const data = ICON_MAP[name];
-
-    if (!data) {
+    if (!isDynamicIconName(name)) {
       console.warn(`Unknown icon: ${name}`);
       return;
     }
 
     renderIconData(
       this.el.nativeElement,
-      data,
+      ICON_MAP[name],
       this.size(),
       this.renderer
     );
+    this.renderer.addClass(this.el.nativeElement, 'octicon');
+    this.renderer.addClass(this.el.nativeElement, `octicon-${name}`);
   }
 }
 

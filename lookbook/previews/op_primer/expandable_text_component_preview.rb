@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -72,6 +71,15 @@ module OpPrimer
     # Multi-line truncation where the expander opens a dialog instead of expanding inline
     # @display min_height 300px
     def dialog
+      render_with_template
+    end
+
+    # Inside phrasing content such as a heading, use `tag: :span` since a heading
+    # cannot contain divs. A heading cannot contain a dialog either, so pass
+    # `render_dialog: false` and render the dialog with the given `dialog_id`
+    # outside the heading.
+    # @display min_height 300px
+    def in_heading_with_external_dialog
       render_with_template
     end
   end

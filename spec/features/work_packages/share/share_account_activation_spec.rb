@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 require "spec_helper"
 
@@ -87,8 +86,9 @@ RSpec.describe "Work package sharing invited users",
     expect(page).to have_test_selector("registration-form")
     password = SecureRandom.hex(16)
 
-    fill_in "Password", with: password
-    fill_in "Confirmation", with: password
+    # Addressed by id: the "Password" label is a prefix of "Password confirmation"
+    fill_in "user_password", with: password
+    fill_in "Password confirmation", with: password
 
     click_button "Create"
 

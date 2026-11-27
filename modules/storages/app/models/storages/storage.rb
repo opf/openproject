@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -122,12 +121,6 @@ module Storages
     def oauth_access_granted?(user)
       (user.authentication_provider.is_a?(OpenIDConnect::Provider) && authenticate_via_idp?) ||
         OAuthClients::TokenFetcher.new(user:).connected?(oauth_client:)
-    end
-
-    # For the time being, all Storages support OAuth redirect.
-    # If a storage does not support OAuth redirect, it should override this method.
-    def supports_oauth_redirect?
-      true
     end
 
     def health_notifications_should_be_sent?

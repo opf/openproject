@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -149,7 +148,7 @@ RSpec.describe "Assignee action board",
 
       # Expect to have changed the avatar
       within_test_selector("op-wp-single-card--content-assignee") do
-        expect(page).to have_css(".op-avatar_mini", text: "FB", wait: 10)
+        expect(page).to have_css("img.op-avatar_mini[title='Foo Bar']", wait: 10)
       end
 
       work_package.reload
@@ -163,7 +162,7 @@ RSpec.describe "Assignee action board",
 
       # Expect to have changed the avatar
       within_test_selector("op-wp-single-card--content-assignee") do
-        expect(page).to have_css(".op-avatar_mini", text: "G", wait: 10)
+        expect(page).to have_css("img.op-avatar_mini[title='Grouped']", wait: 10)
       end
 
       work_package.reload

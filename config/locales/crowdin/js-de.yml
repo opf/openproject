@@ -47,6 +47,8 @@ de:
       draggable_hint: 'Ziehen Sie diesen Anhang auf ein editierbares Feld, um das Bild oder den Anhang einzubinden. Geöffnete Felder werden automatisch geöffnet während Sie das Attachment mit der Maus ziehen und halten.
 
         '
+      import_failed_hint: Die Datei konnte nicht importiert werden. Sie kann nicht heruntergeladen werden.
+      import_prepared_hint: Die Datei wird noch importiert. Sie steht noch nicht zum Download bereit.
       quarantined_hint: Die Datei wurde unter Quarantäne gestellt, da ein Virus gefunden wurde. Sie ist nicht zum Herunterladen verfügbar.
     autocomplete_ng_select:
       add_tag: Eintrag hinzufügen
@@ -61,6 +63,7 @@ de:
         single: "%{name} auswählen"
       remove: Entferne %{name}
     autocompleter:
+      create_label: Bezeichnung erstellen
       notFoundText: Keine Elemente gefunden
       placeholder: Suchbegriff eintippen
       project:
@@ -106,6 +109,7 @@ de:
         maintained_with_changes: Änderungen erhalten
         no_longer_meets_filter_criteria: Erfüllt Filterkriterien nicht mehr
         now_meets_filter_criteria: Erfüllt nun die Filterkriterien
+        state_at: Zustand um
       show_changes_since: Änderungen anzeigen ab
       time: Zeit
       time_description: 'In Ihrer Ortszeit: %{datetime}'
@@ -129,9 +133,9 @@ de:
     button_continue: Fortfahren
     button_copy: Kopieren
     button_copy_link_to_clipboard: Link in Zwischenablage kopieren
-    button_copy_numeric_id_to_clipboard: Numerische ID in die Zwischenablage kopieren
     button_copy_to_clipboard: In Zwischenablage kopieren
     button_copy_to_other_project: In anderes Projekt duplizieren
+    button_copy_work_package_id: Arbeitspaket-ID kopieren
     button_create: Anlegen
     button_custom-fields: Benutzerdefinierte Felder
     button_delete: Löschen
@@ -147,6 +151,7 @@ de:
     button_log_time: Zeit buchen
     button_more: Mehr
     button_more_actions: Weitere Aktionen
+    button_move_to_position: Zu Position verschieben
     button_open_details: Detailansicht öffnen
     button_open_fullscreen: Vollbildansicht öffnen
     button_quote: Zitieren
@@ -162,6 +167,7 @@ de:
     button_stop_timer: Timer anhalten
     button_uncheck_all: Alle abwählen
     button_update: Aktualisieren
+    button_view_markdown: Markdown anzeigen
     caption_rate_history: Stundensatz-Historie
     card:
       add_new: Neue Karte hinzufügen
@@ -201,7 +207,11 @@ de:
     description_select_work_package: 'Arbeitspaket #%{id} auswählen'
     description_subwork_package: 'Unteraufgabe von Arbeitspaket #%{id}'
     editor:
+      ai_actions:
+        caption: Assistent
+        start_failed: Der Assistent konnte nicht gestartet werden. Bitte versuchen Sie es erneut.
       ckeditor_error: Innerhalb des Editors ist ein Fehler aufgetreten
+      ckeditor_error_reload: Der Editor funktioniert nicht mehr. Ihr Text ist zwar noch vorhanden, Sie können ihn jedoch nicht mehr bearbeiten. Kopieren Sie den Text, den Sie behalten möchten, und laden Sie die Seite anschließend neu.
       error_saving_failed: 'Fehler beim Speichern des Dokuments: %{error}'
       macro:
         attribute_reference:
@@ -341,6 +351,8 @@ de:
       direct_hit_available: Arbeitspaket mit exakter ID gefunden. Drücken Sie Enter um es zu öffnen.
       items_available: "%{count} Verfügbare Artikel"
       recently_viewed: Vor Kurzem angesehen
+      search_by_meaning: Suche gemäß Bedeutung
+      search_mode: Suchmodus
       search_placeholder_expanded: Suchen Sie Arbeitspakete nach Thema, Projekt, Typ, Status oder ID
       title:
         all_projects: alle Projekte
@@ -431,7 +443,6 @@ de:
     label_assignee: Zugewiesen an
     label_assignee_alt_text: Dieses Arbeitspaket wird %{name} zugewiesen
     label_attachments: Anhänge
-    label_author: 'Autor: %{user}'
     label_avatar: Avatar
     label_between: zwischen
     label_board: Board
@@ -495,6 +506,7 @@ de:
     label_in: in
     label_in_less_than: in weniger als
     label_in_more_than: in mehr als
+    label_in_progress_work_packages: in Bearbeitung
     label_incoming_emails: Eingehende E-Mails
     label_infinity: Unendlich
     label_information_plural: Information
@@ -527,6 +539,10 @@ de:
     label_open_context_menu: Kontextmenü öffnen
     label_open_menu: Menü öffnen
     label_open_work_packages: offen
+    label_origin: Ursprung
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Quelle
     label_password: Passwort
     label_per_page: 'Pro Seite:'
     label_please_wait: Bitte warten
@@ -551,6 +567,8 @@ de:
     label_reset: Zurücksetzen
     label_resize_project_menu: Größe des Projektmenüs ändern
     label_save_as: Speichern unter
+    label_scroll_left: Nach links scrollen
+    label_scroll_right: Nach rechts scrollen
     label_search_columns: Spalte suchen
     label_select_watcher: Beobachter auswählen ...
     label_selected_filter_list: Ausgewählte Filter
@@ -558,7 +576,9 @@ de:
     label_show_in_menu: Ansicht im Seitenmenü anzeigen
     label_sort_by: Sortieren nach
     label_sort_higher: Nach oben verschieben
+    label_sort_highest: Nach oben verschieben
     label_sort_lower: Nach unten verschieben
+    label_sort_lowest: Nach unten verschieben
     label_sorted_by: sortiert nach
     label_sorting: Sortierung
     label_spent_time: Aufgewendete Zeit
@@ -569,6 +589,7 @@ de:
     label_sum_for: Summe für
     label_this_week: diese Woche
     label_time_entry_plural: Aufgewendete Zeit
+    label_to_do_work_packages: To-Do
     label_today: Heute
     label_total_amount: 'Gesamt: %{amount}'
     label_total_progress: "%{percent}% Gesamtfortschritt"
@@ -623,7 +644,7 @@ de:
     notifications:
       center:
         and_more_users:
-          one: und ein weiterer
+          one: und %{count} weitere
           other: und %{count} weitere
         empty_state:
           no_notification: Alle Benachrichtungen abgearbeitet.
@@ -722,6 +743,7 @@ de:
     placeholders:
       default: "-"
       description: 'Beschreibung: Zum Bearbeiten klicken...'
+      description_double_click: 'Beschreibung: Zum Bearbeiten klicken...'
       relation_description: Klicken, um eine Beschreibung für diese Beziehung anzulegen
       selection: Bitte auswählen
       subject: Titel hier eingeben
@@ -753,8 +775,10 @@ de:
       create_new: Neu erstellen
       group_by_relation_type: Nach Relations-Typ gruppieren
       group_by_wp_type: Nach Arbeitspaket-Typ gruppieren
+      hierarchy_change_timed_out: Die Hierarchie konnte nicht geändert werden, da der Server nicht geantwortet hat. Bitte versuchen Sie es erneut.
       hierarchy_indent: In Hierarchie einrücken
       hierarchy_outdent: Aus Hierarchie ausrücken
+      hierarchy_refresh_failed: Die Tabelle konnte nicht aktualisiert werden. Das Ein- und Ausrücken ist erst nach dem Neuladen der Tabelle möglich.
       remove: Beziehung entfernen
       remove_child: Unteraufgabe entfernen
       remove_parent: Übergeordnetes Arbeitspaket entfernen
@@ -808,12 +832,33 @@ de:
       sorting_disabled: Sortierung ist deaktiviert
     sortable_lists:
       announcements:
+        batch_too_large: Es ist nicht möglich, %{count} Element auf einmal zu verschieben. Wählen Sie nicht mehr als %{max} aus.
         fallback_item_label: Element
         fallback_list_name: andere Liste
+        menu_scope_changed: Die Menüauswahl hat sich geändert. Öffnen Sie das Menü erneut, bevor Sie Elemente verschieben.
         move_failed_check_position: Verschieben fehlgeschlagen. Überprüfen Sie die aktuelle Position des Elements.
+        move_failed_check_positions_batch:
+          other: Verschieben fehlgeschlagen. Überprüfen Sie die aktuelle Position des Elements.
         move_failed_rolled_back: Verschieben fehlgeschlagen. %{label} wieder an seiner vorherigen Position.
+        move_failed_rolled_back_batch:
+          other: Die Verschiebung ist fehlgeschlagen. %{count} Elemente wurden an ihre ursprünglichen Positionen zurückgesetzt.
         moved: "%{label} verschoben auf Position %{position} von %{total}"
+        moved_batch:
+          other: "%{count} Elemente auf die Positionen %{first} bis %{last} von %{total} verschoben"
+        moved_batch_to_list:
+          other: "%{count} Elemente zu %{list} auf die Positionen %{first} bis %{last} von %{total} verschoben"
         moved_to_list: "%{label} verschoben nach %{list}, Position %{position} von %{total}"
+      selection:
+        cleared: Auswahl aufgehoben.
+        not_selectable: Auswahl unverändert. Dieses Element hat keinen Einfluss auf die Reihenfolge dieser Liste.
+        range_blocked: Auswahl unverändert. Sie enthält ein Element ohne Einfluss auf die Reihenfolge dieser Liste.
+        range_restarted:
+          one: Die Auswahl konnte nicht erweitert werden. %{count} Element ausgewählt.
+          other: Die Auswahl konnte nicht erweitert werden. %{count} Elemente ausgewählt.
+        range_unavailable: Auswahl unverändert. Erweitern Sie diese Liste, um diesen Bereich auszuwählen.
+        selected:
+          one: "%{count} Element ausgewählt."
+          other: "%{count} Elemente ausgewählt."
     spot:
       drop_modal:
         close: Modal schließen
@@ -827,9 +872,7 @@ de:
     text_user_wrote: "%{value} schrieb:"
     text_work_packages_destroy_confirmation: Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete löschen möchten?
     time_entry:
-      stop: Anhalten
       title: Zeit buchen
-      tracking: Zeiterfassung
       work_package_required: Benötigt zuerst die Auswahl eines Arbeitspakets.
     timer:
       button_stop: Aktuellen Timer stoppen
@@ -864,19 +907,19 @@ de:
       label_two_factor_authentication: Zwei-Faktor-Authentifizierung
     units:
       child_work_packages:
-        one: eine Unteraufgabe
+        one: "%{count} untergeordnetes Arbeitspaket"
         other: "%{count} untergeordnete Arbeitspakete"
       day:
-        one: 1 Tag
+        one: "%{count} Tag"
         other: "%{count} Tage"
         zero: 0 Tage
       hour:
-        one: 1 h
+        one: "%{count} h"
         other: "%{count} h"
         zero: 0 h
       hour_string: "%{hours} h"
       word:
-        one: 1 Wort
+        one: "%{count} Wort"
         other: "%{count} Wörter"
       workPackage:
         one: Arbeitspaket
@@ -922,6 +965,7 @@ de:
         edit: Arbeitspakete bearbeiten
         move: In anderes Projekt verschieben
       button_clear: Zurücksetzen
+      button_edit_subject: Edit subject
       comment_added: Der Kommentar wurde erfolgreich hinzugefügt.
       comment_send_failed: Ein Fehler ist aufgetreten. Der Kommentar konnte nicht gespeichert werden.
       comment_updated: Der Kommentar wurde erfolgreich aktualisiert.
@@ -936,6 +980,7 @@ de:
         all_open: Alle offenen
         assigned_to_me: Mir zugewiesen
         created_by_me: Erstellt von mir
+        in_progress: In Durchführung
         latest_activity: Letzte Änderungen
         manually_sorted: Neue manuell sortierte Ansicht
         overdue: Überfällig
@@ -943,6 +988,7 @@ de:
         shared_with_me: Mit mir geteilt
         shared_with_users: Geteilt mit Benutzern
         summary: Zusammenfassung
+        to_do: To-Do
       description_enter_text: Text eingeben
       description_filter: Filter
       description_options_hide: Optionen ausblenden
@@ -972,6 +1018,7 @@ de:
         label_pagination: Hier klicken, um über die Tabelle der Arbeitspakete hinweg zur Seitennavigation zu springen
         pagination: Zur Seitennavigation springen
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: Gruppen ein- oder ausblenden
       label_column_multiselect: 'Kombiniertes Eingabefeld: Auswahl mit Pfeiltasten, Auslösen mit Enter, Löschen mit Backspace'
       label_disable_multi_select: Mehrfachauswahl deaktivieren
       label_enable_multi_select: Mehrfachauswahl aktivieren
@@ -1030,6 +1077,7 @@ de:
         other: Andere
         people: Personen
       query:
+        add_columns: Spalten hinzufügen
         click_to_edit_query_name: Klicken, um den Titel dieser Ansicht zu bearbeiten.
         column_names: Spalten
         confirm_edit_cancel: Sind Sie sicher, dass Sie die Umbenennung dieser Ansicht abbrechen wollen? Der Titel wird zum letzten gespeicherten Wert zurückgesetzt.
@@ -1039,17 +1087,16 @@ de:
           not_found: Diese Ansicht konnte nicht gefunden werden
           unretrievable_query: Konnte die Ansicht nicht verarbeiten
         filters: Filter
-        group: Gruppieren nach
         group_by: Gruppiere Ergebnisse nach
+        group_by_column: Gruppieren nach %{column}
         group_by_disabled_by_hierarchy: Die Gruppierung ist deaktiviert, da der Hierarchie-Modus aktiv ist.
-        hide_column: Spalte ausblenden
         hierarchy_disabled_by_group_by: Der Hierarchie-Modus ist deaktiviert da die Ergebnisse nach %{column} gruppiert sind.
-        insert_columns: Spalten einfügen
         move_column_left: Spalte nach links verschieben
         move_column_right: Spalte nach rechts verschieben
         public_text: 'Veröffentlicht die Ansicht für andere Mitglieder des Projekts. Nutzer mit der ''Öffentliche Ansichten verwalten''-Berechtigung können diese Ansicht auch verändern oder entfernen. Beeinträchtigt nicht die Sichtbarkeit von Arbeitspaketen in der Ansicht. Abhängig der Berechtigungen, erhalten Mitglieder unterschiedliche Ergebnisse.
 
           '
+        remove_column: Spalte entfernen
         rename_query_placeholder: Name der Ansicht
         sort_ascending: Sortiere aufsteigend
         sort_descending: Sortiere absteigend
@@ -1070,15 +1117,26 @@ de:
       scheduling:
         is_parent: Die Termine dieses Arbeitspakets werden automatisch von seinen Unteraufgaben aggregiert. Aktivieren Sie "Manuelle Planung", um die Termine frei zu setzen.
         is_switched_from_manual_to_automatic: Die Termine dieses Arbeitspakets müssen nach dem Wechsel auf automatische Planung neu berechnet werden.
+      selection:
+        all_selected:
+          one: Alle %{count} Arbeitspakete auf dieser Seite ausgewählt.
+          other: Alle %{count} Arbeitspakete auf dieser Seite ausgewählt.
+        cleared: Auswahl aufgehoben.
+        selected:
+          one: "%{count} Arbeitspaket ausgewählt."
+          other: "%{count} Arbeitspakete ausgewählt."
       sharing:
         show_all_users: Alle Benutzer anzeigen, für die das Arbeitspaket geteilt wurde
         title: Arbeitspaket teilen
       table:
         configure_button: Arbeitspaket-Tabelle konfigurieren
-        summary: Tabelle mit Zeilen von Arbeitspaketen und Spalten von Attributen dieser Arbeitspakete.
-        text_inline_edit: Die meisten Zellen dieser Tabelle sind Schalter, über die Sie einzelne Attribute direkt bearbeiten können.
-        text_select_hint: Auswahlfelder können mit 'ALT' und Pfeiltasten geöffnet werden.
-        text_sort_hint: Über die Links in den Spaltenüberschriften können Spalten sortiert, gruppiert, verschoben, entfernt oder hinzugefügt werden.
+        grid_actions_header: Aktionen
+        grid_baseline_header: Vergleichsstatus
+        relations_button: Beziehungen in %{column} für %{work_package}
+        sort_criterion_ascending: "%{column} absteigend"
+        sort_criterion_descending: "%{column} absteigend"
+        sorted_by: Sortiert nach „ %{criteria}“.
+        sorted_manually: Manuell sortiert.
       table_configuration:
         button: Konfigurieren Sie diese Arbeitspaket-Tabelle
         choose_display_mode: Arbeitspakete anzeigen als
@@ -1087,7 +1145,6 @@ de:
         default_mode: Flache Liste
         display_settings: Anzeigeeinstellungen
         display_sums_hint: Zeigt eine Zeile mit den Summen aller summierbaren Spalten unterhalb den Ergebnissen an.
-        embedded_tab_disabled: Dieser Reiter ist in der eingebetteten Ansicht, die Sie bearbeiten, nicht verfübar.
         hierarchy_hint: Zusätzlich zu den Ergebnissen der Tabelle werden die Eltern der Elemente angezeigt. Hierarchien können in der Tabelle ein- und ausgeklappt werden.
         hierarchy_mode: Hierarchie
         highlighting: Hervorhebung

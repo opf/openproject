@@ -26,12 +26,12 @@ tr:
         select: Dosyaları seç
         select_all: Hepsini seç
         selection:
-          zero: Bağlanacak dosyaları seçin
-          one: 1 dosya bağla
-          other: "%{count} dosya bağla"
+          none: Select files to link
+          one: Link %{count} file
+          other: Link %{count} files
         success_create:
-          one: 1 dosya bağlantısı başarıyla oluşturuldu.
-          other: "%{count} dosya bağlantısı başarıyla oluşturuldu."
+          one: Successfully created %{count} file link.
+          other: Successfully created %{count} file links.
         tooltip:
           not_found: Bu dosya bulunamadı.
           not_logged_in: Bu dosyaya erişmek için lütfen depoda oturum açın.

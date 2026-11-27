@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -33,7 +32,6 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   host: { class: 'op-icon--wrapper' },
   template: `
       <i [ngClass]="iconClasses"
-        [attr.title]="iconTitle || undefined"
       aria-hidden="true"></i>
       @if (iconTitle) {
         <span
@@ -49,7 +47,9 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class OpIconComponent {
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('icon-classes') iconClasses:string;
 
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('icon-title') iconTitle = '';
 }

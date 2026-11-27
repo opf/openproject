@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -69,6 +68,15 @@ RSpec.describe "API v3 Meeting resource", content_type: :json do
         expect(last_response.body)
           .to be_json_eql(meeting.id.to_json)
           .at_path("id")
+      end
+    end
+
+    context "when the meeting is a series template" do
+      let(:meeting) { create(:recurring_meeting, project:, author: current_user).template }
+
+      it "does not advertise deletion" do
+        expect(last_response).to have_http_status(:ok)
+        expect(last_response.body).not_to have_json_path("_links/delete")
       end
     end
 
@@ -504,6 +512,30 @@ RSpec.describe "API v3 Meeting resource", content_type: :json do
         expect(ActionMailer::Base.deliveries.flat_map(&:to)).to include(other_participant.mail)
       end
     end
+
+    context "when attempting to change the author via _links.author" do
+      let(:other_user) do
+        create(:user, member_with_permissions: { project => %i[view_meetings] })
+      end
+      let(:body) do
+        {
+          lockVersion: meeting.lock_version,
+          _links: {
+            author: { href: api_v3_paths.user(other_user.id) }
+          }
+        }.to_json
+      end
+
+      it "rejects the change with a readonly error and does not change the author" do
+        expect(meeting.author).to eq(current_user)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.body)
+          .to be_json_eql("urn:openproject-org:api:v3:errors:PropertyIsReadOnly".to_json)
+          .at_path("errorIdentifier")
+        expect(meeting.reload.author).to eq(current_user)
+      end
+    end
   end
 
   describe "DELETE /api/v3/meetings/:id" do
@@ -536,6 +568,27 @@ RSpec.describe "API v3 Meeting resource", content_type: :json do
       let(:permissions) { [] }
 
       it_behaves_like "not found"
+    end
+
+    context "when deleting a series template" do
+      let(:series) { create(:recurring_meeting, project:, author: current_user) }
+      let(:meeting) { series.template }
+
+      it_behaves_like "unauthorized access"
+
+      it "preserves the series and its template" do
+        expect(RecurringMeeting).to exist(series.id)
+        expect(series.reload.template).to eq(meeting)
+      end
+    end
+
+    context "when deleting a one-time template" do
+      let(:meeting) { create(:onetime_template, project:, author: current_user) }
+
+      it "deletes the template" do
+        expect(subject).to have_http_status(:no_content)
+        expect(Meeting).not_to exist(meeting.id)
+      end
     end
 
     context "without permission to delete meetings" do

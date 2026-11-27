@@ -21,16 +21,16 @@
     if authorize_for(:budgets, :copy)
       header.with_action_button(
         tag: :a,
-        mobile_icon: :copy,
-        mobile_label: t(:button_copy),
+        mobile_icon: :duplicate,
+        mobile_label: t(:button_duplicate),
         size: :medium,
         href: url_for({ controller: "budgets", action: "copy", id: @budget }),
-        aria: { label: I18n.t(:button_copy) },
+        aria: { label: I18n.t(:button_duplicate) },
         data: { test_selector: "budget-copy-button" },
-        title: I18n.t(:button_copy)
+        title: I18n.t(:button_duplicate)
       ) do |button|
-        button.with_leading_visual_icon(icon: :copy)
-        t(:button_copy)
+        button.with_leading_visual_icon(icon: :duplicate)
+        t(:button_duplicate)
       end
     end
     if authorize_for(:budgets, :destroy)

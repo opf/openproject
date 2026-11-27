@@ -6,7 +6,7 @@ ARG DEV_GID=1001
 
 ENV USER=dev
 ENV RAILS_ENV=development
-ENV NODE_MAJOR=22
+ENV NODE_MAJOR=24
 
 # `--no-log-init` is required as a workaround to avoid disk exhaustion.
 #
@@ -26,7 +26,7 @@ RUN apt-get update -qq && \
   wget --quiet -O- https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor -o /usr/share/keyrings/postgrsql.gpg - && \
   apt-get update && \
   DEBIAN_FRONTEND=noninteractive apt-get install -y \
-  postgresql-client-17 libffi8 libffi-dev curl && \
+  postgresql-client-18 libffi8 libffi-dev curl && \
   rm -rf /var/lib/apt/lists/*
 
 # Setup node source and install nodejs. Needed for running certain scripts in backend container,

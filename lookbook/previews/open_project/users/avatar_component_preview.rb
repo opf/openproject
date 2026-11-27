@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -47,6 +46,32 @@ module OpenProject::Users
     def sizes
       user = FactoryBot.build_stubbed(:user)
       render_with_template(locals: { user: })
+    end
+
+    # Shows an avatar from a given image URL instead of the avatar of the user.
+    # Use these parameters to show a preview of avatar changes that are not saved yet.
+    #
+    # - `avatar_image_url`: The image to show. Usually a blob, data, or API URL.
+    # - `avatar_fallback_image_url`: The image to show if the first image does not load.
+    #   If you do not set it, the component loads the generated initials of the user from the API.
+    #
+    # To see the fallback image, set `avatar_image_url` to a URL that does not load, for example `/missing.png`.
+    # @param size select { choices: [default, medium, mini] }
+    # @param avatar_image_url text
+    # @param avatar_fallback_image_url text
+    def image_overrides(size: :default,
+                        avatar_image_url: preview_svg_url("#0969DA", "IM"),
+                        avatar_fallback_image_url: preview_svg_url("#1A7F37", "FB"))
+      user = FactoryBot.build_stubbed(:user)
+      render(Users::AvatarComponent.new(user:, size:, link: false, hover_card: { active: false },
+                                        avatar_image_url:, avatar_fallback_image_url:))
+    end
+
+    private
+
+    def preview_svg_url(color, text)
+      svg = OpenProject::Avatars::InitialsSvg.build_svg(color, text)
+      "data:image/svg+xml;charset=UTF-8,#{ERB::Util.url_encode(svg)}"
     end
   end
 end

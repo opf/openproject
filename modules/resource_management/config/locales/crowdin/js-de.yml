@@ -1,0 +1,11 @@
+---
+de:
+  js:
+    button_allocate_resource: Ressourcen zuweisen
+    resource_management:
+      create_placeholder_user: Platzhalterbenutzer mit Filterkriterien anlegen
+      hidden_user: Versteckter Benutzer
+      my_time_management:
+        finish_by: Fällig am %{date}
+        finish_today: Heute fällig
+      show_allocations: Ressourcenzuweisungen anzeigen

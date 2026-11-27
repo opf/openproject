@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -60,13 +59,16 @@ module Accounts::CurrentUser
   # and starts a session if needed
   def find_current_user
     %i[
+      current_api_key_user
       current_session_user
       current_autologin_user
       current_rss_key_user
-      current_api_key_user
     ].each do |method|
       user = send(method)
-      return user if user&.logged? && user&.active?
+      next unless user&.logged? && user.active?
+
+      @api_key_authenticated = method == :current_api_key_user
+      return user
     end
 
     nil
@@ -94,21 +96,19 @@ module Accounts::CurrentUser
   end
 
   def current_rss_key_user
-    if params[:format] == "atom" && params[:key] && accept_key_auth_actions.include?(action_name)
+    if params[:format] == "atom" && params[:key] && accept_rss_key_auth_actions.include?(action_name)
       # RSS key authentication does not start a session
       User.find_by_rss_key(params[:key])
     end
   end
 
   def current_api_key_user
-    return unless Setting.api_tokens_enabled? && api_request?
+    return unless Setting.api_tokens_enabled? && api_key_auth_format?
 
     key = api_key_from_request
+    return unless key && accept_api_key_auth_actions.include?(action_name)
 
-    if key && accept_key_auth_actions.include?(action_name)
-      # Use API key
-      User.find_by_api_key(key)
-    end
+    User.find_by_api_key(key)
   end
 
   # Sets the logged in user
@@ -169,15 +169,25 @@ module Accounts::CurrentUser
         end
 
         format.any(:xml, :js, :json, :turbo_stream) do
-          head :unauthorized,
-               "WWW-Authenticate" => OpenProject::Authentication::WWWAuthenticate.response_header(env: request.env)
+          head :unauthorized, "WWW-Authenticate" => www_authenticate_header
         end
+
+        format.md { render_markdown_login_required }
 
         format.all { head :not_acceptable }
       end
       return false
     end
     true
+  end
+
+  def render_markdown_login_required
+    response.headers["WWW-Authenticate"] = www_authenticate_header
+    render markdown: I18n.t(:text_markdown_login_required), status: :unauthorized
+  end
+
+  def www_authenticate_header
+    OpenProject::Authentication::WWWAuthenticate.response_header(env: request.env)
   end
 
   def require_admin

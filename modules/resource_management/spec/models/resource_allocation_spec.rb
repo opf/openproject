@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,7 +31,7 @@ require "spec_helper"
 
 RSpec.describe ResourceAllocation do
   describe "associations" do
-    subject { described_class.new(principal_explicit: false) }
+    subject { described_class.new }
 
     it { is_expected.to belong_to(:entity).required }
     it { is_expected.to belong_to(:requested_by).class_name("User").optional }
@@ -42,7 +41,7 @@ RSpec.describe ResourceAllocation do
     # validation) for explicit allocations, so the matcher is checked against a
     # filter-based one where principal may legitimately be nil.
     it "has an optional principal" do
-      allocation = build(:resource_allocation, principal_explicit: false, principal: nil, filter_name: "Devs")
+      allocation = build(:resource_allocation, :with_user_filter)
       expect(allocation).to belong_to(:principal).class_name("User").inverse_of(:resource_allocations).optional
     end
   end
@@ -113,9 +112,10 @@ RSpec.describe ResourceAllocation do
 
   describe "#user_assigned? / #filter_based? / #needs_principal_assignment?" do
     let(:assignee) { build_stubbed(:user) }
+    let(:placeholder_user) { build_stubbed(:placeholder_user) }
 
     context "with an explicit user allocation" do
-      subject(:allocation) { described_class.new(principal_explicit: true, principal: assignee) }
+      subject(:allocation) { described_class.new(principal: assignee) }
 
       it { is_expected.to be_user_assigned }
       it { is_expected.not_to be_filter_based }
@@ -123,7 +123,7 @@ RSpec.describe ResourceAllocation do
     end
 
     context "with an unassigned filter placeholder" do
-      subject(:allocation) { described_class.new(principal_explicit: false, principal: nil) }
+      subject(:allocation) { described_class.new(placeholder_user:, principal: nil) }
 
       it { is_expected.not_to be_user_assigned }
       it { is_expected.to be_filter_based }
@@ -131,11 +131,96 @@ RSpec.describe ResourceAllocation do
     end
 
     context "with a filter placeholder that has a principal assigned" do
-      subject(:allocation) { described_class.new(principal_explicit: false, principal: assignee) }
+      subject(:allocation) { described_class.new(placeholder_user:, principal: assignee) }
 
       it { is_expected.to be_user_assigned }
       it { is_expected.to be_filter_based }
       it { is_expected.not_to be_needs_principal_assignment }
+    end
+  end
+
+  describe "#placeholder_or_user" do
+    let(:assignee) { build_stubbed(:user) }
+    let(:placeholder_user) { build_stubbed(:placeholder_user) }
+
+    describe "reader" do
+      it "is the principal of a user allocation" do
+        allocation = described_class.new(principal: assignee)
+
+        expect(allocation.placeholder_or_user).to eq(assignee)
+        expect(allocation.placeholder_or_user_id).to eq(assignee.id)
+      end
+
+      it "is the placeholder of a filter-based allocation" do
+        allocation = described_class.new(placeholder_user:, principal: nil)
+
+        expect(allocation.placeholder_or_user).to eq(placeholder_user)
+        expect(allocation.placeholder_or_user_id).to eq(placeholder_user.id)
+      end
+
+      it "is the assigned user of a staffed filter-based allocation" do
+        allocation = described_class.new(placeholder_user:, principal: assignee)
+
+        expect(allocation.placeholder_or_user).to eq(assignee)
+        expect(allocation.placeholder_or_user_id).to eq(assignee.id)
+      end
+
+      it "is nil without either" do
+        allocation = described_class.new
+
+        expect(allocation.placeholder_or_user).to be_nil
+        expect(allocation.placeholder_or_user_id).to be_nil
+      end
+    end
+
+    describe "writer" do
+      it "assigns a user as the principal of an unstaffed filter-based allocation, dropping the placeholder" do
+        allocation = described_class.new(placeholder_user:)
+
+        allocation.placeholder_or_user = assignee
+
+        expect(allocation.principal).to eq(assignee)
+        expect(allocation.placeholder_user).to be_nil
+        expect(allocation).not_to be_filter_based
+      end
+
+      it "re-staffs a staffed filter-based allocation, keeping the placeholder" do
+        other_assignee = build_stubbed(:user)
+        allocation = described_class.new(placeholder_user:, principal: assignee)
+
+        allocation.placeholder_or_user = other_assignee
+
+        expect(allocation.principal).to eq(other_assignee)
+        expect(allocation.placeholder_user).to eq(placeholder_user)
+      end
+
+      it "leaves a staffed filter-based allocation unchanged when given its assigned user" do
+        allocation = described_class.new(placeholder_user:, principal: assignee)
+
+        allocation.placeholder_or_user = assignee
+
+        expect(allocation.principal).to eq(assignee)
+        expect(allocation.placeholder_user).to eq(placeholder_user)
+      end
+
+      it "assigns a placeholder user as the placeholder" do
+        allocation = described_class.new(principal: assignee)
+
+        allocation.placeholder_or_user = placeholder_user
+
+        expect(allocation.placeholder_user).to eq(placeholder_user)
+        expect(allocation.principal).to be_nil
+        expect(allocation).to be_filter_based
+      end
+
+      it "clears both when set to nil" do
+        allocation = described_class.new(placeholder_user:, principal: assignee)
+
+        allocation.placeholder_or_user = nil
+
+        expect(allocation.principal).to be_nil
+        expect(allocation.placeholder_user).to be_nil
+      end
     end
   end
 
@@ -240,14 +325,13 @@ RSpec.describe ResourceAllocation do
     shared_let(:work_package) { create(:work_package, project:) }
 
     let!(:unassigned_placeholder) do
-      create(:resource_allocation, entity: work_package, principal_explicit: false, principal: nil, filter_name: "Devs")
+      create(:resource_allocation, :with_user_filter, entity: work_package)
     end
 
     before do
       # An explicit allocation and an already-assigned placeholder must be excluded.
       create(:resource_allocation, entity: work_package)
-      create(:resource_allocation, entity: work_package,
-                                   principal_explicit: false, principal: create(:user), filter_name: "Devs")
+      create(:resource_allocation, :with_user_filter, entity: work_package, principal: create(:user))
     end
 
     it "returns only filter placeholders without a principal" do
@@ -266,6 +350,32 @@ RSpec.describe ResourceAllocation do
 
     it "returns only the allocations of the given principal" do
       expect(described_class.for_principal(user)).to contain_exactly(for_user)
+    end
+  end
+
+  describe ".overlapping" do
+    shared_let(:project) { create(:project) }
+    shared_let(:work_package) { create(:work_package, project:) }
+
+    let!(:within) do
+      create(:resource_allocation, entity: work_package,
+                                   start_date: Date.new(2026, 3, 10), end_date: Date.new(2026, 3, 12))
+    end
+    let!(:straddling) do
+      create(:resource_allocation, entity: work_package,
+                                   start_date: Date.new(2026, 2, 20), end_date: Date.new(2026, 3, 2))
+    end
+
+    before do
+      create(:resource_allocation, entity: work_package,
+                                   start_date: Date.new(2026, 1, 5), end_date: Date.new(2026, 2, 28))
+      create(:resource_allocation, entity: work_package,
+                                   start_date: Date.new(2026, 4, 1), end_date: Date.new(2026, 4, 5))
+    end
+
+    it "returns the allocations touching the given range, bounds included" do
+      expect(described_class.overlapping(Date.new(2026, 3, 1)..Date.new(2026, 3, 31)))
+        .to contain_exactly(within, straddling)
     end
   end
 
@@ -327,7 +437,8 @@ RSpec.describe ResourceAllocation do
       it "overrides a member filter smuggled into the stored criteria" do
         other_project = create(:project)
         allocation = create(:resource_allocation, :with_user_filter, entity: work_package)
-        allocation.user_filter += UserQuery.new.tap { |q| q.where(:member, "=", [other_project.id.to_s]) }.filters
+        member_filter = UserQuery.new.tap { |q| q.where(:member, "=", [other_project.id.to_s]) }.filters
+        allocation.placeholder_user.user_filter += member_filter
         member = developer(member_of: project)
         developer(member_of: other_project)
 
@@ -458,16 +569,14 @@ RSpec.describe ResourceAllocation do
       end
 
       it "requires a principal for an explicit allocation" do
-        allocation.principal_explicit = true
         allocation.principal = nil
         expect(allocation).not_to be_valid
         expect(allocation.errors.symbols_for(:principal)).to include(:blank)
       end
 
       it "does not require a principal for a filter placeholder" do
-        allocation.principal_explicit = false
+        allocation.placeholder_user = build_stubbed(:placeholder_user)
         allocation.principal = nil
-        allocation.filter_name = "Devs"
         expect(allocation).to be_valid
       end
     end
@@ -555,103 +664,51 @@ RSpec.describe ResourceAllocation do
       end
     end
 
-    describe "allocation kind (principal_explicit)" do
-      let(:filter) do
-        UserQuery.new.filter_for(:name).tap do |f|
-          f.operator = "~"
-          f.values = ["alice"]
-        end
-      end
-
-      context "when explicit (principal_explicit: true)" do
-        before { allocation.principal_explicit = true }
-
-        it "is valid with a principal and no filter" do
+    describe "allocation kind" do
+      context "when explicit (no user resource)" do
+        it "is valid with a principal" do
           expect(allocation).to be_valid
         end
 
-        it "rejects a filter_name" do
-          allocation.filter_name = "Devs"
+        it "requires a principal" do
+          allocation.principal = nil
           expect(allocation).not_to be_valid
-          expect(allocation.errors.symbols_for(:filter_name)).to include(:present)
-        end
-
-        it "rejects a user_filter" do
-          allocation.user_filter = [filter]
-          expect(allocation).not_to be_valid
-          expect(allocation.errors.symbols_for(:user_filter)).to include(:present)
+          expect(allocation.errors.symbols_for(:principal)).to include(:blank)
         end
       end
 
-      context "when filter-based (principal_explicit: false)" do
+      context "when filter-based (with a user resource)" do
         before do
-          allocation.principal_explicit = false
+          allocation.placeholder_user = build_stubbed(:placeholder_user)
           allocation.principal = nil
         end
 
-        it "requires a filter_name" do
-          allocation.filter_name = nil
-          expect(allocation).not_to be_valid
-          expect(allocation.errors.symbols_for(:filter_name)).to include(:blank)
-        end
-
-        it "is valid as an unassigned placeholder with a name" do
-          allocation.filter_name = "Full stack Developer (DE-EN)"
+        it "is valid as an unassigned placeholder" do
           expect(allocation).to be_valid
         end
 
-        it "allows a real principal alongside a named filter (assigned placeholder)" do
+        it "allows a real principal alongside the resource (staffed placeholder)" do
           allocation.principal = owner
-          allocation.filter_name = "Full stack Developer (DE-EN)"
-          allocation.user_filter = [filter]
           expect(allocation).to be_valid
         end
       end
     end
   end
 
-  describe "user_filter serialization" do
+  describe "the requested user resource" do
     shared_let(:project) { create(:project, enabled_module_names: %w[resource_management]) }
-    shared_let(:owner) { create(:user, member_with_permissions: { project => %i[view_resource_planners] }) }
     shared_let(:work_package) { create(:work_package, project:) }
 
-    it "serializes filters using the same coder as UserQuery" do
-      coder = described_class.type_for_attribute(:user_filter).coder
-      user_query_coder = UserQuery.type_for_attribute(:filters).coder
-
-      expect(coder).to be_a(Queries::Serialization::Filters)
-      expect(coder.klass).to eq(UserQuery)
-      expect(coder.registered_filters).to eq(user_query_coder.registered_filters)
-    end
-
-    it "round-trips a UserQuery filter through the database" do
-      filter = UserQuery.new.filter_for(:name)
-      filter.operator = "~"
-      filter.values = ["alice"]
-
-      allocation = create(:resource_allocation,
-                          entity: work_package,
-                          principal_explicit: false,
-                          principal: nil,
-                          filter_name: "Alices",
-                          user_filter: [filter])
-
-      reloaded = described_class.find(allocation.id)
-      expect(reloaded.user_filter.size).to eq(1)
-      expect(reloaded.user_filter.first).to be_a(Queries::Users::Filters::NameFilter)
-      expect(reloaded.user_filter.first.operator).to eq("~")
-      expect(reloaded.user_filter.first.values).to eq(["alice"])
-    end
-
-    it "defaults to an empty array" do
-      allocation = create(:resource_allocation, entity: work_package, principal: owner)
-      expect(allocation.reload.user_filter).to eq([])
+    it "is absent for an explicit allocation" do
+      allocation = create(:resource_allocation, entity: work_package)
+      expect(allocation.reload.placeholder_user).to be_nil
+      expect(allocation).not_to be_filter_based
     end
 
     it "round-trips the custom-field filters from the :with_user_filter trait" do
       allocation = create(:resource_allocation, :with_user_filter, entity: work_package)
 
-      filters = allocation.reload.user_filter
+      filters = allocation.reload.placeholder_user.user_filter
       expect(filters.size).to eq(2)
 
       job_title = UserCustomField.find_by(name: "Job title")
@@ -777,17 +834,42 @@ RSpec.describe ResourceAllocation do
     context "when the assigned user has working hours configured" do
       shared_let(:working_hours) { create(:user_working_hours, user: assignee, valid_from: Date.new(2025, 1, 1)) }
 
-      it "returns the ids of the allocations in overbooked ranges" do
+      it "returns the ids of the allocations with time on an overbooked day" do
         fitting = allocation
         overbooked = overbooked_allocation
 
         expect(described_class.overbooked_ids([fitting, overbooked])).to eq(Set[overbooked.id])
       end
 
+      it "includes an allocation that fits on its own when it shares an overbooked day" do
+        full_week = allocation
+        one_hour = allocation(start_date: Date.new(2026, 1, 7), end_date: Date.new(2026, 1, 7), allocated_time: 60)
+
+        expect(described_class.overbooked_ids([full_week, one_hour])).to eq(Set[full_week.id, one_hour.id])
+      end
+
       it "is empty when every allocation fits" do
         fitting = allocation
 
         expect(described_class.overbooked_ids([fitting])).to be_empty
+      end
+
+      it "includes an allocation whose window has no working day" do
+        weekend = allocation(start_date: Date.new(2026, 1, 10), end_date: Date.new(2026, 1, 11), allocated_time: 60)
+
+        expect(described_class.overbooked_ids([weekend])).to eq(Set[weekend.id])
+      end
+
+      it "checks the allocations of several users in a single query" do
+        other = create(:user)
+        create(:user_working_hours, user: other, valid_from: Date.new(2025, 1, 1))
+        full_week = allocation
+        one_hour = allocation(start_date: Date.new(2026, 1, 7), end_date: Date.new(2026, 1, 7), allocated_time: 60)
+        full_week_of_other = allocation(principal: other)
+        allocations = [full_week, one_hour, full_week_of_other]
+
+        expect { described_class.overbooked_ids(allocations) }.to have_a_query_limit(1)
+        expect(described_class.overbooked_ids(allocations)).to eq(Set[full_week.id, one_hour.id])
       end
     end
 
@@ -798,8 +880,7 @@ RSpec.describe ResourceAllocation do
     end
 
     it "ignores filter-based allocations without an assigned user" do
-      filter = create(:resource_allocation,
-                      entity: work_package, principal_explicit: false, principal: nil, filter_name: "Developer")
+      filter = create(:resource_allocation, :with_user_filter, entity: work_package, filter_name: "Developer")
 
       expect(described_class.overbooked_ids([filter])).to be_empty
     end

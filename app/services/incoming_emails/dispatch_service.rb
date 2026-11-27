@@ -22,11 +22,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module IncomingEmails
   class DispatchService
     include ActionView::Helpers::SanitizeHelper
@@ -148,13 +148,13 @@ module IncomingEmails
 
     ##
     # Determine the actor for the email processing.
-    # If the user is not found, we will handle using the given unkown_user option
+    # If the user is not found, we will handle using the given unknown_user option
     def determine_actor
       if sender_email.present?
         @user = User.find_by_mail(sender_email)
       end
 
-      # If the user is still not set, we have to deal with an unkonwn user
+      # If the user is still not set, we have to deal with an unknown user
       if user.nil?
         handle_unknown_user
       end
@@ -173,7 +173,7 @@ module IncomingEmails
           log "could not create account for [#{sender_email}]", :error
         end
       else
-        # Default behaviour, emails from unknown users are ignored
+        # Default behavior, emails from unknown users are ignored
         log "ignoring email from unknown user [#{sender_email}]", report: false
       end
     end

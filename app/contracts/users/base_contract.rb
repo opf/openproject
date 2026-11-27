@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -60,6 +59,7 @@ module Users
     end
 
     validate :validate_password_writable
+    validate :validate_own_mail_change_confirmed
     validate :validate_identity_url_writable
     validate :existing_auth_source
 
@@ -86,8 +86,20 @@ module Users
     def current_password_valid?
       return true if model.password.blank?
 
+      current_password_input_valid?
+    end
+
+    def current_password_input_valid?
       provided_current_password = model.current_password_input
       provided_current_password.present? && model.check_password?(provided_current_password)
+    end
+
+    def validate_own_mail_change_confirmed
+      return unless model.mail_changed? && can_change_self? && (user.admin? || Setting.user_can_change_email?)
+      return unless OpenProject::Configuration.internal_password_confirmation?
+      return if current_password_input_valid?
+
+      errors.add :current_password, :invalid
     end
 
     def identity_url_writable?

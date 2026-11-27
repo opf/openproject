@@ -7,6 +7,9 @@ sidebar_navigation:
 # Install OpenProject with DEB/RPM packages
 
 > [!IMPORTANT]
+> New managed databases use PostgreSQL 18 and pgvector. Existing configured installations retain their PostgreSQL major version. See the [PostgreSQL 18 migration guide](../../misc/migration-to-postgresql18/) for upgrade and extension activation instructions.
+
+> [!IMPORTANT]
 > Package-based installations have been in maintenance mode since 2024. We will not build packages for new Linux versions, such as Debian 13 or Ubuntu 24.04. We will, however, keep releasing new package versions for the currently supported Linux versions until their EOL (end of life). We do not guarantee that packages remain available after the EOL of a distribution.
 > For new installations, we recommend [Docker Compose](../docker-compose/) or [Kubernetes with Helm](../helm-chart/). Some features, such as real-time collaborative editing, require components that are not bundled with the packages. If you are currently using packages, plan your migration to Docker Compose using the [packaged → Docker Compose migration guide](../../misc/packaged-docker-migration/), in particular if your distribution has reached EOL and packages are no longer available.
 
@@ -33,7 +36,6 @@ The package is available for the following Linux distributions:
 | Distribution (64 bits only)                 |
 |---------------------------------------------|
 | [Ubuntu 22.04 Jammy](#ubuntu-2204)          |
-| [Ubuntu 20.04 Focal](#ubuntu-2004)          |
 | [Debian 12 Bookworm](#debian-12)            |
 | [Debian 11 Bullseye](#debian-11)            |
 | [CentOS/RHEL 9.x](#centos-9--rhel-9)        |
@@ -71,7 +73,7 @@ Add the OpenProject package source:
 
 ```shell
 sudo curl -fsSL \
-  "https://packages.openproject.com/srv/opf/openproject/stable/17/installer/ubuntu/22.04.list" \
+  "https://packages.openproject.com/srv/opf/openproject/stable/18/installer/ubuntu/22.04.list" \
   -o /etc/apt/sources.list.d/openproject.list
 ```
 
@@ -91,45 +93,6 @@ apt-cache policy
 Then finish the installation by reading the [_Initial configuration_](#initial-configuration) section.
 
 <video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/openproject-installation-ubuntu.mp4"></video>
-
-### Ubuntu 20.04
-
-Update the `apt` package index and install packages to allow `apt` to use a repository over HTTPS:
-
-```shell
-sudo apt-get update
-sudo apt-get install apt-transport-https ca-certificates curl
-```
-
-Import the PGP key used to sign our packages:
-
-```shell
-sudo curl -fsSL "https://packages.openproject.com/srv/deb/opf/openproject/gpg-key.gpg" \
-  -o /usr/share/keyrings/openproject.gpg
-```
-
-Add the OpenProject package source:
-
-```shell
-sudo curl -fsSL \
-  "https://packages.openproject.com/srv/opf/openproject/stable/17/installer/ubuntu/20.04.list" \
-  -o /etc/apt/sources.list.d/openproject.list
-```
-
-Download the OpenProject package:
-
-```shell
-sudo apt-get update
-sudo apt-get install openproject
-```
-
-Verify the repository is configured correctly:
-
-```shell
-apt-cache policy
-```
-
-Then finish the installation by reading the [_Initial configuration_](#initial-configuration) section.
 
 ## Debian Installation
 
@@ -154,7 +117,7 @@ Add the OpenProject package source:
 
 ```shell
 sudo curl -fsSL \
-  "https://packages.openproject.com/srv/opf/openproject/stable/17/installer/debian/12.list" \
+  "https://packages.openproject.com/srv/opf/openproject/stable/18/installer/debian/12.list" \
   -o /etc/apt/sources.list.d/openproject.list
 ```
 
@@ -194,7 +157,7 @@ Add the OpenProject package source:
 
 ```shell
 sudo curl -fsSL \
-  "https://packages.openproject.com/srv/opf/openproject/stable/17/installer/debian/11.list" \
+  "https://packages.openproject.com/srv/opf/openproject/stable/18/installer/debian/11.list" \
   -o /etc/apt/sources.list.d/openproject.list
 ```
 
@@ -240,7 +203,7 @@ Add the OpenProject repository:
 
 ```shell
 sudo curl -fsSL \
-  "https://packages.openproject.com/srv/opf/openproject/stable/17/installer/el/9.repo" \
+  "https://packages.openproject.com/srv/opf/openproject/stable/18/installer/el/9.repo" \
   -o /etc/yum.repos.d/openproject.repo
 ```
 
@@ -274,7 +237,7 @@ Add the OpenProject package source:
 
 ```shell
 sudo curl -o /etc/zypp/repos.d/openproject.repo \
-  "https://packages.openproject.com/srv/opf/openproject/stable/17/installer/sles/15.repo"
+  "https://packages.openproject.com/srv/opf/openproject/stable/18/installer/sles/15.repo"
 ```
 
 If you already had an old package source that is being updated you must refresh
@@ -341,7 +304,6 @@ You can find more about the BIM edition on [this page](https://www.openproject.o
 >
 > - RHEL/CentOS 9
 > - Ubuntu 22.04
-> - Ubuntu 20.04
 > - Debian 11
 >
 > On older distributions, this wizard step won't be displayed, and the installation will default to the default edition.
@@ -403,6 +365,9 @@ Enter the fully qualified domain (FQDN) where your OpenProject installation will
 ![02b-hostname](02b-hostname.png)
 
 #### Server path prefix
+
+> [!WARNING]
+> Deploying OpenProject in a subdirectory has security limitations. See [Browser data after logout](../../../security-and-privacy/statement-on-security/#browser-data-after-logout) in our statement on security.
 
 If you wish to install OpenProject under a server path prefix, such as `yourdomain.example.com/openproject`, please specify that prefix here with a leading slash. For example: `/openproject`. If OpenProject should respond to `http(s)://yourdomain.example.com` as specified in the previous dialog, simply leave this dialog empty and confirm by pressing `ENTER`.
 

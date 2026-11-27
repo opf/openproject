@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -22,20 +22,43 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 module Documents
   module Admin
     module DocumentTypes
-      class IndexComponent < ::Admin::Enumerations::IndexComponent
+      class IndexComponent < ApplicationComponent
+        include OpPrimer::ComponentHelpers
+        include OpTurbo::Streamable
+
+        def initialize(enumerations:)
+          super()
+          @enumerations = enumerations
+        end
+
+        private
+
+        attr_reader :enumerations
+
         alias_method :document_types, :enumerations
 
-        def item_component_class
-          ::Documents::Admin::DocumentTypes::ItemComponent
+        def wrapper_data_attributes
+          {
+            controller: "sortable-lists",
+            sortable_lists_move_url_template_value: move_url_template,
+            sortable_lists_sortable_lists__list_outlet: "##{wrapper_key} [data-controller~='sortable-lists--list']",
+            sortable_lists_sortable_lists__item_outlet: "##{wrapper_key} [data-controller~='sortable-lists--item']"
+          }
+        end
+
+        # Built from the route helper with a sentinel so relative-URL-root
+        # installations keep working; {id} is expanded client-side.
+        def move_url_template
+          id_placeholder = "__id__"
+          move_admin_settings_document_type_path(id_placeholder).sub(id_placeholder, "{id}")
         end
       end
     end

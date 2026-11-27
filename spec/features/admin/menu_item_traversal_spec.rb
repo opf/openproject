@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -76,6 +75,10 @@ RSpec.describe "Menu item traversal" do
         expect(page).to have_no_text(I18n.t(:notice_not_authorized))
         expect(page).to have_css "#menu-sidebar .selected"
       }
+    end
+
+    before do
+      create(:internal_wiki_provider) # necessary for successful traversal (normally it's seeded)
     end
 
     it "checks for authorized status for all links" do

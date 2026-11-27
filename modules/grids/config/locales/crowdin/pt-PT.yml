@@ -31,7 +31,7 @@ pt-PT:
         title: Membros
         view_all_members: Ver todos os membros
         x_more:
-          one: e mais um membro.
+          one: and %{count} more member.
           other: e mais %{count} membros.
       news:
         no_results: Não há novidades a reportar.

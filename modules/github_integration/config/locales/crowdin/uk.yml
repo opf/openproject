@@ -53,7 +53,7 @@ uk:
     changed_files_count: Змінені файли
     comments_count: Кількість коментарів
     deletions_count: Кількість видалень
-    github: Ідентифікатор GitHub
+    github: GitHub identifier
     github_app_owner_avatar_url: URL-адреса аватара власника
     github_avatar_url: URL-адреса аватара
     github_html_url: URL-адреса запиту на злиття

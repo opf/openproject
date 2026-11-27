@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -40,6 +39,27 @@ RSpec.describe Backlogs::SprintReports::PageHeaderComponent, type: :component do
 
   it "shows the sprint report title" do
     expect(rendered_component).to have_css(".PageHeader-title", text: "Sprint 42 report")
+  end
+
+  it "truncates the title to a single line with an expander, using only inline elements inside the heading" do
+    expect(rendered_component).to have_css(
+      "h2.PageHeader-title.min-width-0 > span[data-controller='expandable-text'] > span.Truncate > span.Truncate-text",
+      text: "Sprint 42 report"
+    )
+    expect(rendered_component).to have_css("h2.PageHeader-title .hidden-text-expander", visible: :hidden)
+    expect(rendered_component).to have_no_css("h2.PageHeader-title div", visible: :all)
+  end
+
+  it "opens the full title in a dialog rendered outside the heading" do
+    expect(rendered_component).to have_css(
+      "h2.PageHeader-title button[data-show-dialog-id='sprint-#{sprint.id}-report-title-dialog']", visible: :all
+    )
+    expect(rendered_component).to have_css(
+      "dialog#sprint-#{sprint.id}-report-title-dialog",
+      text: "Sprint 42 report",
+      visible: :all
+    )
+    expect(rendered_component).to have_no_css("h2.PageHeader-title dialog", visible: :all)
   end
 
   describe "breadcrumbs" do

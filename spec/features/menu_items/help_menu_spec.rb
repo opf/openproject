@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -43,6 +42,7 @@ RSpec.describe "Help menu items", :js do
     it "renders a dropdown" do
       visit home_path
 
+      expect(help_item[:accesskey]).to eq("6")
       help_item.click
 
       within help_menu_dropdown_selector do
@@ -73,6 +73,7 @@ RSpec.describe "Help menu items", :js do
       visit home_path
 
       expect(help_item[:href]).to eq(custom_url)
+      expect(help_item[:accesskey]).to eq("6")
       expect(page).to have_no_css(help_menu_dropdown_selector, visible: :hidden)
     end
   end

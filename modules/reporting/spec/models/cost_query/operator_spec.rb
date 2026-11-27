@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -402,6 +401,26 @@ RSpec.describe CostQuery::Operator, :reporting_query_helper do
     arities = { "t" => 0, "w" => 0, "<>d" => 2, ">d" => 1 }
     arities.each do |o, a|
       it("#{o} should take #{a} values") { expect(o.to_operator.arity).to eq(a) }
+    end
+  end
+
+  describe "#validate" do
+    let(:operator) { "<>d".to_operator }
+
+    it "accepts both dates" do
+      expect(operator.validate(["2026-10-01", "2026-10-31"])).to be_empty
+    end
+
+    it "accepts no values at all" do
+      expect(operator.validate([])).to be_empty
+    end
+
+    it "rejects a single date" do
+      expect(operator.validate(["2026-10-01"])).to eq(missing_values: [2])
+    end
+
+    it "rejects a blank second date" do
+      expect(operator.validate(["2026-10-01", ""])).to eq(missing_values: [2])
     end
   end
 end

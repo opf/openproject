@@ -20,19 +20,19 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, HostListener, Injector, Input, OnInit, Output, inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector, input, output, inject, DestroyRef, signal, computed, effect, untracked } from '@angular/core';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import {
   WorkPackageViewFocusService,
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { filter } from 'rxjs/operators';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { HAL_NEW_RESOURCE_ID } from 'core-app/features/hal/helpers/is-new-resource';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
@@ -44,33 +44,30 @@ import {
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
 import { EditForm } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
-import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
-import {
-  inlineCreateCancelClassName,
-  InlineCreateRowBuilder,
-  inlineCreateRowClassName,
-} from './inline-create-row-builder';
+import { InlineCreateRowBuilder, inlineCreateRowClassName } from './inline-create-row-builder';
+import { InlineCreateCancelButton } from './inline-create-cancel-button';
 import { WorkPackageCreateService } from '../wp-new/wp-create.service';
+import { inlineCreateRowKey } from 'core-app/features/work-packages/components/wp-fast-table/row-keys';
 import { WorkPackageTable } from '../wp-fast-table/wp-fast-table';
-import { onClickOrEnter } from '../wp-fast-table/handlers/click-or-enter-handler';
 import {
   HalResourceEditingService,
 } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
-import { delegate, DelegateEvent } from '@knowledgecode/delegate';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[wpInlineCreate]',
   templateUrl: './wp-inline-create.component.html',
   standalone: false,
-  // TODO: This component has been partially migrated to be zoneless-compatible.
-  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
-  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Eager,
+  host: {
+    '(keydown.escape)': 'cancelOnEscape($event)',
+  },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit {
+export class WorkPackageInlineCreateComponent implements AfterViewInit {
   readonly injector = inject(Injector);
-  protected readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  protected readonly elementRef = inject<ElementRef<HTMLTableSectionElement>>(ElementRef);
   protected readonly schemaCache = inject(SchemaCacheService);
   protected readonly I18n = inject(I18nService);
   protected readonly querySpace = inject(IsolatedQuerySpace);
@@ -82,98 +79,96 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
   protected readonly halEditing = inject(HalResourceEditingService);
   protected readonly authorisationService = inject(AuthorisationService);
 
-  @Input() colspan:number;
+  readonly colspan = input.required<number>();
 
-  @Input() table:WorkPackageTable;
+  readonly table = input.required<WorkPackageTable>();
 
-  @Input() projectIdentifier:string;
+  readonly projectIdentifier = input<string|null|undefined>();
 
-  @Output() showing = new EventEmitter<boolean>();
+  readonly showing = output<boolean>();
 
-  // inner state
-  public canAdd = false;
+  private readonly destroyRef = inject(DestroyRef);
 
-  public canReference = false;
+  private readonly viewReady = signal(false);
+
+  private readonly permissions = toSignal(
+    combineLatest({ canAdd: this.wpInlineCreate.canAdd, canReference: this.wpInlineCreate.canReference }),
+    { initialValue: { canAdd: false, canReference: false } },
+  );
+
+  readonly canAdd = computed(() => this.permissions().canAdd);
+
+  readonly canReference = computed(() => this.hasReferenceClass && this.permissions().canReference);
+
+  private lastShowing?:boolean;
+
+  private creationRequest = 0;
+
+  private activationTimer?:ReturnType<typeof setTimeout>;
+
+  private resetTimer?:ReturnType<typeof setTimeout>;
 
   // Inline create / reference row is active
-  public mode:'inactive'|'create'|'reference' = 'inactive';
+  private readonly modeValue = signal<'inactive'|'create'|'reference'>('inactive');
+
+  readonly mode = this.modeValue.asReadonly();
+
+  readonly isActive = computed(() => this.mode() !== 'inactive');
 
   public focus = false;
+
+  public focusTarget:'create'|'reference' = 'create';
 
   public text = this.wpInlineCreate.buttonTexts;
 
   private currentWorkPackage:WorkPackageResource|null;
 
-  private workPackageEditForm:EditForm|undefined;
-
   private editingSubscription:Subscription|undefined;
 
-  private element:HTMLElement;
+  private readonly element = this.elementRef.nativeElement;
 
-  get isActive():boolean {
-    return this.mode !== 'inactive';
-  }
+  private cancelButton:InlineCreateCancelButton|null = null;
 
-  ngOnInit() {
-    this.element = this.elementRef.nativeElement;
+  constructor() {
+    effect((onCleanup) => {
+      this.table();
+      onCleanup(() => {
+        this.invalidateCreation();
+        this.currentWorkPackage = null;
+        this.modeValue.set('inactive');
+        this.element.querySelector('.wp-row-new')?.remove();
+        this.destroyCancelButton();
+      });
+    });
+
+    effect(() => {
+      if (!this.viewReady()) return;
+      this.table();
+      this.colspan();
+      const canAdd = this.canAdd();
+      const canReference = this.canReference();
+      const showing = canAdd || canReference;
+      untracked(() => {
+        this.mutateRow(() => {
+          this.cdRef.detectChanges();
+        });
+        if (this.lastShowing !== showing) {
+          this.lastShowing = showing;
+          this.showing.emit(showing);
+        }
+      });
+    });
   }
 
   ngAfterViewInit():void {
-    combineLatest([
-      this.wpInlineCreate.canAdd,
-      this.wpInlineCreate.canReference,
-    ])
-      .pipe(
-        this.untilDestroyed(),
-      )
-      .subscribe(([canAdd, canReference]) => {
-        this.canAdd = canAdd;
-        this.canReference = this.hasReferenceClass && canReference;
-        this.cdRef.detectChanges();
-        this.showing.emit(this.canAdd || this.canReference);
-      });
+    this.viewReady.set(true);
 
     // Register callback on newly created work packages
     this.registerCreationCallback();
 
-    // Watch on this scope when the columns change and refresh this row
-    this.refreshOnColumnChanges();
-
-    // Cancel edition of current new row
-    this.registerCancelHandler();
-  }
-
-  /**
-   * Reset the inline creation row on the cancel button,
-   * which is dynamically inserted into the action row by the inline create renderer.
-   */
-  private registerCancelHandler() {
-    const handler = (evt:DelegateEvent) => {
-      onClickOrEnter(evt.originalEvent, () => {
-        this.resetRow();
-      });
-
-      evt.stopImmediatePropagation();
-      return false;
-    };
-
-    delegate(this.element)
-      .on('click', `.${inlineCreateCancelClassName}`, handler)
-      .on('keydown', `.${inlineCreateCancelClassName}`, handler);
-  }
-
-  /**
-   * Since the table is refreshed imperatively whenever columns are changed,
-   * we need to manually ensure the inline create row gets refreshed as well.
-   */
-  private refreshOnColumnChanges() {
-    this.wpTableColumns
-      .updates$()
-      .pipe(
-        filter(() => this.isActive), // Take only when row is inserted
-        this.untilDestroyed(),
-      )
-      .subscribe(() => this.refreshRow());
+    this.wpTableColumns.updates$()
+      .pipe(takeUntilDestroyed(this.destroyRef), filter(() => this.isActive()))
+      .subscribe(() => untracked(() => this.refreshRow()));
   }
 
   /**
@@ -184,17 +179,19 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
     this.wpCreate
       .onNewWorkPackage()
       .pipe(
-        this.untilDestroyed(),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe((wp:WorkPackageResource) => {
-        // eslint-disable-next-line no-underscore-dangle
+        if (this.table().destroyed) return;
         if (this.currentWorkPackage?.__initialized_at === wp.__initialized_at) {
           // Remove row and focus
           this.resetRow();
 
+          this.table().keyboardNavigation.rememberWorkPackageAfterRender(wp.id!);
+
           // Split view on the last inserted id if any
-          if (!this.table.configuration.isEmbedded) {
-            this.wpTableFocus.updateFocus(wp.id!);
+          if (!this.table().configuration.isEmbedded && this.table().configuration.selectionEnabled) {
+            this.wpTableFocus.initializeSelectionAndFocus(wp.id!);
           }
 
           // Notify inline create service
@@ -211,12 +208,15 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
   }
 
   public handleAddRowClick() {
+    this.focusTarget = 'create';
     this.addWorkPackageRow();
     return false;
   }
 
   public handleReferenceClick() {
-    this.mode = 'reference';
+    this.focusTarget = 'reference';
+    this.modeValue.set('reference');
+    this.mutateRow(() => this.cdRef.detectChanges());
     return false;
   }
 
@@ -229,18 +229,26 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
   }
 
   public addWorkPackageRow() {
-    this.wpCreate
-      .createOrContinueWorkPackage(this.projectIdentifier)
+    if (this.element.querySelector(`.${inlineCreateRowClassName}`)) return;
+    this.invalidateCreation();
+    const request = this.creationRequest;
+    const table = this.table();
+    if (table.destroyed || this.destroyRef.destroyed) return;
+    void this.wpCreate
+      .createOrContinueWorkPackage(this.projectIdentifier())
       .then((change:WorkPackageChangeset) => {
+        if (!this.isCurrentCreation(request, table)) return;
         const wp = this.currentWorkPackage = change.projectedResource;
 
-        change
-          .state
-          ?.values$()
-          .pipe(filter(() => !!this.currentWorkPackage))
+        this.editingSubscription = change.state?.values$()
+          .pipe(
+            takeUntilDestroyed(this.destroyRef),
+            takeUntilDestroyed(table.destroyRef),
+            filter(() => this.isCurrentCreation(request, table) && !!this.currentWorkPackage),
+          )
           .subscribe((form) => {
-            if (!this.isActive) {
-              this.insertRow(wp);
+            if (!this.element.querySelector(`.${inlineCreateRowClassName}`)) {
+              this.insertRow(wp, request, table);
             } else {
               this.schemaCache.update(this.currentWorkPackage!, form.schema);
               this.refreshRow();
@@ -249,30 +257,40 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
       });
   }
 
-  private insertRow(wp:WorkPackageResource) {
-    // Actually render the row
-    this.workPackageEditForm = this.renderInlineCreateRow(wp);
-    const form = this.workPackageEditForm;
+  private insertRow(wp:WorkPackageResource, request:number, table:WorkPackageTable) {
+    const form = this.renderInlineCreateRow(wp);
 
-    setTimeout(() => {
-      // Activate any required fields
+    clearTimeout(this.activationTimer);
+    this.activationTimer = setTimeout(() => {
+      if (!this.isCurrentCreation(request, table)) return;
       void form.activateMissingFields().then((activeFields) => {
-        if (activeFields.length === 0) {
+        if (this.isCurrentCreation(request, table) && activeFields.length === 0) {
           void form.submit();
         }
       });
-
-      // Hide the button row
       this.hideRow();
     });
   }
 
+  private isCurrentCreation(request:number, table:WorkPackageTable):boolean {
+    return request === this.creationRequest && !this.destroyRef.destroyed
+      && !table.destroyed && this.table() === table;
+  }
+
+  private invalidateCreation():void {
+    this.creationRequest += 1;
+    this.editingSubscription?.unsubscribe();
+    this.editingSubscription = undefined;
+    clearTimeout(this.activationTimer);
+    clearTimeout(this.resetTimer);
+  }
+
   private refreshRow() {
-    const builder = new InlineCreateRowBuilder(this.injector, this.table);
+    const builder = new InlineCreateRowBuilder(this.injector, this.table(), this.ensureCancelButton());
     const rowElement = this.element.querySelector<HTMLTableRowElement>(`.${inlineCreateRowClassName}`);
 
     if (rowElement && this.currentWorkPackage) {
-      builder.refreshRow(this.currentWorkPackage, rowElement);
+      this.mutateRow(() => builder.refreshRow(this.currentWorkPackage!, rowElement));
     }
   }
 
@@ -284,45 +302,77 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
    * @returns The work package form of the row
    */
   private renderInlineCreateRow(wp:WorkPackageResource):EditForm {
-    const builder = new InlineCreateRowBuilder(this.injector, this.table);
-    const form = this.table.editing.startEditing(wp, builder.classIdentifier(wp));
+    const builder = new InlineCreateRowBuilder(this.injector, this.table(), this.ensureCancelButton());
+    const form = this.table().editing.startEditing(wp, builder.classIdentifier(wp));
 
     const [row] = builder.buildNew(wp, form);
-    this.element.append(row);
+    this.mutateRow(() => this.element.append(row));
 
     return form;
+  }
+
+  public cancelOnEscape(event:Event) {
+    if (this.mode() === 'inactive' || event.defaultPrevented) {
+      return;
+    }
+
+    event.preventDefault();
+    this.resetRow();
   }
 
   /**
    * Reset the new work package row and refocus on the button
    */
-  @HostListener('keydown.escape')
   public resetRow() {
     this.focus = true;
     this.removeWorkPackageRow();
     // Manually cancelled, show the row again
-    setTimeout(() => {
+    const request = this.creationRequest;
+    const table = this.table();
+    this.resetTimer = setTimeout(() => {
+      if (!this.isCurrentCreation(request, table)) return;
       this.showRow();
       this.cdRef.detectChanges();
     }, 50);
   }
 
   public removeWorkPackageRow() {
+    this.invalidateCreation();
     this.wpCreate.cancelCreation();
     this.currentWorkPackage = null;
-    this.element.querySelector('.wp-row-new')?.remove();
-    if (this.editingSubscription) {
-      this.editingSubscription.unsubscribe();
-    }
+    this.table().editing.stopEditing(HAL_NEW_RESOURCE_ID);
+    this.mutateRow(() => this.element.querySelector('.wp-row-new')?.remove());
+    this.destroyCancelButton();
+  }
+
+  private ensureCancelButton():InlineCreateCancelButton {
+    this.cancelButton ??= new InlineCreateCancelButton(
+      this.injector,
+      this.I18n.t('js.button_cancel'),
+      () => this.resetRow(),
+    );
+    return this.cancelButton;
+  }
+
+  private destroyCancelButton():void {
+    this.cancelButton?.destroy();
+    this.cancelButton = null;
   }
 
   public showRow() {
-    this.mode = 'inactive';
-    this.cdRef.detectChanges();
+    this.modeValue.set('inactive');
+    this.mutateRow(() => this.cdRef.detectChanges());
+    this.focus = false;
   }
 
   public hideRow() {
-    this.mode = 'create';
-    this.cdRef.detectChanges();
+    this.modeValue.set('create');
+    this.mutateRow(() => this.cdRef.detectChanges());
+  }
+
+  private mutateRow(change:() => void):void {
+    const table = this.table();
+    if (table.destroyed || this.destroyRef.destroyed) return;
+    untracked(() => table.mutate(new Set([inlineCreateRowKey]), change));
   }
 }

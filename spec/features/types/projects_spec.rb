@@ -22,15 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 require "spec_helper"
 
-RSpec.describe "Work package type projects tab", :js, with_flag: { type_variants: true } do
+RSpec.describe "Work package type projects tab", :js do
   shared_let(:admin) { create(:admin) }
   shared_let(:type) { create(:type, name: "Bug") }
   shared_let(:hardware) { create(:type_variant, type:, variant_name: "Hardware") }
@@ -76,15 +75,37 @@ RSpec.describe "Work package type projects tab", :js, with_flag: { type_variants
     end
   end
 
-  def current_url_filters
-    Rack::Utils.parse_query(URI(page.current_url).query).fetch("filters", "")
+  def url_filters_including(*names)
+    a_hash_including("filters" => a_string_including(*names.map { /\b#{Regexp.escape(it)}\b/ }))
+  end
+
+  def in_project_row(project, &)
+    page.within_test_selector("type-projects-row-#{project.id}", &)
+  end
+
+  def in_project_hover_card(project, &)
+    page.within_test_selector("project-hover-card-#{project.id}", wait: 5, &)
+  end
+
+  context "when showing hover cards" do
+    it "shows more information when hovering over a project name" do
+      visit edit_type_projects_path(type_id: type.id)
+
+      in_project_row(on_hardware) do |row|
+        row.find("a", text: on_hardware.name).hover
+      end
+
+      in_project_hover_card(on_hardware) do
+        expect(page).to have_heading(text: on_hardware.name, level: 2)
+      end
+    end
   end
 
   it "lists every variant's projects at type level and narrows to one inside a variant" do
     visit edit_type_projects_path(type_id: type.id)
     expect_listed(on_base, on_hardware, on_firmware)
 
-    visit edit_type_projects_path(type_id: type.id, variant_id: hardware.id)
+    visit edit_type_variant_projects_path(type_id: type.id, variant_id: hardware.id)
     expect_listed(on_hardware)
   end
 
@@ -95,7 +116,7 @@ RSpec.describe "Work package type projects tab", :js, with_flag: { type_variants
     search_projects("Labor")
 
     expect_listed(on_firmware)
-    expect(current_url_filters).to include("name_and_identifier")
+    expect(page).to have_current_query_params(url_filters_including("name_and_identifier"))
   end
 
   it "narrows the table to the variants picked in the quick filter" do
@@ -104,7 +125,7 @@ RSpec.describe "Work package type projects tab", :js, with_flag: { type_variants
     keep_only(firmware)
 
     expect_listed(on_firmware)
-    expect(current_url_filters).to include("type_variant_id")
+    expect(page).to have_current_query_params(url_filters_including("type_variant_id"))
   end
 
   # The two controls write the one filters param, so each has to narrow what the other left rather
@@ -120,7 +141,7 @@ RSpec.describe "Work package type projects tab", :js, with_flag: { type_variants
       expect(page).to have_text(I18n.t("types.edit.projects.empty_state.no_results"))
     end
     expect_listed
-    expect(current_url_filters).to include("name_and_identifier", "type_variant_id")
+    expect(page).to have_current_query_params(url_filters_including("name_and_identifier", "type_variant_id"))
   end
 
   it "keeps the typed name when a variant is picked afterwards" do
@@ -134,7 +155,7 @@ RSpec.describe "Work package type projects tab", :js, with_flag: { type_variants
     keep_only(firmware)
 
     expect_listed(on_firmware)
-    expect(current_url_filters).to include("name_and_identifier", "type_variant_id")
+    expect(page).to have_current_query_params(url_filters_including("name_and_identifier", "type_variant_id"))
   end
 
   it "keeps the picked variants when the name is cleared again" do
@@ -151,8 +172,8 @@ RSpec.describe "Work package type projects tab", :js, with_flag: { type_variants
     find_by_id("type-projects-filters-clear-button").click
 
     expect_listed(on_hardware)
-    expect(current_url_filters).to include("type_variant_id")
-    expect(current_url_filters).not_to include("name_and_identifier")
+    expect(page).to have_current_query_params(url_filters_including("type_variant_id"))
+    expect(page).to have_no_current_query_params(url_filters_including("name_and_identifier"))
   end
 
   it "says nothing matched rather than inviting an add, once a search has been made" do
@@ -169,7 +190,7 @@ RSpec.describe "Work package type projects tab", :js, with_flag: { type_variants
   def add_projects(project, include_sub_items:)
     find_test_selector("type-projects-add-button").click
 
-    within("##{WorkPackageTypes::ProjectsTab::AddFormComponent::DIALOG_ID}") do
+    within_test_selector(WorkPackageTypes::ProjectsTab::AddFormComponent::DIALOG_ID) do
       check I18n.t("filterable_tree_view.include_sub_items") if include_sub_items
       find("[role='treeitem'][data-node-id='#{project.id}']").click
       click_link_or_button I18n.t(:button_add)
@@ -181,13 +202,13 @@ RSpec.describe "Work package type projects tab", :js, with_flag: { type_variants
   end
 
   it "adds a parent with its sub-projects when one of them is already on the variant" do
-    visit edit_type_projects_path(type_id: type.id, variant_id: hardware.id)
+    visit edit_type_variant_projects_path(type_id: type.id, variant_id: hardware.id)
 
     add_projects_including_sub_items(parent)
 
     expect_flash(message: I18n.t(:notice_successful_update))
 
-    expect(page).to have_no_css("##{WorkPackageTypes::ProjectsTab::AddFormComponent::DIALOG_ID}", visible: :visible)
+    expect(page).to have_no_test_selector(WorkPackageTypes::ProjectsTab::AddFormComponent::DIALOG_ID)
 
     within "#project-table" do
       expect(page).to have_text(parent.name)
@@ -197,6 +218,33 @@ RSpec.describe "Work package type projects tab", :js, with_flag: { type_variants
     expect(parent.reload.type_variant(type)).to eq(hardware)
   end
 
+  it "asks before moving a project off another variant, back to the picker if cancelled" do
+    visit edit_type_variant_projects_path(type_id: type.id, variant_id: hardware.id)
+
+    add_projects(on_firmware, include_sub_items: false)
+
+    within_test_selector(WorkPackageTypes::ProjectsTab::SwitchConfirmDialogComponent::DIALOG_ID) do
+      expect(page).to have_text("Laboratory").and have_text("Firmware")
+      click_link_or_button "Cancel"
+    end
+
+    within_test_selector(WorkPackageTypes::ProjectsTab::AddFormComponent::DIALOG_ID) do
+      expect(page).to have_css("[role='treeitem'][data-node-id='#{on_firmware.id}'][aria-checked='true']")
+      click_link_or_button "Add"
+    end
+
+    within_test_selector(WorkPackageTypes::ProjectsTab::SwitchConfirmDialogComponent::DIALOG_ID) do
+      click_link_or_button "Change"
+    end
+
+    expect_flash(message: I18n.t(:notice_successful_update))
+    expect(page).to have_no_test_selector(WorkPackageTypes::ProjectsTab::SwitchConfirmDialogComponent::DIALOG_ID)
+    expect(page).to have_no_test_selector(WorkPackageTypes::ProjectsTab::AddFormComponent::DIALOG_ID)
+    within("#project-table") { expect(page).to have_text(on_firmware.name) }
+
+    expect(on_firmware.reload.type_variant(type)).to eq(hardware)
+  end
+
   describe "enabling the type in all projects" do
     shared_let(:elsewhere) { create(:project, name: "Warehouse") }
 
@@ -204,6 +252,11 @@ RSpec.describe "Work package type projects tab", :js, with_flag: { type_variants
       visit edit_type_projects_path(type_id: type.id)
 
       click_link_or_button I18n.t("types.edit.projects.enable_all")
+
+      within_test_selector(WorkPackageTypes::ProjectsTab::SwitchConfirmDialogComponent::DIALOG_ID) do
+        expect(page).to have_text("Foundry").and have_text("Laboratory")
+        click_link_or_button "Change"
+      end
 
       expect(page).to have_test_selector("type-projects-enable-all",
                                          text: I18n.t("types.edit.projects.disable_all"))
@@ -221,7 +274,7 @@ RSpec.describe "Work package type projects tab", :js, with_flag: { type_variants
     outside = create(:project, name: "Shipyard")
     inside = create(:project, name: "Annex", parent: outside)
 
-    visit edit_type_projects_path(type_id: type.id, variant_id: hardware.id)
+    visit edit_type_variant_projects_path(type_id: type.id, variant_id: hardware.id)
 
     add_projects(outside, include_sub_items: false)
 
@@ -240,7 +293,7 @@ RSpec.describe "Work package type projects tab", :js, with_flag: { type_variants
     visit edit_type_projects_path(type_id: type.id)
     expect(page).to have_test_selector("quick-filter-select-panel-button")
 
-    visit edit_type_projects_path(type_id: type.id, variant_id: hardware.id)
+    visit edit_type_variant_projects_path(type_id: type.id, variant_id: hardware.id)
     expect(page).to have_no_test_selector("quick-filter-select-panel-button")
     expect(page).to have_test_selector("type-projects-add-button")
   end

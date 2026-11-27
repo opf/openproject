@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -44,6 +43,14 @@ RSpec.describe("Activation of storages in projects",
                :webmock,
                with_settings: { notifications_polling_interval: 1_000 }) do
   include Flash::Expectations
+
+  include_context "with axe on Cuprite"
+
+  def open_delete_dialog
+    delete_selector = "a.icon-delete[title='#{I18n.t(:button_delete)}']"
+    delete_link = wait_for_stimulus_controller(delete_selector, "async-dialog", wait: 20)
+    wait_for_turbo_stream(wait: 20) { delete_link.click }
+  end
 
   let(:user) { create(:user) }
   # The first page is the Project -> Settings -> General page, so we need
@@ -128,6 +135,10 @@ RSpec.describe("Activation of storages in projects",
       location_picker.enter_folder("Folder1")
       location_picker.wait_for_folder_loaded
     end
+    page.within(location_picker.container) do
+      expect(page).to have_button(accessible_name: storage.name, exact: true)
+    end
+    expect(page).to be_axe_clean.within("spot-breadcrumbs")
     location_picker.confirm
 
     # Add storage
@@ -174,7 +185,7 @@ RSpec.describe("Activation of storages in projects",
     expect(page).to have_current_path external_file_storages_project_settings_project_storages_path(project)
 
     # Press Delete icon to remove the storage from the project
-    page.find(".icon.icon-delete").click
+    open_delete_dialog
 
     within_test_selector("op-project-storages--delete-dialog") do
       expect(page).to have_text("Delete file storage")
@@ -188,12 +199,12 @@ RSpec.describe("Activation of storages in projects",
     expect(page).to have_current_path external_file_storages_project_settings_project_storages_path(project)
     expect(page).to have_text(storage.name)
 
-    page.find(".icon.icon-delete").click
+    open_delete_dialog
 
     within_test_selector("op-project-storages--delete-dialog") do
       # Approve Confirmation
       page.check "I understand that this removal cannot be reversed."
-      page.click_button("Remove permanently")
+      page.click_button("Remove permanently", wait: 20)
     end
 
     # List of ProjectStorages empty again
@@ -210,7 +221,8 @@ RSpec.describe("Activation of storages in projects",
       it "automatic option is not available" do
         visit edit_project_settings_project_storage_path(project_id: project, id: project_storage)
 
-        expect(page).to have_no_content("New folder with automatically managed permissions")
+        expect(page).to have_text("Edit the file storage to this project")
+        expect(page).to have_no_text("New folder with automatically managed permissions")
       end
     end
 
@@ -222,7 +234,7 @@ RSpec.describe("Activation of storages in projects",
       it "automatic option is available" do
         visit edit_project_settings_project_storage_path(project_id: project, id: project_storage)
 
-        expect(page).to have_content("New folder with automatically managed permissions")
+        expect(page).to have_text("New folder with automatically managed permissions")
       end
     end
   end
@@ -237,7 +249,7 @@ RSpec.describe("Activation of storages in projects",
         it "shows the option for manually managed permissions" do
           visit edit_project_settings_project_storage_path(project_id: project, id: project_storage)
 
-          expect(page).to have_content("Existing folder with manually managed permissions")
+          expect(page).to have_text("Existing folder with manually managed permissions")
         end
       end
 
@@ -253,7 +265,8 @@ RSpec.describe("Activation of storages in projects",
         it "shows no option for manually managed permissions" do
           visit edit_project_settings_project_storage_path(project_id: project, id: project_storage)
 
-          expect(page).to have_no_content("Existing folder with manually managed permissions")
+          expect(page).to have_text("Edit the file storage to this project")
+          expect(page).to have_no_text("Existing folder with manually managed permissions")
         end
       end
     end

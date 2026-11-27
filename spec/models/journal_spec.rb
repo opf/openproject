@@ -22,11 +22,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require "spec_helper"
 
 RSpec.describe Journal do
@@ -146,6 +146,73 @@ RSpec.describe Journal do
     it "raises no error on a new journal without a journable" do
       expect(described_class.new.journable)
         .to be_nil
+    end
+  end
+
+  describe "#render_detail" do
+    let(:journal) { build_stubbed(:work_package_journal) }
+    let(:field) { "some_field" }
+    let(:values) { [nil, "value"] }
+    let(:formatter) { instance_double(JournalFormatter::Base) }
+
+    before do
+      allow(journal).to receive(:lookup_formatter_config)
+        .with(field)
+        .and_return({ formatter_key: :some_formatter, view_permission: :some_permission })
+      allow(journal).to receive(:formatter_instance)
+        .with(:some_formatter)
+        .and_return(formatter)
+    end
+
+    context "when the formatter grants permission" do
+      before do
+        allow(formatter).to receive(:permission_granted?).with(:some_permission, key: field).and_return(true)
+        allow(formatter).to receive(:render).and_return("rendered detail")
+      end
+
+      it "renders the detail" do
+        expect(journal.render_detail([field, values])).to eq("rendered detail")
+      end
+    end
+
+    context "when the formatter denies permission" do
+      before do
+        allow(formatter).to receive(:permission_granted?).with(:some_permission, key: field).and_return(false)
+      end
+
+      # The denied message itself is JournalFormatter#render_permission_denied_message's
+      # concern (see below), not the formatter's, so #render_detail never calls the
+      # formatter for it.
+      it "renders the permission denied message instead of the detail" do
+        expect(journal.render_detail([field, values]))
+          .to be_html_safe.and eq("<em>#{I18n.t(:text_journal_permission_denied)}</em>")
+      end
+
+      it "does not call render" do
+        allow(formatter).to receive(:render)
+
+        journal.render_detail([field, values])
+
+        expect(formatter).not_to have_received(:render)
+      end
+    end
+  end
+
+  describe "#render_permission_denied_message" do
+    let(:journal) { build_stubbed(:work_package_journal) }
+
+    context "with html requested" do
+      it "wraps the message in an em tag" do
+        expect(journal.render_permission_denied_message(html: true))
+          .to be_html_safe.and eq("<em>#{I18n.t(:text_journal_permission_denied)}</em>")
+      end
+    end
+
+    context "without html requested" do
+      it "wraps the message in underscores" do
+        expect(journal.render_permission_denied_message(html: false))
+          .to eq("_#{I18n.t(:text_journal_permission_denied)}_")
+      end
     end
   end
 

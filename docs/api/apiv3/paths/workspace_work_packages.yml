@@ -2,7 +2,7 @@
 ---
 get:
   summary: Get work packages of workspace
-  operationId: Get_Workspace_Work_Package_Collection
+  operationId: get_workspace_work_package_collection
   tags:
     - Work Packages
   description: Returns the collection of work packages that are related to the given workspace.
@@ -113,7 +113,7 @@ get:
 
 post:
   summary: Create work package in workspace
-  operationId: Create_Workspace_Work_Package
+  operationId: create_workspace_work_package
   tags:
     - Work Packages
   description: |-
@@ -146,11 +146,14 @@ post:
         type: boolean
   responses:
     '200':
+      description: OK
       content:
         application/hal+json:
           schema:
             $ref: '../components/schemas/work_package_model.yml'
-      description: OK
+          examples:
+            response:
+              $ref: "../components/examples/work_package_simple_response.yml"
     '400':
       $ref: "../components/responses/invalid_request_body.yml"
     '403':

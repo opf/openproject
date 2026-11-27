@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -312,6 +311,35 @@ RSpec.describe WorkPackagesController do
         end
         call_action
       end
+    end
+  end
+
+  describe "generate_pdf" do
+    let(:role) { create(:project_role, permissions: %i[view_work_packages export_work_packages]) }
+    let(:pdf_result) do
+      instance_double(Exports::Result, content: "%PDF", title: "export.pdf", mime_type: "application/pdf")
+    end
+    let(:exporter_instance) { instance_double(WorkPackage::PDFExport::Artefact, export!: pdf_result) }
+
+    before do
+      create(:member, project:, principal: current_user, roles: [role])
+    end
+
+    it "exports with the exporter of the requested template" do
+      allow(WorkPackage::PDFExport::Artefact).to receive(:new).and_return(exporter_instance)
+
+      post("generate_pdf", params: { id: work_package.id.to_s, template: "artefact" })
+
+      expect(WorkPackage::PDFExport::Artefact).to have_received(:new).with(work_package, anything)
+      expect(response.media_type).to eq("application/pdf")
+    end
+
+    it "exports the attributes template when none is requested" do
+      allow(WorkPackage::PDFExport::WorkPackageToPdf).to receive(:new).and_return(exporter_instance)
+
+      post("generate_pdf", params: { id: work_package.id.to_s })
+
+      expect(WorkPackage::PDFExport::WorkPackageToPdf).to have_received(:new).with(work_package, anything)
     end
   end
 

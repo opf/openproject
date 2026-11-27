@@ -3,16 +3,37 @@ da:
   are_you_sure_delete_avatar: Er du sikker på, at du vil slette din avatar?
   avatar_deleted: Avataren er slettet.
   avatars:
-    label_avatar: Avatar
+    background_color_hint: Lad feltet stå tomt for en automatisk farve.
+    delete_image: Slet billede
+    edit_avatar: Rediger avatar
+    image_hint: Vælg en JPG-, PNG- eller GIF-fil. Billedet gemmes, når du vælger Gem.
+    image_required: Vælg et billede, eller vælg en anden avatarmulighed.
+    label_avatar_text: Avatartekst
+    label_background_color: Baggrundsfarve
     label_gravatar: Gravatar
     label_local_avatar: Tilpasset avatar
+    label_option: Avatarmulighed
+    manage_gravatar: Administrer dit billede på Gravatar
+    message_avatar_updated: Avataren er ændret.
+    preview: Eksempel
+    randomize_color: Vælg en tilfældig farve
     settings:
       enable_gravatars: Aktivér Gravatar for brugere
       enable_local_avatars: Aktivér tilpassede avatarer
       gravatar_default: Standardbillede fra Gravatar
-    text_avatar_gravatar_html: OpenProject bruger din Gravatar, hvis du har registreret en på %{gravatar_url}, ellers et standardbillede eller -ikon, hvis det findes.
-    text_avatar_local: Du kan også overføre en egen avatar, der tilsidesætter Gravataren, ved at klikke på billedet. Vi anbefaler et billede på 128 × 128 pixel.
-    text_avatar_local_only: Du kan overføre en egen avatar ved at klikke på billedet. Vi anbefaler et billede på 128 × 128 pixel.
+    text_avatar_text: Skriv op til to tegn. Lad feltet stå tomt for at bruge dine initialer.
+    text_invalid_error: Brug kun synlige tegn.
+    text_length_error: Skriv op til to tegn.
+    types:
+      gravatar:
+        description: Det billede, der er registreret til din e-mailadresse på Gravatar
+        label: Gravatar
+      image:
+        description: Et eget billede, som du kan overføre til denne installation
+        label: Billede
+      initials:
+        description: Brug dine initialer, eller erstat dem med op til to tegn.
+        label: Initialer
   empty_file_error: Overfør et gyldigt billede (jpg, png, gif)
   error_image_size: Billedet er for stort.
   error_image_upload: Billedet kunne ikke gemmes.

@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -33,7 +32,8 @@ export function addTurboEventListeners(doc:Document = document, signal?:AbortSig
   // Close the primer dialog when the form inside has been submitted with a success response.
   //
   // If you want to keep the dialog open even after a successful form submission, you can add the
-  // `data-keep-open-on-submit="true"` attribute to the dialog element.
+  // `data-keep-open-on-submit="true"` attribute to the dialog element, or to an element inside the
+  // dialog that contains the form.
   //
   // It is necessary to close the primer dialog using the `close()` method, otherwise
   // it will leave an overflow:hidden attribute on the body, which prevents scrolling on the page.
@@ -46,7 +46,8 @@ export function addTurboEventListeners(doc:Document = document, signal?:AbortSig
       const dialog = target.closest('dialog')!;
 
       if (dialog) {
-        if (dialog.dataset.keepOpenOnSubmit !== 'true') {
+        const keepOpen = target.closest<HTMLElement>('[data-keep-open-on-submit="true"]');
+        if (!keepOpen || !dialog.contains(keepOpen)) {
           dialog.close('close-event-already-dispatched');
           doc.dispatchEvent(new CustomEvent<DialogCloseDetail>('dialog:close', { detail: { dialog, submitted: true } }));
         }

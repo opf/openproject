@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -85,6 +84,19 @@ describe('Costs export controller', () => {
 
     await waitFor(() => {
       expect(addError).toHaveBeenCalledWith(new Error('network down'));
+    });
+  });
+
+  it('reports the server message when the export is refused', async () => {
+    vi.spyOn(window, 'fetch').mockResolvedValue(
+      new Response(JSON.stringify({ message: 'Date (Spent) requires 2 values.' }), { status: 422 }),
+    );
+    const controller = await renderLink();
+
+    controller.download(new CustomEvent('click'));
+
+    await waitFor(() => {
+      expect(addError).toHaveBeenCalledWith(new Error('Date (Spent) requires 2 values.'));
     });
   });
 

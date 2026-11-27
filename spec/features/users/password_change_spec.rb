@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -78,7 +77,7 @@ RSpec.describe "random password generation", :js do
       fill_in "new_password_confirmation", with: new_password
       click_button "Change password"
 
-      expect(page).to have_content "Invalid user or password"
+      expect(page).to have_text "Invalid user or password"
 
       # Give correct password
       fill_in "password", with: password
@@ -103,7 +102,7 @@ RSpec.describe "random password generation", :js do
 
       login_with user.login, password
       wait_for_network_idle
-      expect(page).to have_content "Invalid user or password"
+      expect(page).to have_text "Invalid user or password"
 
       # Logout and sign in with new_passworwd
       visit signout_path
@@ -178,7 +177,7 @@ RSpec.describe "random password generation", :js do
         user_page.change_password(old_password, "password")
         user_page.expect_password_weak_error_message
 
-        # Successfuly when both lowercase and uppercase
+        # Successfully when both lowercase and uppercase
         user_page.change_password(old_password, "Password")
         user_page.expect_password_updated_message
       end

@@ -1,0 +1,50 @@
+.op-ai-result-pane
+  top: calc(var(--header-height) + var(--base-size-8))
+  right: var(--base-size-8)
+  z-index: 600
+  width: min(calc(var(--split-screen-min-width) - 2 * var(--base-size-8)), calc(100vw - 2 * var(--base-size-8)))
+  min-width: 320px
+  max-width: calc(100vw - 2 * var(--base-size-8))
+  min-height: min(240px, calc(100vh - var(--header-height) - var(--base-size-8) - var(--base-size-24)))
+  max-height: calc(100vh - var(--header-height) - var(--base-size-8) - var(--base-size-24))
+
+  &[popover]
+    left: auto
+    bottom: auto
+    margin: 0
+    padding: 0
+    border: 0
+    overflow: visible
+    background: transparent
+    color: inherit
+
+  &--handle
+    cursor: grab
+    user-select: none
+    touch-action: none
+
+    &:active
+      cursor: grabbing
+
+  &--grip
+    display: inline-flex
+    line-height: 1
+
+  &--resize
+    position: absolute
+    display: flex
+    line-height: 0
+    touch-action: none
+
+    &_bottom-left,
+    &_bottom-right
+      bottom: 3px
+
+    &_bottom-right
+      right: 3px
+      cursor: nwse-resize
+
+    &_bottom-left
+      left: 3px
+      cursor: nesw-resize
+      transform: scaleX(-1)

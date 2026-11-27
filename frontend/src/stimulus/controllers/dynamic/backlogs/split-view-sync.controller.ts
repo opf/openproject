@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -53,17 +52,21 @@ export default class SplitViewSyncController extends Controller {
   // was ever opened, it will still be in the cache leading to a refresh request. The upside of this potentially
   // wasteful refresh is that when the work package is later on reopened in the split view, its information
   // is correct as well.
-  onWorkPackageMoved(event:CustomEvent<{ work_package_id?:number }>):void {
-    const workPackageId = event.detail?.work_package_id;
+  onWorkPackageMoved(event:CustomEvent<{ work_package_id?:number; work_package_ids?:number[] }>):void {
+    const detail = event.detail ?? {};
+    const ids = detail.work_package_ids
+      ?? (detail.work_package_id !== undefined ? [detail.work_package_id] : []);
     // apiV3Service is wired asynchronously via useAngularServices, so it may be absent
     // if the event somehow fires before the services resolve.
-    if (workPackageId === undefined || !this.apiV3Service) { return; }
+    if (ids.length === 0 || !this.apiV3Service) { return; }
 
-    const id = workPackageId.toString();
     const { work_packages: workPackages } = this.apiV3Service;
 
-    if (workPackages.cache.state(id).hasValue()) {
-      void workPackages.id(id).refresh();
-    }
+    ids.forEach((rawId) => {
+      const id = rawId.toString();
+      if (workPackages.cache.state(id).hasValue()) {
+        void workPackages.id(id).refresh();
+      }
+    });
   }
 }

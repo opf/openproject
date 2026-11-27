@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -128,6 +127,22 @@ RSpec.describe "Work package timeline feeds", type: :rails_request, with_ee: %i[
       get_events
 
       expect(block_events).to all(satisfy { |e| e.dig("extendedProps", "editUrl").nil? })
+    end
+
+    it "names the assignee's job title on the bar when the field is mapped" do
+      job_title = create(:user_custom_field, :string, name: "Position", semantic_key: :job_title)
+      assignee.custom_values.create!(custom_field: job_title, value: "Frontend Developer")
+
+      get_events
+
+      expect(block_events.map { |e| e.dig("extendedProps", "html") })
+        .to all(include(assignee.name, "Frontend Developer"))
+    end
+
+    it "leaves the bar to the name when no job title field is mapped" do
+      get_events
+
+      expect(block_events.map { |e| e.dig("extendedProps", "html") }).to all(include(assignee.name))
     end
 
     it "never carries an edit url on the background span events" do

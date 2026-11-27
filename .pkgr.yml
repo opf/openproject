@@ -18,8 +18,6 @@ targets:
       - imagemagick
   debian-12:
     <<: *debian
-  ubuntu-20.04:
-    <<: *debian
   ubuntu-22.04:
     <<: *debian
   centos-9:
@@ -41,12 +39,12 @@ targets:
 before_precompile: "packaging/setup"
 after_precompile: "packaging/teardown"
 services:
-  - postgres:17
+  - postgres:18
 installer: https://github.com/pkgr/installer.git
 wizards:
   - https://github.com/pkgr/addon-legacy-installer.git
   - ./packaging/addons/openproject-edition
-  - ./packaging/addons/addon-postgres
+  - https://github.com/opf/addon-postgres.git#postgresql-18
   - https://github.com/pkgr/addon-apache2.git#set-host-header
   - ./packaging/addons/repositories
   - https://github.com/pkgr/addon-memcached.git

@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -32,7 +31,7 @@ import { retrieveCkEditorInstance } from 'core-app/shared/helpers/ckeditor-helpe
 import invariant from 'tiny-invariant';
 
 /**
- * Stimulus Controller for Settings::TextSettingComponent
+ * Stimulus Controller for Settings::InputMethods#multi_language_text_select
  */
 export default class MultiLangTextSetting extends Controller<HTMLElement> {
   static targets = ['select', 'langFor', 'textArea'];
@@ -87,7 +86,7 @@ export default class MultiLangTextSetting extends Controller<HTMLElement> {
     const newLang = select.value;
     const textArea = this.textAreaTarget;
     const textAreaId = ensureId(textArea);
-    const ckEditor = this.element.querySelector<HTMLElement>(`opce-ckeditor-augmented-textarea[data-text-area-id='"${textAreaId}"'`);
+    const ckEditor = this.element.querySelector<HTMLElement>(`opce-ckeditor-augmented-textarea[data-text-area-id="${CSS.escape(JSON.stringify(textAreaId))}"]`);
     invariant(ckEditor, `Expected ckEditor for augmented textarea "${textAreaId}"`);
     const editor = retrieveCkEditorInstance(ckEditor);
     invariant(editor, `Expected ckEditorInstance for augmented textarea "${textAreaId}"`);

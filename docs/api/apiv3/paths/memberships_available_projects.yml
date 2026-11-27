@@ -2,7 +2,7 @@
 ---
 get:
   summary: Available projects for memberships
-  operationId: get_memberships_available_projects
+  operationId: list_available_projects_for_memberships
   tags:
     - Memberships
   description: |-

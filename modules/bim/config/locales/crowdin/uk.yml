@@ -114,7 +114,7 @@ uk:
     not_recommended: не рекомендується
     recommended: рекомендовано
     x_bcf_issues:
-      one: Одна проблема BCF
+      one: "%{count} BCF issue"
       other: 'Помилок BCF: %{count}'
       zero: Немає проблем BCF
   bim:
@@ -152,8 +152,10 @@ uk:
       processing_default: 'Наступні моделі IFC за замовчуванням наразі обробляються, тому вони ще не є доступними:'
   oauth:
     scopes:
-      bcf_v2_1: Повний доступ до BCF v2.1 API
+      bcf_v2_1: Access to the BCF v2.1 API
       bcf_v2_1_text: Програма отримає повний доступ для читання та запису від вашого імені через OpenProject BCF v2.1 API.
+      explanations_admin:
+        bcf_v2_1: Application will receive full read & write access to the OpenProject BCF API v2.1 to perform actions on the user's behalf.
   permission_delete_bcf: Видалити помилки BCF
   permission_manage_bcf: Імпорт помилок BCF і керування ними
   permission_manage_bcf_explanation: |

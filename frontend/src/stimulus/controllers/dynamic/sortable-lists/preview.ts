@@ -20,26 +20,30 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-// Builds the custom native drag preview for a sortable item: a sanitised clone
+import { html, nothing, render } from 'lit-html';
+
+// Builds the custom native drag preview for a sortable item: a sanitized clone
 // of the item's preview target, sized to match and carrying the originating
 // Box's density so its card styling survives being mounted outside the Box.
 
-// Attributes stripped from the cloned drag preview so it carries no behaviour or
+// Attributes stripped from the cloned drag preview so it carries no behavior or
 // stale interaction state. The dynamic `data-*--*-target` attributes are removed
 // separately in sanitizePreview.
+// `data-batch-selected` is deliberately absent: it lives on the sortable
+// item element (the row, in Backlogs), while the preview target is the card
+// — the row's child, never its clone. It can never end up on this clone, so
+// stripping it here would be dead code.
 const PREVIEW_STRIPPED_ATTRIBUTES = [
   'data-controller',
   'data-action',
   'data-dragging',
   'data-drop-position',
   'data-drop-position-owner',
-  'data-selected',
   'aria-current',
   'aria-describedby',
   'aria-disabled',
@@ -51,14 +55,47 @@ const PREVIEW_STRIPPED_ATTRIBUTES = [
 // `.Box--condensed .Box-card`) would not apply to it otherwise.
 const BOX_DENSITY_VARIANT_CLASSES = ['Box--condensed', 'Box--spacious'] as const;
 
+// The count badge on a multi-card drag's preview, styled on Primer's Counter
+// contract plus this class for the positioning Counter does not own. The
+// native drag snapshot is taken synchronously at dragstart, before an Angular
+// element would have painted, so it cannot be a custom element.
+const BATCH_BADGE_CLASS = 'op-sortable-lists-drag-preview-batch-badge';
+
+// Reserved as container padding so nothing paints past the border box: Firefox
+// folds such overflow into the drag snapshot and shifts its origin off the grab
+// offset. Written inline because Pragmatic inline-resets the container before
+// render(), and only a later inline write outranks that; the item controller
+// reads the top padding back to compensate the grab offset. Reserved for the
+// deepest stack whatever the batch size, so the badge keeps one offset. The
+// widths themselves stay in drag_and_drop.sass, which derives the stack one
+// from the layer geometry.
+const BATCH_BADGE_OVERHANG = 'var(--op-drag-badge-overhang)';
+const DRAG_STACK_OVERHANG = 'var(--op-drag-stack-overhang)';
+
+export interface DragBadgeAnchor {
+  x:number;
+  y:number;
+}
+
 export function renderDragPreview({
   previewTarget,
   sourceElement,
   container,
+  batchSize = 1,
+  showBatchBadge = true,
+  badgeAnchor,
 }:{
   previewTarget:HTMLElement;
   sourceElement:HTMLElement;
   container:HTMLElement;
+  // A batch larger than one card adds a count badge, so a multi-card drag
+  // reads differently from a single one.
+  batchSize?:number;
+  // Off where the platform already shows the count; the stack still marks
+  // the drag as a batch.
+  showBatchBadge?:boolean;
+  // Grab point relative to previewTarget so the badge sits near the cursor.
+  badgeAnchor?:DragBadgeAnchor;
 }):void {
   const previewWidth = previewTarget.getBoundingClientRect().width;
   const preview = previewTarget.cloneNode(true) as HTMLElement;
@@ -83,6 +120,45 @@ export function renderDragPreview({
   });
 
   container.append(preview);
+
+  if (batchSize > 1) {
+    // How many of the further cards the stack can show is the stylesheet's
+    // call, so the depth goes out unclamped and the deepest rule catches
+    // anything past the layers it draws.
+    preview.setAttribute('data-stack-depth', `${batchSize - 1}`);
+
+    // Nothing paints past the card's left edge.
+    container.style.paddingRight = DRAG_STACK_OVERHANG;
+    container.style.paddingBottom = DRAG_STACK_OVERHANG;
+    if (showBatchBadge) {
+      // Anchors the badge to the container rather than whatever ancestor
+      // Pragmatic mounts it under.
+      container.style.position = 'relative';
+      container.style.paddingTop = BATCH_BADGE_OVERHANG;
+      renderBatchBadge(container, batchSize, badgeAnchor);
+    }
+  }
+}
+
+// Positioned inside the container's padded bounds (drag_and_drop.sass), either
+// bottom-right of the grab point when anchored or on the card's top-right corner.
+//
+// render() is safe on a container that already holds the preview clone: it
+// inserts a marker before its own end node and manages content from there
+// on, rather than clearing pre-existing children.
+function renderBatchBadge(
+  container:HTMLElement,
+  batchSize:number,
+  badgeAnchor?:DragBadgeAnchor,
+):void {
+  render(
+    html`<span
+      class="Counter Counter--primary ${BATCH_BADGE_CLASS}"
+      ?data-cursor-anchored=${badgeAnchor !== undefined}
+      style=${badgeAnchor ? `--op-drag-badge-x: ${badgeAnchor.x}px; --op-drag-badge-y: ${badgeAnchor.y}px` : nothing}
+    >${batchSize}</span>`,
+    container,
+  );
 }
 
 export function sanitizePreview(element:HTMLElement):void {

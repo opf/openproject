@@ -22,16 +22,16 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module ResourcePlanners
   class RowComponent < ::OpPrimer::BorderBoxRowComponent
+    include ResourceManagement::PlannerRoutes
+
     delegate :current_project, to: :table
-    delegate :project, to: :model
 
     def name
       icon = if model.favorited_by?(User.current)
@@ -44,7 +44,7 @@ module ResourcePlanners
              end
 
       link = render(Primer::Beta::Link.new(
-                      href: project_resource_planner_path(project, model),
+                      href: planner_path(model),
                       font_weight: :bold
                     )) { model.name }
 
@@ -88,7 +88,7 @@ module ResourcePlanners
       menu.with_item(
         label: t("resource_management.action.edit"),
         tag: :a,
-        href: edit_project_resource_planner_path(project, model),
+        href: edit_planner_path(model),
         content_arguments: { data: { controller: "async-dialog" } }
       ) do |item|
         item.with_leading_visual_icon(icon: :pencil)
@@ -116,7 +116,7 @@ module ResourcePlanners
 
       menu.with_item(
         label:,
-        href: toggle_public_project_resource_planner_path(project, model),
+        href: toggle_public_planner_path(model),
         content_arguments: { data: { turbo_method: :post } }
       ) do |item|
         item.with_leading_visual_icon(icon:)
@@ -127,7 +127,7 @@ module ResourcePlanners
       menu.with_item(
         label: t("resource_management.action.delete"),
         scheme: :danger,
-        href: project_resource_planner_path(project, model),
+        href: planner_path(model),
         content_arguments: {
           data: {
             turbo_method: :delete,
@@ -140,7 +140,7 @@ module ResourcePlanners
     end
 
     def toggle_public_allowed?
-      User.current.allowed_in_project?(:manage_public_resource_planners, project)
+      model.public_manageable_by?(User.current)
     end
 
     def edit_allowed?
@@ -148,20 +148,11 @@ module ResourcePlanners
     end
 
     def delete_allowed?
-      return true if User.current.active_admin?
-
-      manage_allowed?
+      User.current.active_admin? || manage_allowed?
     end
 
     def manage_allowed?
-      return false if project.nil?
-
-      owns_planner = model.principal == User.current &&
-        User.current.allowed_in_project?(:view_resource_planners, project)
-      can_manage_public = model.public? &&
-        User.current.allowed_in_project?(:manage_public_resource_planners, project)
-
-      owns_planner || can_manage_public
+      model.manageable_by?(User.current)
     end
   end
 end

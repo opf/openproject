@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -21,14 +22,22 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module MeetingAgendaItems
   class SetAttributesService < ::BaseServices::SetAttributes
+    def perform
+      if model.persisted? && model.vote_based_ordering? && params.key?(:move_to)
+        model.errors.add :base, I18n.t("meeting.agenda_sorting.manual_order_disabled")
+        return ServiceResult.failure(result: model, errors: model.errors)
+      end
+
+      super
+    end
+
     def set_default_attributes(_params)
       model.change_by_system do
         model.author = user
