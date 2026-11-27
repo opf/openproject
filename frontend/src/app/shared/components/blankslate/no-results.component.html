@@ -1,4 +1,4 @@
-<blankslate>
+<blankslate [spacious]="spacious()">
   @if (icon(); as icon) {
     <blankslate-icon [icon]="icon" />
   }
@@ -6,4 +6,5 @@
   @if (message()) {
     <blankslate-description>{{ message() }}</blankslate-description>
   }
+  <blankslate-action [hidden]="!action()"><ng-content select="[opNoResultsAction]" /></blankslate-action>
 </blankslate>

@@ -83,14 +83,29 @@
               }
             </tr>
           </thead>
-          @if (!isEmbedded && view.query && view.results.count === 0) {
+          @if (showsBlankslate && !inlineCreateRowOpen) {
             <tbody class="work-package--empty-tbody">
               <tr id="empty-row-notification">
                 <td class="-no-ellipsis" [attr.colspan]="view.numTableColumns">
                   <op-no-results
+                    spacious
                     icon="op-work-packages"
                     [title]="text.noResults.title"
-                    [message]="text.noResults.description" />
+                    [message]="text.noResults.description">
+                    @if (configuration.inlineCreateEnabled && inlineCreate()?.canAdd()) {
+                      <button
+                        #blankslateAction
+                        opNoResultsAction
+                        data-wp-table-outside-grid
+                        primerButton
+                        scheme="link"
+                        type="button"
+                        class="hide-when-print"
+                        (click)="inlineCreate()?.handleAddRowClick()"
+                        data-test-selector="op-wp-inline-create"
+                        >{{ inlineCreate()?.text?.create }}</button>
+                    }
+                  </op-no-results>
                 </td>
               </tr>
             </tbody>
@@ -109,7 +124,10 @@
               [colspan]="view.numTableColumns"
               [table]="workPackageTable"
               [projectIdentifier]="projectIdentifier"
+              [buttonRowHidden]="showsBlankslate"
               (showing)="inlineCreateVisible = $event"
+              (returnFocus)="returnFocusToBlankslate()"
+              (occupiedChange)="syncBlankslate($event)"
               >
             </tbody>
           }

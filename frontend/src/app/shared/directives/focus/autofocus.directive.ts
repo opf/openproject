@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { AfterViewInit, Directive, ElementRef, Input, inject } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, Input, booleanAttribute, inject, input } from '@angular/core';
 import { FocusHelperService } from './focus-helper';
 
 @Directive({
@@ -38,6 +38,8 @@ export class AutofocusDirective implements AfterViewInit {
 
   @Input('opAutofocus') public condition:string|boolean = true;
 
+  readonly opAutofocusOnlyWhenFocusLost = input(false, { transform: booleanAttribute });
+
   ngAfterViewInit():void {
     this.updateFocus();
   }
@@ -49,7 +51,7 @@ export class AutofocusDirective implements AfterViewInit {
     // <my-input opAutofocus />
     //
     if (this.condition || this.condition === '') {
-      this.FocusHelper.focus(this.elementRef.nativeElement);
+      this.FocusHelper.focus(this.elementRef.nativeElement, { onlyWhenFocusLost: this.opAutofocusOnlyWhenFocusLost() });
     }
   }
 }

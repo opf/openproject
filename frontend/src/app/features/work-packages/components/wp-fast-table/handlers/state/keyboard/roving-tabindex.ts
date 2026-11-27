@@ -36,19 +36,21 @@ import {
 
 export const navigableCellClassName = 'wp-table--navigable-cell';
 export const inlineCreateSelector = 'tbody[wpInlineCreate]';
+export const outsideGridAttribute = 'data-wp-table-outside-grid';
+const outsideGridSelector = `${inlineCreateSelector}, [${outsideGridAttribute}]`;
 
 const nativeTabStopSelector = 'a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
 export const rovingStopSelector = 'tr[tabindex="0"], td[tabindex="0"], th[tabindex="0"]';
 
-/** Whether `node` is in the grid: inside `root` but not in the inline-create body. */
+/** Whether `node` is in the grid: inside `root` but not in the inline-create body or another control outside the grid. */
 export function insideGrid(root:HTMLElement, node:Node|null):boolean {
   if (!node || !root.contains(node)) {
     return false;
   }
 
   const element = node instanceof Element ? node : node.parentElement;
-  return !element?.closest(inlineCreateSelector);
+  return !element?.closest(outsideGridSelector);
 }
 
 /** Whether `node` is grid content: inside `root` but not `root` itself, which a pointer focuses by clicking the space below the last row. */
@@ -79,7 +81,7 @@ export function paintRovingTabindex(
 ):void {
   const roots = within instanceof HTMLElement ? [within] : within;
   matching(roots, `tr, .${navigableCellClassName}`).forEach((element) => {
-    if (!element.closest(inlineCreateSelector)) {
+    if (!element.closest(outsideGridSelector)) {
       element.setAttribute('tabindex', element === focused ? '0' : '-1');
     }
   });
@@ -87,7 +89,7 @@ export function paintRovingTabindex(
   matching(roots, nativeTabStopSelector).forEach((element) => {
     const activeField = element.closest<HTMLElement>(`.${activeFieldContainerClassName}`);
     const exempt = engagedEditor !== null && activeField === engagedEditor;
-    if (element !== focused && !element.closest(inlineCreateSelector) && !exempt) {
+    if (element !== focused && !element.closest(outsideGridSelector) && !exempt) {
       element.setAttribute('tabindex', '-1');
     }
   });

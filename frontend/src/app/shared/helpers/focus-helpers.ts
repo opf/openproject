@@ -49,3 +49,7 @@ export const FOCUSABLE_ELEMENT_SELECTORS = [
 export function findAllFocusableElementsWithin(container:HTMLElement):NodeListOf<HTMLElement> {
   return container.querySelectorAll(FOCUSABLE_ELEMENT_SELECTORS.toString());
 }
+
+export function focusIsLost():boolean {
+  return document.activeElement === null || document.activeElement === document.body;
+}

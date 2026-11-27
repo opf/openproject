@@ -42,9 +42,11 @@ import {
   internalSortColumn,
 } from '../../../builders/internal-sort-columns';
 import {
+  insideGrid,
   isNavigableColumn,
   navigableCellClassName,
   navigableCells,
+  outsideGridAttribute,
   paintRovingTabindex,
 } from './roving-tabindex';
 
@@ -340,6 +342,18 @@ describe('roving tabindex', () => {
       paintRovingTabindex(table.container, table.row('1'));
       expect(input).toHaveAttribute('tabindex', '-1');
       expect(lateLink).toHaveAttribute('tabindex', '-1');
+    });
+
+    it('leaves controls marked outside the grid as their own Tab stops', async () => {
+      const table = await mount();
+      const outside = document.createElement('button');
+      outside.setAttribute(outsideGridAttribute, '');
+      table.row('1').append(outside);
+
+      paintRovingTabindex(table.container, table.row('2'));
+
+      expect(outside).not.toHaveAttribute('tabindex');
+      expect(insideGrid(table.container, outside)).toBe(false);
     });
 
     it('marks nothing when no element is focused', async () => {

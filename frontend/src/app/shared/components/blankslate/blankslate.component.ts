@@ -27,7 +27,7 @@
 
 /* eslint-disable @angular-eslint/component-selector */
 
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { booleanAttribute, ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { DynamicIconDirective } from 'core-app/shared/components/primer/dynamic-icon.directive';
 import { DynamicIconName } from 'core-app/shared/components/primer/dynamic-icon-map';
@@ -76,4 +76,5 @@ export class BlankslateActionComponent {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BlankslateComponent {
+  readonly spacious = input(false, { transform: booleanAttribute });
 }

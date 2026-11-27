@@ -46,6 +46,7 @@ import { WorkPackageChangeset } from 'core-app/features/work-packages/components
 import { EditForm } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { focusIsLost } from 'core-app/shared/helpers/focus-helpers';
 import { InlineCreateRowBuilder, inlineCreateRowClassName } from './inline-create-row-builder';
 import { InlineCreateCancelButton } from './inline-create-cancel-button';
 import { WorkPackageCreateService } from '../wp-new/wp-create.service';
@@ -62,6 +63,7 @@ import {
   standalone: false,
   host: {
     '(keydown.escape)': 'cancelOnEscape($event)',
+    '(focusin)': 'standInFocusPending = false',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -85,7 +87,13 @@ export class WorkPackageInlineCreateComponent implements AfterViewInit {
 
   readonly projectIdentifier = input<string|null|undefined>();
 
+  readonly buttonRowHidden = input(false);
+
   readonly showing = output<boolean>();
+
+  readonly returnFocus = output<void>();
+
+  readonly occupiedChange = output<boolean>();
 
   private readonly destroyRef = inject(DestroyRef);
 
@@ -115,6 +123,14 @@ export class WorkPackageInlineCreateComponent implements AfterViewInit {
 
   readonly isActive = computed(() => this.mode() !== 'inactive');
 
+  private readonly occupiedValue = signal(false);
+
+  protected readonly awaitingResults = signal(false);
+
+  protected standInFocusPending = false;
+
+  readonly occupied = this.occupiedValue.asReadonly();
+
   public focus = false;
 
   public focusTarget:'create'|'reference' = 'create';
@@ -138,6 +154,7 @@ export class WorkPackageInlineCreateComponent implements AfterViewInit {
         this.modeValue.set('inactive');
         this.element.querySelector('.wp-row-new')?.remove();
         this.destroyCancelButton();
+        this.setOccupied(false);
       });
     });
 
@@ -147,11 +164,12 @@ export class WorkPackageInlineCreateComponent implements AfterViewInit {
       this.colspan();
       const canAdd = this.canAdd();
       const canReference = this.canReference();
-      const showing = canAdd || canReference;
+      const showing = (canAdd || canReference) && (!this.buttonRowHidden() || this.occupied());
       untracked(() => {
         this.mutateRow(() => {
           this.cdRef.detectChanges();
         });
+        if (this.mode() === 'inactive' && !this.buttonRowHidden()) this.focus = false;
         if (this.lastShowing !== showing) {
           this.lastShowing = showing;
           this.showing.emit(showing);
@@ -186,6 +204,7 @@ export class WorkPackageInlineCreateComponent implements AfterViewInit {
         if (this.currentWorkPackage?.__initialized_at === wp.__initialized_at) {
           // Remove row and focus
           this.resetRow();
+          this.awaitingResults.set(true);
 
           this.table().keyboardNavigation.rememberWorkPackageAfterRender(wp.id!);
 
@@ -213,8 +232,32 @@ export class WorkPackageInlineCreateComponent implements AfterViewInit {
     return false;
   }
 
+  public hasTriggerFocus():boolean {
+    return this.mode() === 'inactive' && this.element.contains(document.activeElement);
+  }
+
+  public focusCreateTrigger():void {
+    this.focusTarget = 'create';
+    this.focus = true;
+  }
+
+  public resultsRendered():void {
+    if (!this.awaitingResults()) return;
+    const focusPending = this.standInFocusPending && focusIsLost();
+    this.stopAwaitingResults();
+    if (this.mode() !== 'inactive') return;
+    if (this.buttonRowHidden() && (this.hasTriggerFocus() || focusPending)) this.returnFocus.emit();
+    this.setOccupied(false);
+  }
+
+  private stopAwaitingResults():void {
+    this.awaitingResults.set(false);
+    this.standInFocusPending = false;
+  }
+
   public handleReferenceClick() {
     this.focusTarget = 'reference';
+    this.setOccupied(true);
     this.modeValue.set('reference');
     this.mutateRow(() => this.cdRef.detectChanges());
     return false;
@@ -283,6 +326,13 @@ export class WorkPackageInlineCreateComponent implements AfterViewInit {
     this.editingSubscription = undefined;
     clearTimeout(this.activationTimer);
     clearTimeout(this.resetTimer);
+    if (this.awaitingResults()) {
+      this.stopAwaitingResults();
+      if (this.mode() === 'inactive') {
+        if (!this.destroyRef.destroyed && this.buttonRowHidden() && this.hasTriggerFocus()) this.returnFocus.emit();
+        this.setOccupied(false);
+      }
+    }
   }
 
   private refreshRow() {
@@ -306,6 +356,7 @@ export class WorkPackageInlineCreateComponent implements AfterViewInit {
     const form = this.table().editing.startEditing(wp, builder.classIdentifier(wp));
 
     const [row] = builder.buildNew(wp, form);
+    this.setOccupied(true);
     this.mutateRow(() => this.element.append(row));
 
     return form;
@@ -360,14 +411,27 @@ export class WorkPackageInlineCreateComponent implements AfterViewInit {
   }
 
   public showRow() {
+    if (!focusIsLost() && !this.element.contains(document.activeElement)) this.focus = false;
     this.modeValue.set('inactive');
     this.mutateRow(() => this.cdRef.detectChanges());
+    if (this.awaitingResults()) {
+      this.standInFocusPending = this.focus;
+    } else {
+      if (this.focus && this.buttonRowHidden()) this.returnFocus.emit();
+      this.setOccupied(false);
+    }
     this.focus = false;
   }
 
   public hideRow() {
     this.modeValue.set('create');
     this.mutateRow(() => this.cdRef.detectChanges());
+  }
+
+  private setOccupied(occupied:boolean):void {
+    if (this.occupiedValue() === occupied) return;
+    this.occupiedValue.set(occupied);
+    if (!this.destroyRef.destroyed) this.occupiedChange.emit(occupied);
   }
 
   private mutateRow(change:() => void):void {

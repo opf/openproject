@@ -25,16 +25,20 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
+import { booleanAttribute, ChangeDetectionStrategy, Component, contentChild, Directive, inject, input } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { DynamicIconName } from 'core-app/shared/components/primer/dynamic-icon-map';
 import {
+  BlankslateActionComponent,
   BlankslateComponent,
   BlankslateDescriptionComponent,
   BlankslateHeadingComponent,
   BlankslateHeadingLevel,
   BlankslateIconComponent,
 } from './blankslate.component';
+
+@Directive({ selector: '[opNoResultsAction]' })
+export class NoResultsActionDirective {}
 
 @Component({
   selector: 'op-no-results',
@@ -44,6 +48,7 @@ import {
     BlankslateIconComponent,
     BlankslateHeadingComponent,
     BlankslateDescriptionComponent,
+    BlankslateActionComponent,
   ],
   host: { class: 'd-block' },
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -55,4 +60,7 @@ export class NoResultsComponent {
   readonly title = input(this.i18n.t('js.label_no_data'));
   readonly message = input<string>();
   readonly headingLevel = input<BlankslateHeadingLevel>(3);
+  readonly spacious = input(false, { transform: booleanAttribute });
+
+  protected readonly action = contentChild(NoResultsActionDirective);
 }

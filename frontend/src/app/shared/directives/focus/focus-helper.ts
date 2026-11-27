@@ -26,12 +26,13 @@
 //++
 
 import { Injectable } from '@angular/core';
-import { findAllFocusableElementsWithin } from 'core-app/shared/helpers/focus-helpers';
+import { findAllFocusableElementsWithin, focusIsLost } from 'core-app/shared/helpers/focus-helpers';
 
 @Injectable({ providedIn: 'root' })
 export class FocusHelperService {
-  public focus(element:HTMLElement):void {
+  public focus(element:HTMLElement, { onlyWhenFocusLost = false }:{ onlyWhenFocusLost?:boolean } = {}):void {
     setTimeout(() => {
+      if (onlyWhenFocusLost && !focusIsLost()) return;
       const focusable = findAllFocusableElementsWithin(element)[0] || element;
       focusable?.focus();
     }, 20);

@@ -61,7 +61,7 @@ import { ToastComponent } from './components/toaster/toast.component';
 import { ToastsContainerComponent } from './components/toaster/toasts-container.component';
 import { UploadProgressComponent } from './components/toaster/upload-progress.component';
 import { ResizerComponent } from './components/resizer/resizer.component';
-import { NoResultsComponent } from './components/blankslate/no-results.component';
+import { NoResultsActionDirective, NoResultsComponent } from './components/blankslate/no-results.component';
 import { EditableToolbarTitleComponent } from './components/editable-toolbar-title/editable-toolbar-title.component';
 import { PersistentToggleComponent } from './components/persistent-toggle/persistent-toggle.component';
 import { RemoteFieldUpdaterComponent } from './components/remote-field-updater/remote-field-updater.component';
@@ -125,6 +125,7 @@ export function bootstrapModule(injector:Injector):void {
     OpDatePickerModule,
 
     NoResultsComponent,
+    NoResultsActionDirective,
     PrimerButtonComponent,
     PrimerCounterComponent,
     PrimerIconButtonComponent,
@@ -171,6 +172,7 @@ export function bootstrapModule(injector:Injector):void {
     IconTriggeredContextMenuComponent,
 
     NoResultsComponent,
+    NoResultsActionDirective,
     OpBreadcrumbsComponent,
     EditableToolbarTitleComponent,
 
