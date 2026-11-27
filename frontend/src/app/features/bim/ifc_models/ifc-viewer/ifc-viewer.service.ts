@@ -92,7 +92,7 @@ interface Controller {
 export type XeokitBimViewer = Controller&{
   viewer:{
     cameraControl:{ keyMap:Record<string, (number|number[])[]> },
-    scene:{ input:{ keyDown:boolean[], fire:(event:string, value:unknown, forget:boolean) => void } },
+    scene:{ input:{ keyDown:readonly boolean[] } },
   },
   loadProject:(projectId:string) => void,
   saveBCFViewpoint:(options:BCFCreationOptions) => unknown,
@@ -214,14 +214,12 @@ export class IFCViewerService extends ViewerBridgeService {
     return Object.values(keyMap).flat(2).includes(event.keyCode);
   }
 
-  // xeokit only releases a key on a keyup at the canvas; one that lands elsewhere leaves the
-  // key held, and a held key blocks every camera key.
-  public releaseHeldKeys():void {
-    const input = this.viewer?.viewer.scene.input;
-    input?.keyDown.forEach((down, keyCode) => {
+  // xeokit only releases a key on a keyup at its keyboard events element; one that lands elsewhere
+  // leaves the key held, and a held key blocks every camera key.
+  public releaseHeldKeys(keyboardEventsElement:HTMLElement):void {
+    this.viewer?.viewer.scene.input.keyDown.forEach((down, keyCode) => {
       if (down) {
-        input.keyDown[keyCode] = false;
-        input.fire('keyup', keyCode, true);
+        keyboardEventsElement.dispatchEvent(new KeyboardEvent('keyup', { keyCode }));
       }
     });
   }

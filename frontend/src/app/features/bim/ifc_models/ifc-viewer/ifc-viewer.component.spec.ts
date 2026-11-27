@@ -130,19 +130,23 @@ describe('IFCViewerComponent keyboard warning', () => {
   });
 });
 
-describe('IFCViewerComponent key propagation', () => {
+describe('IFCViewerComponent keys for page shortcuts', () => {
   let fixture:ComponentFixture<IFCViewerComponent>;
-  let reachedPage:string[];
-  const recordKey = (event:KeyboardEvent) => reachedPage.push(`${event.type} ${event.key}`);
+  let shortcutKeys:string[];
+  const recordShortcutKey = (event:KeyboardEvent) => {
+    if (!event.defaultPrevented) {
+      shortcutKeys.push(event.key);
+    }
+  };
   const releaseHeldKeys = vi.fn();
 
   const canvas = () => document.querySelector<HTMLCanvasElement>('.op-ifc-viewer--model-canvas')!;
   const toolbarButton = () => document.querySelector<HTMLButtonElement>('#xeokit-replace-reset')!;
 
   beforeEach(async () => {
-    reachedPage = [];
+    shortcutKeys = [];
     releaseHeldKeys.mockClear();
-    ['keydown', 'keypress', 'keyup'].forEach((type) => document.addEventListener(type, recordKey));
+    document.addEventListener('keydown', recordShortcutKey);
 
     await TestBed
       .configureTestingModule({
@@ -174,7 +178,7 @@ describe('IFCViewerComponent key propagation', () => {
   });
 
   afterEach(() => {
-    ['keydown', 'keypress', 'keyup'].forEach((type) => document.removeEventListener(type, recordKey));
+    document.removeEventListener('keydown', recordShortcutKey);
     fixture.destroy();
   });
 
@@ -183,20 +187,20 @@ describe('IFCViewerComponent key propagation', () => {
     canvas().focus();
   };
 
-  it('keeps a camera key on the canvas from reaching the page', async () => {
+  it('claims a camera key on the canvas from the page shortcuts', async () => {
     enableKeyboard();
 
     await userEvent.keyboard('s');
 
-    expect(reachedPage).toEqual([]);
+    expect(shortcutKeys).toEqual([]);
   });
 
-  it('lets other keys on the canvas reach the page', async () => {
+  it('leaves other keys on the canvas to the page shortcuts', async () => {
     enableKeyboard();
 
     await userEvent.keyboard('j');
 
-    expect(reachedPage).toEqual(['keydown j', 'keypress j', 'keyup j']);
+    expect(shortcutKeys).toEqual(['j']);
   });
 
   it('releases the viewer\'s held keys when a page shortcut moves focus off the canvas', async () => {
@@ -206,13 +210,13 @@ describe('IFCViewerComponent key propagation', () => {
         toolbarButton().focus();
       }
     };
-    document.addEventListener('keypress', moveFocus);
+    document.addEventListener('keydown', moveFocus);
 
     await userEvent.keyboard('j');
-    document.removeEventListener('keypress', moveFocus);
+    document.removeEventListener('keydown', moveFocus);
 
     expect(toolbarButton()).toHaveFocus();
-    expect(releaseHeldKeys).toHaveBeenCalledOnce();
+    expect(releaseHeldKeys).toHaveBeenCalledExactlyOnceWith(canvas());
   });
 
   it('keeps the viewer\'s held keys when focus leaves another viewer control', () => {
@@ -222,21 +226,21 @@ describe('IFCViewerComponent key propagation', () => {
     expect(releaseHeldKeys).not.toHaveBeenCalled();
   });
 
-  it('lets a camera key reach the page from a toolbar button', async () => {
+  it('leaves a camera key on a toolbar button to the page shortcuts', async () => {
     enableKeyboard();
     toolbarButton().focus();
 
     await userEvent.keyboard('s');
 
-    expect(reachedPage).toEqual(['keydown s', 'keypress s', 'keyup s']);
+    expect(shortcutKeys).toEqual(['s']);
   });
 
-  it('lets a camera key on the canvas reach the page while keyboard navigation is off', async () => {
+  it('leaves a camera key on the canvas to the page shortcuts while keyboard navigation is off', async () => {
     canvas().focus();
 
     await userEvent.keyboard('s');
 
-    expect(reachedPage).toEqual(['keydown s', 'keypress s', 'keyup s']);
+    expect(shortcutKeys).toEqual(['s']);
   });
 });
 

@@ -73,21 +73,29 @@ describe('IFCViewerService#releaseHeldKeys', () => {
     service = TestBed.inject(IFCViewerService);
   });
 
-  it('does nothing without a viewer', () => {
-    expect(() => service.releaseHeldKeys()).not.toThrow();
+  let releasedKeys:number[];
+  const canvas = document.createElement('canvas');
+  canvas.addEventListener('keyup', (event) => releasedKeys.push(event.keyCode));
+
+  beforeEach(() => {
+    releasedKeys = [];
   });
 
-  it('releases every held key through the viewer input', () => {
+  it('does nothing without a viewer', () => {
+    service.releaseHeldKeys(canvas);
+
+    expect(releasedKeys).toEqual([]);
+  });
+
+  it('replays a keyup at the keyboard events element for every held key', () => {
     const keyDown:boolean[] = [];
     keyDown[9] = true;
     keyDown[74] = true;
     keyDown[83] = false;
-    const fire = vi.fn();
-    service.viewer = asViewer({ viewer: { scene: { input: { keyDown, fire } } } });
+    service.viewer = asViewer({ viewer: { scene: { input: { keyDown } } } });
 
-    service.releaseHeldKeys();
+    service.releaseHeldKeys(canvas);
 
-    expect(keyDown.some(Boolean)).toBe(false);
-    expect(fire.mock.calls).toEqual([['keyup', 9, true], ['keyup', 74, true]]);
+    expect(releasedKeys).toEqual([9, 74]);
   });
 });

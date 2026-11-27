@@ -47,8 +47,6 @@ import invariant from 'tiny-invariant';
   standalone: false,
   host: {
     '(keydown)': 'claimCameraKey($event)',
-    '(keypress)': 'keepCameraKey($event)',
-    '(keyup)': 'releaseCameraKey($event)',
     '(focusout)': 'releaseKeysOnCanvasExit($event.target)',
     '(mousedown)': 'enableKeyboard()',
     '(window:mousedown)': 'disableKeyboard($event.target)',
@@ -74,8 +72,6 @@ export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
   };
 
   keyboardEnabled = false;
-
-  private cameraKeys = new Set<string>();
 
   inspectorVisible$:BehaviorSubject<boolean> = this.ifcViewerService.inspectorVisible$;
 
@@ -183,36 +179,19 @@ export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   // A key that moves the camera must not also trigger a page shortcut, e.g. S the global search.
-  // Its keypress and keyup are claimed by code, as keypress carries a character code xeokit's
-  // key map does not use.
+  // Page shortcuts skip keydowns whose default is prevented.
   claimCameraKey(event:KeyboardEvent):void {
     if (this.keyboardEnabled
       && event.target === this.modelCanvas.nativeElement
       && this.ifcViewerService.handlesKey(event)) {
-      this.cameraKeys.add(event.code);
-    }
-    if (this.cameraKeys.has(event.code)) {
-      event.stopPropagation();
+      event.preventDefault();
     }
   }
 
   // A shortcut that moves focus off the canvas makes its keyup land elsewhere.
   releaseKeysOnCanvasExit(target:EventTarget|null):void {
     if (target === this.modelCanvas.nativeElement) {
-      this.cameraKeys.clear();
-      this.ifcViewerService.releaseHeldKeys();
-    }
-  }
-
-  keepCameraKey(event:KeyboardEvent):void {
-    if (this.cameraKeys.has(event.code)) {
-      event.stopPropagation();
-    }
-  }
-
-  releaseCameraKey(event:KeyboardEvent):void {
-    if (this.cameraKeys.delete(event.code)) {
-      event.stopPropagation();
+      this.ifcViewerService.releaseHeldKeys(this.modelCanvas.nativeElement);
     }
   }
 
