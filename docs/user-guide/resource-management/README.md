@@ -368,6 +368,7 @@ To create a global resource planner, select **+ Resource planner**. The form is 
 Global resource planners differ from project resource planners in the following ways:
 
 - Work package views can be filtered by **Project** to choose which projects to plan across. Manually hand-picked views let you add work packages from all projects with the Resource management module activated.
+- Project resource planners only include work packages of their own project, not those of its subprojects. To plan a project together with its subprojects, use a global resource planner and filter its work package views by **Project**.
 - The work package views show an additional **Project** column.
 - User views let you add any user you are allowed to see, not only members of one project.
 - When you allocate work, the allocation belongs to the project of the selected work package. Only members of that project can be selected as assignees.
