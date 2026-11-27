@@ -106,8 +106,7 @@ module Import
               type = create_type(jira_issue, @project)
               status = create_status(jira_issue)
               ensure_type_has_status(type, status)
-              new_custom_fields = new_custom_fields_in_type(jira_issue, type, @custom_field_registry)
-              update_custom_fields_in_type(type, new_custom_fields) if new_custom_fields.any?
+              ensure_type_has_custom_fields(type, jira_issue)
               priority = create_priority(jira_issue) || IssuePriority.default || IssuePriority.active.first
 
               raise "Create a priority. OpenProject work package requires a priority!" if priority.blank?
@@ -276,6 +275,19 @@ module Import
 
     def type_has_status?(type, status)
       type.default_variant.statuses(include_default: true).exists?(status.id)
+    end
+
+    def ensure_type_has_custom_fields(type, jira_issue)
+      return if new_custom_fields_in_type(jira_issue, type, @custom_field_registry).empty?
+
+      form = type.default_variant.form_configuration
+      OpenProject::Mutex.with_advisory_lock_transaction(form, WorkPackageTypes::FormConfiguration::LayoutLock::SUFFIX) do
+        type.default_variant.reload
+        new_custom_fields = new_custom_fields_in_type(jira_issue, type, @custom_field_registry)
+        next if new_custom_fields.empty?
+
+        update_custom_fields_in_type(type, new_custom_fields)
+      end
     end
 
     def setup_resolution_date_cf(jira_project)

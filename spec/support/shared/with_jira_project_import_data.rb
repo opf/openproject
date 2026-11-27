@@ -99,6 +99,15 @@ RSpec.shared_context "with jira project import data" do
     download_work_package_attachments
     create_time_entries
   end
+
+  # Pretend another job did this right before this one takes the lock: the write leaves our query cache alone.
+  def as_another_job_before_locking(locked_class, &)
+    allow(OpenProject::Mutex).to receive(:with_advisory_lock)
+      .and_wrap_original do |original, resource_class, *args, **options, &block|
+      ActiveRecord::Base.uncached(dirties: false, &) if resource_class == locked_class
+      original.call(resource_class, *args, **options, &block)
+    end
+  end
 end
 
 # The single demo issue from spec/fixtures/import/jira/issue.json together with every Jira-side

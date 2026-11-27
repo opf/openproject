@@ -41,15 +41,6 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
     jira_import.update!(system_field_custom_fields: { "resolutiondate" => resolution_date_cf.id })
   end
 
-  # Pretend another job did this right before this one takes the lock: the write leaves our query cache alone.
-  def as_another_job_before_locking(locked_class, &)
-    allow(OpenProject::Mutex).to receive(:with_advisory_lock)
-      .and_wrap_original do |original, resource_class, *args, **options, &block|
-      ActiveRecord::Base.uncached(dirties: false, &) if resource_class == locked_class
-      original.call(resource_class, *args, **options, &block)
-    end
-  end
-
   describe "#perform" do
     context "when importing a full project with issues and comments" do
       before do

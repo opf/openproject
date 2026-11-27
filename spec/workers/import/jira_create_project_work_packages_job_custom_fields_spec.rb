@@ -1517,4 +1517,63 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
       expect(WorkPackageCustomField.pluck(:name)).to contain_exactly("CF Number", "CF Number (2)")
     end
   end
+
+  describe "a field the type's form doesn't have yet" do
+    let!(:jira_field) do
+      create(:jira_field, jira_import:,
+                          origin_id: "customfield_10255",
+                          payload: {
+                            "id" => "customfield_10255",
+                            "name" => "CF String",
+                            "schema" => {
+                              "type" => "string",
+                              "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:textfield",
+                              "customId" => 10255
+                            }
+                          })
+    end
+    let!(:jira_issue) do
+      create(:jira_issue, jira_import:, origin_id: "10200", jira_project:, payload: issue_payload)
+    end
+
+    context "when another issue of the type brings it too" do
+      let!(:another_jira_issue) do
+        create(:jira_issue, jira_import:, origin_id: "10201", jira_project:,
+                            payload: issue_payload.merge("key" => "DYX-3"))
+      end
+
+      it "updates the type's form only for the first issue" do
+        allow(OpenProject::Mutex).to receive(:with_advisory_lock_transaction).and_call_original
+
+        import_project
+
+        expect(OpenProject::Mutex).to have_received(:with_advisory_lock_transaction)
+          .with(an_instance_of(FormConfiguration), WorkPackageTypes::FormConfiguration::LayoutLock::SUFFIX).once
+      end
+    end
+
+    context "when another job adds it to the type's form first" do
+      def add_custom_field(name, type:)
+        form = Type.find_by!(name: type).default_variant.form_configuration
+        form.custom_field_ids |= [WorkPackageCustomField.find_by!(name:).id]
+      end
+
+      def form_group_of(custom_field_name, type:)
+        attribute = WorkPackageCustomField.find_by!(name: custom_field_name).attribute_name
+        Type.find_by!(name: type).default_variant.attribute_groups.find { |group| group.attributes.include?(attribute) }&.key
+      end
+
+      it "sets the issue's value without moving the field the other job added" do
+        create_project_role
+        create_labels
+        create_project
+        as_another_job_before_locking(FormConfiguration) { add_custom_field("CF String", type: "Task") }
+
+        ActiveRecord::Base.cache { create_work_packages }
+
+        expect(cf_value("CF String")).to eq("my plain string value")
+        expect(form_group_of("CF String", type: "Task")).to eq(:other)
+      end
+    end
+  end
 end
