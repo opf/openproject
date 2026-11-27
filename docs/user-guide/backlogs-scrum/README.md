@@ -10,7 +10,7 @@ keywords: backlogs, scrum, backlog, agile, sprint, sprint bucket, backlog bucket
 
 OpenProject supports agile project management and Scrum methodology through the Backlogs module. You can organize and prioritize work packages in backlog buckets, plan and manage sprints, track progress on automated sprint boards, and analyze sprint results using sprint reports.
 
-To use Backlogs in a project, activate the **Backlogs** module under [Project settings → Modules](../projects/project-settings/modules/). Activating the Backlogs module also automatically activates the Boards module.
+To use Backlogs in a project, activate the **Backlogs** module under [Project settings → Modules](../projects/project-settings/modules/). Activating the Backlogs module also automatically activates the Boards and Work packages modules.
 
 You can configure project-specific backlog and sprint behavior under [Backlogs project settings](../projects/project-settings/backlogs-settings/).
 

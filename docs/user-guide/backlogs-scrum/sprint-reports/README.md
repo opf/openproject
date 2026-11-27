@@ -59,7 +59,7 @@ The overview includes four metrics:
 
 Scope changes are displayed separately as increases (+) and decreases (-). Changes to effort estimates in the selected reporting unit are also reflected in the scope change metric, even if no work packages have been added to or removed from the sprint.
 
-Click **View all** next to a metric to view the corresponding work packages.
+Click **View all** next to a metric to view the corresponding work packages. This uses [baseline comparison](../../work-packages/baseline-comparison/), which is an Enterprise add-on.
 
 > [!NOTE]
 > Whether a work package is considered completed depends on the statuses configured under [Statuses considered closed](../../projects/project-settings/backlogs-settings/#statuses-considered-closed) in the Backlogs project settings.
@@ -92,7 +92,7 @@ The horizontal axis represents the sprint timeline, while the vertical axis repr
 The chart includes:
 
 - **Remaining work:** The red area represents the amount of work that has not yet been completed.
-- **Guideline:** A reference line representing the expected reduction of remaining work over the sprint.
+- **Guideline:** A reference line showing the calculated ideal reduction of the remaining work over the sprint.
 - **Non-working days:** Shaded areas indicate non-working days.
 
 ![Burndown chart showing remaining work and the guideline over the course of a sprint in OpenProject](openproject_user_guide_sprint_report_burndown.png)
@@ -111,7 +111,7 @@ The chart includes:
 
 - **Completed work:** The green area represents the amount of completed work.
 - **Total work scope:** The red line represents the total amount of work included in the sprint.
-- **Guideline:** A reference line representing the expected progress over the sprint.
+- **Guideline:** A reference line showing the calculated ideal progress over the sprint.
 - **Non-working days:** Shaded areas indicate non-working days.
 
 ![Burnup chart showing completed work, total sprint scope, and the guideline in OpenProject](openproject_user_guide_sprint_report_burnup.png)
@@ -210,7 +210,7 @@ Sprint reports remain available after a sprint has been completed, allowing team
 For completed sprints, the actual completion date is used instead of the planned finish date as the reporting cutoff. This ensures that the report reflects the period during which the sprint was actually active, even if it was completed earlier or later than originally planned.
 
 > [!TIP]
-> Reports are frozen once a sprint is completed. Changing a work package's status, estimate, or sprint afterwards no longer affects the report. This keeps the results reliable for sprint reviews and for comparing sprints over longer periods.
+> Reports are frozen once a sprint is completed. Changing a work package's status, estimate, or sprint afterwards no longer affects the report. This keeps the results reliable for sprint reviews and for comparing sprints over longer periods. If a work package is deleted, it gets removed from the report as well.
 
 ## Reports without sufficient data
 
