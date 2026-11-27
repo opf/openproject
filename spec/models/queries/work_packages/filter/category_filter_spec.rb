@@ -103,5 +103,23 @@ RSpec.describe Queries::WorkPackages::Filter::CategoryFilter do
           .to be_ar_object_filter
       end
     end
+
+    describe "#human_name" do
+      context "with multiple categories disabled",
+              with_flag: { work_package_multiple_categories: false },
+              with_settings: { work_package_multiple_categories: false } do
+        it "is the singular category" do
+          expect(instance.human_name).to eq WorkPackage.human_attribute_name(:category)
+        end
+      end
+
+      context "with multiple categories enabled",
+              with_flag: { work_package_multiple_categories: true },
+              with_settings: { work_package_multiple_categories: true } do
+        it "is the plural categories" do
+          expect(instance.human_name).to eq WorkPackage.human_attribute_name(:categories)
+        end
+      end
+    end
   end
 end

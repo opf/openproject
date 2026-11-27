@@ -2196,7 +2196,11 @@ describe('Sortable lists item controller', () => {
     // default; the root's tabindex stands in for a consumer that makes the
     // row itself focusable.
     async function renderItem(
-      { mobility, withFocusTarget = false }:{ mobility?:string; withFocusTarget?:boolean } = {},
+      { mobility, withFocusTarget = false, rootDragDisabled }:{
+        mobility?:string;
+        withFocusTarget?:boolean;
+        rootDragDisabled?:boolean;
+      } = {},
     ):Promise<HTMLElement> {
       ctx = await setupStimulusTest({
         controllers: {
@@ -2209,14 +2213,17 @@ describe('Sortable lists item controller', () => {
         ? '<button type="button" data-sortable-lists--item-target="focus">Focus me</button>'
         : '';
 
-      await ctx.mount(`
+      const item = `
         <li
           tabindex="0"
           data-controller="sortable-lists--item"
           data-sortable-lists--item-id-value="1"
           data-sortable-lists--item-type-value="work_package"${mobilityAttr}
         >${focusTargetHtml}</li>
-      `);
+      `;
+      await ctx.mount(rootDragDisabled === undefined
+        ? item
+        : `<ul data-controller="sortable-lists"${rootDragDisabled ? ' data-sortable-lists-drag-disabled' : ''}>${item}</ul>`);
 
       return ctx.container.querySelector<HTMLElement>('[data-controller="sortable-lists--item"]')!;
     }
@@ -2243,6 +2250,18 @@ describe('Sortable lists item controller', () => {
       const item = await renderItem({ mobility: 'fixed' });
 
       expect(item.hasAttribute('data-drop-target-for-element')).toBe(true);
+    });
+
+    it('does not register a draggable when its root disables dragging', async () => {
+      const item = await renderItem({ mobility: 'free', rootDragDisabled: true });
+
+      expect(item).not.toHaveAttribute('draggable');
+    });
+
+    it('registers a draggable when its root leaves dragging enabled', async () => {
+      const item = await renderItem({ mobility: 'free', rootDragDisabled: false });
+
+      expect(item).toHaveAttribute('draggable');
     });
 
     it('treats a missing mobility attribute as free', async () => {

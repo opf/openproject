@@ -118,7 +118,7 @@ class Projects::Settings::WorkPackagesImportController < Projects::SettingsContr
 
     @error = expired ? expired_message(message) : message
 
-    render :show, status: :unprocessable_entity
+    render :show, status: :unprocessable_content
   end
 
   def expired_message(fallback)

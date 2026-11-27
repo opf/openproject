@@ -86,7 +86,7 @@ class Projects::Settings::CreationWizardController < Projects::SettingsControlle
     if custom_field_toggleable?(cf) && toggle_mapping(mapping)
       render json: {}, status: :ok
     else
-      render json: {}, status: :unprocessable_entity
+      render json: {}, status: :unprocessable_content
     end
   end
 
@@ -181,7 +181,7 @@ class Projects::Settings::CreationWizardController < Projects::SettingsControlle
       redirect_to project_settings_creation_wizard_path(@project, tab:)
     else
       params[:tab] = tab
-      render action: :show, status: :unprocessable_entity
+      render action: :show, status: :unprocessable_content
     end
   end
 

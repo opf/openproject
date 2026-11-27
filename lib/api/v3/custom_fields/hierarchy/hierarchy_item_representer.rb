@@ -63,6 +63,13 @@ module API
             }.compact
           end
 
+          link :project do
+            project = represented.project
+            next if project.nil?
+
+            { href: api_v3_paths.project(project.id), title: project.name }
+          end
+
           links :children do
             represented.children.map do |child|
               {

@@ -28,7 +28,7 @@
 import { waitFor } from '@testing-library/dom';
 import { vi, type Mock } from 'vitest';
 
-import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
+import { setupStimulusTest, type StimulusTestContext, stubPendingPluginContext, stubPluginContext } from 'core-stimulus/test-helpers';
 import { TurboHelpers } from 'core-turbo/helpers';
 import type AsyncJobDialogControllerType from './job-dialog.controller';
 
@@ -37,7 +37,6 @@ describe('Job dialog controller', () => {
   let AsyncJobDialogController:typeof AsyncJobDialogControllerType;
   let addError:Mock;
   let jobStatusModalPath:Mock;
-  let originalOpenProject:typeof window.OpenProject;
 
   beforeAll(async () => {
     ({ default: AsyncJobDialogController } = await import('./job-dialog.controller'));
@@ -46,15 +45,12 @@ describe('Job dialog controller', () => {
   beforeEach(async () => {
     addError = vi.fn();
     jobStatusModalPath = vi.fn().mockReturnValue('/job_statuses/abc/dialog');
-    originalOpenProject = window.OpenProject;
-    window.OpenProject = {
-      getPluginContext: () => Promise.resolve({
-        services: {
-          notifications: { addError },
-          pathHelperService: { jobStatusModalPath },
-        },
-      }),
-    } as unknown as typeof window.OpenProject;
+    stubPluginContext({
+      services: {
+        notifications: { addError },
+        pathHelperService: { jobStatusModalPath },
+      },
+    });
 
     ctx = await setupStimulusTest({
       controllers: { 'job-dialog': AsyncJobDialogController },
@@ -63,7 +59,6 @@ describe('Job dialog controller', () => {
 
   afterEach(() => {
     ctx.dispose();
-    window.OpenProject = originalOpenProject;
     vi.restoreAllMocks();
   });
 
@@ -103,10 +98,7 @@ describe('Job dialog controller', () => {
   });
 
   it('runs a click arriving before the plugin context resolves once it does', async () => {
-    let resolveContext!:(context:unknown) => void;
-    window.OpenProject = {
-      getPluginContext: () => new Promise((resolve) => { resolveContext = resolve; }),
-    } as unknown as typeof window.OpenProject;
+    const resolveContext = stubPendingPluginContext();
 
     const fetchSpy = vi.spyOn(window, 'fetch')
       .mockResolvedValueOnce({
@@ -137,10 +129,7 @@ describe('Job dialog controller', () => {
   });
 
   it('leaves the progress bar alone when disconnected before the context resolves', async () => {
-    let resolveContext!:(context:unknown) => void;
-    window.OpenProject = {
-      getPluginContext: () => new Promise((resolve) => { resolveContext = resolve; }),
-    } as unknown as typeof window.OpenProject;
+    const resolveContext = stubPendingPluginContext();
 
     const showProgressBar = vi.spyOn(TurboHelpers, 'showProgressBar');
     const fetchSpy = vi.spyOn(window, 'fetch').mockResolvedValue({

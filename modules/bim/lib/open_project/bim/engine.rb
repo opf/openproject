@@ -136,8 +136,6 @@ module OpenProject::Bim
 
     class_inflection_override("v2_1" => "V2_1")
 
-    assets %w(bim/logo_openproject_bim_big.png bim/logo_openproject_bim_big_coloured.png)
-
     patches %i[Attachment WorkPackage TypeVariant Journal RootSeeder Project FogFileUploader]
 
     patch_with_namespace :OpenProject, :CustomStyles, :ColorThemes

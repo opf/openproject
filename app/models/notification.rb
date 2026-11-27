@@ -62,7 +62,13 @@ class Notification < ApplicationRecord
          :recipient,
          :visible
 
+  after_commit :schedule_push, if: -> { read_ian == false && (previously_new_record? || saved_change_to_read_ian?) }
+
   def date_alert?
     reason.in?(["date_alert_start_date", "date_alert_due_date"])
   end
+
+  private
+
+  def schedule_push = PushSubscriptions::NotifyJob.schedule_for(recipient_id)
 end

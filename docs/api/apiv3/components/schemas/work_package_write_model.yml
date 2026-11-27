@@ -57,12 +57,26 @@ properties:
     type: object
     properties:
       category:
+        deprecated: true
         allOf:
           - $ref: './link.yml'
           - description: |-
               The category of the work package
 
               **Resource**: Category
+      categories:
+        type: array
+        items:
+          $ref: './link.yml'
+        description: |-
+          List of categories associated to the work package
+
+          **Resource**: Collection of Category
+
+          # Conditions
+
+          - Transitioning from single to multiple category support
+          - (Temporary) Only allows a single value while multiple categories is not enabled
       type:
         allOf:
           - $ref: './link.yml'

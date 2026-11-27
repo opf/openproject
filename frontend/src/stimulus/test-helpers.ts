@@ -29,6 +29,8 @@ import { Application, Controller } from '@hotwired/stimulus';
 import { type ControllerConstructor } from '@hotwired/stimulus/dist/types/core/controller';
 import { getQueriesForElement, queries, type BoundFunctions } from '@testing-library/dom';
 import { nextFrame } from 'core-common/testing/timing';
+import { type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
+import { onTestFinished } from 'vitest';
 
 export interface StimulusTestContext {
   application:Application;
@@ -113,4 +115,50 @@ export function createControllerInstance<T extends Controller>(
   ControllerClass:{ new (...args:unknown[]):T; prototype:T },
 ):T {
   return Object.create(ControllerClass.prototype) as T;
+}
+
+interface PluginContextStub {
+  services?:Partial<Record<ServiceKey, unknown>>;
+  classes?:Record<string, unknown>;
+  helpers?:Record<string, unknown>;
+  injector?:{ get:(token:unknown) => unknown };
+}
+
+/**
+ * Stands in for the Angular plugin context that controllers using the `useAngularServices` mixin
+ * read their services from. The original is restored when the test finishes.
+ *
+ * **Call from `beforeEach` or inside a test, never from `beforeAll` or at describe level.** The
+ * restore is registered on the running test, so outside one this throws.
+ *
+ * @example
+ * stubPluginContext({ services: { notifications: { addError } } });
+ */
+export function stubPluginContext(context:PluginContextStub):void {
+  installOpenProjectStub(() => Promise.resolve(context));
+}
+
+/**
+ * Like `stubPluginContext`, but the context stays pending until the returned function is called,
+ * for testing a controller that disconnects before its services arrive.
+ *
+ * **Call from `beforeEach` or inside a test, never from `beforeAll` or at describe level.** The
+ * restore is registered on the running test, so outside one this throws.
+ *
+ * @example
+ * const resolveContext = stubPendingPluginContext();
+ * element.remove();
+ * resolveContext({ services: { notifications: { addError } } });
+ */
+export function stubPendingPluginContext():(context:PluginContextStub) => void {
+  let resolveContext!:(context:PluginContextStub) => void;
+  const context = new Promise<PluginContextStub>((resolve) => { resolveContext = resolve; });
+  installOpenProjectStub(() => context);
+  return resolveContext;
+}
+
+function installOpenProjectStub(getPluginContext:() => Promise<PluginContextStub>):void {
+  const original = window.OpenProject;
+  window.OpenProject = { getPluginContext } as unknown as typeof window.OpenProject;
+  onTestFinished(() => { window.OpenProject = original; });
 }

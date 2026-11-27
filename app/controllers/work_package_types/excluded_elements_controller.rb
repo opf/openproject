@@ -49,7 +49,7 @@ module WorkPackageTypes
         update_form_configuration_via_turbo_stream(method: :morph)
         respond_with_turbo_streams
       else
-        render json: {}, status: call.success? ? :ok : :unprocessable_entity
+        render json: {}, status: call.success? ? :ok : :unprocessable_content
       end
     end
 

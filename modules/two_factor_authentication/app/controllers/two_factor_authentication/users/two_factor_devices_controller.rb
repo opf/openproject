@@ -64,7 +64,7 @@ module ::TwoFactorAuthentication
           redirect_to index_path
         else
           Rails.logger.info "Admin ##{current_user.id} failed to register a new device #{@device_type} for #{@user.id}."
-          render "two_factor_authentication/two_factor_devices/new", status: :unprocessable_entity
+          render "two_factor_authentication/two_factor_devices/new", status: :unprocessable_content
         end
       end
 

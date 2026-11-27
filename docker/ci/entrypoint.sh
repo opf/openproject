@@ -113,7 +113,7 @@ setup_hocuspocus() {
 start_hocuspocus() {
   if [ -d "extensions/op-blocknote-hocuspocus" ]; then
     cd extensions/op-blocknote-hocuspocus
-    execute "SECRET=$OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__SECRET npm run start"
+    execute "SECRET=$OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__SECRET npm run start > ../../log/hocuspocus.log 2>&1"
     cd -
   else
     echo 'Could not find Hocuspocus in extensions/op-blocknote-hocuspocus!'
@@ -159,10 +159,59 @@ setup_tests() {
 	wait_for_background
 }
 
+run_parallel_specs() {
+	local suite="$1"
+	local spec_globs="$2"
+	local runtime_log="spec/support/runtime-logs/turbo_runtime_${suite}.log"
+	local seed="${CI_SEED:-$RANDOM}"
+	local status=0
+
+	echo "Running specs in $JOBS processes. The output of each process is printed once it has finished, so there may be no output for several minutes."
+	execute "time bundle exec parallel_rspec -n $JOBS --serialize-stdout --combine-stderr --verbose-command --runtime-log $runtime_log -o '--seed $seed' $spec_globs" || status=$?
+
+	# Passing --format via -o would replace all formatters of .rspec_parallel,
+	# so its runtime log is copied instead.
+	if [ -s tmp/parallel_runtime.log ]; then
+		cp tmp/parallel_runtime.log "$runtime_log"
+	fi
+
+	if [ "$status" -ne 0 ]; then
+		print_failed_examples "$suite" "$seed"
+	fi
+
+	return "$status"
+}
+
+print_failed_examples() {
+	local suite="$1"
+	local seed="$2"
+	local failures_log="tmp/parallel_failures.log"
+	local failed_count
+	local failed_locations
+
+	if [ -s "$failures_log" ]; then
+		echo "Failures of all processes:"
+		cat "$failures_log"
+
+		failed_count=$(grep -c '^rspec ' "$failures_log")
+		failed_locations=$(grep '^rspec ' "$failures_log" | cut -d ' ' -f 2 | paste -sd ' ' -)
+		{
+			echo "The **$suite** specs failed with $failed_count failed examples in $JOBS processes, run with seed \`$seed\`."
+			echo
+			echo "Rerun all failed examples with the same seed:"
+			echo
+			echo '```'
+			echo "bundle exec rspec --seed $seed $failed_locations"
+			echo '```'
+			echo
+		} > tmp/parallel_failures_intro.md
+	fi
+}
+
 run_units() {
 	shopt -s extglob globstar nullglob
 	reset_dbs
-	execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/runtime-logs/turbo_runtime_units.log {,modules/*/}spec/{!(features)/**/,}*_spec.rb"
+	run_parallel_specs units '{,modules/*/}spec/{!(features)/**/,}*_spec.rb'
 	cleanup
 }
 
@@ -171,7 +220,7 @@ run_features() {
 	run_background start_hocuspocus
 	reset_dbs
 
-	if ! execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/runtime-logs/turbo_runtime_features.log {,modules/*/}spec/features/**/*_spec.rb"; then
+	if ! run_parallel_specs features '{,modules/*/}spec/features/**/*_spec.rb'; then
 		retry_failed_features
 	fi
 	report_slowest_feature_files
@@ -215,11 +264,11 @@ retry_failed_features() {
 run_all() {
 	shopt -s globstar nullglob
 	reset_dbs
-	execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/runtime-logs/turbo_runtime_all.log {,modules/*/}spec/**/*_spec.rb"
+	run_parallel_specs all '{,modules/*/}spec/**/*_spec.rb'
 	cleanup
 }
 
-export -f cleanup execute execute_quiet run_psql create_db_cluster reset_dbs setup_tests setup_hocuspocus start_hocuspocus backend_stuff frontend_stuff run_units run_features report_slowest_feature_files retry_failed_features run_all
+export -f cleanup execute execute_quiet run_psql create_db_cluster reset_dbs setup_tests setup_hocuspocus start_hocuspocus backend_stuff frontend_stuff run_parallel_specs print_failed_examples run_units run_features report_slowest_feature_files retry_failed_features run_all
 
 if [ "$1" == "setup-tests" ]; then
 	shift

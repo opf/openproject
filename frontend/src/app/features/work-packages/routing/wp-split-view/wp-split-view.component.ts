@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, HostListener, Input, OnInit, Type, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostListener, Input, OnInit, Type, inject } from '@angular/core';
 import {
   WorkPackageViewFocusService,
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
@@ -63,6 +63,7 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
   recentItemsService = inject(RecentItemsService);
   readonly urlParams = inject(UrlParamsService);
   readonly wpTabs = inject(WorkPackageTabsService);
+  private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
   @Input() showTabs = true;
 
@@ -74,6 +75,13 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
   @HostListener('document:ian-update-immediate')
   triggerImmediateUpdate() {
     this.storeService.reload();
+  }
+
+  @HostListener('document:turbo:render')
+  restoreTitle():void {
+    if (this.workPackage && this.elementRef.nativeElement.isConnected) {
+      this.applyTitle();
+    }
   }
 
   ngOnInit():void {

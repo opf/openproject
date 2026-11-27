@@ -75,7 +75,7 @@ class MessagesController < ApplicationController
 
       redirect_to project_forum_topic_path(@project, @forum, @message)
     else
-      render action: :new, status: :unprocessable_entity
+      render action: :new, status: :unprocessable_content
     end
   end
 
@@ -91,7 +91,7 @@ class MessagesController < ApplicationController
       redirect_to helpers.message_anchor_path(@reply)
     else
       load_thread
-      render action: :show, status: :unprocessable_entity
+      render action: :show, status: :unprocessable_content
     end
   end
 
@@ -107,7 +107,7 @@ class MessagesController < ApplicationController
       @message.reload
       redirect_to project_forum_topic_path(@project, @forum, @message.root, r: @message.parent_id && @message.id)
     else
-      render action: :edit, status: :unprocessable_entity
+      render action: :edit, status: :unprocessable_content
     end
   end
 

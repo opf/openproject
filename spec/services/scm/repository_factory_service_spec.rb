@@ -119,7 +119,7 @@ RSpec.describe SCM::RepositoryFactoryService do
     end
   end
 
-  context "with valid hash" do
+  context "with valid hash", with_config: { scm: { subversion: { allowed_local_paths: ["/tmp"] } } } do
     let(:params_hash) do
       {
         scm_vendor: "subversion", scm_type: "existing",

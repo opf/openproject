@@ -180,7 +180,7 @@ RSpec.describe "API v3 Work package resource",
 
           include_context "patch request"
 
-          it { expect(response).to have_http_status(:unprocessable_entity) }
+          it { expect(response).to have_http_status(:unprocessable_content) }
 
           it "has a readonly error" do
             expect(response.body)
@@ -637,7 +637,7 @@ RSpec.describe "API v3 Work package resource",
 
           include_context "patch request"
 
-          it { expect(response).to have_http_status(:unprocessable_entity) }
+          it { expect(response).to have_http_status(:unprocessable_content) }
 
           it "has a readonly error" do
             expect(response.body)
@@ -697,7 +697,7 @@ RSpec.describe "API v3 Work package resource",
 
           include_context "patch request"
 
-          it { expect(response).to have_http_status(:unprocessable_entity) }
+          it { expect(response).to have_http_status(:unprocessable_content) }
 
           it "rejects the update with a single-value error" do
             expect(response.body).to include("Target Versions can only hold a single value")
@@ -739,7 +739,7 @@ RSpec.describe "API v3 Work package resource",
 
           include_context "patch request"
 
-          it { expect(response).to have_http_status(:unprocessable_entity) }
+          it { expect(response).to have_http_status(:unprocessable_content) }
 
           it "has a readonly error" do
             expect(response.body)
@@ -829,7 +829,7 @@ RSpec.describe "API v3 Work package resource",
 
           include_context "patch request"
 
-          it { expect(response).to have_http_status(:unprocessable_entity) }
+          it { expect(response).to have_http_status(:unprocessable_content) }
 
           it "does not assign the label" do
             expect(work_package.reload.labels).to be_empty
@@ -875,7 +875,7 @@ RSpec.describe "API v3 Work package resource",
 
           include_context "patch request"
 
-          it { expect(response).to have_http_status(:unprocessable_entity) }
+          it { expect(response).to have_http_status(:unprocessable_content) }
 
           it "does not create the label" do
             expect(Label.where(name: "Needs triage")).not_to exist
@@ -900,7 +900,7 @@ RSpec.describe "API v3 Work package resource",
 
           include_context "patch request"
 
-          it { expect(response).to have_http_status(:unprocessable_entity) }
+          it { expect(response).to have_http_status(:unprocessable_content) }
 
           it "has a readonly error" do
             expect(response.body)
@@ -915,7 +915,7 @@ RSpec.describe "API v3 Work package resource",
           context "with a title for a label that does not exist yet" do
             let(:label_links) { [{ href: nil, title: "Needs triage" }] }
 
-            it { expect(response).to have_http_status(:unprocessable_entity) }
+            it { expect(response).to have_http_status(:unprocessable_content) }
 
             it "has a readonly error" do
               expect(response.body)
@@ -930,7 +930,9 @@ RSpec.describe "API v3 Work package resource",
         end
       end
 
-      context "category" do
+      context "when setting the category",
+              with_flag: { work_package_multiple_categories: false },
+              with_settings: { work_package_multiple_categories: false } do
         let(:target_category) { create(:category, project:) }
         let(:category_link) { api_v3_paths.category target_category.id }
         let(:category_parameter) { { _links: { category: { href: category_link } } } }
@@ -950,6 +952,98 @@ RSpec.describe "API v3 Work package resource",
           end
 
           it_behaves_like "lock version updated"
+        end
+      end
+
+      describe "categories" do
+        let(:backend) { create(:category, project:, name: "Backend") }
+        let(:api) { create(:category, project:, name: "api") }
+        let(:categories_links) { [{ href: api_v3_paths.category(backend.id) }] }
+        let(:params) { valid_params.merge(_links: { categories: categories_links }) }
+
+        before { allow(User).to receive(:current).and_return current_user }
+
+        context "with a single category" do
+          include_context "patch request"
+
+          it { expect(response).to have_http_status(:ok) }
+
+          it "assigns the category and mirrors it into category_id" do
+            expect(work_package.reload).to have_attributes(categories: [backend], category_id: backend.id)
+          end
+
+          it "responds with the category link" do
+            expect(response.body)
+              .to be_json_eql(api_v3_paths.category(backend.id).to_json)
+                    .at_path("_links/categories/0/href")
+          end
+
+          it_behaves_like "lock version updated"
+        end
+
+        context "with an empty collection" do
+          let!(:existing) { create(:work_package_category, work_package:, category: backend) }
+          let(:categories_links) { [] }
+
+          include_context "patch request"
+
+          it { expect(response).to have_http_status(:ok) }
+
+          it "clears the categories" do
+            expect(work_package.reload.categories).to be_empty
+          end
+        end
+
+        context "with more than one category while multiple categories is disabled",
+                with_flag: { work_package_multiple_categories: false },
+                with_settings: { work_package_multiple_categories: false } do
+          let(:categories_links) do
+            [{ href: api_v3_paths.category(backend.id) },
+             { href: api_v3_paths.category(api.id) }]
+          end
+
+          include_context "patch request"
+
+          it { expect(response).to have_http_status(:unprocessable_content) }
+
+          it "rejects the update with a single-value error" do
+            expect(response.body).to include("Categories can only hold a single value")
+          end
+
+          it "does not assign any category" do
+            expect(work_package.reload.categories).to be_empty
+          end
+        end
+
+        context "with more than one category while multiple categories is enabled",
+                with_flag: { work_package_multiple_categories: true },
+                with_settings: { work_package_multiple_categories: true } do
+          let(:categories_links) do
+            [{ href: api_v3_paths.category(backend.id) },
+             { href: api_v3_paths.category(api.id) }]
+          end
+
+          include_context "patch request"
+
+          it { expect(response).to have_http_status(:ok) }
+
+          it "assigns all categories" do
+            expect(work_package.reload.categories).to contain_exactly(backend, api)
+          end
+
+          it "responds with a link per category ordered by id" do
+            hrefs = parse_json(response.body, "_links/categories").pluck("href")
+
+            expect(hrefs).to eq([backend, api].sort_by(&:id).map { api_v3_paths.category(it.id) })
+          end
+        end
+
+        context "with a category of another project" do
+          let(:categories_links) { [{ href: api_v3_paths.category(create(:category).id) }] }
+
+          include_context "patch request"
+
+          it { expect(response).to have_http_status(:unprocessable_content) }
         end
       end
 

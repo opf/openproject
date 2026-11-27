@@ -171,7 +171,7 @@ RSpec.describe "Admin semantic indexes", :skip_csrf,
       post semantic_indexes_path, params: { semantic_index: valid_params[:semantic_index].merge(model_id: "qwen3.6-27b") },
                                   headers: turbo_headers
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(response.body).to include(I18n.t("activerecord.errors.models.semantic_index.attributes.model_id.not_offered"))
       expect(SemanticIndex.count).to eq(0)
     end
@@ -207,7 +207,7 @@ RSpec.describe "Admin semantic indexes", :skip_csrf,
             params: { semantic_index: { context_token_length: 4096 } },
             headers: turbo_headers
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(response.body).to include(CGI.escapeHTML(I18n.t("admin.semantic_indexes.form.immutable")))
       expect(semantic_index.reload.context_token_length).to eq(8192)
     end

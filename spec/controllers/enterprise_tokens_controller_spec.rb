@@ -154,7 +154,7 @@ RSpec.describe EnterpriseTokensController do
 
         # TODO: is it still relevant to test html rendering?
         it "renders with error" do
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
           expect(response).to render_template "enterprise_tokens/index"
         end
 
@@ -162,7 +162,7 @@ RSpec.describe EnterpriseTokensController do
           let(:format) { :turbo_stream }
 
           it "renders the form with an error message for the unreadable token" do
-            expect(response).to have_http_status(:unprocessable_entity)
+            expect(response).to have_http_status(:unprocessable_content)
             expect(response).to have_turbo_stream action: "update", target: "admin-enterprise-tokens-form-component"
             expected_error_message = I18n.t("activerecord.errors.models.enterprise_token.unreadable")
             expect(response.body).to include(ERB::Util.html_escape(expected_error_message))
@@ -175,7 +175,7 @@ RSpec.describe EnterpriseTokensController do
 
         # TODO: is it still relevant to test html rendering?
         it "renders with error" do
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
           expect(response).to render_template "enterprise_tokens/index"
         end
 
@@ -183,7 +183,7 @@ RSpec.describe EnterpriseTokensController do
           let(:format) { :turbo_stream }
 
           it "renders the form with an error message for the invalid domain" do
-            expect(response).to have_http_status(:unprocessable_entity)
+            expect(response).to have_http_status(:unprocessable_content)
             expect(response).to have_turbo_stream action: "update", target: "admin-enterprise-tokens-form-component"
             expect(response.body).to include("Domain is invalid")
           end

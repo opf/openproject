@@ -118,7 +118,7 @@ class DocumentsController < ApplicationController
       redirect_to action: "show", id: @document
     else
       @document = call.result
-      render action: :edit, status: :unprocessable_entity
+      render action: :edit, status: :unprocessable_content
     end
   end
 
@@ -147,7 +147,7 @@ class DocumentsController < ApplicationController
       render_error_flash_message_via_turbo_stream(
         message: service_call.errors.full_messages
       )
-      @turbo_status = :unprocessable_entity
+      @turbo_status = :unprocessable_content
     end
 
     respond_with_turbo_streams
@@ -203,7 +203,7 @@ class DocumentsController < ApplicationController
       redirect_to project_documents_path(@project)
     else
       @document = call.result
-      render action: :new, status: :unprocessable_entity
+      render action: :new, status: :unprocessable_content
     end
   end
 

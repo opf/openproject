@@ -523,7 +523,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       it "refuses to clear the identifier and keeps the model as it was" do
         patch llm_model_path(llm_model), params: { llm_model: { external_id: "" } }
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(llm_model.reload.external_id).to eq("hand-typed")
       end
 
@@ -584,7 +584,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       it "re-renders the form when an asserted state is not a state" do
         patch llm_model_path(llm_model), params: { llm_model: { model_type: "chat", capability_vision: "maybe" } }
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(connection.capability_verdicts.for_model("hand-typed")).to be_empty
       end
     end
@@ -629,7 +629,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
 
         post llm_models_path, params: { llm_model: { external_id: "already-there" } }
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(connection.models.where(external_id: "already-there").count).to eq(1)
       end
     end
@@ -641,7 +641,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
 
         patch llm_model_path(llm_model), params: { llm_model: { external_id: "taken" } }
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(llm_model.reload.external_id).to eq("mine")
       end
     end
@@ -730,7 +730,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       it "refuses one that is not a positive number" do
         patch llm_model_path(llm_model), params: { llm_model: { admin_context_window: "abc" } }
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(llm_model.reload.admin_context_window).to be_nil
       end
 
@@ -841,7 +841,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
 
         patch llm_model_path(discovered), params: { llm_model: { external_id: "renamed" } }
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(discovered.reload.external_id).to eq("server-named")
       end
     end
@@ -998,7 +998,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       it "re-renders the new model form with the error" do
         post llm_models_path, params: { llm_model: { external_id: "taken-meanwhile" } }
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.body).to include(taken)
         expect(connection.models.where(external_id: "taken-meanwhile").count).to eq(1)
       end
@@ -1008,7 +1008,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
 
         patch llm_model_path(llm_model), params: { llm_model: { external_id: "taken-meanwhile" } }
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.body).to include(taken)
         expect(llm_model.reload.external_id).to eq("hand-typed")
       end
@@ -1029,7 +1029,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       it "re-renders the edit form saying the assertions conflict, not that the name is taken" do
         patch llm_model_path(llm_model), params: { llm_model: { external_id: "purged" } }
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.body)
           .to include(I18n.t("activerecord.errors.models.llm_model.attributes.external_id.conflicting_capabilities"))
         expect(response.body).not_to include(I18n.t("activerecord.errors.messages.taken"))

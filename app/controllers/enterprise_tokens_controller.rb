@@ -64,12 +64,12 @@ class EnterpriseTokensController < ApplicationController
         @token.encoded_token = saved_encoded_token
       end
       respond_to do |format|
-        format.html { render action: :index, status: :unprocessable_entity }
+        format.html { render action: :index, status: :unprocessable_content }
         format.json { render json: { description: @token.errors.full_messages.join(", ") }, status: :bad_request }
         format.turbo_stream do
           component = Admin::EnterpriseTokens::FormComponent.new(@token)
           update_via_turbo_stream(component: component)
-          render turbo_stream: resolve_turbo_streams, status: :unprocessable_entity
+          render turbo_stream: resolve_turbo_streams, status: :unprocessable_content
         end
       end
     end

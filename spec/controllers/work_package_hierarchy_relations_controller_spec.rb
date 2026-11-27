@@ -68,14 +68,14 @@ RSpec.describe WorkPackageHierarchyRelationsController do
     context "when the indicated relation type is not valid (must be parent or child)" do
       it "replies with 422" do
         get("new", params: { work_package_id: work_package.id, relation_type: "invalid" }, as: :turbo_stream)
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
 
     context "when the relation type is not provided" do
       it "replies with 422" do
         get("new", params: { work_package_id: work_package.id }, as: :turbo_stream)
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
   end
@@ -100,7 +100,7 @@ RSpec.describe WorkPackageHierarchyRelationsController do
                                  work_package: { id: future_child_work_package.id },
                                  relation_type: },
                        as: :turbo_stream)
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(future_child_work_package.reload.parent).to be_nil
       end
 
@@ -151,7 +151,7 @@ RSpec.describe WorkPackageHierarchyRelationsController do
                                  work_package: { id: future_parent_work_package.id },
                                  relation_type: },
                        as: :turbo_stream)
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         # it's still parent_work_package and not future_parent_work_package
         expect(work_package.reload.parent).to eq(parent_work_package)
       end

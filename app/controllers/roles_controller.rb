@@ -71,7 +71,7 @@ class RolesController < ApplicationController
     else
       @roles = roles_scope
 
-      render action: :new, status: :unprocessable_entity
+      render action: :new, status: :unprocessable_content
     end
   end
 
@@ -82,7 +82,7 @@ class RolesController < ApplicationController
       flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to action: "index", status: :see_other
     else
-      render action: :edit, status: :unprocessable_entity
+      render action: :edit, status: :unprocessable_content
     end
   end
 
@@ -106,7 +106,7 @@ class RolesController < ApplicationController
       head :no_content
     else
       render_error_flash_message_via_turbo_stream(message: I18n.t(:error_invalid_list_move_anchor))
-      respond_with_turbo_streams(status: :unprocessable_entity)
+      respond_with_turbo_streams(status: :unprocessable_content)
     end
   end
 
@@ -126,7 +126,7 @@ class RolesController < ApplicationController
     else
       @calls = calls
       @permissions = visible_permissions
-      render action: "report", status: :unprocessable_entity
+      render action: "report", status: :unprocessable_content
     end
   end
 

@@ -32,14 +32,12 @@ require "spec_helper"
 RSpec.describe CustomField::OrderStatements do
   # integration tests at spec/models/query/results_cf_sorting_integration_spec.rb
   context "when hierarchy", with_ee: [:custom_field_hierarchies] do
-    let(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
     let(:item) { custom_field.hierarchy_root }
-    let(:contract_class) { CustomFields::Hierarchy::InsertListItemContract }
 
     subject(:custom_field) { create(:hierarchy_wp_custom_field) }
 
     before do
-      service.insert_item(contract_class:, parent: item, label: "Test")
+      create(:hierarchy_item, parent: item, label: "Test")
     end
 
     describe "#order_statement" do
@@ -47,12 +45,21 @@ RSpec.describe CustomField::OrderStatements do
     end
 
     describe "#order_join_statement" do
+      let(:usable_value_condition) do
+        custom_field.usable_value_condition(
+          "cv.value::bigint",
+          "SELECT project_id AS id FROM \"work_packages\" WHERE id = cv.customized_id"
+        )
+      end
+
       it "must be equal" do
-        expect(custom_field.order_join_statement).to eq(<<-SQL.squish)
+        expect(custom_field.order_join_statement).to eq(<<~SQL.squish)
           LEFT OUTER JOIN (
             SELECT DISTINCT ON (cv.customized_id) cv.customized_id
-                 , item.position_cache "value"
-                 , cv.value ids
+                 , CASE WHEN #{usable_value_condition} THEN item.position_cache
+                        ELSE #{CustomField::UNAVAILABLE_VALUE_POSITION} END "value"
+                 , CASE WHEN #{usable_value_condition} THEN cv.value
+                        ELSE '#{CustomField::UnavailableValue::GROUP_KEY}' END ids
             FROM "custom_values" cv INNER JOIN "hierarchical_items" item ON item.id = cv.value::bigint
             WHERE cv.customized_type = 'WorkPackage' AND cv.custom_field_id = #{custom_field.id}
                   AND cv.value IS NOT NULL AND cv.value != '' ORDER BY cv.customized_id, cv.id

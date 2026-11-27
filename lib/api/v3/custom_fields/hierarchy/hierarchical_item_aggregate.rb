@@ -32,7 +32,16 @@ module API
         class HierarchicalItemAggregate
           attr_accessor :depth
 
-          delegate :id, :label, :short, :weight, :parent, :root?, to: :item
+          delegate :id, :label, :short, :weight, :parent, :project, :root?, to: :item
+
+          # The first item of the tree is always included, hidden items are skipped with their descendants.
+          def self.from_tree(tree, visible_ids:, depth: -1)
+            tree.flat_map do |item, children|
+              next [] if depth >= 0 && visible_ids&.exclude?(item.id)
+
+              [new(item:, depth:, visible_ids:), *from_tree(children, visible_ids:, depth: depth + 1)]
+            end
+          end
 
           def initialize(item:, depth:, visible_ids: nil)
             @item = item

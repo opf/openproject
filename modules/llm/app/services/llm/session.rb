@@ -134,6 +134,10 @@ module Llm
       # OpenAI-compatible servers such as vLLM or Ollama drop the "developer"
       # role, and the instructions with it.
       config.openai_use_system_role = true
+      # RubyLLM defaults these providers to the Responses API, which
+      # OpenAI-compatible servers such as vLLM or Ollama do not serve.
+      config.openai_protocol = :chat_completions
+      config.xai_protocol = :chat_completions
     end
 
     def apply_credentials(config)

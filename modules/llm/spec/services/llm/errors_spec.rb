@@ -36,32 +36,34 @@ RSpec.describe Llm::Errors do
 
   describe ".translate" do
     it "maps an unauthorized response onto an authentication error" do
-      translated = described_class.translate(RubyLLM::UnauthorizedError.new(rubyllm_response(401), "nope"))
+      translated = described_class.translate(RubyLLM::UnauthorizedError.new("nope", response: rubyllm_response(401)))
 
       expect(translated).to be_a(Llm::Errors::AuthenticationError)
     end
 
     it "maps a forbidden response onto an authentication error" do
-      translated = described_class.translate(RubyLLM::ForbiddenError.new(rubyllm_response(403), "nope"))
+      translated = described_class.translate(RubyLLM::ForbiddenError.new("nope", response: rubyllm_response(403)))
 
       expect(translated).to be_a(Llm::Errors::AuthenticationError)
     end
 
     it "maps an exceeded context window onto a context length error" do
-      translated = described_class.translate(RubyLLM::ContextLengthExceededError.new(rubyllm_response(400), "too long"))
+      translated = described_class.translate(
+        RubyLLM::ContextLengthExceededError.new("too long", response: rubyllm_response(400))
+      )
 
       expect(translated).to be_a(Llm::Errors::ContextLengthError)
       expect(translated.status).to eq(400)
     end
 
     it "maps throttling onto a rate limited error" do
-      translated = described_class.translate(RubyLLM::RateLimitError.new(rubyllm_response(429), "slow down"))
+      translated = described_class.translate(RubyLLM::RateLimitError.new("slow down", response: rubyllm_response(429)))
 
       expect(translated).to be_a(Llm::Errors::RateLimitedError)
     end
 
     it "maps a bad request onto an api error carrying the status" do
-      translated = described_class.translate(RubyLLM::BadRequestError.new(rubyllm_response(400), "bad"))
+      translated = described_class.translate(RubyLLM::BadRequestError.new("bad", response: rubyllm_response(400)))
 
       expect(translated).to be_a(Llm::Errors::ApiError)
       expect(translated.status).to eq(400)
@@ -71,7 +73,7 @@ RSpec.describe Llm::Errors do
     # RubyLLM's middleware raises as a bare Error. This is the path that tells a
     # probe "this model cannot do that" rather than "the server is broken".
     it "maps an unimplemented endpoint onto an api error carrying the status" do
-      translated = described_class.translate(RubyLLM::Error.new(rubyllm_response(404), "not found"))
+      translated = described_class.translate(RubyLLM::Error.new("not found", response: rubyllm_response(404)))
 
       expect(translated).to be_a(Llm::Errors::ApiError)
       expect(translated.status).to eq(404)
@@ -153,7 +155,7 @@ RSpec.describe Llm::Errors do
                      RubyLLM::ServiceUnavailableError, RubyLLM::UnauthorizedError]
       plain_errors = [RubyLLM::ConfigurationError, RubyLLM::ModelNotFoundError]
 
-      errors = http_errors.map { |klass| klass.new(rubyllm_response(400), secret) } +
+      errors = http_errors.map { |klass| klass.new(secret, response: rubyllm_response(400)) } +
                plain_errors.map { |klass| klass.new(secret) }
 
       errors.each do |error|
@@ -171,7 +173,7 @@ RSpec.describe Llm::Errors do
     end
 
     it "re-raises a RubyLLM failure as an Llm::Errors" do
-      expect { described_class.wrap { raise RubyLLM::UnauthorizedError.new(rubyllm_response(401), "nope") } }
+      expect { described_class.wrap { raise RubyLLM::UnauthorizedError.new("nope", response: rubyllm_response(401)) } }
         .to raise_error(Llm::Errors::AuthenticationError)
     end
   end

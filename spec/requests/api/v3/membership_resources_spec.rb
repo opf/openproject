@@ -690,7 +690,7 @@ RSpec.describe "API v3 memberships resource", content_type: :json do
 
       context "as a non admin" do
         it "responds with 422 and explains the error" do
-          expect(last_response).to have_http_status(:unprocessable_entity)
+          expect(last_response).to have_http_status(:unprocessable_content)
 
           expect(last_response.body)
             .to be_json_eql("Project can't be blank.".to_json)
@@ -720,7 +720,7 @@ RSpec.describe "API v3 memberships resource", content_type: :json do
       end
 
       it "responds with 422 and explains the error" do
-        expect(last_response).to have_http_status(:unprocessable_entity)
+        expect(last_response).to have_http_status(:unprocessable_content)
 
         expect(last_response.body)
           .to be_json_eql("User has already been taken.".to_json)
@@ -749,7 +749,7 @@ RSpec.describe "API v3 memberships resource", content_type: :json do
       end
 
       it "responds with 422 and explains the error" do
-        expect(last_response).to have_http_status(:unprocessable_entity)
+        expect(last_response).to have_http_status(:unprocessable_content)
 
         error_message = "For property 'user' a link like '/api/v3/groups/:id' or " +
                         "'/api/v3/users/:id' or '/api/v3/placeholder_users/:id' is expected, " +
@@ -777,7 +777,7 @@ RSpec.describe "API v3 memberships resource", content_type: :json do
       end
 
       it "responds with 422 and explains the error" do
-        expect(last_response).to have_http_status(:unprocessable_entity)
+        expect(last_response).to have_http_status(:unprocessable_content)
 
         expect(last_response.body)
           .to be_json_eql("Roles need to be assigned.".to_json)

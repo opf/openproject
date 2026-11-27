@@ -50,14 +50,14 @@ module ProjectPhases
       @gate = params[:gate]
       return if @gate.in?(%w[start finish])
 
-      render json: { error: "Invalid gate parameter" }, status: :unprocessable_entity
+      render json: { error: "Invalid gate parameter" }, status: :unprocessable_content
     end
 
     def find_phase
       @phase = Project::Phase.where(active: true).eager_load(:definition).find_by(id: params[:id])
       return if @phase
 
-      render json: { error: "Invalid id parameter" }, status: :unprocessable_entity
+      render json: { error: "Invalid id parameter" }, status: :unprocessable_content
     end
   end
 end

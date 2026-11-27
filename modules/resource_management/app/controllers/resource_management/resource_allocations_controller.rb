@@ -94,7 +94,7 @@ module ::ResourceManagement
       return render_back_step if params[:back].present?
 
       validation = set_attributes(allocation_params)
-      return render_allocation_step(validation.result, status: :unprocessable_entity) if validation.failure?
+      return render_allocation_step(validation.result, status: :unprocessable_content) if validation.failure?
       return render_warning_step(validation.result) if needs_confirmation?(validation.result)
 
       persist_allocation
@@ -106,7 +106,7 @@ module ::ResourceManagement
       return render_edit_form(set_update_attributes.result) if params[:back].present?
 
       validation = set_update_attributes
-      return render_edit_form(validation.result, status: :unprocessable_entity) if validation.failure?
+      return render_edit_form(validation.result, status: :unprocessable_content) if validation.failure?
 
       if needs_confirmation?(validation.result)
         return render_warning_step(validation.result,
@@ -172,7 +172,7 @@ module ::ResourceManagement
       if call.success?
         render_create_success(call.result)
       else
-        render_allocation_step(call.result, status: :unprocessable_entity)
+        render_allocation_step(call.result, status: :unprocessable_content)
       end
     end
 
@@ -278,7 +278,7 @@ module ::ResourceManagement
       if call.success?
         render_update_success(call.result)
       else
-        render_edit_form(call.result, status: :unprocessable_entity)
+        render_edit_form(call.result, status: :unprocessable_content)
       end
     end
 

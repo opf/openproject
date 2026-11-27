@@ -30,7 +30,6 @@
 module API::V3::ProjectStorages
   class ProjectStorageRepresenter < ::API::Decorators::Single
     include API::Decorators::DateProperty
-    include API::Decorators::LinkedResource
     include API::V3::Workspaces::LinkedResource
 
     defaults render_nil: true

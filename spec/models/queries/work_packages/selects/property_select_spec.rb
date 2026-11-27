@@ -92,6 +92,39 @@ RSpec.describe Queries::WorkPackages::Selects::PropertySelect do
       end
     end
 
+    describe "category and categories columns" do
+      context "with multiple categories enabled",
+              with_flag: { work_package_multiple_categories: true },
+              with_settings: { work_package_multiple_categories: true } do
+        it "replaces the category column with the categories column" do
+          names = described_class.instances.map(&:name)
+
+          expect(names).to include :categories
+          expect(names).not_to include :category
+        end
+
+        it "is displayable, sortable and groupable" do
+          column = described_class.instances.find { it.name == :categories }
+
+          expect(column).to be_displayable
+          expect(column).to be_sortable
+          expect(column).to be_groupable
+          expect(column.caption).to eq WorkPackage.human_attribute_name(:categories)
+        end
+      end
+
+      context "with multiple categories disabled",
+              with_flag: { work_package_multiple_categories: false },
+              with_settings: { work_package_multiple_categories: false } do
+        it "keeps the category column" do
+          names = described_class.instances.map(&:name)
+
+          expect(names).to include :category
+          expect(names).not_to include :categories
+        end
+      end
+    end
+
     describe "observed_in_versions column" do
       it "is displayable, sortable and groupable" do
         column = described_class.instances.find { it.name == :observed_in_versions }

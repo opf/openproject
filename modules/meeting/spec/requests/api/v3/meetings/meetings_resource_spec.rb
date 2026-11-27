@@ -200,7 +200,7 @@ RSpec.describe "API v3 Meeting resource", content_type: :json do
       end
 
       it "returns 422" do
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
 
@@ -212,7 +212,7 @@ RSpec.describe "API v3 Meeting resource", content_type: :json do
       end
 
       it "returns 422" do
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
 
@@ -529,7 +529,7 @@ RSpec.describe "API v3 Meeting resource", content_type: :json do
       it "rejects the change with a readonly error and does not change the author" do
         expect(meeting.author).to eq(current_user)
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.body)
           .to be_json_eql("urn:openproject-org:api:v3:errors:PropertyIsReadOnly".to_json)
           .at_path("errorIdentifier")

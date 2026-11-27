@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe "repositories/revision" do
+RSpec.describe "repositories/revision", with_config: { scm: { git: { allowed_local_paths: ["/"] } } } do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
   let(:repository) { create(:repository_git, project:) }

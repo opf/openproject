@@ -28,9 +28,11 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= component_wrapper do %>
   <%= render(
-        Primer::OpenProject::SubHeader.new(
+        OpPrimer::QuickFilter::SubHeader.new(
           test_selector: "#{dom_class(model_class)}s-sub-header",
-          data: filters_form_attributes
+          query:,
+          clear_button_id:,
+          turbo_stream_request: true
         )
       ) do |sub_header| %>
     <%
@@ -52,5 +54,16 @@ See COPYRIGHT and LICENSE files for more details.
 
     <% sub_header.with_filter_component { render(filter_button_component) } %>
     <% sub_header.with_bottom_pane_component { render(filter_panel_component) } %>
+
+    <%
+      sub_header.with_action_button(
+        tag: :a,
+        scheme: :primary,
+        leading_icon: :plus,
+        label: reference_translate("index.actions.create"),
+        href: helpers.polymorphic_path([:configure_dialog, model_class]),
+        data: { controller: "async-dialog" }
+      ) { reference_translate("index.actions.create") }
+    %>
   <% end %>
 <% end %>

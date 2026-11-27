@@ -96,7 +96,7 @@ module ::ResourceManagement
         component: progress_modal_component(submit_path: update_path),
         method: "morph"
       )
-      respond_with_turbo_streams(status: :unprocessable_entity)
+      respond_with_turbo_streams(status: :unprocessable_content)
     end
 
     def update_path

@@ -108,7 +108,7 @@ The following example shows a user attribute with the **List** format.
 - **Editable**: Allows users to edit the attribute themselves.
 - **Show on user card**: Displays the attribute on user hover cards (information shown when you hover over a user name).
 
-Once you create a user attribute, you can [define help text](#define-user-attribute-help-text) and the list items.
+Once you create a user attribute, you can [define help text](#define-user-attribute-help-text) and the list values.
 
 ### User attribute formats
 There are multiple format options for user attributes in OpenProject. You can select one of the following formats:
@@ -116,7 +116,7 @@ There are multiple format options for user attributes in OpenProject. You can se
 - **Boolean** - creates a user attribute, that is either true or false. It is represented by a checkbox that can be checked or unchecked. 
 - **Date** - creates a user attribute, which allows selecting dates from a date picker.
 - **Float** - creates a user attribute for rational numbers.
-- **Hierarchy (Enterprise add-on)** -  creates a user attribute, which allows selecting one or multiple items from a hierarchical list structure. The structure can be created in the _Items_ tab of the user attribute after the creation.
+- **Hierarchy (Enterprise add-on)** -  creates a user attribute, which allows selecting one or multiple values from a hierarchical list structure. The structure can be created in the _Values_ tab of the user attribute after the creation.
 - **Integer** - creates a user attribute for integers.
 - **List** - creates a user attribute with flat list options. 
 - **Text** - creates a user attribute in text format with the specified length restrictions.

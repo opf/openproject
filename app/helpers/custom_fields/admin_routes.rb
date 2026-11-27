@@ -67,8 +67,8 @@ module CustomFields
       op_routes.public_send(:"projects_admin_settings_#{cf_singular(custom_field)}_path", custom_field)
     end
 
-    def project_values_path(custom_field, project)
-      op_routes.public_send(:"project_values_admin_settings_#{cf_singular(custom_field)}_path", custom_field, project)
+    def project_specific_values_path(custom_field, project)
+      op_routes.public_send(:"admin_settings_#{cf_singular(custom_field)}_project_specific_values_path", custom_field, project)
     end
 
     def forms_path(custom_field)

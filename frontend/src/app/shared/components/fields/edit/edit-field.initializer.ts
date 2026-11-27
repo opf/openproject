@@ -115,6 +115,7 @@ export function initializeCoreEditFields(editFieldService:EditFieldService, sele
         '[]CustomOption',
         '[]User',
         '[]Version',
+        '[]Category',
         '[]CustomField::Hierarchy::Item',
       ])
       .addFieldType(FloatEditFieldComponent, 'float', ['Float'])

@@ -117,8 +117,8 @@ RSpec.describe Queries::Projects::Filters::CustomFieldFilter do
   end
 
   describe ".key" do
-    it "is a regular expression" do
-      expect(described_class.key).to eql(/cf_(\d+)/)
+    it "is the custom field column name pattern" do
+      expect(described_class.key).to eq(CustomField::COLUMN_NAME_PATTERN)
     end
   end
 

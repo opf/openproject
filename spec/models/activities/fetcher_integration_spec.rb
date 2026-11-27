@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe Activities::Fetcher, "integration" do
+RSpec.describe Activities::Fetcher, "integration", with_config: { scm: { subversion: { allowed_local_paths: ["/"] } } } do
   shared_let(:user) { create(:user) }
   shared_let(:permissions) do
     %i[view_work_packages view_time_entries view_changesets view_wiki_edits view_internal_comments]

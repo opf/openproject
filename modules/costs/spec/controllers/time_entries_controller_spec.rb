@@ -356,7 +356,7 @@ RSpec.describe TimeEntriesController do
       it "re-renders the form for a blank user_id" do
         update_with_user_id("")
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.body).to include("time_entry_user_id")
         expect(time_entry.reload.user).to eq(other_user)
       end
@@ -364,7 +364,7 @@ RSpec.describe TimeEntriesController do
       it "re-renders the form for a non-existent user_id" do
         update_with_user_id(User.maximum(:id) + 1)
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.body).to include("time_entry_user_id")
         expect(time_entry.reload.user).to eq(other_user)
       end

@@ -27,7 +27,12 @@ Click on the Details link to see the individual _jobs_ that GitHub executes. The
 
 ![Exemplary failed status details](github-broken-tests-pr-details1.png)
 
-Click on each job and each step to show the log output for this job. It will contain more information about how many tests failed and will also temporarily provide a screenshot of the browser during the occurrence of the test failure (only if a browser was involved in testing).
+When RSpec specs fail, the summary page of the workflow run lists them in two places:
+
+- **Annotations**: one per failed example, with the spec description and the first lines of the error. They also show inline in the _Files changed_ tab of the pull request when the spec file is part of it.
+- **Failed specs**: a section of the job summary that names the failed suite, the number of failed examples, the number of processes, and the random seed. It contains a command to rerun all failed examples with that seed, followed by each failure with its full error message, backtrace, and rerun command.
+
+Click on each job and each step to show the log output for this job. Each test process prints its output in one block once it has finished, so there may be no output for several minutes. After a failed run, the failures of all processes are printed again under _Failures of all processes_. The log will also temporarily provide a screenshot of the browser during the occurrence of the test failure (only if a browser was involved in testing). When feature specs fail, the _Report failed specs_ step also contains the log of the Hocuspocus collaboration server.
 
 In our example, multiple tests are reported as failing:
 
@@ -77,10 +82,10 @@ To reproduce the CI environment:
 
 - Run with `CI=true` to enable CI-specific test configuration, including eager loading.
 - Compare the `OPENPROJECT_*` environment variables with those set by the failing workflow.
-- Reuse the random seed from the failing job, for example `bundle exec rspec --seed 18352`. Use RSpec's `--bisect` option to investigate order-dependent failures.
+- Reuse the random seed from the failing job, for example `bundle exec rspec --seed 18352`. The _Failed specs_ section of the job summary shows it, and its rerun commands already include it. Use RSpec's `--bisect` option to investigate order-dependent failures.
 - For browser failures, use `OPENPROJECT_TESTING_NO_HEADLESS=1` to [watch the browser locally](../running-tests-locally/#headless-testing).
 
-The [workflow definitions](https://github.com/opf/openproject/tree/dev/.github/workflows) are the source for current job names, timeouts, and commands. Parallel jobs can use different random seeds; use the seed reported by the failing job.
+The [workflow definitions](https://github.com/opf/openproject/tree/dev/.github/workflows) are the source for current job names, timeouts, and commands. All test processes of a step share one random seed, but each step and each run picks a new one; use the seed reported by the failing job.
 
 These are flaky tests and should be fixed as soon as possible as they undermine the trust we have in our test results. [Follow our advice on handling flaky tests](../handling-flaky-tests/) for more information.
 

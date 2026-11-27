@@ -139,7 +139,6 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
 
         const query = this.querySpace.query.value;
         if (query && this.shouldUpdateHtmlTitle()) {
-          // Update the title if we're in the list state alone
           this.titleService.setFirstPart(this.queryTitle(query));
         }
 
@@ -237,7 +236,6 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
 
     this.titleEditingEnabled = this.authorisationService.can('query', 'updateImmediately');
 
-    // Update the title if we're in the list state alone
     if (this.shouldUpdateHtmlTitle()) {
       this.titleService.setFirstPart(this.selectedTitle);
     }
@@ -291,8 +289,11 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
     return this.loadingIndicatorService.table.indicator;
   }
 
+  // While a work package is open in the split view, the work package sets the page title.
+  // When the split view is opened by URL, the list loads after the work package. Setting the
+  // list name here would then replace the work package title.
   protected shouldUpdateHtmlTitle():boolean {
-    return true;
+    return this.urlParams.currentDetailsRouteParams() === null;
   }
 
   protected staticQueryName(query:QueryResource):string {

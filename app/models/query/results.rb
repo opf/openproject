@@ -121,7 +121,7 @@ class Query::Results
   end
 
   def custom_field_column?(name)
-    name.to_s =~ /\Acf_\d+\z/
+    CustomField.column_name?(name)
   end
 
   ##

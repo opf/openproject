@@ -101,20 +101,20 @@ RSpec.describe "User custom field section fields drop", :skip_csrf, type: :rails
 
     it "422s without mutation for an unknown built-in key" do
       drop("not_a_real_attribute", { list_type: "user_field", list_id: section_a.id.to_s, prev_id: "" })
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(section_a.reload.attribute_order).to eq(["login", cf1.column_name, cf2.column_name])
     end
 
     it "422s without mutation for a built-in anchoring itself" do
       drop("login", { list_type: "user_field", list_id: section_a.id.to_s, prev_id: "login" })
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(section_a.reload.attribute_order).to eq(["login", cf1.column_name, cf2.column_name])
     end
 
     it "422s without mutation for an anchor from another section" do
       drop(cf1.id.to_s, { list_type: "user_field", list_id: section_a.id.to_s, prev_id: "firstname" })
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(section_a.reload.attribute_order).to eq(["login", cf1.column_name, cf2.column_name])
     end
 
@@ -124,7 +124,7 @@ RSpec.describe "User custom field section fields drop", :skip_csrf, type: :rails
 
       drop(foreign_field.id.to_s, { list_type: "user_field", list_id: section_a.id.to_s, prev_id: "" })
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(section_a.reload.attribute_order).to eq(["login", cf1.column_name, cf2.column_name])
       expect(foreign_field.reload.custom_field_section_id).to eq(project_section.id)
     end
@@ -134,7 +134,7 @@ RSpec.describe "User custom field section fields drop", :skip_csrf, type: :rails
 
       drop(sectionless_field.id.to_s, { list_type: "user_field", list_id: section_a.id.to_s, prev_id: "" })
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(section_a.reload.attribute_order).to eq(["login", cf1.column_name, cf2.column_name])
     end
 
@@ -154,7 +154,7 @@ RSpec.describe "User custom field section fields drop", :skip_csrf, type: :rails
 
       drop("login", { list_type: "user_field", list_id: section_c.id.to_s, prev_id: "mail" })
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(section_c.reload.attribute_order).to eq(%w[mail])
       expect(section_a.reload.attribute_order).to eq(["login", cf1.column_name, cf2.column_name])
       expect(section_b.reload.attribute_order).to eq(%w[firstname login])
@@ -166,7 +166,7 @@ RSpec.describe "User custom field section fields drop", :skip_csrf, type: :rails
 
       drop(cf1.id.to_s, { list_type: "user_field", list_id: section_a.id.to_s, prev_id: foreign_field.id.to_s })
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(section_a.reload.attribute_order).to eq(["login", cf1.column_name, cf2.column_name])
       expect(cf1.reload.custom_field_section_id).to eq(section_a.id)
     end

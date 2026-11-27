@@ -102,6 +102,8 @@ module Llm
       case error
       when Llm::Errors::Error
         error
+      when RubyLLM::ConnectionError
+        from_transport(error.cause || error)
       when RubyLLM::Error, RubyLLM::ConfigurationError, RubyLLM::ModelNotFoundError
         from_ruby_llm(error)
       when ->(e) { e.cause.is_a?(RubyLLM::Error) }

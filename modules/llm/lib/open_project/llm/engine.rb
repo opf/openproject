@@ -48,8 +48,7 @@ module OpenProject::Llm
            first: true
     end
 
-    class_inflection_override("ruby_llm_provider_headers" => "RubyLLMProviderHeaders",
-                              "ruby_llm_stream_error_status" => "RubyLLMStreamErrorStatus")
+    class_inflection_override("ruby_llm_provider_headers" => "RubyLLMProviderHeaders")
 
     initializer "openproject_llm.inflections" do
       ActiveSupport::Inflector.inflections(:en) do |inflect|
@@ -57,17 +56,11 @@ module OpenProject::Llm
       end
     end
 
-    # RubyLLM's legacy acts_as API warns on boot unless the new one is chosen,
-    # and the choice has to be made before its railtie reaches ActiveRecord.
-    # OpenProject uses the plain client rather than either ActiveRecord API.
-    #
-    # RubyLLM.logger memoizes the global logger and ignores a per-call
-    # context's. Its Faraday middleware logs with "bodies: RubyLLM.logger.debug?",
-    # so with RUBYLLM_DEBUG set, prompts, answers and error bodies that echo the
-    # credential would reach stdout, bypassing Llm::Errors.log.
+    # RubyLLM logs request and response bodies whenever its logger is at debug
+    # level, so with RUBYLLM_DEBUG set, prompts, answers and error bodies that
+    # echo the credential would reach stdout, bypassing Llm::Errors.log.
     config.before_initialize do
       RubyLLM.configure do |llm|
-        llm.use_new_acts_as = true
         llm.logger = Logger.new(IO::NULL)
         llm.log_stream_debug = false
       end
@@ -185,16 +178,13 @@ module OpenProject::Llm
 
     initializer "openproject_llm.load_patches" do
       require_relative "patches/ruby_llm_provider_headers"
-      require_relative "patches/ruby_llm_stream_error_status"
 
-      OpenProject::Patches.patch_gem_version("ruby_llm", "1.16.0") do
+      OpenProject::Patches.patch_gem_version("ruby_llm", "2.2.2") do
         RubyLLM::Configuration.register_provider_options(%i[openproject_custom_headers])
 
         RubyLLM::Provider.providers.each_value do |provider_class|
           provider_class.prepend(OpenProject::Llm::Patches::RubyLLMProviderHeaders)
         end
-
-        RubyLLM::Provider.prepend(OpenProject::Llm::Patches::RubyLLMStreamErrorStatus)
       end
     end
 

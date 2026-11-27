@@ -3,7 +3,7 @@ sidebar_navigation:
   title: Custom fields
   priority: 960
 description: Learn how to create and configure custom fields in OpenProject, including available formats, validation rules, and field settings.
-keywords: manage custom fields, custom field, custom fields, custom field formats, hierarchy, weighted item list, required fields
+keywords: manage custom fields, custom field, custom fields, custom field formats, hierarchy, weighted list, required fields
 ---
 
 # Manage custom fields
@@ -75,7 +75,7 @@ OpenProject supports the following custom field formats. The available formats d
 | **Long text** | Longer text, such as detailed notes or descriptions. |
 | **User** | One or more users selected from a list of available users. |
 | **Version** | One or more versions. |
-| **Weighted item list (Enterprise add-on)** | One or more items from a hierarchical structure, with an underlying numerical weight assigned to each item. |
+| **Weighted list (Enterprise add-on)** | One or more values from a hierarchical structure, with an underlying numerical weight assigned to each value. |
 
 ### Date and time custom field
 
@@ -99,50 +99,50 @@ To create a hierarchy custom field, select the **Hierarchy** format when creatin
 
 You can return to the **Details** tab at any time to edit the name and configuration of the custom field.
 
-#### Add hierarchy items
+#### Add hierarchy values
 
-Open the **Items** tab to define the values users can select. The list is initially empty. Click **+ Item** to add the first item.
+Open the **Values** tab to define the values users can select. The list is initially empty. Click **+ Value** to add the first value.
 
 ![Items tab for a hierarchy custom field in OpenProject administration](openproject_system_guide_hierarchy_field_add_item_button.png)
 
-Each item has a **Label** and an optional **Short name**. The short name can be used as an abbreviation or an alternative description and is displayed in brackets next to the item label.
+Each value has a **Label** and an optional **Short name**. The short name can be used as an abbreviation or an alternative description and is displayed in brackets next to the value label.
 
 > [!TIP]
 > Short names are searchable in work package forms, making it easier to find the correct value in large hierarchies.
 
 ![Add an item to the hierarchy custom field in OpenProject administration](openproject_system_guide_hierarchy_field_add_item_form.png)
 
-Items added at the same level are displayed together in the hierarchy tree on the left. You can edit, reorder, or delete items using their **More (three dots)** menu. You can also rearrange items using drag and drop.
+Values added at the same level are displayed together in the hierarchy tree on the left. You can edit, reorder, or delete values using their **More (three dots)** menu. You can also rearrange values using drag and drop.
 
 ![Edit items for hierarchy custom fields in OpenProject administration](openproject_system_guide_hierarchy_field_edit_items.png)
 
 #### Add further hierarchy levels
 
-To create a nested level, click the name of an existing item and add further items in the same way as at the first level. This allows you to build a hierarchy that reflects your organization's structure.
+To create a nested level, click the name of an existing value and add further values in the same way as at the first level. This allows you to build a hierarchy that reflects your organization's structure.
 
 ![Add further hierarchy levels for custom fields in OpenProject](openproject_system_guide_hierarchy_field_add_further_levels.png)
 
-Once you have added sub-items, the number of nested items is displayed next to the parent item. In the hierarchy tree, an arrow next to an item indicates that it contains sub-items. Click the arrow to expand or collapse the corresponding level.
+Once you have added sub-values, the number of nested values is displayed next to the parent value. In the hierarchy tree, an arrow next to a value indicates that it contains sub-values. Click the arrow to expand or collapse the corresponding level.
 
 ![Number of sub-items for a hierarchy value in OpenProject custom fields](openproject_system_guide_custom_field_new_hierarchy_subitems.png)
 
-You can add further items and levels as needed. To navigate between levels, use the hierarchy tree on the left or the navigation path displayed above the items.
+You can add further values and levels as needed. To navigate between levels, use the hierarchy tree on the left or the navigation path displayed above the values.
 
 ![Navigation path for nested Hierarchy custom field items](openproject_system_guide_new_custom_field_path.png)
 
 If you are configuring a hierarchy custom field for work packages, you must also add it to a form used by the relevant work package types or variants. For detailed instructions, see [Make custom fields available in work packages](../manage-work-packages/work-package-custom-fields/#make-custom-fields-available-in-work-packages).
 
-### Weighted item list custom field (Enterprise add-on)
+### Weighted list custom field (Enterprise add-on)
 
 [feature: weighted_item_lists ]
 
-Weighted item list custom fields work similarly to hierarchy custom fields, allowing you to organize selectable values into multiple levels. However, instead of an optional short name, each item has a mandatory numerical **Weight**.
+Weighted list custom fields work similarly to hierarchy custom fields, allowing you to organize selectable values into multiple levels. However, instead of an optional short name, each value has a mandatory numerical **Weight**.
 
-To create a weighted item list custom field, select the **Weighted item list** format. You can create, edit, and arrange items in the same way as described for [hierarchy custom fields](#hierarchy-custom-field-enterprise-add-on).
+To create a weighted list custom field, select the **Weighted list** format. You can create, edit, and arrange values in the same way as described for [hierarchy custom fields](#hierarchy-custom-field-enterprise-add-on).
 
-![Specify weight for an item in a weighted item list custom field](openproject_system_guide_new_custom_field_weighted_item_list.png)
+![Specify weight for a value in a weighted list custom field](openproject_system_guide_new_custom_field_weighted_item_list.png)
 
-The underlying numerical values can be used in calculations, for example when evaluating projects using a [Calculated value project attribute](../projects/project-attributes/). Weighted item lists can also be configured to allow multiple selections.
+The underlying numerical values can be used in calculations, for example when evaluating projects using a [Calculated value project attribute](../projects/project-attributes/). Weighted lists can also be configured to allow multiple selections.
 
 ## Required custom fields
 
@@ -155,7 +155,7 @@ For work package custom fields, making an existing field required does not preve
 
 ## Create a multi-select custom field
 
-Some custom field formats allow users to select multiple values instead of a single value. For work package custom fields, this option is available for the **List**, **User**, **Version**, **Hierarchy**, and **Weighted item list** formats.
+Some custom field formats allow users to select multiple values instead of a single value. For work package custom fields, this option is available for the **List**, **User**, **Version**, **Hierarchy**, and **Weighted list** formats.
 
 To enable multiple selections, select the **Allow multi-select** checkbox when configuring the custom field.
 
@@ -169,11 +169,11 @@ When filling in a multi-select custom field, users can select several values. To
 
 To edit an existing custom field, navigate to the administration section where it is managed and click its name. You can then update its available settings.
 
-The available tabs depend on where the custom field is used and its format. For custom fields with selectable items, such as List, Hierarchy, and Weighted item list, the **Items** tab allows you to manage the available values.
+The available tabs depend on where the custom field is used and its format. For custom fields with selectable values, such as List, Hierarchy, and Weighted list, the **Values** tab allows you to manage the available values.
 
 Work package custom fields have two additional tabs, **Forms** and **Types and variants**, which show where the custom field is used. The **Projects** tab shows the projects in which the custom field is available.
 
-For work package custom fields of the List, Hierarchy, and Weighted item list formats, you can also configure [project-specific values (Enterprise add-on)](../manage-work-packages/work-package-custom-fields/#project-specific-values-enterprise-add-on).
+For work package custom fields of the List, Hierarchy, and Weighted list formats, you can also configure [project-specific values (Enterprise add-on)](../manage-work-packages/work-package-custom-fields/#project-specific-values-enterprise-add-on).
 
 For more information, see [Manage work package custom fields](../manage-work-packages/work-package-custom-fields/).
 

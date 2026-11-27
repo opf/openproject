@@ -273,7 +273,7 @@ RSpec.describe "API v3 Project resource create", content_type: :json do
         end
 
         it "responds with 422 and explains the custom field error" do
-          expect(last_response).to have_http_status(:unprocessable_entity)
+          expect(last_response).to have_http_status(:unprocessable_content)
 
           expect(last_response.body)
             .to be_json_eql("Department can't be blank.".to_json)
@@ -293,7 +293,7 @@ RSpec.describe "API v3 Project resource create", content_type: :json do
         end
 
         it "responds with 422 and explains the custom field error" do
-          expect(last_response).to have_http_status(:unprocessable_entity)
+          expect(last_response).to have_http_status(:unprocessable_content)
 
           expect(last_response.body)
             .to be_json_eql("Department can't be blank.".to_json)
@@ -333,7 +333,7 @@ RSpec.describe "API v3 Project resource create", content_type: :json do
           end
 
           it "responds with 422 and explains the custom field error" do
-            expect(last_response).to have_http_status(:unprocessable_entity)
+            expect(last_response).to have_http_status(:unprocessable_content)
 
             expect(last_response.body)
               .to be_json_eql("Department can't be blank.".to_json)
@@ -499,7 +499,7 @@ RSpec.describe "API v3 Project resource create", content_type: :json do
       end
 
       it "responds with 422" do
-        expect(last_response).to have_http_status(:unprocessable_entity)
+        expect(last_response).to have_http_status(:unprocessable_content)
       end
 
       it "explains the identifier format error" do
@@ -531,7 +531,7 @@ RSpec.describe "API v3 Project resource create", content_type: :json do
     end
 
     it "responds with 422" do
-      expect(last_response).to have_http_status(:unprocessable_entity)
+      expect(last_response).to have_http_status(:unprocessable_content)
     end
 
     it "creates no project" do
@@ -565,7 +565,7 @@ RSpec.describe "API v3 Project resource create", content_type: :json do
     end
 
     it "responds with 422" do
-      expect(last_response).to have_http_status(:unprocessable_entity)
+      expect(last_response).to have_http_status(:unprocessable_content)
     end
 
     it "creates no project" do

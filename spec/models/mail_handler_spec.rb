@@ -940,6 +940,20 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
         end
       end
 
+      context "for wp on a project given in a different case" do
+        include_context "for wp_on_given_project"
+
+        def read_email(filename)
+          super.gsub("Project: #{project.identifier}", "Project: #{project.identifier.swapcase}")
+        end
+
+        it_behaves_like "work package created"
+
+        it "creates the work package in that project" do
+          expect(subject.project).to eq(project)
+        end
+      end
+
       context "for wp with status case insensitive" do
         let(:type) { project.enabled_types.first }
         let!(:status) { create(:status, name: "Resolved", workflow_for_type: type) }

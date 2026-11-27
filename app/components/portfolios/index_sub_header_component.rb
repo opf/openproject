@@ -47,15 +47,6 @@ module Portfolios
       @query.find_active_filter(:name_and_identifier)&.values&.first
     end
 
-    def sub_header_data_attributes
-      {
-        controller: "filter--filters-form",
-        "filter--filters-form-turbo-stream-request-value": true,
-        "filter--filters-form-clear-button-id-value": clear_button_id,
-        "filter--filters-form-display-filters-value": filters_expanded?
-      }
-    end
-
     def filter_input_data_attributes
       {
         "filter-name": "name_and_identifier",

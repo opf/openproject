@@ -210,7 +210,7 @@ RSpec.describe WorkPackageTypes::VariantsController do
                params: { type_id: type.id, id: variant.id, type_variant: { variant_name: "Hardware" } },
                format: :turbo_stream
 
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
           expect(variant.reload).to be_project_owned
         end
       end

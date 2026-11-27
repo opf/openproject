@@ -9,7 +9,7 @@
 
 ## Running Tests
 
-Run the specific spec files or lines you changed (`bundle exec rspec path/to/file_spec.rb:42`) rather than the whole suite. For setup, system tests, and parallel runs (CI uses `turbo_tests`), see [Running tests locally](../docs/development/testing/running-tests-locally/README.md). In the Docker environment, use `bin/compose rspec path/to/file_spec.rb`.
+Run the specific spec files or lines you changed (`bundle exec rspec path/to/file_spec.rb:42`) rather than the whole suite. For setup, system tests, and parallel runs (CI uses `parallel_rspec`), see [Running tests locally](../docs/development/testing/running-tests-locally/README.md). In the Docker environment, use `bin/compose rspec path/to/file_spec.rb`.
 
 ## Debugging CI Failures
 

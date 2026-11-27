@@ -102,7 +102,7 @@ RSpec.describe "ResourcePlanners requests",
             params: { resource_planner: { name: "" } },
             headers: { "Accept" => "text/vnd.turbo-stream.html" }
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(resource_planner.reload.name).to eq("Original")
     end
 
@@ -129,7 +129,7 @@ RSpec.describe "ResourcePlanners requests",
             params: { resource_planner: { name: "Original", date_range: "2026-08-01 - " } },
             headers: { "Accept" => "text/vnd.turbo-stream.html" }
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(resource_planner.reload.start_date).to be_nil
     end
   end

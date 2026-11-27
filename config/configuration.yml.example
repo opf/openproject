@@ -321,6 +321,11 @@ default:
   #                 using one of the supported URL schemes (e.g., https://, svn+ssh:// )
   #     - :managed (Managed repositories, available IF :manages path is set below)
   #
+  # allowed_local_paths:
+  #   Directories from which existing local repositories may be linked, using a path or a
+  #   file:// URL. Empty by default, which means that no local repository can be linked.
+  #   Does not apply to remote or managed repositories.
+  #
   # Exemplary configuration
   #
   # scm:

@@ -175,7 +175,7 @@ RSpec.describe "API v3 Time Entries resource",
         expect { post path, parameters.to_json }
           .not_to change(TimeEntry, :count)
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.body)
           .to be_json_eql("is invalid.".to_json)
           .at_path("message")
@@ -202,7 +202,7 @@ RSpec.describe "API v3 Time Entries resource",
         expect { post path, parameters.to_json }
           .not_to change(TimeEntry, :count)
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.body)
           .to be_json_eql("urn:openproject-org:api:v3:errors:ResourceTypeMismatch".to_json)
           .at_path("errorIdentifier")
@@ -235,7 +235,7 @@ RSpec.describe "API v3 Time Entries resource",
           it "responds with 422 and explains the custom field error" do
             post path, parameters.to_json
 
-            expect(response).to have_http_status(:unprocessable_entity)
+            expect(response).to have_http_status(:unprocessable_content)
 
             expect(response.body)
               .to be_json_eql("Department can't be blank.".to_json)
@@ -253,7 +253,7 @@ RSpec.describe "API v3 Time Entries resource",
           it "responds with 422 and explains the custom field error" do
             post path, parameters.to_json
 
-            expect(response).to have_http_status(:unprocessable_entity)
+            expect(response).to have_http_status(:unprocessable_content)
 
             expect(response.body)
               .to be_json_eql("Department can't be blank.".to_json)

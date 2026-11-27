@@ -570,7 +570,7 @@ RSpec.describe Backlogs::WorkPackagesController do
       end
 
       it "renders an error flash with 422", :aggregate_failures do
-        expect(response).to have_http_status :unprocessable_entity
+        expect(response).to have_http_status :unprocessable_content
         expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
         expect(response).not_to have_turbo_stream action: "replace", target: "backlogs-sprint-component-#{sprint.id}"
         expect(response).not_to have_turbo_stream action: "liveRegion"
@@ -741,7 +741,7 @@ RSpec.describe Backlogs::WorkPackagesController do
       let(:list_params) { {} }
 
       it "responds with 422 and an error flash instead of a blank dialog", :aggregate_failures do
-        expect(response).to have_http_status :unprocessable_entity
+        expect(response).to have_http_status :unprocessable_content
         expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
         expect(response).not_to have_turbo_stream action: "dialog"
       end
@@ -751,7 +751,7 @@ RSpec.describe Backlogs::WorkPackagesController do
       let(:list_params) { { list_type: "garbage" } }
 
       it "responds with 422 and an error flash instead of a blank dialog", :aggregate_failures do
-        expect(response).to have_http_status :unprocessable_entity
+        expect(response).to have_http_status :unprocessable_content
         expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
         expect(response).not_to have_turbo_stream action: "dialog"
       end
@@ -1000,7 +1000,7 @@ RSpec.describe Backlogs::WorkPackagesController do
       end
 
       it "renders an error flash with 422", :aggregate_failures do
-        expect(response).to have_http_status :unprocessable_entity
+        expect(response).to have_http_status :unprocessable_content
         expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
         expect(response).not_to have_turbo_stream action: "replace", target: "backlogs-sprint-component-#{sprint.id}"
         expect(response).not_to have_turbo_stream action: "liveRegion"
@@ -1119,7 +1119,7 @@ RSpec.describe Backlogs::WorkPackagesController do
 
     shared_examples "rejects invalid dialog ids" do
       it "returns a 422 Turbo Stream without opening a dialog", :aggregate_failures do
-        expect(response).to have_http_status :unprocessable_entity
+        expect(response).to have_http_status :unprocessable_content
         expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
         expect(response).not_to have_turbo_stream action: "dialog"
       end
@@ -1172,7 +1172,7 @@ RSpec.describe Backlogs::WorkPackagesController do
       let!(:second) { create(:work_package, status:, project:, sprint:) }
 
       it "returns a 422 Turbo Stream without opening an empty dialog", :aggregate_failures do
-        expect(response).to have_http_status :unprocessable_entity
+        expect(response).to have_http_status :unprocessable_content
         expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
         expect(body).to include(I18n.t("backlogs.work_packages.move_to_sprint_dialog.no_available_destinations"))
         expect(response).not_to have_turbo_stream action: "dialog"
@@ -1210,7 +1210,7 @@ RSpec.describe Backlogs::WorkPackagesController do
       let!(:second) { create(:work_package, status:, project:, backlog_bucket: available_bucket) }
 
       it "returns a 422 Turbo Stream without opening an empty dialog", :aggregate_failures do
-        expect(response).to have_http_status :unprocessable_entity
+        expect(response).to have_http_status :unprocessable_content
         expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
         expect(body).to include(I18n.t("backlogs.work_packages.move_to_bucket_dialog.no_available_destinations"))
         expect(response).not_to have_turbo_stream action: "dialog"

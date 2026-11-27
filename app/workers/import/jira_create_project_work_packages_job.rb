@@ -32,6 +32,7 @@ module Import
     include Import::JiraOpenProjectReferenceCreation
     include ::Import::JiraCreateProjectJob::JiraImportCustomFields
     include Import::JiraJobUtils
+    include Import::JiraJobLogging
     include Import::JiraProjectIssuesJob
 
     STATUS_CATEGORY_MAPPING = {
@@ -41,7 +42,7 @@ module Import
       "done" => "closed"
     }.freeze
 
-    on_complete do
+    on_shutdown do
       # Update project.wp_sequence_counter to max sequence_number found in migrated from jira work_packages
       # or 0 in case there are no work_packages in the project.
       Project
@@ -49,10 +50,6 @@ module Import
         .update_all(["wp_sequence_counter = (SELECT COALESCE(MAX(sequence_number), 0) " \
                      "FROM work_packages WHERE project_id = ?)", @project.id])
       allow_multiple_active_sprints
-      tagged_log("jira_import_id:#{arguments[0]}",
-                 "jira_project_id:#{jira_project_key(arguments[1])}", "jira_object_type:project") do
-        Rails.logger.debug "Creating work packages finished"
-      end
     end
 
     def text
@@ -63,42 +60,35 @@ module Import
     # rubocop:disable-next Metrics/AbcSize
     def build_enumerator(jira_import_id, jira_project_id, cursor:)
       jira_project = jira_project(jira_project_id)
-      tagged_log("jira_import_id:#{jira_import_id}",
-                 "jira_project_id:#{jira_project.payload['key']}",
-                 "jira_object_type:project") do
-        Rails.logger.debug "Creating work packages started"
-        @jira_import = Import::JiraImport.find(jira_import_id)
-        jira = @jira_import.jira
-        @jira_id = jira.id
-        @jira_base_url = jira.url
-        @system_user = User.system
-        @jira_client = jira.client
+      @jira_import = Import::JiraImport.find(jira_import_id)
+      jira = @jira_import.jira
+      @jira_id = jira.id
+      @jira_base_url = jira.url
+      @system_user = User.system
+      @jira_client = jira.client
 
-        @project_role = Role.find_by!(name: "JiraMember")
-        @custom_field_registry = build_custom_field_registry
+      @project_role = Role.find_by!(name: "JiraMember")
+      @custom_field_registry = build_custom_field_registry
 
-        @project = JiraOpenProjectReference.find_by!(
-          jira_entity_id: jira_project.id,
-          jira_entity_class: jira_project.class.to_s
-        ).op_leg
+      @project = JiraOpenProjectReference.find_by!(
+        jira_entity_id: jira_project.id,
+        jira_entity_class: jira_project.class.to_s
+      ).op_leg
 
-        setup_resolution_date_cf(jira_project)
-        @sprint_field = Import::JiraIssueSprintField.from_staged_fields(@jira_import)
+      setup_system_field_custom_fields(jira_project)
+      @sprint_field = Import::JiraIssueSprintField.from_staged_fields(@jira_import)
 
-        cursor ||= @jira_import.get_job_cursor(self)
-        enumerator_builder.active_record_on_records(
-          Import::JiraIssue.where(jira_import_id:, jira_project_id:),
-          cursor: cursor
-        )
-      end
+      cursor ||= @jira_import.get_job_cursor(self)
+      enumerator_builder.active_record_on_records(
+        Import::JiraIssue.where(jira_import_id:, jira_project_id:),
+        cursor: cursor
+      )
     end
 
     # rubocop:disable-next Metrics/AbcSize
     def each_iteration(jira_issue, _jira_import_id, _jira_project_id)
       jira_issue_key = jira_issue.payload["key"]
-      tagged_log("jira_import_id:#{_jira_import_id}",
-                 "jira_project_id:#{jira_project_key(_jira_project_id)}",
-                 "jira_issue_key:#{jira_issue_key}") do
+      with_log_context(jira_issue_key:) do
         Journal::NotificationConfiguration.with(false) do
           Journal::EventConfiguration.with(false) do
             ActiveRecord::Base.transaction do
@@ -135,7 +125,7 @@ module Import
 
     def new_custom_fields_in_type(jira_issue, type, custom_field_registry)
       custom_fields = custom_fields_for_issue(custom_field_registry, jira_issue)
-      custom_fields << @resolution_date_cf if @resolution_date_cf
+      custom_fields.concat(@system_field_cfs.values)
 
       existing_cf_ids = type.default_variant.custom_field_ids
       custom_fields.reject { |cf| existing_cf_ids.include?(cf.id) }
@@ -195,10 +185,7 @@ module Import
       service_call = Projects::Types::AddService
                        .new(user: @system_user, model: project)
                        .call(variant: type.default_variant)
-      if service_call.failure?
-        Rails.logger.error service_call.message
-        raise service_call.message
-      end
+      raise service_call.message if service_call.failure?
     end
 
     # rubocop:disable-next Metrics/AbcSize
@@ -236,7 +223,7 @@ module Import
     end
 
     def find_or_create_resource(klass, name, jira_object_type:)
-      Rails.logger.tagged("jira_object_type:#{jira_object_type}", "jira_object_id_or_name:#{name}") do
+      with_log_context(jira_object_type:, jira_object_id_or_name: name) do
         resource = find_resource(klass, name)
         return [resource, true] if resource
 
@@ -262,30 +249,40 @@ module Import
       "jira_import_create_#{klass.name.underscore}_#{name.parameterize(separator: '_')}"
     end
 
-    def setup_resolution_date_cf(jira_project)
-      return if @jira_import.exclude_resolution_fields?
+    def setup_system_field_custom_fields(jira_project)
+      @system_field_cfs = SYSTEM_FIELD_CUSTOM_FIELDS.keys.filter_map do |field|
+        next if exclude_system_field?(field)
 
-      custom_field = system_field_custom_field("resolutiondate")
-      return unless custom_field
-      return unless has_issues_with_resolution_date?(jira_project)
+        custom_field = system_field_custom_field(field)
+        next unless custom_field && issues_with_field?(jira_project, field)
 
-      @resolution_date_cf = custom_field
+        [field, custom_field]
+      end.to_h
     end
 
-    def has_issues_with_resolution_date?(jira_project)
+    def issues_with_field?(jira_project, field)
       Import::JiraIssue
         .where(jira_import_id: @jira_import.id, jira_project_id: jira_project.id)
-        .with_field_set("resolutiondate")
+        .with_field_set(field)
         .exists?
     end
 
-    def resolution_date_cf_attrs(jira_issue)
-      return {} unless @resolution_date_cf
+    def system_field_cf_attrs(jira_issue, attachment_paths_by_name:)
+      @system_field_cfs.each_with_object({}) do |(field, custom_field), attrs|
+        raw = jira_issue.payload.dig("fields", field)
+        next if raw.blank?
 
-      raw = jira_issue.payload.dig("fields", "resolutiondate")
-      return {} if raw.blank?
+        attrs[custom_field.attribute_getter] =
+          convert_system_field_value(field, raw, attachment_paths_by_name:)
+      end
+    end
 
-      { @resolution_date_cf.attribute_getter => Time.zone.parse(raw).iso8601 }
+    def convert_system_field_value(field, raw, attachment_paths_by_name:)
+      case SYSTEM_FIELD_CUSTOM_FIELDS.dig(field, :field_format)
+      when "datetime" then Time.zone.parse(raw).iso8601
+      when "text" then Import::JiraWikiMarkupConverter.new(raw.to_s, attachment_paths_by_name:).convert
+      else raw
+      end
     end
 
     def label_attrs(jira_issue)
@@ -317,18 +314,18 @@ module Import
     end
 
     def update_workflows(type)
-      Rails.logger.tagged("jira_object_type:issueType", "jira_object_id_or_name:#{type.name}") do
-        statuses = Status.all
-        row = statuses.to_h { |status| [status.id.to_s, ["always"]] }
-        status_params = statuses.to_h { |status| [status.id.to_s, row] }
+      with_log_context(jira_object_type: "issueType", jira_object_id_or_name: type.name) do
         call = Workflows::BulkUpdateService
                   .new(role: @project_role, workflow: type.default_variant.workflow, tab: "always")
-                  .call(status_params)
-        if call.failure?
-          Rails.logger.error call.message
-          raise call.message
-        end
+                  .call(all_status_transitions)
+        raise call.message if call.failure?
       end
+    end
+
+    def all_status_transitions
+      statuses = Status.all
+      row = statuses.to_h { |status| [status.id.to_s, ["always"]] }
+      statuses.to_h { |status| [status.id.to_s, row] }
     end
 
     # rubocop:disable-next Metrics/AbcSize, Metrics/PerceivedComplexity
@@ -346,14 +343,10 @@ module Import
       project.reload
 
       due_date = jira_issue.payload.dig("fields", "duedate")&.to_date
-      author_key = jira_issue.payload.dig("fields", "creator", "key")
-      author = find_user(author_key)
-      assignee_key = jira_issue.payload.dig("fields", "assignee", "key")
-      assigned_to = find_user(assignee_key)
-      [author, assigned_to].uniq.compact.each { |member| create_member(project, member) }
-
+      author, reporter, assigned_to = resolve_users(jira_issue:)
+      create_members(project, [author, reporter, assigned_to])
       custom_field_attrs = collect_custom_field_attributes(custom_field_registry, jira_issue, attachment_paths_by_name:)
-                             .merge(resolution_date_cf_attrs(jira_issue))
+                             .merge(system_field_cf_attrs(jira_issue, attachment_paths_by_name:))
 
       original_estimate_seconds = jira_issue.payload.dig("fields", "timetracking", "originalEstimateSeconds")
       remaining_estimate_seconds = jira_issue.payload.dig("fields", "timetracking", "remainingEstimateSeconds")
@@ -391,6 +384,7 @@ module Import
             priority:,
             status:,
             assigned_to:,
+            reporter:,
             target_versions:,
             observed_in_versions:,
             sprint: sprint_for(jira_issue),
@@ -404,10 +398,7 @@ module Import
             **label_attrs(jira_issue),
             **custom_field_attrs
           )
-      unless service_call.success?
-        Rails.logger.error service_call.message
-        raise service_call.message
-      end
+      raise service_call.message unless service_call.success?
 
       work_package = service_call.result
       identifier = jira_issue.payload["key"]
@@ -444,6 +435,16 @@ module Import
       work_package
     end
 
+    def resolve_users(jira_issue:)
+      author_key = jira_issue.payload.dig("fields", "creator", "key")
+      author = find_user(author_key)
+      reporter_key = jira_issue.payload.dig("fields", "reporter", "key")
+      reporter = find_user(reporter_key)
+      assignee_key = jira_issue.payload.dig("fields", "assignee", "key")
+      assigned_to = find_user(assignee_key)
+      [author, reporter, assigned_to]
+    end
+
     def sprint_for(jira_issue)
       origin_id = @sprint_field.current_sprint_id(jira_issue)
       return if origin_id.nil?
@@ -459,7 +460,7 @@ module Import
       return if @project.allow_multiple_active_sprints? || !Sprint.for_project(@project).active.many?
 
       @project.update!(allow_multiple_active_sprints: true)
-      tagged_log("jira_import_id:#{@jira_import.id}", "jira_project_id:#{@project.identifier}", "jira_object_type:sprint") do
+      with_log_context(jira_object_type: "sprint") do
         Rails.logger.warn "Project #{@project.identifier} has several active sprints, multiple active sprints are allowed"
       end
     end
@@ -490,9 +491,9 @@ module Import
     end
 
     def prepare_attachment(jira_issue, project, payload)
-      Rails.logger.tagged("jira_object_type:attachment", "jira_object_id_or_name:#{payload['filename']}") do
+      with_log_context(jira_object_type: "attachment", jira_object_id_or_name: payload["filename"]) do
         author = find_user(payload.dig("author", "key"))
-        create_member(project, author)
+        create_members(project, author)
         attachment = create_prepared_attachment(payload, author || @system_user)
 
         jira_attachment =
@@ -521,10 +522,7 @@ module Import
             created_at: attached_at(payload)
           )
 
-      unless service_call.success?
-        Rails.logger.error service_call.message
-        raise service_call.message
-      end
+      raise service_call.message unless service_call.success?
 
       service_call.result
     end
@@ -550,12 +548,12 @@ module Import
 
       comments = jira_issue.payload.dig("fields", "comment", "comments") || []
       comments.each do |comment|
-        Rails.logger.tagged("jira_object_type:comment", "jira_object_id_or_name:#{comment['created']}") do
+        with_log_context(jira_object_type: "comment", jira_object_id_or_name: comment["created"]) do
           Rails.logger.debug "Adding comment"
           key = comment.dig("author", "key")
-          Rails.logger.tagged("author:#{key}") do
+          with_log_context(author: key) do
             author = find_user(key)
-            create_member(project, author)
+            create_members(project, author)
             journal_service.add_comment(comment:, user: author || User.system)
           end
         end
@@ -572,7 +570,7 @@ module Import
       users = watchers.filter_map { find_imported_user(it["key"]) }
       return unless users.any?
 
-      users.each { create_member(project, it) }
+      create_members(project, users)
       Watcher.insert_all(watchers_insert_data(users, work_package), unique_by: :index_watchers_on_user_id_and_watchable)
     end
 

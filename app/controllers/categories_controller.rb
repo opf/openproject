@@ -46,7 +46,7 @@ class CategoriesController < ApplicationController
       flash[:notice] = I18n.t(:notice_successful_create)
       redirect_to project_settings_categories_path(@project)
     else
-      render action: :new, status: :unprocessable_entity
+      render action: :new, status: :unprocessable_content
     end
   end
 
@@ -56,7 +56,7 @@ class CategoriesController < ApplicationController
       flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to project_settings_categories_path(@project)
     else
-      render action: :edit, status: :unprocessable_entity
+      render action: :edit, status: :unprocessable_content
     end
   end
 
@@ -74,7 +74,7 @@ class CategoriesController < ApplicationController
       return
     end
     @categories = @project.categories - [@category]
-    render status: :unprocessable_entity
+    render status: :unprocessable_content
   end
 
   private

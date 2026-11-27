@@ -43,12 +43,10 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   render(
-    Primer::OpenProject::SubHeader.new(
-      data: {
-        controller: "filter--filters-form",
-        "filter--filters-form-output-format-value": "json",
-        "filter--filters-form-display-filters-value": @query.filters.any?
-      }
+    OpPrimer::QuickFilter::SubHeader.new(
+      query: @query,
+      output_format: "json",
+      display_filters: @query.filters.any?
     )
   ) do |subheader|
     subheader.with_quick_filter do

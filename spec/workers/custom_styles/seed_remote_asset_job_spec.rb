@@ -28,7 +28,7 @@
 #++
 
 require "spec_helper"
-require "webrick"
+require "puma/server"
 
 RSpec.describe CustomStyles::SeedRemoteAssetJob do
   let(:custom_style) { CustomStyle.create! }
@@ -117,23 +117,17 @@ RSpec.describe CustomStyles::SeedRemoteAssetJob do
   # Served by a real server, as WebMock would intercept the request before the SSRF filter kicks in
   context "when the asset is served from a private IP address" do
     let(:server) do
-      WEBrick::HTTPServer.new(Port: 0,
-                              BindAddress: "127.0.0.1",
-                              Logger: WEBrick::Log.new(StringIO.new),
-                              AccessLog: [])
+      app = ->(_env) { [200, {}, [Rails.root.join("spec/fixtures/files/image.png").read]] }
+      Puma::Server.new(app, nil, log_writer: Puma::LogWriter.null).tap { it.add_tcp_listener "127.0.0.1", 0 }
     end
-    let(:url) { "http://127.0.0.1:#{server.listeners[0].addr[1]}/image.png" }
+    let(:url) { "http://127.0.0.1:#{server.connected_ports.first}/image.png" }
 
     before do
-      server.mount_proc "/image.png" do |_request, response|
-        response.body = Rails.root.join("spec/fixtures/files/image.png").read
-      end
-
-      Thread.new { server.start }
+      server.run
     end
 
     after do
-      server.shutdown
+      server.stop(true)
     end
 
     it "discards the job without downloading" do

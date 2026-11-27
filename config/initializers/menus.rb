@@ -693,6 +693,12 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: :"menus.admin.mail_notification",
             parent: :mail_and_notifications
 
+  menu.push :push_notifications,
+            { controller: "/admin/settings/push_notifications_settings", action: :show },
+            if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.progressive_web_app_active? },
+            caption: :"menus.admin.push_notifications",
+            parent: :mail_and_notifications
+
   menu.push :incoming_mails,
             { controller: "/admin/settings/incoming_mails_settings", action: :show },
             if: ->(_) { User.current.admin? },
@@ -890,7 +896,8 @@ Redmine::MenuManager.map :project_menu do |menu|
       if: ->(project) {
         User.current.allowed_in_project?(:edit_project, project) ||
           User.current.allowed_in_project?(%i[manage_types manage_project_variants], project) ||
-          User.current.allowed_in_project?(:manage_categories, project)
+          User.current.allowed_in_project?(:manage_categories, project) ||
+          User.current.allowed_in_project?(:manage_work_package_custom_field_values, project)
       }
     },
     work_packages_import: { caption: :"work_packages.import.menu_title" },

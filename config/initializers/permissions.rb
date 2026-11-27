@@ -420,7 +420,7 @@ Rails.application.reloader.to_prepare do
                      {
                        "projects/settings/work_packages": %i[show],
                        "projects/settings/work_packages/types": %i[index new create destroy],
-                       "projects/settings/work_packages/custom_fields": %i[show]
+                       "projects/settings/work_packages/custom_fields": %i[index]
                      },
                      permissible_on: :project,
                      require: :member
@@ -431,9 +431,10 @@ Rails.application.reloader.to_prepare do
                      {
                        "projects/settings/work_packages": %i[show],
                        "projects/settings/work_packages/types": %i[index],
-                       "projects/settings/work_packages/custom_fields": %i[show],
+                       "projects/settings/work_packages/custom_fields": %i[index],
                        "projects/settings/work_packages/types/switches": %i[new create],
                        "projects/settings/work_packages/types/switches/impacts": %i[create],
+                       "projects/settings/work_packages/types/switches/confirmations": %i[new],
                        "work_package_types/settings_tab": %i[index],
                        "work_package_types/variants": %i[destroy menu],
                        "work_package_types/creation_wizard": %i[new create show update],
@@ -451,6 +452,17 @@ Rails.application.reloader.to_prepare do
                        "work_package_types/configuration_independence": %i[dialog confirm switch],
                        "work_package_types/configuration_copies": %i[dialog confirm copy],
                        "workflows/matrix": %i[show]
+                     },
+                     permissible_on: :project,
+                     require: :member
+
+      wpt.permission :manage_work_package_custom_field_values,
+                     {
+                       "projects/settings/work_packages": %i[show],
+                       "projects/settings/work_packages/custom_fields": %i[index],
+                       "projects/settings/work_packages/custom_fields/values": %i[index new create edit update destroy
+                                                                                  toggle make_global deletion_dialog
+                                                                                  enable_all disable_all]
                      },
                      permissible_on: :project,
                      require: :member

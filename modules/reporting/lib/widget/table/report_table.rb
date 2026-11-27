@@ -100,29 +100,27 @@ class Widget::Table::ReportTable < Widget::Table
     walker.headers
     return if walker.headers_empty?
 
-    concat "<thead>".html_safe
+    concat content_tag(:thead, safe_join(header_rows))
+  end
+
+  def header_rows
     column_dimensions = @subject.group_bys(:column)
-    level = -1
+    rows = []
+    cells = []
     walker.headers do |list, first, first_in_col, last_in_col|
-      if first_in_col
-        level += 1
-        concat "<tr>".html_safe
-        render_dimension_labels(column_dimensions[level])
-      end
+      cells = [dimension_labels(column_dimensions[rows.size])] if first_in_col
       list.each do |column|
         opts = { colspan: column.final_number(:column) }
         opts[:class] = "inner" if column.final?(:column)
-        concat(content_tag(:th, opts) do
-          show_row column
-        end)
+        cells << content_tag(:th, show_row(column), opts)
       end
       if first
-        concat(content_tag(:th, "", rowspan: header_row_count, colspan: @subject.depth_of(:row)))
+        cells << content_tag(:th, "", rowspan: header_row_count, colspan: @subject.depth_of(:row))
       end
-      concat "</tr>".html_safe if last_in_col
+      rows << content_tag(:tr, safe_join(cells)) if last_in_col
     end
-    render_row_dimension_label_row if row_labels_in_own_row?
-    concat "</thead>".html_safe
+    rows << row_dimension_label_row if row_labels_in_own_row?
+    rows
   end
 
   def row_labels_in_own_row?
@@ -133,18 +131,18 @@ class Widget::Table::ReportTable < Widget::Table
     row_labels_in_own_row? ? @subject.depth_of(:column) + 1 : @subject.depth_of(:column)
   end
 
-  def render_dimension_labels(column_dimension)
+  def dimension_labels(column_dimension)
     if column_dimension.display?
-      concat content_tag(:th, column_dimension.class.label, colspan: @subject.depth_of(:row))
+      content_tag(:th, column_dimension.class.label, colspan: @subject.depth_of(:row))
     else
-      concat safe_join(row_dimension_labels)
+      safe_join(row_dimension_labels)
     end
   end
 
-  def render_row_dimension_label_row
+  def row_dimension_label_row
     value_columns = content_tag(:th, "", colspan: @subject.column_first.final_number(:column))
 
-    concat content_tag(:tr, safe_join([*row_dimension_labels, value_columns]))
+    content_tag(:tr, safe_join([*row_dimension_labels, value_columns]))
   end
 
   def row_dimension_labels

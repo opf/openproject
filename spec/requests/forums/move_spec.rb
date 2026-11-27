@@ -65,7 +65,7 @@ RSpec.describe "Forum reordering", :skip_csrf, type: :rails_request do
     it "refuses an unknown direction without changing the order", :aggregate_failures do
       put move_project_forum_path(project, offtopic), params: { forum: { move_to: "sideways" } }, as: :turbo_stream
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(response.body).to include("Forum could not be moved.")
       expect(forum_order).to eq(["General", "Support", "Off-topic"])
     end
@@ -94,7 +94,7 @@ RSpec.describe "Forum reordering", :skip_csrf, type: :rails_request do
 
       put move_project_forum_path(project, general), params: drop_params.merge(prev_id: foreign.id), as: :turbo_stream
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(response.body).to include("The item cannot be moved to the requested position.")
       expect(forum_order).to eq(["General", "Support", "Off-topic"])
     end
@@ -109,7 +109,7 @@ RSpec.describe "Forum reordering", :skip_csrf, type: :rails_request do
       it "refuses #{description} without changing order", :aggregate_failures do
         put move_project_forum_path(project, offtopic), params: request_params, as: :turbo_stream
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(forum_order).to eq(["General", "Support", "Off-topic"])
       end
     end
@@ -117,7 +117,7 @@ RSpec.describe "Forum reordering", :skip_csrf, type: :rails_request do
     it "refuses a self-anchor without changing order" do
       put move_project_forum_path(project, support), params: drop_params.merge(prev_id: support.id), as: :turbo_stream
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(forum_order).to eq(["General", "Support", "Off-topic"])
     end
 

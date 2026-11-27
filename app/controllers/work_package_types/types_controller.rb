@@ -161,7 +161,7 @@ module WorkPackageTypes
       else
         render_error_flash_message_via_turbo_stream(message: error_message)
       end
-      respond_with_turbo_streams(status: moved ? :ok : :unprocessable_entity)
+      respond_with_turbo_streams(status: moved ? :ok : :unprocessable_content)
     end
 
     def move_in_direction

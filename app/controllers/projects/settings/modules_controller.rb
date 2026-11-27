@@ -40,7 +40,7 @@ class Projects::Settings::ModulesController < Projects::SettingsController
 
       redirect_to project_settings_modules_path(@project)
     else
-      render "show", status: :unprocessable_entity
+      render "show", status: :unprocessable_content
     end
   end
 end

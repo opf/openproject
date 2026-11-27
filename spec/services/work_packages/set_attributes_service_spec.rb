@@ -504,6 +504,30 @@ RSpec.describe WorkPackages::SetAttributesService,
     end
   end
 
+  context "for reporter" do
+    let(:work_package) { new_work_package }
+
+    context "with no value passed" do
+      let(:call_attributes) { {} }
+      let(:expected_attributes) { {} }
+
+      it_behaves_like "service call" do
+        it "leaves the reporter empty" do
+          expect(subject.result.reporter).to be_nil
+          expect(subject.result.changed_by_system).not_to have_key("reporter_id")
+        end
+      end
+    end
+
+    context "with a user passed" do
+      let(:reporter) { build_stubbed(:user) }
+      let(:call_attributes) { { reporter: } }
+      let(:expected_attributes) { call_attributes }
+
+      it_behaves_like "service call"
+    end
+  end
+
   context "with the actual contract" do
     let(:invalid_wp) do
       build(:work_package, subject: "").tap do |wp|
@@ -2392,6 +2416,26 @@ RSpec.describe WorkPackages::SetAttributesService,
 
       expect(work_package.target_version_ids_replacements).to eq []
       expect(work_package.override_target_versions?).to be true
+    end
+  end
+
+  describe "categories attributes" do
+    it "extracts category_ids into replacements" do
+      instance.call(category_ids: ["1", 2])
+
+      expect(work_package.category_ids_replacements).to eq [1, 2]
+    end
+
+    it "sets an empty array as override" do
+      instance.call(category_ids: [])
+
+      expect(work_package.category_ids_replacements).to eq []
+    end
+
+    it "leaves the categories untouched when category_ids is not passed" do
+      instance.call({})
+
+      expect(work_package.override_categories?).to be false
     end
   end
 

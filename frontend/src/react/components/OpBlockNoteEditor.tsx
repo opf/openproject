@@ -45,13 +45,14 @@ import {
   openProjectWorkPackageAttributeBlockSpec,
   getOpenProjectSlashMenuItems,
   OpenProjectFormattingToolbar,
-  useHashWpMenu,
+  OpenProjectHashMenu,
 } from '@openproject/blocknote-extensions';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import * as Y from 'yjs';
 import { useBlockNoteAttachments } from '../hooks/useBlockNoteAttachments';
 import { useBlockNoteLocale } from '../hooks/useBlockNoteLocale';
 import { useOpTheme } from '../hooks/useOpTheme';
+import { tableBlockSpec } from '../blocks/table';
 
 // Mantine >= 9.3 locks a popover's first placement and falls back to it when neither side fits,
 // so on mobile the block type menu opens behind the virtual keyboard (COMMS-1102).
@@ -75,6 +76,7 @@ export interface OpBlockNoteEditorProps {
 
 const schema = BlockNoteSchema.create().extend({
   blockSpecs: {
+    table: tableBlockSpec,
     openProjectWorkPackageBlock: openProjectWorkPackageBlockSpec(),
     openProjectWorkPackageAttributeBlock: openProjectWorkPackageAttributeBlockSpec(),
   },
@@ -168,7 +170,6 @@ export function OpBlockNoteEditor({
     ...getDefaultReactSlashMenuItems(editorInstance),
     ...getOpenProjectSlashMenuItems(editorInstance),
   ], []);
-  const { getHashItems, HashWpMenu } = useHashWpMenu(editor);
 
   return (
     <MantineProvider
@@ -189,11 +190,7 @@ export function OpBlockNoteEditor({
           triggerCharacter="/"
           getItems={async (query:string) => Promise.resolve(filterSuggestionItems(getCustomSlashMenuItems(editor), query))}
         />
-        <SuggestionMenuController
-          triggerCharacter="#"
-          getItems={getHashItems}
-          suggestionMenuComponent={HashWpMenu}
-        />
+        <OpenProjectHashMenu />
       </BlockNoteView>
     </MantineProvider>
   );
