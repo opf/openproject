@@ -35,7 +35,7 @@
     "@types/jquery-migrate": "^3.3.3",
     "@types/lodash-es": "^4.17.12",
     "@types/luxon": "^3.7.6",
-    "@types/node": "^26.6.5",
+    "@types/node": "^26.6.6",
     "@types/pako": "^2.0.4",
     "@types/rails__request.js": "^0.0.1",
     "@types/react": "^19.3.0",
