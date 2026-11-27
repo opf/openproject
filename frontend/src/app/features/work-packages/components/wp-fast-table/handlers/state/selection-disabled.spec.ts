@@ -68,7 +68,7 @@ describe('Table with selection disabled', () => {
   };
 
   it('moves keyboard focus to a clicked cell without selecting or opening its row', () => {
-    fireEvent.click(within(harness.row('2')).getByLabelText(/^subject /));
+    fireEvent.click(within(harness.row('2')).getByLabelText(/^Work package /, { selector: '[data-field-name="subject"]' }));
 
     expect(harness.row('2')).toContainElement(document.activeElement as HTMLElement);
     expect(itemClicked).not.toHaveBeenCalled();
@@ -214,14 +214,14 @@ describe('Table with selection disabled and inline editing enabled', () => {
   afterEach(() => harness.destroy());
 
   it('leaves focus in the editor opened by a click', async () => {
-    fireEvent.click(within(harness.row('1')).getByLabelText('subject Editable record: Edit'));
+    fireEvent.click(within(harness.row('1')).getByLabelText('Editable record: Edit'));
 
     await waitFor(() => expect(within(harness.row('1')).getByRole('textbox')).toHaveFocus());
     expect(harness.selection.getSelectedWorkPackageIds()).toEqual([]);
   });
 
   it('keeps focus in the open editor when clicking inside it', async () => {
-    fireEvent.click(within(harness.row('1')).getByLabelText('subject Editable record: Edit'));
+    fireEvent.click(within(harness.row('1')).getByLabelText('Editable record: Edit'));
     const textbox = await within(harness.row('1')).findByRole('textbox');
     await waitFor(() => expect(textbox).toHaveFocus());
 
@@ -231,7 +231,7 @@ describe('Table with selection disabled and inline editing enabled', () => {
   });
 
   it('keeps focus in the open editor when clicking a control nested inside it', async () => {
-    fireEvent.click(within(harness.row('1')).getByLabelText('subject Editable record: Edit'));
+    fireEvent.click(within(harness.row('1')).getByLabelText('Editable record: Edit'));
     const textbox = await within(harness.row('1')).findByRole('textbox');
     await waitFor(() => expect(textbox).toHaveFocus());
     const host = document.createElement('div');

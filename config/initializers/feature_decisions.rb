@@ -54,7 +54,8 @@ OpenProject::FeatureDecisions.add :sprint_reports,
                                   force_active: true
 
 OpenProject::FeatureDecisions.add :ai_text_actions,
-                                  description: "Enables the admin UI to manage AI text actions."
+                                  description: "Enables the admin UI to manage AI text actions.",
+                                  force_active: true
 
 OpenProject::FeatureDecisions.add :work_package_multiple_categories,
                                   description: "Enables assigning multiple categories to a work package. " \

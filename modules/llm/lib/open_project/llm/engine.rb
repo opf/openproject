@@ -69,7 +69,8 @@ module OpenProject::Llm
     initializer "openproject_llm.feature_decisions" do
       OpenProject::FeatureDecisions.add :llm_connection,
                                         description: "Enables the administration page connecting OpenProject to an " \
-                                                     "OpenAI-API-compatible LLM server, and the AI features built on it."
+                                                     "OpenAI-API-compatible LLM server, and the AI features built on it.",
+                                        force_active: true
 
       OpenProject::FeatureDecisions.add :semantic_search,
                                         description: "Enables the semantic search AI feature, which indexes work packages " \

@@ -33,14 +33,7 @@ module Backlogs
       # Including widgets implement `blankslate_reason`, returning nil when the chart can be drawn,
       # or a key of +ICONS+ naming why it cannot.
       module ChartBlankslate
-        ICONS = {
-          too_long: :blocked,
-          no_work: :graph,
-          no_epics: :graph,
-          not_started: :graph,
-          no_story_points: :graph,
-          no_estimated_hours: :graph
-        }.freeze
+        ICONS = Hash.new(:graph).merge(too_long: :blocked).freeze
 
         def chart_available? = resolved_blankslate_reason.nil?
 
@@ -48,7 +41,7 @@ module Backlogs
           reason = resolved_blankslate_reason
 
           render(Primer::Beta::Blankslate.new(spacious: true)) do |blankslate|
-            blankslate.with_visual_icon(icon: ICONS.fetch(reason))
+            blankslate.with_visual_icon(icon: ICONS[reason])
             blankslate.with_heading(tag: :h4).with_content(t(".blankslate.#{reason}.heading"))
             blankslate.with_description_content(t(".blankslate.#{reason}.description"))
           end

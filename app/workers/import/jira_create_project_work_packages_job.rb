@@ -228,7 +228,9 @@ module Import
         return [resource, true] if resource
 
         OpenProject::Mutex.with_advisory_lock(klass, resource_lock_key(klass, name), transaction: true) do
-          resource = find_resource(klass, name)
+          # Skip the query cache because another job may have created the record while this one waited for the lock
+          # and the cache would still say it doesn't exist.
+          resource = klass.uncached { find_resource(klass, name) }
           return [resource, true] if resource
 
           Rails.logger.debug { "Creating #{klass.name}" }

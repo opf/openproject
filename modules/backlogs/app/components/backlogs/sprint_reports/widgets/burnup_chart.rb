@@ -66,6 +66,8 @@ module Backlogs
           @burnup ||= ::Sprints::Burnup.new(sprint:, project:)
         end
 
+        def chartable_work_packages = sprint.work_packages_for(project).visible(current_user)
+
         def series
           { completed: burnup.completed,
             scope: burnup.scope,

@@ -155,7 +155,9 @@ class ApplicationMailer < ActionMailer::Base
       end
     end
 
-    super(headers.merge(to: to.mail), &block)
+    User.execute_as(to) do
+      super(headers.merge(to: to.mail), &block)
+    end
   end
 
   def send_localized_mail(user, delivery_method_options: {})

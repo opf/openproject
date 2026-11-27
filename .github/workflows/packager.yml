@@ -47,7 +47,7 @@ jobs:
       contents: read
     services:
       postgres:
-        image: pgvector/pgvector:pg16-trixie
+        image: openproject/postgres:18
         env:
           POSTGRES_DB: app
           POSTGRES_USER: app
