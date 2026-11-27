@@ -58,19 +58,24 @@ class BackupJob < ApplicationJob
   end
 
   def run_backup!
-    @dumped = dump_database! db_dump_file_name # sets error on failure
-
+    file_name = prepare_backup_archive!
     return unless dumped?
-
-    file_name = create_backup_archive!(
-      file_name: archive_file_name,
-      db_dump_file_name:
-    )
 
     store_backup(file_name, backup:, user:)
     cleanup_previous_backups!
 
     notify_backup_ready!
+  end
+
+  def prepare_backup_archive!
+    Attachment.transaction do
+      if include_attachments?
+        # pg_dump uses a separate connection. Keep its file references valid until the ZIP is complete.
+        Attachment.connection.execute("LOCK TABLE attachments, custom_styles IN SHARE MODE")
+      end
+      @dumped = dump_database!(db_dump_file_name)
+      create_backup_archive!(file_name: archive_file_name, db_dump_file_name:) if dumped?
+    end
   end
 
   def after_backup
@@ -169,10 +174,11 @@ class BackupJob < ApplicationJob
     payload
   end
 
-  def create_backup_archive!(file_name:, db_dump_file_name:, attachments: attachments_to_include)
+  def create_backup_archive!(file_name:, db_dump_file_name:)
     Zip::OutputStream.open(file_name) do |zos|
-      attachments.each do |attachment|
-        archive_attachment! zos, attachment
+      unless skip_attachments?
+        Backup.attachments_query.each { |attachment| archive_attachment!(zos, attachment) }
+        archive_custom_styles!(zos)
       end
 
       write_missing_attachments! zos
@@ -182,6 +188,29 @@ class BackupJob < ApplicationJob
     @archived = true
 
     finalize_archive_file_name! file_name
+  end
+
+  def archive_custom_styles!(zos)
+    CustomStyle.find_each do |style|
+      CustomStyle::ASSET_FIELDS.each do |field|
+        file = style.public_send(field).file
+        archive_style_asset!(zos, file) if file
+      end
+    end
+  end
+
+  def archive_style_asset!(zos, file)
+    Tempfile.create("backup-branding", binmode: true) do |tmp|
+      begin
+        file.stream(tmp)
+      rescue StandardError => e
+        Rails.logger.error { "Failed to back up #{file.id}: #{e.message}" }
+        missing_attachments << file.id
+        next
+      end
+      tmp.flush
+      write_to_archive!(zos, file.id, tmp.path)
+    end
   end
 
   def finalize_archive_file_name!(file_name)
@@ -219,13 +248,13 @@ class BackupJob < ApplicationJob
   # @param attachment [Attachment] Attachment
   def archive_attachment!(zos, attachment)
     # If an attachment is destroyed/missing, skip it
-    return missing_attachments << attachment unless attachment.file.readable?
+    return missing_attachments << "#{attachment.id}\t#{attachment[:file]}" unless attachment.file.readable?
 
     archive_readable_attachment!(zos, attachment)
   rescue StandardError => e
     log_attachment_error!(attachment, e)
 
-    missing_attachments << attachment
+    missing_attachments << "#{attachment.id}\t#{attachment[:file]}"
   end
 
   def archive_readable_attachment!(zos, attachment)
@@ -239,7 +268,7 @@ class BackupJob < ApplicationJob
   end
 
   def backup_attachment_entry_name(attachment)
-    "attachment/file/#{attachment.id}/#{attachment[:file]}"
+    attachment.file.archive_path
   end
 
   def log_attachment_error!(attachment, error)
@@ -267,19 +296,11 @@ class BackupJob < ApplicationJob
   end
 
   def missing_attachments_content
-    lines = missing_attachments.map { |attachment| "#{attachment.id}\t#{attachment[:file]}" }
-
     <<~TEXT
       The following attachments could not be read and were not included in this backup:
 
-      #{lines.join("\n")}
+      #{missing_attachments.join("\n")}
     TEXT
-  end
-
-  def attachments_to_include
-    return Attachment.none if skip_attachments?
-
-    Backup.attachments_query
   end
 
   def skip_attachments?

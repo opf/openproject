@@ -38,10 +38,12 @@ require "bundler"
 FILES = { "carrierwave.bin" => "original CarrierWave\x00\xff".b,
           "shrine.bin" => "new Shrine\x00\xfe".b }.freeze
 
+BRANDING_FIXTURE = "spec/fixtures/files/icon_logo.svg"
+REPLACEMENT = "committed replacement\x00\xfc".b.freeze
 LEGACY_REVISION = "d0a5c04fa3eb8fc2157653b54f7610b9fc9d59fd"
 
 def expected_files
-  ENV["LEGACY_ARCHIVE"] == "1" ? FILES.slice("carrierwave.bin") : FILES
+  ENV["LEGACY_ARCHIVE"] == "1" ? FILES.slice("carrierwave.bin") : FILES.merge("shrine.bin" => REPLACEMENT)
 end
 
 def with_database(name)
@@ -58,33 +60,24 @@ def s3_options
     access_key_id: ENV.fetch("SHRINE_TEST_S3_KEY"), secret_access_key: ENV.fetch("SHRINE_TEST_S3_SECRET") }
 end
 
-def with_source_bucket
+def with_bucket
   return yield(nil) unless ARGV == ["--s3"]
 
   require "aws-sdk-s3"
   bucket = Aws::S3::Resource.new(**s3_options).bucket("shrine-restore-#{SecureRandom.hex(10)}")
   bucket.client.create_bucket(bucket: bucket.name)
   begin
-    yield(bucket.name)
-    verify_source_objects(bucket)
+    yield(bucket)
   ensure
     bucket.objects.batch_delete!
     bucket.delete
   end
 end
 
-def verify_source_objects(bucket)
-  keys = bucket.objects.map(&:key)
-  %w[uploads/attachment/file/1/carrierwave.bin uploads/attachment/file/2/shrine.bin].each do |key|
-    raise "missing expected source object #{key}" unless keys.include?(key)
-  end
-  puts "S3 source objects: #{keys.sort.join(', ')}"
-end
-
 def fog_env(bucket)
   return {} unless bucket
 
-  { "OPENPROJECT_ATTACHMENTS__STORAGE" => "fog", "OPENPROJECT_FOG_DIRECTORY" => bucket,
+  { "OPENPROJECT_ATTACHMENTS__STORAGE" => "fog", "OPENPROJECT_FOG_DIRECTORY" => bucket.name,
     "OPENPROJECT_FOG_CREDENTIALS_PROVIDER" => "AWS", "OPENPROJECT_FOG_CREDENTIALS_PATH__STYLE" => "true",
     "OPENPROJECT_FOG_CREDENTIALS_REGION" => "us-east-1",
     "OPENPROJECT_FOG_CREDENTIALS_ENDPOINT" => s3_options.fetch(:endpoint),
@@ -98,17 +91,31 @@ def bundle_environment(root)
     "BUNDLE_PATH" => (File.expand_path(path.base_path) unless path.use_system_gems?) }
 end
 
-def rails_process(phase, database, directory, root: Dir.pwd, bucket: nil)
+def process_environment(phase, database, directory, root, bucket)
   env = {
     "DATABASE_URL" => "postgresql:///#{database}", "RAILS_ENV" => "test",
-    "LEGACY_ARCHIVE" => ENV.fetch("LEGACY_ARCHIVE"),
+    "LEGACY_ARCHIVE" => ENV.fetch("LEGACY_ARCHIVE"), "TMPDIR" => directory,
     "TEST_ENV_NUMBER" => "4273", "DISABLE_SPRING" => "1", "RESTORE_WORK" => directory,
     "OPENPROJECT_ATTACHMENTS__STORAGE" => "file",
     "OPENPROJECT_ATTACHMENTS__STORAGE__PATH" => File.join(directory, phase == "restored" ? "restored" : "source")
   }
-  env.merge!(bundle_environment(root), fog_env(bucket))
+  env.merge(bundle_environment(root), fog_env(bucket))
+end
+
+def rails_process(phase, database, directory, root: Dir.pwd, bucket: nil)
+  env = process_environment(phase, database, directory, root, bucket)
   Bundler.with_unbundled_env do
-    system(env, RbConfig.ruby, File.expand_path(__FILE__), phase, database, chdir: root, exception: true)
+    if phase == "prepare_rollback"
+      system(env, "bundle", "exec", "rake", "attachments:prepare_carrierwave_rollback", chdir: root, exception: true)
+    else
+      crash = phase.start_with?("kill_")
+      system(env, RbConfig.ruby, File.expand_path(__FILE__), phase, database, chdir: root, exception: !crash)
+      if crash
+        raise "#{phase}: expected SIGKILL, got #{$?}" if $?.termsig != Signal.list.fetch("KILL")
+
+        puts "#{phase}: worker terminated by SIGKILL"
+      end
+    end
   end
 end
 
@@ -133,18 +140,45 @@ def round_trip
   Dir.mktmpdir("shrine-restore-") do |dir|
     root = source_root(dir)
     with_database("#{name}_src") do
-      with_source_bucket do |bucket|
+      with_bucket do |bucket|
         rails_process("legacy_source", "#{name}_src", dir, root:, bucket:)
-        rails_process("mixed_source", "#{name}_src", dir, bucket:) unless ENV["LEGACY_ARCHIVE"] == "1"
+        exercise_replacement("#{name}_src", dir, root, bucket) unless ENV["LEGACY_ARCHIVE"] == "1"
       end
     end
     FileUtils.rm_rf(File.join(dir, "source"))
-    with_database("#{name}_dst") do
-      system("psql", "-Xq", "-v", "ON_ERROR_STOP=1", "-d", "#{name}_dst", "-f", File.join(dir, "openproject.sql"),
-             out: File::NULL, exception: true)
-      rails_process("restored", "#{name}_dst", dir)
+    verify_restore("#{name}_dst", dir)
+  end
+end
+
+def verify_restore(database, dir)
+  with_database(database) do
+    system("psql", "-Xq", "-v", "ON_ERROR_STOP=1", "-d", database, "-f", File.join(dir, "openproject.sql"),
+           out: File::NULL, exception: true)
+    with_bucket do |bucket|
+      restore_bucket(bucket, dir) if bucket
+      rails_process("restored", database, dir, bucket:)
     end
   end
+end
+
+def exercise_replacement(database, directory, legacy_root, bucket)
+  %w[mixed_source kill_before_commit verify_before_commit kill_after_commit backup_after_commit].each do |phase|
+    rails_process(phase, database, directory, bucket:)
+  end
+  rails_process("prepare_rollback", database, directory, bucket:)
+  rails_process("legacy_rollback", database, directory, root: legacy_root, bucket:)
+end
+
+def restore_bucket(bucket, directory)
+  restored = File.join(directory, "restored")
+  Dir.glob("**/*", base: restored).each do |entry|
+    path = File.join(restored, entry)
+    next unless File.file?(path)
+
+    File.open(path, "rb") { |io| bucket.object("uploads/#{entry}").put(body: io) }
+  end
+  FileUtils.remove_entry(restored)
+  puts "Restored S3 bucket #{bucket.name}: #{bucket.objects.map(&:key).sort.join(', ')}"
 end
 
 def seed_file(directory, name, author, container)
@@ -176,8 +210,8 @@ def extract_archive(archive, directory, names)
 end
 
 def extract_attachments(zip, restored, names)
-  names.each do |entry, filename|
-    raise "archive bytes differ for #{entry}" unless zip.read(entry).b == FILES.fetch(filename)
+  names.each do |entry, bytes|
+    raise "archive bytes differ for #{entry}" unless zip.read(entry).b == bytes
 
     FileUtils.mkdir_p(File.dirname(File.join(restored, entry)))
     zip.extract(entry, destination_directory: restored)
@@ -211,24 +245,75 @@ def mixed_source(directory)
   container = AttributeHelpText::WorkPackage.sole
   raise "expected a legacy reference" unless Attachment.sole.file_data.nil?
 
+  File.open(BRANDING_FIXTURE, "rb") { |input| CustomStyle.create!(logo: input) }
   row = seed_file(directory, "shrine.bin", user, container)
   raise "new row lacks Shrine metadata" if row.file_data.blank?
+end
 
-  backup_and_extract(directory, user, container)
+def kill_worker(phase, directory)
+  path = File.join(directory, "shrine.bin")
+  File.binwrite(path, phase == "kill_before_commit" ? "uncommitted replacement" : REPLACEMENT)
+  Attachment.transaction do |transaction|
+    transaction.after_commit { Process.kill(:KILL, Process.pid) } if phase == "kill_after_commit"
+    replace_and_verify(path)
+
+    Process.kill(:KILL, Process.pid) if phase == "kill_before_commit"
+  end
+  raise "worker unexpectedly survived"
+end
+
+def replace_and_verify(path)
+  row = Attachment.find_by!(file: "shrine.bin")
+  File.open(path, "rb") { |input| row.update!(file: input) }
+  raise "replacement did not promote" unless row.reload.file.read == File.binread(path)
+end
+
+def backup_after_commit(directory)
+  verify_files(expected_files)
+  row = Attachment.find_by!(file: "shrine.bin")
+  canonical = "attachment/file/#{row.id}/shrine.bin"
+  raise "replacement points at canonical object" if row.file_data.fetch("id") == canonical
+  raise "old key already cleaned up" unless AttachmentShrine.storage_for(:store).exists?(canonical)
+
+  user = User.find_by!(login: "restore-admin")
+  User.current = user
+  backup_and_extract(directory, user, AttributeHelpText::WorkPackage.sole)
 end
 
 def backup_and_extract(directory, user, container)
-  names = Attachment.where(container:).to_h { |row| ["attachment/file/#{row.id}/#{row.filename}", row.filename] }
+  names = Attachment.where(container:).to_h { |row| [archive_entry(row), expected_files.fetch(row.filename)] }
+  if ENV["LEGACY_ARCHIVE"] != "1"
+    style = CustomStyle.sole
+    names["custom_style/logo/#{style.id}/#{style[:logo]}"] = File.binread(BRANDING_FIXTURE)
+  end
   extract_archive(create_backup(user), directory, names)
+end
+
+def archive_entry(row)
+  (row.file_data&.fetch("id") if row.has_attribute?(:file_data)) || "attachment/file/#{row.id}/#{row.filename}"
 end
 
 def verify_content_response(session, row, headers, expected)
   session.get("/api/v3/attachments/#{row.id}/content", headers:)
-  response = session.response
-  raise "API returned #{response.status}: #{response.body.first(300)}" unless response.status == 200
+  response = content_response(session.response, row)
   raise "API bytes differ: #{row.filename}" unless response.body.b == expected
 
   puts "#{row.filename}: HTTP 200, #{expected.bytesize} bytes, SHA-256 #{Digest::SHA256.hexdigest(expected)}"
+end
+
+def content_response(response, row)
+  if row.external_storage?
+    require "net/http"
+    raise "API returned #{response.status}, expected redirect" unless response.redirect?
+
+    response = Net::HTTP.get_response(URI(response.location))
+    status = response.code.to_i
+  else
+    status = response.status
+  end
+  raise "content response #{status}" unless status == 200
+
+  response
 end
 
 def authorization_headers
@@ -243,22 +328,47 @@ def migrate_legacy_restore
   migrate
 end
 
-def restored_attachment(filename, expected)
-  row = Attachment.find_by!(file: filename)
-  raise "wrong storage metadata: #{filename}" unless row.file_data.present? == (filename == "shrine.bin")
-  raise "restored bytes differ: #{filename}" unless File.binread(row.local_path) == expected
-
-  row
-end
-
-def verify_restored
-  migrate_legacy_restore if ENV["LEGACY_ARCHIVE"] == "1"
+def verify_files(files, carrierwave: false)
   headers = authorization_headers
   session = ActionDispatch::Integration::Session.new(Rails.application)
   session.host! Setting.host_name
-  expected_files.each do |filename, expected|
-    row = restored_attachment(filename, expected)
+  files.each do |filename, expected|
+    row = Attachment.find_by!(file: filename)
+    check_row(row, filename, expected, carrierwave)
+    check_public_filename(session, headers, row, filename)
+
     verify_content_response(session, row, headers, expected)
+  end
+end
+
+def check_public_filename(session, headers, row, filename)
+  session.get("/api/v3/attachments/#{row.id}", headers:)
+  raise "attachment API returned #{session.response.status}" unless session.response.successful?
+  raise "wrong public API filename" unless JSON.parse(session.response.body).fetch("fileName") == filename
+end
+
+def verify_branding
+  style = CustomStyle.sole
+  raise "wrong branding identifier" unless style[:logo] == File.basename(BRANDING_FIXTURE)
+  raise "wrong branding bytes" unless File.binread(style.logo.local_file.path) == File.binread(BRANDING_FIXTURE)
+
+  puts "Verified branding logo #{style[:logo]}"
+end
+
+def check_row(row, filename, expected, carrierwave)
+  raise "wrong public filename" unless row.filename == filename
+  raise "database digest differs" unless row.digest == Digest::MD5.hexdigest(expected)
+
+  check_storage_type(row, filename, carrierwave)
+end
+
+def check_storage_type(row, filename, carrierwave)
+  if carrierwave
+    raise "expected CarrierWave reader" unless row.file.is_a?(OpenProject::Configuration.file_uploader)
+    raise "rollback left Shrine metadata" if row.file_data.present?
+  else
+    expected_metadata = filename == "shrine.bin"
+    raise "wrong storage metadata" unless row.file_data.present? == expected_metadata
   end
 end
 
@@ -278,7 +388,16 @@ else
   case phase
   when "legacy_source" then legacy_source(directory)
   when "mixed_source" then mixed_source(directory)
-  when "restored" then verify_restored
+  when "kill_before_commit", "kill_after_commit" then kill_worker(phase, directory)
+  when "verify_before_commit" then verify_files(FILES)
+  when "backup_after_commit" then backup_after_commit(directory)
+  when "legacy_rollback"
+    verify_files(expected_files, carrierwave: true)
+    verify_branding
+  when "restored"
+    migrate_legacy_restore if ENV["LEGACY_ARCHIVE"] == "1"
+    verify_files(expected_files)
+    verify_branding unless ENV["LEGACY_ARCHIVE"] == "1"
   else raise "unknown phase: #{phase}"
   end
 end
