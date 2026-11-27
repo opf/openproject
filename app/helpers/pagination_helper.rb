@@ -30,17 +30,27 @@
 require "will_paginate"
 
 module PaginationHelper
+  DEFAULT_PER_PAGE = 30
   SHOW_MORE_DEFAULT_LIMIT = 5
   SHOW_MORE_PAST_DEFAULT_LIMIT = 15
   SHOW_MORE_DEFAULT_INCREMENT = 20
   SHOW_MORE_MAX_LIMIT = 1000
 
-  def pagination_links_full(paginator, params: {}, allowed_params: nil, per_page_links: true, **)
-    return unless paginator.total_entries > 0
+  def pagination_links_full(paginator, **)
+    return unless paginator.total_entries.positive?
 
-    content_tag(:div, class: ["op-pagination", { "op-pagination--single-page": paginator.total_pages <= 1 }]) do
-      concat pagination_pages_section(paginator, params:, allowed_params:, **)
-      concat pagination_options_section(paginator, params:, allowed_params:) if per_page_links
+    pagination_controls(paginator.current_page, paginator.total_pages, paginator.per_page, **) do
+      length = paginator.length
+      pagination_range(paginator.offset + 1, paginator.offset + length, paginator.total_entries) if length.positive?
+    end
+  end
+
+  def pagy_pagination_links(pagination, records, **)
+    total = pagination.count
+    return if total.zero?
+
+    pagination_controls(pagination.page, pagination.pages, pagination.limit, **) do
+      pagination_range(pagination.from, [pagination.offset + records.length, total].min, total) if records.any?
     end
   end
 
@@ -113,32 +123,39 @@ module PaginationHelper
 
   private
 
-  def pagination_pages_section(paginator, params:, allowed_params:, **)
-    content_tag(:div, class: "op-pagination--pages") do
-      safe_join(
-        [
-          render_primer_pagination(paginator, params:, allowed_params:, **),
-          pagination_range(paginator)
-        ]
-      )
+  def pagination_controls(page, pages, limit, params: {}, allowed_params: nil, per_page_links: true, **)
+    content_tag(:div, class: ["op-pagination", { "op-pagination--single-page": pages <= 1 }]) do
+      concat(content_tag(:div, class: "op-pagination--pages") do
+        safe_join([render_primer_pagination(page:, pages:, params:, allowed_params:, **), yield])
+      end)
+      concat pagination_options_section(limit, params:, allowed_params:) if per_page_links
     end
   end
 
-  def render_primer_pagination(paginator, params:, allowed_params:, turbo: false, turbo_action: nil, **)
+  def render_primer_pagination(page:, pages:, params:, allowed_params:, turbo: false, turbo_action: nil, **)
     link_arguments = {}
     link_arguments[:data] = {}
     link_arguments[:data][:turbo_stream] = true if turbo
     link_arguments[:data][:turbo_action] = turbo_action if turbo_action.present?
     link_arguments.delete(:data) if link_arguments[:data].empty?
 
+    return pagination_recovery_link(pages, params:, allowed_params:, link_arguments:) if page > pages
+
     render(
       Primer::OpenProject::Pagination.new(
-        page_count: paginator.total_pages,
-        current_page: paginator.current_page,
+        page_count: pages,
+        current_page: page,
         href_builder: ->(page) { pagination_href(page, params:, allowed_params:) },
         link_arguments:
       )
     )
+  end
+
+  def pagination_recovery_link(last_page, params:, allowed_params:, link_arguments:)
+    content_tag(:nav, aria: { label: t("pagination.label") }) do
+      link_to(t("pagination.prev"), pagination_href(last_page, params:, allowed_params:),
+              rel: "prev", class: "Page", **link_arguments)
+    end
   end
 
   def pagination_href(page, params:, allowed_params:)
@@ -151,20 +168,16 @@ module PaginationHelper
     )
   end
 
-  def pagination_range(paginator)
-    page_first = paginator.offset + 1
-    page_last = paginator.offset + paginator.length
-    total = paginator.total_entries
-
+  def pagination_range(first, last, total)
     content_tag(
       :div,
-      "(#{page_first} - #{page_last}/#{total})",
+      "(#{first} - #{last}/#{total})",
       class: "op-pagination--range",
       aria: { live: "polite" }
     )
   end
 
-  def pagination_options_section(paginator, params:, allowed_params:)
+  def pagination_options_section(limit, params:, allowed_params:)
     per_page_options = Setting.per_page_options_array
     return "" if per_page_options.empty?
 
@@ -173,7 +186,7 @@ module PaginationHelper
       content_tag(:nav, aria: { label: I18n.t(:"js.pagination.per_page_navigation") }) do
         pagination_options_list(
           per_page_options,
-          current_per_page: paginator.per_page,
+          current_per_page: limit,
           **params.merge(safe_query_params(allowed_params))
         )
       end

@@ -75,7 +75,7 @@ See COPYRIGHT and LICENSE files for more details.
   <%= no_results_box %>
 <% end %>
 
-<%= pagination_links_full @news %>
+<%= pagy_pagination_links(@pagination, @news) %>
 
 <%= other_formats_links do |f| %>
   <%= f.link_to "Atom", url: { project_id: @project, key: User.current.rss_key } %>
