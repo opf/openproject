@@ -28,25 +28,32 @@
 #++
 
 module Import
-  module JiraWorkflowCreation
-    private
+  class JiraCreateWorkflowTransitionsJob < ApplicationJob
+    include Import::JiraJobUtils
 
-    def allow_all_status_transitions(role, workflow)
-      Rails.logger.tagged("jira_object_type:workflow", "jira_object_id_or_name:#{workflow.name}") do
-        call = Workflows::BulkUpdateService
-                 .new(role:, workflow:, tab: "always")
-                 .call(all_status_transitions)
-        if call.failure?
-          Rails.logger.error call.message
-          raise call.message
+    def text
+      I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title")
+    end
+
+    def perform(jira_import_id)
+      tagged_log("jira_import_id:#{jira_import_id}", "jira_object_type:workflow") do
+        Rails.logger.debug "Creating workflow transitions started"
+        role = Role.find_by!(name: "JiraMember")
+        workflows_of_imported_types(jira_import_id).each do |workflow|
+          OpenProject::Mutex.with_advisory_lock_transaction(workflow) { JiraWorkflowTransitions.allow_all(role, workflow) }
         end
+        Rails.logger.debug "Creating workflow transitions finished"
       end
     end
 
-    def all_status_transitions
-      status_ids = Status.pluck(:id)
-      to_every_status = status_ids.index_with { ["always"] }
-      status_ids.index_with { to_every_status }
+    private
+
+    # TODO: needs to be adjusted in JIM-336 to operate on the variant
+    def workflows_of_imported_types(jira_import_id)
+      type_ids = JiraOpenProjectReference
+                   .where(jira_import_id:, op_entity_class: Type.name)
+                   .select("op_entity_id::bigint")
+      Workflow.where(id: TypeVariant.default_variant.where(type_id: type_ids).select(:workflow_id))
     end
   end
 end

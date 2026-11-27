@@ -30,7 +30,6 @@
 module Import
   class JiraCreateProjectWorkPackagesJob < ProgressableJob
     include Import::JiraOpenProjectReferenceCreation
-    include Import::JiraWorkflowCreation
     include ::Import::JiraCreateProjectJob::JiraImportCustomFields
     include Import::JiraJobUtils
     include Import::JiraProjectIssuesJob
@@ -105,6 +104,7 @@ module Import
             ActiveRecord::Base.transaction do
               type = create_type(jira_issue, @project)
               status = create_status(jira_issue)
+              # TODO: needs to be adjusted in JIM-336 to operate on the variant
               ensure_type_has_status(type, status)
               ensure_type_has_custom_fields(type, jira_issue)
               priority = create_priority(jira_issue) || IssuePriority.default || IssuePriority.active.first
@@ -269,7 +269,7 @@ module Import
       OpenProject::Mutex.with_advisory_lock_transaction(workflow) do
         next if Status.uncached { type_has_status?(type, status) }
 
-        allow_all_status_transitions(@project_role, workflow)
+        JiraWorkflowTransitions.allow_all(@project_role, workflow)
       end
     end
 
@@ -278,7 +278,7 @@ module Import
     end
 
     def ensure_type_has_custom_fields(type, jira_issue)
-      return if new_custom_fields_in_type(jira_issue, type, @custom_field_registry).empty?
+      return if type_has_custom_fields?(type, jira_issue)
 
       form = type.default_variant.form_configuration
       OpenProject::Mutex.with_advisory_lock_transaction(form, WorkPackageTypes::FormConfiguration::LayoutLock::SUFFIX) do
@@ -288,6 +288,10 @@ module Import
 
         update_custom_fields_in_type(type, new_custom_fields)
       end
+    end
+
+    def type_has_custom_fields?(type, jira_issue)
+      new_custom_fields_in_type(jira_issue, type, @custom_field_registry).empty?
     end
 
     def setup_resolution_date_cf(jira_project)

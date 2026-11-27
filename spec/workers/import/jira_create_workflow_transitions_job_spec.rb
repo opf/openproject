@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe Import::JiraCreateWorkflowsJob do
+RSpec.describe Import::JiraCreateWorkflowTransitionsJob do
   let(:jira_import) { create(:jira_import, jira: create(:jira), author: create(:user)) }
   let!(:role) { create(:project_role, name: "JiraMember") }
   let(:imported_type) { create(:type) }
@@ -65,7 +65,7 @@ RSpec.describe Import::JiraCreateWorkflowsJob do
   context "when it runs again" do
     before { described_class.perform_now(jira_import.id) }
 
-    it "keeps one transition per pair of statuses" do
+    it "doesn't duplicate the transitions" do
       expect { described_class.perform_now(jira_import.id) }.not_to change { transitions_of(imported_type).size }
     end
   end

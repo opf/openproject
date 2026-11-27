@@ -1729,8 +1729,8 @@ en:
             title: "Create sprints"
           JiraCreateUsersJob:
             title: "Create users"
-          JiraCreateWorkflowsJob:
-            title: "Create 'JiraMember' workflows"
+          JiraCreateWorkflowTransitionsJob:
+            title: "Create 'JiraMember' workflow transitions"
           JiraDownloadProjectWorkPackageAttachmentsJob:
             title: "Download work package attachments for '%{jira_project_name}'"
           JiraFetchCustomFieldJob:

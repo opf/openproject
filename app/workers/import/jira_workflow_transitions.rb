@@ -28,30 +28,25 @@
 #++
 
 module Import
-  class JiraCreateWorkflowsJob < ApplicationJob
-    include Import::JiraJobUtils
-    include Import::JiraWorkflowCreation
+  module JiraWorkflowTransitions
+    module_function
 
-    def text
-      I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title")
-    end
-
-    def perform(jira_import_id)
-      tagged_log("jira_import_id:#{jira_import_id}", "jira_object_type:workflow") do
-        Rails.logger.debug "Creating workflows started"
-        role = Role.find_by!(name: "JiraMember")
-        workflows_of_imported_types(jira_import_id).each do |workflow|
-          OpenProject::Mutex.with_advisory_lock_transaction(workflow) { allow_all_status_transitions(role, workflow) }
+    def allow_all(role, workflow)
+      Rails.logger.tagged("jira_object_type:workflow", "jira_object_id_or_name:#{workflow.name}") do
+        call = Workflows::BulkUpdateService
+                 .new(role:, workflow:, tab: "always")
+                 .call(all_status_transitions)
+        if call.failure?
+          Rails.logger.error call.message
+          raise call.message
         end
-        Rails.logger.debug "Creating workflows finished"
       end
     end
 
-    private
-
-    def workflows_of_imported_types(jira_import_id)
-      type_ids = JiraOpenProjectReference.where(jira_import_id:, op_entity_class: Type.name).pluck(:op_entity_id)
-      Workflow.where(id: TypeVariant.default_variant.where(type_id: type_ids).select(:workflow_id))
+    def all_status_transitions
+      status_ids = Status.pluck(:id)
+      to_every_status = status_ids.index_with { ["always"] }
+      status_ids.index_with { to_every_status }
     end
   end
 end

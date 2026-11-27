@@ -307,11 +307,11 @@ RSpec.describe Import::JiraStagedImportJob, with_good_job_batches: [Import::Jira
                               payload: { "id" => "10012", "key" => "DPPP", "name" => "Demo project" })
       end
 
-      it "enqueues one create parent-child relations job per selected project and one create workflows job" do
+      it "enqueues one create parent-child relations job per selected project and one create workflow transitions job" do
         run_callback
 
         expect(GoodJob::Job.where(job_class: "Import::JiraCreateParentChildRelationsFromSubtasksJob").count).to eq(1)
-        expect(GoodJob::Job.where(job_class: "Import::JiraCreateWorkflowsJob").count).to eq(1)
+        expect(GoodJob::Job.where(job_class: "Import::JiraCreateWorkflowTransitionsJob").count).to eq(1)
       end
 
       it "labels enqueued jobs with stage_9" do
@@ -319,7 +319,7 @@ RSpec.describe Import::JiraStagedImportJob, with_good_job_batches: [Import::Jira
 
         expect(GoodJob::Job.where(job_class: "Import::JiraCreateParentChildRelationsFromSubtasksJob").last.labels)
           .to include("stage_9")
-        expect(GoodJob::Job.where(job_class: "Import::JiraCreateWorkflowsJob").last.labels).to include("stage_9")
+        expect(GoodJob::Job.where(job_class: "Import::JiraCreateWorkflowTransitionsJob").last.labels).to include("stage_9")
       end
     end
 

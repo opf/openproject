@@ -331,26 +331,34 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
           before { as_another_job_before_locking(Status) { create(:status, name: "In Progress") } }
 
           it "uses the status the other job created" do
-            expect { ActiveRecord::Base.cache { create_work_packages } }.to change(Status, :count).by(1)
+            expect { with_query_cache { create_work_packages } }.to change(Status, :count).by(1)
             expect(WorkPackage.last.status.name).to eq("In Progress")
           end
         end
       end
 
       context "when another job adds the status to the type's workflow first" do
-        before { as_another_job_before_locking(Workflow) { add_status("In Progress", type: "Bug") } }
-
         def add_status(name, type:)
-          workflow = Type.find_by!(name: type).default_variant.workflow
           status = Status.find_by!(name:)
-          create(:status_transition, workflow:, role: Role.find_by!(name: "JiraMember"), old_status: status, new_status: status)
+          create(:status_transition, type: Type.find_by!(name: type), role: Role.find_by!(name: "JiraMember"),
+                                     old_status: status, new_status: status)
         end
 
-        it "keeps the issue's status without rewriting the workflow" do
-          ActiveRecord::Base.cache { create_work_packages }
+        def transitions_of(type)
+          Type.find_by!(name: type).default_variant.workflow.status_transitions.pluck(:role_id, :old_status_id, :new_status_id)
+        end
+
+        it "keeps the issue's status and leaves the workflow as the other job left it" do
+          transitions_from_other_job = nil
+          as_another_job_before_locking(Workflow) do
+            add_status("In Progress", type: "Bug")
+            transitions_from_other_job = transitions_of("Bug")
+          end
+
+          with_query_cache { create_work_packages }
 
           expect(WorkPackage.last.status.name).to eq("In Progress")
-          expect(Type.find_by!(name: "Bug").default_variant.workflow.status_transitions.count).to eq(1)
+          expect(transitions_of("Bug")).to eq(transitions_from_other_job)
         end
       end
 
