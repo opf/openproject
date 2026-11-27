@@ -1,5 +1,5 @@
 @if (canAdd() || canReference()) {
-  @if (mode() === 'inactive') {
+  @if (mode() === 'inactive' && (!buttonRowHidden() || awaitingResults())) {
     <tr
       class="wp-inline-create-button-row hide-when-print"
       >
@@ -14,6 +14,7 @@
             leadingIcon="plus"
             [class.wp-inline-create--split-link]="hasReferenceClass"
             [opAutofocus]="focus && focusTarget === 'create'"
+            opAutofocusOnlyWhenFocusLost
             (click)="handleAddRowClick()"
             aria-haspopup="true"
             data-test-selector="op-wp-inline-create"
@@ -26,6 +27,7 @@
             leadingIcon="link"
             class="wp-inline-create--split-link"
             [opAutofocus]="focus && focusTarget === 'reference'"
+            opAutofocusOnlyWhenFocusLost
             (click)="handleReferenceClick()"
             aria-haspopup="true"
             data-test-selector="op-wp-inline-create-reference"

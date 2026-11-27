@@ -263,6 +263,49 @@ RSpec.describe "inline create work package", :js do
       end
     end
 
+    context "when the project has no work packages yet" do
+      let!(:existing_wp) { nil }
+
+      it "creates the first work package from the blankslate and hands focus to Create" do
+        expect(page).to have_heading("No work packages to display.")
+
+        wp_table.click_inline_create
+        subject_field = wp_table.edit_field(nil, :subject)
+        subject_field.expect_active!
+        subject_field.set_value "First subject"
+        wait_for_request(%r{/queries/default\?}) do
+          subject_field.save!
+          wp_table.expect_toast(message: "Successful creation.")
+        end
+
+        created = WorkPackage.find_by!(subject: "First subject")
+        wp_table.expect_work_package_listed(created)
+        expect(page).to have_no_heading("No work packages to display.")
+        expect(page).to have_button("Create new work package", focused: true)
+        wp_table.press_keys(%i[shift tab])
+        wp_table.expect_focus_on_row(created)
+      end
+
+      it "brings the blankslate back when the new work package is filtered out" do
+        filters.open
+        filters.add_filter_by("Subject", "contains", ["nomatch"])
+        expect(page).to have_heading("No work packages to display.")
+
+        wp_table.click_inline_create
+        subject_field = wp_table.edit_field(nil, :subject)
+        subject_field.expect_active!
+        subject_field.set_value "First subject"
+        wait_for_request(%r{/queries/default\?}) do
+          subject_field.save!
+          wp_table.expect_toast(message: "Successful creation.")
+        end
+
+        expect(WorkPackage.where(subject: "First subject")).to exist
+        expect(page).to have_heading("No work packages to display.")
+        expect(page).to have_button("Create new work package", focused: true)
+      end
+    end
+
     context "when user has permissions in other project" do
       let(:permissions) { [:view_work_packages] }
 

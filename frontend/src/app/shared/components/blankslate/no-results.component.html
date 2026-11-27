@@ -6,4 +6,5 @@
   @if (message()) {
     <blankslate-description>{{ message() }}</blankslate-description>
   }
+  <blankslate-action [hidden]="!action()"><ng-content select="[opNoResultsAction]" /></blankslate-action>
 </blankslate>

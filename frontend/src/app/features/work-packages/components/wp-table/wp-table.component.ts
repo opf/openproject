@@ -45,6 +45,7 @@ import { WpTableHoverSync } from 'core-app/features/work-packages/components/wp-
 import { WorkPackageTimelineTableController } from 'core-app/features/work-packages/components/wp-table/timeline/container/wp-timeline-container.directive';
 import { emptyResultsRowKey, headerRowKey } from 'core-app/features/work-packages/components/wp-fast-table/row-keys';
 import { WorkPackageInlineCreateComponent } from 'core-app/features/work-packages/components/wp-inline-create/wp-inline-create.component';
+import { focusIsLost } from 'core-app/shared/helpers/focus-helpers';
 import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
 import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -148,23 +149,20 @@ export class WorkPackagesTableComponent implements OnInit, TableEventComponent, 
 
   public inlineCreateVisible = false;
 
-  // Flips only inside a table mutation, so row positions repaint with the empty results row.
+  // Flips inside a table mutation while the blankslate shows, so row positions repaint with the empty results row.
   protected inlineCreateRowOpen = false;
 
-  private readonly inlineCreate = viewChild(WorkPackageInlineCreateComponent);
+  private focusBlankslateAction = false;
+
+  private readonly blankslateAction = viewChild<string, ElementRef<HTMLElement>>('blankslateAction', { read: ElementRef });
+
+  protected readonly inlineCreate = viewChild(WorkPackageInlineCreateComponent);
 
   readonly numTableColumns = computed(() => this.viewState()?.numTableColumns ?? 0);
 
   constructor() {
     effect(() => {
-      const active = this.inlineCreate()?.isActive() ?? false;
-      untracked(() => {
-        if (!this.workPackageTable || active === this.inlineCreateRowOpen) return;
-        this.workPackageTable.mutate(new Set([emptyResultsRowKey]), () => {
-          this.inlineCreateRowOpen = active;
-          this.cdRef.detectChanges();
-        });
-      });
+      if (!this.inlineCreate()) untracked(() => this.syncBlankslate(false));
     });
   }
 
@@ -201,9 +199,12 @@ export class WorkPackagesTableComponent implements OnInit, TableEventComponent, 
       takeUntilDestroyed(this.destroyRef),
     ).subscribe(({ results, columns, timelines, sortBy, sums }) => {
       const wasTimelineVisible = this.viewState()?.timelineVisible;
+      const freshResults = results !== this.viewState()?.results;
       const manualSortEnabled = this.wpTableSortBy.isManualSortingMode;
       const baselineEnabled = this.wpTableBaseline.isActive();
       const rendered = renderedColumns(this.configuration, baselineEnabled);
+      if (results.count > 0 && this.blankslateActionFocused()) this.inlineCreate()?.focusCreateTrigger();
+      const focusBlankslateAction = results.count === 0 && !!this.inlineCreate()?.hasTriggerFocus();
       this.viewStateValue.set({
         query: this.querySpace.query.value,
         results,
@@ -227,6 +228,8 @@ export class WorkPackagesTableComponent implements OnInit, TableEventComponent, 
       }
 
       this.renderHeader();
+      if (freshResults) this.inlineCreate()?.resultsRendered();
+      if (focusBlankslateAction) this.blankslateAction()?.nativeElement.focus();
     });
 
     this.cdRef.detectChanges();
@@ -289,6 +292,36 @@ export class WorkPackagesTableComponent implements OnInit, TableEventComponent, 
       return;
     }
     this.workPackageTable.mutate(new Set([headerRowKey]), () => this.cdRef.detectChanges());
+  }
+
+  protected syncBlankslate(occupied:boolean):void {
+    if (occupied === this.inlineCreateRowOpen) return;
+    if (!this.workPackageTable || !this.showsBlankslate) {
+      this.inlineCreateRowOpen = occupied;
+    } else {
+      this.workPackageTable.mutate(new Set([emptyResultsRowKey]), () => {
+        this.inlineCreateRowOpen = occupied;
+        this.cdRef.detectChanges();
+      });
+    }
+    if (this.focusBlankslateAction && focusIsLost()) this.blankslateAction()?.nativeElement.focus();
+    this.focusBlankslateAction = false;
+  }
+
+  protected returnFocusToBlankslate():void {
+    if (this.inlineCreateRowOpen || !this.showsBlankslate) {
+      this.focusBlankslateAction = true;
+    } else if (focusIsLost()) {
+      this.blankslateAction()?.nativeElement.focus();
+    }
+  }
+
+  private blankslateActionFocused():boolean {
+    return this.blankslateAction()?.nativeElement === document.activeElement;
+  }
+
+  protected get showsBlankslate():boolean {
+    return !this.isEmbedded && !!this.viewState()?.query && this.viewState()?.results.count === 0;
   }
 
   public get isEmbedded() {

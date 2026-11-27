@@ -25,13 +25,20 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { screen } from '@testing-library/dom';
 import { noteIconData } from '@openproject/octicons-angular';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { DynamicIconName } from 'core-app/shared/components/primer/dynamic-icon-map';
 import { BlankslateHeadingLevel } from './blankslate.component';
-import { NoResultsComponent } from './no-results.component';
+import { NoResultsActionDirective, NoResultsComponent } from './no-results.component';
+
+@Component({
+  template: '<op-no-results><button opNoResultsAction type="button">Create item</button></op-no-results>',
+  imports: [NoResultsComponent, NoResultsActionDirective],
+})
+class WithActionComponent {}
 
 describe('NoResultsComponent', () => {
   const I18nStub = {
@@ -95,6 +102,23 @@ describe('NoResultsComponent', () => {
     const description = screen.getByText('Either none have been created or all are <b>filtered</b> out.');
     expect(description).toHaveClass('blankslate-description');
     expect(description.querySelector('b')).not.toBeInTheDocument();
+  });
+
+  it('hides the action slot without an action', () => {
+    render();
+
+    expect(fixture.nativeElement.querySelector('.blankslate-action')).not.toBeVisible();
+  });
+
+  it('renders a projected action below the description', () => {
+    const host = TestBed.createComponent(WithActionComponent);
+    document.body.appendChild(host.nativeElement as HTMLElement);
+    host.detectChanges();
+
+    const action = host.nativeElement.querySelector('.blankslate .blankslate-action');
+    expect(action).toBeVisible();
+    expect(action).toContainElement(screen.getByRole('button', { name: 'Create item' }));
+    host.destroy();
   });
 
   it('omits the icon without one', () => {

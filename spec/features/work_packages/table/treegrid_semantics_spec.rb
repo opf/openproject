@@ -551,12 +551,10 @@ RSpec.describe "Work package table treegrid semantics", :js do
 
       expect(wp_table.treegrid).to have_selector(:row, "No work packages to display.", aria: { level: 1, selected: nil })
       expect(wp_table.treegrid).to have_heading("No work packages to display.", level: 3)
-      expect(wp_table.treegrid).to have_selector(:row, "Create new work package", aria: { level: 1, selected: nil })
-      ["No work packages to display.", "Create new work package"].each do |name|
-        row = wp_table.treegrid.find(:row, name, aria: { selected: nil })
-        expect(row).to have_no_selector(:role, "rowheader", visible: :all)
-      end
-      wp_table.expect_row_positions(rowcount: 3, rows: [1, 2, 3])
+      empty_row = wp_table.treegrid.find(:row, "No work packages to display.", aria: { selected: nil })
+      expect(empty_row).to have_no_selector(:role, "rowheader", visible: :all)
+      expect(empty_row).to have_button("Create new work package")
+      wp_table.expect_row_positions(rowcount: 2, rows: [1, 2])
       expect_focus_on_header_row
       expect(page).to be_axe_clean.within(wp_table.axe_scope)
 
@@ -580,10 +578,10 @@ RSpec.describe "Work package table treegrid semantics", :js do
         end
       end
 
-      it "withdraws the empty results row while the inline create row is open" do
+      it "offers the inline create action from the blankslate" do
         wp_table.visit_query(query)
         expect(wp_table.treegrid).to have_heading("No work packages to display.", level: 3)
-        wp_table.expect_row_positions(rowcount: 3, rows: [1, 2, 3])
+        wp_table.expect_row_positions(rowcount: 2, rows: [1, 2])
 
         wp_table.click_inline_create
         expect(wp_table.treegrid).to have_no_heading("No work packages to display.")
@@ -593,7 +591,8 @@ RSpec.describe "Work package table treegrid semantics", :js do
 
         wp_table.press_keys(:escape)
         expect(wp_table.treegrid).to have_heading("No work packages to display.", level: 3)
-        wp_table.expect_row_positions(rowcount: 3, rows: [1, 2, 3])
+        expect(wp_table.treegrid).to have_button("Create new work package", focused: true)
+        wp_table.expect_row_positions(rowcount: 2, rows: [1, 2])
       end
     end
   end

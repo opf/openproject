@@ -26,7 +26,7 @@
 //++
 
 import { CommonModule } from '@angular/common';
-import { headerRowKey, inlineCreateRowKey, totalsRowKey } from 'core-app/features/work-packages/components/wp-fast-table/row-keys';
+import { emptyResultsRowKey, headerRowKey, inlineCreateRowKey, totalsRowKey } from 'core-app/features/work-packages/components/wp-fast-table/row-keys';
 import type { PaintScope } from 'core-app/features/work-packages/components/wp-fast-table/row-mutations';
 import { ChangeDetectorRef, Component, Injector, NgModule, NO_ERRORS_SCHEMA, signal } from '@angular/core';
 import { OpenprojectWorkPackagesModule } from 'core-app/features/work-packages/openproject-work-packages.module';
@@ -64,7 +64,9 @@ import { tableRefreshRequest } from 'core-app/features/work-packages/routing/wp-
 import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
 import { IntegerDisplayField } from 'core-app/shared/components/fields/display/field-types/integer-display-field.module';
 import { TextDisplayField } from 'core-app/shared/components/fields/display/field-types/text-display-field.module';
-import { NoResultsComponent } from 'core-app/shared/components/blankslate/no-results.component';
+import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
+import { AutofocusDirective } from 'core-app/shared/directives/focus/autofocus.directive';
+import { NoResultsActionDirective, NoResultsComponent } from 'core-app/shared/components/blankslate/no-results.component';
 import { nextFrame, nextTask } from 'core-common/testing/timing';
 import {
   buildColumn, buildQuery, FakeDragAndDropService, harnessProviders, initializeViewServices,
@@ -424,8 +426,8 @@ function configureTableModule():void {
   vi.spyOn(OpenprojectWorkPackagesModule, 'bootstrapAttributeGroups').mockImplementation(() => undefined);
   TestBed.overrideModule(OpenprojectWorkPackagesModule, {
     set: {
-      imports: [CommonModule, NoResultsComponent, PrimerButtonComponent],
-      declarations: [WorkPackagesTableComponent, WorkPackageInlineCreateComponent, WorkPackageTableSumsRowController, SortHeaderDirective],
+      imports: [CommonModule, NoResultsComponent, NoResultsActionDirective, PrimerButtonComponent],
+      declarations: [WorkPackagesTableComponent, WorkPackageInlineCreateComponent, WorkPackageTableSumsRowController, SortHeaderDirective, AutofocusDirective],
       exports: [WorkPackagesTableComponent],
       providers: [
         { provide: OpModalService, useValue: {} },
@@ -460,6 +462,8 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
   let fixture:ComponentFixture<ListViewStandInComponent|TwoTablesStandInComponent>;
 
   const emptySection = () => document.querySelector<HTMLTableSectionElement>('tbody.work-package--empty-tbody');
+  const inlineCreateInstance = ():WorkPackageInlineCreateComponent => fixture.debugElement
+    .query(By.directive(WorkPackageInlineCreateComponent)).componentInstance as WorkPackageInlineCreateComponent;
 
   beforeEach(async () => {
     baselineActive = false;
@@ -1036,20 +1040,202 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       await waitFor(() => expect(scopes).toContainEqual(new Set([inlineCreateRowKey])));
     });
 
-    it('hides the empty results row while the create row is open', async () => {
-      await mount(inlineCreate, []);
-      const table = screen.getByRole('treegrid');
-      expect(emptySection()).toBeInTheDocument();
-      expect(table).toHaveAttribute('aria-rowcount', '3');
+    it.each([
+      ['populated', {}, [{ id: '1' }]],
+      ['embedded', { isEmbedded: true }, []],
+    ])('leaves the empty results row alone while the create row opens and closes in %s tables', async (_kind, extra, fixtures) => {
+      const component = await mount({ ...inlineCreate, ...extra }, fixtures);
+      const scopes:PaintScope[] = [];
+      vi.spyOn(component.workPackageTable.keyboardNavigation, 'rowsChanged').mockImplementation(({ scope }) => { scopes.push(scope); });
 
       const row = await openCreateRow();
-      await waitFor(() => expect(emptySection()).not.toBeInTheDocument());
-      expect(table).toHaveAttribute('aria-rowcount', '2');
-      expect(row).toHaveAttribute('aria-rowindex', '2');
-
       fireEvent.keyDown(within(row).getByRole('textbox'), { key: 'Escape' });
-      await waitFor(() => expect(emptySection()).toBeInTheDocument());
-      expect(table).toHaveAttribute('aria-rowcount', '3');
+      await waitFor(() => expect(createSection().querySelector('.wp-inline-create-button-row')).toBeInTheDocument());
+
+      expect(scopes).not.toContainEqual(new Set([emptyResultsRowKey]));
+    });
+
+    describe('with no results', () => {
+      const blankslateAction = () => within(emptySection()!).getByRole('button', { name: 'Create new work package' });
+
+      it('never paints the blankslate and the create row together', async () => {
+        await mount(inlineCreate, []);
+        const overlaps:boolean[] = [];
+        const observer = new MutationObserver(() => overlaps.push(!!emptySection() && !!createRow()));
+        observer.observe(screen.getByRole('treegrid'), { childList: true, subtree: true });
+
+        fireEvent.click(blankslateAction());
+        await waitFor(() => expect(within(createRow()!).getByRole('textbox')).toBeInTheDocument());
+        await waitFor(() => expect(emptySection()).not.toBeInTheDocument());
+        observer.disconnect();
+
+        expect(overlaps).not.toContain(true);
+      });
+
+      it('moves the Create button into the blankslate', async () => {
+        await mount(inlineCreate, []);
+
+        expect(blankslateAction()).toHaveClass('Button', 'Button--link', 'hide-when-print');
+        expect(blankslateAction().closest('.blankslate-action')).toBeInTheDocument();
+        expect(blankslateAction().querySelector('.Button-leadingVisual')).not.toBeInTheDocument();
+        expect(blankslateAction()).not.toHaveAttribute('tabindex', '-1');
+        expect(createSection().querySelector('.wp-inline-create-button-row')).not.toBeInTheDocument();
+        expect(screen.getByRole('treegrid')).toHaveAttribute('aria-rowcount', '2');
+      });
+
+      it('omits the blankslate action without add permission', async () => {
+        canAdd.next(false);
+        await mount(inlineCreate, []);
+
+        expect(within(emptySection()!).queryByRole('button')).not.toBeInTheDocument();
+      });
+
+      it('hides the blankslate while the create row is open and refocuses its action on cancel', async () => {
+        await mount(inlineCreate, []);
+        const table = screen.getByRole('treegrid');
+
+        fireEvent.click(blankslateAction());
+        await waitFor(() => expect(within(createRow()!).getByRole('textbox')).toBeInTheDocument());
+        await waitFor(() => expect(emptySection()).not.toBeInTheDocument());
+        expect(table).toHaveAttribute('aria-rowcount', '2');
+        expect(createRow()).toHaveAttribute('aria-rowindex', '2');
+
+        fireEvent.keyDown(within(createRow()!).getByRole('textbox'), { key: 'Escape' });
+        await waitFor(() => expect(blankslateAction()).toHaveFocus());
+        expect(createSection().querySelector('.wp-inline-create-button-row')).not.toBeInTheDocument();
+        expect(table).toHaveAttribute('aria-rowcount', '2');
+      });
+
+      it('leaves focus where the user moved it while the create row was closing', async () => {
+        await mount(inlineCreate, []);
+        fireEvent.click(blankslateAction());
+        await waitFor(() => expect(within(createRow()!).getByRole('textbox')).toBeInTheDocument());
+        await waitFor(() => expect(emptySection()).not.toBeInTheDocument());
+
+        fireEvent.keyDown(within(createRow()!).getByRole('textbox'), { key: 'Escape' });
+        const elsewhere = document.createElement('button');
+        document.body.append(elsewhere);
+        elsewhere.focus();
+        await waitFor(() => expect(emptySection()).toBeInTheDocument());
+
+        expect(elsewhere).toHaveFocus();
+        elsewhere.remove();
+      });
+
+      it('moves focus to the blankslate action when the last result goes while Create has focus', async () => {
+        await mount(inlineCreate, [{ id: '1' }]);
+        within(createSection()).getByRole('button', { name: 'Create new work package' }).focus();
+
+        await render([]);
+
+        await waitFor(() => expect(blankslateAction()).toHaveFocus());
+      });
+
+      it('leaves focus alone when the last result goes while Create lacks focus', async () => {
+        await mount(inlineCreate, [{ id: '1' }]);
+
+        await render([]);
+
+        await waitFor(() => expect(emptySection()).toBeInTheDocument());
+        expect(blankslateAction()).not.toHaveFocus();
+      });
+
+      it.each([
+        ['hands focus to the Create button row', true, 1],
+        ['leaves focus alone', false, 0],
+      ])('%s when results replace a blankslate whose action has focus: %s', async (_verb, focused, calls) => {
+        await mount(inlineCreate, []);
+        const inlineCreateComponent = inlineCreateInstance();
+        const handoff = vi.spyOn(inlineCreateComponent, 'focusCreateTrigger');
+        if (focused) blankslateAction().focus();
+
+        await render([{ id: '1' }]);
+
+        expect(handoff).toHaveBeenCalledTimes(calls);
+      });
+
+      async function saveFromBlankslate() {
+        const blankslateSeen:boolean[] = [];
+        const observer = new MutationObserver(() => blankslateSeen.push(!!emptySection()));
+        fireEvent.click(blankslateAction());
+        await waitFor(() => expect(within(createRow()!).getByRole('textbox')).toBeInTheDocument());
+        await waitFor(() => expect(emptySection()).not.toBeInTheDocument());
+        observer.observe(screen.getByRole('treegrid'), { childList: true, subtree: true });
+        created.next(Object.assign(buildWorkPackage({ id: '3' }), { __initialized_at: 1 }));
+        await waitFor(() => expect(createRow()).not.toBeInTheDocument());
+        await new Promise((resolve) => { setTimeout(resolve, 100); });
+        return { blankslateSeen, observer };
+      }
+
+      it('keeps the blankslate away after a save and focuses Create once results arrive', async () => {
+        await mount(inlineCreate, []);
+        const focus = vi.spyOn(TestBed.inject(FocusHelperService), 'focus');
+        const { blankslateSeen, observer } = await saveFromBlankslate();
+
+        await render([{ id: '3' }]);
+        observer.disconnect();
+
+        expect(blankslateSeen).not.toContain(true);
+        await waitFor(() => expect(focus).toHaveBeenCalledExactlyOnceWith(
+          within(createSection()).getByRole('button', { name: 'Create new work package' }),
+          { onlyWhenFocusLost: true },
+        ));
+      });
+
+      it('keeps waiting for fresh results when the view re-emits the empty ones after a save', async () => {
+        await mount(inlineCreate, []);
+        const focus = vi.spyOn(TestBed.inject(FocusHelperService), 'focus');
+        const { blankslateSeen, observer } = await saveFromBlankslate();
+
+        sortBy(['subject', QUERY_SORT_BY_DESC]);
+        await new Promise((resolve) => { setTimeout(resolve, 50); });
+        expect(emptySection()).not.toBeInTheDocument();
+
+        await render([{ id: '3' }]);
+        observer.disconnect();
+
+        expect(blankslateSeen).not.toContain(true);
+        await waitFor(() => expect(focus).toHaveBeenCalledExactlyOnceWith(
+          within(createSection()).getByRole('button', { name: 'Create new work package' }),
+          { onlyWhenFocusLost: true },
+        ));
+      });
+
+      it('brings the blankslate back and focuses its action when the saved work package is filtered out', async () => {
+        await mount(inlineCreate, []);
+        const { blankslateSeen, observer } = await saveFromBlankslate();
+        expect(blankslateSeen).not.toContain(true);
+        observer.disconnect();
+        within(createSection()).getByRole('button', { name: 'Create new work package' }).focus();
+
+        await render([]);
+
+        await waitFor(() => expect(blankslateAction()).toHaveFocus());
+      });
+
+      it('focuses the blankslate action at once when asked while the blankslate already shows', async () => {
+        await mount(inlineCreate, []);
+        const inlineCreateComponent = inlineCreateInstance();
+
+        inlineCreateComponent.returnFocus.emit();
+
+        expect(blankslateAction()).toHaveFocus();
+      });
+
+      it('restores the Create button row once results return', async () => {
+        await mount(inlineCreate, []);
+
+        await render([{ id: '1' }]);
+
+        await waitFor(() => expect(within(createSection()).getByRole('button', { name: 'Create new work package' })).toBeInTheDocument());
+      });
+
+      it('keeps the Create button row in embedded tables', async () => {
+        await mount({ ...inlineCreate, isEmbedded: true }, []);
+
+        expect(emptySection()).not.toBeInTheDocument();
+        expect(within(createSection()).getByRole('button', { name: 'Create new work package' })).toBeInTheDocument();
+      });
     });
 
     it('preserves the active editor when reference permission changes', async () => {
@@ -1300,8 +1486,7 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
 
     it('emits showing only when visibility changes', async () => {
       await mount(inlineCreate);
-      const component = fixture.debugElement.query(By.directive(WorkPackageInlineCreateComponent))
-        .componentInstance as WorkPackageInlineCreateComponent;
+      const component = inlineCreateInstance();
       const showing = vi.fn();
       component.showing.subscribe(showing);
 
@@ -1371,10 +1556,24 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       expect(mutate).not.toHaveBeenCalled();
     });
 
+    it('restores the blankslate when inline create goes away with an open row in an empty table', async () => {
+      const component = await mount(inlineCreate, []);
+      fireEvent.click(within(emptySection()!).getByRole('button', { name: 'Create new work package' }));
+      await waitFor(() => expect(emptySection()).not.toBeInTheDocument());
+      const tableCdRef = fixture.debugElement.query(By.directive(WorkPackagesTableComponent)).injector.get(ChangeDetectorRef);
+
+      component.configuration.inlineCreateEnabled = false;
+      tableCdRef.detectChanges();
+      await waitFor(() => expect(emptySection()).toBeInTheDocument());
+
+      component.configuration.inlineCreateEnabled = true;
+      tableCdRef.detectChanges();
+      await waitFor(() => expect(within(emptySection()!).getByRole('button', { name: 'Create new work package' })).toBeInTheDocument());
+    });
+
     it('inserts one create row when the form emits again before activation', async () => {
       const component = await mount(inlineCreate);
-      const inline = fixture.debugElement.query(By.directive(WorkPackageInlineCreateComponent))
-        .componentInstance as WorkPackageInlineCreateComponent;
+      const inline = inlineCreateInstance();
       const service = TestBed.inject(WorkPackageCreateService);
       const forms = new Subject<{ schema:object }>();
       const change = { ...await service.createOrContinueWorkPackage(undefined), state: { values$: () => forms } } as unknown as WorkPackageChangeset;
@@ -1411,8 +1610,7 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
 
     it('activates the create row when Create is clicked again before activation', async () => {
       await mount(inlineCreate);
-      const inline = fixture.debugElement.query(By.directive(WorkPackageInlineCreateComponent))
-        .componentInstance as WorkPackageInlineCreateComponent;
+      const inline = inlineCreateInstance();
       const service = TestBed.inject(WorkPackageCreateService);
       const forms = new Subject<{ schema:object }>();
       const change = { ...await service.createOrContinueWorkPackage(undefined), state: { values$: () => forms } } as unknown as WorkPackageChangeset;
