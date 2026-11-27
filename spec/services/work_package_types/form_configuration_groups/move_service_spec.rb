@@ -60,6 +60,14 @@ RSpec.describe WorkPackageTypes::FormConfigurationGroups::MoveService do
     expect(OpenProject::Mutex).to have_received(:with_advisory_lock_transaction).with(form, "layout")
   end
 
+  it "touches the form so the cached work package schema is invalidated" do
+    expect { move(third, "") }.to change { form.reload.updated_at }
+  end
+
+  it "does not touch the form when the move fails" do
+    expect { move(third, "999999") }.not_to change { form.reload.updated_at }
+  end
+
   it "places by the position read under the lock, not the one loaded before it" do
     stale = FormConfigurationGroup.find(first.id)
     FormConfigurationGroup.find(first.id).move_to_bottom
