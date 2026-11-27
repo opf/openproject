@@ -43,17 +43,47 @@ module FrontendAssetHelper
     CLI_PROXY
   end
 
+  # SPIKE: The import map is the same on every page, so the CSP allows it by hash as well as
+  # by nonce. Pages replayed with a stale nonce (component preview specs) then still get it.
+  def self.import_map_json
+    prefix = [
+      OpenProject::Configuration.rails_asset_host.presence&.then { it.include?("//") ? it : "//#{it}" },
+      Rails.application.config.relative_url_root.to_s.chomp("/")
+    ].join
+    digested = Rails.application.assets.resolver.resolve("frontend/main.js") || "/assets/frontend/main.js"
+
+    ERB::Util.json_escape({ imports: { "#{prefix}/assets/frontend/main.js" => "#{prefix}#{digested}" } }.to_json)
+  end
+
+  def self.import_map_csp_source
+    "'sha256-#{Digest::SHA256.base64digest(import_map_json)}'"
+  end
+
   ##
   # Include angular CLI frontend assets by either referencing a prod build,
   # or referencing the running CLI proxy that hosts the assets in memory.
   def include_frontend_assets
     capture do
+      concat frontend_import_map_tag
+
       %w(polyfills.js main.js).each do |file|
         concat nonced_javascript_include_tag variable_asset_path(file), skip_pipeline: true, type: "module"
       end
 
       concat frontend_stylesheet_link_tag("styles.css")
     end
+  end
+
+  # SPIKE: The Angular chunk optimizer merges shared code into main.js, so lazy chunks
+  # import `./main.js`. Propshaft digests that file name after the build, so the import map
+  # points the plain name at the digested one. It has to precede the first module script.
+  def frontend_import_map_tag
+    return if FrontendAssetHelper.assets_proxied?
+
+    content_tag(:script,
+                FrontendAssetHelper.import_map_json.html_safe, # rubocop:disable Rails/OutputSafety
+                type: "importmap",
+                nonce: content_security_policy_nonce)
   end
 
   def include_spot_assets
