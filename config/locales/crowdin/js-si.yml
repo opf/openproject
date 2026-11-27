@@ -177,6 +177,10 @@ si:
       remove_from_list: ලැයිස්තුවෙන් කාඩ් ඉවත් කරන්න
     chart:
       axis_criteria: අක්ෂ නිර්ණායක
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: ප්රස්ථාරය ප්රදර්ශනය කිරීම සඳහා දත්ත පටවා ගත නොහැකි විය. අවශ්ය අවසරයන් නොමැති විය හැකිය.
       modal_title: වැඩ පැකේජය ප්රස්ථාර වින්යාසය
@@ -304,6 +308,7 @@ si:
         only_start: ඔබේ දේශීය කාලය තුළ %{from} සිට.
         two_values: "%{from} - %{to} ඔබේ දේශීය කාලය තුළ."
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: උසස් සැකසුම්
       load_error_message: There was an error loading the form
@@ -903,6 +908,23 @@ si:
       unselected_title: වැඩ පැකේජය
     two_factor_authentication:
       label_two_factor_authentication: Two-factor authentication
+    types:
+      projects:
+        action_menu:
+          menu_label:
+            one: Project actions
+            other: Actions for %{count} selected projects
+        selection:
+          cleared: Selection cleared.
+          not_selectable: Selection unchanged. This project cannot be selected.
+          range_blocked: Selection unchanged. That range contains a project that cannot be selected.
+          range_restarted:
+            one: Could not extend the range. %{count} project selected.
+            other: Could not extend the range. %{count} projects selected.
+          range_unavailable: Selection unchanged. Expand this list to select that range.
+          selected:
+            one: "%{count} project selected."
+            other: "%{count} projects selected."
     units:
       child_work_packages:
         one: "%{count} child work package"
