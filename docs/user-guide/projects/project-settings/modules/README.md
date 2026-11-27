@@ -16,4 +16,4 @@ Setting a checkmark next to a module will activate it for the project, and a new
 
 ## Module dependencies
 
-Activating the [Backlogs module](../../../backlogs-scrum/) automatically activates the [Boards module](../../../agile-boards/), as Boards is required for working with sprint boards.
+Activating the [Backlogs module](../../../backlogs-scrum/) automatically activates the [Work packages](../../../work-packages/) and [Boards](../../../agile-boards/) modules, since Work packages and Boards are required for working with sprint boards.

@@ -53,7 +53,6 @@ To move several work packages at once, select multiple cards and move them to a 
 - Sprint containers with start/completion dates are sorted by date showing the latest one on the top. 
 - Sprint containers without dates are sorted in an alphanumeric way.
 
-Starting with OpenProject 18.0, you can also change the order of backlog buckets and sprints manually.
 
 ## My task board is gone, where can I get another board?
 
@@ -72,3 +71,7 @@ Starting with OpenProject 18.0, the burndown chart is part of the [sprint report
 ## Why does the sprint report of a completed sprint no longer change?
 
 Reports are frozen once a sprint is completed. Changing a work package's status, estimate, or sprint afterwards no longer affects the report. This keeps the results reliable for sprint reviews and for comparing sprints. For more information, see [Reporting on completed sprints](../sprint-reports/#reporting-on-completed-sprints).
+
+## Why are the burndown and burnup charts not displayed in my sprint report?
+
+The burndown and burnup charts are based on estimates. If the reporting unit of your project is set to **None**, these charts are not displayed. To show them, select **Story points** or **Work** under **Project settings → Backlogs → Units**. See [Reporting units](../sprint-reports/#reporting-units).

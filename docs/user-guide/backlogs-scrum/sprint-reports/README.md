@@ -8,7 +8,7 @@ keywords: sprint, scrum, report, sprint report, agile, agile reporting, burndown
 
 # Sprint reports
 
-Starting with OpenProject 18.0, sprint reports provide a detailed overview of sprint progress, completed and remaining work, and changes in sprint scope. They help agile teams monitor their progress during a sprint, evaluate the results during sprint reviews and retrospectives, and use insights from previous sprints to improve future planning.
+Starting with OpenProject 18.0, sprint reports provide a detailed overview of sprint progress, completed and remaining work, and changes in sprint scope. They help agile teams monitor their progress during a sprint, evaluate the results during sprint reviews and retrospectives, and provide insights from previous sprints to improve future planning.
 
 Sprint reports bring together several metrics, charts, and work package tables on a single page.
 
@@ -36,7 +36,7 @@ The units displayed in sprint reports depend on the project-specific configurati
 
 Depending on your team's approach to estimating work, you can use story points or work time estimates. If neither estimation method is used, select **None** to use the number of work packages as the default unit in charts.
 
-Some charts are not displayed when **None** is selected.
+Burnup and burndown charts are not displayed when **None** is selected.
 
 For more information, see [Configure reporting units](../../projects/project-settings/backlogs-settings/#units).
 
@@ -57,7 +57,7 @@ The overview includes four metrics:
 
 ![Work package overview showing initially planned work, scope changes, completed and unfinished work in a sprint](openproject_user_guide_sprint_report_work_packages_overview.png)
 
-Scope changes are displayed separately as increases (+) and decreases (-). Changes to story point estimates are also reflected in the scope change metric, even if no work packages have been added to or removed from the sprint.
+Scope changes are displayed separately as increases (+) and decreases (-). Changes to effort estimates in the selected reporting unit are also reflected in the scope change metric, even if no work packages have been added to or removed from the sprint.
 
 Click **View all** next to a metric to view the corresponding work packages.
 

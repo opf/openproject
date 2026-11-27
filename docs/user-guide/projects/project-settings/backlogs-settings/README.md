@@ -122,7 +122,7 @@ You can choose between three options:
 
 - **Story points:** Cards and charts display story points. Choose this option if your team estimates work using relative effort.
 - **Work time estimate:** Cards and charts display work time estimates. Choose this option if your team estimates effort in units of time.
-- **None:** The number of work packages is used as the default unit in charts. Some sprint report charts are not displayed when this option is selected.
+- **None:** Charts use the number of work packages instead of an effort estimate. Choose this option if your team does not estimate work. Cards do not display an estimate, and the burndown and burnup charts are not displayed in sprint reports.
 
 Select the desired option and click **Save** to apply your changes.
 
