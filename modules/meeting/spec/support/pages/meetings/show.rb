@@ -100,16 +100,19 @@ module Pages::Meetings
       click_link_or_button name
     end
 
-    def trigger_change_poll(target: "#content-wrapper")
+    def trigger_change_poll(target: "#content-wrapper", times: 2)
       # Turbo applies a stream on the next repaint, so the poll only counts as done after it
-      page.evaluate_async_script(<<~JS, target)
-        const [selector, done] = arguments;
+      page.evaluate_async_script(<<~JS, target, times)
+        const [selector, times, done] = arguments;
         const controller = window.Stimulus.getControllerForElementAndIdentifier(document.querySelector(selector), 'poll-for-changes');
         const nextRepaint = (resolve) => (document.visibilityState === 'hidden' ? setTimeout(resolve) : requestAnimationFrame(resolve));
+        const poll = () => controller.triggerTurboStream().then(() => new Promise(nextRepaint));
 
-        controller.triggerTurboStream()
-          .then(() => new Promise(nextRepaint))
-          .then(() => setTimeout(done));
+        let polls = Promise.resolve();
+        for (let i = 0; i < times; i++) {
+          polls = polls.then(poll);
+        }
+        polls.then(() => setTimeout(done));
       JS
     end
 

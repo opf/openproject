@@ -180,6 +180,36 @@ RSpec.describe "Meetings CRUD",
       end
     end
 
+    context "when a poll answers before the response of an own move to the backlog" do
+      let!(:item) { create(:meeting_agenda_item, meeting:, author: current_user, title: "Item to move") }
+      let(:drop_response_released) { Concurrent::Event.new }
+
+      before do
+        allow_any_instance_of(MeetingAgendaItemsController) # rubocop:disable RSpec/AnyInstance
+          .to receive(:drop)
+          .and_wrap_original do |original|
+            original.call
+            drop_response_released.wait(10)
+          end
+      end
+
+      it "does not show the flash" do
+        show_page.visit!
+        reference = show_page.meeting_reference_value
+
+        show_page.select_action(item, I18n.t(:label_agenda_item_move_to_backlog))
+        wait_for { item.reload.meeting_section }.to be_backlog
+
+        show_page.trigger_change_poll(times: 1)
+
+        drop_response_released.set
+        show_page.wait_for_reference_changed(reference)
+        show_page.trigger_change_poll
+
+        expect(page).to have_no_text I18n.t(:notice_meeting_updated)
+      end
+    end
+
     context "for backlog related actions" do
       context "for one-time meetings" do # fails locally in headless mode, but passes in headful ???
         it_behaves_like "no flash appears when interacting with backlog in multiple windows"

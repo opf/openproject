@@ -329,11 +329,13 @@ class MeetingAgendaItemsController < ApplicationController
     )
 
     if call.success?
-      reset_meeting_from_agenda_item
+      unless @meeting_agenda_item.meeting_section.backlog?
+        reset_meeting_from_agenda_item
+        update_header_component_via_turbo_stream
+        update_sidebar_details_component_via_turbo_stream
+      end
       update_item_via_turbo_stream(current_occurrence: @current_occurrence,
                                    presentation_mode: @presentation_mode)
-      update_header_component_via_turbo_stream
-      update_sidebar_details_component_via_turbo_stream
     else
       form_component = MeetingAgendaItems::ConvertToWorkPackage::CreateFormComponent.new(
         work_package: call.result,
