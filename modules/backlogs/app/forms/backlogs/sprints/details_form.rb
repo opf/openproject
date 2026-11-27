@@ -40,6 +40,8 @@ module Backlogs
         f.text_field(
           label: attribute_name(:name),
           name: :name,
+          autocomplete: "off",
+          data: { "1p-ignore": true },
           required: true,
           autocomplete: "off",
           autofocus: !disabled,
