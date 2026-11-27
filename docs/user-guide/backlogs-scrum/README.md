@@ -56,7 +56,7 @@ Click the **All filters** button again to close the filter panel.
 
 ### Sprint containers
 
-Each sprint is displayed in a dedicated container showing key planning information, including the sprint name, status, start and finish dates, number of work packages, and total effort according to the [configured unit](#story-points).
+Each sprint is displayed in a dedicated container showing key planning information, including the sprint name, status, start and finish dates, number of work packages, and total effort according to the [configured unit](#effort-estimation).
 
 If defined, the **Sprint goal** is displayed in the sprint header below the sprint name.
 
