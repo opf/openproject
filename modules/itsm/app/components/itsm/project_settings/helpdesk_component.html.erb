@@ -40,11 +40,21 @@ See COPYRIGHT and LICENSE files for more details.
       end
 
       box.with_row(scheme: :default) do
+        render_form = step_name == wizard_step
+
         case step_name
         when :incoming_mail_configuration
-          render(ITSM::ProjectSettings::IncomingMailConfigurationComponent.new(project))
+          if render_form
+            render(ITSM::ProjectSettings::Forms::IncomingMailConfigurationFormComponent.new(project))
+          else
+            render(ITSM::ProjectSettings::IncomingMailConfigurationComponent.new(project))
+          end
         when :outgoing_mail_configuration
-          render(ITSM::ProjectSettings::OutgoingMailConfigurationComponent.new(project))
+          if render_form
+            render(ITSM::ProjectSettings::Forms::OutgoingMailConfigurationFormComponent.new(project))
+          else
+            render(ITSM::ProjectSettings::OutgoingMailConfigurationComponent.new(project))
+          end
         end
       end
     end

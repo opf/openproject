@@ -41,7 +41,10 @@ Rails.application.routes.draw do
 
   resources :projects, only: %i[] do
     namespace :settings do
-      resource :helpdesk, controller: "/itsm/project_settings/helpdesk", only: %i[show]
+      resource :helpdesk, controller: "/itsm/project_settings/helpdesk", only: %i[show] do
+        post :create_incoming_mailbox
+        post :create_outgoing_mailbox
+      end
     end
   end
 end

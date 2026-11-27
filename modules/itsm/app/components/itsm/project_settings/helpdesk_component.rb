@@ -33,13 +33,15 @@ module ITSM
     class HelpdeskComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 
-      attr_reader :wizard
-
       alias_method :project, :model
 
-      def initialize(model, wizard:)
+      options wizard: nil,
+              wizard_step: nil
+
+      def initialize(*, **)
         super
-        @wizard = wizard
+
+        raise ArgumentError, "wizard is required" if wizard.nil?
       end
     end
   end

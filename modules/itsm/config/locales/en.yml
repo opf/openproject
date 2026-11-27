@@ -118,6 +118,19 @@ en:
         received: 'we have received your request "%{subject}" and recorded it as %{id}.'
         reply: To add information to your request, reply to this email.
     project_settings:
+      forms:
+        incoming_mail_configuration_form_component:
+          email_caption: >
+            The email address of this mailbox will be used to set the `reply_to` header of outgoing emails.
+          incoming_email: Incoming email
+          incoming_email_description: >
+            Configure an IMAP mailbox as incoming email. Please note that OpenProject leaves non-processable emails in
+            the inbox and it is the project administrators responsibility to process left-over emails.
+        outgoing_mail_configuration_form_component:
+          outgoing_email: Outgoing email
+          outgoing_email_description: Configure an SMTP server details as outcoming emails.
+          sender_email_caption: >
+            The email address of this mailbox will be visible as the sending address for outgoing emails.
       incoming_mail_configuration_component:
         description: Configure an IMAP mailbox for incoming emails.
         edit: Edit incoming mail configuration

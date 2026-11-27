@@ -38,6 +38,11 @@ module ITSM
       def configured?
         project.helpdesk_incoming_mailboxes.any?
       end
+
+      def mailbox_information
+        mailbox = project.helpdesk_incoming_mailboxes.first
+        "#{mailbox.username} - #{mailbox.email}"
+      end
     end
   end
 end
