@@ -6,6 +6,16 @@
 /docker/prod/ @opf/devops
 /script/ci/ @opf/devops
 
+/app/contracts/import/ @opf/migrator
+/app/controllers/admin/import/ @opf/migrator
+/app/components/admin/import/ @opf/migrator
+/app/forms/admin/import/ @opf/migrator
+/app/models/import/ @opf/migrator
+/app/services/import/ @opf/migrator
+/app/views/admin/import/ @opf/migrator
+/app/workers/import/ @opf/migrator
+/spec/workers/import/ @opf/migrator
+
 /config/initializers/content_security_policy.rb @opf/security
 /config/initializers/session_store.rb @opf/security
 /config/initializers/cookies_serializer.rb @opf/security
