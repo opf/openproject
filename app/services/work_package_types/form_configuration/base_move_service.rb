@@ -46,7 +46,13 @@ module WorkPackageTypes
 
         with_layout_lock(form_configuration) do
           record = fresh_record
-          record ? move(record) : invalid_move
+          result = record ? move(record) : invalid_move
+
+          # Groups/attributes live in their own tables and are not touch: true associated, so
+          # moving them leaves form_configuration untouched and the cached work package schema stale.
+          form_configuration.touch if result.success?
+
+          result
         end
       rescue ActiveRecord::ActiveRecordError
         ServiceResult.failure(message: I18n.t("types.edit.form_configuration.move_failed"))
