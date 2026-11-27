@@ -88,7 +88,7 @@ class AutomationsController < ApplicationController
 
       call.on_failure do
         @automation = call.result
-        render action: render_action, status: :unprocessable_entity
+        render action: render_action, status: :unprocessable_content
       end
     }
   end

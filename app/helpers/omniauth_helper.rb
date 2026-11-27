@@ -58,7 +58,7 @@ module OmniauthHelper
     return if icon.blank?
 
     image_tag(icon, alt: "", class: "auth-provider-icon")
-  rescue Sprockets::Rails::Helper::AssetNotFound
+  rescue Propshaft::MissingAssetError
     Rails.logger.warn { "Skipping unresolvable icon #{icon.inspect} of omniauth provider #{name}." }
     nil
   end

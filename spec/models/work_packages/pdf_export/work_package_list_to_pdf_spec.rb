@@ -409,11 +409,8 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
         create(:hierarchy_wp_custom_field, name: "Location", types: [type_task, type_bug])
       end
       let!(:hierarchy_items) do
-        service = CustomFields::Hierarchy::HierarchicalItemService.new
         %w[Berlin Lisbon].map do |label|
-          service.insert_item(contract_class: CustomFields::Hierarchy::InsertListItemContract,
-                              parent: hierarchy_custom_field.hierarchy_root,
-                              label:).value!
+          create(:hierarchy_item, parent: hierarchy_custom_field.hierarchy_root, label:)
         end
       end
 
@@ -464,11 +461,8 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
         create(:multi_hierarchy_wp_custom_field, name: "Locations", types: [type_task, type_bug])
       end
       let!(:multi_hierarchy_items) do
-        service = CustomFields::Hierarchy::HierarchicalItemService.new
         %w[Berlin Lisbon].map do |label|
-          service.insert_item(contract_class: CustomFields::Hierarchy::InsertListItemContract,
-                              parent: multi_hierarchy_custom_field.hierarchy_root,
-                              label:).value!
+          create(:hierarchy_item, parent: multi_hierarchy_custom_field.hierarchy_root, label:)
         end
       end
 

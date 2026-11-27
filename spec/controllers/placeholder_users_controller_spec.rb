@@ -104,7 +104,7 @@ RSpec.describe PlaceholderUsersController do
       context "without ee" do
         it "returns with an error" do
           expect { post :create, params: }.not_to change { PlaceholderUser.count }
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
 
           expect(assigns(:placeholder_user).errors.details[:base])
             .to eq([error: :error_enterprise_only, action: "Placeholder Users"])

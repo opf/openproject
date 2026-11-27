@@ -101,6 +101,26 @@ RSpec.describe Import::JiraImport do
     end
   end
 
+  describe "#last_changed_at" do
+    context "without transitions" do
+      it "is the time of the last update" do
+        expect(jira_import.last_changed_at).to eq(jira_import.updated_at)
+      end
+    end
+
+    context "with a transition" do
+      before do
+        allow(Import::JiraImportStateMachine).to receive(:enqueued_job_id).and_return("stubbed-job-id")
+        jira_import.update_column(:updated_at, 1.day.ago)
+        jira_import.transition_to!(:instance_meta_fetching)
+      end
+
+      it "is the time of the last transition" do
+        expect(jira_import.last_changed_at).to eq(jira_import.last_transition.created_at)
+      end
+    end
+  end
+
   describe "#destroy_jira_objects" do
     let!(:jira_project) { create(:jira_project, jira_import:) }
     let!(:jira_field) { create(:jira_field, jira_import:) }
@@ -207,12 +227,9 @@ RSpec.describe Import::JiraImport do
     end
 
     context "when reference does not exist" do
-      before { allow(Rails.logger).to receive(:error) }
-
-      it "raises a RecordNotFound and logs the missing reference" do
+      it "raises a RecordNotFound" do
         expect { jira_import.find_op_leg!(jira_version) }
           .to raise_error(ActiveRecord::RecordNotFound, message)
-        expect(Rails.logger).to have_received(:error).with(message)
       end
     end
   end

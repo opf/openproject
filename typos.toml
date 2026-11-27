@@ -12,6 +12,7 @@ extend-exclude = [
   "*.min.*",
   "lookbook/previews/open_project/deprecated/forms_preview/multiple_fields_per_row.html.erb", # German month names
   "publiccode.yml", # German description
+  ".github/workflows/cla.yml", # allowlist of GitHub logins
   "spec/seeders/source/translate_spec.rb", # French test strings
 ]
 

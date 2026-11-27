@@ -65,7 +65,7 @@ module WorkPackagesControllerHelper
     respond_to do |format|
       format.turbo_stream do
         render_error_flash_message_via_turbo_stream(message:)
-        response.status = :unprocessable_entity
+        response.status = :unprocessable_content
         respond_with_turbo_streams
       end
 

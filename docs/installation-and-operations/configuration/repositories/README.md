@@ -13,9 +13,38 @@ We support integration with the Apache webserver to create and serve repositorie
 
 ## Existing Repositories
 
-Using the default configuration, OpenProject allows you to _link_ existing Subversion and Git repositories from the local filesystem (For Subversion, you can also integrate repositories from other servers using basic auth credentials).
+OpenProject allows you to _link_ existing Subversion and Git repositories by URL. Repositories on the local filesystem can only be linked from directories that an administrator allows (see below). For Subversion, you can also integrate repositories from other servers using basic auth credentials.
 
 After linking the repositories, you may browse the repository through OpenProject.
+
+### Repositories on the server's filesystem
+
+Repositories on the server are linked with a path or a `file://` URL. OpenProject reads them as the system user that runs OpenProject, and users who can browse the repository see its full contents.
+
+OpenProject only accepts a local path if it is inside a directory listed in `allowed_local_paths` for that vendor. The list is empty by default, so local repositories cannot be linked until an administrator adds a directory. Remote repositories and managed repositories are not affected.
+
+```yaml
+scm:
+  git:
+    allowed_local_paths:
+      - /srv/repositories/git
+  subversion:
+    allowed_local_paths:
+      - /srv/repositories/svn
+```
+
+Or with environment variables:
+
+```shell
+OPENPROJECT_SCM_GIT_ALLOWED__LOCAL__PATHS="[/srv/repositories/git]"
+OPENPROJECT_SCM_SUBVERSION_ALLOWED__LOCAL__PATHS="[/srv/repositories/svn]"
+```
+
+A path is refused if it leads outside these directories, also through `..` or symbolic links. Paths inside OpenProject's own checkout and managed repository directories are always refused.
+
+The check runs when a repository is linked or its URL is changed. Repositories linked before OpenProject 18.1 keep working and are not re-checked until their URL is edited. A symbolic link that is created inside an allowed directory after a repository was linked is not detected, so only allow directories whose contents you control.
+
+Adding `/` allows every path, as before OpenProject 18.1. Users with the "Manage repository" permission in a project can then link any repository that the OpenProject system user can read.
 
 ### SSRF protection for remote repositories
 
@@ -69,6 +98,11 @@ The following is an excerpt of the configuration and contains all required infor
 #     - :existing (Existing subversion repositories by URL - local using file:/// or remote
 #                 using one of the supported URL schemes (e.g., https://, svn+ssh:// )
 #     - :managed (Managed repositories, available IF :manages path is set below)
+#
+# allowed_local_paths:
+#   Directories from which existing local repositories may be linked, using a path or a
+#   file:// URL. Empty by default, which means that no local repository can be linked.
+#   Does not apply to remote or managed repositories.
 #
 # Exemplary configuration (Enables managed Git repositories at the given path)
 scm:

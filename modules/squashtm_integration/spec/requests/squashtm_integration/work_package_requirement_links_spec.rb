@@ -65,7 +65,7 @@ RSpec.describe "Linking SquashTM requirements to work packages",
 
       patch link_path, params: { squashtm_work_package_link: { squashtm_requirement_id: "11" } }, headers: turbo_stream
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(response.body).to include("turbo-stream", "does not exist or is not visible")
       expect(SquashTMIntegration::WorkPackageLink).not_to exist
     end

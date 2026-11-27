@@ -58,6 +58,19 @@ class CustomField < ApplicationRecord
 
   attr_readonly :field_format
 
+  # Overrides the global default from config/initializers/store_attribute.rb: settings keys that were never
+  # written (e.g. a default value assigned on creation is not dirty and thus not persisted) must read as their
+  # declared default, otherwise e.g. `user_self_editable` would read as nil instead of true.
+  self.store_attribute_unset_values_fallback_to_default = true
+  store_attribute :settings, :regexp, :string, default: ""
+  store_attribute :settings, :min_length, :integer, default: 0
+  store_attribute :settings, :max_length, :integer, default: 0
+  store_attribute :settings, :min_value, :float
+  store_attribute :settings, :max_value, :float
+  store_attribute :settings, :default_value, :string
+  store_attribute :settings, :content_right_to_left, :boolean, default: false
+  store_attribute :settings, :allow_non_open_versions, :boolean, default: false
+
   has_many :calculated_value_errors, dependent: :delete_all, inverse_of: "custom_field"
   has_many :comments, class_name: "CustomComment", dependent: :delete_all, inverse_of: "custom_field"
 
@@ -129,8 +142,7 @@ class CustomField < ApplicationRecord
         ids.first
       end
     else
-      val = read_attribute :default_value
-      cast_value val
+      cast_value super
     end
   end
 
@@ -261,12 +273,9 @@ class CustomField < ApplicationRecord
   def custom_field_hierarchy_items
     return [] if hierarchy_root.nil?
 
-    items = CustomFields::Hierarchy::HierarchicalItemService
-              .new
-              .get_descendants(item: hierarchy_root, include_self: false)
-              .fmap { |items| items.map { |item| [item.ancestry_path(include_shorts_and_weights: true), item.id] } }
-
-    items.value_or([])
+    hierarchy_root.descendants_preordered.map do |item|
+      [item.ancestry_path(include_shorts_and_weights: true), item.id]
+    end
   end
 
   def cast_value(value) # rubocop:disable Metrics/AbcSize

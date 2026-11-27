@@ -102,7 +102,7 @@ RSpec.describe "ResourceManagement PlaceholderUsers requests",
       it "refuses to create a placeholder nothing can be allocated against" do
         expect { perform }.not_to change(PlaceholderUser, :count)
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.body).to include(
           CGI.escapeHTML("#{PlaceholderUser.human_attribute_name(:user_filter)} " \
                          "#{I18n.t('activerecord.errors.messages.blank')}")
@@ -120,7 +120,7 @@ RSpec.describe "ResourceManagement PlaceholderUsers requests",
       it "re-renders the form" do
         expect { perform }.not_to change(PlaceholderUser, :count)
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.body).to include("placeholder_user[name]")
       end
     end

@@ -1,0 +1,29 @@
+name: Dependabot security review
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+
+permissions: {}
+
+jobs:
+  request-security-review:
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Fetch Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v3.1.0
+        with:
+          alert-lookup: true
+          github-token: ${{ secrets.OPENPROJECTCI_GH_CORE_PAT }}
+
+      - name: Request review from the security team
+        if: steps.metadata.outputs.ghsa-id != ''
+        env:
+          GH_TOKEN: ${{ secrets.OPENPROJECTCI_GH_CORE_PAT }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: gh pr edit "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --add-reviewer opf/security --add-label security

@@ -51,7 +51,7 @@ module Documents
 
         def failure_callback(call)
           @errors = call.errors
-          render :show, status: :unprocessable_entity
+          render :show, status: :unprocessable_content
         end
 
         def update_service

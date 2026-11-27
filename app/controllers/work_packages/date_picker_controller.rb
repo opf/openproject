@@ -71,7 +71,7 @@ class WorkPackages::DatePickerController < ApplicationController
     if service_call.errors
                    .map(&:attribute)
                    .intersect?(DATE_FIELDS)
-      render_form(status: :unprocessable_entity)
+      render_form(status: :unprocessable_content)
     else
       render json: {
         startDate: @work_package.start_date,
@@ -99,7 +99,7 @@ class WorkPackages::DatePickerController < ApplicationController
     if service_call.success?
       head :ok
     else
-      render_form(status: :unprocessable_entity)
+      render_form(status: :unprocessable_content)
     end
   end
 

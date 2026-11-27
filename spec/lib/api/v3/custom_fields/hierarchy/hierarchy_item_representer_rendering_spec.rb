@@ -32,15 +32,13 @@ require "spec_helper"
 RSpec.describe API::V3::CustomFields::Hierarchy::HierarchyItemRepresenter, "rendering", with_ee: [:custom_field_hierarchies] do
   include API::V3::Utilities::PathHelper
 
-  let(:custom_field) { create(:custom_field, field_format: "hierarchy", hierarchy_root: nil) }
-  let(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
-  let!(:root) { service.generate_root(custom_field).value! }
-  let(:contract_class) { CustomFields::Hierarchy::InsertListItemContract }
-  let!(:luke) { service.insert_item(contract_class:, parent: root, label: "Luke", short: "LS").value! }
-  let!(:r2d2) { service.insert_item(contract_class:, parent: luke, label: "R2-D2", short: "R2").value! }
-  let!(:mouse) { service.insert_item(contract_class:, parent: r2d2, label: "Mouse Droid", short: "MD").value! }
-  let!(:c3po) { service.insert_item(contract_class:, parent: luke, label: "C-3PO", short: "3PO").value! }
-  let!(:mara) { service.insert_item(contract_class:, parent: root, label: "Mara", short: "MJ").value! }
+  let(:custom_field) { create(:custom_field, :hierarchy) }
+  let!(:root) { custom_field.hierarchy_root }
+  let!(:luke) { create(:hierarchy_item, parent: root, label: "Luke", short: "LS") }
+  let!(:r2d2) { create(:hierarchy_item, parent: luke, label: "R2-D2", short: "R2") }
+  let!(:mouse) { create(:hierarchy_item, parent: r2d2, label: "Mouse Droid", short: "MD") }
+  let!(:c3po) { create(:hierarchy_item, parent: luke, label: "C-3PO", short: "3PO") }
+  let!(:mara) { create(:hierarchy_item, parent: root, label: "Mara", short: "MJ") }
   let(:user) { build_stubbed(:user) }
   let(:representer) { described_class.new(item, current_user: user) }
 
@@ -128,6 +126,10 @@ RSpec.describe API::V3::CustomFields::Hierarchy::HierarchyItemRepresenter, "rend
         let(:link) { "parent" }
         let(:href) { api_v3_paths.custom_field_item(r2d2.id) }
         let(:title) { r2d2.label }
+      end
+
+      it_behaves_like "has no link" do
+        let(:link) { "project" }
       end
 
       it_behaves_like "has a link collection" do
@@ -218,6 +220,19 @@ RSpec.describe API::V3::CustomFields::Hierarchy::HierarchyItemRepresenter, "rend
       it_behaves_like "property", :depth do
         let(:value) { item.depth }
       end
+    end
+  end
+
+  context "if item was added by a project" do
+    let(:project) { create(:project) }
+    let(:item) do
+      build_aggregate(item: create(:hierarchy_item, parent: luke, label: "Project droid", project:), depth: 1)
+    end
+
+    it_behaves_like "has a titled link" do
+      let(:link) { "project" }
+      let(:href) { api_v3_paths.project(project.id) }
+      let(:title) { project.name }
     end
   end
 

@@ -28,16 +28,7 @@
 #++
 
 module AssetHelper
-  ##
-  # In development mode, assets are dynamically compiled
-  # while in production, they are precompiled.
-  #
-  # This results in different ways to check for the existence of an asset.
   def has_rails_asset?(logical_path)
-    if Rails.configuration.assets.compile
-      Rails.application.assets.find_asset(logical_path).present?
-    else
-      Rails.application.assets_manifest.assets[logical_path].present?
-    end
+    Rails.application.assets.resolver.resolve(logical_path).present?
   end
 end

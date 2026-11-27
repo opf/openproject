@@ -73,11 +73,12 @@ RSpec.describe "Work package graph widget", :js, with_flag: :sprint_reports do
   end
 
   def expect_chart_summary(text)
-    within "opce-sprint-work-package-graph" do
-      summary_id = find("canvas[aria-labelledby]", wait: 20)["aria-labelledby"]
-
-      expect(page).to have_css("##{summary_id}", exact_text: text, visible: :all)
-    end
+    expect(page).to have_css(
+      "opce-sprint-work-package-graph canvas",
+      accessible_name: "Work packages by status chart",
+      accessible_description: text,
+      wait: 20
+    )
   end
 
   it "renders the graph with counts scoped to the sprint" do
@@ -88,6 +89,15 @@ RSpec.describe "Work package graph widget", :js, with_flag: :sprint_reports do
     expect_chart_summary(
       "Bar chart of the work packages currently in the sprint, by status: " \
       "3 #{status_new.name}; 1 #{status_in_progress.name}; 2 #{status_closed.name}."
+    )
+    expect(page).to have_table(
+      "Work packages by status chart: data",
+      visible: :all,
+      data_rows: [
+        { "Status" => status_new.name, "Work packages" => "3" },
+        { "Status" => status_in_progress.name, "Work packages" => "1" },
+        { "Status" => status_closed.name, "Work packages" => "2" }
+      ]
     )
   end
 
@@ -109,6 +119,13 @@ RSpec.describe "Work package graph widget", :js, with_flag: :sprint_reports do
       expect_chart_summary(
         "Bar chart of the work packages in the sprint when it was completed, by status: " \
         "1 #{status_closed.name}."
+      )
+      expect(page).to have_table(
+        "Work packages by status chart: data",
+        visible: :all,
+        data_rows: [
+          { "Status" => status_closed.name, "Work packages" => "1" }
+        ]
       )
     end
   end

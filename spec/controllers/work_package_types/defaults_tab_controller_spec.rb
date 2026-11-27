@@ -68,7 +68,7 @@ module WorkPackageTypes
         let(:service_result) { ServiceResult.failure }
 
         it "renders the edit template" do
-          expect(response).to have_http_status :unprocessable_entity
+          expect(response).to have_http_status :unprocessable_content
           expect(response).to render_template "work_package_types/defaults_tab/edit"
         end
       end

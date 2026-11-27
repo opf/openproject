@@ -469,7 +469,7 @@ Read more: [My time user guide](../../user-guide/time-and-costs/my-time/#stack-v
 
 **[Project life cycle phases](../../user-guide/projects/project-home/project-life-cycle/)** now have a state: Open, In progress, or Completed. The state is set manually on the project overview and shows which phase is currently active. It does not change the phase dates.
 
-**[Weighted item lists](../../system-admin-guide/custom-fields/#weighted-item-list-custom-field-enterprise-add-on)** used as project attributes now support multiple selections. Calculated values can process them with the new MUL and COUNT functions, for example to score projects by several strategic reasons at once.
+**[Weighted item lists](../../system-admin-guide/custom-fields/#weighted-list-custom-field-enterprise-add-on)** used as project attributes now support multiple selections. Calculated values can process them with the new MUL and COUNT functions, for example to score projects by several strategic reasons at once.
 
 For projects following PMflex, **wiki pages** can now be included in artefact exports. In addition, the new **project hover card** and a redesigned project status badge make it easier to identify projects.
 
@@ -480,7 +480,7 @@ For administrators:
 - When deleting a role, OpenProject shows which members still use it.
 - Creating **OAuth applications** has been improved.
 
-Read more: [Project life cycle user guide](../../user-guide/projects/project-home/project-life-cycle/), [Weighted item list project attributes system admin guide](../../system-admin-guide/projects/project-attributes/#weighted-item-list-project-attribute-enterprise-add-on), [PM² and PMflex use case](../../use-cases/project-management-pm2-pmflex/), [Roles and permissions system admin guide](../../system-admin-guide/users-permissions/roles-permissions/)
+Read more: [Project life cycle user guide](../../user-guide/projects/project-home/project-life-cycle/), [Weighted item list project attributes system admin guide](../../system-admin-guide/projects/project-attributes/#weighted-list-project-attribute-enterprise-add-on), [PM² and PMflex use case](../../use-cases/project-management-pm2-pmflex/), [Roles and permissions system admin guide](../../system-admin-guide/users-permissions/roles-permissions/)
 
 #### Application redesign
 
@@ -663,7 +663,7 @@ Read more: [Work package forms system admin guide](../../system-admin-guide/mana
 - Feature: Labels for work package table + exports + Gantt charts \[[#79953](https://community.openproject.org/wp/79953)\]
 - Feature: Support labels in work package operations (copy + move + bulk edit) \[[#79962](https://community.openproject.org/wp/79962)\]
 - Feature: Support labels in journal-based operations (activity + baseline) \[[#79963](https://community.openproject.org/wp/79963)\]
-- Feature: Suport labels in auto-generated subjects \[[#79964](https://community.openproject.org/wp/79964)\]
+- Feature: Support labels in auto-generated subjects \[[#79964](https://community.openproject.org/wp/79964)\]
 - Feature: Labels administration \[[#79965](https://community.openproject.org/wp/79965)\]
 - Feature: Labels for MCP server \[[#79971](https://community.openproject.org/wp/79971)\]
 - Feature: Enable advanced table support in BlockNote on documents \[[#81052](https://community.openproject.org/wp/81052)\]
@@ -689,9 +689,9 @@ Read more: [Work package forms system admin guide](../../system-admin-guide/mana
 - Feature: Split screen nav bar: add a fading background to the right-side actions \[[#57524](https://community.openproject.org/wp/57524)\]
 - Feature: WorkPackage split screen should go full height like in the notification center (by removing uiRouter) \[[#67012](https://community.openproject.org/wp/67012)\]
 - Feature: Migrate and cleanup blocks on the Homepage \[[#67340](https://community.openproject.org/wp/67340)\]
-- Feature: Harmonise phrasing and icons for Copy, Copy to URL and Duplicate actions \[[#68824](https://community.openproject.org/wp/68824)\]
+- Feature: Harmonize phrasing and icons for Copy, Copy to URL and Duplicate actions \[[#68824](https://community.openproject.org/wp/68824)\]
 - Feature: Primerise the user settings page in the administration \[[#73151](https://community.openproject.org/wp/73151)\]
-- Feature: Harmonise user data in WP auto completer \[[#78556](https://community.openproject.org/wp/78556)\]
+- Feature: Harmonize user data in WP auto completer \[[#78556](https://community.openproject.org/wp/78556)\]
 - Feature: Provide accessible descriptions for dashboard widgets containing charts \[[#80033](https://community.openproject.org/wp/80033)\]
 - Feature: Make selection and existing context actions in the Work Packages table fully accessible to keyboard and assistive-technology users \[[#80153](https://community.openproject.org/wp/80153)\]
 - Feature: Primerize announcement page \[[#80344](https://community.openproject.org/wp/80344)\]
@@ -744,7 +744,7 @@ Read more: [Work package forms system admin guide](../../system-admin-guide/mana
 - Feature: Add full text search for meeting minutes \[[#49490](https://community.openproject.org/wp/49490)\]
 - Feature: Try and match sections when moving an agenda item to the next meeting \[[#80932](https://community.openproject.org/wp/80932)\]
 - Feature: Update the meeting status labels to use the new muted style \[[#81122](https://community.openproject.org/wp/81122)\]
-- Feature: Allow splitting one agenda item into multiple slides using a seperator \[[#81164](https://community.openproject.org/wp/81164)\]
+- Feature: Allow splitting one agenda item into multiple slides using a separator \[[#81164](https://community.openproject.org/wp/81164)\]
 - Feature: Reorder sidebar sections \[[#81765](https://community.openproject.org/wp/81765)\]
 - Feature: Change text in success message after requesting quote in Enterprise cloud \[[#35847](https://community.openproject.org/wp/35847)\]
 - Feature: When deleting a role, show which members are still using it \[[#36834](https://community.openproject.org/wp/36834)\]
@@ -754,7 +754,7 @@ Read more: [Work package forms system admin guide](../../system-admin-guide/mana
 - Feature: All open view with default sort order to show the latest on top (ID descending) \[[#57962](https://community.openproject.org/wp/57962)\]
 - Feature: Dark mode: Improve visibility of relations in Gantt chart \[[#61478](https://community.openproject.org/wp/61478)\]
 - Feature: Relocate administration of custom fields for work packages \[[#62183](https://community.openproject.org/wp/62183)\]
-- Feature: Improve and modernise the login screen / dropdown \[[#63849](https://community.openproject.org/wp/63849)\]
+- Feature: Improve and modernize the login screen / dropdown \[[#63849](https://community.openproject.org/wp/63849)\]
 - Feature: Filter for status of past meetings \[[#64232](https://community.openproject.org/wp/64232)\]
 - Feature: Built-in types that are available in all installations \[[#66428](https://community.openproject.org/wp/66428)\]
 - Feature: Display full work package name for column titles on boards \[[#66468](https://community.openproject.org/wp/66468)\]
@@ -814,7 +814,7 @@ Read more: [Work package forms system admin guide](../../system-admin-guide/mana
 - Bugfix: Sprint report automatically opens when we move a wp to a sprint if sprint report was previously opened \[[#80946](https://community.openproject.org/wp/80946)\]
 - Bugfix: Sprint report: reference dates are missing on View all link \[[#81170](https://community.openproject.org/wp/81170)\]
 - Bugfix: Remove grey background in project phase date input fields. \[[#81429](https://community.openproject.org/wp/81429)\]
-- Bugfix: Work Pacakges graph widget switches to decimal scale with a few work packages. \[[#82036](https://community.openproject.org/wp/82036)\]
+- Bugfix: Work Packages graph widget switches to decimal scale with a few work packages. \[[#82036](https://community.openproject.org/wp/82036)\]
 - Bugfix: Velocity chart: information are incorrect when sprint is In planning mode \[[#82411](https://community.openproject.org/wp/82411)\]
 - Bugfix: Sprint report initially planned is incorrect when sprint finished with incomplete work packages. \[[#82432](https://community.openproject.org/wp/82432)\]
 - Bugfix: Velocity chart: story points are not bolded on two places \[[#82443](https://community.openproject.org/wp/82443)\]
@@ -830,7 +830,7 @@ Read more: [Work package forms system admin guide](../../system-admin-guide/mana
 - Bugfix: Wrong banner on project variant form page \[[#82227](https://community.openproject.org/wp/82227)\]
 - Bugfix: Accumulation of labels of type/variant form wizard step look stuffy on regular sized screens \[[#82248](https://community.openproject.org/wp/82248)\]
 - Bugfix: In read-only workflow table, the status blankslate is weird \[[#82285](https://community.openproject.org/wp/82285)\]
-- Bugfix: Unable to close dropdown for required custom fields (execpt for clicking anywhere else) \[[#80062](https://community.openproject.org/wp/80062)\]
+- Bugfix: Unable to close dropdown for required custom fields (except for clicking anywhere else) \[[#80062](https://community.openproject.org/wp/80062)\]
 - Bugfix: Documents: In create work package modal, automatic subject placeholder text is cut off on small screens \[[#80569](https://community.openproject.org/wp/80569)\]
 - Bugfix: Translations missing after repo &amp; Crowdin move \[[#81662](https://community.openproject.org/wp/81662)\]
 - Bugfix: Wrong selection when /wp is called between work package link cards \[[#81980](https://community.openproject.org/wp/81980)\]
@@ -857,7 +857,7 @@ Read more: [Work package forms system admin guide](../../system-admin-guide/mana
 - Bugfix: Cost report opens with preselected work package filter everywhere (once it was opened from Estimates and time section) \[[#51853](https://community.openproject.org/wp/51853)\]
 - Bugfix: Moving a WorkPackage from one Project to another does not update the user&#39;s hourly rate \[[#79968](https://community.openproject.org/wp/79968)\]
 - Bugfix: No hint when using a user in a budget and no rate is set up \[[#80065](https://community.openproject.org/wp/80065)\]
-- Bugfix: \[Accessibility\] Colour blind users cannot distinguis the overview graph bars \[[#64237](https://community.openproject.org/wp/64237)\]
+- Bugfix: \[Accessibility\] Color blind users cannot distinguis the overview graph bars \[[#64237](https://community.openproject.org/wp/64237)\]
 - Bugfix: \[Accessibility\] Card should be saved when leaving focus \[[#64238](https://community.openproject.org/wp/64238)\]
 - Bugfix: Unnecessary loading indicator and success message on going from team planner to work packages list \[[#76534](https://community.openproject.org/wp/76534)\]
 - Bugfix: Updating the &#39;Custom touch icon&#39; actually update the &#39;Custom favicon&#39; \[[#79757](https://community.openproject.org/wp/79757)\]

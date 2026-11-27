@@ -30,7 +30,8 @@
 require "spec_helper"
 require "rack/test"
 
-RSpec.describe "API v3 Revisions by work package resource" do
+RSpec.describe "API v3 Revisions by work package resource",
+               with_config: { scm: { subversion: { allowed_local_paths: ["/"] } } } do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
   include FileHelpers

@@ -35,9 +35,15 @@ module API
         # Returns nil if every value of the custom field is visible.
         def visible_value_ids(custom_field)
           project = requested_project
-          return if custom_field.project_specific_value_restriction.nil?
+          return unless custom_field.project_specific_values_supported?
 
-          values = project ? custom_field.usable_values_in(project) : custom_field.visible_values_for(current_user)
+          values = if project.nil?
+                     custom_field.visible_values_for(current_user)
+                   elsif include_subprojects?
+                     custom_field.visible_values_for(current_user, within: project.self_and_descendants)
+                   else
+                     custom_field.usable_values_in(project)
+                   end
           values.pluck(:id).to_set
         end
 
@@ -52,6 +58,10 @@ module API
 
           Project.allowed_to(current_user, :view_work_packages).find_by(id: params[:project]) ||
             raise(::API::Errors::NotFound)
+        end
+
+        def include_subprojects?
+          ActiveModel::Type::Boolean.new.cast(params[:include_subprojects])
         end
       end
     end

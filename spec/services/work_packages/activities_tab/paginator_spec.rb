@@ -29,7 +29,9 @@
 
 require "spec_helper"
 
-RSpec.describe WorkPackages::ActivitiesTab::Paginator, with_settings: { journal_aggregation_time_minutes: 0 } do
+RSpec.describe WorkPackages::ActivitiesTab::Paginator,
+               with_config: { scm: { subversion: { allowed_local_paths: ["/"] } } },
+               with_settings: { journal_aggregation_time_minutes: 0 } do
   shared_let(:user) { create(:admin) }
   shared_let(:project) { create(:project) }
   shared_let(:work_package) { create(:work_package, :created_in_past, project:, author: user, created_at: 4.days.ago) }

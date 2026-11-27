@@ -175,7 +175,7 @@ RSpec.describe "Create repository", :js do
 
       context "and managed repositories" do
         include_context "with tmpdir"
-        let(:config) { { subversion: { manages: tmpdir } } }
+        let(:config) { { subversion: { manages: tmpdir, allowed_local_paths: ["/tmp/svn"] } } }
 
         it_behaves_like "has managed and other type", "existing", "subversion"
         it_behaves_like "it can create the managed repository"
@@ -189,6 +189,18 @@ RSpec.describe "Create repository", :js do
       let(:vendor) { "git" }
 
       it_behaves_like "has only the type which is selected", "local", "git"
+
+      it "refuses a local path outside the allowed local paths" do
+        find("input[type='radio'][value='local']").set(true)
+        find_field(name: "repository[url]").set("/tmp/git/foo.git")
+
+        click_button(I18n.t(:button_create))
+
+        expect_flash(type: :error,
+                     message: I18n.t("activerecord.errors.models.repository.not_in_allowed_local_paths"))
+        expect(page).to have_no_css("a.icon-remove", text: I18n.t(:button_remove))
+      end
+
       context "and managed repositories, but not ours" do
         let(:config) { { subversion: { manages: "/tmp/whatever" } } }
 
@@ -197,7 +209,7 @@ RSpec.describe "Create repository", :js do
 
       context "and managed repositories" do
         include_context "with tmpdir"
-        let(:config) { { git: { manages: tmpdir } } }
+        let(:config) { { git: { manages: tmpdir, allowed_local_paths: ["/tmp/git"] } } }
 
         it_behaves_like "has managed and other type", "local", "git"
         it_behaves_like "it can create the managed repository"

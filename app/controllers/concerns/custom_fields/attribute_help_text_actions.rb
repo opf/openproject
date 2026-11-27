@@ -45,7 +45,7 @@ module CustomFields
       else
         @attribute_help_text = call.result
         flash.now[:error] = call.message || I18n.t("notice_internal_server_error")
-        render_attribute_help_text_form(status: :unprocessable_entity)
+        render_attribute_help_text_form(status: :unprocessable_content)
       end
     end
 

@@ -39,7 +39,7 @@ module Backlogs
 
     def menu
       contract = Backlogs::WorkPackages::MenuParamsContract.new(@project, current_user, params: menu_params)
-      return head(:unprocessable_entity) unless contract.valid?
+      return head(:unprocessable_content) unless contract.valid?
 
       invoker = @project.work_packages.visible.find(menu_params[:invoker_id])
       work_packages = find_collection_work_packages(menu_params[:ids])
@@ -63,7 +63,7 @@ module Backlogs
         respond_with_turbo_streams(status: :not_found)
       else
         render_error_flash_message_via_turbo_stream(message: I18n.t("backlogs.work_packages.add_existing_dialog.invalid_target"))
-        respond_with_turbo_streams(status: :unprocessable_entity)
+        respond_with_turbo_streams(status: :unprocessable_content)
       end
     end
 
@@ -373,7 +373,7 @@ module Backlogs
       render_error_flash_message_via_turbo_stream(
         message: I18n.t(:notice_unsuccessful_update_with_reason, reason:)
       )
-      respond_with_turbo_streams(status: :unprocessable_entity)
+      respond_with_turbo_streams(status: :unprocessable_content)
     end
 
     def destination_availability(work_packages)

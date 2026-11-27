@@ -283,8 +283,8 @@ module API
             "#{custom_field_item(id)}/branch"
           end
 
-          def self.custom_field_items(id, parent = nil, depth = nil, project: nil)
-            query = { parent:, depth:, project: }.compact_blank.to_query
+          def self.custom_field_items(id, parent = nil, depth = nil, project: nil, include_subprojects: nil)
+            query = { parent:, depth:, project:, include_subprojects: }.compact_blank.to_query
 
             if query.present?
               "#{custom_field(id)}/items?#{query}"
@@ -355,6 +355,10 @@ module API
 
           def self.notification_bulk_unread_ian
             "#{notifications}/unread_ian"
+          end
+
+          def self.notification_summary
+            "#{notifications}/summary"
           end
 
           def self.notification_read_ian(id)

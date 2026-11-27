@@ -62,7 +62,7 @@ module Admin::Settings
         flash[:notice] = I18n.t(:notice_successful_create)
         redirect_to action: :index, status: :see_other
       else
-        render :form, status: :unprocessable_entity
+        render :form, status: :unprocessable_content
       end
     end
 
@@ -71,7 +71,7 @@ module Admin::Settings
         flash[:notice] = I18n.t(:notice_successful_update)
         redirect_to action: :index, status: :see_other
       else
-        render :form, status: :unprocessable_entity
+        render :form, status: :unprocessable_content
       end
     end
 
@@ -99,7 +99,7 @@ module Admin::Settings
         render_error_flash_message_via_turbo_stream(message: I18n.t(:error_invalid_list_move_anchor))
       end
 
-      respond_with_turbo_streams(status: moved ? :ok : :unprocessable_entity)
+      respond_with_turbo_streams(status: moved ? :ok : :unprocessable_content)
     end
 
     private

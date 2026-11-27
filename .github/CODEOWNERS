@@ -18,6 +18,7 @@
 /config/initializers/bcrypt.rb @opf/security
 /config/initializers/filter_parameter_logging.rb @opf/security
 /config/brakeman.ignore @opf/security
+/.bundler-audit.yml @opf/security
 /SECURITY.md @opf/security
 /docs/security-and-privacy/ @opf/security
 /lib_static/open_project/authentication.rb @opf/security
@@ -40,3 +41,11 @@
 /modules/storages @opf/titan
 /modules/webhooks @opf/titan
 /modules/wikis @opf/titan
+
+/app/components/op_primer @opf/dream-team
+/app/components/table_component.html.erb @opf/dream-team
+/app/components/table_component.rb @opf/dream-team
+/app/components/row_component.html.erb @opf/dream-team
+/app/components/row_component.rb @opf/dream-team
+/lookbook/docs @opf/dream-team
+/modules/grids/app/components/grids @opf/dream-team

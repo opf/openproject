@@ -48,14 +48,14 @@ RSpec.describe "Changing the own email via PATCH /api/v3/users/me",
   it "rejects the change without the current password" do
     patch api_v3_paths.user("me"), { email: "new@example.org" }.to_json
 
-    expect(last_response).to have_http_status(:unprocessable_entity)
+    expect(last_response).to have_http_status(:unprocessable_content)
     expect(user.reload.mail).to eq("old@example.org")
   end
 
   it "rejects the change with a wrong current password" do
     patch api_v3_paths.user("me"), { email: "new@example.org", currentPassword: "wrong" }.to_json
 
-    expect(last_response).to have_http_status(:unprocessable_entity)
+    expect(last_response).to have_http_status(:unprocessable_content)
     expect(user.reload.mail).to eq("old@example.org")
   end
 
@@ -93,7 +93,7 @@ RSpec.describe "Changing the own email via PATCH /api/v3/users/me",
     it "rejects the change without the current password" do
       patch api_v3_paths.user("me"), { email: "new@example.org" }.to_json
 
-      expect(last_response).to have_http_status(:unprocessable_entity)
+      expect(last_response).to have_http_status(:unprocessable_content)
       expect(user.reload.mail).to eq("old@example.org")
     end
 

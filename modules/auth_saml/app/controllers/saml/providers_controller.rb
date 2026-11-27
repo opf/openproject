@@ -80,7 +80,7 @@ module Saml
         @edit_state = :metadata
 
         flash.now[:error] = call.message
-        render action: :edit, status: :unprocessable_entity
+        render action: :edit, status: :unprocessable_content
       end
     end
 
@@ -95,7 +95,7 @@ module Saml
         successful_save_response
       else
         flash.now[:error] = call.message
-        render action: :new, status: :unprocessable_entity
+        render action: :new, status: :unprocessable_content
       end
     end
 
@@ -132,7 +132,7 @@ module Saml
         successful_save_response
       else
         @provider = call.result
-        render action: :edit, status: :unprocessable_entity
+        render action: :edit, status: :unprocessable_content
       end
     end
 

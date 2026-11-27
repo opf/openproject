@@ -29,14 +29,13 @@ import { waitFor } from '@testing-library/dom';
 import { of } from 'rxjs';
 import { vi, type Mock } from 'vitest';
 
-import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
+import { setupStimulusTest, type StimulusTestContext, stubPendingPluginContext, stubPluginContext } from 'core-stimulus/test-helpers';
 import type ProjectStorageFormControllerType from './project-storage-form.controller';
 
 describe('Project storage form controller', () => {
   let ctx:StimulusTestContext;
   let ProjectStorageFormController:typeof ProjectStorageFormControllerType;
   let show:Mock;
-  let originalOpenProject:typeof window.OpenProject;
 
   const pluginContext = () => ({ services: { opModalService: { show } } });
 
@@ -52,10 +51,7 @@ describe('Project storage form controller', () => {
       json: () => Promise.resolve({ _links: { authorizationState: { href: 'connected' } } }),
     } as unknown as Response);
 
-    originalOpenProject = window.OpenProject;
-    window.OpenProject = {
-      getPluginContext: () => Promise.resolve(pluginContext()),
-    } as unknown as typeof window.OpenProject;
+    stubPluginContext(pluginContext());
 
     ctx = await setupStimulusTest({
       controllers: { 'project-storage-form': ProjectStorageFormController },
@@ -64,7 +60,6 @@ describe('Project storage form controller', () => {
 
   afterEach(() => {
     ctx.dispose();
-    window.OpenProject = originalOpenProject;
     vi.restoreAllMocks();
   });
 
@@ -111,10 +106,7 @@ describe('Project storage form controller', () => {
   });
 
   it('does not open the picker when disconnected before the context resolves', async () => {
-    let resolveContext!:(context:unknown) => void;
-    window.OpenProject = {
-      getPluginContext: () => new Promise((resolve) => { resolveContext = resolve; }),
-    } as unknown as typeof window.OpenProject;
+    const resolveContext = stubPendingPluginContext();
 
     const controller = await renderForm();
     const root = ctx.container.querySelector('[data-controller="project-storage-form"]')!;

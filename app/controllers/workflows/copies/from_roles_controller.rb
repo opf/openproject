@@ -97,6 +97,6 @@ class Workflows::Copies::FromRolesController < ApplicationController
 
   def reject_with(message)
     render_flash_message_via_turbo_stream(message:, scheme: :danger)
-    @turbo_status = :unprocessable_entity
+    @turbo_status = :unprocessable_content
   end
 end

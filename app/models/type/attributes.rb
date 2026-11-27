@@ -85,6 +85,7 @@ module Type::Attributes
       OpenProject::Cache.fetch_request_cached("all_work_package_form_attributes",
                                               *wp_cf_cache_parts,
                                               EXCLUDED.length,
+                                              Setting::WorkPackageMultipleCategories.active?,
                                               merge_date) do
         calculate_all_work_package_form_attributes(merge_date)
       end
@@ -138,7 +139,11 @@ module Type::Attributes
       # We always want to include the priority even if its required
       return false if key == "priority"
 
-      EXCLUDED.include?(key) || definition[:required]
+      EXCLUDED.include?(key) || excluded_category_attribute?(key) || definition[:required]
+    end
+
+    def excluded_category_attribute?(key)
+      key == (Setting::WorkPackageMultipleCategories.active? ? "category" : "categories")
     end
 
     def merge_date_for_form_attributes(attributes)

@@ -69,7 +69,7 @@ module WorkPackageTypes
       variant = named_variant
 
       update_via_turbo_stream(
-        component: ::Projects::Settings::WorkPackages::Types::SwitchImpactComponent.new(
+        component: Projects::Types::Switch::ImpactComponent.new(
           impact: deletion_impact(variant, chosen_target(variant))
         )
       )
@@ -215,7 +215,7 @@ module WorkPackageTypes
         component: Types::ConvertToGlobalRenameFormComponent.new(
           variant: service_call.result, url: convert_path(service_call.result)
         ),
-        status: :unprocessable_entity
+        status: :unprocessable_content
       )
     end
 

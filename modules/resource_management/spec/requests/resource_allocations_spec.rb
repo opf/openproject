@@ -308,7 +308,7 @@ RSpec.describe "ResourceAllocations requests",
 
       it "does not create an allocation and re-renders the step" do
         expect { perform }.not_to change(ResourceAllocation, :count)
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
 
@@ -329,7 +329,7 @@ RSpec.describe "ResourceAllocations requests",
 
       it "does not create an allocation and re-renders the step" do
         expect { perform }.not_to change(ResourceAllocation, :count)
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
 
@@ -350,7 +350,7 @@ RSpec.describe "ResourceAllocations requests",
 
       it "does not create an allocation and re-renders the step" do
         expect { perform }.not_to change(ResourceAllocation, :count)
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
 
@@ -369,7 +369,7 @@ RSpec.describe "ResourceAllocations requests",
 
       it "does not create an allocation and re-renders the step" do
         expect { perform }.not_to change(ResourceAllocation, :count)
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
 
@@ -657,7 +657,7 @@ RSpec.describe "ResourceAllocations requests",
       it "re-renders the form unprocessable and keeps the allocation unchanged" do
         perform(allocated_hours: "")
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(allocation.reload.allocated_time).to eq(600)
       end
 
@@ -666,7 +666,7 @@ RSpec.describe "ResourceAllocations requests",
       it "rejects a value above the maximum with an hours-formatted message" do
         perform(allocated_hours: "999999999999h")
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(allocation.reload.allocated_time).to eq(600)
         expect(response.body).to include(
           DurationConverter.output(ResourceAllocation::MAX_ALLOCATED_TIME / 60.0)

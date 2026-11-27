@@ -75,7 +75,7 @@ class WorkPackages::BulkController < ApplicationController
     else
       flash[:error] = bulk_error_message(@work_packages, @call)
       setup_edit
-      render action: :edit, status: :unprocessable_entity
+      render action: :edit, status: :unprocessable_content
     end
   end
 
@@ -120,7 +120,7 @@ class WorkPackages::BulkController < ApplicationController
                                  status: :see_other)
       end
       format.json do
-        failures.any? ? head(:unprocessable_entity) : head(:ok)
+        failures.any? ? head(:unprocessable_content) : head(:ok)
       end
     end
   end

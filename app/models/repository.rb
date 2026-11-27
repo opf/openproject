@@ -48,6 +48,7 @@ class Repository < ApplicationRecord
   validates :password, length: { maximum: 255, allow_nil: true }
   validate :validate_enabled_scm, on: :create
   validate :validate_remote_host, if: :url_changed?
+  validate :validate_allowed_local_path, if: :url_changed?, unless: :managed?
 
   def file_changes
     Change.where(changeset_id: changesets).joins(:changeset)
@@ -69,6 +70,12 @@ class Repository < ApplicationRecord
     errors.add(:url, :ssrf_filtered)
   rescue URI::InvalidURIError
     errors.add(:url, :invalid_url)
+  end
+
+  def validate_allowed_local_path
+    if OpenProject::SCM::LocalPathValidator.outside_allowed_roots?(url, self.class.allowed_local_paths)
+      errors.add(:url, :not_in_allowed_local_paths)
+    end
   end
 
   # Removes leading and trailing whitespace
@@ -126,6 +133,10 @@ class Repository < ApplicationRecord
   # To avoid wrong set operations for string-based configuration, force them to symbols.
   def self.disabled_types
     (scm_config[:disabled_types] || []).map(&:to_sym)
+  end
+
+  def self.allowed_local_paths
+    Array(scm_config[:allowed_local_paths])
   end
 
   def vendor

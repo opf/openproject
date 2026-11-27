@@ -32,15 +32,13 @@ require "spec_helper"
 RSpec.describe Queries::Operators::CustomFields::Hierarchies::EqualsWithDescendants, with_ee: [:custom_field_hierarchies] do
   subject(:sql) { described_class.sql_for_field(values, db_table, db_field) }
 
-  let(:custom_field) { create(:hierarchy_wp_custom_field, hierarchy_root: nil) }
-  let!(:root) { service.generate_root(custom_field).value! }
-  let(:contract_class) { CustomFields::Hierarchy::InsertListItemContract }
-  let!(:germany) { service.insert_item(contract_class:, parent: root, label: "Germany", short: "DE").value! }
-  let!(:berlin) { service.insert_item(contract_class:, parent: germany, label: "Berlin").value! }
-  let!(:munich) { service.insert_item(contract_class:, parent: germany, label: "Munich").value! }
-  let!(:portugal) { service.insert_item(contract_class:, parent: root, label: "Portugal", short: "PT").value! }
-  let!(:lisbon) { service.insert_item(contract_class:, parent: portugal, label: "Lisboa").value! }
-  let(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
+  let(:custom_field) { create(:hierarchy_wp_custom_field) }
+  let!(:root) { custom_field.hierarchy_root }
+  let!(:germany) { create(:hierarchy_item, parent: root, label: "Germany", short: "DE") }
+  let!(:berlin) { create(:hierarchy_item, parent: germany, label: "Berlin") }
+  let!(:munich) { create(:hierarchy_item, parent: germany, label: "Munich") }
+  let!(:portugal) { create(:hierarchy_item, parent: root, label: "Portugal", short: "PT") }
+  let!(:lisbon) { create(:hierarchy_item, parent: portugal, label: "Lisboa") }
 
   let(:db_table) { "custom_values" }
   let(:db_field) { "value" }

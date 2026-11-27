@@ -6,6 +6,25 @@ There are currently three variants:
 * BooleanComponent
 * SelectPanelComponent
 
+## Usage in a SubHeader
+
+Render quick filters inside `OpPrimer::QuickFilter::SubHeader`, not the plain `Primer::OpenProject::SubHeader`
+(see [SubHeader: QuickFilters](../headers/sub-header#quickfilters)).
+
+It exists because quick filters need to know about each other. Without that, picking one quick filter resets
+any other one that was active. `OpPrimer::QuickFilter::SubHeader` takes care of this as long as you pass it a
+`query:`.
+
+```erb
+<%%= render(OpPrimer::QuickFilter::SubHeader.new(query: @query)) do |subheader| %>
+  <%% subheader.with_quick_filter do %>
+    <%%= render(Foo::BarFilterComponent.new(query: @query)) %>
+  <%% end %>
+<%% end %>
+```
+
+<%= embed OpPrimer::QuickFilterPreview, :sub_header, panels: %i[preview source] %>
+
 ## SegmentedControlComponent
 
 A general purpose segmented control that accepts any number of items via `with_item` slots.

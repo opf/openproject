@@ -138,7 +138,7 @@ module WorkPackage::Journalized
                                       formatter_key: :named_association
     # People are named in the attribute table of the same work package, so the
     # journal does not withhold them from readers outside their projects.
-    register_journal_formatted_fields :assigned_to_id, :author_id, :responsible_id,
+    register_journal_formatted_fields :assigned_to_id, :author_id, :reporter_id, :responsible_id,
                                       formatter_key: :public_named_association
     register_journal_formatted_fields :start_date, :due_date, formatter_key: :datetime
     register_journal_formatted_fields :subject, formatter_key: :plaintext

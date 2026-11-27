@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe EnabledModule do
+RSpec.describe EnabledModule, with_config: { scm: { git: { allowed_local_paths: ["/"] } } } do
   # Force reload, as association is not always(?) showing
   let(:project) { create(:project, enabled_module_names: modules).reload }
 
@@ -142,7 +142,7 @@ RSpec.describe EnabledModule do
       let(:vendor) { "git" }
       let(:config) do
         {
-          git: { manages: File.join(tmpdir, "git") }
+          git: { manages: File.join(tmpdir, "git"), allowed_local_paths: ["/"] }
         }
       end
 

@@ -119,7 +119,7 @@ class BudgetsController < ApplicationController
       flash[:notice] = t(:notice_successful_create)
       redirect_to(params[:continue] ? { action: "new" } : { action: "show", id: @budget })
     else
-      render action: "new", status: :unprocessable_entity, layout: !request.xhr?
+      render action: "new", status: :unprocessable_content, layout: !request.xhr?
     end
   end
 
@@ -133,7 +133,7 @@ class BudgetsController < ApplicationController
       redirect_to(@budget)
     else
       @budget = call.result
-      render action: :edit, status: :unprocessable_entity
+      render action: :edit, status: :unprocessable_content
     end
   rescue ActiveRecord::StaleObjectError
     # Optimistic locking exception

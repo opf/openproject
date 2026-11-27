@@ -67,6 +67,27 @@ RSpec.describe "Work package type projects tab", :skip_csrf, type: :rails_reques
       .select { |project| page.has_css?("#project-table", text: project.name) }
   end
 
+  describe "the listing's frame" do
+    it "reloads the filters and table from the address bar, with links leaving the frame" do
+      get edit_type_projects_path(type_id: type.id)
+
+      frame = page.find("turbo-frame#type-configuration-frame")
+
+      expect(frame["data-reload-frame-on-event-reload-from-location-value"]).to eq("true")
+      expect(frame[:target]).to eq("_top")
+      expect(frame).to have_css("#project-table")
+      expect(frame).to have_field("name_and_identifier", visible: :all)
+    end
+  end
+
+  describe "a page past the last one", with_settings: { per_page_options: "1, 100" } do
+    it "shows the last page instead" do
+      get edit_type_projects_path(type_id: type.id, per_page: 1, page: 9)
+
+      expect(listed).to contain_exactly(Project.where(id: [on_base, on_hardware, on_firmware]).order(:lft).last)
+    end
+  end
+
   describe "the variant a tab defaults to" do
     it "shows only its own projects inside a named variant" do
       get edit_type_variant_projects_path(type_id: type.id, variant_id: hardware.id)

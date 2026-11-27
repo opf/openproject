@@ -77,7 +77,7 @@ RSpec.describe ProjectPhases::StatusController do
 
       it "renders only a flash", :aggregate_failures do
         expect(response).not_to be_successful
-        expect(response).to have_http_status :unprocessable_entity
+        expect(response).to have_http_status :unprocessable_content
         expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
         expect(response).not_to have_turbo_stream(action: "turbo_frame_reload")
       end

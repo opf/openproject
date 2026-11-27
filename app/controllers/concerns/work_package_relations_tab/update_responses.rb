@@ -42,7 +42,7 @@ module WorkPackageRelationsTab
 
         respond_with_turbo_streams
       else
-        respond_with_turbo_streams(status: :unprocessable_entity)
+        respond_with_turbo_streams(status: :unprocessable_content)
       end
     end
   end

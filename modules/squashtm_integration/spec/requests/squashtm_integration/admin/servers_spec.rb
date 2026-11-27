@@ -117,7 +117,7 @@ RSpec.describe "SquashTM server administration",
     it "rejects a formally invalid URL and saves nothing" do
       patch server_path, params: { squashtm_server: { base_url: "not a url", api_token: "new-token" } }
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(SquashTMIntegration::Server).not_to exist
     end
   end

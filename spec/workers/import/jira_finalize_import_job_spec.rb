@@ -80,6 +80,20 @@ RSpec.describe Import::JiraFinalizeImportJob do
     end
   end
 
+  context "when finalizing fails" do
+    before do
+      allow(Import::JiraImport).to receive(:find).with(jira_import.id).and_return(jira_import)
+      allow(jira_import).to receive(:destroy_jira_objects).and_raise("Something went wrong")
+    end
+
+    it "transitions the import to finalizing_error" do
+      perform
+
+      expect(jira_import.reload.current_state).to eq("finalizing_error")
+      expect(jira_import.last_transition.metadata).to include("error" => "Something went wrong")
+    end
+  end
+
   context "when the user limit is reached" do
     before { allow(OpenProject::Enterprise).to receive(:user_limit_reached?).and_return(true) }
 

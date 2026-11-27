@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe RepositoriesController do
+RSpec.describe RepositoriesController, with_config: { scm: { subversion: { allowed_local_paths: ["/"] } } } do
   let(:project) { create(:project) }
   let(:user) { create(:user, member_with_permissions: { project => permissions }) }
   let(:permissions) { [] }

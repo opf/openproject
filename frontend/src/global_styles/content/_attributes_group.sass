@@ -34,8 +34,11 @@
 // Please use the OpPrimer::AttributesGroupComponent instead.
 //
 .attributes-group
-  margin-top: 1.6875rem
   position: relative
+  margin-top: var(--stack-gap-normal)
+
+.attributes-group ~ .attributes-group
+  margin-top: var(--stack-gap-spacious)
 
 .attributes-group--header
   @include grid-block

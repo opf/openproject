@@ -120,7 +120,7 @@ module Bim
       end
 
       def render_next
-        response.status = :unprocessable_entity
+        response.status = :unprocessable_content
 
         if render_config_unknown_types?
           render_config_unknown_types

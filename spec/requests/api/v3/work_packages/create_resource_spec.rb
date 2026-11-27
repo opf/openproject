@@ -319,7 +319,7 @@ RSpec.describe "API v3 Work package resource",
         let(:extra_permissions) { [] }
 
         it "returns 422" do
-          expect(last_response).to have_http_status(:unprocessable_entity)
+          expect(last_response).to have_http_status(:unprocessable_content)
         end
 
         it "reports the labels as unauthorized" do
@@ -381,7 +381,7 @@ RSpec.describe "API v3 Work package resource",
         end
 
         it "returns 422" do
-          expect(last_response).to have_http_status(:unprocessable_entity)
+          expect(last_response).to have_http_status(:unprocessable_content)
         end
 
         it "rejects the creation with a single-value error" do
@@ -423,7 +423,7 @@ RSpec.describe "API v3 Work package resource",
         let(:extra_permissions) { [] }
 
         it "returns 422" do
-          expect(last_response).to have_http_status(:unprocessable_entity)
+          expect(last_response).to have_http_status(:unprocessable_content)
         end
 
         it "has a readonly error" do
@@ -464,7 +464,7 @@ RSpec.describe "API v3 Work package resource",
           end
 
           it "responds with 422 and explains the custom field error" do
-            expect(last_response).to have_http_status(:unprocessable_entity)
+            expect(last_response).to have_http_status(:unprocessable_content)
 
             expect(last_response.body)
               .to be_json_eql("Department can't be blank.".to_json)
@@ -489,7 +489,7 @@ RSpec.describe "API v3 Work package resource",
           end
 
           it "responds with 422 and explains the custom field error" do
-            expect(last_response).to have_http_status(:unprocessable_entity)
+            expect(last_response).to have_http_status(:unprocessable_content)
 
             expect(last_response.body)
               .to be_json_eql("Department can't be blank.".to_json)

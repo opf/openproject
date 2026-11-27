@@ -101,7 +101,7 @@ RSpec.describe "WorkPackage progress requests", :skip_csrf, type: :rails_request
       it "replies 422 and re-renders the modal without persisting" do
         patch update_path, params:, as: :turbo_stream
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response).to have_turbo_stream action: "update"
         expect(work_package.reload.estimated_hours).to be_nil
       end

@@ -28,7 +28,7 @@
 import { waitFor } from '@testing-library/dom';
 import { vi, type Mock } from 'vitest';
 
-import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
+import { setupStimulusTest, type StimulusTestContext, stubPendingPluginContext, stubPluginContext } from 'core-stimulus/test-helpers';
 import type WizardControllerType from './wizard.controller';
 
 describe('Projects wizard controller', () => {
@@ -36,7 +36,6 @@ describe('Projects wizard controller', () => {
   let WizardController:typeof WizardControllerType;
   let requestStream:Mock;
   let projectCreationWizardHelpTextPath:Mock;
-  let originalOpenProject:typeof window.OpenProject;
 
   beforeAll(async () => {
     ({ default: WizardController } = await import('./wizard.controller'));
@@ -45,16 +44,13 @@ describe('Projects wizard controller', () => {
   beforeEach(async () => {
     requestStream = vi.fn().mockResolvedValue({ html: '', headers: new Headers() });
     projectCreationWizardHelpTextPath = vi.fn().mockReturnValue('/projects/wizard/help_text/42');
-    originalOpenProject = window.OpenProject;
-    window.OpenProject = {
-      getPluginContext: () => Promise.resolve({
-        services: {
-          turboRequests: { requestStream },
-          pathHelperService: { projectCreationWizardHelpTextPath },
-          currentProject: { identifier: 'my-project' },
-        },
-      }),
-    } as unknown as typeof window.OpenProject;
+    stubPluginContext({
+      services: {
+        turboRequests: { requestStream },
+        pathHelperService: { projectCreationWizardHelpTextPath },
+        currentProject: { identifier: 'my-project' },
+      },
+    });
 
     ctx = await setupStimulusTest({
       controllers: { 'projects--wizard': WizardController },
@@ -63,7 +59,6 @@ describe('Projects wizard controller', () => {
 
   afterEach(() => {
     ctx.dispose();
-    window.OpenProject = originalOpenProject;
     vi.restoreAllMocks();
   });
 
@@ -100,10 +95,7 @@ describe('Projects wizard controller', () => {
   });
 
   it('does not request help text when disconnected before the context resolves', async () => {
-    let resolveContext!:(context:unknown) => void;
-    window.OpenProject = {
-      getPluginContext: () => new Promise((resolve) => { resolveContext = resolve; }),
-    } as unknown as typeof window.OpenProject;
+    const resolveContext = stubPendingPluginContext();
 
     const controller = await renderWizard();
     const root = ctx.container.querySelector('[data-controller="projects--wizard"]')!;
