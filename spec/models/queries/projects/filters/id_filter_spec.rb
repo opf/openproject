@@ -54,4 +54,30 @@ RSpec.describe Queries::Projects::Filters::IdFilter do
     let(:attribute) { :id }
     let(:valid_values) { ["42"] }
   end
+
+  describe "#project_ids" do
+    let(:project) { create(:project, identifier: "current_id") }
+    let(:other_project) { create(:project) }
+    let(:instance) { described_class.create!(name: :id, operator: "=", values:) }
+
+    before do
+      allow(Project).to receive(:visible).and_return(Project.where(id: [project, other_project]))
+    end
+
+    context "with an identifier and an id" do
+      let(:values) { ["CURRENT_ID", other_project.id.to_s] }
+
+      it "resolves the identifier and keeps the values as given" do
+        expect(instance.project_ids).to eq([project.id.to_s, other_project.id.to_s])
+        expect(instance.values).to eq(["CURRENT_ID", other_project.id.to_s])
+        expect(instance).to be_valid
+      end
+    end
+
+    context "with the identifier of a project the user cannot see" do
+      let(:values) { [create(:project).identifier] }
+
+      it { expect(instance).not_to be_valid }
+    end
+  end
 end

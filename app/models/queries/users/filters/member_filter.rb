@@ -41,9 +41,9 @@ class Queries::Users::Filters::MemberFilter < Queries::Users::Filters::UserFilte
   def apply_to(query_scope)
     case operator
     when "="
-      query_scope.in_project(values)
+      query_scope.in_project(project_ids)
     when "!"
-      query_scope.not_in_project(values)
+      query_scope.not_in_project(project_ids)
     when "*"
       query_scope.where(id: Member.of_any_project.select(:user_id))
     when "!*"

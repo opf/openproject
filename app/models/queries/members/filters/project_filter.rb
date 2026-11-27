@@ -43,19 +43,13 @@ class Queries::Members::Filters::ProjectFilter < Queries::Members::Filters::Memb
     clauses.join(" OR ")
   end
 
-  def validate_values
-    return super unless global?
-
-    errors.add(:values, :invalid) unless project_ids.all? { /\A\d+\z/.match?(it.to_s) }
-  end
-
   private
 
   def global?
     values.include?(GLOBAL_VALUE)
   end
 
-  def project_ids
+  def project_values
     values - [GLOBAL_VALUE]
   end
 end

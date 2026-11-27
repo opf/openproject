@@ -82,7 +82,7 @@ module Queries::Projects::Filters::AncestorWorkspaceTypeFilter
   end
 
   def ancestor_in_values_condition
-    projects_ancestor_table[:id].in(values)
+    projects_ancestor_table[:id].in(project_ids)
   end
 
   def projects_table = Project.arel_table
