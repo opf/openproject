@@ -118,7 +118,11 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   .op-toast--close
     position: absolute
     color: var(--button-invisible-iconColor-rest)
-    top: $spot-spacing-0_75
+    display: grid
+    place-items: center
+    min-width: var(--base-size-24)
+    min-height: var(--base-size-24)
+    top: $spot-spacing-0_5
     right: $spot-spacing-0_5
 
     &:hover
