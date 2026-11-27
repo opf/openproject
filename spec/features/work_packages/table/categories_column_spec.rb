@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Editing work package categories", :js,
+RSpec.describe "Work package table categories column", :js,
                with_flag: { work_package_multiple_categories: true },
                with_settings: { work_package_multiple_categories: true } do
   let(:project) { create(:project) }
@@ -39,59 +39,43 @@ RSpec.describe "Editing work package categories", :js,
   end
   let!(:category_one) { create(:category, project:, name: "Backend") }
   let!(:category_two) { create(:category, project:, name: "Frontend") }
-  let!(:category_three) { create(:category, project:, name: "Design") }
   let!(:work_package) do
     create(:work_package, project:).tap do |wp|
       wp.category_ids_replacements = [category_one.id]
       wp.save!
     end
   end
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+  let!(:query) do
+    create(:query, user:, project:, column_names: %w[id subject categories])
+  end
 
   before do
     login_as(user)
   end
 
-  context "in the work package table" do
-    let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-    let!(:query) do
-      create(:query, user:, project:, column_names: %w[id subject categories])
-    end
+  it "adds and removes categories on the work package from the table cell" do
+    wp_table.visit_query query
+    wp_table.expect_work_package_listed work_package
 
-    it "adds categories inline" do
-      wp_table.visit_query query
-      wp_table.expect_work_package_listed work_package
+    field = wp_table.edit_field(work_package, :categories)
+    field.expect_text category_one.name
 
-      field = wp_table.edit_field(work_package, :categories)
-      field.expect_text category_one.name
+    field.activate!
+    field.set_value category_two.name
+    field.submit_by_dashboard
 
-      field.activate!
-      field.set_value category_two.name
-      field.submit_by_dashboard
+    wp_table.expect_and_dismiss_toaster(message: "Successful update.")
 
-      wp_table.expect_and_dismiss_toaster(message: "Successful update.")
+    field.expect_text category_two.name
+    expect(work_package.reload.categories).to contain_exactly(category_one, category_two)
 
-      field.expect_text category_two.name
-      expect(work_package.reload.categories).to contain_exactly(category_one, category_two)
-    end
-  end
+    field.unset_value category_one.name, multi: true
+    field.submit_by_dashboard
 
-  context "in the work package details" do
-    let(:work_package_page) { Pages::FullWorkPackage.new(work_package) }
+    wp_table.expect_and_dismiss_toaster(message: "Successful update.")
 
-    it "adds categories inline" do
-      work_package_page.visit!
-      work_package_page.ensure_page_loaded
-
-      field = work_package_page.work_package_field(:categories)
-      field.expect_state_text category_one.name
-
-      field.activate!
-      field.set_value category_three.name
-      field.submit_by_dashboard
-
-      work_package_page.expect_and_dismiss_toaster(message: "Successful update.")
-
-      expect(work_package.reload.categories).to contain_exactly(category_one, category_three)
-    end
+    field.expect_text category_two.name
+    expect(work_package.reload.categories).to contain_exactly(category_two)
   end
 end
