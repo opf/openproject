@@ -45,7 +45,7 @@ de:
       end_time: Endzeit
       start_time: Startzeit
       title: Kostenbericht als XLS-Export
-    invalid_filters: 'The export could not be generated: %{errors}'
+    invalid_filters: 'Der Export konnte nicht erstellt werden: %{errors}'
     timesheet:
       button: Stundenzettel als PDF exportieren
       overview_per_user_day: 'Übersicht: Stunden pro Benutzer pro Tag'

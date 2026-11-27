@@ -1867,9 +1867,10 @@ zh-CN:
     labels:
       delete_dialog_component:
         confirmation: 我明白此操作无法撤消
-        description_html: 此操作将从所有项目中的所有工作包中移除标签 <strong>%{name}</strong>。
         heading: 删除此标签？
         title: 删除此标签？
+        usage_description_html:
+          other: This will remove the label <strong>%{name}</strong> from %{count} work packages that currently use it. Are you sure you want to delete it?
       dialog_component:
         create_title: 创建标签
         rename_title: 重命名“%{name}”
@@ -3658,40 +3659,36 @@ zh-CN:
     blocks:
       community: OpenProject 社区
       new_features:
-        '17_9':
-          new_features_list:
-            line_0: 直接在文档中创建工作包。
-            line_1: 在积压工作中搜索并筛选工作包。
-            line_2: 选择删除工作包时是否保留其子项。
-            line_3: 使用 MCP 服务器跟踪时间、按显示 ID 搜索工作包等（专业方案）。
-            line_4: 以小时、天、周或月为单位输入计划人工成本。
-            line_5: 使用 Jira Migrator 时查看导入进度。
-            line_6: 在社区版本中使用日期提醒。
-          new_features_title: '此版本包含各种新功能和改进，例如：
-
-            '
         '18_0':
           new_features_list:
             line_0:
-              description: Use with shared and project-specific workflows and forms
+              description: Customize types with shared or project-specific workflows and forms.
               title: Type variants
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#work-package-types-and-variants-workflows-and-forms
             line_1:
-              description: Sprint reports, including many new charts
-              title: Agile Reporting
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              description: Track sprint progress (Community edition) and gain deeper insights with Created vs. Resolved and Epic progress charts (Professional plan).
+              title: Agile reporting
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#agile-planning-and-reporting
             line_2:
-              description: Summarize text, change formats, base it on templates
-              title: AI Text Actions
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              description: Proofread, rewrite, and structure text directly in OpenProject (Professional plan).
+              title: AI Text Assistant
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#ai-text-assistant-and-mcp-server
             line_3:
-              description: Create and reuse tags
-              title: 标签
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              description: Organize and find related work packages more easily.
+              title: Work package labels
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#labels-for-work-packages
             line_4:
-              description: Configure or delegate custom fields per project
-              title: Project-specific values
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              description: Plan resources across projects and with placeholder users and manage work package allocations and personal day planning (Premium plan).
+              title: Extended resource management
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#resource-management-and-personal-planning
+            line_5:
+              description: Benefit from improved keyboard navigation, screen reader support, and color contrast checking.
+              title: Enhanced accessibility
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#accessibility
+            line_6:
+              description: Connect external AI assistants to OpenProject.
+              title: MCP Server released to Community
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#ai-text-assistant-and-mcp-server
           new_features_title: '此版本包含多项新功能和改进，例如：
 
             '
@@ -6748,7 +6745,7 @@ zh-CN:
       status_color_text: |
         单击可以分配或更改此状态的颜色。
         颜色显示在状态按钮中，可用于突出显示表中的工作包。
-      status_default_text: 新工作包默认状态不能为只读。
+      status_default_text: New work packages are by default set to this status. They cannot be read-only.
       status_excluded_from_totals_text: |-
         选中此选项可将具有此状态的工作包排除在层次结构中的 "工时"、
         "剩余工时 "和 "完成百分比 "总数之外。

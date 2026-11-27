@@ -1988,9 +1988,11 @@ it:
     labels:
       delete_dialog_component:
         confirmation: Sono consapevole che questa azione è irreversibile
-        description_html: Questa operazione rimuoverà l'etichetta <strong>%{name}</strong> da tutte le macro-attività di tutti i progetti.
         heading: Eliminare questa etichetta?
         title: Eliminare questa etichetta?
+        usage_description_html:
+          one: This will remove the label <strong>%{name}</strong> from %{count} work package that currently uses it. Are you sure you want to delete it?
+          other: This will remove the label <strong>%{name}</strong> from %{count} work packages that currently use it. Are you sure you want to delete it?
       dialog_component:
         create_title: Crea etichetta
         rename_title: Rinomina "%{name}"
@@ -3816,40 +3818,36 @@ it:
     blocks:
       community: Comunità di OpenProject
       new_features:
-        '17_9':
-          new_features_list:
-            line_0: Crea macro-attività direttamente nei Documenti.
-            line_1: Cerca e filtra le macro-attività nei Backlog.
-            line_2: Scegli se mantenere i discendenti quando elimini una macro-attività.
-            line_3: Usa MCP Server per registrare il tempo, cercare macro-attività in base al relativo ID visualizzato e altro ancora (piano Professional).
-            line_4: Inserisci il lavoro pianificato in ore, giorni, settimane o mesi.
-            line_5: Visualizza l'avanzamento dell'importazione quando utilizzi Jira Migrator.
-            line_6: Usa gli avvisi sulle date nella Community Edition.
-          new_features_title: 'Questa versione include diverse nuove funzionalità e miglioramenti, tra cui:
-
-            '
         '18_0':
           new_features_list:
             line_0:
-              description: Use with shared and project-specific workflows and forms
+              description: Customize types with shared or project-specific workflows and forms.
               title: Type variants
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#work-package-types-and-variants-workflows-and-forms
             line_1:
-              description: Sprint reports, including many new charts
-              title: Agile Reporting
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              description: Track sprint progress (Community edition) and gain deeper insights with Created vs. Resolved and Epic progress charts (Professional plan).
+              title: Agile reporting
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#agile-planning-and-reporting
             line_2:
-              description: Summarize text, change formats, base it on templates
-              title: AI Text Actions
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              description: Proofread, rewrite, and structure text directly in OpenProject (Professional plan).
+              title: AI Text Assistant
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#ai-text-assistant-and-mcp-server
             line_3:
-              description: Create and reuse tags
-              title: Etichette
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              description: Organize and find related work packages more easily.
+              title: Work package labels
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#labels-for-work-packages
             line_4:
-              description: Configure or delegate custom fields per project
-              title: Project-specific values
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              description: Plan resources across projects and with placeholder users and manage work package allocations and personal day planning (Premium plan).
+              title: Extended resource management
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#resource-management-and-personal-planning
+            line_5:
+              description: Benefit from improved keyboard navigation, screen reader support, and color contrast checking.
+              title: Enhanced accessibility
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#accessibility
+            line_6:
+              description: Connect external AI assistants to OpenProject.
+              title: MCP Server released to Community
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#ai-text-assistant-and-mcp-server
           new_features_title: 'Questa versione include diverse nuove funzionalità e miglioramenti, tra cui:
 
             '
@@ -6942,7 +6940,7 @@ it:
       status_color_text: |
         Clicca per assegnare o modificare il colore di questo stato.
         Viene mostrato come tasto di stato e può essere utilizzato per evidenziare le macro-attività nella tabella.
-      status_default_text: Le nuove macro-attività sono impostate in modo predefinito a questo tipo. Non possono essere in sola lettura.
+      status_default_text: New work packages are by default set to this status. They cannot be read-only.
       status_excluded_from_totals_text: |-
         Seleziona questa opzione per escludere i pacchetti di lavoro con questo stato dai totali di Lavoro,
         Lavoro rimanente e % Completamento in una gerarchia.

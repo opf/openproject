@@ -2,11 +2,11 @@
 set -e
 set -o pipefail
 
-CURRENT_PGVERSION="$(cat $PGDATA/PG_VERSION)"
-NEW_PGVERSION="17"
+CURRENT_PGVERSION="$(cat "$PGDATA/PG_VERSION")"
+NEW_PGVERSION="18"
 
-if [ "$CURRENT_PGVERSION" == "$NEW_PGVERSION" ]; then
-	echo "Current and new postgres version are identical. Aborting."
+if [[ ! "$CURRENT_PGVERSION" =~ ^[0-9]+$ ]] || [ "$CURRENT_PGVERSION" -ge "$NEW_PGVERSION" ]; then
+	echo "Expected a PostgreSQL version older than $NEW_PGVERSION. Aborting."
 	exit 1
 fi
 
@@ -26,9 +26,28 @@ fi
 
 if [ ! -f "$PGDATANEW/PG_VERSION" ]; then
 	echo "Empty cluster found in $PGDATANEW. Generating cluster..."
-	PGBIN=$PGBINNEW PGDATA=$PGDATANEW ./docker/prod/postgres-db-init
+	checksum_version=$(LC_ALL=C "$PGBINOLD/pg_controldata" "$PGDATAOLD" | awk '/Data page checksum version:/ {print $NF}')
+	case "$checksum_version" in
+		0) checksum_option=--no-data-checksums ;;
+		1) checksum_option=--data-checksums ;;
+		*) echo "Cannot determine source cluster checksum settings."; exit 1 ;;
+	esac
+	PGBIN=$PGBINNEW PGDATA=$PGDATANEW "$(dirname "$0")/postgres-db-init" "$checksum_option"
 fi
 
-cd /var/lib/postgresql
-su -m postgres -c "$PGBINNEW/pg_upgrade"
-su -m postgres -c "./analyze_new_cluster.sh"
+if [ "$(cat "$PGDATANEW/PG_VERSION")" != "$NEW_PGVERSION" ]; then
+	echo "Destination cluster must use PostgreSQL $NEW_PGVERSION."
+	exit 1
+fi
+
+upgrade_workdir=$(mktemp -d /var/lib/postgresql/upgrade-XXXXXX)
+chown postgres:postgres "$upgrade_workdir"
+cd "$upgrade_workdir"
+runuser -u postgres -- "$PGBINNEW/pg_upgrade" --check
+runuser -u postgres -- "$PGBINNEW/pg_upgrade"
+
+runuser -u postgres -- "$PGBINNEW/pg_ctl" -D "$PGDATANEW" -l "$upgrade_workdir/postgresql.log" \
+	-o "-c listen_addresses='' -c unix_socket_directories='$upgrade_workdir' -p 50432" -w start
+trap 'runuser -u postgres -- "$PGBINNEW/pg_ctl" -D "$PGDATANEW" -m fast -w stop' EXIT
+runuser -u postgres -- "$PGBINNEW/vacuumdb" -h "$upgrade_workdir" -p 50432 --all --analyze-in-stages --missing-stats-only
+echo "Upgrade complete. The original cluster remains in $PGDATAOLD; the upgraded cluster is in $PGDATANEW."

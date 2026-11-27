@@ -977,6 +977,7 @@ ru:
         edit: Массовое изменение
         move: Массовое изменение проекта
       button_clear: Очистить
+      button_edit_subject: Edit subject
       comment_added: Комментарий успешно добавлен.
       comment_send_failed: Произошла ошибка. Не удалось отправить комментарий.
       comment_updated: Комментарий успешно обновлен.

@@ -68,6 +68,14 @@ const existingWorkPackage = {
 
 const newWorkPackage = { ...existingWorkPackage, id: 'new' };
 
+const projectedWorkPackage = {
+  id: 'new',
+  _type: 'WorkPackage',
+  project: { href: '/api/v3/projects/9' },
+  type: { href: '/api/v3/types/46' },
+  $links: { type: { href: '/api/v3/types/45' } },
+};
+
 const fixGrammar = { id: 1, label: 'Fix grammar', position: 1, injectsTypeTemplate: false };
 const makeConcise = { id: 2, label: 'Make concise', position: 2, injectsTypeTemplate: false };
 const sortIntoTemplate = { id: 3, label: 'Sort into template', position: 3, injectsTypeTemplate: true };
@@ -216,6 +224,16 @@ describe('AiActionsService', () => {
       expect((await promise).map((action) => action.id)).toEqual([3]);
     });
 
+    it('lists the actions for the project and type chosen in the form over the pristine links', async () => {
+      const promise = service.actionsFor(projectedWorkPackage, 'description');
+
+      httpMock
+        .expectOne('/api/v3/projects/9/ai_text_actions?typeId=46')
+        .flush(halCollection([halAction(3, 'Sort into template', 1)]));
+
+      expect((await promise).map((action) => action.id)).toEqual([3]);
+    });
+
     it('resolves to no actions for a new work package without project or type', async () => {
       const actions = await service.actionsFor({ id: 'new', _type: 'WorkPackage', $links: {} }, 'description');
 
@@ -256,6 +274,45 @@ describe('AiActionsService', () => {
         .flush({ message: 'nope' }, { status: 401, statusText: 'Unauthorized' });
 
       expect(await promise).toEqual([]);
+    });
+  });
+
+  describe('contextKey', () => {
+    it('is null for a new work package description until project and type are known', () => {
+      expect(service.contextKey({ id: 'new', _type: 'WorkPackage', $links: { type: { href: '/api/v3/types/45' } } }, 'description'))
+        .toBeNull();
+    });
+
+    it('is null once the project chosen in the form is cleared, whatever the pristine links say', () => {
+      expect(service.contextKey({ ...newWorkPackage, project: null }, 'description')).toBeNull();
+    });
+
+    it('changes with the project and the type of a new work package', () => {
+      const keys = [
+        newWorkPackage,
+        projectedWorkPackage,
+        { ...projectedWorkPackage, type: { href: '/api/v3/types/47' } },
+        { ...projectedWorkPackage, project: { href: '/api/v3/projects/10' } },
+      ].map((resource) => service.contextKey(resource, 'description'));
+
+      expect(new Set(keys).size).toBe(4);
+    });
+
+    it('stays the same for editors whose actions do not depend on a form', () => {
+      expect(service.contextKey(projectedWorkPackage, 'customField1')).toBe(service.contextKey(newWorkPackage, 'customField1'));
+      expect(service.contextKey(existingWorkPackage, 'description'))
+        .toBe(service.contextKey({ ...existingWorkPackage, type: { href: '/api/v3/types/46' } }, 'description'));
+    });
+  });
+
+  describe('contextSnapshot', () => {
+    it('keeps the context of the moment while the resource moves on', () => {
+      const resource = { ...projectedWorkPackage };
+      const snapshot = service.contextSnapshot(resource);
+      resource.type = { href: '/api/v3/types/47' };
+
+      expect(service.contextKey(snapshot, 'description')).toBe(service.contextKey(projectedWorkPackage, 'description'));
+      expect(service.contextKey(resource, 'description')).not.toBe(service.contextKey(snapshot, 'description'));
     });
   });
 
@@ -334,6 +391,12 @@ describe('AiActionsService', () => {
 
       expect(requestBody()).toMatchObject({ project_id: '7', type_id: '45' });
       expect(requestBody()).not.toHaveProperty('work_package_id');
+    });
+
+    it('sends the project and type chosen in the form over the pristine links', async () => {
+      await service.run(fixGrammar, fakeEditor('description').asEditor, projectedWorkPackage);
+
+      expect(requestBody()).toMatchObject({ project_id: '9', type_id: '46' });
     });
 
     it.each([

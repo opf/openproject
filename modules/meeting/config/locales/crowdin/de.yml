@@ -324,7 +324,7 @@ de:
   meeting:
     agenda_sorting:
       change: Sortiermodus ändern
-      current_mode: Currently in %{mode} mode.
+      current_mode: Derzeit im %{mode} Modus.
       invalid_reaction: Zu Tagesordnungspunkten sind ausschließlich positive und negative Bewertungen zulässig.
       manual: Manuell
       manual_description: Sie können die Tagesordnungspunkte manuell in beliebiger Reihenfolge anordnen, indem Sie sie per Drag & Drop nach oben oder unten verschieben.

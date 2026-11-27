@@ -963,6 +963,7 @@ si:
         edit: තොග සංස්කරණය
         move: ව්යාපෘතියේ තොග වෙනසක්
       button_clear: පැහැදිලි
+      button_edit_subject: Edit subject
       comment_added: අදහස් දැක්වීම සාර්ථකව එකතු කරන ලදී.
       comment_send_failed: දෝෂයක් සිදුවී ඇත. අදහස ඉදිරිපත් කළ නොහැකි විය.
       comment_updated: අදහස් දැක්වීම සාර්ථකව යාවත්කාලීන කරන ලදී.
