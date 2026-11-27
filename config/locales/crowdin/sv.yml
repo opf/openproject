@@ -2058,9 +2058,11 @@ sv:
     labels:
       delete_dialog_component:
         confirmation: Jag förstår att den här åtgärden inte kan ångras
-        description_html: Detta tar bort etiketten <strong>%{name}</strong> från alla arbetspaket i alla projekt.
         heading: Ta bort den här etiketten?
         title: Ta bort den här etiketten?
+        usage_description_html:
+          one: This will remove the label <strong>%{name}</strong> from %{count} work package that currently uses it. Are you sure you want to delete it?
+          other: This will remove the label <strong>%{name}</strong> from %{count} work packages that currently use it. Are you sure you want to delete it?
       dialog_component:
         create_title: Skapa etikett
         rename_title: Byt namn på ”%{name}”
@@ -3959,40 +3961,36 @@ sv:
     blocks:
       community: OpenProject community
       new_features:
-        '17_9':
-          new_features_list:
-            line_0: Skapa arbetspaket direkt i Dokument.
-            line_1: Sök och filtrera arbetspaket i Backloggar.
-            line_2: Välj om underordnade arbetspaket ska behållas när du tar bort ett arbetspaket.
-            line_3: Använd MCP-servern för att rapportera tid, söka efter arbetspaket med deras visnings-ID med mera (Professional-abonnemang).
-            line_4: Ange planerad arbetsinsats i timmar, dagar, veckor eller månader.
-            line_5: Följ importförloppet när du använder Jira-migreringsverktyget.
-            line_6: Använd datumaviseringar i Community Edition.
-          new_features_title: 'Versionen innehåller flera nya funktioner och förbättringar, bland annat:
-
-            '
         '18_0':
           new_features_list:
             line_0:
-              description: Use with shared and project-specific workflows and forms
+              description: Customize types with shared or project-specific workflows and forms.
               title: Type variants
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#work-package-types-and-variants-workflows-and-forms
             line_1:
-              description: Sprint reports, including many new charts
-              title: Agile Reporting
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              description: Track sprint progress (Community edition) and gain deeper insights with Created vs. Resolved and Epic progress charts (Professional plan).
+              title: Agile reporting
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#agile-planning-and-reporting
             line_2:
-              description: Summarize text, change formats, base it on templates
-              title: AI Text Actions
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              description: Proofread, rewrite, and structure text directly in OpenProject (Professional plan).
+              title: AI Text Assistant
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#ai-text-assistant-and-mcp-server
             line_3:
-              description: Create and reuse tags
-              title: Labels
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              description: Organize and find related work packages more easily.
+              title: Work package labels
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#labels-for-work-packages
             line_4:
-              description: Configure or delegate custom fields per project
-              title: Project-specific values
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              description: Plan resources across projects and with placeholder users and manage work package allocations and personal day planning (Premium plan).
+              title: Extended resource management
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#resource-management-and-personal-planning
+            line_5:
+              description: Benefit from improved keyboard navigation, screen reader support, and color contrast checking.
+              title: Enhanced accessibility
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#accessibility
+            line_6:
+              description: Connect external AI assistants to OpenProject.
+              title: MCP Server released to Community
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#ai-text-assistant-and-mcp-server
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
@@ -7145,7 +7143,7 @@ sv:
       status_color_text: |
         Välj för att tilldela eller ändra färgen för denna status.
         Den visas i statusknappen och och kan användas för markering av arbetspaket i tabellen.
-      status_default_text: Nya arbetspaket får den här typen som standard. De kan inte vara skrivskyddade.
+      status_default_text: New work packages are by default set to this status. They cannot be read-only.
       status_excluded_from_totals_text: |-
         Markera det här alternativet för att undanta arbetspaket med denna status från totalsummorna för Arbete,
         Återstående arbete och % klart i en hierarki.

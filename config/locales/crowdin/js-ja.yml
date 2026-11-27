@@ -976,6 +976,7 @@ ja:
         edit: 一括編集
         move: プロジェクトの一括変更
       button_clear: クリア
+      button_edit_subject: Edit subject
       comment_added: 正常にコメントを追加しました。
       comment_send_failed: エラーが発生しました。コメントを投稿できませんでした。
       comment_updated: 正常にコメントを更新しました。

@@ -976,6 +976,7 @@ ko:
         edit: 대량 편집
         move: 프로젝트의 일괄 변경
       button_clear: 선택 취소
+      button_edit_subject: Edit subject
       comment_added: 코멘트가 성공적으로 추가 되었습니다.
       comment_send_failed: 오류가 발생했습니다. 코멘트를 제출할 수 없습니다.
       comment_updated: 코멘트가 성곡적으로 갱신되었습니다.

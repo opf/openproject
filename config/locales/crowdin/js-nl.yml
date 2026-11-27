@@ -985,6 +985,7 @@ nl:
         edit: Aanpassen in bulk
         move: Bulk verandering van project
       button_clear: Wissen
+      button_edit_subject: Edit subject
       comment_added: De opmerking is succesvol toegevoegd.
       comment_send_failed: Er is een fout opgetreden. De opmerking is niet ingediend.
       comment_updated: De opmerking is succesvol bijgewerkt.

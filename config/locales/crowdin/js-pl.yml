@@ -1003,6 +1003,7 @@ pl:
         edit: Masowa edycja
         move: Masowa zmiana projektu
       button_clear: Wyczyść
+      button_edit_subject: Edit subject
       comment_added: Komentarz został dodany pomyślnie.
       comment_send_failed: Wystąpił błąd. Nie można zamieścić komentarza.
       comment_updated: Komentarz zaktualizowano pomyślnie.

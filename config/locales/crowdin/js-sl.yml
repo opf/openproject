@@ -1007,6 +1007,7 @@ sl:
         edit: Skupno urejanje
         move: Skupna sprememba projekta
       button_clear: Počisti
+      button_edit_subject: Edit subject
       comment_added: 'Komentar je bil uspešno dodan. '
       comment_send_failed: 'Prišlo je do napake. Komentarja ni bilo mogoče shraniti. '
       comment_updated: 'Komentar je bil uspešno naložen. '

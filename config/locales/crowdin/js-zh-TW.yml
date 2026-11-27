@@ -976,6 +976,7 @@ zh-TW:
         edit: 整批編輯
         move: 專案整批變動
       button_clear: 清除
+      button_edit_subject: Edit subject
       comment_added: 留言成功
       comment_send_failed: 發生錯誤。無法留言。
       comment_updated: 留言已成功更新。

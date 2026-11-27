@@ -985,6 +985,7 @@ ca:
         edit: Edició massiva
         move: Canvi massiu de projecte
       button_clear: Neteja
+      button_edit_subject: Edit subject
       comment_added: El comentari s'ha afegit correctament.
       comment_send_failed: S'ha produït un error. No s'ha pogut sotmetre el comentari.
       comment_updated: El comentari s'ha actualitzat correctament.

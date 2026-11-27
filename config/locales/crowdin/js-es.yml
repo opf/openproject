@@ -983,6 +983,7 @@ es:
         edit: Edición en masa
         move: Cambio masivo del proyecto
       button_clear: Eliminar
+      button_edit_subject: Edit subject
       comment_added: El comentario fue añadido con éxito.
       comment_send_failed: Ha ocurrido un error. No se pudo añadir el comentario.
       comment_updated: El comentario se actualizó correctamente.

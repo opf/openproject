@@ -976,6 +976,7 @@ ms:
         edit: Edit pukal
         move: Perubahan projek secara pukal
       button_clear: Kosongkan
+      button_edit_subject: Edit subject
       comment_added: Komen telah berjaya ditambahkan.
       comment_send_failed: Ralat telah berlaku. Tidak dapat menghantar komen.
       comment_updated: Komen telah berjaya dikemas kini.

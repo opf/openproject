@@ -1913,7 +1913,7 @@ da:
               label_import_data: Importeres nu
               label_progress: Importen er i gang …
               label_resolution_statuses_explanation: Ekstra statusser, der kombinerer status og løsning (fx "Done - Fixed")
-              label_sprint_explanation: Sprints that contain at least one issue
+              label_sprint_explanation: Sprints, der indeholder mindst én sag
               label_users_import_explanation: Brugere, der er involveret i de valgte projekter (inklusive gruppemedlemskaber)
               title: Importér data
             fetch_data:
@@ -2058,9 +2058,11 @@ da:
     labels:
       delete_dialog_component:
         confirmation: Jeg forstår, at handlingen ikke kan fortrydes
-        description_html: Mærkaten <strong>%{name}</strong> fjernes fra alle arbejdspakker i alle projekter.
         heading: Vil du slette mærkaten?
         title: Vil du slette mærkaten?
+        usage_description_html:
+          one: This will remove the label <strong>%{name}</strong> from %{count} work package that currently uses it. Are you sure you want to delete it?
+          other: This will remove the label <strong>%{name}</strong> from %{count} work packages that currently use it. Are you sure you want to delete it?
       dialog_component:
         create_title: Opret mærkat
         rename_title: Omdøb "%{name}"
@@ -2600,7 +2602,7 @@ da:
     public: Offentlig
     reason: Årsag
     recipient: Modtager
-    reporter: Reporter
+    reporter: Indberetter
     required: Obligatorisk
     responsible: Ansvarlig
     role: Rolle
@@ -2944,8 +2946,8 @@ da:
         remember_items_and_projects: Husk at angive værdier for det brugerdefinerede felt og at sørge for, at det bruges i mindst ét projekt.
       projects:
         additional_values_disabled_notice: Projektadministratorer kan ikke længere tilføje værdier til dette brugerdefinerede felt. Eksisterende projektspecifikke værdier er stadig tilgængelige.
-        additional_values_disabled_project_notice: Project admins can no longer add values to this custom field. However, existing project-specific values stay available.
-        available_values: Available values
+        additional_values_disabled_project_notice: Projektadministratorer kan ikke længere tilføje værdier til dette brugerdefinerede felt. Eksisterende projektspecifikke værdier er dog stadig tilgængelige.
+        available_values: Tilgængelige værdier
         configure: Konfigurer projektspecifikke værdier for %{project}
         delete_value_dialog:
           description: Handlingen fjerner værdien fra %{project}, og det kan ikke fortrydes. Alle tildelte værdier slettes permanent.
@@ -2976,19 +2978,19 @@ da:
         quick_filter:
           all: Alle projekter
           with_project_specific_values: Med projektspecifikke værdier
-        required_value_notice: Cannot be disabled because a child project-specific value is enabled
+        required_value_notice: Kan ikke slås fra, fordi en underordnet projektspecifik værdi er slået til.
         types_column: Vises i typen
         value_actions: Handlinger for værdi
         value_dialog:
           edit_title: Rediger værdi
           name: Navn
-          name_caption_html: Only available in <strong>%{project}</strong>.
+          name_caption_html: Kun tilgængelig i <strong>%{project}</strong>.
           parent: Tilføj til overordnet
-          short_caption: Optionally pick a shorter name or code for this value.
+          short_caption: Vælg eventuelt et kortere navn eller en kode for værdien.
           title: Tilføj projektspecifik værdi
           title_with_parent: Tilføj projektspecifik værdi til »%{parent}«
           top_level: Øverste niveau
-          weight_caption: Each value has a weight associated with it.
+          weight_caption: Hver værdi har en tilknyttet vægt.
         values_empty_state:
           description: Tilføj værdier til dette brugerdefinerede felt for at vælge, hvilke af dem der er tilgængelige i dette projekt.
           title: Dette brugerdefinerede felt har endnu ingen værdier
@@ -3077,11 +3079,11 @@ da:
       project_admins:
         additional_values_caption: Tilføjede værdier er kun tilgængelige i det projekt, de er oprettet i. Du kan senere gøre dem tilgængelige for alle projekter.
         remaining_values_count:
-          one: "%{count} project-specific value"
-          other: "%{count} project-specific values"
+          one: "%{count} projektspecifik værdi"
+          other: "%{count} projektspecifikke værdier"
         remaining_values_warning:
-          one: "%{count} project already has %{values}. They remain available in that project but project admins can no longer add new ones unless ‘%{setting}’ is checked."
-          other: "%{count} projects already have %{values}. They remain available in those projects but project admins can no longer add new ones unless ‘%{setting}’ is checked."
+          one: "%{count} projekt har allerede %{values}. De er stadig tilgængelige i projektet, men projektadministratorer kan ikke tilføje nye, medmindre »%{setting}« er markeret."
+          other: "%{count} projekter har allerede %{values}. De er stadig tilgængelige i projekterne, men projektadministratorer kan ikke tilføje nye, medmindre »%{setting}« er markeret."
         value_management_caption: Projektadministratorer kan slå bestemte værdier til eller fra for deres projekt. De kan se alle globale værdier.
       switch_warning:
         all: Alle værdier bliver tilgængelige i alle projekter.
@@ -3961,40 +3963,36 @@ da:
     blocks:
       community: OpenProject-fællesskabet
       new_features:
-        '17_9':
-          new_features_list:
-            line_0: Opret arbejdspakker direkte i Dokumenter.
-            line_1: Søg efter og filtrér arbejdspakker i Backlogs.
-            line_2: Vælg, om underliggende arbejdspakker skal beholdes, når en arbejdspakke slettes.
-            line_3: Brug MCP-serveren til at registrere tid, søge efter arbejdspakker ud fra deres viste id og meget mere (Professional-planen).
-            line_4: Angiv planlagt arbejde i timer, dage, uger eller måneder.
-            line_5: Se importens fremdrift, når du bruger Jira-migreringen.
-            line_6: Brug datobeskeder i Community-udgaven.
-          new_features_title: 'Versionen indeholder en række nye funktioner og forbedringer, fx:
-
-            '
         '18_0':
           new_features_list:
             line_0:
-              description: Brug dem med fælles og projektspecifikke arbejdsgange og formularer
+              description: Customize types with shared or project-specific workflows and forms.
               title: Typevarianter
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#work-package-types-and-variants-workflows-and-forms
             line_1:
-              description: Sprintrapporter med mange nye diagrammer
-              title: Agil rapportering
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              description: Track sprint progress (Community edition) and gain deeper insights with Created vs. Resolved and Epic progress charts (Professional plan).
+              title: Agile reporting
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#agile-planning-and-reporting
             line_2:
-              description: Opsummer tekst, skift format, byg på skabeloner
-              title: AI-teksthandlinger
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              description: Proofread, rewrite, and structure text directly in OpenProject (Professional plan).
+              title: AI Text Assistant
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#ai-text-assistant-and-mcp-server
             line_3:
-              description: Opret og genbrug mærkater
-              title: Mærkater
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              description: Organize and find related work packages more easily.
+              title: Work package labels
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#labels-for-work-packages
             line_4:
-              description: Konfigurer eller uddeleger brugerdefinerede felter pr. projekt
-              title: Projektspecifikke værdier
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              description: Plan resources across projects and with placeholder users and manage work package allocations and personal day planning (Premium plan).
+              title: Extended resource management
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#resource-management-and-personal-planning
+            line_5:
+              description: Benefit from improved keyboard navigation, screen reader support, and color contrast checking.
+              title: Enhanced accessibility
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#accessibility
+            line_6:
+              description: Connect external AI assistants to OpenProject.
+              title: MCP Server released to Community
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#ai-text-assistant-and-mcp-server
           new_features_title: 'Versionen indeholder en række nye funktioner og forbedringer, fx:
 
             '
@@ -4270,10 +4268,10 @@ da:
   label_custom_field_default_type: Tom typebetegnelse
   label_custom_field_new: Nyt brugerdefineret felt
   label_custom_field_plural: Brugerdefinerede felter
-  label_custom_field_values_all: All custom fields
-  label_custom_field_values_customizable: Customizable in this project
-  label_custom_field_values_customized: Customized in this project
-  label_custom_field_values_uniform: Same values in all projects
+  label_custom_field_values_all: Alle brugerdefinerede felter
+  label_custom_field_values_customizable: Kan tilpasses i dette projekt
+  label_custom_field_values_customized: Tilpasset i dette projekt
+  label_custom_field_values_uniform: Samme værdier i alle projekter
   label_custom_pdf_export_settings: Brugerdefinerede indstillinger for PDF-eksport
   label_custom_style: Design
   label_custom_style_description: Vælg, hvordan OpenProject skal se ud for dig med temaer, vælg de standardfarver, der skal bruges i programmet, og hvordan eksporter skal se ud.
@@ -6130,13 +6128,13 @@ da:
       shared: Delte projektlister
     phase_status:
       description:
-        completed: This will also mark all previous phases as complete.
-        in_progress: This will complete all previous phases and mark future phases as not started.
-        open: This will mark all future phases as not started.
+        completed: Alle tidligere faser markeres også som afsluttet.
+        in_progress: Alle tidligere faser afsluttes, og alle senere faser markeres som ikke startet.
+        open: Alle senere faser markeres som ikke startet.
       title:
         completed: Afsluttet
         in_progress: I gang
-        open: Not started
+        open: Ikke startet
     settings:
       actions:
         label_disable_all: Deaktiver alle
@@ -6182,16 +6180,16 @@ da:
           '
         column_format: Format
         column_name: Brugerdefineret felt
-        column_types: Displayed in type
+        column_types: Vises i typen
         no_results_title_text: Der er i øjeblikket ingen brugerdefinerede felter tilgængelige.
         project_specific_values_count:
-          one: "%{count} project-specific value"
-          other: "%{count} project-specific values"
-        search_label: Search custom fields
-        values_description: 'Choose which values of %{custom_field} your team can use in %{project}. Global values are shared with other projects and managed by administrators. Project-specific values are only available in this project.
+          one: "%{count} projektspecifik værdi"
+          other: "%{count} projektspecifikke værdier"
+        search_label: Søg i brugerdefinerede felter
+        values_description: 'Vælg, hvilke værdier i %{custom_field} dit team kan bruge i %{project}. Globale værdier deles med andre projekter og administreres af administratorer. Projektspecifikke værdier er kun tilgængelige i dette projekt.
 
           '
-        values_filter: Values
+        values_filter: Værdier
       forums:
         no_results_content_text: Opret et nyt forum
         no_results_title_text: Der er i øjeblikket ingen fora for projektet.
@@ -7152,7 +7150,7 @@ da:
       status_color_text: |
         Klik for at tildele eller ændre statussens farve.
         Den vises på statusknappen og kan bruges til at fremhæve arbejdspakker i tabellen.
-      status_default_text: Nye arbejdspakker får som standard denne status. Den kan ikke være skrivebeskyttet.
+      status_default_text: New work packages are by default set to this status. They cannot be read-only.
       status_excluded_from_totals_text: |-
         Markér feltet for at udelade arbejdspakker med denne status fra totalerne for Arbejde,
         Resterende arbejde og % færdigt i et hierarki.

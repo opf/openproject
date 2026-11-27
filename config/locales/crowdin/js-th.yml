@@ -976,6 +976,7 @@ th:
         edit: Bulk edit
         move: Bulk change of project
       button_clear: ล้างข้อมูล
+      button_edit_subject: Edit subject
       comment_added: เพิ่มความคิดเห็นเรียบร้อยแล้ว
       comment_send_failed: An error has occurred. Could not submit the comment.
       comment_updated: The comment was successfully updated.

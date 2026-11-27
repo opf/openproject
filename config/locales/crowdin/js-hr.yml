@@ -994,6 +994,7 @@ hr:
         edit: Bulk edit
         move: Bulk change of project
       button_clear: Očisti
+      button_edit_subject: Edit subject
       comment_added: Komentar je uspješno dodan.
       comment_send_failed: Došlo je do pogreške. Neuspijelo slanje komentara.
       comment_updated: Komentar je uspješno ažuriran.

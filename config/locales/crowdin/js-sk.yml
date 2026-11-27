@@ -1003,6 +1003,7 @@ sk:
         edit: Hromadne editovať
         move: Bulk change of project
       button_clear: Vyčistiť
+      button_edit_subject: Edit subject
       comment_added: Komentár bol úspešne pridaný.
       comment_send_failed: Vyskytla sa chyba. Nebolo možné pridať komentár.
       comment_updated: Komentár bol úspešne aktualizovaný.

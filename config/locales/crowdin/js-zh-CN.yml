@@ -976,6 +976,7 @@ zh-CN:
         edit: 批量编辑
         move: 批量更改项目
       button_clear: 清除
+      button_edit_subject: Edit subject
       comment_added: 注释已成功添加。
       comment_send_failed: 出错。无法提交评论。
       comment_updated: 注释已成功更新。

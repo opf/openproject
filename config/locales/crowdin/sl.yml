@@ -2300,9 +2300,13 @@ sl:
     labels:
       delete_dialog_component:
         confirmation: I understand that this action is not reversible
-        description_html: This will remove the label <strong>%{name}</strong> from all work packages in all projects.
         heading: Delete this label?
         title: Delete this label?
+        usage_description_html:
+          one: This will remove the label <strong>%{name}</strong> from %{count} work package that currently uses it. Are you sure you want to delete it?
+          two: This will remove the label <strong>%{name}</strong> from %{count} work packages that currently use it. Are you sure you want to delete it?
+          few: This will remove the label <strong>%{name}</strong> from %{count} work packages that currently use it. Are you sure you want to delete it?
+          other: This will remove the label <strong>%{name}</strong> from %{count} work packages that currently use it. Are you sure you want to delete it?
       dialog_component:
         create_title: Create label
         rename_title: Rename "%{name}"
@@ -4293,40 +4297,36 @@ sl:
     blocks:
       community: Skupnost OpenProject
       new_features:
-        '17_9':
-          new_features_list:
-            line_0: Create work packages directly in Documents.
-            line_1: Search and filter work packages in Backlogs.
-            line_2: Choose whether to keep descendants when deleting a work package.
-            line_3: Use the MCP Server to track time, search work packages by their display ID, and more (Professional plan).
-            line_4: Enter planned labor in hours, days, weeks, or months.
-            line_5: See the import progress when using the Jira Migrator.
-            line_6: Use Date alerts in the Community Edition.
-          new_features_title: 'The release contains various new features and improvements, such as:
-
-            '
         '18_0':
           new_features_list:
             line_0:
-              description: Use with shared and project-specific workflows and forms
+              description: Customize types with shared or project-specific workflows and forms.
               title: Type variants
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#work-package-types-and-variants-workflows-and-forms
             line_1:
-              description: Sprint reports, including many new charts
-              title: Agile Reporting
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              description: Track sprint progress (Community edition) and gain deeper insights with Created vs. Resolved and Epic progress charts (Professional plan).
+              title: Agile reporting
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#agile-planning-and-reporting
             line_2:
-              description: Summarize text, change formats, base it on templates
-              title: AI Text Actions
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              description: Proofread, rewrite, and structure text directly in OpenProject (Professional plan).
+              title: AI Text Assistant
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#ai-text-assistant-and-mcp-server
             line_3:
-              description: Create and reuse tags
-              title: Labels
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              description: Organize and find related work packages more easily.
+              title: Work package labels
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#labels-for-work-packages
             line_4:
-              description: Configure or delegate custom fields per project
-              title: Project-specific values
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              description: Plan resources across projects and with placeholder users and manage work package allocations and personal day planning (Premium plan).
+              title: Extended resource management
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#resource-management-and-personal-planning
+            line_5:
+              description: Benefit from improved keyboard navigation, screen reader support, and color contrast checking.
+              title: Enhanced accessibility
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#accessibility
+            line_6:
+              description: Connect external AI assistants to OpenProject.
+              title: MCP Server released to Community
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#ai-text-assistant-and-mcp-server
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
@@ -7574,7 +7574,7 @@ sl:
       status_color_text: |
         Kliknite, če želite dodeliti ali spremeniti barvo tega stanja.
         Prikazana je v gumbu stanja in se lahko uporablja za označevanje delovnih paketov v tabeli.
-      status_default_text: New work packages are by default set to this type. They cannot be read-only.
+      status_default_text: New work packages are by default set to this status. They cannot be read-only.
       status_excluded_from_totals_text: |-
         Check this option to exclude work packages with this status from totals of Work,
         Remaining work, and % Complete in a hierarchy.

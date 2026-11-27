@@ -985,6 +985,7 @@ fil:
         edit: I-edit ang bulk
         move: Bulk change of project
       button_clear: Linisin
+      button_edit_subject: Edit subject
       comment_added: Ang komento ay matagumpay naidagdag.
       comment_send_failed: Isang mali ang naganal. Hindi maaring magpasa ng komento.
       comment_updated: Ang komento ay matagumpay na i-update.

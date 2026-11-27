@@ -985,6 +985,7 @@ bg:
         edit: Bulk edit
         move: Групова промяна на проекта
       button_clear: Изчистване
+      button_edit_subject: Edit subject
       comment_added: Коментарът е добавен успешно.
       comment_send_failed: Възникна грешка. Коментарът не може да бъде добавен.
       comment_updated: Коментарът е актуализиран успешно.
