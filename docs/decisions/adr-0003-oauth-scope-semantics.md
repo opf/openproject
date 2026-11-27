@@ -1,6 +1,6 @@
 ---
 status: "accepted"
-date: 2026-11-24
+date: 2026-11-27
 decision-makers:
   - Team Titan
 consulted:
@@ -69,9 +69,9 @@ the same client configuration).
 
 Additionally the new naming scheme common to most of the options is being adopted for new token scopes (see "More information" at the bottom).
 The existing API scopes remain as legacy scopes until the new scoping scheme has been implemented and documented **and** we are able
-to make a breaking change to the public API, i.e. during a major release. Until then, the existing legacy scopes act equivalent to their
-`op:api:<name>` counterpart as well as `op:resource` being present in the scope. **The behaviour for mixing legacy scopes and new scopes
-is undefined,** but it's suggested that we raise an API error in this case.
+to make a breaking change to the public API, i.e. during a major release. Until then, the existing legacy scopes grant access to
+any resource, just as they did before. **The behaviour for mixing legacy scopes and new scopes is undefined,**
+but it's suggested that we raise an API error in this case.
 
 ## Pros and Cons of the Options
 
