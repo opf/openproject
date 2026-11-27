@@ -67,6 +67,21 @@ RSpec.describe Meetings::JournalAfterPerform, with_settings: { journal_aggregati
 
       expect(section_journals.where(section_id: section.id)).to be_empty
     end
+
+    context "when the deleted section holds agenda items" do
+      shared_let(:agenda_item, reload: false) { create(:meeting_agenda_item, meeting:, meeting_section: section) }
+
+      current_user { user }
+
+      it "journals the removal of its agenda items in the name of the deleting user" do
+        expect { MeetingSections::DeleteService.new(user:, model: section).call }
+          .to change { meeting.journals.count }.by(1)
+
+        journal = meeting.journals.reload.last
+        expect(journal.user).to eq(user)
+        expect(journal.agenda_item_journals.where(agenda_item_id: agenda_item.id)).to be_empty
+      end
+    end
   end
 
   context "in the outcome services" do
