@@ -41,15 +41,13 @@ module Admin::Settings
 
     def index
       @query = build_query
-      @slugs = @query.results
-        .includes(:sluggable)
-        .paginate(page: page_param, per_page: per_page_param)
+      @pagination, @slugs = paginate_scope(@query.results.includes(:sluggable))
     end
 
     def search
       index
       replace_via_turbo_stream(
-        component: Admin::Settings::ProjectReservedIdentifiers::IndexComponent.new(@slugs)
+        component: Admin::Settings::ProjectReservedIdentifiers::IndexComponent.new(@slugs, pagination: @pagination)
       )
       current_url = admin_settings_project_reserved_identifiers_path(params.permit(:filters))
       turbo_streams << turbo_stream.push_state(current_url)

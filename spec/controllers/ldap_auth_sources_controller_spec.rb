@@ -37,6 +37,25 @@ RSpec.describe LdapAuthSourcesController do
     allow(User).to receive(:current).and_return current_user
   end
 
+  describe "paging the sorted LDAP sources", with_settings: { per_page_options: "1" } do
+    render_views
+
+    it "follows the next page of the component-sorted relation" do
+      first = create(:ldap_auth_source, name: "First directory")
+      second = create(:ldap_auth_source, name: "Second directory")
+
+      get :index
+
+      expect(response.body).to have_text(first.name)
+      href = response.parsed_body.at_css(".op-pagination a[rel=next]")["href"]
+      get :index, params: Rack::Utils.parse_query(URI(href).query)
+
+      expect(response.body).to have_text(second.name)
+      expect(response.body).to have_no_text(first.name)
+      expect(response.body).to have_css(".op-pagination--range", text: "(2 - 2/2)")
+    end
+  end
+
   describe "new" do
     before do
       get :new

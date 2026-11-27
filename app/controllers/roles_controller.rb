@@ -44,9 +44,7 @@ class RolesController < ApplicationController
 
   def index
     @query = build_query
-    @roles = filtered_roles_scope
-             .page(page_param)
-             .per_page(per_page_param)
+    @pagination, @roles = paginate_scope(filtered_roles_scope)
 
     render layout: !turbo_frame_request?
   end

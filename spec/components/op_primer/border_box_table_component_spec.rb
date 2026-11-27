@@ -207,6 +207,10 @@ RSpec.describe OpPrimer::BorderBoxTableComponent, :aggregate_failures, type: :co
 
     it_behaves_like "rendering table with head and foot"
 
+    it "omits pagination for an unpaginated array" do
+      expect(rendered_component).to have_no_css(".op-pagination")
+    end
+
     it "adds rowgroup, row semantics for table body" do
       expect(rendered_component).to have_selector :role, :rowgroup, class: "!Box-header" do |rowgroup|
         expect(rowgroup).to have_selector :row, count: 3
@@ -315,6 +319,29 @@ RSpec.describe OpPrimer::BorderBoxTableComponent, :aggregate_failures, type: :co
 
       expect(page.find(:role, :table)[:style]).to be_nil
       expect(rendered_component).to have_no_css(".op-border-box-table--with-actions, .op-border-box-grid--with-actions")
+    end
+  end
+
+  context "with separate Pagy metadata" do
+    let(:rows) { build_stubbed_list(:project, 3) }
+    let(:pagination) { Pagy::Offset.new(count: 10, limit: 3, page: 2) }
+
+    subject(:rendered_component) do
+      with_request_url("/projects") { render_component(rows:, pagination:) }
+    end
+
+    it_behaves_like "indexing rows", rowcount: 12, first: 5, last: 7
+
+    it "renders sortable headers without slicing the supplied rows again" do
+      vc_test_controller.action_name = "index"
+      table_class.define_method(:sortable?) { true }
+      component = table_class.new(rows:, pagination:)
+
+      with_request_url("/projects") { render_inline(component) }
+
+      expect(component.sort_criteria.first_key).to eq("name")
+      rows.each { |row| expect(page).to have_text(row.name) }
+      expect(page).to have_css(".op-pagination--range", text: "(4 - 6/10)")
     end
   end
 

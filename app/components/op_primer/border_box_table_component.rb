@@ -200,6 +200,8 @@ module OpPrimer
     end
 
     def body_row_count
+      return [@pagination.count, 1].max if @pagination
+
       [paginated? ? rows.total_entries : rows.size, 1].max
     end
 
@@ -208,6 +210,7 @@ module OpPrimer
     end
 
     def page_offset
+      return @pagination.offset if @pagination
       return 0 unless paginated?
 
       (rows.current_page - 1) * rows.per_page

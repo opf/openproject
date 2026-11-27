@@ -168,5 +168,5 @@ See COPYRIGHT and LICENSE files for more details.
   <div class="generic-table--action-buttons">
     <%= submit_tag t(:label_view_diff), class: "button -primary -small" if show_diff %>
   </div>
-  <%= pagination_links_full @versions %>
+  <%= pagy_pagination_links(@pagination, @versions) %>
 <% end %>

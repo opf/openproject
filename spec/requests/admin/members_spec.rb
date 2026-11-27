@@ -83,6 +83,21 @@ RSpec.describe "GET /admin/members", :aggregate_failures, :skip_csrf, type: :rai
       expect(response.body).not_to include("Kim Novak")
     end
 
+    it "carries the membership filter through to the next page", with_settings: { per_page_options: "1" } do
+      filters = [{ role_id: { operator: "=", values: [role.id.to_s] } }].to_json
+      get admin_members_path(filters:)
+
+      first_page = response.body
+      next_link = Nokogiri::HTML5(first_page).at_css(".op-pagination a[rel=next]")
+      expect(Rack::Utils.parse_query(URI(next_link["href"]).query)).to include("filters" => filters, "page" => "2")
+      get next_link["href"]
+
+      expect(response.body).to have_css(".op-pagination--range", text: "(2 - 2/2)")
+      names = ["Jo Barnes", "Ada Stone"]
+      expect(names.select { first_page.include?(it) } + names.select { response.body.include?(it) }).to match_array(names)
+      expect(response.body).not_to include("Kim Novak")
+    end
+
     it "offers quick filters for member type, project and role without an all filters section" do
       get admin_members_path
 

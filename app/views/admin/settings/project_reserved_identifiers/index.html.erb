@@ -41,4 +41,4 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render(Admin::Settings::ProjectReservedIdentifiers::SubHeaderComponent.new(query: @query)) %>
 
-<%= render(Admin::Settings::ProjectReservedIdentifiers::IndexComponent.new(@slugs)) %>
+<%= render(Admin::Settings::ProjectReservedIdentifiers::IndexComponent.new(@slugs, pagination: @pagination)) %>

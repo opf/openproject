@@ -153,17 +153,15 @@ class RepositoriesController < ApplicationController
   end
 
   def revisions
-    @changesets = @repository.changesets
-                  .includes(:user, :repository)
-                  .page(page_param)
-                  .per_page(per_page_param)
+    scope = @repository.changesets.includes(:user, :repository)
 
     respond_to do |format|
       format.html do
+        @pagination, @changesets = paginate_scope(scope)
         render layout: false if request.xhr?
       end
       format.atom do
-        render_feed(@changesets, title: "#{@project.name}: #{I18n.t(:label_revision_plural)}")
+        render_feed(scope.page(page_param).per_page(per_page_param), title: "#{@project.name}: #{I18n.t(:label_revision_plural)}")
       end
     end
   end

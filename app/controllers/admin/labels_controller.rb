@@ -41,13 +41,13 @@ module Admin
 
     def index
       @query = ParamsToQueryService.new(Label, current_user, query_class: Queries::Labels::LabelQuery).call(params)
-      @labels = @query.results.paginate(page: page_param, per_page: per_page_param)
+      @pagination, @labels = paginate_scope(@query.results)
     end
 
     def search
       index
 
-      replace_via_turbo_stream(component: Admin::Labels::ListComponent.new(@labels, query: @query))
+      replace_via_turbo_stream(component: Admin::Labels::ListComponent.new(@labels, query: @query, pagination: @pagination))
       turbo_streams << turbo_stream.push_state(url_for(params.permit(:controller, :filters).merge(action: "index")))
 
       respond_with_turbo_streams

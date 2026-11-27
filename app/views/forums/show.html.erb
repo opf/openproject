@@ -64,7 +64,7 @@ See COPYRIGHT and LICENSE files for more details.
   %>
 <% end %>
 
-<%= render(Forums::Topics::TableComponent.new(rows: @topics, forum: @forum)) %>
+<%= render(Forums::Topics::TableComponent.new(rows: @topics, pagination: @pagination, forum: @forum)) %>
 
 <%= other_formats_links do |f| %>
   <%= f.link_to "Atom", url: { key: User.current.rss_key } %>

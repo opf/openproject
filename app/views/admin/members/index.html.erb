@@ -38,4 +38,4 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<%= render(Admin::Members::IndexComponent.new(query: @query, rows: @members)) %>
+<%= render(Admin::Members::IndexComponent.new(query: @query, rows: @members, pagination: @pagination)) %>

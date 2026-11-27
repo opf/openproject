@@ -32,6 +32,8 @@ module Admin::Settings::ProjectReservedIdentifiers
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
+    options :pagination
+
     alias_method :rows, :model
   end
 end

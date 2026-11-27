@@ -34,7 +34,7 @@ module Admin
 
       FRAME_ID = "admin-members-list"
 
-      options :query, :rows
+      options :pagination, :query, :rows
     end
   end
 end
