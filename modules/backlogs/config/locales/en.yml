@@ -583,13 +583,13 @@ en:
         estimation_unit: "Unit"
         options:
           none:
-            caption: "The number of work packages will be used as the default unit in charts. Some sprint report charts won't be displayed."
+            caption: "The number of work packages will be used as the default unit in charts. Some sprint report charts won't be displayed. Time estimates will be still visible in the work package views, but not story points."
             label: "None"
           story_points:
-            caption: "The cards and charts will display story points."
+            caption: "The cards and charts will display story points. Time estimates will be still visible in the work package views."
             label: "Story points"
           time:
-            caption: "The cards and charts will display estimated time."
+            caption: "The cards and charts will display estimated time. Story points will be inactive in this project."
             label: "Estimated time"
 
       backlog_sharing:
@@ -614,7 +614,7 @@ en:
 
       backlogs:
         estimation_unit_form_component:
-          description: "Select the default unit of measuring effort, velocity and capacity that matches the workflow of your agile team. They will be shown in the backlog and sprint reports."
+          description: "Select the default unit of measuring effort, velocity and capacity that matches the workflow of your agile team. They will be shown in the backlog, sprint reports and work packages."
           heading: "Default unit of velocity, effort and capacity"
         multiple_active_sprints:
           description: "By default, only one sprint can be active at a time per project. You can change this so that multiple sprints can be active in parallel in this project."
