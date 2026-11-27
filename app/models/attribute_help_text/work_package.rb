@@ -51,6 +51,8 @@ class AttributeHelpText::WorkPackage < AttributeHelpText
   end
 
   def self.visible_condition(user)
+    return all if user.active_admin?
+
     visible_cf_names = WorkPackageCustomField
       .visible(user)
       .pluck(:id)
