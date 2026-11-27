@@ -29,6 +29,7 @@ import { CommonModule } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { OpenprojectAttachmentsModule } from 'core-app/shared/components/attachments/openproject-attachments.module';
 import { IconModule } from 'core-app/shared/components/icon/icon.module';
+import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
 
 import { AttributeHelpTextComponent } from './attribute-help-text.component';
 import { StaticAttributeHelpTextComponent } from './static-attribute-help-text.component';
@@ -39,6 +40,7 @@ import { StaticAttributeHelpTextModalComponent } from './static-attribute-help-t
     CommonModule,
     OpenprojectAttachmentsModule,
     IconModule,
+    OpTooltipDirective,
   ],
   declarations: [
     AttributeHelpTextComponent,
