@@ -1,13 +1,13 @@
 ---
 sidebar_navigation:
-  title: Keyboard Shortcuts and Access Keys
+  title: Keyboard shortcuts and access keys
   priority: 450
-description: Keyboard Shortcuts and Access Keys in OpenProject.
+description: Keyboard shortcuts and access keys in OpenProject.
 keywords: keyboard shortcuts and access keys
 ---
-# Keyboard Shortcuts and Access Keys
+# Keyboard shortcuts and access keys
 
-OpenProject (since version 3.0) offers useful keyboard shortcuts to  enhance your productivity. We use both access keys and regular  shortcuts. When using access keys, press the modifier keys and the  access key number. For the regular shortcuts just type the listed keys  on any OpenProject page.
+OpenProject offers useful keyboard shortcuts to enhance your productivity. We use both access keys and regular shortcuts. When using access keys, press the modifier keys and the access key number. For the regular shortcuts just type the listed keys on any OpenProject page.
 
 > [!TIP]
 > You can turn keyboard shortcuts off: open the user menu, navigate to **Account settings** → **Interface** and select **Disable keyboard shortcuts** (see [Disable keyboard shortcuts](../account-settings/interface/#disable-keyboard-shortcuts)). Access keys keep working.
@@ -35,13 +35,14 @@ OpenProject (since version 3.0) offers useful keyboard shortcuts to  enhance you
 
 A shortcut does nothing when its target is not on the page, for example when the module is disabled in the project and its page is missing from the menu.
 
-On narrow screens, open the search with its button before using <kbd>s</kbd> or access key <kbd>4</kbd>.
+On narrow screens:
 
-On narrow screens, Firefox does not react to access key <kbd>3</kbd> on pages whose header has only an Edit action; use <kbd>g</kbd> <kbd>e</kbd> there.
+- Open the search with its button before using <kbd>s</kbd> or access key <kbd>4</kbd>.
+- Firefox does not react to access key <kbd>3</kbd> on pages whose header has only an Edit action. Use <kbd>g</kbd> <kbd>e</kbd> there.
 
 ------
 
-## Modifier Keys
+## Modifier keys
 
 ### Windows
 
@@ -65,7 +66,7 @@ On narrow screens, Firefox does not react to access key <kbd>3</kbd> on pages wh
 
 ------
 
-## Save text in rich editor
+## Save text in the rich text editor
 
 To quickly save changes in a rich text editor (for example a work package description or a comment) you can use this shortcut.
 
@@ -73,7 +74,7 @@ To quickly save changes in a rich text editor (for example a work package descri
 | -------------------------- | -------------- | ------------------------------------------------------------ |
 | <kbd>Ctrl</kbd> + <kbd>Enter</kbd> | <kbd>Cmd</kbd> + <kbd>Enter</kbd> | **Save changes.**<br>For inline-editable fields, save the field and close it.<br>For pages with a full WYSIWYG (meetings, wiki pages), submit the form. |
 
-Please also refer to documentation  on [working in Rich text editor in OpenProject](../wysiwyg).
+Please also refer to the documentation on [working in the rich text editor in OpenProject](../wysiwyg).
 
 ## Clear a work package selection
 
@@ -82,3 +83,19 @@ Please also refer to documentation  on [working in Rich text editor in OpenProje
 | Shortcut (Windows / Linux) | Shortcut (Mac) | Action                                             |
 | -------------------------- | -------------- | -------------------------------------------------- |
 | <kbd>Esc</kbd> | <kbd>Esc</kbd> | **Clear the selection** in every table and card view on the page. |
+
+## Navigate work package tables
+
+The work package table can be used entirely with the keyboard. It has a single position in the page's tab order: press <kbd>Tab</kbd> to move into the table and use the arrow keys to move between cells and rows. Press <kbd>Tab</kbd> again to leave the table.
+
+| Shortcut (Windows / Linux) | Shortcut (Mac) | Action |
+| -------------------------- | -------------- | ------ |
+| Arrow keys | Arrow keys | **Move** between cells and rows. |
+| <kbd>Space</kbd> | <kbd>Space</kbd> | **Select or deselect** the focused work package. |
+| <kbd>Shift</kbd> + <kbd>↑</kbd> / <kbd>↓</kbd> | <kbd>Shift</kbd> + <kbd>↑</kbd> / <kbd>↓</kbd> | **Extend the selection** to the previous or next work package. |
+| <kbd>Ctrl</kbd> + <kbd>A</kbd> | <kbd>Cmd</kbd> + <kbd>A</kbd> | **Select all** work packages. |
+| <kbd>Shift</kbd> + <kbd>F10</kbd> or <kbd>Menu</kbd> | <kbd>Shift</kbd> + <kbd>F10</kbd> | **Open the context menu** of the focused work package. When it closes, the focus returns to the cell. |
+| <kbd>Enter</kbd> or <kbd>F2</kbd> | <kbd>Enter</kbd> or <kbd>F2</kbd> | **Open an editable cell.** |
+| <kbd>Esc</kbd> | <kbd>Esc</kbd> | **Close** an open menu or editor. If nothing is open, clear the selection. |
+
+To change the manual sort order without drag and drop, use the move actions in the context menu of a work package.
