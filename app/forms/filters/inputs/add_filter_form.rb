@@ -28,10 +28,11 @@
 #++
 
 class Filters::Inputs::AddFilterForm < ApplicationForm
-  def initialize(allowed_filters:, active_filter_names:)
+  def initialize(allowed_filters:, active_filter_names:, rows_path: nil)
     super()
     @allowed_filters = allowed_filters
     @active_filter_names = active_filter_names
+    @rows_path = rows_path
   end
 
   form do |form|
@@ -42,7 +43,8 @@ class Filters::Inputs::AddFilterForm < ApplicationForm
       prompt: I18n.t(:actionview_instancetag_blank_option),
       data: {
         "filter--filters-form-target": "addFilterSelect",
-        action: "change->filter--filters-form#addFilter:prevent"
+        action: "change->filter--filters-form#addFilter:prevent",
+        "rows-url": @rows_path
       }
     ) do |select|
       @allowed_filters.each do |filter|

@@ -963,6 +963,7 @@ sv:
         edit: Massredigering
         move: Massändring av projekt
       button_clear: Rensa
+      button_edit_subject: Edit subject
       comment_added: Kommentaren lades till.
       comment_send_failed: Ett fel har inträffat. Kommentaren kunde inte läggas till.
       comment_updated: Kommentaren har uppdaterats.

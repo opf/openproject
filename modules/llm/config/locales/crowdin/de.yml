@@ -21,12 +21,12 @@ de:
         semantic_index: Semantischer Index
       llm_model:
         admin_context_window: Kontextfenster
-        capability_function_calling: Tool calling
+        capability_function_calling: Tool-Aufrufe
         capability_reasoning: Reasoning
         capability_structured_output: Strukturierte Ausgabe
         capability_vision: Vision
         display_name: Anzeigename
-        manual: Entered by hand
+        manual: Manuell eingegeben
         raw_metadata: Metadaten
         external: Modellname
       semantic_index:
@@ -77,8 +77,8 @@ de:
         llm_model:
           attributes:
             base:
-              configured_from_env: The environment configures this model as a default, so it cannot be removed or renamed here.
-              discovered: Only models entered by hand can be removed. The LLM server manages the models it reports.
+              configured_from_env: Die Umgebung konfiguriert dieses Modell als Standard, daher kann es hier nicht entfernt oder umbenannt werden.
+              discovered: Es können nur manuell eingegebene Modelle entfernt werden. Der LLM-Server verwaltet die von ihm gemeldeten Modelle.
             external_id:
               conflicting_capabilities: hat gespeicherte Fähigkeitsangaben, die im Widerspruch zu denen dieses Modells stehen.
         semantic_index:
@@ -146,7 +146,7 @@ de:
         not_indexing: Dieser semantische Index wird gerade nicht indiziert.
         stopped: Die Indizierung von „%{title}“ wurde gestoppt.
     llm_connections:
-      header_description: Connect OpenProject to an LLM server and review the models it offers.
+      header_description: Verbinden Sie OpenProject mit einem LLM-Server und überprüfen Sie die angebotenen Modelle.
       delete_api_key:
         configured_from_env: Diese Verbindung wird über die Umgebung konfiguriert und kann hier nicht geändert werden.
         description: OpenProject sendet bei seinen Anfragen keinen API-Schlüssel mehr. Die Funktionen arbeiten nur weiter, wenn der Server keine Authentifizierung erfordert. Sie können jederzeit einen neuen Schlüssel eingeben.
@@ -304,8 +304,8 @@ de:
       server: vom Server gemeldet
     features:
       description_assistant:
-        caption: Runs the text actions users apply to work package descriptions, such as proofreading, rewriting and structuring.
-        caption_with_link: Runs the [text actions](text_actions_url) users apply to work package descriptions, such as proofreading, rewriting and structuring.
+        caption: Führt die Textaktionen aus, die Benutzer auf Arbeitspaket-Beschreibungen anwenden, wie zum Beispiel Korrekturlesen, Umschreiben und Strukturieren.
+        caption_with_link: Führt die [Textaktionen](text_actions_url) aus, die Benutzer auf Arbeitspaketbeschreibungen anwenden, wie beispielsweise Korrekturlesen, Überarbeiten und Strukturieren.
         label: Textassistent
       semantic_search:
         caption: Indiziert Arbeitspakete, damit sie nach ihrer Bedeutung statt nach Schlüsselwörtern gefunden werden können.

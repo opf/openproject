@@ -81,6 +81,27 @@ describe('Inline work package attribute', () => {
     expect(height('.op-bn-wp-attribute')).toBeCloseTo(height('.op-bn-inline-wp-base'), 0);
   });
 
+  it('shows a date in the date format of the user', async () => {
+    renderAttribute('startDate', 'value');
+
+    await vi.waitFor(() => expect(chip().textContent).toBe('14.09.2026'));
+  });
+
+  it('shows a date time in the formats and time zone of the user', async () => {
+    renderAttribute('createdAt', 'value');
+
+    await vi.waitFor(() => expect(chip().textContent).toBe('01.09.2026 22:30'));
+  });
+
+  it('asks for the date settings of the user only for dates', async () => {
+    const asked = await requestsDuring('/api/v3/configuration', async () => {
+      renderAttribute('status', 'value');
+      await vi.waitFor(() => expect(chip().textContent).toBe('In progress'));
+    });
+
+    expect(asked).toEqual([]);
+  });
+
   it('shows the label of the attribute', async () => {
     renderAttribute('status', 'label');
 

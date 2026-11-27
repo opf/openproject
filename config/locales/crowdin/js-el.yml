@@ -963,6 +963,7 @@ el:
         edit: Μαζική επεξεργασία
         move: Μαζική αλλαγή του έργου
       button_clear: Εκκαθάριση
+      button_edit_subject: Edit subject
       comment_added: Το σχόλιο προστέθηκε με επιτυχία.
       comment_send_failed: Παρουσιάστηκε ένα σφάλμα. Δεν ήταν δυνατή η υποβολή του σχολίου.
       comment_updated: Το σχόλιο ενημερώθηκε με επιτυχία.

@@ -957,6 +957,7 @@ vi:
         edit: Chỉnh sửa hàng loạt
         move: Thay đổi hàng loạt dự án
       button_clear: Xóa
+      button_edit_subject: Edit subject
       comment_added: Bình luận được thêm thành công.
       comment_send_failed: Lỗi đã xảy ra. Không thể gửi bình luận.
       comment_updated: Các bình luận đã được cập nhật thành công.

@@ -24,7 +24,7 @@ Under the **Branding** tab you can also [upload a custom desktop and/or mobile l
 
 ![Branding settings in OpenProject administration](openproject_system_guide_design_branding.png)
 
-Under **Default colors** you can configure a set of predefined colors which you can use e.g. to [set colors for work package types](../manage-work-packages/work-package-types) or for attribute highlighting, e.g. for [status](../manage-work-packages/work-package-statuses/).
+Under **Default colors** you can configure a set of predefined colors which you can use e.g. to [set colors for work package types](../manage-work-packages/work-package-types) or for attribute highlighting, e.g. for [status](../manage-work-packages/work-package-statuses/). You can click on each color to display its contrast preview against different backgrounds.
 
 ![Default colors settings in OpenProject administration](openproject_system_guide_design_default_colors.png)
 
@@ -90,19 +90,17 @@ Depending on which custom logos are uploaded, OpenProject will adjust the displa
 
 ## Set a custom favicon
 
-To set a custom favicon to be shown in your browser’s tab, make sure you have a PNG file with the dimensions 32 by 32 pixels. Select the _Choose File_ button and select the file from your hard drive to upload it.
+To set a custom favicon to be shown in your browser’s tab, make sure you have a PNG file with the dimensions 32 by 32 pixels. Click the Favicon upload area, and select the file from your hard drive to upload it.
 
-Then click the _Upload_ button to confirm and upload your favicon.
+Your Favicon is automatically displayed.
 
 ![Custom favicon in OpenProject design settings](openproject_system_guide_design_custom_favicon.png)
 
 ## Set a custom touch icon
 
-To set a custom touch icon that appears on your smartphone’s or tablet’s homescreen when you bookmark a page, make sure you have a PNG file with the dimensions 180 by 180 pixels. Select the _Choose File_ button and select the file from your hard drive to upload it.
+To set a custom touch icon that appears on your smartphone’s or tablet’s homescreen when you bookmark a page, make sure you have a PNG file with the dimensions 180 by 180 pixels. Click the **Touch icon** upload area and select the file from your hard drive to upload it.
 
-Click the _Upload_ button to confirm and upload your custom touch icon.
-
-When you bookmark your OpenProject environment’s URL, you will see that the uploaded icon is used as a custom touch icon.
+When you bookmark your OpenProject environment’s URL, you will see that the uploaded icon is used as a custom Touch icon.
 
 ## Set a new color
 
@@ -110,7 +108,13 @@ To add a new color to the default colors, click the green **+ Add** button at th
 
 ![Add button for new color in OpenProject design settings](openproject_system_guide_design_add_color_button.png)
 
-Add a  name for your new color, enter the hexcode and click the **Save** button.
+Enter a name and a valid Hex code, or select a color using the color picker. The contrast preview updates automatically and shows **foreground** and **background** usage in the standard **light** and **dark** themes. It appears beside the inputs on wide screens and below them on narrow screens.
+
+Each preview shows its contrast ratio. A green Pass means the combination meets the WCAG AA minimum of 4.5:1 for normal text. A red Fail means it falls below this threshold. Adjust the Hex code as needed, then click **Save**.
+
+> [!NOTE]
+>
+> A display of the Fail icon does not prevent the user from saving the new color.
 
 ![Add and save new color in OpenProject design settings](openproject_system_guide_design_add_new_color.png)
 

@@ -9,7 +9,7 @@ import { openEditorAndType, openWorkPackageAttributeDialog, SEARCH_PLACEHOLDER }
 import { worker } from '../../../mocks/browser';
 import { requestedWorkPackageIds } from '../../../mocks/handlers';
 import { mockAttributeWorkPackage, mockMilestoneWorkPackage } from '../../../mocks/workPackageAttributes';
-import { loadServerErrorWorkPackages } from '../../../helpers/requestHelpers';
+import { loadServerErrorWorkPackages, requestsDuring } from '../../../helpers/requestHelpers';
 import { recordFrames, untilStill } from '../../../helpers/animationHelpers';
 
 interface InlineNode { type:string, props?:Record<string, unknown> }
@@ -240,6 +240,20 @@ describe('Insert work package attribute', () => {
       { wpid: '321', displayId: 'PROJ-321', attribute: 'status', display: 'both' },
     ]);
     await expect.element(page.getByRole('button', { name: 'Status: In progress' })).toBeVisible();
+  });
+
+  it('previews a date in the date format of the user, asking for it only for dates', async () => {
+    const asked = await requestsDuring('/api/v3/configuration', async () => {
+      await openWorkPackageAttributeDialog();
+      await pickWorkPackage('Redesign', 'Redesign onboarding flow');
+      await pickAttribute('Status');
+      await expect.element(preview()).toHaveTextContent('In progress');
+    });
+    expect(asked).toEqual([]);
+
+    await pickAttribute('Start date');
+
+    await expect.element(preview()).toHaveTextContent('14.09.2026');
   });
 
   it('references a custom field by its name', async () => {

@@ -963,6 +963,7 @@ tr:
         edit: Toplu düzenle
         move: Projenin toplu değişimi
       button_clear: Temizle
+      button_edit_subject: Edit subject
       comment_added: Yorum başarıyla eklendi.
       comment_send_failed: Bir hata oluştu. Yorum gönderilemedi.
       comment_updated: Yorum başarıyla güncelleştirildi.

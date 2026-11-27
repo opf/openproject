@@ -188,7 +188,7 @@ Currently, OpenProject supports the following mapped attribute:
 
 | Purpose | Description |
 | --- | --- |
-| **Job title** | Displays each user's job title next to their name in several places, such as user cards. |
+| **Job title** | Displays each user's job title next to their name in several places, such as user hover cards and user cards. |
 
 To map a user attribute:
 

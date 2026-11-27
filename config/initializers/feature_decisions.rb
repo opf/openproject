@@ -54,7 +54,8 @@ OpenProject::FeatureDecisions.add :sprint_reports,
                                   force_active: true
 
 OpenProject::FeatureDecisions.add :ai_text_actions,
-                                  description: "Enables the admin UI to manage AI text actions."
+                                  description: "Enables the admin UI to manage AI text actions.",
+                                  force_active: true
 
 OpenProject::FeatureDecisions.add :project_settings_estimation_unit,
                                   description: "Enables project settings for the unit of velocity, effort and capacity. " \

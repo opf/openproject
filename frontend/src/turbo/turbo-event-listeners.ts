@@ -32,7 +32,8 @@ export function addTurboEventListeners(doc:Document = document, signal?:AbortSig
   // Close the primer dialog when the form inside has been submitted with a success response.
   //
   // If you want to keep the dialog open even after a successful form submission, you can add the
-  // `data-keep-open-on-submit="true"` attribute to the dialog element.
+  // `data-keep-open-on-submit="true"` attribute to the dialog element, or to an element inside the
+  // dialog that contains the form.
   //
   // It is necessary to close the primer dialog using the `close()` method, otherwise
   // it will leave an overflow:hidden attribute on the body, which prevents scrolling on the page.
@@ -45,7 +46,8 @@ export function addTurboEventListeners(doc:Document = document, signal?:AbortSig
       const dialog = target.closest('dialog')!;
 
       if (dialog) {
-        if (dialog.dataset.keepOpenOnSubmit !== 'true') {
+        const keepOpen = target.closest<HTMLElement>('[data-keep-open-on-submit="true"]');
+        if (!keepOpen || !dialog.contains(keepOpen)) {
           dialog.close('close-event-already-dispatched');
           doc.dispatchEvent(new CustomEvent<DialogCloseDetail>('dialog:close', { detail: { dialog, submitted: true } }));
         }

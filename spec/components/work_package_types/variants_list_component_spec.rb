@@ -120,7 +120,7 @@ RSpec.describe WorkPackageTypes::VariantsListComponent, type: :component do
     it "loads each variant's action menu, telling it to come back to this tab" do
       [alfa, zeta].each do |variant|
         src = menu_type_variant_path(type_id: type.id, id: variant.id,
-                                     back_url: type_variants_path(type_id: type.id))
+                                     list_context: WorkPackageTypes::VariantsListComponent::LIST_CONTEXT)
 
         expect(rendered_component).to have_css("[src='#{src}']", visible: :all)
       end

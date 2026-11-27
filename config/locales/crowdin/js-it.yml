@@ -963,6 +963,7 @@ it:
         edit: Modifica di massa
         move: Modifica complessiva del progetto
       button_clear: Pulisci
+      button_edit_subject: Edit subject
       comment_added: Il commento è stato aggiunto con successo.
       comment_send_failed: Si è verificato un errore. Impossibile inviare il commento.
       comment_updated: Il commento è stato aggiornato correttamente.

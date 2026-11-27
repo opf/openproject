@@ -987,6 +987,7 @@ ar:
         edit: Bulk edit
         move: Bulk change of project
       button_clear: إزالة
+      button_edit_subject: Edit subject
       comment_added: التعليق أضيف بنجاح.
       comment_send_failed: حدث خطأ ما. لاتستطيع تأكيد التعليق.
       comment_updated: التعليق عدل بنجاح.

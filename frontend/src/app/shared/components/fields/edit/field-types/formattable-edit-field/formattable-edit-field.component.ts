@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-field.component';
 import { OpCkeditorComponent } from 'core-app/shared/components/editor/components/ckeditor/op-ckeditor.component';
 import {
@@ -33,6 +33,7 @@ import {
   ICKEditorInstance,
 } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { AiActionsService } from 'core-app/core/ai-actions/ai-actions.service';
 
 @Component({
   templateUrl: './formattable-edit-field.component.html',
@@ -68,6 +69,10 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
     ...(this.resource.getEditorContext(this.field.name) as Partial<ICKEditorContext>),
   } as ICKEditorContext;
 
+  private aiActions = inject(AiActionsService);
+
+  private aiActionsContextKey = this.aiActions.contextKey(this.change.pristineResource, this.field.name);
+
   ngOnInit():void {
     super.ngOnInit();
 
@@ -92,6 +97,8 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
   }
 
   public onCkeditorSetup(editor:ICKEditorInstance):void {
+    this.syncAiActionsContext();
+
     if (!isNewResource(this.resource)) {
       setTimeout(() => editor.editing.view.focus());
     }
@@ -155,6 +162,21 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
     if (isNewResource(this.resource) && this.editor) {
       // Reset CKEditor when reloading after type/form changes
       this.reset();
+    }
+
+    this.syncAiActionsContext();
+  }
+
+  // The editor keeps the pristine resource, while the project and type chosen in a form live in the changeset.
+  // The plugin gets a snapshot, as the projected resource changes before the actions of a new context are loaded.
+  // https://community.openproject.org/wp/AA-245
+  private syncAiActionsContext():void {
+    const editor = this.editor?.ckEditorInstance;
+    const key = this.aiActions.contextKey(this.resource, this.name);
+
+    if (editor && key !== this.aiActionsContextKey) {
+      this.aiActionsContextKey = key;
+      editor.fire('op:ai-actions:context-changed', { resource: this.aiActions.contextSnapshot(this.resource) });
     }
   }
 }

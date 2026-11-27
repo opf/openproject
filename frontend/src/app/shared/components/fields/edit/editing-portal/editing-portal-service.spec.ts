@@ -80,6 +80,25 @@ describe('EditingPortalService error state', () => {
     const input = harness.row('1').querySelector('input.inline-edit--field');
     expect(input).toHaveAttribute('aria-invalid', 'true');
   });
+
+  it('releases the editor view when the editor fails after it is ready', async () => {
+    const attach = vi.spyOn(DomPortalOutlet.prototype, 'attachComponentPortal');
+    const detach = vi.spyOn(DomPortalOutlet.prototype, 'detach');
+    const failure = new Error('error state failed');
+    vi.spyOn(HalResourceEditFieldHandler.prototype, 'syncErrorState').mockImplementation(() => {
+      if (attach.mock.calls.length > 0) throw failure;
+    });
+    const notices = vi.spyOn(harness.injector.get(HalResourceNotificationService), 'handleRawError').mockImplementation(() => undefined);
+    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+
+    await form.activate('subject');
+
+    expect(notices).toHaveBeenCalledWith(failure);
+    expect(form.activeFields.subject).toBeUndefined();
+    expect(attach).toHaveBeenCalledOnce();
+    expect(detach).toHaveBeenCalledOnce();
+    expect((attach.mock.results[0].value as ComponentRef<EditFormPortalComponent>).hostView.destroyed).toBe(true);
+  });
 });
 
 describe('EditingPortalService table ownership', () => {

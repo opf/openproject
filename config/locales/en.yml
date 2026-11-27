@@ -2010,9 +2010,11 @@ en:
     labels:
       delete_dialog_component:
         confirmation: "I understand that this action is not reversible"
-        description_html: "This will remove the label <strong>%{name}</strong> from all work packages in all projects."
         heading: "Delete this label?"
         title: "Delete this label?"
+        usage_description_html:
+          one: "This will remove the label <strong>%{name}</strong> from %{count} work package that currently uses it. Are you sure you want to delete it?"
+          other: "This will remove the label <strong>%{name}</strong> from %{count} work packages that currently use it. Are you sure you want to delete it?"
       dialog_component:
         create_title: "Create label"
         rename_title: 'Rename "%{name}"'
@@ -7154,7 +7156,7 @@ en:
         Click to assign or change the color of this status.
         It is shown in the status button and can be used for highlighting work packages in the table.
       status_default_text: |-
-        New work packages are by default set to this type. They cannot be read-only.
+        New work packages are by default set to this status. They cannot be read-only.
       status_excluded_from_totals_text: |-
         Check this option to exclude work packages with this status from totals of Work,
         Remaining work, and % Complete in a hierarchy.

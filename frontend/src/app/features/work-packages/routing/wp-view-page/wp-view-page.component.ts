@@ -66,6 +66,7 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
   toolbarButtonComponents:ToolbarButtonComponentDefinition[] = [
     {
       component: WorkPackageCreateButtonComponent,
+      inputs: { listShortcuts: true },
     },
     {
       component: OpProjectIncludeComponent,
@@ -95,6 +96,7 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
     },
     {
       component: WorkPackageSettingsButtonComponent,
+      inputs: { listShortcuts: true },
     },
   ];
 

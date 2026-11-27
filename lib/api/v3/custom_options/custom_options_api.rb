@@ -60,11 +60,12 @@ module API
               end
 
               def authorized_work_package_option(custom_option)
-                allowed = WorkPackageCustomField
-                  .on_visible_type_and_project(
-                    current_user, projects: Project.with_visible_work_packages(current_user)
-                  )
-                  .exists?(id: custom_option.custom_field_id)
+                allowed = (current_user.admin? || !custom_option.custom_field.admin_only?) &&
+                  WorkPackageCustomField
+                    .on_visible_type_and_project(
+                      current_user, projects: Project.with_visible_work_packages(current_user)
+                    )
+                    .exists?(id: custom_option.custom_field_id)
 
                 if !allowed || hidden_value?(custom_option, visible_value_ids(custom_option.custom_field))
                   raise API::Errors::NotFound
@@ -72,10 +73,9 @@ module API
               end
 
               def authorized_project_custom_option(custom_option)
-                unless Project
+                unless ProjectCustomField
                   .visible(current_user)
-                  .joins(:project_custom_field_project_mappings)
-                  .exists?(project_custom_field_project_mappings: { custom_field_id: custom_option.custom_field_id })
+                  .exists?(id: custom_option.custom_field_id)
                   raise API::Errors::NotFound
                 end
               end

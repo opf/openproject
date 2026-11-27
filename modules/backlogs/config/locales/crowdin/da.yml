@@ -229,11 +229,11 @@ da:
         title: Rapport for %{sprint}
       report_unavailable_blankslate_component:
         missing_dates:
-          description: Sprint start and finish dates are necessary for the report to show.
-          heading: Missing sprint dates
+          description: Sprinten skal have en start- og slutdato, før rapporten kan vises.
+          heading: Sprintens datoer mangler
         planned_dates_in_past:
-          description: The sprint was planned, but it was never executed. Change the planned start and finish dates to a future time in order to see the sprint report.
-          heading: Planned sprint dates are in the past
+          description: Sprinten blev planlagt, men aldrig gennemført. Flyt den planlagte start- og slutdato frem i tiden for at se sprintrapporten.
+          heading: Sprintens planlagte datoer ligger i fortiden
       widgets:
         burndown_chart:
           blankslate:

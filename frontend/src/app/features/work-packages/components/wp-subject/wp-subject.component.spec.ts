@@ -45,8 +45,13 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
+import type { Mock } from 'vitest';
 
 describe('WorkPackageSubjectComponent', () => {
+  let activate:Mock<(fieldName:string) => Promise<void>>;
+  let activeFields:Record<string, EditFieldHandler>;
+
   beforeEach(async () => {
     const schemaStub = {
       ofProperty: () => ({ type: 'String' }),
@@ -54,6 +59,14 @@ describe('WorkPackageSubjectComponent', () => {
     };
 
     const registeredFields:Record<string, EditableAttributeFieldComponent> = {};
+    activeFields = {};
+    activate = vi.fn((fieldName:string) => {
+      const input = document.createElement('input');
+      input.type = 'text';
+      registeredFields[fieldName].editContainer.nativeElement.replaceChildren(input);
+      activeFields[fieldName] = { focus: () => input.focus() } as EditFieldHandler;
+      return Promise.resolve();
+    });
 
     await TestBed.configureTestingModule({
       imports: [CommonModule],
@@ -69,10 +82,8 @@ describe('WorkPackageSubjectComponent', () => {
           provide: EditFormComponent,
           useValue: {
             register: (field:EditableAttributeFieldComponent) => { registeredFields[field.fieldName] = field; },
-            activate: (fieldName:string) => {
-              registeredFields[fieldName].editContainer.nativeElement.innerHTML = '<input type="text">';
-              return Promise.resolve();
-            },
+            activate,
+            activeFields,
           },
         },
         {
@@ -106,9 +117,24 @@ describe('WorkPackageSubjectComponent', () => {
     const subject = 'Add some angular tests for wp-subject';
     render({ subject });
 
-    fireEvent.click(screen.getByRole('button', { name: `subject ${subject}`}));
+    fireEvent.click(screen.getByRole('button', { name: subject }));
     await screen.findByRole('textbox');
 
     expect(screen.getByRole('heading', { level: 2, name: subject })).toBeInTheDocument();
+  });
+
+  it('focuses the open subject editor when the edit access key is used again', async () => {
+    render();
+
+    const editSubject = screen.getByRole('button', { name: 'js.work_packages.button_edit_subject' });
+    fireEvent.click(editSubject);
+    const input = await screen.findByRole('textbox');
+    input.blur();
+
+    fireEvent.click(editSubject);
+
+    expect(activate).toHaveBeenCalledOnce();
+    expect(screen.getByRole('textbox')).toBe(input);
+    expect(input).toHaveFocus();
   });
 });

@@ -77,6 +77,28 @@ describe('addTurboEventListeners — dialog close on turbo:submit-end', () => {
     expect(onClose).not.toHaveBeenCalled();
   });
 
+  it('keeps the dialog open when an element inside it around the form sets data-keep-open-on-submit', () => {
+    document.body.innerHTML = '<dialog><div data-keep-open-on-submit="true"><form></form></div></dialog>';
+    const dialog = document.querySelector('dialog')!;
+    const form = document.querySelector('form')!;
+    dialog.showModal();
+
+    submitEnd(form, true);
+
+    expect(dialog.open).toBe(true);
+  });
+
+  it('closes the dialog when only an element outside it sets data-keep-open-on-submit', () => {
+    document.body.innerHTML = '<div data-keep-open-on-submit="true"><dialog><form></form></dialog></div>';
+    const dialog = document.querySelector('dialog')!;
+    const form = document.querySelector('form')!;
+    dialog.showModal();
+
+    submitEnd(form, true);
+
+    expect(dialog.open).toBe(false);
+  });
+
   it('does nothing when the submit was not successful', () => {
     document.body.innerHTML = '<dialog><form></form></dialog>';
     const dialog = document.querySelector('dialog')!;
