@@ -32,6 +32,7 @@ import {
   ProviderAuthErrorKind,
 } from 'core-stimulus/services/documents/token-refresh.service';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import * as Y from 'yjs';
 
 /**
  * Calls `onTimeout` if the provider has not synced within `timeoutMs`.
@@ -99,15 +100,15 @@ function useCollaborationProvider(
 }
 
 /**
- * Listens for PROVIDER_AUTH_ERROR_EVENT on the document and calls `onAuthError` when it fires.
+ * Listens for PROVIDER_AUTH_ERROR_EVENT on the document and calls `onAuthError` with the error kind.
  * The event is dispatched when authentication fails on the Hocuspocus WebSocket connection.
  */
-function useProviderAuthError(onAuthError:() => void) {
+function useProviderAuthError(onAuthError:(kind:ProviderAuthErrorKind) => void) {
   useEffect(() => {
     const handler = (event:Event) => {
       const { kind, message } = (event as CustomEvent<{ kind:ProviderAuthErrorKind; message:string }>).detail;
       debugLog(`(BlockNote Editor) Provider auth error: ${kind} - ${message}`);
-      onAuthError();
+      onAuthError(kind);
     };
 
     document.addEventListener(PROVIDER_AUTH_ERROR_EVENT, handler);
@@ -115,27 +116,35 @@ function useProviderAuthError(onAuthError:() => void) {
   }, [onAuthError]);
 }
 
+/** A fresh Y.Doc encodes to a single byte; anything more is content from the local cache or an earlier sync. */
+function hasVerifiedContent(provider:HocuspocusProvider) {
+  return provider.synced || Y.encodeStateVector(provider.document).byteLength > 1;
+}
+
 /**
  * Tracks the real-time connection state of a HocuspocusProvider and
  * exposes it as React state for the BlockNote editor.
  *
  * Returns:
- * - `isLoading`   — true while waiting for the first sync after mount.
- * - `offlineMode` — true when the connection is lost or timed out; the editor
- *                   is hidden entirely (blocking) because there is no local
- *                   cache to edit from.
+ * - `isLoading`       - true until the editor may be mounted or blocked.
+ * - `offlineMode`     - true when the connection is lost, timed out or rejected.
+ * - `blockingOffline` - true when offline and the content cannot be trusted
+ *                       (never synced and not cached, or access was denied).
+ *                       The editor must not be rendered. Otherwise offline
+ *                       is soft: the editor stays usable.
  *
- * Transitions:
- *   mount → synced              : isLoading false, offlineMode false
- *   mount → timeout (5s)        : isLoading false, offlineMode true
- *   connected → disconnect      : offlineMode true  (after 5s grace period)
- *   offline → re-synced         : offlineMode false
- *   any → auth error            : isLoading false, offlineMode true
+ * The editor is never mounted on unverified content: loading only ends on
+ * a disconnect when the content is verified.
  */
 function useCollaboration(provider:HocuspocusProvider) {
   const [isLoading, setIsLoading] = useState(true);
   const [offlineMode, setOfflineMode] = useState(false);
+  const [accessDenied, setAccessDenied] = useState(false);
   const disconnectTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const verifiedRef = useRef<boolean | null>(null);
+  const accessDeniedRef = useRef(false);
+
+  verifiedRef.current ??= hasVerifiedContent(provider);
 
   const clearDisconnectTimer = useCallback(() => {
     if (disconnectTimerRef.current !== null) {
@@ -145,22 +154,32 @@ function useCollaboration(provider:HocuspocusProvider) {
   }, []);
 
   const handleSynced = useCallback(() => {
+    if (accessDeniedRef.current) {
+      return;
+    }
+
     debugLog('(BlockNote Editor) synced with collaboration server');
+    verifiedRef.current = true;
     clearDisconnectTimer();
     setIsLoading(false);
     setOfflineMode(false);
   }, [clearDisconnectTimer]);
 
   const handleDisconnect = useCallback(() => {
-    debugLog('(BlockNote Editor) Disconnected — starting grace period');
-    setIsLoading(false);
+    debugLog('(BlockNote Editor) Disconnected - starting grace period');
+
+    if (verifiedRef.current) {
+      setIsLoading(false);
+    }
+
     // Don't go offline immediately. Start a grace timer so that transient
     // reconnections (idle heartbeat, token-expiry reconnect) never surface
     // to the user. If synced fires within the window the timer is cancelled.
     disconnectTimerRef.current ??= setTimeout(() => {
       disconnectTimerRef.current = null;
-      debugLog('(BlockNote Editor) Grace period expired — offline mode');
+      debugLog('(BlockNote Editor) Grace period expired - offline mode');
       setOfflineMode(true);
+      setIsLoading(false);
     }, 5_000);
   }, []);
 
@@ -170,8 +189,12 @@ function useCollaboration(provider:HocuspocusProvider) {
     setOfflineMode(true);
   }, []);
 
-  const handleAuthError = useCallback(() => {
-    // Auth errors are permanent — bypass the grace period.
+  const handleAuthError = useCallback((kind:ProviderAuthErrorKind) => {
+    if (kind === 'access_denied') {
+      accessDeniedRef.current = true;
+      setAccessDenied(true);
+    }
+
     clearDisconnectTimer();
     setOfflineMode(true);
     setIsLoading(false);
@@ -184,7 +207,9 @@ function useCollaboration(provider:HocuspocusProvider) {
   useCollaborationProvider(provider, handleSynced, handleDisconnect);
   useProviderAuthError(handleAuthError);
 
-  return { isLoading, offlineMode } as const;
+  const blockingOffline = offlineMode && (!verifiedRef.current || accessDenied);
+
+  return { isLoading, offlineMode, blockingOffline } as const;
 }
 
 export { useCollaboration };

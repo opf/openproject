@@ -32,6 +32,7 @@ module Documents
     before_action :find_project_by_project_id
     before_action :find_document
     before_action :authorize
+    before_action :reject_stale_page_user
 
     def create
       token_result = Documents::OAuth::TokenWithMetadataService.new(
@@ -47,6 +48,12 @@ module Documents
     end
 
     private
+
+    def reject_stale_page_user
+      return if params[:user_id].blank?
+
+      head :unauthorized unless params[:user_id].to_s == current_user.id.to_s
+    end
 
     def find_document
       @document = Document.where(project_id: @project.id).find(params[:document_id])

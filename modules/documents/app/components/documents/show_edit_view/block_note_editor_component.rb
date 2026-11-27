@@ -39,7 +39,7 @@ module Documents
       private
 
       def refresh_token_url
-        project_document_refresh_token_path(project, document)
+        project_document_refresh_token_path(project, document, user_id: User.current.id)
       end
     end
   end
