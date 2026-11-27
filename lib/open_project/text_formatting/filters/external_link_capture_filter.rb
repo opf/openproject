@@ -29,28 +29,26 @@
 
 module OpenProject::TextFormatting
   module Filters
-    class ExternalLinkCaptureFilter < HTML::Pipeline::Filter
+    class ExternalLinkCaptureFilter < ElementFilter
       include OpenProject::StaticRouting::UrlHelpers
 
-      def call
-        return doc unless applicable?
-
-        doc.css("a[href]").each do |node|
-          url = node["href"]
-          next if internal_link?(url)
-
-          node["href"] = external_redirect(url:)
-          node["target"] = "_blank"
-        end
-
-        doc
-      end
+      match_elements "a[href]"
 
       def applicable?
-        Setting.capture_external_links? && EnterpriseToken.allows_to?(:capture_external_links)
+        return @applicable if defined?(@applicable)
+
+        @applicable = Setting.capture_external_links? && EnterpriseToken.allows_to?(:capture_external_links)
       end
 
       private
+
+      def process(node)
+        url = node["href"]
+        return if internal_link?(url)
+
+        node["href"] = external_redirect(url:)
+        node["target"] = "_blank"
+      end
 
       def external_redirect(url:)
         url_helpers.external_redirect_url(url:)

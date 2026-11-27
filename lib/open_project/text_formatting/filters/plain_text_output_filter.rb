@@ -31,7 +31,7 @@ module OpenProject::TextFormatting
   module Filters
     # Terminal stage when the rich pipeline is rendering for `text/plain`
     # bodies — collapses the DOM to its visible text so no HTML escapes.
-    class PlainTextOutputFilter < HTML::Pipeline::Filter
+    class PlainTextOutputFilter < DomFilter
       def call
         doc.text
       end

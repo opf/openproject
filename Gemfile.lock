@@ -741,9 +741,9 @@ GEM
       logger
     highline (3.1.2)
       reline
-    html-pipeline (2.14.3)
-      activesupport (>= 2)
-      nokogiri (>= 1.4)
+    html-pipeline (3.2.4)
+      selma (~> 0.4)
+      zeitwerk (~> 2.5)
     htmlbeautifier (1.4.3)
     htmldiff (0.0.1)
     htmlentities (4.4.2)
@@ -1398,6 +1398,14 @@ GEM
       logger (~> 1.4)
       rubyzip (>= 1.2.2, < 4.0)
       websocket (~> 1.0)
+    selma (0.5.4-aarch64-linux)
+    selma (0.5.4-aarch64-linux-musl)
+    selma (0.5.4-arm-linux-gnu)
+    selma (0.5.4-arm-linux-musl)
+    selma (0.5.4-arm64-darwin)
+    selma (0.5.4-x86_64-darwin)
+    selma (0.5.4-x86_64-linux)
+    selma (0.5.4-x86_64-linux-musl)
     shoulda-matchers (8.0.1)
       activesupport (>= 7.2)
     signet (0.22.2)
@@ -1612,7 +1620,7 @@ DEPENDENCIES
   grape (~> 4.0.1)
   grape_logging (~> 3.0.1)
   grids!
-  html-pipeline (~> 2.14.0)
+  html-pipeline (~> 3.2.4)
   htmldiff
   httpx (~> 1.9.0)
   i18n-js (~> 4.2.4)
@@ -1974,7 +1982,7 @@ CHECKSUMS
   hashery (2.1.2) sha256=d239cc2310401903f6b79d458c2bbef5bf74c46f3f974ae9c1061fb74a404862
   hashie (6.0.0) sha256=0896391e9fc7a259bfe02abbb1a026b3e142e2f464e10255261d50a0eda18e3e
   highline (3.1.2) sha256=67cbd34d19f6ef11a7ee1d82ffab5d36dfd5b3be861f450fc1716c7125f4bb4a
-  html-pipeline (2.14.3) sha256=8a1d4d7128b2141913387cac0f8ba898bb6812557001acc0c2b46910f59413a0
+  html-pipeline (3.2.4) sha256=b6029ddc1e6f8e67e8d0d1b0100f0965a3d807807eab1e1d2b7c5e2d34afb72e
   htmlbeautifier (1.4.3) sha256=b43d08f7e2aa6ae1b5a6f0607b4ed8954c8d4a8e85fd2336f975dda1e4db385b
   htmldiff (0.0.1) sha256=a96d068c8b8ea96cca3154a61785365d83129f47f1df964c6b1666924ce113a1
   htmlentities (4.4.2) sha256=bbafbdf69f2eca9262be4efef7e43e6a1de54c95eb600f26984f71d2fe96c5c3
@@ -2250,6 +2258,14 @@ CHECKSUMS
   securerandom (0.4.1) sha256=cc5193d414a4341b6e225f0cb4446aceca8e50d5e1888743fac16987638ea0b1
   selenium-devtools (0.155.0) sha256=c8d9844ff6fc759ce0afbb473a6f95240b7650285f1760080441f84427c6b950
   selenium-webdriver (4.52.0) sha256=5d45ba100ea8b57f5a8c25979a636d48b4c60c39973478930d78e884bdeecd2d
+  selma (0.5.4-aarch64-linux) sha256=2fc7aff290bfab69cd4967673807b91bece062184d69898beefc21cb96392c6c
+  selma (0.5.4-aarch64-linux-musl) sha256=04cb9bcbfd027823efaa51ab76d0708aae36c994349e285eed355ea8588f3487
+  selma (0.5.4-arm-linux-gnu) sha256=48eb2a6c745591cfc01460c692e7cb558fed7b8261f427f37a4829fa05b37634
+  selma (0.5.4-arm-linux-musl) sha256=05701f5afbb9769e1fddf4ad17a66bcd8e579337b1eba2b13ac94c6a064898a2
+  selma (0.5.4-arm64-darwin) sha256=31f4fd93e69f25d11905f5e1edf76f0826e7880c5e9f0b50da65bec9148eb001
+  selma (0.5.4-x86_64-darwin) sha256=9b20b8e1db9deb79e4094e2f919742f689493a3e89ef75b9ad3d7e981dab1cbe
+  selma (0.5.4-x86_64-linux) sha256=e77c02976013a88b1d79a28e1496fd548ef254d077e807b7aba343e936e6f195
+  selma (0.5.4-x86_64-linux-musl) sha256=99b128ed5979543c5ba123fc189fe533bacf3e16885b223dc191b2b145cc5d35
   shoulda-matchers (8.0.1) sha256=5dbb46e5765b9da225111b085e0819e8c8a121ff94bba430a153eb1ea2c60288
   signet (0.22.2) sha256=9c6861bb599845ea0cb05ffadd3d64c7a3b07a29bdee0f5352bcbe87b7ade21d
   simplecov (1.3.2) sha256=2a22ec1759f1b8db60881a2e038758956fc69ef93ed669be0bde0678de6d0e85

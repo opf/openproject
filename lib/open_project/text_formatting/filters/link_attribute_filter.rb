@@ -29,19 +29,15 @@
 
 module OpenProject::TextFormatting
   module Filters
-    class LinkAttributeFilter < HTML::Pipeline::Filter
-      def call
-        links.each do |node|
-          next if node["target"] || node["href"]&.start_with?("#")
+    class LinkAttributeFilter < ElementFilter
+      match_elements "a"
 
-          node["target"] = context.fetch(:target, "_top")
-        end
+      private
 
-        doc
-      end
+      def process(node)
+        return if node["target"] || node["href"]&.start_with?("#")
 
-      def links
-        doc.css("a")
+        node["target"] = context.fetch(:target, "_top")
       end
     end
   end

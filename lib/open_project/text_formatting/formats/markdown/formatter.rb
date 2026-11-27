@@ -43,11 +43,7 @@ module OpenProject::TextFormatting::Formats::Markdown
       OpenProject::TextFormatting::Filters::AutolinkFilter,
       OpenProject::TextFormatting::Filters::AutolinkCustomProtocolsFilter,
       OpenProject::TextFormatting::Filters::UntrustedSourceFilter,
-      OpenProject::TextFormatting::Filters::RelativeLinkFilter,
-      OpenProject::TextFormatting::Filters::LinkAttributeFilter,
-      OpenProject::TextFormatting::Filters::ExternalLinkCaptureFilter,
-      OpenProject::TextFormatting::Filters::FigureWrappedFilter,
-      OpenProject::TextFormatting::Filters::BemCssFilter
+      OpenProject::TextFormatting::Filters::FigureWrappedFilter
     ].freeze
 
     # `text/plain` mailer bodies share the matcher and mention stages so
@@ -64,16 +60,21 @@ module OpenProject::TextFormatting::Formats::Markdown
       OpenProject::TextFormatting::Filters::PlainTextOutputFilter
     ].freeze
 
+    # Element filters run last, in order, as one Selma pass over the
+    # generated HTML.
+    ELEMENT_FILTERS = [
+      OpenProject::TextFormatting::Filters::RelativeLinkFilter,
+      OpenProject::TextFormatting::Filters::LinkAttributeFilter,
+      OpenProject::TextFormatting::Filters::ExternalLinkCaptureFilter,
+      OpenProject::TextFormatting::Filters::BemCssFilter
+    ].freeze
+
     def to_html(text)
-      result = pipeline.call(text, context)
-      output = result[:output].to_s
+      output = render(text).to_s
+      return output if context[:plain_text]
 
-      # OG: html_safe after SanitizationFilter is a valid use-case.
-      context[:plain_text] ? output : output.html_safe # rubocop:disable Rails/OutputSafety
-    end
-
-    def to_document(text)
-      pipeline.to_document text, context
+      HTMLPipeline.new(sanitization_config: nil, node_filters: element_filters)
+                  .call(output, context:).fetch(:output).html_safe # rubocop:disable Rails/OutputSafety
     end
 
     def filters
@@ -82,6 +83,13 @@ module OpenProject::TextFormatting::Formats::Markdown
 
     def self.format
       :markdown
+    end
+
+    private
+
+    def element_filters
+      filter_context = context.dup.freeze
+      ELEMENT_FILTERS.map { |filter| filter.new(context: filter_context) }
     end
   end
 end

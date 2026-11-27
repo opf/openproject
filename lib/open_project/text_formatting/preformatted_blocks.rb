@@ -30,7 +30,7 @@
 module OpenProject
   module TextFormatting
     # `<pre>`/`<code>` ancestry skip. Filters call
-    # `has_ancestor?(node, BLOCKS)` via HTML::Pipeline's instance helper;
+    # `has_ancestor?(node, BLOCKS)` via DomFilter's instance helper;
     # matchers without that helper call `ancestor?(node)` here.
     module PreformattedBlocks
       BLOCKS = %w[pre code].to_set.freeze

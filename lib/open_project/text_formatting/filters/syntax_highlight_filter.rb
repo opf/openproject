@@ -29,11 +29,26 @@
 
 module OpenProject::TextFormatting
   module Filters
-    class SyntaxHighlightFilter < HTML::Pipeline::SyntaxHighlightFilter
-      def initialize(*)
-        super
+    class SyntaxHighlightFilter < DomFilter
+      def call
+        doc.css("pre").each do |node|
+          lang = node["lang"] || context[:highlight]&.to_s
+          highlight(node, lang) if lang
+        end
+        doc
+      end
 
-        @formatter = highlighter_class
+      private
+
+      def highlight(node, lang)
+        lexer = Rouge::Lexer.find(lang)
+        return unless lexer
+
+        node.inner_html = Rouge.highlight(node.inner_text, lexer, @formatter ||= highlighter_class)
+        scope = context.fetch(:scope, "highlight")
+        node["class"] = "#{scope} #{scope}-#{lang}"
+      rescue Timeout::Error
+        nil
       end
 
       ##

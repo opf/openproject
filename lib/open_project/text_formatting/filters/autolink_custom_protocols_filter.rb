@@ -38,7 +38,7 @@ module OpenProject::TextFormatting
     #     enabled: (boolean)
     #
     # This filter does not write additional information to the context.
-    class AutolinkCustomProtocolsFilter < HTML::Pipeline::Filter
+    class AutolinkCustomProtocolsFilter < DomFilter
       include ActionView::Helpers::TagHelper
 
       # Skip text nodes that are within preformatted or linked blocks

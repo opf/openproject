@@ -29,7 +29,7 @@
 
 module OpenProject::TextFormatting
   module Filters
-    class BemCssFilter < HTML::Pipeline::Filter
+    class BemCssFilter < ElementFilter
       BEM_CLASSES = {
         h1: "op-uc-h1",
         h2: "op-uc-h2",
@@ -63,20 +63,19 @@ module OpenProject::TextFormatting
         ul: "op-uc-toc--list"
       }.with_indifferent_access.freeze
 
-      def call
-        doc.search(*BEM_CLASSES.keys.map(&:to_s)).each do |element|
-          add_css_class(element, BEM_CLASSES[element.name]) unless not_to_be_modified?(element)
-        end
-
-        doc
-      end
+      match_elements BEM_CLASSES.keys.join(", ")
 
       private
 
-      def not_to_be_modified?(element)
+      def process(element)
+        tag_name = element.tag_name
+        add_css_class(element, BEM_CLASSES.fetch(tag_name)) unless not_to_be_modified?(element, tag_name)
+      end
+
+      def not_to_be_modified?(element, tag_name)
         element["class"].present? &&
-          UNMODIFIED[element.name] &&
-          element["class"].include?(UNMODIFIED[element.name])
+          UNMODIFIED[tag_name] &&
+          element["class"].include?(UNMODIFIED[tag_name])
       end
 
       def add_css_class(element, css_class)

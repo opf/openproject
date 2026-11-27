@@ -38,7 +38,7 @@ module OpenProject::TextFormatting
     #     enabled: (boolean)
     #
     # This filter does not write additional information to the context.
-    class AutolinkFilter < HTML::Pipeline::Filter
+    class AutolinkFilter < DomFilter
       def call
         autolink_context = default_autolink_options.merge context.fetch(:autolink, {})
         return doc if autolink_context[:enabled] == false

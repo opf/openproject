@@ -29,10 +29,10 @@
 
 module OpenProject::TextFormatting
   module Filters
-    class MarkdownFilter < HTML::Pipeline::MarkdownFilter
+    class MarkdownFilter < DomFilter
       # Convert Markdown to HTML using CommonMarker
       def call
-        Commonmarker.to_html(text, options: commonmarker_options, plugins: commonmarker_plugins)
+        Commonmarker.to_html(html.delete("\r"), options: commonmarker_options, plugins: commonmarker_plugins)
                     .tap(&:rstrip!)
       end
 

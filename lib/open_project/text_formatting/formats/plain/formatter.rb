@@ -32,11 +32,7 @@ module OpenProject::TextFormatting::Formats
     class Formatter < OpenProject::TextFormatting::Formats::BaseFormatter
       def to_html(text)
         # OG: We use simple_format here, which calls sanitize under the hood. This is a valid use-case of html_safe.
-        pipeline.to_html(text, context).html_safe
-      end
-
-      def to_document(text)
-        pipeline.to_document text, context
+        render(text).to_s.html_safe # rubocop:disable Rails/OutputSafety
       end
 
       def filters

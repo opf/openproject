@@ -29,7 +29,7 @@
 
 module OpenProject::TextFormatting
   module Filters
-    class AttachmentFilter < HTML::Pipeline::Filter
+    class AttachmentFilter < DomFilter
       include OpenProject::StaticRouting::UrlHelpers
       include OpenProject::ObjectLinking
 

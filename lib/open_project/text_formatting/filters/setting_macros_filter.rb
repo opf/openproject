@@ -29,7 +29,7 @@
 
 module OpenProject::TextFormatting
   module Filters
-    class SettingMacrosFilter < HTML::Pipeline::Filter
+    class SettingMacrosFilter < DomFilter
       ALLOWED_SETTINGS = %w[
         host_name
         base_url

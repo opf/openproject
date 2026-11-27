@@ -29,7 +29,7 @@
 
 module OpenProject::TextFormatting
   module Filters
-    class FigureWrappedFilter < HTML::Pipeline::Filter
+    class FigureWrappedFilter < DomFilter
       include ActionView::Context
       include ActionView::Helpers::TagHelper
 
