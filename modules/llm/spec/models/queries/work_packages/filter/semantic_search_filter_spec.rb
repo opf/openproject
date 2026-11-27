@@ -177,5 +177,23 @@ RSpec.describe Queries::WorkPackages::Filter::SemanticSearchFilter do
 
       expect(query.results.work_packages).to contain_exactly(similar_closed)
     end
+
+    context "with a result limit of 1" do
+      before { allow(Setting).to receive(:semantic_search_results_limit).and_return(1) }
+
+      it "fills the limit with work packages matching the other filters before more similar ones" do
+        query.filters.reject! { it.name == :status_id }
+        query.add_filter("status_id", "c", [])
+
+        expect(query.results.work_packages).to contain_exactly(similar_closed)
+      end
+
+      it "fills the limit with work packages of the query's project before more similar ones" do
+        query.filters.reject! { it.name == :status_id }
+        query.project = similar_closed.project
+
+        expect(query.results.work_packages).to contain_exactly(similar_closed)
+      end
+    end
   end
 end

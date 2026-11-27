@@ -423,6 +423,14 @@ class Query < ApplicationRecord
       .join(" AND ")
   end
 
+  def statement_filters
+    if project
+      filters + [project_limiting_filter].compact
+    else
+      filters
+    end
+  end
+
   # Returns the result set
   def results
     Results.new(self)
@@ -502,14 +510,6 @@ class Query < ApplicationRecord
 
   def for_all?
     @for_all ||= project.nil?
-  end
-
-  def statement_filters
-    if project
-      filters + [project_limiting_filter].compact
-    else
-      filters
-    end
   end
 
   def allowed_timestamps

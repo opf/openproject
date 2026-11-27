@@ -45,7 +45,7 @@ class Queries::WorkPackages::Filter::SemanticSearchFilter <
     "#{WorkPackage.table_name}.id IN (" \
       "#{WorkPackageEmbedding.work_package_ids_within_search_distance_sql(vector,
                                                                           semantic_index_id:,
-                                                                          work_packages: WorkPackage.visible,
+                                                                          work_packages: candidate_work_packages,
                                                                           limit: search_limit)})"
   end
 
@@ -69,6 +69,30 @@ class Queries::WorkPackages::Filter::SemanticSearchFilter <
 
   def semantic_index_id
     Llm::WorkPackages::SemanticSearch.active_semantic_index&.id
+  end
+
+  # Mirrors how Query::Results combines the filters, so that the LIMIT of the nearest
+  # neighbor search is filled with work packages the rest of the query keeps.
+  def candidate_work_packages(filters = other_filters)
+    scope = WorkPackage
+              .visible
+              .left_outer_joins(([:project] + filters.map(&:includes)).flatten.compact.uniq)
+              .joins(filters.map(&:joins).flatten.compact)
+              .where(statement(filters))
+
+    filters.inject(scope) { |candidates, filter| filter.apply_to(candidates) }
+  end
+
+  def statement(filters)
+    filters.map { "(#{it.where})" }.compact_blank.join(" AND ")
+  end
+
+  # Historic queries evaluate the filters at past timestamps, the candidates are current
+  # work packages, so only visibility applies to them.
+  def other_filters
+    return [] if context.nil? || context.historic?
+
+    context.statement_filters.grep_v(self.class)
   end
 
   def search_limit
