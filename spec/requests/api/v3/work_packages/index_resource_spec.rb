@@ -187,6 +187,55 @@ RSpec.describe "API v3 Work package resource",
       end
     end
 
+    context "when filtering by project with identifiers" do
+      let(:second_project) { create(:project) }
+      let(:second_work_package) { create(:work_package, project: second_project) }
+      let(:work_packages) { [work_package, second_work_package, other_work_package] }
+      let(:filters) { [{ project: { operator: "=", values: } }] }
+      let(:path) { api_v3_paths.path_for :work_packages, filters:, sort_by: [%w[id asc]] }
+
+      before do
+        create(:member, project: second_project, principal: current_user, roles: [role])
+      end
+
+      context "with an identifier and an id" do
+        let(:values) { ["TEST_PROJECT", second_project.id.to_s] }
+
+        before { get path }
+
+        it_behaves_like "API V3 collection response", 2, 2, "WorkPackage", "WorkPackageCollection" do
+          let(:elements) { [work_package, second_work_package] }
+        end
+      end
+
+      context "with a former identifier" do
+        let(:values) { %w[former_project] }
+
+        before do
+          FriendlyId::Slug.create!(sluggable: project, slug: "former_project")
+
+          get path
+        end
+
+        it_behaves_like "API V3 collection response", 1, 1, "WorkPackage", "WorkPackageCollection" do
+          let(:elements) { [work_package] }
+        end
+      end
+
+      context "with the identifier of a project the user cannot see" do
+        let(:values) { [project.identifier, other_work_package.project.identifier] }
+
+        before { get path }
+
+        it "rejects the filter" do
+          expect(last_response).to have_http_status(:bad_request)
+          expect(last_response.body)
+            .to be_json_eql("urn:openproject-org:api:v3:errors:InvalidQuery".to_json)
+            .at_path("errorIdentifier")
+        end
+      end
+    end
+
     context "when filtering by typeahead with a number beyond the 64-bit integer range and sorting by exact_match" do
       let(:filters) do
         [

@@ -143,4 +143,56 @@ RSpec.describe Queries::WorkPackages::Filter::ProjectFilter do
       end
     end
   end
+
+  describe "with project identifiers as values" do
+    let(:project) { create(:project, identifier: "current_id") }
+    let(:other_project) { create(:project) }
+    let(:invisible_project) { create(:project) }
+    let(:instance) do
+      described_class.create!(name: :project_id, context: build_stubbed(:query, project: nil), operator: "=", values:)
+    end
+
+    before do
+      allow(Project).to receive(:visible).and_return(Project.where(id: [project, other_project]))
+    end
+
+    context "with an identifier and an id" do
+      let(:values) { ["CURRENT_ID", other_project.id.to_s] }
+
+      it "resolves the identifier and keeps the values as given" do
+        expect(instance.project_ids).to eq([project.id.to_s, other_project.id.to_s])
+        expect(instance.values).to eq(["CURRENT_ID", other_project.id.to_s])
+      end
+
+      it { expect(instance).to be_valid }
+
+      it "returns the projects" do
+        expect(instance.value_objects).to contain_exactly(project, other_project)
+      end
+    end
+
+    context "with a former identifier" do
+      let(:values) { %w[former_id] }
+
+      before do
+        FriendlyId::Slug.create!(sluggable: project, slug: "former_id")
+      end
+
+      it "resolves the identifier" do
+        expect(instance.project_ids).to eq([project.id.to_s])
+      end
+    end
+
+    context "with the identifier of a project the user cannot see" do
+      let(:values) { [project.identifier, invisible_project.identifier] }
+
+      it { expect(instance).not_to be_valid }
+
+      it "drops only that identifier when reduced to the valid values" do
+        instance.valid_values!
+
+        expect(instance.values).to eq([project.identifier])
+      end
+    end
+  end
 end

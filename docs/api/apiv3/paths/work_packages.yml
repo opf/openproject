@@ -88,6 +88,9 @@ get:
         Filters that take work packages as values (e.g. `id`, `parent`, `ancestor` and the relation filters)
         accept numeric ids and project-based identifiers (e.g. `PROJ-42`), also mixed.
         Former identifiers of a work package match as well. Identifiers match exactly.
+
+        The `project` filter accepts numeric ids and project identifiers (e.g. `PROJ`), also mixed.
+        Former identifiers of a project match as well. Project identifiers match regardless of case.
       example: '[{ "type_id": { "operator": "=", "values": ["1", "2"] }}]'
       in: query
       name: filters
