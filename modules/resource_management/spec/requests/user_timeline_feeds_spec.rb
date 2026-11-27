@@ -237,6 +237,46 @@ RSpec.describe "User timeline feeds", type: :rails_request, with_ee: %i[resource
       expect(bar.dig("extendedProps", "html"))
         .to include(I18n.t("resource_management.user_timeline.overbooked_tooltip.unplannable"))
     end
+
+    context "with an allocation on a work package in a project the viewer cannot see" do
+      let(:other_project) { create(:project, enabled_module_names: %w[resource_management work_package_tracking]) }
+      let(:hidden_wp) do
+        create(:work_package, project: other_project, subject: "Confidential rocket plans",
+                              status: create(:status, color: create(:color, hexcode: "#AA0000")))
+      end
+      let!(:hidden_allocation) do
+        create(:resource_allocation, entity: hidden_wp, principal: assignee, requested_by: assignee,
+                                     start_date: Date.new(2026, 6, 15), end_date: Date.new(2026, 6, 19),
+                                     allocated_time: 5 * 8 * 60)
+      end
+      let(:bar_html) { block_events.find { |e| e["id"] == hidden_allocation.id }.dig("extendedProps", "html") }
+
+      before { get_events }
+
+      it "renders the bar with its hours on the assignee's row" do
+        expect(bar_html).to include(I18n.t("resource_management.allocation.hours", value: 40))
+      end
+
+      it "replaces the subject with the undisclosed label" do
+        expect(bar_html).not_to include("Confidential rocket plans")
+        expect(bar_html).to include(I18n.t("resource_management.timeline.undisclosed.work_package"))
+      end
+
+      it "replaces the tooltip with the undisclosed hint" do
+        tooltip = Nokogiri::HTML5.fragment(bar_html).at_css("tool-tip")
+
+        expect(tooltip.text).to eq(I18n.t("resource_management.timeline.undisclosed.tooltip"))
+      end
+
+      it "does not paint the work package's status color" do
+        expect(bar_html).not_to include("--rm-status-color")
+        expect(bar_html).not_to include("#AA0000")
+      end
+
+      it "does not name the project" do
+        expect(bar_html).not_to include(other_project.name)
+      end
+    end
   end
 
   describe "working-day background events" do

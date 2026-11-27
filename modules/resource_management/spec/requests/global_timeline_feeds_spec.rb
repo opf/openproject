@@ -49,8 +49,14 @@ RSpec.describe "Global timeline feeds", :skip_csrf, type: :rails_request, with_e
                   member_with_permissions: { visible_project => %i[view_work_packages] })
   end
 
-  shared_let(:visible_wp) { create(:work_package, project: visible_project, subject: "Visible work") }
-  shared_let(:secret_wp) { create(:work_package, project: secret_project, subject: "Confidential rocket plans") }
+  shared_let(:visible_wp) do
+    create(:work_package, project: visible_project, subject: "Visible work",
+                          status: create(:status, color: create(:color, hexcode: "#00AA00")))
+  end
+  shared_let(:secret_wp) do
+    create(:work_package, project: secret_project, subject: "Confidential rocket plans",
+                          status: create(:status, color: create(:color, hexcode: "#AA0000")))
+  end
 
   shared_let(:planner) { create(:resource_planner, :global, principal: user, name: "Capacity") }
   shared_let(:view) do
@@ -113,6 +119,26 @@ RSpec.describe "Global timeline feeds", :skip_csrf, type: :rails_request, with_e
     visible_event = get_events.find { |e| e["id"] == visible_allocation.id }
 
     expect(visible_event.dig("extendedProps", "html")).to include("Visible - Visible work")
+  end
+
+  it "replaces the tooltip of an invisible work package with the undisclosed hint" do
+    secret_event = get_events.find { |e| e["id"] == secret_allocation.id }
+    tooltip = Nokogiri::HTML5.fragment(secret_event.dig("extendedProps", "html")).at_css("tool-tip")
+
+    expect(tooltip.text).to eq(I18n.t("resource_management.timeline.undisclosed.tooltip"))
+  end
+
+  it "paints the status color of a visible work package" do
+    visible_event = get_events.find { |e| e["id"] == visible_allocation.id }
+
+    expect(visible_event.dig("extendedProps", "html")).to include("--rm-status-color: #00AA00")
+  end
+
+  it "does not paint the status color of an invisible work package" do
+    secret_event = get_events.find { |e| e["id"] == secret_allocation.id }
+
+    expect(secret_event.dig("extendedProps", "html")).not_to include("--rm-status-color")
+    expect(secret_event.dig("extendedProps", "html")).not_to include("#AA0000")
   end
 
   it "does not name a project the viewer cannot see" do
