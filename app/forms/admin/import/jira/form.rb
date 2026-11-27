@@ -49,10 +49,12 @@ module Admin::Import::Jira
         group.text_field(
           name: input_name,
           label: I18n.t("admin.jira.form.fields.#{input_name}"),
+          type: :password,
+          value: nil,
           caption:,
           required: !model.persisted?,
           input_width: :large,
-          autocomplete: "off",
+          autocomplete: "new-password",
           data: { "admin--jira-configuration-form-target": input_name.to_s.camelize(:lower) }
         )
       end
