@@ -217,7 +217,8 @@ module Admin::Settings
         component: Settings::ProjectCustomFields::ProjectCustomFieldMapping::TableComponent.new(
           query: project_custom_field_mappings_query,
           custom_field: @custom_field,
-          params: params.merge({ url_for_action: })
+          url_for_action:,
+          params:
         )
       )
     end

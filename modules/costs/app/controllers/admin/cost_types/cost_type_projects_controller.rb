@@ -92,7 +92,8 @@ class Admin::CostTypes::CostTypeProjectsController < ApplicationController
       component: Admin::CostTypes::CostTypeProjects::TableComponent.new(
         query: available_cost_types_projects_query,
         cost_type: @cost_type,
-        params: params.merge({ url_for_action: })
+        url_for_action:,
+        params:
       )
     )
   end
