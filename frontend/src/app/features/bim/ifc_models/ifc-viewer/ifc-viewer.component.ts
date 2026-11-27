@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { IFCViewerService } from 'core-app/features/bim/ifc_models/ifc-viewer/ifc-viewer.service';
 import { IfcModelsDataService } from 'core-app/features/bim/ifc_models/pages/viewer/ifc-models-data.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -45,6 +45,12 @@ import invariant from 'tiny-invariant';
   styleUrls: ['./ifc-viewer.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
+  host: {
+    '(keydown)': 'claimCameraKey($event)',
+    '(focusout)': 'releaseKeysOnCanvasExit($event.target)',
+    '(mousedown)': 'enableKeyboard()',
+    '(window:mousedown)': 'disableKeyboard($event.target)',
+  },
 })
 export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
   ifcData = inject(IfcModelsDataService);
@@ -121,7 +127,9 @@ export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
             enableMeasurements: false,
           },
           this.ifcData.projects,
-        ).catch((error:unknown) => {
+        ).then(() => {
+          this.ifcViewerService.setKeyboardEnabled(this.keyboardEnabled);
+        }).catch((error:unknown) => {
           // The viewer chunk is loaded on demand; surface a download/init failure.
           console.error('Failed to initialize the IFC viewer:', error);
         });
@@ -170,24 +178,32 @@ export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
     this.ifcViewerService.inspectorVisible$.next(!this.inspectorVisible$.getValue());
   }
 
-  // Key events for navigating the viewer shall not propagate further up in the DOM, i.e.
-  // pressing the S-key shall not trigger the global search which listens on `document`.
-  @HostListener('keydown', ['$event'])
-  @HostListener('keyup', ['$event'])
-  @HostListener('keypress', ['$event'])
-  cancelAllKeyEvents($event:KeyboardEvent):void {
-    $event.stopPropagation();
+  // A key that moves the camera must not also trigger a page shortcut, e.g. S the global search.
+  // Page shortcuts skip keydowns whose default is prevented; browser shortcuts such as Cmd+S
+  // must keep theirs.
+  claimCameraKey(event:KeyboardEvent):void {
+    if (this.keyboardEnabled
+      && !(event.ctrlKey || event.metaKey || event.altKey)
+      && event.target === this.modelCanvas.nativeElement
+      && this.ifcViewerService.handlesKey(event)) {
+      event.preventDefault();
+    }
   }
 
-  @HostListener('mousedown')
-  enableKeyBoard():void {
+  // A shortcut that moves focus off the canvas makes its keyup land elsewhere.
+  releaseKeysOnCanvasExit(target:EventTarget|null):void {
+    if (target === this.modelCanvas.nativeElement) {
+      this.ifcViewerService.releaseHeldKeys(this.modelCanvas.nativeElement);
+    }
+  }
+
+  enableKeyboard():void {
     if (this.modelCount) {
       this.keyboardEnabled = true;
       this.ifcViewerService.setKeyboardEnabled(true);
     }
   }
 
-  @HostListener('window:mousedown', ['$event.target'])
   disableKeyboard(target:EventTarget|null):void {
     if (this.modelCount && target instanceof Element && !this.outerContainer.nativeElement.contains(target)) {
       this.keyboardEnabled = false;
@@ -200,7 +216,7 @@ export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
       return false;
     }
 
-    this.enableKeyBoard();
+    this.enableKeyboard();
 
     // Focus on the canvas
     this.modelCanvas.nativeElement.focus();

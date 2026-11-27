@@ -29,7 +29,7 @@ import { NO_ERRORS_SCHEMA, ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { fireEvent, screen, waitFor } from '@testing-library/dom';
 import { page, userEvent } from 'vitest/browser';
-import { BehaviorSubject, NEVER } from 'rxjs';
+import { BehaviorSubject, NEVER, of } from 'rxjs';
 import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
@@ -130,6 +130,178 @@ describe('IFCViewerComponent keyboard warning', () => {
   });
 });
 
+describe('IFCViewerComponent keys for page shortcuts', () => {
+  let fixture:ComponentFixture<IFCViewerComponent>;
+  let shortcutKeys:string[];
+  const recordShortcutKey = (event:KeyboardEvent) => {
+    if (!event.defaultPrevented) {
+      shortcutKeys.push(event.key);
+    }
+  };
+  const releaseHeldKeys = vi.fn();
+
+  const canvas = () => document.querySelector<HTMLCanvasElement>('.op-ifc-viewer--model-canvas')!;
+  const toolbarButton = () => document.querySelector<HTMLButtonElement>('#xeokit-replace-reset')!;
+
+  beforeEach(async () => {
+    shortcutKeys = [];
+    releaseHeldKeys.mockClear();
+    document.addEventListener('keydown', recordShortcutKey);
+
+    await TestBed
+      .configureTestingModule({
+        declarations: [IFCViewerComponent],
+        providers: [
+          { provide: I18nService, useValue: { t: (key:string) => key } },
+          { provide: IfcModelsDataService, useValue: { models: [{}], projects: [], allowed: () => false } },
+          { provide: CurrentUserService, useValue: { hasCapabilities$: () => NEVER } },
+          { provide: CurrentProjectService, useValue: { id: '1' } },
+          {
+            provide: IFCViewerService,
+            useValue: {
+              inspectorVisible$: new BehaviorSubject(false),
+              viewerVisible$: new BehaviorSubject(false),
+              setKeyboardEnabled: vi.fn(),
+              handlesKey: (event:KeyboardEvent) => event.key === 's',
+              releaseHeldKeys,
+              destroy: vi.fn(),
+            } satisfies Partial<IFCViewerService>,
+          },
+        ],
+        schemas: [NO_ERRORS_SCHEMA],
+      })
+      .compileComponents();
+
+    fixture = TestBed.createComponent(IFCViewerComponent);
+    fixture.detectChanges();
+    await fixture.whenStable();
+  });
+
+  afterEach(() => {
+    document.removeEventListener('keydown', recordShortcutKey);
+    fixture.destroy();
+  });
+
+  const enableKeyboard = () => {
+    fireEvent.mouseDown(canvas());
+    canvas().focus();
+  };
+
+  it('claims a camera key on the canvas from the page shortcuts', async () => {
+    enableKeyboard();
+
+    await userEvent.keyboard('s');
+
+    expect(shortcutKeys).toEqual([]);
+  });
+
+  it.each(['Control', 'Meta', 'Alt'])('leaves a camera key with %s on the canvas to the browser', async (modifier) => {
+    enableKeyboard();
+
+    await userEvent.keyboard(`{${modifier}>}s{/${modifier}}`);
+
+    expect(shortcutKeys).toContain('s');
+  });
+
+  it('leaves other keys on the canvas to the page shortcuts', async () => {
+    enableKeyboard();
+
+    await userEvent.keyboard('j');
+
+    expect(shortcutKeys).toEqual(['j']);
+  });
+
+  it('releases the viewer\'s held keys when a page shortcut moves focus off the canvas', async () => {
+    enableKeyboard();
+    const moveFocus = (event:KeyboardEvent) => {
+      if (event.key === 'j') {
+        toolbarButton().focus();
+      }
+    };
+    document.addEventListener('keydown', moveFocus);
+
+    await userEvent.keyboard('j');
+    document.removeEventListener('keydown', moveFocus);
+
+    expect(toolbarButton()).toHaveFocus();
+    expect(releaseHeldKeys).toHaveBeenCalledExactlyOnceWith(canvas());
+  });
+
+  it('keeps the viewer\'s held keys when focus leaves another viewer control', () => {
+    enableKeyboard();
+    fireEvent.focusOut(toolbarButton());
+
+    expect(releaseHeldKeys).not.toHaveBeenCalled();
+  });
+
+  it('leaves a camera key on a toolbar button to the page shortcuts', async () => {
+    enableKeyboard();
+    toolbarButton().focus();
+
+    await userEvent.keyboard('s');
+
+    expect(shortcutKeys).toEqual(['s']);
+  });
+
+  it('leaves a camera key on the canvas to the page shortcuts while keyboard navigation is off', async () => {
+    canvas().focus();
+
+    await userEvent.keyboard('s');
+
+    expect(shortcutKeys).toEqual(['s']);
+  });
+});
+
+describe('IFCViewerComponent viewer creation', () => {
+  let fixture:ComponentFixture<IFCViewerComponent>;
+  let treePanel:HTMLElement;
+  const setKeyboardEnabled = vi.fn();
+
+  beforeEach(async () => {
+    setKeyboardEnabled.mockClear();
+    treePanel = document.createElement('div');
+    treePanel.classList.add('op-ifc-viewer--tree-panel');
+    document.body.append(treePanel);
+
+    await TestBed
+      .configureTestingModule({
+        declarations: [IFCViewerComponent],
+        providers: [
+          { provide: I18nService, useValue: { t: (key:string) => key } },
+          { provide: IfcModelsDataService, useValue: { models: [{}], projects: [], allowed: () => false } },
+          { provide: CurrentUserService, useValue: { hasCapabilities$: () => of(false) } },
+          { provide: CurrentProjectService, useValue: { id: '1' } },
+          {
+            provide: IFCViewerService,
+            useValue: {
+              inspectorVisible$: new BehaviorSubject(false),
+              viewerVisible$: new BehaviorSubject(false),
+              newViewer: () => Promise.resolve(),
+              setKeyboardEnabled,
+              destroy: vi.fn(),
+            } satisfies Partial<IFCViewerService>,
+          },
+        ],
+        schemas: [NO_ERRORS_SCHEMA],
+      })
+      .compileComponents();
+
+    fixture = TestBed.createComponent(IFCViewerComponent);
+  });
+
+  afterEach(() => {
+    fixture.destroy();
+    treePanel.remove();
+  });
+
+  it('starts the new viewer with keyboard navigation off', async () => {
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    await waitFor(() => expect(setKeyboardEnabled).toHaveBeenCalledWith(false));
+  });
+});
+
 describe('IFCViewerComponent keyboard targeting', () => {
   let component:IFCViewerComponent;
   const setKeyboardEnabled = vi.fn();
@@ -149,7 +321,7 @@ describe('IFCViewerComponent keyboard targeting', () => {
     component.outerContainer = new ElementRef(document.createElement('div'));
     component.modelCanvas = new ElementRef(document.createElement('canvas'));
     component.outerContainer.nativeElement.append(component.modelCanvas.nativeElement);
-    component.enableKeyBoard();
+    component.enableKeyboard();
     setKeyboardEnabled.mockClear();
   });
 
@@ -183,7 +355,7 @@ describe('IFCViewerComponent keyboard targeting', () => {
   it('does not enable or disable keyboard input without models', () => {
     component.modelCount = 0;
     component.keyboardEnabled = false;
-    component.enableKeyBoard();
+    component.enableKeyboard();
     component.disableKeyboard(document.createElement('button'));
     expect(setKeyboardEnabled).not.toHaveBeenCalled();
   });

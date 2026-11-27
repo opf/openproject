@@ -42,6 +42,7 @@ RSpec.describe "BCF list keyboard navigation", :js, with_config: { edition: "bim
   end
 
   let(:view_name) { "Table" }
+  let(:ifc_models) { [] }
   let(:rows) { work_packages.sort_by(&:id).reverse }
   let(:bcf_page) { Pages::IfcModels::ShowDefault.new(project) }
   let(:context_menu) { Components::WorkPackages::ContextMenu.new }
@@ -64,6 +65,7 @@ RSpec.describe "BCF list keyboard navigation", :js, with_config: { edition: "bim
   end
 
   before do
+    ifc_models
     login_as user
     bcf_page.visit!
     bcf_page.expect_work_package_listed(*rows)
@@ -92,10 +94,33 @@ RSpec.describe "BCF list keyboard navigation", :js, with_config: { edition: "bim
   context "when displayed as split table" do
     let(:view_name) { "Viewer and table" }
 
-    it_behaves_like "an embedded keyboard table", editable: true, letter_shortcuts: false do
+    it_behaves_like "an embedded keyboard table", editable: true do
       let(:first_row_controls) { [rows.first.id.to_s, "Open details view", "Open context menu"] }
       let(:next_control) { { role: :button, name: "Create new work package" } }
       let(:context_menu_enabled) { true }
+    end
+
+    context "with a loaded model" do
+      let(:ifc_models) { [create(:ifc_model_minimal_converted, title: "minimal", project:, uploader: user)] }
+
+      it "enters on the first row with j from a viewer toolbar button" do
+        bcf_page.finished_loading
+        within_test_selector("op-ifc-viewer--toolbar-container") do
+          find(".xeokit-btn", match: :first).execute_script("this.focus()")
+        end
+
+        wp_table.press_keys("j")
+
+        wp_table.expect_focus_on_row(rows.first)
+      end
+
+      it "enters on the first row with j from the model canvas" do
+        find_test_selector("op-ifc-viewer--model-canvas").click
+
+        wp_table.press_keys("j")
+
+        wp_table.expect_focus_on_row(rows.first)
+      end
     end
   end
 
