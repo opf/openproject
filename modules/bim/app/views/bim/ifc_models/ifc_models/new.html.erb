@@ -46,6 +46,7 @@ See COPYRIGHT and LICENSE files for more details.
       authenticity_token: false,
       data: {
         controller: "bim--ifc-model-direct-upload",
+        action: "submit->bim--ifc-model-direct-upload#removeFieldsAfterFile",
         "bim--ifc-model-direct-upload-set-default-model-url-value": set_direct_upload_default_value_bcf_project_ifc_models_path,
         "bim--ifc-model-direct-upload-set-model-title-url-value": set_direct_upload_file_name_bcf_project_ifc_models_path
       }
@@ -64,7 +65,10 @@ See COPYRIGHT and LICENSE files for more details.
           label: Bim::IfcModels::IfcModel.human_attribute_name(:ifc_attachment),
           accept: ".ifc",
           required: true,
-          data: { action: "change->bim--ifc-model-direct-upload#setSessionModelTitle" }
+          data: {
+            "bim--ifc-model-direct-upload-target": "fileInput",
+            action: "change->bim--ifc-model-direct-upload#setSessionModelTitle"
+          }
         )
         form.check_box(
           name: :is_default,

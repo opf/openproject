@@ -31,6 +31,8 @@ import { post } from '@rails/request.js';
 import { isHTMLInputElement } from 'core-app/shared/helpers/dom-helpers';
 
 export default class IfcModelDirectUploadController extends Controller {
+  static targets = ['fileInput'];
+
   static values = {
     setDefaultModelUrl: String,
     setModelTitleUrl: String,
@@ -40,6 +42,16 @@ export default class IfcModelDirectUploadController extends Controller {
   declare setModelTitleUrlValue:string;
 
   declare readonly fileInputTarget:HTMLInputElement;
+
+  // S3 POST uploads require the file to be the last form field. Amazon S3 ignores trailing
+  // fields, but other S3-compatible storages (e.g. RustFS) reject the whole upload.
+  removeFieldsAfterFile():void {
+    Array.from((this.element as HTMLFormElement).elements).forEach((field) => {
+      if (this.fileInputTarget.compareDocumentPosition(field) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        field.removeAttribute('name');
+      }
+    });
+  }
 
   setSessionModelTitle(event:Event):void {
     const target = event.target;

@@ -106,7 +106,7 @@ class WithDirectUploads
       .and_return(Proc.new do |_params, _headers, body, _url, _method|
         key = body.scan(/key"\s*([^\s]+)\s/m).flatten.first
         redirect_url = body.scan(/success_action_redirect"\s*(http[^\s]+)\s/m).flatten.first
-        ok = body.include?("X-Amz-Signature") # check that the expected post to AWS was made with the form fields
+        ok = valid_upload_form?(body)
 
         {
           code: ok ? 302 : 403,
@@ -135,6 +135,12 @@ class WithDirectUploads
     end
   end
 
+  def valid_upload_form?(body)
+    field_names = body.scan(/Content-Disposition: form-data; name="([^"]+)"/i).flatten
+
+    body.include?("X-Amz-Signature") && field_names.last == "file"
+  end
+
   def append_key_query_param(redirect_url, key)
     delimiter = redirect_url.include?("?") ? "&" : "?"
     "#{redirect_url}#{delimiter}key=#{CGI.escape(key)}"
@@ -145,7 +151,7 @@ class WithDirectUploads
       .stub("https://#{OpenProject::Configuration.remote_storage_upload_host}:443/", method: "post")
       .and_return(Proc.new do |_params, _headers, body, _url, _method|
         {
-          code: body.include?("X-Amz-Signature") ? 201 : 403, # check that the expected post to AWS was made with the form fields
+          code: valid_upload_form?(body) ? 201 : 403,
           headers: {
             "Access-Control-Allow-Methods" => "POST",
             "Access-Control-Allow-Origin" => "*"
