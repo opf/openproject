@@ -160,7 +160,13 @@ RSpec.describe "Global timeline feeds", :skip_csrf, type: :rails_request, with_e
 
     before do
       create(:member, principal: user, project: glass_project,
-                      roles: [create(:project_role, permissions: %i[view_resource_planners])])
+                      roles: [create(:project_role, permissions: %i[view_resource_planners allocate_user_resources])])
+    end
+
+    it "offers no click action, even though the viewer may allocate in that project" do
+      glass_event = get_events.find { |e| e["id"] == glass_allocation.id }
+
+      expect(glass_event.dig("extendedProps", "editUrl")).to be_nil
     end
 
     it "names the project but not the work package" do

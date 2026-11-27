@@ -297,6 +297,10 @@ RSpec.describe "User timeline feeds", type: :rails_request, with_ee: %i[resource
         expect(bar_html).not_to include("--rm-status-color")
         expect(bar_html).not_to include("#AA0000")
       end
+
+      it "offers no click action" do
+        expect(bar_event.dig("extendedProps", "editUrl")).to be_nil
+      end
     end
 
     context "with an allocation on a work package in another project" do
@@ -312,10 +316,11 @@ RSpec.describe "User timeline feeds", type: :rails_request, with_ee: %i[resource
                                      start_date: Date.new(2026, 6, 15), end_date: Date.new(2026, 6, 19),
                                      allocated_time: 5 * 8 * 60)
       end
-      let(:bar_html) do
+      let(:bar_event) do
         get_events
-        block_events.find { |e| e["id"] == hidden_allocation.id }.dig("extendedProps", "html")
+        block_events.find { |e| e["id"] == hidden_allocation.id }
       end
+      let(:bar_html) { bar_event.dig("extendedProps", "html") }
 
       context "when the viewer cannot see that project" do
         it_behaves_like "an undisclosed allocation bar"
@@ -328,7 +333,7 @@ RSpec.describe "User timeline feeds", type: :rails_request, with_ee: %i[resource
       context "when the viewer can see that project but not its work packages" do
         before do
           create(:member, principal: user, project: other_project,
-                          roles: [create(:project_role, permissions: %i[view_resource_planners])])
+                          roles: [create(:project_role, permissions: %i[view_resource_planners allocate_user_resources])])
         end
 
         it_behaves_like "an undisclosed allocation bar"

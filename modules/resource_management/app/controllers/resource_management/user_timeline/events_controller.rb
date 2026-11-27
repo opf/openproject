@@ -127,7 +127,7 @@ module ResourceManagement
       end
 
       def edit_url_for(allocation)
-        return unless may_allocate?(allocation)
+        return unless visible_work_package_ids.include?(allocation.entity_id) && may_allocate?(allocation)
 
         edit_allocation_path(@project, allocation)
       end
