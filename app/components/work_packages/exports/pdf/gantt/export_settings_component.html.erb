@@ -1,13 +1,32 @@
 <%= flex_layout do |container| %>
-  <% gantt_selects.each_with_index do |entry, index| %>
-    <% container.with_row(mt: index == 0 ? 0 : 3) do %>
-      <%= render(Primer::Alpha::Select.new(
-                   name: entry[:name],
-                   label: entry[:label],
-                   caption: entry[:caption],
-                   size: :medium,
-                   input_width: :small
-                 )) do |component|
+  <% container.with_row do %>
+    <%= render WorkPackages::Exports::PDF::Gantt::ColumnSelectionComponent.new(export_settings) %>
+  <% end %>
+  <% container.with_row(mt: 3) do %>
+    <%= render(
+          Primer::Alpha::CheckBox.new(
+            id: "gantt_include_without_dates",
+            name: "gantt_include_without_dates",
+            value: "true",
+            unchecked_value: "false",
+            checked: export_settings.true?(:gantt_include_without_dates),
+            label: I18n.t("export.dialog.pdf.gantt_include_without_dates.label"),
+            caption: I18n.t("export.dialog.pdf.gantt_include_without_dates.caption"),
+            visually_hide_label: false
+          )
+        ) %>
+  <% end %>
+  <% gantt_selects.each do |entry| %>
+    <% container.with_row(mt: 3) do %>
+      <%= render(
+            Primer::Alpha::Select.new(
+              name: entry[:name],
+              label: entry[:label],
+              caption: entry[:caption],
+              size: :medium,
+              input_width: :small
+            )
+          ) do |component|
             selected = find_selected_option(entry)
             entry[:options].each do |e|
               component.option(label: e[:label], value: e[:value], selected: selected[:value] == e[:value])

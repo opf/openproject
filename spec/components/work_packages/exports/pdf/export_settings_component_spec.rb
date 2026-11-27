@@ -37,4 +37,68 @@ RSpec.describe WorkPackages::Exports::PDF::ExportSettingsComponent, type: :compo
 
     expect(page).to have_field("pdf_export_type_gantt", type: "radio", disabled: true)
   end
+
+  describe "preselected export type" do
+    subject(:component) { described_class.new(query) }
+
+    let(:query) { create(:query) }
+
+    def save_setting(format, updated_at)
+      ExportSetting.create!(query:, format:, settings: { format: }).update_columns(updated_at:)
+    end
+
+    it "is the table without saved settings" do
+      render_inline(component)
+
+      expect(page).to have_field("pdf_export_type_table", type: "radio", checked: true)
+    end
+
+    context "with saved settings", with_ee: %i[gantt_pdf_export] do
+      before do
+        save_setting("pdf_report", 2.days.ago)
+        save_setting("pdf_gantt", 1.day.ago)
+        save_setting("csv", 1.hour.ago)
+      end
+
+      it "is the type of the most recently saved PDF settings" do
+        render_inline(component)
+
+        expect(page).to have_field("pdf_export_type_gantt", type: "radio", checked: true)
+        expect(page).to have_css("[data-pdf-export-type='gantt']:not(.d-none)")
+      end
+    end
+
+    context "when opened in the Gantt module" do
+      subject(:component) { described_class.new(query, pdf_export_type: "gantt") }
+
+      it "is the Gantt chart without saved settings", with_ee: %i[gantt_pdf_export] do
+        render_inline(component)
+
+        expect(page).to have_field("pdf_export_type_gantt", type: "radio", checked: true)
+      end
+
+      it "is the table without the enterprise feature", with_ee: [] do
+        render_inline(component)
+
+        expect(page).to have_field("pdf_export_type_table", type: "radio", checked: true)
+      end
+
+      it "is the type of saved PDF settings", with_ee: %i[gantt_pdf_export] do
+        save_setting("pdf_report", 1.day.ago)
+        render_inline(component)
+
+        expect(page).to have_field("pdf_export_type_report", type: "radio", checked: true)
+      end
+    end
+
+    context "with saved Gantt settings without the enterprise feature", with_ee: [] do
+      before { save_setting("pdf_gantt", 1.day.ago) }
+
+      it "is the table" do
+        render_inline(component)
+
+        expect(page).to have_field("pdf_export_type_table", type: "radio", checked: true)
+      end
+    end
+  end
 end

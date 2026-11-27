@@ -195,6 +195,31 @@ RSpec.describe WorkPackagesController do
         it_behaves_like "export of mime_type"
       end
 
+      describe "pdf with unchanged export settings to save", with_ee: %i[gantt_pdf_export] do
+        let(:query) { create(:query, project:, user: current_user) }
+        let(:params) { { project_id: project.id, pdf_export_type: "gantt", save_export_settings: "true" } }
+        let(:gantt_settings) { query.export_settings.find_by(format: "pdf_gantt") }
+
+        before do
+          mock_permissions_for(current_user) do |mock|
+            mock.allow_in_project :view_work_packages, :export_work_packages, project:
+          end
+
+          service_instance = instance_double(WorkPackages::Exports::ScheduleService)
+          allow(WorkPackages::Exports::ScheduleService).to receive(:new).and_return(service_instance)
+          allow(service_instance).to receive(:call).and_return(ServiceResult.success(result: "uuid of the export job"))
+
+          get("index", params: params.merge(format: "pdf"))
+          gantt_settings.update_columns(updated_at: 2.days.ago)
+        end
+
+        it "marks them as saved again" do
+          get("index", params: params.merge(format: "pdf"))
+
+          expect(gantt_settings.reload.updated_at).to be > 1.minute.ago
+        end
+      end
+
       describe "atom" do
         let(:params) { {} }
         let(:call_action) { get("index", params: params.merge(format: "atom")) }

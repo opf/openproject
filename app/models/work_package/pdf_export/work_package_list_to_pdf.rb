@@ -72,6 +72,7 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   end
 
   def get_columns
+    return gantt_text_columns if wants_gantt?
     return [] if wants_report? && without_columns?
 
     super

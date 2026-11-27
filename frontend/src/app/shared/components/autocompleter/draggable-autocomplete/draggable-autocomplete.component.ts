@@ -111,6 +111,9 @@ export class DraggableAutocompleteComponent implements OnInit, AfterViewInit {
   /** Indicates that at least one entry must be selected */
   @Input() required = false;
 
+  /** Maximum number of entries that can be selected. Unlimited when null. */
+  @Input() maxItems:number|null = null;
+
   /** Decide whether to bind the component to the component or to the body */
   /** Binding to the component in case the component is inside a Primer Dialog which uses popover */
   @Input() appendToComponent = false;
@@ -161,7 +164,8 @@ export class DraggableAutocompleteComponent implements OnInit, AfterViewInit {
   // The way in for consumers that replaced the autocompleter input with their own control.
   addOptions(event:CustomEvent<DraggableOption[]>):void {
     const additions = (event.detail || [])
-      .filter((option) => !this.selectedOptions.some((selected) => selected.id === option.id));
+      .filter((option) => !this.selectedOptions.some((selected) => selected.id === option.id))
+      .slice(0, this.remainingSlots);
 
     if (additions.length === 0) {
       return;
@@ -196,7 +200,7 @@ export class DraggableAutocompleteComponent implements OnInit, AfterViewInit {
   }
 
   select(item:DraggableOption|undefined) {
-    if (!item) {
+    if (!item || this.limitReached) {
       return;
     }
 
@@ -248,6 +252,18 @@ export class DraggableAutocompleteComponent implements OnInit, AfterViewInit {
   searchFunction = (term:string, currentItem:QueryFilterResource):boolean => {
     return this.alternativeSearchService.searchFunction(term, currentItem);
   };
+
+  get limitReached():boolean {
+    return this.remainingSlots === 0;
+  }
+
+  private get remainingSlots():number {
+    if (typeof this.maxItems !== 'number') {
+      return Infinity;
+    }
+
+    return Math.max(this.maxItems - this.selectedOptions.length, 0);
+  }
 
   get hasError() {
     return this.required && this.selectedOptions.length === 0;

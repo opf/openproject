@@ -31,6 +31,8 @@ require "spec_helper"
 require "features/work_packages/work_packages_page"
 
 RSpec.describe "work package export", :js do
+  include Components::Autocompleter::NgSelectAutocompleteHelpers
+
   let(:project) { create(:project_with_types, types: [type_a, type_b]) }
   let(:export_type) { "CSV" }
   let(:current_user) { create(:admin) }
@@ -488,6 +490,43 @@ RSpec.describe "work package export", :js do
           expected_params[:paper_size] = "A1"
           select "A1", from: "paper_size"
           export!
+        end
+
+        it "exports with work packages without dates" do
+          check I18n.t("export.dialog.pdf.gantt_include_without_dates.label")
+          expected_params[:gantt_include_without_dates] = "true"
+          export!
+        end
+
+        it "exports the selected text columns and restores a saved selection" do
+          gantt_tab = find("[data-pdf-export-type='gantt']")
+          captions = ->(names) { names.map { |name| WorkPackage.human_attribute_name(name) } }
+
+          within(gantt_tab) do
+            expect_selected_columns(captions.call(%i[id subject start_date due_date]))
+
+            select_autocomplete find(".op-draggable-autocomplete--input"),
+                                query: WorkPackage.human_attribute_name(:status),
+                                results_selector: "#columns-select-export-pdf-gantt_autocompleter"
+
+            select_autocomplete find(".op-draggable-autocomplete--input"),
+                                query: WorkPackage.human_attribute_name(:priority),
+                                results_selector: "#columns-select-export-pdf-gantt_autocompleter"
+
+            expect_selected_columns(captions.call(%i[id subject start_date due_date status priority]))
+            expect(page).to have_css(".op-draggable-autocomplete--input.ng-select-disabled")
+
+            first(".op-draggable-autocomplete--remove-item").click
+          end
+
+          check I18n.t("export.dialog.save_export_settings.label")
+          expected_params[:columns] = %w[subject start_date due_date status priority]
+          export_and_reopen_dialog!
+          choose export_variant
+
+          within("[data-pdf-export-type='gantt']") do
+            expect_selected_columns(captions.call(%i[subject start_date due_date status priority]))
+          end
         end
       end
     end

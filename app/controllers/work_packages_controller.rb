@@ -142,7 +142,8 @@ class WorkPackagesController < ApplicationController
   def export_dialog
     respond_with_dialog WorkPackages::Exports::ModalDialogComponent.new(query: @query,
                                                                         project: @query.project,
-                                                                        title: params[:title])
+                                                                        title: params[:title],
+                                                                        pdf_export_type: params[:pdf_export_type])
   end
 
   def assign_to_me
@@ -282,7 +283,7 @@ class WorkPackagesController < ApplicationController
     return false if @query.new_record?
 
     relevant_keys = %i[format columns show_relations show_descriptions long_text_fields
-                       show_images gantt_mode gantt_width paper_size]
+                       show_images gantt_mode gantt_width gantt_include_without_dates paper_size]
 
     user_settings = params.slice(*relevant_keys)
 
@@ -292,6 +293,8 @@ class WorkPackagesController < ApplicationController
 
     export_settings = @query.export_settings_for(user_settings[:format])
     export_settings.settings = user_settings
+    return export_settings.touch unless export_settings.changed?
+
     export_settings.save
   end
 

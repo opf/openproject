@@ -106,6 +106,26 @@ RSpec.describe "GET work packages export_dialog", type: :rails_request do
     end
   end
 
+  context "when opened in the Gantt module" do
+    let(:checked_pdf_export_type) do
+      Capybara.string(response.body[%r{<template>(.*)</template>}m, 1].to_s)
+              .find("input[name='pdf_export_type'][checked]", visible: :all)[:value]
+    end
+
+    before do
+      get "/projects/#{query_project.identifier}/gantt/export_dialog", params: { query_id: query.id },
+                                                                       headers: { "Accept" => "text/vnd.turbo-stream.html" }
+    end
+
+    it "preselects the Gantt chart PDF export type", with_ee: %i[gantt_pdf_export] do
+      expect(checked_pdf_export_type).to eq("gantt")
+    end
+
+    it "preselects the table without the enterprise feature", with_ee: [] do
+      expect(checked_pdf_export_type).to eq("table")
+    end
+  end
+
   context "when a title is passed" do
     before { get_export_dialog(query_project, params: { query_id: query.id, title: "ZZUniqueExportTitle" }) }
 
