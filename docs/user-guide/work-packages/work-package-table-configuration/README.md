@@ -4,6 +4,7 @@ sidebar_navigation:
   priority: 950
 description: How to configure the work package list in OpenProject.
 keywords: work packages table configuration, work package table, columns, filter, group
+
 ---
 
 # Work package table configuration
@@ -30,6 +31,9 @@ To open the work package table configuration, click the **More** icon (three dot
 You can also click the **Settings** icon at the far right of the row listing column names to open the table configuration.
 
 ![Settings icon to open work packages table configuration](openproject_user_guide_wp_settings_configure_table_icon.png)
+
+> [!TIP]
+> The work package table can also be used entirely with the keyboard, for example to move between cells, select work packages, and open their context menu. See [Navigate work package tables](../../keyboard-shortcuts-access-keys/#navigate-work-package-tables) for all keyboard shortcuts.
 
 ## Add or remove columns in the work package table
 
@@ -109,11 +113,13 @@ To display all subordinate work packages (children, grandchildren, etc.) of a sp
 
 ### Include/exclude work packages from a specific project or subproject
 
-It is possible to display work packages from multiple projects. To include or exclude work packages from specific projects, click the **Include projects** button at the top of the work package table view. From there, you can select or deselect the projects and sub-projects you want to include.
+It is possible to display work packages from multiple projects. To include or exclude work packages from specific projects, click the **Include projects** button at the top of the work package table view. On small screens, the button only shows its icon and the number of included projects. From there, you can select or deselect the projects and sub-projects you want to include.
+
+Portfolios and programs are marked with their own icon and label, so you can tell them apart from projects.
 
 To automatically include all sub-projects for each selected project, check the **Include all sub-projects** box at the bottom of the dialog.
 
-![Filter to include sub-projects into a work package table in OpenProject](openproject_user_guide_wp_table_include_sub_projects.png)
+![Include projects dialog in a work package table in OpenProject, with portfolios and programs marked by their own icons](openproject_user_guide_wp_table_include_sub_projects.png)
 
 If you want to view all work packages across all projects, you can either select all projects manually or use the [global work package tables](../../projects/project-lists/#global-work-package-tables).
 
@@ -184,6 +190,7 @@ If your OpenProject instance uses project-based work package identifiers, the **
 
 <div class="glossary">
 
+
 The **ID** uniquely identifies a work package within OpenProject. Depending on the configuration of your OpenProject instance, it may be displayed as a numerical identifier (for example, 12345) or a project-based identifier (for example, PROJ-123). IDs are assigned automatically and can be used to reference, search for, and link to work packages.
 
 </div>
@@ -204,6 +211,8 @@ Therefore, the results may differ if you sort in a flat list or in a hierarchy m
 ### Manual sorting of the work package table
 
 You can sort the work package table manually, using the icon with the three dots on the left of each work package to drag and drop it.
+
+Alternatively, you can move work packages without drag and drop: right-click a work package, select **Move to position**, and then choose **Move to top**, **Move up**, **Move down**, or **Move to bottom**. This also works with the keyboard by opening the context menu of the focused work package.
 
 Moving a work package will change its attributes, depending on the kind of table displayed, e.g. hierarchy changes or priority.
 
@@ -258,7 +267,7 @@ Furthermore, you can highlight the entire row by an attribute. The following att
 
 ![Highlighting of an entire row in work packages table is activated in OpenProject](openproject_user_guide_wp_table_highlighting_row_on.png)
 
-You can configure the colors for attribute highlighting in the system administration. Find out how to set it for the color of the priority [here](../../../system-admin-guide/manage-work-packages/work-package-priorities/#edit-or-remove-work-package-priority) and for the color of the status [here](../../../system-admin-guide/manage-work-packages/work-package-status/#edit-re-order-or-remove-a-work-package-status).
+You can configure the colors for attribute highlighting in the system administration. Find out how to set it for the color of the priority [here](../../../system-admin-guide/manage-work-packages/work-package-priorities/#edit-or-remove-work-package-priority) and for the color of the status [here](../../../system-admin-guide/manage-work-packages/work-package-statuses/#edit-reorder-or-remove-a-work-package-status).
 
 ## Save work package views
 

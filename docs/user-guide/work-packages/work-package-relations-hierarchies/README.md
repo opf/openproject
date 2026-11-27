@@ -42,13 +42,10 @@ You can select one of the following relations:
 - **Predecessor (before)/ Successor (after)** - Defines a chronological relation between two work packages. For example, if you set a work package A to precede a work package B, the start date of B has to be at least a day after the finish date of A.
   Please note: If work package B is in [manual scheduling mode](../../gantt-chart/scheduling/#manual-scheduling), changing the finish date of work package A will have no effect on work package B.
 
-> [!TIP]
-> Prior to 15.1, _Predecessor (before)_ was called _Precedes_, and _Successor (after)_ was called _Follows_.
-
 For the relations of type Predecessor/Successor, you can also define **lag**, which is the minimum number of working days to keep in between the two work packages. The default setting for lag is 0 working days. Lag can also be negative. Here are a few examples:
 
 - A lag of 0 means the successor starts one working day after the predecessor finishes.
-- A lag of 2 means the successor starts three working day after the predecessor finishes.
+- A lag of 2 means the successor starts three working days after the predecessor finishes.
 - A lag of -1 means the successor starts on the same day the predecessor finishes.
 - A lag of -2 schedules the successor to start one working day before the predecessor finishes, and so on.
 
@@ -69,7 +66,7 @@ You can always edit the _Description_ and _Lag_ fields at a later time.
 - **Duplicates / Duplicated by** - This option indicates that the work package B duplicates a work package A in one way or another, for example both address the same task. This can be useful if you have the same work package that needs to be a part of a closed and public projects at the same time. The connection in this case is only semantic, the changes you make in work package A will need to be adapted in work package B manually.
 
 > [!NOTE]
-> Some changes in statuses will be adjusted automatically for the duplicated work package. Specifically, if the status of a work package A is set to be "closed" (or set to any status that is defined to count as "closed" in the  [system settings](../../../system-admin-guide/manage-work-packages/work-package-status/), for example "rejected" often counts as a "closed" status), the status of the work package B will change to "closed". Note that this is direction dependent. Only if the work package A is closed will the work package B be closed as well, not the other way around.
+> Some changes in statuses will be adjusted automatically for the duplicated work package. Specifically, if the status of a work package A is set to be "closed" (or set to any status that is defined to count as "closed" in the  [system settings](../../../system-admin-guide/manage-work-packages/work-package-statuses/), for example "rejected" often counts as a "closed" status), the status of the work package B will change to "closed". Note that this is direction dependent. Only if the work package A is closed will the work package B be closed as well, not the other way around.
 
 - **Blocks / Blocked by** - This option defines status change restrictions between two work packages. If you set a work package A to be blocking work package B, the status of work package B cannot be set to closed or resolved until the work package A is closed.
 
@@ -120,7 +117,7 @@ There are **four ways to add or create a child work package**:
 
    ![Add a child in a work package table](openproject_user_guide_wp_table_add_child.png)
 
-4. You can add a child work package directly under the table of related work packages. To do that you first need to [include a table of related work packages to work package forms (Enterprise add-on)](../../../system-admin-guide/manage-work-packages/work-package-types/form-configuration/#add-table-of-related-work-packages-to-a-work-package-form-enterprise-add-on). 
+4. You can add a child work package directly under the table of related work packages. To do that you first need to [include a table of related work packages to work package forms (Enterprise add-on)](../../../system-admin-guide/manage-work-packages/work-package-forms/#add-a-table-of-related-work-packages-enterprise-add-on). 
 
    ![A table of related work packages in OpenProject](open_project_admin_related_wp_table.png)
 
@@ -137,6 +134,8 @@ When creating a new work package as a child, you will be asked to select type, a
 ![Create a new child work package under Relations tab in OpenProject](openproject_user_guide_wp_add_child_new.png)
 
 ![Select a child work package in OpenProject](openproject_user_guide_wp_add_child_select.png)
+
+After you save, the _Relations_ tab automatically scrolls to the _Children_ section, so you can see the newly added child right away, even if the work package has many relations.
 
 For more information on the work package creation take a look at the guideline on [creating a work package](../create-work-package).
 

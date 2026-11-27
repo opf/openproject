@@ -3,12 +3,12 @@ sidebar_navigation:
   title: Duplicate, move, delete work packages
   priority: 960
 description: How to duplicate, move to another project or delete a work package.
-keywords: copy work package,duplicate work package, delete work package, move work package
+keywords: copy work package, duplicate work package, delete work package, move work package, copy work package ID, copy link
 ---
 
 # Duplicate, move to another project or delete a work package
 
-If you right-click in a work package table, editing options will be displayed. Here, you can move a work package to another project, duplicate a work package, or copy its URL to the clipboard, delete it or duplicate it in another project.
+If you right-click in a work package table, or press **Shift** + **F10** on a work package with the keyboard, editing options will be displayed. Here, you can duplicate a work package, duplicate it in another project, move it to another project, copy its link or ID to the clipboard, or delete it.
 
 ![Work package editing options in a work package table view in OpenProject](openproject_user_guide_copy_move_delete_wptableview.png)
 
@@ -24,13 +24,19 @@ To duplicate, move or delete multiple work packages at once please refer to the 
 
 ## Duplicate a work package
 
-When duplicating (or copying) a work package, a work package form with the pre-set values of the original work package is shown.
+When you select **Duplicate**, a work package form with the pre-set values of the original work package is shown. This allows you to easily create and adjust new work packages based on existing ones.
 
-Copying a work package allows to easily create and adjust new work packages based on existing one’s.
+To create the copy in a different project, select **Duplicate in another project** instead.
 
 ## Copy link to clipboard
 
-This option copies a short link to the work package to your clipboard  so you can quickly paste it elsewhere. It can also be useful when you want to quickly copy links to multiple work packages without having to  open the detailed view of each one.
+**Copy link to clipboard** copies a short link to the work package to your clipboard so you can quickly paste it elsewhere. It can also be useful when you want to quickly copy links to multiple work packages without having to open the detailed view of each one.
+
+## Copy work package ID
+
+**Copy work package ID** copies the ID of the work package to your clipboard, for example `#2421` or `#PROJ-42`, depending on the identifiers used in your installation. This is useful when you want to refer to a work package elsewhere, for example in a comment, a document, or a commit message.
+
+The option is available in the **More** (three dots) menu of a work package, for example in the work package table, the Gantt chart, the work package details, and on boards.
 
 ## Move a work package to a different project
 

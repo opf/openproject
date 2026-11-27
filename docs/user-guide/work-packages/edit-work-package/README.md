@@ -27,7 +27,10 @@ To edit a work package, double-click a work package row in [table view](../../wo
 In the work package details, you can click in any field to update it, e.g. change the description, status, priority, assignee, or add a comment.
 
 > [!TIP]
-> You can also insert a page break into the description field if you intend to [export a work package in PDF format](../exporting/#page-breaks) and want to the description to be displayed on separate pages of a PDF report.
+> If you often select and copy text in work packages, you can prevent fields from opening for editing by accident. Activate [Require double click to edit fields](../../account-settings/interface/#require-double-click-to-edit-fields) in your account settings. Fields then only open for editing with a double click.
+
+> [!TIP]
+> You can also insert a page break into the description field if you intend to [export a work package in PDF format](../exporting/#page-breaks) and want the description to be displayed on separate pages of a PDF report.
 
 To save changes in the description, click the **checkmark** icon.
 
@@ -51,6 +54,10 @@ All changes of a work package are documented in the work package [Activity](../.
 
 ### Link to or create a wiki page
 
+Work packages are often short-lived: they are created, worked on, and closed. Knowledge that comes up along the way, such as decisions, specifications, how-tos, or lessons learned, is easily lost once a work package is closed. Wiki pages are a better place for this kind of lasting information.
+
+By linking work packages with wiki pages, you connect both: the work package shows which documentation belongs to it, and the documentation stays available in your knowledge base after the work is done. You can work with the OpenProject project wiki or, if your administrator has set it up, with an external wiki such as [XWiki](../../../system-admin-guide/integrations/xwiki/) (Enterprise add-on).
+
 You can link an existing wiki page to a work package or create a new one in two ways:
 
 - From the work package description using the rich text editor.
@@ -68,8 +75,7 @@ Next steps vary depending on whether you are creating a new wiki page or linking
 
 #### Create a new wiki page
 
-1. Enter a title for the new wiki page. 
-
+1. Enter a title for the new wiki page.
 2. If prompted, select the **Wiki provider** and click **Next**.
 
 Depending on your system configuration, you can choose between:
@@ -82,23 +88,20 @@ Depending on your system configuration, you can choose between:
 
 ![Select wiki provider when creating or linking a wiki page](openproject_user_guide_wp_wiki_provider.png)
 
-4. Select the parent wiki page.
-
-5. Click **Add** to create the wiki page and insert a link to it in the work package description.
+3. Select the parent wiki page.
+4. Click **Add** to create the wiki page and insert a link to it in the work package description.
 
 ![Select a parent wiki page](openproject_user_guide_wp_wiki_parent_page.png)
 
 #### Link an existing wiki page
 
-3. Naming step is skipped. If there is more than one provider, you will need to select a Wiki provider. Click **Next**.
-4. Search for or browse to select the wiki page you want to link. If you know part of the page title or another relevant term, enter it in the search bar to filter the available pages. The search results replace the page hierarchy. Clear the search bar to return to the hierarchy with all pages collapsed. You can also enter a URL if you already know the destination.
-5. Click **Add** to add the link to the work package description.
+1. If there is more than one wiki provider, select the **Wiki provider** and click **Next**. Since you link an existing page, there is no title to enter.
+2. Search for or browse to select the wiki page you want to link. If you know part of the page title or another relevant term, enter it in the search bar to filter the available pages. The search results replace the page hierarchy. Clear the search bar to return to the hierarchy with all pages collapsed. You can also enter a URL if you already know the destination.
+3. Click **Add** to add the link to the work package description.
 
 ![Add an existing wiki page](openproject_user_guide_wp_wiki_existing_page_search.png)
 
 The wiki page is inserted into the description as a link.
-
-When added from the work package description, the wiki page is inserted into the description as a link.
 
 All linked wiki pages are also listed in the **Wikis** tab of the work package.
 
@@ -191,7 +194,7 @@ You can mention and notify team members via [@notification](../../notifications/
 
 ### Emojis
 
-Starting with OpenProject 13.0 you can add emojis to all text editors. Type a colon and a letter, e.g. **:a** into the text editor and get a suggested list of emojis you can use.
+You can add emojis to all text editors. Type a colon and a letter, e.g. **:a** into the text editor and get a suggested list of emojis you can use.
 
 ![openproject_user_guide_wp_comment_emojis](openproject_user_guide_wp_comment_emojis.png)
 
@@ -304,11 +307,15 @@ Please see [this separate guide](../exporting) for more information on exporting
 
 ## Bulk edit work packages
 
-To make a bulk update and edit several work packages at once, navigate to the work packages table view.
-Highlight all work packages which you want to edit.
-Tip: **keep the Ctrl. button pressed** in order to select and edit several work packages at once.
+To make a bulk update and edit several work packages at once, navigate to the work packages table view and select all work packages which you want to edit:
 
-To open the quick context menu, **press the RIGHT mouse button**.
+- Keep **Ctrl** (Windows, Linux) or **Cmd** (Mac) pressed and click to add individual work packages to the selection.
+- Keep **Shift** pressed and click to select a range of work packages.
+- With the keyboard, move to a work package and press **Space** to select it, or **Shift** + arrow keys to extend the selection. See [Navigate work package tables](../../keyboard-shortcuts-access-keys/#navigate-work-package-tables) for all keyboard shortcuts.
+
+To clear the selection, press **Esc**.
+
+To open the quick context menu, right-click one of the selected work packages. With the keyboard, press **Shift** + **F10** or the **Menu** key.
 ![Bulk edit work packages in OpenProject](openproject_user_guide_wp_bulk_edit.png)
 
 Then you have the possibility to:
@@ -331,7 +338,7 @@ At the bottom of the page you can decide whether notifications about these chang
 
 ## Update a work package in a work package table view
 
-In the work package table view, you can not only open a single work package but also trigger direct actions such as logging time and costs, duplicating, downloading or deleting said work package. To access the quick context menu, simply right-click any work package in a work package table view and select the preferred action.
+In the work package table view, you can not only open a single work package but also trigger direct actions such as logging time and costs, duplicating, downloading or deleting said work package. To access the quick context menu, simply right-click any work package in a work package table view and select the preferred action. With the keyboard, move to the work package and press **Shift** + **F10** or the **Menu** key.
 
 ![Quick context menu in OpenProject work package table](openproject_user_guide_wp_quick_context_menu.png)
 
@@ -340,6 +347,7 @@ You have the following options:
 - **Open details view** - opens the details view of a work package on the right side of the screen.
 - **Open fullscreen view** - opens the detailed view of a work package across the entire screen.
 - **Copy link to clipboard** - copies a short link to the selected work package to your clipboard.
+- **Copy work package ID** - copies the ID of the selected work package to your clipboard.
 - **Log time** - opens a pop-up dialogue allowing you to [log time](../../time-and-costs/time-tracking/#log-time-in-the-work-package-view) directly to a work package without having to open it first.
 - **Log unit costs** - navigates you to the cost logging screen. Once you [log the costs](../../time-and-costs/cost-tracking/) and save the entry, you will return to the work package table view.
 - **Move to another project** - allows moving the selected work package to a different project.
@@ -350,9 +358,7 @@ You have the following options:
 - **Download Atom** - downloads the selected work package as an Atom file.
 - **Indent hierarchy** - creates a child-parent relationship with the work package directly above. The work package you selected become the child work package. The work package directly above becomes the parent work package.
 - **Create new child** - opens a new work package on the right side of the screen. This new work package already has a child relationship to the work package you selected.
-
-> [!TIP]
-> In OpenProject 14.5 the term _Copy a work package_ was replaced by _Duplicate a work package_. _Change project_ was replaced by _Move to another project_.
+- **Move to position** - changes the position of the work package in a manually sorted table: **Move to top**, **Move up**, **Move down**, or **Move to bottom**. See [Manual sorting of the work package table](../work-package-table-configuration/#manual-sorting-of-the-work-package-table).
 
 If you have opened the quick context menu for a work package that has a parent work package, you will also see:
 
