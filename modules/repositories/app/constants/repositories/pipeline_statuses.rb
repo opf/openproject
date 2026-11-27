@@ -49,8 +49,8 @@ module Repositories
 
     MANUAL = RepositoryStatus.pipeline_status(code: :manual, hexcode: "#0F41B5", icon: :pencil)
     SKIPPED = RepositoryStatus.pipeline_status(code: :skipped, hexcode: "#24292F", icon: :tab)
-    CANCELLED = RepositoryStatus.pipeline_status(code: :cancelled, hexcode: "#24292F", icon: :"x-circle")
-    CANCELLING = RepositoryStatus.pipeline_status(code: :cancelling,
+    CANCELED = RepositoryStatus.pipeline_status(code: :canceled, hexcode: "#24292F", icon: :"x-circle")
+    CANCELING = RepositoryStatus.pipeline_status(code: :canceling,
                                                   hexcode: "#24292F",
                                                   icon: :"x-circle")
 
@@ -66,8 +66,8 @@ module Repositories
       WAITING_FOR_CALLBACK,
       MANUAL,
       SKIPPED,
-      CANCELLED,
-      CANCELLING
+      CANCELED,
+      CANCELING
     ].freeze
   end
 end

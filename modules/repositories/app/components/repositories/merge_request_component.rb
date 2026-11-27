@@ -86,9 +86,9 @@ module Repositories
       when :running
         PipelineStatuses::RUNNING
       when :canceling
-        PipelineStatuses::CANCELLING
+        PipelineStatuses::CANCELING
       when :canceled
-        PipelineStatuses::CANCELLED
+        PipelineStatuses::CANCELED
       when :manual
         PipelineStatuses::MANUAL
       else
