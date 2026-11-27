@@ -33,6 +33,7 @@ module Import
     include JiraJobUtils
 
     REVERT_STEPS = %i[delete_projects
+                      delete_type_variant_configurations
                       delete_types_statuses_and_issue_priorities
                       delete_users
                       delete_groups
@@ -48,7 +49,9 @@ module Import
     REF_OBJECT_TYPES = {
       "Type" => "issueType",
       "IssuePriority" => "priority",
-      "Status" => "status"
+      "Status" => "status",
+      "FormConfiguration" => "form",
+      "Workflow" => "workflow"
     }.freeze
 
     WORK_PACKAGE_ASSOCIATIONS = {
@@ -190,6 +193,54 @@ module Import
       return unless Sprint.for_project(project).active.where.not(id: sprint.id).exists?
 
       project.update!(allow_multiple_active_sprints: true)
+    end
+
+    def delete_type_variant_configurations
+      created_references("FormConfiguration").find_each { delete_form_configuration(it) }
+      created_references("Workflow").find_each { delete_workflow(it) }
+    end
+
+    def delete_form_configuration(ref)
+      with_reference_log_context(ref) do
+        form = ref.op_leg
+        if form.type_variants.exists?
+          Rails.logger.warn "OpenProject FormConfiguration is used outside this import, keeping it"
+          next
+        end
+
+        Rails.logger.debug "Deleting FormConfiguration"
+        form.destroy!
+      rescue Import::JiraOpenProjectReference::LegNotFoundError
+        Rails.logger.warn "OpenProject form no longer exists, skipping its deletion"
+      end
+    end
+
+    def delete_workflow(ref)
+      with_reference_log_context(ref) do
+        workflow = ref.op_leg
+        if workflow.in_use?
+          Rails.logger.warn "OpenProject Workflow is used outside this import, keeping it"
+          next
+        end
+
+        service_call = Workflows::DeleteService.new(user: @user, model: workflow).call
+        raise service_call.message if service_call.failure?
+      rescue Import::JiraOpenProjectReference::LegNotFoundError
+        Rails.logger.warn "OpenProject workflow no longer exists, skipping its deletion"
+      end
+    end
+
+    def created_references(op_entity_class)
+      Import::JiraOpenProjectReference.where(
+        jira_import_id: @jira_import.id,
+        uses_existing: false,
+        op_entity_class:
+      )
+    end
+
+    def with_reference_log_context(ref, &)
+      Rails.logger.tagged("jira_object_type:#{REF_OBJECT_TYPES.fetch(ref.op_entity_class)}",
+                          "jira_object_id_or_name:#{ref.op_entity_id}", &)
     end
 
     # rubocop:disable-next Metrics/AbcSize

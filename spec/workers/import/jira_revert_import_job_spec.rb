@@ -442,17 +442,114 @@ RSpec.describe Import::JiraRevertImportJob do
     end
   end
 
+  describe "#perform" do
+    let(:project) { create(:project, no_types: true) }
+
+    before { transition_to_reverting }
+
+    context "with type variants" do
+      let(:type) { create(:type) }
+      let(:form_configuration) { create(:form_configuration) }
+      let(:workflow) { create(:named_workflow) }
+      let(:variant) { create(:project_owned_type_variant, type:, project:, form_configuration:, workflow:) }
+
+      subject(:perform) { described_class.perform_now(jira_import.id) }
+
+      before do
+        create(:project_type, project:, type:, variant:)
+
+        reference_for(project, "Project")
+        reference_for(variant, "TypeVariant")
+      end
+
+      context "when the import created a form and workflow" do
+        before do
+          reference_for(form_configuration, "FormConfiguration")
+          reference_for(workflow, "Workflow")
+        end
+
+        it "deletes the variant with its form and workflow" do
+          expect { perform }
+            .to change(Project, :count).by(-1)
+            .and change(TypeVariant, :count).by(-1)
+            .and change(FormConfiguration, :count).by(-1)
+            .and change(Workflow, :count).by(-1)
+          expect(jira_import.reload.current_state).to eq("reverted")
+          expect(TypeVariant).not_to exist(variant.id)
+          expect(FormConfiguration).not_to exist(form_configuration.id)
+          expect(Workflow).not_to exist(workflow.id)
+        end
+
+        context "when form and workflow are used elsewhere" do
+          before { create(:project_owned_type_variant, type:, form_configuration:, workflow:) }
+
+          it "keeps the form and workflow" do
+            expect { perform }
+              .to change(Project, :count).by(-1)
+              .and change(TypeVariant, :count).by(-1)
+              .and not_change(FormConfiguration, :count)
+              .and not_change(Workflow, :count)
+            expect(jira_import.reload.current_state).to eq("reverted")
+            expect(TypeVariant).not_to exist(variant.id)
+            expect(FormConfiguration).to exist(form_configuration.id)
+            expect(Workflow).to exist(workflow.id)
+          end
+        end
+      end
+
+      context "when form and workflow are already gone" do
+        before do
+          reference_for(form_configuration, "FormConfiguration")
+          reference_for(workflow, "Workflow")
+          default_variant = type.default_variant
+          variant.update!(form_configuration: default_variant.form_configuration, workflow: default_variant.workflow)
+          form_configuration.reload.destroy!
+          workflow.reload.destroy!
+        end
+
+        it "skips them for the revert" do
+          expect { perform }
+            .to change(Project, :count).by(-1)
+            .and change(TypeVariant, :count).by(-1)
+            .and not_change(FormConfiguration, :count)
+            .and not_change(Workflow, :count)
+          expect(jira_import.reload.current_state).to eq("reverted")
+          expect(TypeVariant).not_to exist(variant.id)
+        end
+      end
+
+      context "when the import used an existing form and workflow" do
+        before do
+          reference_for(form_configuration, "FormConfiguration", uses_existing: true)
+          reference_for(workflow, "Workflow", uses_existing: true)
+        end
+
+        it "keeps the form and workflow" do
+          expect { perform }
+            .to change(Project, :count).by(-1)
+            .and change(TypeVariant, :count).by(-1)
+            .and not_change(FormConfiguration, :count)
+            .and not_change(Workflow, :count)
+          expect(jira_import.reload.current_state).to eq("reverted")
+          expect(TypeVariant).not_to exist(variant.id)
+          expect(FormConfiguration).to exist(form_configuration.id)
+          expect(Workflow).to exist(workflow.id)
+        end
+      end
+    end
+  end
+
   describe "#progress" do
     it "is 0 while no step has been completed" do
-      expect(job.progress).to eq({ current: 0, percentage: 0, total: 9 })
+      expect(job.progress).to eq({ current: 0, percentage: 0, total: 10 })
     end
 
     it "grows with every completed step" do
       jira_import.set_job_cursor(job, :delete_projects)
-      expect(job.progress).to eq({ current: 1, percentage: 11.11, total: 9 })
+      expect(job.progress).to eq({ current: 1, percentage: 10, total: 10 })
 
       jira_import.set_job_cursor(job, :delete_jira_objects)
-      expect(job.progress).to eq({ current: 9, percentage: 100, total: 9 })
+      expect(job.progress).to eq({ current: 10, percentage: 100, total: 10 })
     end
   end
 
@@ -464,11 +561,11 @@ RSpec.describe Import::JiraRevertImportJob do
     end
 
     it "resumes after the last completed step" do
-      jira_import.set_job_cursor(job, :delete_projects)
+      jira_import.set_job_cursor(job, :delete_type_variant_configurations)
 
       enumerator = job.build_enumerator(jira_import.id, cursor: nil)
 
-      expect(enumerator.next).to eq([:delete_types_statuses_and_issue_priorities, 1])
+      expect(enumerator.next).to eq([:delete_types_statuses_and_issue_priorities, 2])
     end
   end
 end
