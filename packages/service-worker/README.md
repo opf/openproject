@@ -53,3 +53,15 @@ Use the Node.js and npm versions from `engines` in `package.json`, and run all c
    ```
 
    Do not edit `app/views/pwa/_service_worker_bundle.js` by hand. CI rebuilds it and fails when the committed file differs.
+
+### With the Docker development setup
+
+The `frontend` container has the right Node.js and npm versions and mounts the whole repository, so the same commands run there. From the repository root, with the container running:
+
+```shell
+docker compose exec -w /home/dev/openproject/packages/service-worker frontend npm ci
+docker compose exec -w /home/dev/openproject/packages/service-worker frontend npm test
+docker compose exec -w /home/dev/openproject/packages/service-worker frontend npm run build
+```
+
+`bin/compose setup` does not install the dependencies of this package; run `npm ci` as shown above once before the other commands.
