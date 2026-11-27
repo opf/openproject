@@ -146,6 +146,48 @@ RSpec.describe Llm::WorkPackages::SemanticSearch,
 
         expect(described_class.query_vector("some query")).to be_nil
       end
+
+      it "reuses the embedding of an earlier request" do
+        described_class.query_vector("some query")
+        RequestStore.clear!
+
+        expect(described_class.query_vector("some query")).to eq(WorkPackageEmbedding.vector_literal([0.1, 0.2, 0.3]))
+        expect(session_double).to have_received(:embed).once
+      end
+
+      it "does not keep a failed embedding" do
+        allow(session_double).to receive(:embed).and_raise(Llm::Errors::ConnectionError, "timeout")
+        described_class.query_vector("some query")
+        RequestStore.clear!
+        allow(session_double).to receive(:embed).and_return(embedding_double)
+
+        expect(described_class.query_vector("some query")).to eq(WorkPackageEmbedding.vector_literal([0.1, 0.2, 0.3]))
+      end
+    end
+  end
+
+  describe ".cached_query_vector" do
+    before do
+      allow(Llm::Session).to receive(:for).with(connection).and_return(session_double)
+      allow(session_double).to receive(:embed).and_return(embedding_double)
+      activate_semantic_index
+    end
+
+    it "returns nothing without embedding a query that was not embedded before" do
+      expect(described_class.cached_query_vector("some query")).to be_nil
+      expect(session_double).not_to have_received(:embed)
+    end
+
+    it "returns the vector of a query embedded in an earlier request" do
+      described_class.query_vector("some query")
+      RequestStore.clear!
+
+      expect(described_class.cached_query_vector("some query")).to eq(WorkPackageEmbedding.vector_literal([0.1, 0.2, 0.3]))
+      expect(session_double).to have_received(:embed).once
+    end
+
+    it "returns nothing when the feature flag is off", with_flag: { semantic_search: false } do
+      expect(described_class.cached_query_vector("some query")).to be_nil
     end
   end
 end

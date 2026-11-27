@@ -41,9 +41,22 @@ module Llm
         RequestStore.fetch(:semantic_search_runtime) { Llm::Runtime.for(:semantic_search) }
       end
 
+      QUERY_VECTOR_CACHE_TTL = 1.day
+
       # Memoized per request: the query filter and the similarity sort both need it.
       def self.query_vector(query)
         RequestStore.fetch([:semantic_search_query_vector, query]) { fetch_query_vector(query) }
+      end
+
+      # The query vector of an earlier embedding of the same query, never calling the
+      # embedding API. Nil when the query has not been embedded recently.
+      def self.cached_query_vector(query)
+        RequestStore.fetch([:semantic_search_cached_query_vector, query]) do
+          next if query.blank?
+          next unless available?
+
+          Rails.cache.read(query_vector_cache_key(query))
+        end
       end
 
       # The index query embedding and result ranking run against.
@@ -55,7 +68,15 @@ module Llm
         return if query.blank?
         return unless available?
 
-        embed(query)
+        Rails.cache.fetch(query_vector_cache_key(query), expires_in: QUERY_VECTOR_CACHE_TTL, skip_nil: true) do
+          embed(query)
+        end
+      end
+
+      private_class_method def self.query_vector_cache_key(query)
+        index = active_semantic_index
+        ["llm/semantic_search/query_vector", index.id, index.model_id, index.embedding_vector_dimensions,
+         Digest::SHA256.hexdigest(query)]
       end
 
       private_class_method def self.embed(query)
