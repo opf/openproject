@@ -285,7 +285,7 @@ Search for the work package by type, subject or ID. Select the work package and 
 
 Work packages can be prioritized individually or as a group. See [Sort and move work packages](#sort-and-move-work-packages) for the available options.
 
-### Story points
+### Effort estimation
 
 <div class="glossary">
 Story points are defined as numbers assigned to a work package used to estimate (relatively) the size of the work.
@@ -351,6 +351,8 @@ Shared sprints can help teams coordinate planning across projects and support sc
 [feature: multiple_active_sprints ]
 
 You can have more than one sprint active at the same time. This setting needs to be activated under [Backlogs project settings](../projects/project-settings/backlogs-settings/#multiple-active-sprints).
+
+Sprint sharing and enabling multiple active sprints are mutually exclusive.
 
 ## All sprints
 
