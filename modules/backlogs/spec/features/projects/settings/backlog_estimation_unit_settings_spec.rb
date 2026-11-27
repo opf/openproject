@@ -62,14 +62,14 @@ RSpec.describe "Backlogs project settings estimation unit", :js do
       )
 
       expect(page).to have_checked_field("Story points")
-      expect(page).to have_unchecked_field("Work time estimate")
+      expect(page).to have_unchecked_field("Estimated time")
       expect(page).to have_unchecked_field("None")
 
-      choose("Work time estimate")
+      choose("Estimated time")
       click_button "Save"
 
       expect_and_dismiss_flash(type: :success, message: I18n.t(:notice_successful_update))
-      expect(page).to have_checked_field("Work time estimate")
+      expect(page).to have_checked_field("Estimated time")
       expect(project.reload.estimation_unit).to eq("time")
 
       choose("None")

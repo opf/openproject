@@ -182,7 +182,7 @@ Each sprint now has its own report page, showing the sprint's status and dates, 
 
 The **burndown chart** has been reworked to make sprint progress easier to read. The new **burnup chart** additionally shows the sprint's scope as its own line, so you can see at a glance when work was added to or removed from a sprint. Scope changes are also reflected in the work package overview, including changes to story points.
 
-Under **Project settings → Backlogs**, you can choose the default unit for velocity, effort, and capacity: story points, work time estimate, or none. This setting affects both backlog cards and sprint report charts. If you select **None**, charts use the number of work packages instead, and some sprint report charts are not displayed.
+Under **Project settings → Backlogs**, you can choose the default unit for velocity, effort, and capacity: story points, estimated time, or none. This setting affects both backlog cards and sprint report charts. If you select **None**, charts use the number of work packages instead, and some sprint report charts are not displayed.
 
 > [!TIP]
 > **Reports are frozen once a sprint is completed.** Changing a work package's status, estimate, or sprint afterwards no longer affects the report. This keeps reports reliable for sprint reviews and for looking back over longer periods.

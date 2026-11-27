@@ -194,21 +194,21 @@ RSpec.describe Backlogs::SprintReports::Widgets::BurndownChart, type: :component
     context "when the sprint holds work packages without a work estimate" do
       before { create(:work_package, project:, sprint:, story_points: 3, estimated_hours: nil) }
 
-      it "asks for a work time estimate" do
+      it "asks for an estimated time" do
         expect(rendered_component).to have_no_element(:"opce-burndown-chart")
         expect(rendered_component).to have_css(
           ".blankslate-description",
-          exact_text: "The burndown chart will appear here once the sprint contains open work packages with work time estimates."
+          exact_text: "The burndown chart will appear here once the sprint contains open work packages with estimated time."
         )
       end
     end
 
     context "when the sprint holds no work package" do
-      it "asks for open work packages carrying work time estimates" do
+      it "asks for open work packages carrying estimated time" do
         expect(rendered_component).to have_css(
           ".blankslate-description",
           exact_text: "The burndown chart will appear here once the sprint contains " \
-                      "open work packages with work time estimates."
+                      "open work packages with estimated time."
         )
       end
     end
@@ -269,11 +269,11 @@ RSpec.describe Backlogs::SprintReports::Widgets::BurndownChart, type: :component
         create(:work_package, project:, sprint:, story_points: 3, estimated_hours: nil)
       end
 
-      it "names the start date and the missing work time estimate" do
+      it "names the start date and the missing estimated time" do
         expect(rendered_component).to have_css(
           ".blankslate-description",
           exact_text: "The burndown chart will appear here after the sprint starts, " \
-                      "once the sprint contains open work packages with work time estimates."
+                      "once the sprint contains open work packages with estimated time."
         )
       end
     end
