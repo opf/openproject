@@ -47,6 +47,12 @@ module Pages
           "/projects/#{project.identifier}/settings/work_packages/types"
         end
 
+        def filter_by_name(name)
+          label = I18n.t("types.index.filter")
+          click_button(accessible_name: label) unless page.has_field?(label, wait: 0)
+          fill_in label, with: name
+        end
+
         def expect_type_row(variant, variant_name: nil)
           row = find_row(variant)
 

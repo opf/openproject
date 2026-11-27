@@ -57,6 +57,23 @@ RSpec.describe "Project settings work package types", :js do
     settings_page.expect_type_row(bug.default_variant)
   end
 
+  it "searches enabled types and their available variants by name" do
+    settings_page.filter_by_name("pic")
+
+    settings_page.expect_no_type_row(bug.default_variant)
+    expect(page).to have_text(blueprint.variant_name)
+    expect(page).to have_text(design.variant_name)
+
+    settings_page.filter_by_name("BLUE")
+
+    expect(page).to have_no_text(design.variant_name)
+    expect(page).to have_text(blueprint.variant_name)
+
+    settings_page.filter_by_name("")
+
+    settings_page.expect_type_row(bug.default_variant)
+  end
+
   it "activates a type through the dialog" do
     add_type("Milestone")
 
@@ -141,6 +158,18 @@ because it's still in use by work packages)
       within_test_selector("project-types-variant-#{design.id}") do
         expect(page).to have_no_css(".Label--attention")
       end
+    end
+
+    it "combines the name search with the migration filter" do
+      filter_migrated
+      expect(page).to have_no_text(design.variant_name)
+
+      settings_page.filter_by_name("Design")
+      expect(page).to have_text(I18n.t("types.index.filter_no_results"))
+
+      settings_page.filter_by_name("Epic")
+      expect(page).to have_text(converted.variant_name)
+      expect(page).to have_no_text(design.variant_name)
     end
 
     it "filters the list down to them and back out again" do
