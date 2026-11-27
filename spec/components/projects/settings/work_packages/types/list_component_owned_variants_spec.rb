@@ -137,7 +137,7 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
 
     it "offers to delete the one it owns" do
       expect(page).to have_css(
-        "form[action='#{project_type_variant_path(project, bug, ours)}']",
+        "form[action^='#{project_type_variant_path(project, bug, ours)}']",
         visible: :all
       )
     end

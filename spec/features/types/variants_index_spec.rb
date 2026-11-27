@@ -202,6 +202,25 @@ RSpec.describe "Work package variants index", :js do
     expect(feature_type.reload.position).to be < bug_type.reload.position
   end
 
+  it "stays on the index with the type still expanded after deleting an unused variant" do
+    visit types_path(expand: bug_type.id)
+
+    within(".Box-row", text: alfa_variant.variant_name) do
+      find("action-menu > button").click
+      click_on I18n.t(:button_delete)
+    end
+
+    within("#unused-variant-deletion-dialog[open]") do
+      click_on I18n.t(:button_delete)
+    end
+
+    expect(page).to have_text(I18n.t(:notice_successful_delete))
+    expect(page).to have_current_path(types_path, ignore_query: true)
+    expect(page).to have_link(zeta_variant.variant_name)
+    expect(page).to have_no_link(alfa_variant.variant_name)
+    expect(TypeVariant).not_to exist(id: alfa_variant.id)
+  end
+
   describe "deleting a variant that projects still apply" do
     shared_let(:project) { create(:project, types: [bug_type]) }
 

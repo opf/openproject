@@ -85,6 +85,15 @@ module Pages
           within(find_row(variant)) { find(".op-border-box-list-header action-menu > button").click }
         end
 
+        def open_variant_menu(variant)
+          within(find_variant_row(variant)) { find("action-menu > button").click }
+        end
+
+        def delete_project_variant(variant)
+          open_variant_menu(variant)
+          click_on I18n.t(:button_delete)
+        end
+
         def choose_switch_target(target)
           wait_for_turbo_stream { within(switch_dialog) { select target, from: "Variant" } }
         end
@@ -114,6 +123,10 @@ module Pages
 
         def find_row(variant)
           page.find("[data-test-selector='project-types-row-#{variant.id}']")
+        end
+
+        def find_variant_row(variant)
+          page.find("[data-test-selector='project-types-variant-#{variant.id}']")
         end
       end
     end

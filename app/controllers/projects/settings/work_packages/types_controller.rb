@@ -38,6 +38,7 @@ class Projects::Settings::WorkPackages::TypesController < Projects::SettingsCont
     @types = ::Type.all
     @created_by_migration = params[:created_by_migration].presence == WorkPackageTypes::MigrationFilterComponent::MIGRATED
     @migrated_variants_exist = migrated_variants.exists?
+    @expanded_type_id = expanded_type_id
 
     render layout: false if turbo_frame_request?
   end
@@ -100,8 +101,14 @@ class Projects::Settings::WorkPackages::TypesController < Projects::SettingsCont
   # Reload so the repainted list no longer sees the association's cached types.
   def replace_types_list
     replace_via_turbo_stream(
-      component: Projects::Settings::WorkPackages::Types::ListComponent.new(project: @project.reload)
+      component: Projects::Settings::WorkPackages::Types::ListComponent.new(
+        project: @project.reload, expanded_type_id:
+      )
     )
+  end
+
+  def expanded_type_id
+    params[:expand].to_i
   end
 
   def render_type_not_found
