@@ -46,7 +46,7 @@ RSpec.describe "Tabs navigation and content switching on the admin/design page" 
   context "with EE token", with_ee: %i[define_custom_style] do
     let(:custom_style) { create (:custom_style_with_logo) }
     let(:image) { "logo" }
-    let!(:file_path) { custom_style.send(image).file.path }
+    let!(:file_path) { custom_style.public_send("#{image}_path") }
 
     before do
       login_as(admin)

@@ -190,7 +190,7 @@ module CustomStylesHelper
         field: field,
         label: I18n.t("label_custom_export_font_#{variant}"),
         present:,
-        filename: present ? File.basename(font.file.path) : nil,
+        filename: present ? font.filename : nil,
         delete_path: public_send(:"custom_style_export_font_#{variant}_delete_path"),
         instructions: I18n.t("text_custom_export_font_#{variant}_instructions")
       }

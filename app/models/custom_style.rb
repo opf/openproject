@@ -43,21 +43,13 @@ class CustomStyle < ApplicationRecord
     }
   }.freeze
 
-  mount_uploader :logo, OpenProject::Configuration.file_uploader
-  mount_uploader :logo_dark, OpenProject::Configuration.file_uploader
-  mount_uploader :logo_light_high_contrast, OpenProject::Configuration.file_uploader
-  mount_uploader :logo_mobile, OpenProject::Configuration.file_uploader
-  mount_uploader :logo_mobile_dark, OpenProject::Configuration.file_uploader
-  mount_uploader :logo_mobile_light_high_contrast, OpenProject::Configuration.file_uploader
-  mount_uploader :export_logo, OpenProject::Configuration.file_uploader
-  mount_uploader :export_cover, OpenProject::Configuration.file_uploader
-  mount_uploader :export_footer, OpenProject::Configuration.file_uploader
-  mount_uploader :favicon, OpenProject::Configuration.file_uploader
-  mount_uploader :touch_icon, OpenProject::Configuration.file_uploader
-  mount_uploader :export_font_regular, OpenProject::Configuration.file_uploader
-  mount_uploader :export_font_bold, OpenProject::Configuration.file_uploader
-  mount_uploader :export_font_italic, OpenProject::Configuration.file_uploader
-  mount_uploader :export_font_bold_italic, OpenProject::Configuration.file_uploader
+  ASSET_FIELDS = (LOGO_FIELDS.values.flat_map(&:values) +
+    %i[export_logo export_cover export_footer favicon touch_icon
+       export_font_regular export_font_bold export_font_italic export_font_bold_italic]).freeze
+
+  before_save { assets.each_value(&:write_identifier) }
+  after_save { assets.each_value(&:store) }
+  before_destroy :schedule_asset_deletions
 
   class << self
     def current
@@ -84,20 +76,36 @@ class CustomStyle < ApplicationRecord
     requested_logo.presence || public_send(fields.fetch(:light))
   end
 
-  %i(favicon touch_icon export_logo export_cover export_footer logo logo_dark logo_light_high_contrast logo_mobile
-     logo_mobile_dark logo_mobile_light_high_contrast
-     export_font_regular export_font_bold export_font_italic export_font_bold_italic).each do |name|
-    define_method :"#{name}_path" do
-      attachment = send(name)
-
-      if attachment.readable?
-        attachment.local_file.path
-      end
+  ASSET_FIELDS.each do |name|
+    define_method(name) { assets[name] ||= CustomStyleAsset.new(self, name) }
+    define_method(:"#{name}=") { |input| public_send(name).assign(input) }
+    define_method(:"#{name}_identifier") { public_send(name).identifier }
+    define_method(:"#{name}_path") { public_send(name).local_path }
+    define_method(:"remove_#{name}=") do |value|
+      public_send(name).assign(nil) if ActiveModel::Type::Boolean.new.cast(value)
     end
+    define_method(:"remove_#{name}!") { update!(name => nil) }
+  end
 
-    define_method :"remove_#{name}!" do
-      super()
-      save!
-    end
+  def reload(...)
+    assets.clear
+    super
+  end
+
+  private
+
+  def initialize_dup(other)
+    super
+    @assets = {}
+    ASSET_FIELDS.each { |field| self[field] = nil }
+  end
+
+  def schedule_asset_deletions
+    stored = self.class.lock.find(id)
+    ASSET_FIELDS.each { |field| public_send(field).schedule_deletion(stored[field]) }
+  end
+
+  def assets
+    @assets ||= {}
   end
 end

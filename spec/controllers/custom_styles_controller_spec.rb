@@ -205,7 +205,7 @@ RSpec.describe CustomStylesController do
         let(:field) { "logo_dark" }
 
         it "sends the dark logo file" do
-          expect(controller).to have_received(:send_file).with(custom_style.logo_dark.local_file.path)
+          expect(controller).to have_received(:send_file).with(custom_style.logo_dark_path, filename: "logo_image.png")
           expect(response).to have_http_status(:ok)
         end
       end
@@ -329,11 +329,11 @@ RSpec.describe CustomStylesController do
       context "if it exists" do
         before do
           allow(CustomStyle).to receive(:current).and_return(custom_style)
-          allow(custom_style).to receive(:remove_export_logo).and_call_original
           delete :export_logo_delete
         end
 
         it "removes the export logo from custom_style" do
+          expect(custom_style.reload.export_logo).to be_blank
           expect(response).to redirect_to(action: :show)
         end
       end
@@ -510,11 +510,11 @@ RSpec.describe CustomStylesController do
       context "if it exists" do
         before do
           allow(CustomStyle).to receive(:current).and_return(custom_style)
-          allow(custom_style).to receive(:remove_favicon).and_call_original
           delete :favicon_delete
         end
 
         it "removes the favicon from custom_style" do
+          expect(custom_style.reload.favicon).to be_blank
           expect(response).to redirect_to(action: :show)
         end
       end
@@ -571,11 +571,11 @@ RSpec.describe CustomStylesController do
       context "if it exists" do
         before do
           allow(CustomStyle).to receive(:current).and_return(custom_style)
-          allow(custom_style).to receive(:remove_touch_icon).and_call_original
           delete :touch_icon_delete
         end
 
         it "removes the touch icon from custom_style" do
+          expect(custom_style.reload.touch_icon).to be_blank
           expect(response).to redirect_to(action: :show)
         end
       end
@@ -728,28 +728,28 @@ RSpec.describe CustomStylesController do
         post :update, params: { custom_style: { export_font_regular: font_file } }
         expect(response).to redirect_to(action: :show)
         expect(custom_style.reload.export_font_regular).to be_present
-        expect(File.basename(custom_style.reload.export_font_regular.file.path)).to eq("NotoEmoji.ttf")
+        expect(custom_style.reload.export_font_regular.filename).to eq("NotoEmoji.ttf")
       end
 
       it "uploads bold font" do
         post :update, params: { custom_style: { export_font_bold: font_file } }
         expect(response).to redirect_to(action: :show)
         expect(custom_style.reload.export_font_bold).to be_present
-        expect(File.basename(custom_style.reload.export_font_bold.file.path)).to eq("NotoEmoji.ttf")
+        expect(custom_style.reload.export_font_bold.filename).to eq("NotoEmoji.ttf")
       end
 
       it "uploads italic font" do
         post :update, params: { custom_style: { export_font_italic: font_file } }
         expect(response).to redirect_to(action: :show)
         expect(custom_style.reload.export_font_italic).to be_present
-        expect(File.basename(custom_style.reload.export_font_italic.file.path)).to eq("NotoEmoji.ttf")
+        expect(custom_style.reload.export_font_italic.filename).to eq("NotoEmoji.ttf")
       end
 
       it "uploads bold italic font" do
         post :update, params: { custom_style: { export_font_bold_italic: font_file } }
         expect(response).to redirect_to(action: :show)
         expect(custom_style.reload.export_font_bold_italic).to be_present
-        expect(File.basename(custom_style.reload.export_font_bold_italic.file.path)).to eq("NotoEmoji.ttf")
+        expect(custom_style.reload.export_font_bold_italic.filename).to eq("NotoEmoji.ttf")
       end
 
       describe "update with invalid file", with_ee: %i[define_custom_style] do

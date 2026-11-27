@@ -102,27 +102,27 @@ class CustomStylesController < ApplicationController
   def logo_download
     return unless (field = logo_field)
 
-    file_download(:"#{field}_path")
+    file_download(field)
   end
 
   def export_logo_download
-    file_download(:export_logo_path)
+    file_download(:export_logo)
   end
 
   def export_cover_download
-    file_download(:export_cover_path)
+    file_download(:export_cover)
   end
 
   def export_footer_download
-    file_download(:export_footer_path)
+    file_download(:export_footer)
   end
 
   def favicon_download
-    file_download(:favicon_path)
+    file_download(:favicon)
   end
 
   def touch_icon_download
-    file_download(:touch_icon_path)
+    file_download(:touch_icon)
   end
 
   def logo_delete
@@ -259,13 +259,18 @@ class CustomStylesController < ApplicationController
     nil
   end
 
-  def file_download(path_method)
+  def file_download(field)
     @custom_style = CustomStyle.current
-    if @custom_style&.send(path_method)
-      expires_in 1.year, public: true, must_revalidate: false
-      send_file(@custom_style.send(path_method))
+    asset = @custom_style&.public_send(field)
+    return head :not_found unless asset&.readable?
+
+    expires_in 1.year, public: true, must_revalidate: false
+    if asset.remote?
+      response.last_modified = @custom_style.updated_at
+      send_file_headers!(filename: asset.filename)
+      self.response_body = asset.response_body
     else
-      head :not_found
+      send_file(asset.local_path, filename: asset.filename)
     end
   end
 
