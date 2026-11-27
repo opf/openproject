@@ -30,7 +30,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 import { AttributeHelpTextsService } from './attribute-help-text.service';
 import { AttributeHelpTextModalService } from './attribute-help-text-modal.service';
-import { uniqueId } from 'lodash-es';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
 export const attributeHelpTextSelector = 'attribute-help-text';
 
@@ -47,6 +47,7 @@ export class AttributeHelpTextComponent implements OnInit {
   protected cdRef = inject(ChangeDetectorRef);
   protected injector = inject(Injector);
   protected I18n = inject(I18nService);
+  protected pathHelper = inject(PathHelperService);
 
   // Attribute to show help text for
   @Input() public attribute:string;
@@ -60,8 +61,6 @@ export class AttributeHelpTextComponent implements OnInit {
   @Input() public helpTextId?:string|number;
 
   isLoading = false;
-
-  readonly tooltipId = uniqueId('tooltip-');
 
   readonly text = {
     open_dialog: this.I18n.t('js.help_texts.show_modal'),
@@ -89,7 +88,12 @@ export class AttributeHelpTextComponent implements OnInit {
    return `attribute-help-text-component-${this.helpTextId}`;
   }
 
+  public get helpTextPath():string {
+    return this.pathHelper.attributeHelpTextsShowDialogPath(this.helpTextId!);
+  }
+
   public handleClick(event:Event):void {
+    event.preventDefault();
     if (this.isLoading) return;
     this.isLoading = true;
 
@@ -99,8 +103,6 @@ export class AttributeHelpTextComponent implements OnInit {
         this.isLoading = false;
         this.cdRef.detectChanges();
       });
-
-    event.preventDefault();
   }
 
   private async getId() {

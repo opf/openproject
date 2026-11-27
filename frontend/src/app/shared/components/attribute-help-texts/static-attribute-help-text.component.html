@@ -1,12 +1,11 @@
-<div
+<button
+  type="button"
   class="spot-link"
-  [title]="text.open_dialog"
+  opTooltip
+  [label]="text.open_dialog"
+  tooltip-direction="sw"
   (click)="handleClick($event)"
-  (keydown.enter)="handleClick($event)"
-  (keydown.space)="handleClick($event)"
-  role="button"
-  tabindex="0"
   data-test-selector="static-attribute-help-text--icon"
 >
   <svg question-icon size="small" />
-</div>
+</button>

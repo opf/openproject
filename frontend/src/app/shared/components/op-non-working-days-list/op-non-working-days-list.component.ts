@@ -36,6 +36,7 @@ import { DayResourceService } from 'core-app/core/state/days/day.service';
 import { IDay } from 'core-app/core/state/days/day.model';
 import { CalendarViewEvent } from 'core-app/features/calendar/op-work-packages-calendar.service';
 import { opIconElement } from 'core-app/shared/helpers/op-icon-builder';
+import { withTooltip } from 'core-app/shared/helpers/tooltip-helper';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import allLocales from '@fullcalendar/core/locales-all';
 
@@ -72,6 +73,7 @@ export class OpNonWorkingDaysListComponent implements OnInit {
     empty_state_header: this.I18n.t('js.admin.working_days.calendar.empty_state_header'),
     empty_state_description: this.I18n.t('js.admin.working_days.calendar.empty_state_description'),
     already_added_error: this.I18n.t('js.admin.working_days.already_added_error'),
+    delete: this.I18n.t('js.button_delete'),
     new_date: this.I18n.t('js.admin.working_days.calendar.new_date'),
     add_non_working_day: this.I18n.t('js.admin.working_days.add_non_working_day'),
     non_working_day_name: this.I18n.t('js.modals.label_name'),
@@ -100,20 +102,17 @@ export class OpNonWorkingDaysListComponent implements OnInit {
     eventDidMount: (evt:CalendarViewEvent) => {
       const { el, event } = evt;
       const td = document.createElement('td');
-      const anchor = document.createElement('a');
-      anchor.title = 'Delete';
-      anchor.href = '#';
-      anchor.classList.add('fc-list-day-side-text', 'op-non-working-days-list--delete-icon');
-      anchor.appendChild(opIconElement('icon', 'icon-delete'));
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.classList.add('fc-list-day-side-text', 'op-non-working-days-list--delete-icon');
+      button.appendChild(opIconElement('icon', 'icon-delete'));
 
-      anchor.addEventListener('click', (clickEvent:Event) => {
-        clickEvent.preventDefault();
-
+      button.addEventListener('click', () => {
         this.markNonWorkingDayForRemoval(event.id);
         event.remove();
         this.cdRef.detectChanges();
       });
-      td.appendChild(anchor);
+      td.appendChild(withTooltip(button, this.text.delete, 'label'));
       el.appendChild(td);
     },
     noEventsContent: { html: `<table class="fc-list-table"><tbody><th><div class="fc-list-day-cushion"><a class="fc-list-day-text">${this.text.empty_state_header}</a></div></th><tr class="fc-event"><td>${this.text.empty_state_description}</td></tr></tbody></table>` },

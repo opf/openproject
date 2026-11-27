@@ -82,6 +82,7 @@ en:
       new_board: 'New board'
 
       text_hidden_list_warning: "Not all lists are displayed because you lack the permission. Contact your admin for more information."
+      text_hidden_lists: "Hidden lists"
 
       version:
         close_version: 'Close version'

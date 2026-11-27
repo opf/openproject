@@ -26,6 +26,7 @@
 //++
 
 import {
+  alertIconData,
   checkIconData,
   chevronDownIconData,
   chevronRightIconData,
@@ -75,6 +76,7 @@ import {
   personAddIconData,
   playIconData,
   plusIconData,
+  readIconData,
   sortAscIconData,
   sortDescIconData,
   starIconData,
@@ -87,6 +89,7 @@ import {
 } from '@openproject/octicons-angular';
 
 export const ICON_MAP = {
+  alert: alertIconData,
   'check': checkIconData,
   'chevron-down': chevronDownIconData,
   'chevron-right': chevronRightIconData,
@@ -136,6 +139,7 @@ export const ICON_MAP = {
   'person-add': personAddIconData,
   play: playIconData,
   plus: plusIconData,
+  read: readIconData,
   'sort-asc': sortAscIconData,
   'sort-desc': sortDescIconData,
   star: starIconData,

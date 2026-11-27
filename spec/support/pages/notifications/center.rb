@@ -48,7 +48,19 @@ module Pages
 
       def mark_notification_as_read(notification)
         within_item(notification) do
-          page.find('[data-test-selector="mark-as-read-button"]').click
+          click_on accessible_name: I18n.t("js.notifications.center.mark_as_read"), exact: true
+        end
+      end
+
+      def open_details_by_keyboard(notification)
+        within_item(notification) do
+          send_keys_without_click(find_button(accessible_name: I18n.t("js.button_open_details"), exact: true, visible: :all), :enter)
+        end
+      end
+
+      def mark_notification_as_read_by_keyboard(notification, key)
+        within_item(notification) do
+          send_keys_without_click(find_button(accessible_name: I18n.t("js.notifications.center.mark_as_read"), exact: true), key)
         end
       end
 

@@ -85,6 +85,7 @@ export class InAppNotificationEntryComponent extends UntilDestroyedMixin impleme
     loading: this.I18n.t('js.ajax.loading'),
     placeholder: this.I18n.t('js.placeholders.default'),
     mark_as_read: this.I18n.t('js.notifications.center.mark_as_read'),
+    open_details: this.I18n.t('js.button_open_details'),
   };
 
   private clickTimer:ReturnType<typeof setTimeout>;
@@ -130,6 +131,20 @@ export class InAppNotificationEntryComponent extends UntilDestroyedMixin impleme
       // it needs to be canceled in case the event is a double click.
       this.showDetails();
     }, 250);
+  }
+
+  onRowKeydown(event:Event):void {
+    if (event.target !== event.currentTarget) {
+      return;
+    }
+
+    event.preventDefault();
+    this.onClick();
+  }
+
+  openDetails(event:Event):void {
+    event.stopPropagation();
+    this.showDetails();
   }
 
   showDetails():void {

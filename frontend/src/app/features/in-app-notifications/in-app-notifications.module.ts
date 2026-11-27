@@ -46,6 +46,7 @@ import {
 } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
 import { OpenprojectPrincipalRenderingModule } from 'core-app/shared/components/principal/principal-rendering.module';
 import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
+import { PrimerIconButtonComponent } from 'core-app/shared/components/primer/icon-button.component';
 import { OpSharedModule } from 'core-app/shared/shared.module';
 import { DynamicModule } from 'ng-dynamic-component';
 import { InAppNotificationActorsLineComponent } from './entry/actors-line/in-app-notification-actors-line.component';
@@ -75,6 +76,7 @@ import { InAppNotificationStatusComponent } from './entry/status/in-app-notifica
     OpenprojectContentLoaderModule,
     ScrollingModule,
     OpTooltipDirective,
+    PrimerIconButtonComponent,
   ],
   providers: [
     IanBellService,

@@ -65,18 +65,16 @@
       [cdkDropListData]="area"
       [cdkDropListConnectedTo]="layout.gridAreaIds">
       @if (add.isAllowed) {
-        <div class="grid--widget-add"
-          [title]="add.addText"
-          tabindex="0"
-          (click)="addWidget(area)"
-          (keyup.enter)="addWidget(area)"
-          (keyup.space)="addWidget(area)">
+        <button
+          type="button"
+          class="grid--widget-add"
+          (click)="addWidget(area)">
           <svg plus-icon size="small"></svg>
           <span
             class="grid--widget-add-help-text"
             [textContent]="add.addText">
           </span>
-        </div>
+        </button>
       }
     </div>
   }
@@ -97,14 +95,14 @@
       (mouseover)="layout.setMousedOverArea(gap)"
       (focus)="layout.setMousedOverArea(gap)">
       @if (add.isAllowed) {
-        <div class="grid--widget-add -gap"
-          [title]="add.addText"
-          tabindex="0"
-          (click)="addWidget(gap)"
-          (keyup.enter)="addWidget(gap)"
-          (keyup.space)="addWidget(gap)">
+        <button
+          type="button"
+          class="grid--widget-add -gap"
+          opTooltip
+          [label]="add.addText"
+          (click)="addWidget(gap)">
           <svg plus-icon size="small"></svg>
-        </div>
+        </button>
       }
     </div>
   }

@@ -117,6 +117,11 @@ $subject-font-size: 14px
 
   &--buttons
     grid-area: buttons
+    display: flex
+    align-items: center
+    align-self: center
+    gap: var(--base-size-4)
+    margin-block: calc(-1 * var(--base-size-4))
     font-size: 16px
 
   &--button
@@ -124,7 +129,10 @@ $subject-font-size: 14px
       color: var(--accent-color)
 
     &_shown-on-focus
-      @include show-on-focus
+      opacity: 0
+
+      &:focus
+        opacity: 1
 
   &--loading-indicator
     height: 100%

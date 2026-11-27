@@ -62,6 +62,7 @@ export interface OpContextMenuItem {
   dotClass?:string;
   ariaLabel?:string;
   linkText?:string;
+  description?:string;
   title?:string;
   divider?:boolean;
   isHeader?:boolean;

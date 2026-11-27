@@ -212,6 +212,17 @@ RSpec.describe "Subproject action board",
       expect(page)
         .to have_no_text invisible_work_package.subject
     end
+
+    it "explains the hidden lists in a tooltip" do
+      board_page.visit!
+
+      warning = "Not all lists are displayed because you lack the permission. Contact your admin for more information."
+      hidden_lists = find_button(accessible_name: "Hidden lists", accessible_description: warning)
+
+      hidden_lists.hover
+
+      expect(page).to have_css("tool-tip", text: warning)
+    end
   end
 
   context "with an archived subproject" do

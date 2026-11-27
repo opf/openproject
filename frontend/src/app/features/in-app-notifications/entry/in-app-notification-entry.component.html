@@ -1,10 +1,9 @@
 <div
   class="op-ian-item--row"
   tabindex="0"
-  role="button"
   (click)="onClick()"
-  (keydown.enter)="$event.preventDefault(); onClick()"
-  (keydown.space)="$event.preventDefault(); onClick()"
+  (keydown.enter)="onRowKeydown($event)"
+  (keydown.space)="onRowKeydown($event)"
   (dblclick)="onDoubleClick()"
   >
   @if (workPackage$ | async; as workPackage) {
@@ -55,24 +54,27 @@
   }
   <div class="op-ian-item--buttons">
     @if (!notification.readIAN) {
-      <i
+      <button
+        primerIconButton
+        scheme="invisible"
+        size="small"
+        icon="read"
+        [label]="text.mark_as_read"
         data-test-selector="mark-as-read-button"
-        class="op-ian-item--button icon-mark-read"
-        tabindex="0"
-        role="button"
-        [title]="text.mark_as_read"
+        class="op-ian-item--button"
         (click)="markAsRead($event, aggregatedNotifications)"
-        (keydown.enter)="$event.preventDefault(); markAsRead($event, aggregatedNotifications)"
-        (keydown.space)="$event.preventDefault(); markAsRead($event, aggregatedNotifications)"
-        >
-      </i>
+      ></button>
     }
-    <i
-      class="op-ian-item--button op-ian-item--button_shown-on-focus icon-info1"
-      (keydown.enter)="showDetails()"
-      tabindex="0"
-      >
-    </i>
+    <button
+      primerIconButton
+      scheme="invisible"
+      size="small"
+      icon="info"
+      [label]="text.open_details"
+      tooltip-direction="se"
+      class="op-ian-item--button op-ian-item--button_shown-on-focus"
+      (click)="openDetails($event)"
+    ></button>
   </div>
 </div>
 <div

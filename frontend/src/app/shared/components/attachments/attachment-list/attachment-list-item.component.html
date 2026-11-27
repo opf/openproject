@@ -18,10 +18,11 @@
       [class.op-file-list--item-action_faulty-status]="incompleteImport"
       [href]="attachment._links.originOpen?.href || attachment._links.staticDownloadLocation.href"
       target="_blank"
+      opTooltip
+      [description]="attachment.status === 'quarantined' ? text.quarantinedHint : undefined"
       (dragstart)="setDragData($event)"
     >
       <div
-        [title]="attachment.status === 'quarantined' ? text.quarantinedHint : attachment.fileName"
         class="spot-list--item-title op-file-list--item-title"
         data-test-selector="op-files-tab--file-list-item-title"
       >

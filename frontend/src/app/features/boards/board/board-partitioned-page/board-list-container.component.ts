@@ -106,6 +106,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
     loadingError: 'No such board found',
     addList: this.I18n.t('js.boards.add_list'),
     unnamedList: this.I18n.t('js.boards.label_unnamed_list'),
+    hiddenLists: this.I18n.t('js.boards.text_hidden_lists'),
     hiddenListWarning: this.I18n.t('js.boards.text_hidden_list_warning'),
   };
 

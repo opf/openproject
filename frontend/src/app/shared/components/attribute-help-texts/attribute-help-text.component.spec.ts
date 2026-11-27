@@ -30,6 +30,8 @@ import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 import { AttributeHelpTextComponent } from 'core-app/shared/components/attribute-help-texts/attribute-help-text.component';
 import { By } from '@angular/platform-browser';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
 import { AttributeHelpTextsService } from './attribute-help-text.service';
 import { AttributeHelpTextModalService } from './attribute-help-text-modal.service';
 import { QuestionIconComponent } from '@openproject/octicons-angular';
@@ -43,10 +45,23 @@ describe('AttributeHelpTextComponent', () => {
   const serviceStub = {};
   let modalServiceStub:{ show:ReturnType<typeof vi.fn> };
   const i18nStub = { t: (_scope:string | string[], _options?:Record<string, any>) => 'Show help text' };
+  const pathHelperStub = {
+    attributeHelpTextsShowDialogPath: (id:string|number) => `/attribute_help_texts/${id}/show_dialog`,
+  };
+
+  const link = ():HTMLAnchorElement => element.query(By.css('a.op-attribute-help-text')).nativeElement as HTMLAnchorElement;
+
+  const settle = async () => {
+    fixture.detectChanges();
+    await Promise.resolve();
+    await modalServiceStub.show.mock.results.at(-1)!.value;
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    fixture.detectChanges();
+  };
 
   beforeEach(async () => {
     modalServiceStub = {
-      show: vi.fn().mockName('AttributeHelpTextModalService.show')
+      show: vi.fn().mockName('AttributeHelpTextModalService.show'),
     };
     modalServiceStub.show.mockResolvedValue(undefined);
 
@@ -60,9 +75,11 @@ describe('AttributeHelpTextComponent', () => {
           { provide: AttributeHelpTextsService, useValue: serviceStub },
           { provide: AttributeHelpTextModalService, useValue: modalServiceStub },
           { provide: I18nService, useValue: i18nStub },
+          { provide: PathHelperService, useValue: pathHelperStub },
         ],
         imports: [
           QuestionIconComponent,
+          OpTooltipDirective,
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       })
@@ -80,26 +97,24 @@ describe('AttributeHelpTextComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('renders a Primer link to the help text dialog', () => {
+    expect(link().classList).toContain('Link');
+    expect(link().classList).toContain('help-text--entry');
+    expect(link().getAttribute('href')).toEqual('/attribute_help_texts/1/show_dialog');
+    expect(link().id).toMatch(/attribute-help-text-component-\d+/);
+    expect(link().dataset.qaHelpTextFor).toEqual('subject');
   });
 
-  it('renders a button', () => {
-    const button = element.query(By.css("[role='button']"));
+  it('names the link by a label tooltip', () => {
+    const tooltips = element.queryAll(By.css('tool-tip'));
 
-    expect(button).toBeTruthy();
-    expect(button.nativeElement.classList.contains('spot-link')).toBe(true);
-  });
-
-  it('renders a tooltip', () => {
-    const tooltip = element.query(By.css('tool-tip'));
-
-    expect(tooltip).toBeTruthy();
-    expect(tooltip.nativeElement.textContent).toEqual('Show help text');
-    expect(tooltip.nativeElement.getAttribute('for')).toMatch(/attribute-help-text-component-\d+/);
-    expect(tooltip.nativeElement.getAttribute('popover')).toEqual('manual');
-    expect(tooltip.nativeElement.dataset.direction).toEqual('sw');
-    expect(tooltip.nativeElement.dataset.type).toEqual('label');
+    expect(tooltips).toHaveLength(1);
+    const tooltip = tooltips[0].nativeElement as HTMLElement;
+    expect(tooltip.textContent).toEqual('Show help text');
+    expect(tooltip.getAttribute('for')).toEqual(link().id);
+    expect(tooltip.dataset.direction).toEqual('sw');
+    expect(tooltip.dataset.type).toEqual('label');
+    expect(link().getAttribute('aria-labelledby')).toContain(tooltip.id);
   });
 
   it('renders an icon', () => {
@@ -108,64 +123,33 @@ describe('AttributeHelpTextComponent', () => {
     expect(icon.nativeElement.getAttribute('size')).toEqual('xsmall');
   });
 
-  it('applies .help-text--entry class', () => {
-    const button = element.query(By.css("[role='button']"));
-
-    expect(button.nativeElement.classList.contains('help-text--entry')).toBe(true);
-  });
-
-  it('applies an ID', () => {
-    const button = element.query(By.css("[role='button']"));
-
-    expect(button.nativeElement.id).toMatch(/attribute-help-text-component-\d+/);
-  });
-
-  it('defines a data-qa-help-text-for attribute', () => {
-    const button = element.query(By.css("[role='button']"));
-
-    expect(button.nativeElement.dataset.qaHelpTextFor).toEqual('subject');
-  });
-
-  it('should call modalService on click', async () => {
-    const button = element.query(By.css("[role='button']"));
-    button.nativeElement.click();
-
+  it('opens the dialog on click and is disabled while loading', async () => {
+    link().click();
     fixture.detectChanges();
 
-    expect(button.nativeElement.ariaDisabled).toEqual('true');
+    expect(link().getAttribute('aria-disabled')).toEqual('true');
 
-    await Promise.resolve();
-    await modalServiceStub.show.mock.results.at(-1)!.value;
-    await new Promise(resolve => setTimeout(resolve, 0));
-    fixture.detectChanges();
+    await settle();
 
     expect(modalServiceStub.show).toHaveBeenCalledTimes(1);
-
     expect(modalServiceStub.show).toHaveBeenCalledWith('1');
-    expect(button.nativeElement.ariaDisabled).toEqual('false');
+    expect(link().getAttribute('aria-disabled')).toEqual('false');
   });
 
-  it('should call modalService only once', async () => {
-    const button = element.query(By.css("[role='button']"));
-    button.nativeElement.click();
-
-    fixture.detectChanges();
-
-    expect(button.nativeElement.ariaDisabled).toEqual('true');
-
-    button.nativeElement.click();
-    button.triggerEventHandler('keydown.enter');
-    button.triggerEventHandler('keydown.space');
-
-    fixture.detectChanges();
-    await Promise.resolve();
-    await modalServiceStub.show.mock.results.at(-1)!.value;
-    await new Promise(resolve => setTimeout(resolve, 0));
-    fixture.detectChanges();
+  it('opens the dialog once on Enter followed by the native click', async () => {
+    link().dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+    link().click();
+    await settle();
 
     expect(modalServiceStub.show).toHaveBeenCalledTimes(1);
+  });
 
-    expect(modalServiceStub.show).toHaveBeenCalledWith('1');
-    expect(button.nativeElement.ariaDisabled).toEqual('false');
+  it('ignores repeated clicks while loading', async () => {
+    link().click();
+    fixture.detectChanges();
+    link().click();
+    await settle();
+
+    expect(modalServiceStub.show).toHaveBeenCalledTimes(1);
   });
 });

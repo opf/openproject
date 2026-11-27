@@ -352,6 +352,33 @@ RSpec.describe "Notification center",
       end
     end
 
+    it "opens the details view of a notification by keyboard" do
+      visit home_path
+      wait_for_reload
+      center.open
+      center.expect_work_package_item notification, notification2
+
+      center.open_details_by_keyboard notification
+
+      split_screen.expect_open
+      center.expect_item_selected notification
+    end
+
+    %i[enter space].each do |key|
+      it "marks a notification as read with the #{key} key" do
+        visit home_path
+        wait_for_reload
+        center.open
+        center.expect_work_package_item notification, notification2
+
+        center.mark_notification_as_read_by_keyboard notification, key
+
+        center.expect_no_item notification
+        center.expect_work_package_item notification2
+        split_screen.expect_closed
+      end
+    end
+
     it "opens the next notification after marking one as read" do
       visit home_path
       wait_for_reload

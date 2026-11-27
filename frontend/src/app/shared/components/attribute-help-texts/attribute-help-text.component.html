@@ -1,28 +1,18 @@
 @if (exists) {
-  <div
-    class="spot-link help-text--entry"
+  <a
+    class="Link op-attribute-help-text help-text--entry"
     [attr.id]="buttonId"
-    [attr.aria-labelledby]="tooltipId"
+    [href]="helpTextPath"
+    opTooltip
+    [label]="text.open_dialog"
+    tooltip-direction="sw"
     [attr.data-qa-help-text-for]="attribute"
     [attr.aria-disabled]="isLoading"
     (click)="handleClick($event)"
-    (keydown.enter)="handleClick($event)"
-    (keydown.space)="handleClick($event)"
-    role="button"
-    tabindex="0"
     >
     @if (additionalLabel) {
       <span [textContent]="additionalLabel"></span>
     }
     <svg question-icon size="xsmall"></svg>
-  </div>
-  <tool-tip
-    class="sr-only position-absolute"
-    [attr.for]="buttonId"
-    [attr.id]="tooltipId"
-    popover="manual"
-    data-direction="sw"
-    data-type="label"
-    [textContent]="text.open_dialog"
-    />
+  </a>
 }
