@@ -352,7 +352,7 @@ RSpec.describe "Working Days", :js do
         expect(page).to have_css("tr", text: nwd.date.strftime("%B %-d, %Y"))
       end
 
-      delete_button = page.first(".op-non-working-days-list--delete-icon .icon-delete", visible: :all)
+      delete_button = find_button(accessible_name: "Delete", match: :first, visible: :all)
       delete_button.hover
       delete_button.click
       expect(page).to have_css(
@@ -378,7 +378,7 @@ RSpec.describe "Working Days", :js do
               .and_return(errors)
       # rubocop:enable RSpec/AnyInstance
 
-      delete_button = page.first(".op-non-working-days-list--delete-icon .icon-delete", visible: :all)
+      delete_button = find_button(accessible_name: "Delete", match: :first, visible: :all)
       delete_button.hover
       delete_button.click
       expect(page).to have_css(
@@ -393,6 +393,15 @@ RSpec.describe "Working Days", :js do
       # Keep the second date hidden
       expect(page).to have_no_css("tr", text: non_working_days.second.date.strftime("%B %-d, %Y"))
       expect(page).to have_css("tr", text: non_working_days.last.date.strftime("%B %-d, %Y"))
+    end
+
+    it "reveals the delete button on keyboard focus" do
+      delete_button = find_button(accessible_name: "Delete", match: :first, visible: :all)
+      expect(delete_button).not_to be_visible
+
+      delete_button.execute_script("this.focus()")
+
+      expect(delete_button).to be_visible
     end
   end
 
