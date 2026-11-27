@@ -66,15 +66,7 @@ module LlmConnections
       end
 
       def status
-        safe_join(
-          [
-            render(Primer::Beta::Label.new(scheme: STATE_LABEL_SCHEMES.fetch(semantic_index.status))) do
-              I18n.t("admin.semantic_indexes.states.#{semantic_index.status}")
-            end,
-            indexing_progress,
-            error_message
-          ].compact
-        )
+        safe_join([status_line, progress_percentage, failed_work_packages, error_message].compact)
       end
 
       def button_links
@@ -115,27 +107,40 @@ module LlmConnections
         end
       end
 
-      def indexing_progress
-        return unless semantic_index.indexing?
-
-        render(Primer::Box.new(mt: 1, test_selector: "llm-semantic-index--progress-#{semantic_index.id}")) do
-          safe_join(
-            [
-              render(Primer::Beta::ProgressBar.new(size: :small)) do |bar|
-                bar.with_item(percentage: indexing_percentage, bg: :success_emphasis)
-              end,
-              render(Primer::Beta::Text.new(tag: :div, color: :subtle, font_size: :small, mt: 1)) do
-                I18n.t("admin.semantic_indexes.indexing.progress", percentage: indexing_percentage)
-              end
-            ]
-          )
+      def status_line
+        render(Primer::Box.new(display: :flex, align_items: :center, flex_wrap: :wrap, classes: "gap-2")) do
+          safe_join([status_label, progress_bar].compact)
         end
       end
 
-      def indexing_percentage
-        @indexing_percentage ||= begin
-          batch = semantic_index.indexing_batch
-          batch ? Llm::IndexingProgress.new(batch).percentage : 0
+      def status_label
+        render(Primer::Beta::Label.new(scheme: STATE_LABEL_SCHEMES.fetch(semantic_index.status))) do
+          I18n.t("admin.semantic_indexes.states.#{semantic_index.status}")
+        end
+      end
+
+      def indexing_progress
+        return unless OpenProject::Llm::Pgvector.available?
+
+        @indexing_progress ||= Llm::IndexingProgress.new(semantic_index)
+      end
+
+      def progress_bar
+        return unless indexing_progress
+
+        render(Primer::Beta::ProgressBar.new(size: :small, flex: 1, style: "min-width: 10rem",
+                                             test_selector: "llm-semantic-index--progress-#{semantic_index.id}")) do |bar|
+          bar.with_item(percentage: indexing_progress.percentage(indexing_progress.indexed_count), bg: :success_emphasis)
+          bar.with_item(percentage: indexing_progress.percentage(indexing_progress.failed_count), bg: :danger_emphasis)
+        end
+      end
+
+      def progress_percentage
+        return unless indexing_progress
+
+        render(Primer::Beta::Text.new(tag: :div, color: :subtle, font_size: :small, mt: 1)) do
+          percentage = indexing_progress.percentage(indexing_progress.done_count)
+          I18n.t("admin.semantic_indexes.indexing.progress", percentage:)
         end
       end
 
@@ -178,12 +183,21 @@ module LlmConnections
         end
       end
 
-      def error_message
-        return unless semantic_index.status == "failed" && semantic_index.error_message.present?
+      def failed_work_packages
+        count = indexing_progress&.failed_count.to_i
+        return if count.zero?
 
-        render(Primer::Beta::Text.new(tag: :div, color: :danger, font_size: :small, mt: 1)) do
-          semantic_index.error_message
-        end
+        failure_message(I18n.t("admin.semantic_indexes.indexing.failed_work_packages", count:))
+      end
+
+      def error_message
+        return if semantic_index.error_message.blank?
+
+        failure_message(semantic_index.error_message)
+      end
+
+      def failure_message(text)
+        render(Primer::Beta::Text.new(tag: :div, color: :danger, font_size: :small, mt: 1)) { text }
       end
 
       def action_menu

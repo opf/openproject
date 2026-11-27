@@ -29,46 +29,36 @@
 
 module Llm
   class IndexingProgress
-    def initialize(batch)
-      @batch = batch
+    def initialize(semantic_index)
+      @semantic_index = semantic_index
     end
 
-    def percentage
+    def total_count = @total_count ||= WorkPackage.count
+
+    def indexed_count
+      @indexed_count ||= embeddings.where(failed_at: nil).joins(:work_package)
+                                   .where(embeddings_table[:work_package_updated_at].gteq(WorkPackage.arel_table[:updated_at]))
+                                   .distinct.count(:work_package_id)
+    end
+
+    def failed_count = @failed_count ||= embeddings.where.not(failed_at: nil).distinct.count(:work_package_id)
+
+    def pending_count = total_count - indexed_count - failed_count
+
+    def done_count = indexed_count + failed_count
+
+    def percentage(count)
       return 0 if total_count.zero?
 
-      finished_count * 100 / total_count
-    end
-
-    # We split batches of multiple work packages on failure into jobs
-    # which embed individual work packages so we count only those.
-    def failed_work_package_count
-      @failed_work_package_count ||= failed_embed_jobs.count { |job| individual_wp_embed?(job) }
+      count * 100 / total_count
     end
 
     private
 
-    attr_reader :batch
+    attr_reader :semantic_index
 
-    def embed_jobs = GoodJob::Job.where(batch_id: batch.id, job_class: Llm::EmbedWorkPackagesJob.name)
+    def embeddings = WorkPackageEmbedding.where(semantic_index:)
 
-    def failed_embed_jobs = embed_jobs.where.not(finished_at: nil).where.not(error: nil)
-
-    def individual_wp_embed?(job)
-      work_package_ids_of(job).one?
-    end
-
-    def work_package_ids_of(job)
-      arguments = job.serialized_params["arguments"]
-      ids = arguments.is_a?(Array) ? arguments[1] : nil
-      ids.is_a?(Array) ? ids : []
-    end
-
-    def total_count
-      @total_count ||= embed_jobs.count
-    end
-
-    def finished_count
-      @finished_count ||= embed_jobs.where.not(finished_at: nil).count
-    end
+    def embeddings_table = WorkPackageEmbedding.arel_table
   end
 end

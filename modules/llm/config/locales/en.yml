@@ -122,6 +122,9 @@ en:
         model_caption: "Only models known to create embeddings are offered."
         option_unqualified: "%{model} (no longer eligible)"
       indexing:
+        failed_work_packages:
+          one: "Indexing failed for 1 work package."
+          other: "Indexing failed for %{count} work packages."
         not_ready:
           model_missing: "The model %{model} is no longer offered by the connection."
           no_connection: "No active LLM connection is configured."

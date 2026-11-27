@@ -31,68 +31,50 @@ require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe Llm::IndexingProgress do
-  subject(:progress) { described_class.new(batch) }
+  subject(:progress) { described_class.new(semantic_index) }
 
-  let(:semantic_index) { create(:semantic_index, state: "indexing") }
-  let(:batch) { GoodJob::Batch.new(semantic_index_id: semantic_index.id).tap(&:save) }
-  let(:work_package) { create(:work_package) }
-  let(:other_work_package) { create(:work_package) }
+  let(:semantic_index) { create(:semantic_index, :indexing) }
 
-  def embed_job(work_package_ids:, finished_at: nil, error: nil)
-    GoodJob::Job.create!(id: SecureRandom.uuid, active_job_id: SecureRandom.uuid, batch_id: batch.id,
-                         job_class: Llm::EmbedWorkPackagesJob.name, queue_name: "default",
-                         serialized_params: { "arguments" => [semantic_index.id, work_package_ids] },
-                         finished_at:, error:)
+  it "splits the work packages into indexed, pending and failed ones" do
+    create(:work_package_embedding, semantic_index:)
+    create(:work_package_embedding, semantic_index:, embedding: nil, failed_at: Time.current)
+    create(:work_package_embedding, semantic_index:, work_package_updated_at: 1.day.ago)
+    create(:work_package)
+
+    expect(progress).to have_attributes(total_count: 4, indexed_count: 1, failed_count: 1, pending_count: 2)
+  end
+
+  it "counts a failed work package as failed although its text changed since" do
+    create(:work_package_embedding, semantic_index:, embedding: nil, failed_at: Time.current,
+                                    work_package_updated_at: 1.day.ago)
+
+    expect(progress).to have_attributes(failed_count: 1, pending_count: 0)
+  end
+
+  it "ignores embeddings of other indexes" do
+    create(:work_package_embedding)
+    create(:work_package_embedding, embedding: nil, failed_at: Time.current)
+
+    expect(progress).to have_attributes(total_count: 2, indexed_count: 0, pending_count: 2, failed_count: 0)
+  end
+
+  it "counts indexed and failed work packages as done" do
+    create(:work_package_embedding, semantic_index:)
+    create(:work_package_embedding, semantic_index:, embedding: nil, failed_at: Time.current)
+    create(:work_package)
+
+    expect(progress.done_count).to eq(2)
   end
 
   describe "#percentage" do
-    it "is 0 without any embed jobs" do
-      expect(progress.percentage).to eq(0)
+    it "is the share of all work packages, rounded down" do
+      create_list(:work_package, 3)
+
+      expect(progress.percentage(2)).to eq(66)
     end
 
-    it "reflects the share of indexed work packages" do
-      embed_job(work_package_ids: [work_package.id], finished_at: Time.current)
-      embed_job(work_package_ids: [other_work_package.id])
-      embed_job(work_package_ids: [work_package.id])
-      embed_job(work_package_ids: [other_work_package.id])
-
-      expect(progress.percentage).to eq(25)
-    end
-  end
-
-  describe "#failed_work_package_count" do
-    it "is 0 when nothing failed" do
-      embed_job(work_package_ids: [work_package.id], finished_at: Time.current)
-
-      expect(progress.failed_work_package_count).to eq(0)
-    end
-
-    it "counts each failed embed job carrying a single work package id" do
-      embed_job(work_package_ids: [work_package.id], finished_at: Time.current, error: "boom")
-      embed_job(work_package_ids: [other_work_package.id], finished_at: Time.current, error: "boom")
-
-      expect(progress.failed_work_package_count).to eq(2)
-    end
-
-    it "ignores unfinished jobs" do
-      embed_job(work_package_ids: [work_package.id], error: "boom")
-
-      expect(progress.failed_work_package_count).to eq(0)
-    end
-
-    it "ignores failed jobs carrying multiple work package ids" do
-      embed_job(work_package_ids: [work_package.id, other_work_package.id],
-                finished_at: Time.current, error: "boom")
-
-      expect(progress.failed_work_package_count).to eq(0)
-    end
-
-    it "ignores jobs of other classes in the same batch" do
-      GoodJob::Job.create!(id: SecureRandom.uuid, active_job_id: SecureRandom.uuid, batch_id: batch.id,
-                           job_class: Llm::IndexWorkPackagesJob.name, queue_name: "default",
-                           serialized_params: {}, finished_at: Time.current, error: "boom")
-
-      expect(progress.failed_work_package_count).to eq(0)
+    it "is 0 without work packages" do
+      expect(progress.percentage(0)).to eq(0)
     end
   end
 end

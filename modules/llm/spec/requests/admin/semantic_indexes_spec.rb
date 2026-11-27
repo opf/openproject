@@ -338,19 +338,16 @@ RSpec.describe "Admin semantic indexes", :skip_csrf,
 
   describe "GET status" do
     it "reports the progress of a semantic index that is indexing and keeps polling" do
-      batch = GoodJob::Batch.new.tap(&:save)
-      create(:semantic_index, indexing_batch_id: batch.id)
-      [Time.current, nil, nil, nil].each do |finished_at|
-        GoodJob::Job.create!(id: SecureRandom.uuid, active_job_id: SecureRandom.uuid, batch_id: batch.id,
-                             job_class: Llm::EmbedWorkPackagesJob.name, queue_name: "default",
-                             serialized_params: {}, finished_at:)
-      end
+      semantic_index = create(:semantic_index, :indexing)
+      create(:work_package_embedding, semantic_index:)
+      create(:work_package_embedding, semantic_index:, embedding: nil, failed_at: Time.current)
+      create_list(:work_package, 2)
 
       get status_semantic_indexes_path, headers: turbo_headers
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("turbo-stream",
-                                       I18n.t("admin.semantic_indexes.indexing.progress", percentage: 25),
+                                       I18n.t("admin.semantic_indexes.indexing.progress", percentage: 50),
                                        "poll-for-changes")
       expect(response.body).to include('method="morph"', 'data-poll-for-changes-continuous-value="true"')
     end
