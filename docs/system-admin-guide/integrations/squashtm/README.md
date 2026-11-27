@@ -2,75 +2,103 @@
 sidebar_navigation:
   title: SquashTM integration setup
   priority: 300
-description: Set up SquashTm as a test management solution for your OpenProject instance
+description: Set up SquashTM as a test management solution for your OpenProject instance
 keywords: squashtm, test, test management
 ---
 
 # SquashTM integration setup
 
+[SquashTM](https://www.squashtest.com/) is an open source test management tool. With the SquashTM integration, you can link an OpenProject project to a SquashTM project and link work packages to SquashTM requirements. The test cases, executions, and results of a linked requirement are then shown directly in the work package.
+
+The integration is set up in four steps:
+
+1. Create a personal access token in SquashTM.
+2. Connect OpenProject to your SquashTM server.
+3. Configure the SquashTM permissions in OpenProject.
+4. Link OpenProject projects to SquashTM projects.
+
+Afterwards, users can [link work packages to requirements](#link-a-work-package-to-a-requirement).
+
+## Prerequisites
+
 To set up SquashTM, you will need the following:
 
 1. OpenProject must be able to reach your SquashTM server.
 2. You will need a read-only [personal access token](https://tm-en.doc.squashtest.com/v12/user-guide/general-introduction/squash-workspaces.html#personal-api-tokens) for SquashTM. We recommend setting up a [dedicated user in SquashTM](https://tm-en.doc.squashtest.com/v12/admin-guide/manage-users/manage-users.html) for this.
-3. If your SquashTM server is hosted on a non-public IP address, you must configure [SSRF protection](https://www.openproject.org/docs/installation-and-operations/configuration/ssrf-protection/) to allow accessing the SquashTM server.
-4. If your SquashTM uses a TLS certificate that is not issued by a generally trusted certificate authority, you need to inject the CA certificate into OpenProject. Please read the [installation instructions](../../../installation-and-operations/) for details.
-
-
-> [!IMPORTANT]
-> SquashTM Personal Access Tokens are limited to a 1-year expiry. We recommend setting a reminder to renew the token after one year.
-
-## 1. Configuring the instance-wide SquashTM integration in OpenProject
-
-The SquashTM connection is configured on the OpenProject administration level, while the individual project
-connections are set up on a per-project basis. To configure the connection, head to your OpenProject administration
-settings, then select *Integrations* → *SquashTM*.
-
-![A screenshot showing the OpenProject administration interface with two form fields: SquashTM URL and API token.](op-squashtm-admin-setup.png)
-
-Here you can configure the SquashTM server URL and the API token. Please make sure that your SquashTM server URL contains the full address including the context path (`https://your.squashtm.server.example.com/squash` instead of `https://your.squashtm.server.example.com/`). Complete the form with your personal access token and then press the
-
-## 2. Configuring permissions
-
-OpenProject 18.x brings new permissions for SquashTM. While new installations already bring pre-configured SquashTM permissions, upgraded installations from 17.x do not automatically grant additional permissions to users on upgrade and you need to configure them manually.
-
-To configure SquashTM permissions, go to *Users and permissions* → *Roles and permissions*. For the default configuration, enable the following permissions for a **Project admin**:
-
-- View SquashTM
-- Manage SquashTM requirements
-- Manage SquashTM integration
-
-Also set up the following permissions for the **Member** role:
-
-- View SquashTM
-- Manage SquashTM requirements
-
-![A screenshot showing the correct permissions for a project admin.](op-squashtm-admin-permissions.png)
-
-## 3. Enabling the SquashTM module and linking an OpenProject project to a SquashTM project
-
-You can now go to the **project settings** for the project you wish to link to a SquashTM project. Select the *Modules* option and enable the SquashTM module, then click *Save*.
-
-![A screenshot showing the module list in the project settings. the SquashTM module is enabled.](op-squashtm-project-admin-enable-module.png)
-
-If you have the *Manage SquashTM integration* permission, you will now see the SquashTM option on the left side. Here you can select the SquashTM project you wish to link and click *Save*.
+3. If your SquashTM server is hosted on a non-public IP address, you must configure [SSRF protection](../../../installation-and-operations/configuration/ssrf-protection/) to allow accessing the SquashTM server.
+4. If your SquashTM server uses a TLS certificate that is not issued by a generally trusted certificate authority, you need to [import the root certificate into OpenProject](../../../installation-and-operations/installation/docker/#import-self-signed-root-certificate).
 
 > [!IMPORTANT]
-> Only projects visible to SquashTM account with the access token set up in step 1 are shown in the dropdown.
+> SquashTM personal access tokens are limited to a 1-year expiry. We recommend setting a reminder to renew the token after one year.
 
-![A screenshot showing the SquashTM configuration in the project settings. A dropdown shows the available SquashTM projects.](op-squashtm-project-admin-link-project.png)
+## 1. Create a personal access token in SquashTM
 
-You can only link one SquashTM project to an OpenProject project. If you want to remove the linking, you can do so here as well. Keep in mind that removing a linking also removes the SquashTM requirement linking from all work packages in the OpenProject project. 
+Log in to SquashTM with the user that OpenProject should use and open the **My account** page. In the **Personal API tokens** section, click the **+** icon on the right.
 
-![A screenshot showing the project settings with the linked SquashTM project. The unlink button allows for unlinking the project.](op-squashtm-project-admin-linked.png)
+![SquashTM My account page with the Personal API tokens section](squashtm-admin.png)
 
-## 4. Linking a work package to a requirement
+In the dialog, enter a **Name** for the token, for example *OpenProject*, select the **Read** permission, and set an **Expiry date**. Then click **Add**.
 
-If you have the "View SquashTM" permission, you can now go to a work package of your choice and open the SquashTM tab.
+![SquashTM dialog to create an authentication token for the API, with the name OpenProject and read permission](squashtm-token.png)
 
-![A screenshot showing the SquashTM tab on a work package. A dropdown offers the possible requirements to link.](op-squashtm-user-tab.png)
+SquashTM displays the new token. Copy it and keep it safe, since it is only displayed once. Then click **Close**.
 
-If you have the "Manage SquashTM requirements" permission, you can select as *requirement* from SquashTM to link. Once the requirement is linked, the test cases associated with that requirement will be shown on this tab.
+![SquashTM dialog showing a newly generated token that is only displayed once](squashtm-token-done.png)
 
-![A screenshot of the SquashTM tab linked with a requirement. The screenshot shows the tests.](op-squashtm-user-linked.png)
+## 2. Connect OpenProject to your SquashTM server
 
-If you would like to remove the requirement linking, click the three dots in the requirement box.
+The SquashTM connection is configured on the OpenProject administration level, while the individual project connections are set up on a per-project basis. To configure the connection, navigate to *Administration* → *Integrations* → *SquashTM*.
+
+![OpenProject administration with the form fields SquashTM URL and API token](op-squashtm-admin-setup.png)
+
+Enter the URL of your SquashTM server and the personal access token you created in step 1. Make sure that the SquashTM server URL contains the full address including the context path, for example `https://your.squashtm.server.example.com/squash` instead of `https://your.squashtm.server.example.com/`. Then click **Save**.
+
+Once the connection is established, OpenProject confirms that it is linked to your SquashTM server. Click **Test connection** to check the connection again at any time, or **Unlink** to remove it.
+
+![OpenProject administration confirming that OpenProject is linked to the SquashTM server, with the buttons Test connection and Unlink](op-squashtm-admin-setup-done.png)
+
+## 3. Configure permissions
+
+SquashTM has its own permissions in OpenProject. New installations come with pre-configured SquashTM permissions. In installations upgraded from an earlier version, these permissions are not granted automatically, so you need to configure them manually.
+
+To configure SquashTM permissions, navigate to *Administration* → *Users and permissions* → *Roles and permissions*. For the default configuration, enable the following permissions for the **Project admin** role:
+
+- **View SquashTM**
+- **Manage SquashTM requirements**
+- **Manage SquashTM integration**
+
+Also enable the following permissions for the **Member** role:
+
+- **View SquashTM**
+- **Manage SquashTM requirements**
+
+![SquashTM permissions enabled for the Project admin role in OpenProject](op-squashtm-admin-permissions.png)
+
+## 4. Link an OpenProject project to a SquashTM project
+
+Open the **Project settings** of the project you want to link to a SquashTM project. Select **Modules**, enable the **SquashTM** module, and click **Save**.
+
+![Module list in the OpenProject project settings with the SquashTM module enabled](op-squashtm-project-admin-enable-module.png)
+
+If you have the **Manage SquashTM integration** permission, the **SquashTM** entry now appears in the project settings menu. Select the SquashTM project you want to link and click **Save**.
+
+> [!IMPORTANT]
+> Only SquashTM projects that are visible to the SquashTM account of the access token from step 1 are shown in the dropdown.
+
+![SquashTM configuration in the OpenProject project settings with a dropdown of the available SquashTM projects](op-squashtm-project-admin-link-project.png)
+
+You can only link one SquashTM project to an OpenProject project. You can also remove the link here. Removing a link also removes the SquashTM requirement links from all work packages in the OpenProject project.
+
+![OpenProject project settings with the linked SquashTM project and the option to unlink it](op-squashtm-project-admin-linked.png)
+
+## Link a work package to a requirement
+
+If you have the **View SquashTM** permission, you can open a work package and select the **SquashTM** tab.
+
+![SquashTM tab of a work package in OpenProject with a dropdown of the requirements available for linking](op-squashtm-user-tab.png)
+
+If you have the **Manage SquashTM requirements** permission, you can select a requirement from SquashTM to link. Once the requirement is linked, the test cases associated with that requirement are shown on this tab.
+
+![SquashTM tab of a work package in OpenProject with a linked requirement and its test cases](op-squashtm-user-linked.png)
+
+To remove the requirement link, click the **More** (three dots) menu in the requirement box and select **Unlink**.
