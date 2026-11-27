@@ -29,15 +29,15 @@ Review this against how your teams actually use Jira. If anything here would be 
 **Not migrated at all, for any issue:**
 
 - [ ] Reporter (Planned: [JIM-270](https://community.openproject.org/projects/JIM/work_packages/JIM-270))
+- [ ] Environment (Planned: [JIM-257](https://community.openproject.org/projects/JIM/work_packages/JIM-257))
 - [ ] Web links (Planned: [JIM-206](https://community.openproject.org/projects/JIM/work_packages/JIM-206))
 - [ ] Votes (workaround planned: [JIM-207](https://community.openproject.org/projects/JIM/work_packages/JIM-207), open feature request: [OP-3251](https://community.openproject.org/projects/OP/work_packages/OP-3251))
-- [ ] Environment (Planned: [JIM-257](https://community.openproject.org/projects/JIM/work_packages/JIM-257))
 - [ ] Security Level (Planned: [JIM-219](https://community.openproject.org/projects/JIM/work_packages/JIM-219)) - **Note: The Security Level is currently ignored. Thus, issues with a Security Level set will be imported as regular work packages at this point.**
 - [ ] Components (Planned: [JIM-107](https://community.openproject.org/projects/JIM/work_packages/JIM-107))
 - [ ] Visibility settings of comments (Planned: [JIM-335](https://community.openproject.org/projects/JIM/work_packages/JIM-335)) - **Note: The visibility setting is currently ignored. Thus, comments with a viewing restriction will be imported as regular comment at this point.**
 - [ ] Visibility settings of work logs (Planned: [JIM-354](https://community.openproject.org/projects/JIM/work_packages/JIM-354)) - **Note: The visibility setting is currently ignored. Thus, work logs with a viewing restriction will be imported as regular work logs at this point.**
 - [ ] Issue link types other than "Relates To", "Blocks" and "Duplicate", including custom link types. (Planned: [JIM-271](https://community.openproject.org/projects/JIM/work_packages/JIM-271))
-- [ ] Multiple links between the same two issues. (Planned: [FND-304](https://community.openproject.org/projects/FND/work_packages/FND-304))
+- [ ] Multiple links between the same two issues. (Planned: [JIM-355](https://community.openproject.org/projects/JIM/work_packages/JIM-355))
 - [ ] Archived issues (skipped entirely, don't appear in OpenProject in any form)
 
 **Not migrated, specific to custom fields:**
