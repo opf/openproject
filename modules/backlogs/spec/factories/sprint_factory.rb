@@ -48,7 +48,20 @@ FactoryBot.define do
         fail ArgumentError, "Use trait :in_planning, :active or :completed instead of setting status", caller
       end
 
-      sprint.status = context.status_from_trait || "in_planning"
+      sprint.status =
+        if sprint.completed_at? then "completed"
+        elsif sprint.started_at? then "active"
+        else "in_planning"
+        end
+
+      from_trait = context.status_from_trait
+      next if sprint.status == (from_trait || "in_planning")
+
+      if from_trait
+        fail ArgumentError, "Trait :#{from_trait} contradicts status #{sprint.status} from status timestamps", caller
+      else
+        fail ArgumentError, "Use trait :#{sprint.status} for a sprint with these status timestamps", caller
+      end
     end
 
     callback(:after_stub) { |sprint, _context| sprint.clear_status_change } # stubs should not be dirty
