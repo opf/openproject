@@ -71,9 +71,10 @@ RSpec.describe WorkPackageEmbedding do
     it "applies the distance threshold outside the ORDER BY distance + LIMIT query that uses the HNSW index" do
       sql = described_class.work_package_ids_within_search_distance_sql(vector,
                                                                         semantic_index_id: semantic_index.id,
+                                                                        work_packages: WorkPackage.all,
                                                                         limit: 10)
 
-      expect(sql).to match(/AS MATERIALIZED \(.*ORDER BY distance LIMIT 10 \) SELECT .* WHERE distance < /)
+      expect(sql).to match(/AS MATERIALIZED \(.*ORDER BY distance LIMIT 10\) SELECT .* WHERE distance < /)
     end
 
     it "returns the closest work packages within the search distance even when only few are" do
@@ -84,6 +85,7 @@ RSpec.describe WorkPackageEmbedding do
 
       sql = described_class.work_package_ids_within_search_distance_sql(vector,
                                                                         semantic_index_id: semantic_index.id,
+                                                                        work_packages: WorkPackage.all,
                                                                         limit: 10)
 
       expect(described_class.connection.select_values(sql)).to eq [closest.id]
@@ -99,9 +101,25 @@ RSpec.describe WorkPackageEmbedding do
       # Same distance as the closest, but in another index: must not leak in.
       create(:work_package_embedding, work_package: outside, embedding: [0.1, 0.2, 0.3])
 
-      sql = described_class.work_package_ids_within_search_distance_sql(vector, semantic_index_id: semantic_index.id)
+      sql = described_class.work_package_ids_within_search_distance_sql(vector,
+                                                                        semantic_index_id: semantic_index.id,
+                                                                        work_packages: WorkPackage.all)
 
       expect(described_class.connection.select_values(sql)).to eq [closest.id, farther.id]
+    end
+
+    it "fills the limit from the given work packages only" do
+      excluded = create(:work_package)
+      included = create(:work_package)
+      create(:work_package_embedding, work_package: excluded, semantic_index:, embedding: [0.1, 0.2, 0.3])
+      create(:work_package_embedding, work_package: included, semantic_index:, embedding: [0.2, 0.2, 0.2])
+
+      sql = described_class.work_package_ids_within_search_distance_sql(vector,
+                                                                        semantic_index_id: semantic_index.id,
+                                                                        work_packages: WorkPackage.where(id: included.id),
+                                                                        limit: 1)
+
+      expect(described_class.connection.select_values(sql)).to eq [included.id]
     end
 
     it "caps the candidates at the given limit, keeping the most similar" do
@@ -112,6 +130,7 @@ RSpec.describe WorkPackageEmbedding do
 
       sql = described_class.work_package_ids_within_search_distance_sql(vector,
                                                                         semantic_index_id: semantic_index.id,
+                                                                        work_packages: WorkPackage.all,
                                                                         limit: 1)
 
       expect(described_class.connection.select_values(sql)).to eq [closest.id]

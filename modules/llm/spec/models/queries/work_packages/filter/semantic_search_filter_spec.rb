@@ -72,6 +72,8 @@ RSpec.describe Queries::WorkPackages::Filter::SemanticSearchFilter do
   end
 
   describe "#where" do
+    before { login_as(create(:admin)) }
+
     it "restricts to the work packages within the semantic distance" do
       expect(WorkPackage.where(instance.where)).to contain_exactly(similar_open, similar_closed)
     end
@@ -162,6 +164,18 @@ RSpec.describe Queries::WorkPackages::Filter::SemanticSearchFilter do
       login_as(query.user)
 
       expect(query.results.work_packages).to contain_exactly(similar_open)
+    end
+
+    it "fills the result limit with visible work packages before invisible, more similar ones" do
+      invisible_closest = create(:work_package, status: open_status)
+      create(:work_package_embedding, work_package: invisible_closest, semantic_index:, embedding: [0.1, 0.2, 0.3])
+      allow(Setting).to receive(:semantic_search_results_limit).and_return(1)
+
+      query.user = create(:user, member_with_permissions: { similar_closed.project => %i[view_work_packages] })
+      query.filters.reject! { it.name == :status_id }
+      login_as(query.user)
+
+      expect(query.results.work_packages).to contain_exactly(similar_closed)
     end
   end
 end
