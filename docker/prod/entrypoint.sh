@@ -3,8 +3,6 @@
 set -e
 set -o pipefail
 
-APACHE_PIDFILE=/run/apache2/apache2.pid
-
 # Use jemalloc at runtime
 if [ "$USE_JEMALLOC" = "true" ]; then
 	export LD_PRELOAD=libjemalloc.so.2
@@ -27,23 +25,6 @@ if [ -n "$PGVERSION" ]; then
 fi
 
 if [ "$(id -u)" = '0' ]; then
-	# reexport PGVERSION and PGBIN env variables according to postgres version of existing cluster (if any)
-	# this must happen in the entrypoint
-	if [ -f "$PGDATA/PG_VERSION" ]; then
-		EXISTING_PGVERSION="$(cat "$PGDATA/PG_VERSION")"
-		echo "-----> Existing PostgreSQL cluster found in $PGDATA."
-
-		# Check for version mismatch between configured and existing PostgreSQL versions
-		if [ "$PGVERSION" != "$EXISTING_PGVERSION" ]; then
-			echo "WARNING: PostgreSQL version mismatch detected!"
-			echo "Your container is configured for PostgreSQL $PGVERSION, but existing data is from PostgreSQL $EXISTING_PGVERSION."
-			echo "You need to upgrade your postgresql data before you can use it with PGVERSION=$PGVERSION in the container"
-			echo "Please see the migration guide: https://www.openproject.org/docs/installation-and-operations/misc/migration-to-postgresql17/"
-			echo "Continuing with PostgreSQL $EXISTING_PGVERSION for now..."
-		fi
-
-		export PGVERSION="$EXISTING_PGVERSION"
-	fi
 	export PGBIN="/usr/lib/postgresql/$PGVERSION/bin"
 	export PGCONF_FILE="/etc/postgresql/$PGVERSION/main/postgresql.conf"
 	echo "-----> Setting PGVERSION=$PGVERSION PGBIN=$PGBIN PGCONF_FILE=$PGCONF_FILE"
@@ -52,19 +33,13 @@ if [ "$(id -u)" = '0' ]; then
 	mkdir -p "$APP_DATA_PATH"/{files,git,svn}
 	# The $APP_DATA_PATH may be hosted on a NAS that creates snapshots (or a btrfs filesystem). In such a case, the .snapshot folder cannot be touched.
 	find "$APP_DATA_PATH" -path '*/.snapshot*' -prune -o -exec chown "$APP_USER:$APP_USER" {} +
-	if [ -d /etc/apache2/sites-enabled ]; then
-		chown -R "$APP_USER:$APP_USER" /etc/apache2/sites-enabled
+	if [ -d /etc/caddy ]; then
 		echo "OpenProject currently expects to be reached on the following domain: ${SERVER_NAME:=localhost}, which does not seem to be how your installation is configured." > /var/www/html/index.html
 		echo "If you are an administrator, please ensure you have correctly set the SERVER_NAME variable when launching your container." >> /var/www/html/index.html
 	fi
 
 	# Clean up any dangling PID file
 	rm -f "$APP_PATH"/tmp/pids/*
-
-	# Clean up a dangling PID file of apache
-	if [ -e "$APACHE_PIDFILE" ]; then
-	  rm -f $APACHE_PIDFILE || true
-	fi
 
 	# Use ATTACHMENTS_STORAGE_PATH value when OPENPROJECT_ATTACHMENTS__STORAGE__PATH is not set
 	export OPENPROJECT_ATTACHMENTS__STORAGE__PATH=${OPENPROJECT_ATTACHMENTS__STORAGE__PATH:-$ATTACHMENTS_STORAGE_PATH}

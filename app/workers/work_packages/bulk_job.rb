@@ -41,12 +41,7 @@ module WorkPackages
       self.follow = follow
       self.work_packages = WorkPackage.where(id: work_package_ids)
 
-      service_class
-        .new(user:, work_packages:)
-        .call(params)
-        .on_success { |call| successful_status_update(call) }
-        .on_failure { |call| failure_status_update(call) }
-        .then { |call| wrap_result(call) }
+      User.execute_as(user) { perform_bulk_operation(params) }
     end
 
     def store_status?
@@ -58,6 +53,15 @@ module WorkPackages
     end
 
     protected
+
+    def perform_bulk_operation(params)
+      service_class
+        .new(user:, work_packages:)
+        .call(params)
+        .on_success { |call| successful_status_update(call) }
+        .on_failure { |call| failure_status_update(call) }
+        .then { |call| wrap_result(call) }
+    end
 
     def wrap_result(call)
       message = call.success? ? success_message : bulk_error_message(work_packages, call)

@@ -7,8 +7,11 @@ sidebar_navigation:
 # Install OpenProject with DEB/RPM packages
 
 > [!IMPORTANT]
-> We will not build packages for new Linux versions, such as Ubuntu 24.04. We will, however, keep releasing new package versions for the currently supported Linux versions until their EOL (end of life).
-> If your distribution has reached EOL and packages are no longer available, migrate to Docker Compose using the [packaged → Docker Compose migration guide](../../misc/packaged-docker-migration/).
+> New managed databases use PostgreSQL 18 and pgvector. Existing configured installations retain their PostgreSQL major version. See the [PostgreSQL 18 migration guide](../../misc/migration-to-postgresql18/) for upgrade and extension activation instructions.
+
+> [!IMPORTANT]
+> Package-based installations have been in maintenance mode since 2024. We will not build packages for new Linux versions, such as Debian 13 or Ubuntu 24.04. We will, however, keep releasing new package versions for the currently supported Linux versions until their EOL (end of life). We do not guarantee that packages remain available after the EOL of a distribution.
+> For new installations, we recommend [Docker Compose](../docker-compose/) or [Kubernetes with Helm](../helm-chart/). Some features, such as real-time collaborative editing, require components that are not bundled with the packages. If you are currently using packages, plan your migration to Docker Compose using the [packaged → Docker Compose migration guide](../../misc/packaged-docker-migration/), in particular if your distribution has reached EOL and packages are no longer available.
 
 The packaged installation of OpenProject is one of the ways to install and maintain OpenProject using DEB or RPM packages.
 

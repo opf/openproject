@@ -14,6 +14,7 @@ import {
   SearchMessage,
   DropdownList,
   DropdownItem,
+  SearchResults,
 } from './SearchContainer';
 import { Spinner } from '../Spinner';
 import { CreateWorkPackageOption } from './CreateWorkPackageOption';
@@ -142,45 +143,47 @@ export const SearchDropdown = ({ onSelect, onCancel, onCreate, autoFocus, render
         </SearchInputWrapper>
       </SearchHeader>
 
-      {isDropdownOpen && !loading && searchResults.length === 0 && (
-        <SearchMessage>{error ? t('search.error') : t('search.noResults')}</SearchMessage>
-      )}
+      <SearchResults>
+        {isDropdownOpen && !loading && searchResults.length === 0 && (
+          <SearchMessage>{error ? t('search.error') : t('search.noResults')}</SearchMessage>
+        )}
 
-      {isDropdownOpen && (searchResults.length > 0 || createIndex !== -1) && (
-        <DropdownList ref={listRef} role="listbox" aria-label={t('search.dropdownAriaLabel')}>
-          {/* eslint-disable-next-line react-hooks/refs */}
-          {searchResults.map((wp, index) => (
-            <DropdownItem
-              role="option"
-              aria-selected={focusedIndex === index}
-              key={wp.id}
-              $selected={focusedIndex === index}
-              // Keeps the search input focused.
-              onMouseDown={(e) => e.preventDefault()}
-              {...tapProps(() => {
-                isSelectingRef.current = true;
-                onSelect(wp);
-              })}
-              onMouseEnter={() => setFocusedIndex(index)}
-            >
-              {renderItem(wp)}
-            </DropdownItem>
-          ))}
+        {isDropdownOpen && (searchResults.length > 0 || createIndex !== -1) && (
+          <DropdownList ref={listRef} role="listbox" aria-label={t('search.dropdownAriaLabel')}>
+            {/* eslint-disable-next-line react-hooks/refs */}
+            {searchResults.map((wp, index) => (
+              <DropdownItem
+                role="option"
+                aria-selected={focusedIndex === index}
+                key={wp.id}
+                $selected={focusedIndex === index}
+                // Keeps the search input focused.
+                onMouseDown={(e) => e.preventDefault()}
+                {...tapProps(() => {
+                  isSelectingRef.current = true;
+                  onSelect(wp);
+                })}
+                onMouseEnter={() => setFocusedIndex(index)}
+              >
+                {renderItem(wp)}
+              </DropdownItem>
+            ))}
 
-          {createIndex !== -1 && (
-            <DropdownItem
-              role="option"
-              aria-selected={focusedIndex === createIndex}
-              $selected={focusedIndex === createIndex}
-              onMouseDown={(e) => e.preventDefault()}
-              {...tapProps(create)}
-              onMouseEnter={() => setFocusedIndex(createIndex)}
-            >
-              <CreateWorkPackageOption />
-            </DropdownItem>
-          )}
-        </DropdownList>
-      )}
+            {createIndex !== -1 && (
+              <DropdownItem
+                role="option"
+                aria-selected={focusedIndex === createIndex}
+                $selected={focusedIndex === createIndex}
+                onMouseDown={(e) => e.preventDefault()}
+                {...tapProps(create)}
+                onMouseEnter={() => setFocusedIndex(createIndex)}
+              >
+                <CreateWorkPackageOption />
+              </DropdownItem>
+            )}
+          </DropdownList>
+        )}
+      </SearchResults>
     </>
   );
 };

@@ -147,6 +147,27 @@ RSpec.describe OpPrimer::ExpandableTextComponent, type: :component do
       expect(page).to have_css("#my-dialog", text: "Full content", visible: :all)
       expect(page).to have_element("button", "data-show-dialog-id": "my-dialog", visible: :all)
     end
+
+    it "leaves rendering the dialog to the caller when render_dialog is false" do
+      render_component(expansion: :dialog, dialog_id: "my-dialog", render_dialog: false) { "Full content" }
+
+      expect(page).to have_no_css("#my-dialog", visible: :all)
+      expect(page).to have_element("button", "data-show-dialog-id": "my-dialog", visible: :all)
+    end
+
+    it "requires a dialog_id when render_dialog is false" do
+      expect { render_component(expansion: :dialog, render_dialog: false) { "Full content" } }
+        .to raise_error(ArgumentError, /dialog_id/)
+    end
+  end
+
+  describe "tag" do
+    it "renders span elements for use inside phrasing content" do
+      render_component(tag: :span, truncate: :multi_line) { "Content" }
+
+      expect(page).to have_css("span[data-controller='expandable-text'] > span.op-vertical-truncate", text: "Content")
+      expect(page).to have_no_css("div", visible: :all)
+    end
   end
 
   describe "expander_arguments" do
@@ -178,6 +199,11 @@ RSpec.describe OpPrimer::ExpandableTextComponent, type: :component do
 
     it "raises for an invalid expansion in development and test" do
       expect { render_component(expansion: :sideways) { "Content" } }
+        .to raise_error(Primer::FetchOrFallbackHelper::InvalidValueError)
+    end
+
+    it "raises for an invalid tag in development and test" do
+      expect { render_component(tag: :section) { "Content" } }
         .to raise_error(Primer::FetchOrFallbackHelper::InvalidValueError)
     end
   end

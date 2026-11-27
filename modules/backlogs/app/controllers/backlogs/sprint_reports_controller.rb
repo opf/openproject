@@ -35,6 +35,7 @@ module Backlogs
 
     def show
       @breakdown = ::Sprints::WorkPackageBreakdown.new(sprint: @sprint, project: @project)
+      @timeframe = ::Sprints::Timeframe.new(@sprint, zone: current_user.time_zone)
     end
   end
 end

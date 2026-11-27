@@ -89,9 +89,27 @@ RSpec.describe AttributeHelpText::Project do
 
     subject { described_class.visible(user) }
 
-    it "returns the help text for all attributes" do
-      expect(subject)
-        .to contain_exactly(cf_instance, static_instance, cf_instance_active, cf_instance_for_all)
+    it "returns only the help texts of non custom field attributes" do
+      expect(subject).to contain_exactly(static_instance)
+    end
+
+    context "for a user allowed to view project attributes in the project" do
+      let(:user) do
+        create(:user, member_with_permissions: { project => %i[view_project view_project_attributes] })
+      end
+
+      it "returns the help texts of the custom fields active in the project" do
+        expect(subject).to contain_exactly(static_instance, cf_instance_active, cf_instance_for_all)
+      end
+    end
+
+    context "for an admin" do
+      let(:user) { create(:admin) }
+
+      it "returns the help text for all attributes" do
+        expect(subject)
+          .to contain_exactly(cf_instance, static_instance, cf_instance_active, cf_instance_for_all)
+      end
     end
   end
 

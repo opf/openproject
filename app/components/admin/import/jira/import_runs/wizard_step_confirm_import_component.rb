@@ -49,6 +49,7 @@ module Admin::Import::Jira::ImportRuns
 
     def import_explanations
       [
+        sprints_explanation,
         users_explanation,
         resolution_statuses_explanation
       ]
@@ -72,6 +73,10 @@ module Admin::Import::Jira::ImportRuns
 
     def users_explanation
       I18n.t(:"admin.jira.run.wizard.sections.confirm_import.label_users_import_explanation")
+    end
+
+    def sprints_explanation
+      I18n.t(:"admin.jira.run.wizard.sections.confirm_import.label_sprint_explanation")
     end
 
     def resolution_statuses_explanation

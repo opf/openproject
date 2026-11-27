@@ -30,11 +30,13 @@ import { ExternalLinkA11yExtension } from '../extensions/external-link-a11y';
 import { ExternalLinkCaptureExtension } from '../extensions/external-link-capture';
 import { CollaborationCursorLabelFitExtension } from '../extensions/collaboration-cursor-label-fit';
 import { HeadingLinkExtension } from '../extensions/heading-link';
+import { KeyboardAwareScrollExtension } from '../extensions/keyboard-aware-scroll';
 import { filterSuggestionItems } from '@blocknote/core/extensions';
 import { withCollaboration } from '@blocknote/core/yjs';
 import { BlockNoteView } from '@blocknote/mantine';
 import { getDefaultReactSlashMenuItems, SuggestionMenuController, useCreateBlockNote } from '@blocknote/react';
 import { HocuspocusProvider } from '@hocuspocus/provider';
+import { createTheme, MantineProvider } from '@mantine/core';
 import {
   initializeOpBlockNoteExtensions,
   openProjectWorkPackageBlockSpec,
@@ -50,6 +52,14 @@ import * as Y from 'yjs';
 import { useBlockNoteAttachments } from '../hooks/useBlockNoteAttachments';
 import { useBlockNoteLocale } from '../hooks/useBlockNoteLocale';
 import { useOpTheme } from '../hooks/useOpTheme';
+
+// Mantine >= 9.3 locks a popover's first placement and falls back to it when neither side fits,
+// so on mobile the block type menu opens behind the virtual keyboard (COMMS-1102).
+const mantineTheme = createTheme({
+  components: {
+    Popover: { defaultProps: { preventPositionChangeWhenVisible: false } },
+  },
+});
 
 export interface OpBlockNoteEditorProps {
   activeUser:User;
@@ -105,6 +115,7 @@ export function OpBlockNoteEditor({
       extensions: [
         ExternalLinkA11yExtension,
         HeadingLinkExtension,
+        KeyboardAwareScrollExtension,
         ...(captureExternalLinks ? [ExternalLinkCaptureExtension] : []),
         ...(hocuspocusProvider ? [CollaborationCursorLabelFitExtension] : []),
       ],
@@ -160,7 +171,11 @@ export function OpBlockNoteEditor({
   const { getHashItems, HashWpMenu } = useHashWpMenu(editor);
 
   return (
-    <>
+    <MantineProvider
+      theme={mantineTheme}
+      withCssVariables={false}
+      getRootElement={() => undefined}
+    >
       <BlockNoteView
         editor={editor}
         slashMenu={false}
@@ -180,6 +195,6 @@ export function OpBlockNoteEditor({
           suggestionMenuComponent={HashWpMenu}
         />
       </BlockNoteView>
-    </>
+    </MantineProvider>
   );
 }

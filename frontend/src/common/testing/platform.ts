@@ -27,13 +27,18 @@
 
 import { afterEach, beforeEach, MockInstance, vi } from 'vitest';
 
-export function usePlatform(defaultPlatform = 'Linux'):(platform:string) => void {
+export interface UserAgentBrand {
+  brand:string;
+  version:string;
+}
+
+export function usePlatform(defaultPlatform = 'Linux'):(platform:string, brands?:UserAgentBrand[]) => void {
   let descriptor:PropertyDescriptor|undefined;
   let platformSpy:MockInstance<() => string>;
 
-  const pretendPlatform = (platform:string) => {
+  const pretendPlatform = (platform:string, brands:UserAgentBrand[] = []) => {
     platformSpy.mockReturnValue(platform);
-    Object.defineProperty(navigator, 'userAgentData', { configurable: true, value: { platform } });
+    Object.defineProperty(navigator, 'userAgentData', { configurable: true, value: { platform, brands } });
   };
 
   beforeEach(() => {

@@ -279,7 +279,7 @@ RSpec.describe ITSM::OutboundEmails::SendConfirmationService do
 
     it "stores the email as failed and reports the error" do
       expect(result).to be_failure
-      expect(result.errors.symbols_for(:base)).to eq([:delivery_failed])
+      expect(result.errors.symbols_for(:base)).to eq([:unexpected_error])
       expect(sent_message.reload).to have_attributes(status: "failed", error_message: "ArgumentError")
       expect(OpenProject.logger).to have_received(:error)
         .with(/failed \(ArgumentError\)/, exception: an_instance_of(ArgumentError))

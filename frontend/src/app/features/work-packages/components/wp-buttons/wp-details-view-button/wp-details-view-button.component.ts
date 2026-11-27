@@ -37,6 +37,7 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
 import {
   GlobalEditFormChangesTrackerService,
 } from 'core-app/shared/components/fields/edit/services/global-edit-form-changes-tracker/global-edit-form-changes-tracker.service';
+import { accessKeys } from 'core-app/shared/directives/a11y/access-keys';
 
 @Component({
   templateUrl: '../wp-button.template.html',
@@ -57,7 +58,7 @@ export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageBu
 
   public projectIdentifier:string;
 
-  public accessKey = 8;
+  public accessKey = accessKeys.details;
 
   public buttonId = 'work-packages-details-view-button';
 

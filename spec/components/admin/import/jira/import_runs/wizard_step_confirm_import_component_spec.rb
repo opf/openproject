@@ -40,11 +40,12 @@ RSpec.describe Admin::Import::Jira::ImportRuns::WizardStepConfirmImportComponent
   end
   let(:exclude_resolution_fields) { false }
   let(:users_explanation) { "Users that are involved in selected projects (group memberships included)" }
+  let(:sprints_explanation) { "Sprints that contain at least one issue" }
   let(:resolution_statuses_explanation) { 'Additional statuses combining status and resolution (e.g. "Done - Fixed")' }
 
   it "lists all labels" do
     expect(labels).to eq(["1 project", "0 issues", "3 statuses", "2 types",
-                          users_explanation, resolution_statuses_explanation])
+                          sprints_explanation, users_explanation, resolution_statuses_explanation])
   end
 
   context "when resolution fields are excluded" do

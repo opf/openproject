@@ -2067,6 +2067,7 @@ ru:
               label_import_data: Сейчас импортируется
               label_progress: Идёт импорт...
               label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
+              label_sprint_explanation: Sprints that contain at least one issue
               label_users_import_explanation: Пользователи, участвующие в выбранных проектах (с учетом членства в группах)
               title: Импорт данных
             fetch_data:
@@ -2223,9 +2224,13 @@ ru:
     labels:
       delete_dialog_component:
         confirmation: Я понимаю, что это действие нельзя отменить
-        description_html: Это удалит метку <strong>%{name}</strong> из всех пакетов работ во всех проектах.
         heading: Удалить эту метку?
         title: Удалить эту метку?
+        usage_description_html:
+          one: This will remove the label <strong>%{name}</strong> from %{count} work package that currently uses it. Are you sure you want to delete it?
+          few: This will remove the label <strong>%{name}</strong> from %{count} work packages that currently use it. Are you sure you want to delete it?
+          many: This will remove the label <strong>%{name}</strong> from %{count} work packages that currently use it. Are you sure you want to delete it?
+          other: This will remove the label <strong>%{name}</strong> from %{count} work packages that currently use it. Are you sure you want to delete it?
       dialog_component:
         create_title: Создать метку
         rename_title: Переименовать "%{name}"
@@ -4131,40 +4136,36 @@ ru:
     blocks:
       community: OpenProject сообщество
       new_features:
-        '17_9':
-          new_features_list:
-            line_0: Создавайте рабочие пакеты непосредственно в разделе «Документы».
-            line_1: Поиск и фильтрация пакетов работ в Бэклоге.
-            line_2: Выберите, сохранять ли потомков при удалении пакета работ.
-            line_3: Используйте сервер MCP для учёта рабочего времени, поиска рабочих пакетов по их идентификатору отображения и других функций (тарифный план «Professional»).
-            line_4: Указывайте запланированные трудозатраты в часах, днях, неделях или месяцах.
-            line_5: Отслеживайте прогресс импорта при использовании Jira Migrator.
-            line_6: Используйте оповещения о дедлайне в версии Community Edition.
-          new_features_title: 'Релиз содержит различные новые функции и улучшения, такие как:
-
-            '
         '18_0':
           new_features_list:
             line_0:
-              description: Use with shared and project-specific workflows and forms
+              description: Customize types with shared or project-specific workflows and forms.
               title: Type variants
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#work-package-types-and-variants-workflows-and-forms
             line_1:
-              description: Sprint reports, including many new charts
-              title: Agile Reporting
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              description: Track sprint progress (Community edition) and gain deeper insights with Created vs. Resolved and Epic progress charts (Professional plan).
+              title: Agile reporting
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#agile-planning-and-reporting
             line_2:
-              description: Summarize text, change formats, base it on templates
-              title: AI Text Actions
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              description: Proofread, rewrite, and structure text directly in OpenProject (Professional plan).
+              title: AI Text Assistant
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#ai-text-assistant-and-mcp-server
             line_3:
-              description: Create and reuse tags
-              title: Labels
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              description: Organize and find related work packages more easily.
+              title: Work package labels
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#labels-for-work-packages
             line_4:
-              description: Configure or delegate custom fields per project
-              title: Project-specific values
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              description: Plan resources across projects and with placeholder users and manage work package allocations and personal day planning (Premium plan).
+              title: Extended resource management
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#resource-management-and-personal-planning
+            line_5:
+              description: Benefit from improved keyboard navigation, screen reader support, and color contrast checking.
+              title: Enhanced accessibility
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#accessibility
+            line_6:
+              description: Connect external AI assistants to OpenProject.
+              title: MCP Server released to Community
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#ai-text-assistant-and-mcp-server
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
@@ -6310,13 +6311,13 @@ ru:
       shared: Общедоступные проекты
     phase_status:
       description:
-        completed: Marking a phase as complete will complete all previous phases.
-        in_progress: Marking a phase as in progress will complete all previous phases and open all future phases.
-        open: Re-opening a phase will also open all future phases.
+        completed: This will also mark all previous phases as complete.
+        in_progress: This will complete all previous phases and mark future phases as not started.
+        open: This will mark all future phases as not started.
       title:
         completed: Completed
         in_progress: In progress
-        open: Open
+        open: Not started
     settings:
       actions:
         label_disable_all: Выключить всё
@@ -7297,7 +7298,7 @@ ru:
       status_color_text: |
         Щелкните, чтобы задать или изменить цвет этого статуса.
         Этот цвет отображается на кнопке статуса и может использоваться для выделения пакетов работ в таблице.
-      status_default_text: Новые пакеты работ установлены по умолчанию с этим типом. Такие пакеты работ не могут быть доступны только для чтения.
+      status_default_text: New work packages are by default set to this status. They cannot be read-only.
       status_excluded_from_totals_text: |-
         Отметьте эту опцию, чтобы исключить пакеты работ с этим статусом из итогов Работы,
         Оставшейся работы и % Завершения в иерархии.
@@ -7713,6 +7714,7 @@ ru:
         delete_group: Удалить секцию
         drag_to_activate: Чтобы включить поля, перетащите их отсюда
         drag_to_reorder: Перетащите, чтобы изменить порядок
+        edit_custom_field: Edit custom field
         edit_query: Редактировать представление
         empty_group_hint: Перетащите атрибуты сюда
         exclusions:

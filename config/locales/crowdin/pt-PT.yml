@@ -1831,6 +1831,7 @@ pt-PT:
               label_import_data: A importar
               label_progress: Importação em curso...
               label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
+              label_sprint_explanation: Sprints that contain at least one issue
               label_users_import_explanation: Utilizadores envolvidos em projetos selecionados (incluindo membros de grupos)
               title: Importar dados
             fetch_data:
@@ -1985,9 +1986,11 @@ pt-PT:
     labels:
       delete_dialog_component:
         confirmation: Compreendo que esta ação não é reversível
-        description_html: This will remove the label <strong>%{name}</strong> from all work packages in all projects.
         heading: Delete this label?
         title: Delete this label?
+        usage_description_html:
+          one: This will remove the label <strong>%{name}</strong> from %{count} work package that currently uses it. Are you sure you want to delete it?
+          other: This will remove the label <strong>%{name}</strong> from %{count} work packages that currently use it. Are you sure you want to delete it?
       dialog_component:
         create_title: Create label
         rename_title: Rename "%{name}"
@@ -3815,40 +3818,36 @@ pt-PT:
     blocks:
       community: Comunidade de OpenProject
       new_features:
-        '17_9':
-          new_features_list:
-            line_0: Crie pacotes de trabalho diretamente em Documentos.
-            line_1: Pesquise e filtre pacotes de trabalho nos Backlogs.
-            line_2: Escolha se pretende manter os elementos descendentes ao eliminar um pacote de trabalho.
-            line_3: Utilize o servidor MCP para registar o tempo, pesquisar pacotes de trabalho através do respetivo ID de apresentação e muito mais (plano Professional).
-            line_4: Introduza a mão de obra prevista em horas, dias, semanas ou meses.
-            line_5: Veja o progresso da importação ao utilizar o Jira Migrator.
-            line_6: Utilize os alertas de data na Edição Community.
-          new_features_title: 'A versão contém várias novas funcionalidades e melhorias, como:
-
-            '
         '18_0':
           new_features_list:
             line_0:
-              description: Use with shared and project-specific workflows and forms
+              description: Customize types with shared or project-specific workflows and forms.
               title: Type variants
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#work-package-types-and-variants-workflows-and-forms
             line_1:
-              description: Sprint reports, including many new charts
-              title: Agile Reporting
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              description: Track sprint progress (Community edition) and gain deeper insights with Created vs. Resolved and Epic progress charts (Professional plan).
+              title: Agile reporting
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#agile-planning-and-reporting
             line_2:
-              description: Summarize text, change formats, base it on templates
-              title: AI Text Actions
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              description: Proofread, rewrite, and structure text directly in OpenProject (Professional plan).
+              title: AI Text Assistant
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#ai-text-assistant-and-mcp-server
             line_3:
-              description: Create and reuse tags
-              title: Etiquetas
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              description: Organize and find related work packages more easily.
+              title: Work package labels
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#labels-for-work-packages
             line_4:
-              description: Configure or delegate custom fields per project
-              title: Project-specific values
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              description: Plan resources across projects and with placeholder users and manage work package allocations and personal day planning (Premium plan).
+              title: Extended resource management
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#resource-management-and-personal-planning
+            line_5:
+              description: Benefit from improved keyboard navigation, screen reader support, and color contrast checking.
+              title: Enhanced accessibility
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#accessibility
+            line_6:
+              description: Connect external AI assistants to OpenProject.
+              title: MCP Server released to Community
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#ai-text-assistant-and-mcp-server
           new_features_title: 'A versão contém várias novas funcionalidades e melhorias, como:
 
             '
@@ -5961,13 +5960,13 @@ pt-PT:
       shared: Listas de projetos partilhados
     phase_status:
       description:
-        completed: Marking a phase as complete will complete all previous phases.
-        in_progress: Marking a phase as in progress will complete all previous phases and open all future phases.
-        open: Re-opening a phase will also open all future phases.
+        completed: This will also mark all previous phases as complete.
+        in_progress: This will complete all previous phases and mark future phases as not started.
+        open: This will mark all future phases as not started.
       title:
         completed: Concluído
         in_progress: Em curso
-        open: Aberta
+        open: Not started
     settings:
       actions:
         label_disable_all: Desativar tudo
@@ -6928,7 +6927,7 @@ pt-PT:
       status_color_text: |
         Clique para atribuir ou alterar a cor deste status.
         É mostrada no botão de status e pode ser usada para destacar os pacotes de trabalho na tabela.
-      status_default_text: Por defeito, os novos pacotes de trabalho são definidos para este tipo. Não podem ser só de leitura.
+      status_default_text: New work packages are by default set to this status. They cannot be read-only.
       status_excluded_from_totals_text: |-
         Assinale esta opção para excluir pacotes de trabalho com este estado dos totais de Trabalho,
         Trabalho restante e % Completo numa hierarquia.
@@ -7343,6 +7342,7 @@ pt-PT:
         delete_group: Eliminar secção
         drag_to_activate: Arraste campos daqui para ativá-los
         drag_to_reorder: Arrastar para reordenar
+        edit_custom_field: Edit custom field
         edit_query: Editar consulta
         empty_group_hint: Arraste os atributos para aqui
         exclusions:

@@ -969,6 +969,7 @@ lv:
         edit: Bulk edit
         move: Bulk change of project
       button_clear: Notīrīt
+      button_edit_subject: Edit subject
       comment_added: Komentārs veiksmīgi pievienots.
       comment_send_failed: Radusies kļūda. Nevar iesniegt komentāru.
       comment_updated: Komentārs tika veiksmīgi atjaunināts.

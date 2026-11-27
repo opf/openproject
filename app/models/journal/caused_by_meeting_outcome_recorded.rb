@@ -28,7 +28,7 @@
 #++
 
 class Journal::CausedByMeetingOutcomeRecorded < CauseOfChange::Base
-  def initialize(meeting)
-    super("meeting_outcome_recorded", "meeting_id" => meeting.id)
+  def initialize(meeting, outcome)
+    super("meeting_outcome_recorded", "meeting_id" => meeting.id, "outcome_id" => outcome.id)
   end
 end

@@ -1829,6 +1829,7 @@ fa:
               label_import_data: در حال Import
               label_progress: Import در حال انجام است...
               label_resolution_statuses_explanation: وضعیت‌های اضافی حاصل از ترکیب وضعیت و نتیجه حل مسئله (مثلاً «انجام‌شده - رفع‌شده»)
+              label_sprint_explanation: Sprints that contain at least one issue
               label_users_import_explanation: کاربران درگیر در پروژه‌های انتخاب‌شده، همراه با عضویت گروه‌ها
               title: واردکردن داده‌ها
             fetch_data:
@@ -1983,9 +1984,11 @@ fa:
     labels:
       delete_dialog_component:
         confirmation: می‌دانم که این عملیات برگشت‌پذیر نیست
-        description_html: این کار برچسب <strong>%{name}</strong> را از همه بسته‌های کاری در همه پروژه‌ها حذف می‌کند.
         heading: این برچسب حذف شود؟
         title: این برچسب حذف شود؟
+        usage_description_html:
+          one: This will remove the label <strong>%{name}</strong> from %{count} work package that currently uses it. Are you sure you want to delete it?
+          other: This will remove the label <strong>%{name}</strong> from %{count} work packages that currently use it. Are you sure you want to delete it?
       dialog_component:
         create_title: ایجاد برچسب
         rename_title: تغییر نام «%{name}»
@@ -3811,40 +3814,36 @@ fa:
     blocks:
       community: جامعه OpenProject
       new_features:
-        '17_9':
-          new_features_list:
-            line_0: بسته‌های کاری را مستقیماً در اسناد ایجاد کنید.
-            line_1: بسته‌های کاری را در بک‌لاگ‌ها جستجو و فیلتر کنید.
-            line_2: هنگام حذف یک بسته کاری، انتخاب کنید که زیرمجموعه‌ها حفظ شوند یا خیر.
-            line_3: از سرور MCP برای ثبت زمان، جستجوی بسته‌های کاری بر اساس شناسه نمایشی آن‌ها و موارد بیشتر استفاده کنید (طرح Professional).
-            line_4: کار برنامه‌ریزی‌شده را به ساعت، روز، هفته یا ماه وارد کنید.
-            line_5: هنگام استفاده از Jira Migrator پیشرفت واردسازی را مشاهده کنید.
-            line_6: از هشدارهای تاریخ در نسخه Community استفاده کنید.
-          new_features_title: 'این نسخه شامل قابلیت‌ها و بهبودهای جدید متنوعی است، از جمله:
-
-            '
         '18_0':
           new_features_list:
             line_0:
-              description: استفاده با فرم‌ها و گردش‌کارهای مشترک و ویژه هر پروژه
+              description: Customize types with shared or project-specific workflows and forms.
               title: گونه‌های نوع
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#work-package-types-and-variants-workflows-and-forms
             line_1:
-              description: گزارش‌های اسپرینت، از جمله نمودارهای جدید متعدد
-              title: گزارش‌دهی چابک
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              description: Track sprint progress (Community edition) and gain deeper insights with Created vs. Resolved and Epic progress charts (Professional plan).
+              title: Agile reporting
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#agile-planning-and-reporting
             line_2:
-              description: خلاصه‌کردن متن، تغییر قالب‌ها و استفاده از الگوها
-              title: عملیات متنی هوش مصنوعی
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              description: Proofread, rewrite, and structure text directly in OpenProject (Professional plan).
+              title: AI Text Assistant
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#ai-text-assistant-and-mcp-server
             line_3:
-              description: ایجاد و استفاده مجدد از برچسب‌ها
-              title: برچسب‌ها
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              description: Organize and find related work packages more easily.
+              title: Work package labels
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#labels-for-work-packages
             line_4:
-              description: پیکربندی فیلدهای سفارشی برای هر پروژه یا واگذاری مدیریت آن‌ها
-              title: مقادیر ویژه هر پروژه
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              description: Plan resources across projects and with placeholder users and manage work package allocations and personal day planning (Premium plan).
+              title: Extended resource management
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#resource-management-and-personal-planning
+            line_5:
+              description: Benefit from improved keyboard navigation, screen reader support, and color contrast checking.
+              title: Enhanced accessibility
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#accessibility
+            line_6:
+              description: Connect external AI assistants to OpenProject.
+              title: MCP Server released to Community
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#ai-text-assistant-and-mcp-server
           new_features_title: 'این نسخه شامل قابلیت‌ها و بهبودهای جدید متنوعی است، از جمله:
 
             '
@@ -5959,13 +5958,13 @@ fa:
       shared: فهرست‌های پروژه اشتراک‌گذاری‌شده
     phase_status:
       description:
-        completed: Marking a phase as complete will complete all previous phases.
-        in_progress: Marking a phase as in progress will complete all previous phases and open all future phases.
-        open: Re-opening a phase will also open all future phases.
+        completed: This will also mark all previous phases as complete.
+        in_progress: This will complete all previous phases and mark future phases as not started.
+        open: This will mark all future phases as not started.
       title:
         completed: Completed
         in_progress: In progress
-        open: Open
+        open: Not started
     settings:
       actions:
         label_disable_all: غیرفعال‌کردن همه
@@ -6938,7 +6937,7 @@ fa:
       status_color_text: |
         برای تخصیص یا تغییر رنگ این وضعیت کلیک کنید.
         این رنگ در دکمه وضعیت نمایش داده می‌شود و می‌تواند برای برجسته‌سازی بسته‌های کاری در جدول استفاده شود.
-      status_default_text: بسته‌های کاری جدید به‌طور پیش‌فرض روی این نوع تنظیم می‌شوند. این نوع نمی‌تواند فقط‌خواندنی باشد.
+      status_default_text: New work packages are by default set to this status. They cannot be read-only.
       status_excluded_from_totals_text: |-
         این گزینه را فعال کنید تا بسته‌های کاری با این وضعیت از مجموع‌های کار،
         کار باقی‌مانده و ٪ تکمیل در سلسله‌مراتب حذف شوند.
@@ -7354,6 +7353,7 @@ fa:
         delete_group: حذف بخش
         drag_to_activate: برای فعال‌کردن، فیلدها را از اینجا Drag کنید
         drag_to_reorder: برای تغییر ترتیب Drag کنید
+        edit_custom_field: Edit custom field
         edit_query: ویرایش Query
         empty_group_hint: ویژگی‌ها را اینجا Drag کنید
         exclusions:

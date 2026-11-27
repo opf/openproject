@@ -139,7 +139,7 @@ describe('insertWpForTarget', () => {
     insertWpForTarget(editor, workPackage, { kind: 'block', size: 'm' });
 
     expect(blockTypes(editor)).toEqual([BLOCK_WP_TYPE, 'paragraph']);
-    expect(blockText(editor, 1)).toBe(' World');
+    expect(blockText(editor, 1)).toBe('World');
   });
 
   it('splits the line, keeping the text before and after the trigger around the card', () => {
@@ -150,7 +150,7 @@ describe('insertWpForTarget', () => {
 
     expect(blockTypes(editor)).toEqual(['paragraph', BLOCK_WP_TYPE, 'paragraph']);
     expect(blockText(editor, 0)).toBe('Hello ');
-    expect(blockText(editor, 2)).toBe(' World');
+    expect(blockText(editor, 2)).toBe('World');
   });
 });
 

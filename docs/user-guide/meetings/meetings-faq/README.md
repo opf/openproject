@@ -8,17 +8,6 @@ keywords: meetings, meetings faq, agenda, outcomes, calendar, how to
 
 # Frequently asked questions (FAQ) for meetings
 
-## What happened to classic meetings?
-
-Classic meetings were removed with the OpenProject 16.0 release. They were replaced by the meetings introduced in OpenProject 13.1.0 (previously called dynamic meetings), which can be either [one-time meetings](../meeting-types/one-time-meetings/) or [recurring meetings](../meeting-types/recurring-meetings/).
-
-All existing classic meetings were converted automatically:
-
-- Classic meetings were converted into one-time meetings.
-- Agenda text was converted into agenda items.
-- Meeting minutes were converted into meeting outcomes.
-- Author information was saved in the respective presenter fields.
-
 ## Can I add a meeting to a calendar?
 
 Yes. You can [download a single meeting as an iCalendar event](../meeting-features/meeting-participants/#download-a-meeting-as-an-icalendar-event), or [subscribe to all your meetings](../#subscribe-to-meetings) in an external calendar so they stay up to date automatically. Participants can also receive [email calendar updates](../meeting-features/meeting-participants/#email-calendar-updates) with an iCalendar invite for a specific meeting.

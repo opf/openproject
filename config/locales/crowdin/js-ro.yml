@@ -969,6 +969,7 @@ ro:
         edit: Editează mai multe elemente
         move: Modificare identificator proiect
       button_clear: Șterge
+      button_edit_subject: Edit subject
       comment_added: Comentariul a fost adăugat cu succes.
       comment_send_failed: A apărut o eroare. Comentariul nu a putut fi salvat.
       comment_updated: Comentariul a fost actualizat cu succes.

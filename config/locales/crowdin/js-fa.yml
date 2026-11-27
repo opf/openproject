@@ -963,6 +963,7 @@ fa:
         edit: ویرایش گروهی
         move: تغییر گروهی پروژه
       button_clear: پاک‌کردن
+      button_edit_subject: Edit subject
       comment_added: دیدگاه با موفقیت اضافه شد.
       comment_send_failed: خطایی رخ داد. دیدگاه ارسال نشد.
       comment_updated: دیدگاه با موفقیت به‌روزرسانی شد.
