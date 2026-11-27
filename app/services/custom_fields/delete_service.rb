@@ -29,5 +29,26 @@
 
 module CustomFields
   class DeleteService < ::BaseServices::Delete
+    protected
+
+    def persist(service_result)
+      project_ids = project_ids_with_values
+
+      super.tap { |result| journalize_projects(project_ids) if result.success? }
+    end
+
+    private
+
+    def project_ids_with_values
+      return [] unless model.is_a?(ProjectCustomField)
+
+      model.custom_values.where(customized_type: Project.name).distinct.pluck(:customized_id)
+    end
+
+    def journalize_projects(project_ids)
+      Project.where(id: project_ids).find_each do |project|
+        Journals::CreateService.new(project, user).call
+      end
+    end
   end
 end

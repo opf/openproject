@@ -230,8 +230,7 @@ RSpec.describe JournalsController do
             context "when field gets deleted" do
               before { custom_field.destroy }
 
-              # this should be 200, see https://community.openproject.org/wp/72230
-              it { expect(response).to have_http_status(:bad_request) }
+              include_examples "the diff is shown", "bar"
             end
           end
         end
@@ -257,8 +256,7 @@ RSpec.describe JournalsController do
             context "when field gets deleted (and we loose format information)" do
               before { custom_field.destroy }
 
-              # this should be 200, see https://community.openproject.org/wp/72230
-              it { expect(response).to have_http_status(:bad_request) }
+              include_examples "the diff is shown", "bar"
             end
           end
         end
@@ -270,6 +268,20 @@ RSpec.describe JournalsController do
         let(:user) { create(:user, member_with_permissions: { project => %i[view_project_attributes] }) }
 
         it { expect(response).to have_http_status(:not_found) }
+
+        context "when field gets deleted (and we loose format information)" do
+          before { custom_field.destroy }
+
+          describe "with a user having :view_project_attributes" do
+            it { expect(response).to have_http_status(:forbidden) }
+          end
+
+          describe "with an admin user" do
+            let(:user) { build_stubbed(:admin) }
+
+            include_examples "the diff is shown", "bar"
+          end
+        end
       end
     end
 

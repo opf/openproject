@@ -208,6 +208,22 @@ RSpec.describe Project, "acts_as_journalized" do
       end
     end
 
+    context "when custom field gets deleted" do
+      let(:custom_field) { create(:string_project_custom_field) }
+      let(:expected_change) { [custom_value.value, modified_custom_value.value] }
+
+      before do
+        User.execute_as user do
+          project.update!(custom_values: [custom_value])
+        end
+
+        project.update!(custom_values: [modified_custom_value])
+        custom_field.destroy
+      end
+
+      include_examples "contains the expected change"
+    end
+
     context "if custom field is marked for all" do
       let(:expected_change) { [custom_value.value, modified_custom_value.value] }
 
