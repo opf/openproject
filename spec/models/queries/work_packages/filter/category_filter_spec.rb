@@ -121,14 +121,5 @@ RSpec.describe Queries::WorkPackages::Filter::CategoryFilter do
         end
       end
     end
-
-    describe "#where" do
-      let(:values) { ["1"] }
-
-      it "reads the work_package_categories join rows" do
-        expect(instance.where).to include("work_package_categories")
-        expect(instance.where).not_to include("#{WorkPackage.table_name}.category_id")
-      end
-    end
   end
 end

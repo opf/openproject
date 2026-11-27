@@ -111,13 +111,6 @@ RSpec.describe Queries::WorkPackages::Selects::PropertySelect do
           expect(column).to be_groupable
           expect(column.caption).to eq WorkPackage.human_attribute_name(:categories)
         end
-
-        it "sorts and groups via the work_package_categories join rows" do
-          column = described_class.instances.find { it.name == :categories }
-
-          expect(Array(column.sortable)).to all include("work_package_categories")
-          expect(column.groupable).to include("work_package_categories")
-        end
       end
 
       context "with multiple categories disabled",
@@ -128,14 +121,6 @@ RSpec.describe Queries::WorkPackages::Selects::PropertySelect do
 
           expect(names).to include :category
           expect(names).not_to include :categories
-        end
-
-        it "sorts and groups the category column via the work_package_categories join rows" do
-          column = described_class.instances.find { it.name == :category }
-
-          expect(column.sortable).to include("work_package_categories")
-          expect(column.groupable).to include("work_package_categories")
-          expect(column.groupable).not_to include("#{WorkPackage.table_name}.category_id")
         end
       end
     end

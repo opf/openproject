@@ -138,11 +138,38 @@ RSpec.describe Query::Results, "Filtering, sorting and grouping by categories" d
         end
       end
 
+      context 'with the "=" operator and multiple values' do
+        let(:gamma) { create(:category, name: "Gamma", project:) }
+        let!(:gamma_wp) { create(:work_package, project:, category_ids_replacements: [gamma.id]) }
+
+        let(:filter) { ["category_id", "=", [alpha.id.to_s, gamma.id.to_s]] }
+
+        it "returns the work packages having any of the categories, each only once" do
+          expect(results.work_packages).to contain_exactly(alpha_wp, both_wp, gamma_wp)
+        end
+      end
+
       context 'with the "!" operator' do
         let(:filter) { ["category_id", "!", [beta.id.to_s]] }
 
         it "returns only the work packages not having the category at all" do
           expect(results.work_packages).to contain_exactly(alpha_wp, uncategorized_wp)
+        end
+      end
+
+      context 'with the "*" operator' do
+        let(:filter) { ["category_id", "*", []] }
+
+        it "returns the work packages with any category, each only once" do
+          expect(results.work_packages).to contain_exactly(alpha_wp, both_wp, beta_wp)
+        end
+      end
+
+      context 'with the "!*" operator' do
+        let(:filter) { ["category_id", "!*", []] }
+
+        it "returns the work packages without any category" do
+          expect(results.work_packages).to contain_exactly(uncategorized_wp)
         end
       end
     end
@@ -152,6 +179,14 @@ RSpec.describe Query::Results, "Filtering, sorting and grouping by categories" d
 
       it "sorts by the aggregated category names with uncategorized last" do
         expect(results.work_packages).to eq [alpha_wp, both_wp, beta_wp, uncategorized_wp]
+      end
+    end
+
+    describe "sorting DESC by categories" do
+      let(:sort_criteria) { [%w[categories desc]] }
+
+      it "sorts by the aggregated category names with uncategorized first" do
+        expect(results.work_packages).to eq [uncategorized_wp, beta_wp, both_wp, alpha_wp]
       end
     end
 
