@@ -35,6 +35,7 @@ export default class PollForChangesController extends ApplicationController {
     reference: String,
     continuous: Boolean,
     pausable: Boolean,
+    confirm: Boolean,
   };
 
   static targets = ['reference'];
@@ -47,8 +48,10 @@ export default class PollForChangesController extends ApplicationController {
   declare intervalValue:number;
   declare continuousValue:boolean;
   declare pausableValue:boolean;
+  declare confirmValue:boolean;
 
   private interval:number;
+  private changeSeen = false;
 
   connect() {
     super.connect();
@@ -94,7 +97,17 @@ export default class PollForChangesController extends ApplicationController {
         return;
       }
 
-      if (r.status === 200 && !this.isPaused()) {
+      if (r.status !== 200) {
+        this.changeSeen = false;
+        return;
+      }
+
+      if (this.confirmValue && !this.changeSeen) {
+        this.changeSeen = true;
+        return;
+      }
+
+      if (!this.isPaused()) {
         if (!this.continuousValue) {
           clearInterval(this.interval);
         }

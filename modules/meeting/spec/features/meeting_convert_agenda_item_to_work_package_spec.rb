@@ -96,6 +96,58 @@ RSpec.describe "Convert agenda item to work package", :js do
     end
   end
 
+  context "for an item in the series backlog on an occurrence page" do
+    let(:recurring_meeting) do
+      create :recurring_meeting,
+             project:,
+             start_time: "2024-12-31T13:30:00Z",
+             duration: 1,
+             frequency: "daily",
+             end_after: "specific_date",
+             end_date: "2025-01-03",
+             author: user
+    end
+    let(:occurrence) { recurring_meeting.meetings.where(template: false).first }
+    let(:show_page) { Pages::Meetings::Show.new(occurrence) }
+    let(:backlog_item) do
+      create(:meeting_agenda_item,
+             meeting: recurring_meeting.template,
+             meeting_section: recurring_meeting.template.backlog,
+             author: user,
+             title: "Series backlog topic")
+    end
+
+    before do
+      travel_to(Date.new(2024, 12, 30))
+      RecurringMeetings::InitNextOccurrenceJob.perform_now(recurring_meeting, recurring_meeting.first_occurrence.to_time)
+      create(:meeting_agenda_item, meeting: occurrence, author: user, title: "Occurrence topic")
+      backlog_item
+
+      allow_any_instance_of(Meetings::HeaderComponent) # rubocop:disable RSpec/AnyInstance
+        .to receive(:check_for_updates_interval)
+        .and_return(0)
+    end
+
+    it "does not show the update flash after converting" do
+      show_page.visit!
+      wait_for_network_idle
+
+      show_page.open_menu(backlog_item) do
+        click_on dialog_title
+      end
+
+      page.within_dialog(dialog_title) do
+        wait_for_turbo_stream { click_on "Create" }
+      end
+
+      expect(page).to have_no_css("dialog", text: dialog_title, wait: 20)
+      expect(backlog_item.reload).to be_work_package
+
+      show_page.trigger_change_poll
+      expect(page).to have_no_text I18n.t(:notice_meeting_updated)
+    end
+  end
+
   context "when user lacks add_work_packages permission" do
     let(:restricted_user) do
       create(:user,
