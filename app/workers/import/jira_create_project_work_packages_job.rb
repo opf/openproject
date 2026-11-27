@@ -315,17 +315,20 @@ module Import
 
     def update_workflows(type_variant)
       Rails.logger.tagged("jira_object_type:issueType", "jira_object_id_or_name:#{type_variant.name}") do
-        statuses = Status.all
-        row = statuses.to_h { |status| [status.id.to_s, ["always"]] }
-        status_params = statuses.to_h { |status| [status.id.to_s, row] }
         call = Workflows::BulkUpdateService
                   .new(role: @project_role, workflow: type_variant.workflow, tab: "always")
-                  .call(status_params)
+                  .call(all_status_transitions)
         if call.failure?
           Rails.logger.error call.message
           raise call.message
         end
       end
+    end
+
+    def all_status_transitions
+      statuses = Status.all
+      row = statuses.to_h { |status| [status.id.to_s, ["always"]] }
+      statuses.to_h { |status| [status.id.to_s, row] }
     end
 
     # rubocop:disable-next Metrics/AbcSize, Metrics/PerceivedComplexity
