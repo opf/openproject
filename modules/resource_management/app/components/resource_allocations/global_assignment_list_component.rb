@@ -35,16 +35,17 @@ module ResourceAllocations
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
-    def initialize(sections:, visible_work_package_ids:)
+    def initialize(sections:, visible_work_package_ids:, editable_ids:)
       super
 
       @sections = sections
       @visible_work_package_ids = visible_work_package_ids
+      @editable_ids = editable_ids
     end
 
     private
 
-    attr_reader :sections, :visible_work_package_ids
+    attr_reader :sections, :visible_work_package_ids, :editable_ids
 
     def body_id(project)
       "staffing-project-#{project.id}"
@@ -53,7 +54,7 @@ module ResourceAllocations
     # The rows link back to the global staffing routes, so the assignment dialog
     # returns to this page rather than the project's.
     def table_for(allocations)
-      AssignmentTableComponent.new(rows: allocations, project: nil, visible_work_package_ids:)
+      AssignmentTableComponent.new(rows: allocations, project: nil, visible_work_package_ids:, editable_ids:)
     end
   end
 end
