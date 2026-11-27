@@ -1320,6 +1320,8 @@ Rails.application.routes.draw do
 
     # move bulk of wps
     get "move/new" => "work_packages/moves#new", on: :collection, as: "new_move"
+    get "move/dialog" => "work_packages/moves#move_dialog", on: :collection, as: "move_dialog"
+    post "move/confirm" => "work_packages/moves#confirm_move", on: :collection, as: "confirm_move"
     post "move/refresh_form" => "work_packages/moves#refresh_form", on: :collection, as: "refresh_form_move"
     post "move" => "work_packages/moves#create", on: :collection, as: "move"
     # move individual wp

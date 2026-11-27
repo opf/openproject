@@ -1108,6 +1108,10 @@ en:
               not_a_valid_parent: "is invalid."
             priority_id:
               only_active_priorities_allowed: "needs to be active."
+            project_id:
+              descendants_would_cross_projects: >-
+                cannot be changed: one or more descendants would stay behind in a different project than
+                their parent, which is not allowed while cross-project work package relations are disabled.
             remaining_hours:
               cant_exceed_work: "cannot be higher than Work."
               must_be_empty_when_work_is_empty_and_percent_complete_is_100p: >-
@@ -8504,6 +8508,10 @@ en:
         other: >-
           You are not able to delete %{count} descendants because you lack the necessary permissions in
           %{projects}. These will be preserved but any hierarchical relations will be removed.
+    bulk_move_dialog:
+      descendants_choice:
+        heading: "The selected work packages have descendants. Do you want to move them as well?"
+        self_only_label: "Move just the selected work packages"
     datepicker_modal:
       banner:
         description:
@@ -8737,6 +8745,20 @@ en:
         Otherwise, select an available type in the target project from the list.
       no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
       unsupported_for_multiple_projects: "Bulk move/copy is not supported for work packages from multiple projects"
+    move_dialog:
+      descendants_choice:
+        heading: "This work package has descendants. Do you want to move them as well?"
+        self_only_label: "Move just this work package"
+    move_dialog_shared:
+      descendants_choice:
+        self_only_caption: "Child work packages will remain in their current project but will still keep this as the parent."
+        title: "Move all descendants too?"
+        with_descendants_caption: "Child work packages will also be moved to the new project."
+        with_descendants_label: "Include all descendants"
+      permission_banner: "Only work packages that you have the permission to edit will be moved. Others will remain in the current project."
+      same_project_required_notice: >-
+        Cross-project work package relations are disabled, so all descendants will be moved along. The move will
+        fail if you do not have permission to move all of them.
     sharing:
       missing_workflow_warning:
         link_message: "Configure the workflows in the administration."

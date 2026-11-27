@@ -281,6 +281,106 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
       end
     end
 
+    describe "when a descendant lives in a project the user may not move it from" do
+      let(:other_project) { create(:project, types: project_types) }
+      let(:other_project_permissions) { [] }
+      let!(:unauthorized_descendant) do
+        create(:work_package, project: other_project, parent: work_package, subject: "unauthorized descendant")
+      end
+
+      before do
+        create(:member,
+               user:,
+               project: other_project,
+               roles: [create(:project_role, permissions: other_project_permissions)])
+      end
+
+      it "moves the work package but leaves the descendant behind" do
+        expect(subject).to be_success
+
+        expect(work_package.reload.project).to eq(target_project)
+        expect(unauthorized_descendant.reload.project).to eq(other_project)
+        expect(unauthorized_descendant.parent_id).to eq(work_package.id)
+      end
+
+      context "with view and move_work_packages permission on the descendant's project" do
+        let(:other_project_permissions) { %i[view_work_packages move_work_packages] }
+
+        it "moves the descendant along with the work package" do
+          expect(subject).to be_success
+
+          expect(unauthorized_descendant.reload.project).to eq(target_project)
+        end
+      end
+
+      context "when the descendant's project is invisible to the user" do
+        before do
+          Member.where(principal: user, project: other_project).destroy_all
+        end
+
+        it "moves the work package but leaves the invisible descendant behind" do
+          expect(subject).to be_success
+
+          expect(unauthorized_descendant.reload.project).to eq(other_project)
+        end
+      end
+
+      describe "its time entries and memberships" do
+        let(:wp_role) { create(:work_package_role, permissions: [:view_work_packages]) }
+        let(:other_user) { create(:user) }
+        let!(:descendant_time_entry) do
+          create(:time_entry, project: other_project, entity: unauthorized_descendant)
+        end
+        let!(:descendant_membership) do
+          create(:member, project: other_project, entity: unauthorized_descendant, principal: other_user, roles: [wp_role])
+        end
+
+        it "does not move them to the target project" do
+          expect(subject).to be_success
+
+          expect(descendant_time_entry.reload.project_id).to eq(other_project.id)
+          expect(descendant_membership.reload.project_id).to eq(other_project.id)
+        end
+      end
+    end
+
+    describe "when move_descendants: false is passed explicitly" do
+      let!(:child_work_package) { super() }
+      let(:attributes) { { project_id: target_project.id, move_descendants: false } }
+
+      it "moves only the work package itself, even though the child is movable" do
+        expect(subject).to be_success
+
+        expect(work_package.reload.project).to eq(target_project)
+        expect(child_work_package.reload.project).to eq(project)
+        expect(child_work_package.parent_id).to eq(work_package.id)
+      end
+    end
+
+    describe "when cross-project work package relations are disabled",
+             with_settings: { cross_project_work_package_relations: false } do
+      let!(:child_work_package) { super() }
+
+      it "still moves the work package and its (same-project) child by default" do
+        expect(subject).to be_success
+
+        expect(work_package.reload.project).to eq(target_project)
+        expect(child_work_package.reload.project).to eq(target_project)
+      end
+
+      context "when move_descendants: false is passed explicitly" do
+        let(:attributes) { { project_id: target_project.id, move_descendants: false } }
+
+        it "fails instead of leaving the child behind in a different project than its parent" do
+          expect(subject).to be_failure
+          expect(subject.errors.symbols_for(:project_id)).to include(:descendants_would_cross_projects)
+
+          expect(work_package.reload.project).to eq(project)
+          expect(child_work_package.reload.project).to eq(project)
+        end
+      end
+    end
+
     describe "categories" do
       let(:category) do
         create(:category,

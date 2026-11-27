@@ -42,6 +42,16 @@ class WorkPackages::UpdateService < BaseServices::Update
 
   private
 
+  def set_attributes_params(params) = super.except(:move_descendants)
+
+  # Exposes the caller's choice to WorkPackages::UpdateContract, which rejects the
+  # move outright when it would leave a descendant in a different project while
+  # cross-project work package relations are disabled.
+  def before_perform(service_call)
+    contract_options[:move_descendants] = move_descendants?
+    super
+  end
+
   def after_validate(call)
     labels_call = find_or_create_labels(call.result)
     return super if labels_call.success?
@@ -76,25 +86,52 @@ class WorkPackages::UpdateService < BaseServices::Update
     changed_attributes += work_package.changed_attribute_keys_before_last_save
     changed_attributes.uniq!
     update_related(work_package, changed_attributes).each do |related_service_call|
-      service_call.add_dependent!(related_service_call)
+      add_related_dependent!(service_call, related_service_call)
     end
   end
 
   def update_related(work_package, changed_attributes)
     consolidated_calls(update_descendants(work_package) + reschedule_related(work_package, changed_attributes))
-      .each { |dependent_call| dependent_call.result.save(validate: false) }
+      .each { |dependent_call| dependent_call.result.save!(validate: false) if dependent_call.success? }
   end
 
-  def update_descendants(work_package)
-    if work_package.saved_change_to_project_id?
-      attributes = { project: work_package.project }
-
-      work_package.descendants.map do |descendant|
-        set_descendant_attributes(attributes, descendant)
-      end
+  # A descendant the user may not see or move simply stays behind -- that's not a
+  # failure of the move, so (unlike a real failure) it must not drag the overall
+  # result down with it. Everything else -- reschedules, and descendants that did
+  # pass WorkPackages::UpdateDependentContract -- is added normally.
+  def add_related_dependent!(service_call, dependent_call)
+    if dependent_call.failure? && (@descendant_update_calls || []).include?(dependent_call)
+      service_call.dependent_results << dependent_call
     else
-      []
+      service_call.add_dependent!(dependent_call)
     end
+  end
+
+  # Attempts every descendant, not just the ones we expect to be movable:
+  # WorkPackages::UpdateDependentContract is the one actually deciding, per
+  # descendant, whether the user may see it and move it out of its own project.
+  # Memoized because cleanup needs the same "what actually moved" answer afterwards.
+  def update_descendants(work_package)
+    return [] unless work_package.saved_change_to_project_id?
+
+    @descendant_update_calls =
+      if move_descendants?
+        attributes = { project: work_package.project }
+        work_package.descendants.map { |descendant| set_descendant_attributes(attributes, descendant) }
+      else
+        []
+      end
+  end
+
+  def moved_descendants
+    @moved_descendants ||= (@descendant_update_calls || []).select(&:success?).map(&:result)
+  end
+
+  # Defaults to true so API calls and inline edits that don't pass the option keep
+  # cascading to descendants, same as before -- just now gated per descendant by
+  # WorkPackages::UpdateDependentContract instead of unconditionally.
+  def move_descendants?
+    ActiveModel::Type::Boolean.new.cast(params.fetch(:move_descendants, true))
   end
 
   def set_descendant_attributes(attributes, descendant)
@@ -107,7 +144,7 @@ class WorkPackages::UpdateService < BaseServices::Update
 
   def cleanup(work_package)
     if work_package.saved_change_to_project_id?
-      moved_work_packages = [work_package] + work_package.descendants
+      moved_work_packages = [work_package] + moved_descendants
       delete_relations(moved_work_packages)
       move_time_entries(moved_work_packages, work_package.project_id)
       move_work_package_memberships(moved_work_packages, work_package.project_id)

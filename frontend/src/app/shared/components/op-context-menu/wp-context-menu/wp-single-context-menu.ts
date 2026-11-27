@@ -132,6 +132,14 @@ export class WorkPackageSingleContextMenuDirective extends OpActionMenuItems imp
         );
         break;
       }
+      case 'change_project': {
+        const backUrl = this.urlParams.basePathWithoutDetails();
+        void this.turboRequests.request(
+          this.PathHelper.workPackagesMoveDialogPath([this.workPackage.id!], backUrl),
+          { method: 'GET' },
+        );
+        break;
+      }
       case 'copy_link_to_clipboard': {
         const url = new URL(String(link), window.location.origin);
         this.copyToClipboardService.copy(url.toString());

@@ -34,7 +34,7 @@ See COPYRIGHT and LICENSE files for more details.
   render Primer::OpenProject::PageHeader.new do |header|
     header.with_title { @copy ? t(:button_duplicate) : t(:button_move) }
     header.with_breadcrumbs(
-      [*([href: project_overview_path(@project.id), text: @project.name] if @project),
+      [*([{ href: project_overview_path(@project.id), text: @project.name }] if @project),
        { href: project_work_packages_path(@project), text: t(:label_work_package_plural) },
        *(single_wp ? [{ href: work_package_path(single_wp), text: single_wp.subject }] : []),
        @copy ? t(:button_duplicate) : t(:button_move)]
@@ -46,7 +46,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% @work_packages.each do |work_package| -%>
     <li>
       <%= link_to_work_package work_package %>
-      <% descendant_count = work_package.descendants.size %>
+      <% descendant_count = @descendant_counts[work_package.id] %>
       <% if descendant_count > 0 %>
         <span class="contextual-info -small">(+ <%= t("work_packages.x_descendants", count: descendant_count) %>)</span>
       <% end %>
