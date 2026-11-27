@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -65,8 +64,7 @@ module OAuth
     def application_native_redirect_uris
       registered_redirect_uris
         .reject { |url| url.start_with?("http", "urn") }
-        .map(&method(:parse_native_redirect_uri))
-        .compact
+        .filter_map { |url| parse_native_redirect_uri(url) }
     end
 
     def parse_native_redirect_uri(value)

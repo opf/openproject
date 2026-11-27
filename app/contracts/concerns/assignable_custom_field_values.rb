@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -35,7 +34,11 @@ module AssignableCustomFieldValues
     def assignable_custom_field_values(custom_field)
       case custom_field.field_format
       when "list"
-        custom_field.possible_values
+        if custom_field.project_specific_value_restriction
+          custom_field.usable_values_in(project)
+        else
+          custom_field.possible_values
+        end
       when "version"
         assignable_versions(only_open: !custom_field.allow_non_open_versions?)
       end

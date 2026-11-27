@@ -22,21 +22,43 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module ResourceAllocations
-  # A single allocation's share of a day in a computed schedule: `minutes` of the
-  # `allocation` (and its `work_package`) placed on one day.
-  class ScheduledEntry
-    include ActiveModel::Model
-    include ActiveModel::Attributes
+  # A single allocation's share of a day in a user's schedule: `minutes` of the
+  # `allocation` placed on the `allocated_on` day. `minutes` includes the
+  # `overtime_minutes` beyond the user's working hours.
+  class ScheduledEntry < ApplicationRecord
+    self.table_name = "resource_allocation_scheduled_entries"
 
-    attribute :allocation
-    attribute :work_package
-    attribute :minutes, :integer
+    belongs_to :allocation, class_name: "ResourceAllocation", foreign_key: :resource_allocation_id, inverse_of: false
+    belongs_to :user
+
+    scope :with_overtime, -> { where(arel_table[:overtime_minutes].gt(0)) }
+
+    # Writes that cascade into the entries (e.g. deleting allocations) take this
+    # lock before writing. Otherwise a recomputation holding the lock waits for
+    # those rows while the writer waits for the lock.
+    def self.lock_schedules_of(users)
+      users.sort_by(&:id).each do |user|
+        with_advisory_lock!("resource_allocation_schedule_#{user.id}", transaction: true, blocking: true)
+      end
+    end
+
+    def self.remaining_minutes_by_allocation(allocations, on:)
+      placed = on ? placed_minutes_by_allocation_id(allocations, before: on) : {}
+      allocations.index_with { |allocation| allocation.allocated_time - placed.fetch(allocation.id, 0) }
+    end
+
+    def self.placed_minutes_by_allocation_id(allocations, before:)
+      where(allocation: allocations, allocated_on: ...before)
+        .group(:resource_allocation_id)
+        .sum("minutes - overtime_minutes")
+    end
+
+    def work_package = allocation.entity
   end
 end

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -76,7 +75,7 @@ RSpec.describe ResourcePlannerViews::UserTimeline::ContentComponent, type: :comp
       expect(el["#{prefix}-range-end-value"]).to be_blank
     end
 
-    it "passes the planner's date range for the initial centring" do
+    it "passes the planner's date range for the initial centering" do
       planner.update!(start_date: Date.new(2026, 1, 1), end_date: Date.new(2026, 12, 31))
 
       el = rendered.find("[data-controller='resource-management--resource-timeline']")

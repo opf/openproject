@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -59,8 +58,8 @@ RSpec.describe "Boards availability", :js do
   end
 
   it "renders action boards without an enterprise banner" do
-    expect(page).to have_content "My board"
-    expect(page).to have_content "Subproject board"
+    expect(page).to have_text "My board"
+    expect(page).to have_text "Subproject board"
 
     board_page = board_index.open_board(manual_board)
     board_page.expect_query "My board"

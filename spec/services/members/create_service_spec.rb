@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -93,7 +92,7 @@ RSpec.describe Members::CreateService, type: :model do
           expect(inherited_roles_service)
             .to have_received(:call)
                   .with(user_ids: group.user_ids,
-                        project_ids: [model_instance.project_id],
+                        member_id: model_instance.id,
                         send_notifications: false)
         end
       end

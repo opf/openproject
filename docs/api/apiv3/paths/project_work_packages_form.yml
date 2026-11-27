@@ -2,7 +2,8 @@
 ---
 post:
   summary: Form for creating Work Packages in a Project
-  operationId: form_create_work_package_in_project
+  deprecated: true
+  operationId: validate_project_work_package_create_form
   tags:
     - Work Packages
   description: |-

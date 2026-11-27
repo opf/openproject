@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -77,11 +76,7 @@ module Users
       end
 
       def format_date_range(first, last)
-        if first.year == last.year
-          "#{I18n.l(first, format: :short)} - #{I18n.l(last, format: :short)}, #{first.year}"
-        else
-          "#{I18n.l(first, format: :long)} - #{I18n.l(last, format: :long)}"
-        end
+        "#{I18n.l(first, format: :short)} - #{I18n.l(last, format: :short)}, #{first.year}"
       end
     end
   end

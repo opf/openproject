@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -50,6 +49,46 @@ module WorkPackage::Journalized
     project.internal_comments_enabled? && user.allowed_in_project?(:view_internal_comments, project)
   end
 
+  # This one is here only to ease reading
+  module JournalizedProcs
+    def self.event_title
+      Proc.new do |o|
+        title = o.to_s
+        title += " (#{o.status.name})" if o.status.present?
+
+        title
+      end
+    end
+
+    def self.event_name
+      Proc.new do |o|
+        I18n.t(o.event_type.underscore, scope: "events")
+      end
+    end
+
+    def self.event_type
+      Proc.new do |o|
+        journal = o.last_journal
+        t = "work_package"
+
+        t += if journal && journal.details.empty? && !journal.initial?
+               "-note"
+             else
+               status = Status.find_by(id: o.status_id)
+
+               status.try(:closed?) ? "-closed" : "-edit"
+             end
+        t
+      end
+    end
+
+    def self.event_url
+      Proc.new do |o|
+        { controller: :work_packages, action: :show, id: o.display_id }
+      end
+    end
+  end
+
   included do
     acts_as_journalized journals_association_extension: proc {
       def internal_visible
@@ -60,46 +99,6 @@ module WorkPackage::Journalized
         end
       end
     }
-
-    # This one is here only to ease reading
-    module JournalizedProcs
-      def self.event_title
-        Proc.new do |o|
-          title = o.to_s
-          title += " (#{o.status.name})" if o.status.present?
-
-          title
-        end
-      end
-
-      def self.event_name
-        Proc.new do |o|
-          I18n.t(o.event_type.underscore, scope: "events")
-        end
-      end
-
-      def self.event_type
-        Proc.new do |o|
-          journal = o.last_journal
-          t = "work_package"
-
-          t += if journal && journal.details.empty? && !journal.initial?
-                 "-note"
-               else
-                 status = Status.find_by(id: o.status_id)
-
-                 status.try(:is_closed?) ? "-closed" : "-edit"
-               end
-          t
-        end
-      end
-
-      def self.event_url
-        Proc.new do |o|
-          { controller: :work_packages, action: :show, id: o.display_id }
-        end
-      end
-    end
 
     acts_as_event title: JournalizedProcs.event_title,
                   type: JournalizedProcs.event_type,
@@ -116,7 +115,8 @@ module WorkPackage::Journalized
     register_journal_formatted_fields /\Acustom_fields_\d+\z/,
                                       formatter_key: :custom_field,
                                       view_permission: ->(custom_field) do
-                                        custom_field.nil? || visible_custom_field_ids(project).include?(custom_field.id)
+                                        custom_field.nil? ||
+                                        visible_work_package_custom_field_ids(project).include?(custom_field.id)
                                       end
     register_journal_formatted_fields "ignore_non_working_days", formatter_key: :ignore_non_working_days
     register_journal_formatted_fields "cause", formatter_key: :cause
@@ -126,6 +126,7 @@ module WorkPackage::Journalized
                                       view_permission: :view_project_phases
     register_journal_formatted_fields "target_versions", formatter_key: :target_versions
     register_journal_formatted_fields "observed_in_versions", formatter_key: :observed_in_versions
+    register_journal_formatted_fields "labels", formatter_key: :labels
 
     # Joined
     register_journal_formatted_fields :parent_id, :project_id,

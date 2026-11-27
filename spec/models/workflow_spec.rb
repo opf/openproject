@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,133 +30,153 @@
 require "spec_helper"
 
 RSpec.describe Workflow do
-  describe ".copy" do
-    shared_let(:status0) { create(:status) }
-    shared_let(:status1) { create(:status) }
-    shared_let(:role) { create(:project_role) }
-    shared_let(:variant) { create(:type).default_variant }
-    shared_let(:role_target) { create(:project_role) }
-    shared_let(:variant_target) { create(:type).default_variant }
-    shared_let(:role_target2) { create(:project_role) }
-    shared_let(:variant_target2) { create(:type).default_variant }
+  shared_let(:role) { create(:project_role) }
+  shared_let(:status_a) { create(:status) }
+  shared_let(:status_b) { create(:status) }
 
-    shared_examples_for "copied workflow" do
-      let(:expected_variant) { variant_target }
-      let(:expected_role) { role_target }
-
-      it { expect(subject.old_status).to eq(workflow_src.old_status) }
-
-      it { expect(subject.new_status).to eq(workflow_src.new_status) }
-
-      it { expect(subject.type_variant).to eq(expected_variant) }
-
-      it { expect(subject.role).to eq(expected_role) }
-
-      it { expect(subject.author).to eq(workflow_src.author) }
-
-      it { expect(subject.assignee).to eq(workflow_src.assignee) }
+  describe "#name" do
+    it "is required" do
+      expect(described_class.new(name: nil)).not_to be_valid
     end
 
-    context "for a workflow w/o author or assignee" do
-      let!(:workflow_src) do
-        create(:workflow,
-               old_status: status0,
-               new_status: status1,
-               type_variant_id: variant.id,
-               role:)
-      end
+    it "is limited to 255 characters" do
+      workflow = described_class.new(name: "a" * 256)
 
-      before { described_class.copy(variant, role, variant_target, role_target) }
-
-      it_behaves_like "copied workflow" do
-        subject { described_class.order(Arel.sql("id DESC")).first }
-      end
+      expect(workflow).not_to be_valid
+      expect(workflow.errors).to be_of_kind(:name, :too_long)
     end
 
-    context "for a workflow with author" do
-      let!(:workflow_src) do
-        create(:workflow,
-               old_status: status0,
-               new_status: status1,
-               type_variant_id: variant.id,
-               role:,
-               author: true)
-      end
+    it "may not repeat another workflow's name, whatever the casing" do
+      create(:named_workflow, name: "Standard flow")
+      duplicate = described_class.new(name: "standard FLOW")
 
-      before { described_class.copy(variant, role, variant_target, role_target) }
-
-      it_behaves_like "copied workflow" do
-        subject { described_class.order(Arel.sql("id DESC")).first }
-      end
-    end
-
-    context "for a workflow with assignee" do
-      let!(:workflow_src) do
-        create(:workflow,
-               old_status: status0,
-               new_status: status1,
-               type_variant_id: variant.id,
-               role:,
-               assignee: true)
-      end
-
-      before { described_class.copy(variant, role, variant_target, role_target) }
-
-      it_behaves_like "copied workflow" do
-        subject { described_class.order(Arel.sql("id DESC")).first }
-      end
-    end
-
-    context "when copying to multiple types and roles" do
-      let!(:workflow_src) do
-        create(:workflow,
-               old_status: status0,
-               new_status: status1,
-               type_variant_id: variant.id,
-               role:)
-      end
-
-      before { described_class.copy(variant, role, [variant_target, variant_target2], [role_target, role_target2]) }
-
-      it_behaves_like "copied workflow" do
-        subject { described_class.order(Arel.sql("type_variant_id DESC, role_id DESC")).first }
-
-        let(:expected_role) { role_target2 }
-        let(:expected_variant) { variant_target2 }
-      end
-
-      it_behaves_like "copied workflow" do
-        subject { described_class.order(Arel.sql("type_variant_id DESC, role_id DESC")).second }
-
-        let(:expected_role) { role_target }
-        let(:expected_variant) { variant_target2 }
-      end
-
-      it_behaves_like "copied workflow" do
-        subject { described_class.order(Arel.sql("type_variant_id DESC, role_id DESC")).third }
-
-        let(:expected_role) { role_target2 }
-        let(:expected_variant) { variant_target }
-      end
-
-      it_behaves_like "copied workflow" do
-        subject { described_class.order(Arel.sql("type_variant_id DESC, role_id DESC")).fourth }
-
-        let(:expected_role) { role_target }
-        let(:expected_variant) { variant_target }
-      end
+      expect(duplicate).not_to be_valid
+      expect(duplicate.errors).to be_of_kind(:name, :taken)
     end
   end
 
-  describe "self.eligible_roles" do
-    subject { described_class.eligible_roles }
-
-    let!(:project_roles) { create_list(:project_role, 3) }
-
-    before do
-      create(:global_role)
+  describe ".available_name" do
+    it "keeps the name it is given while it is free" do
+      expect(described_class.available_name("Bug")).to eq("Bug")
     end
 
-    it { is_expected.to match_array(project_roles) }
+    it "steps past a name already taken, whatever the casing" do
+      create(:named_workflow, name: "Bug")
+
+      expect(described_class.available_name("bug")).to eq("bug (2)")
+    end
+
+    it "keeps stepping until it finds a free one" do
+      create(:named_workflow, name: "Bug")
+      create(:named_workflow, name: "Bug (2)")
+
+      expect(described_class.available_name("Bug")).to eq("Bug (3)")
+    end
+  end
+
+  describe "#used_by_one_variant?" do
+    shared_let(:type) { create(:type) }
+
+    it "is true while a single variant references it" do
+      expect(type.default_variant.workflow).to be_used_by_one_variant
+    end
+
+    it "is false once another variant references it too" do
+      create(:type).default_variant.update!(workflow: type.default_variant.workflow)
+
+      expect(type.default_variant.workflow.reload).not_to be_used_by_one_variant
+    end
+  end
+
+  describe "deletion" do
+    it "is refused while a variant still references it" do
+      workflow = create(:type).default_variant.workflow
+
+      expect(workflow.destroy).to be_falsey
+      expect(workflow.errors).to be_of_kind(:base, :"restrict_dependent_destroy.has_many")
+    end
+
+    it "takes its transitions with it once nothing references it" do
+      workflow = create(:named_workflow)
+      create(:workflow, workflow:, role:, old_status: status_a, new_status: status_b)
+
+      expect { workflow.destroy }.to change(described_class, :count).by(-1)
+    end
+  end
+
+  describe "#statuses" do
+    shared_let(:workflow) { create(:named_workflow) }
+
+    it "spans both ends of every transition" do
+      create(:workflow, workflow:, role:, old_status: status_a, new_status: status_b)
+
+      expect(workflow.statuses).to contain_exactly(status_a, status_b)
+    end
+
+    it "is narrowed to a role when one is given" do
+      other_role = create(:project_role)
+      create(:workflow, workflow:, role:, old_status: status_a, new_status: status_b)
+
+      expect(workflow.statuses(role: other_role)).to be_empty
+      expect(workflow.statuses(role:)).to contain_exactly(status_a, status_b)
+    end
+
+    it "is narrowed to the tab when one is given" do
+      create(:workflow, workflow:, role:, old_status: status_a, new_status: status_b, author: true)
+
+      expect(workflow.statuses(tab: "author")).to contain_exactly(status_a, status_b)
+      expect(workflow.statuses(tab: "always")).to be_empty
+    end
+  end
+
+  describe "#statuses_missing_in" do
+    shared_let(:workflow) { create(:named_workflow) }
+    shared_let(:other) { create(:named_workflow) }
+    shared_let(:status_c) { create(:status) }
+    shared_let(:hidden_role) { create(:work_package_role) }
+
+    let(:roles) { Role.where(id: role) }
+
+    before do
+      create(:status_transition, workflow:, role:, old_status: status_a, new_status: status_b)
+      create(:status_transition, workflow:, role: hidden_role, old_status: status_a, new_status: status_c)
+    end
+
+    it "lists what the given roles use here and not in the other, ignoring what only the other has" do
+      create(:status_transition, workflow: other, role:, old_status: status_a, new_status: status_c)
+
+      expect(workflow.statuses_missing_in(other, roles:)).to contain_exactly(status_b)
+    end
+
+    it "ignores the statuses the other workflow reaches only through roles outside the given ones" do
+      create(:status_transition, workflow: other, role: hidden_role, old_status: status_a, new_status: status_b)
+
+      expect(workflow.statuses_missing_in(other, roles:)).to contain_exactly(status_a, status_b)
+    end
+  end
+
+  describe "#in_use?" do
+    it "is true while a variant references it" do
+      expect(create(:type).default_variant.workflow).to be_in_use
+    end
+
+    it "is false once nothing references it" do
+      expect(create(:named_workflow)).not_to be_in_use
+    end
+  end
+
+  describe "#replacement_targets" do
+    it "offers the other workflows" do
+      workflow = create(:named_workflow)
+      other = create(:named_workflow)
+
+      expect(workflow.replacement_targets).to include(other)
+    end
+
+    it "excludes itself" do
+      workflow = create(:named_workflow)
+
+      expect(workflow.replacement_targets).not_to include(workflow)
+    end
   end
 end

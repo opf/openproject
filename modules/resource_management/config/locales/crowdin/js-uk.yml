@@ -1,0 +1,11 @@
+---
+uk:
+  js:
+    button_allocate_resource: Виділити ресурс
+    resource_management:
+      create_placeholder_user: Створити прототип користувача з критеріями фільтрації
+      hidden_user: Прихований користувач
+      my_time_management:
+        finish_by: Finish by %{date}
+        finish_today: Finish today
+      show_allocations: Show resource allocations

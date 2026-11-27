@@ -1,0 +1,73 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+require "rails_helper"
+
+RSpec.describe OpPrimer::InplaceEditFields::DisplayFields::UserSelectListComponent,
+               type: :component do
+  include ViewComponent::TestHelpers
+
+  let(:user_admin) { create(:admin) }
+  let(:project) { create(:project) }
+  let(:custom_field) { create(:project_custom_field, :user, projects: [project]) }
+  let(:attribute) { custom_field.attribute_name.to_sym }
+  let(:selected_user) { create(:user) }
+
+  before { allow(User).to receive(:current).and_return(user_admin) }
+
+  it "renders the user avatar for a single-value user custom field" do
+    create(:custom_value, :skip_validations, customized: project, custom_field:, value: selected_user.id.to_s)
+    component = described_class.new(model: Project.find(project.id), attribute:, writable: false, truncated: false)
+    render_inline(component)
+
+    expect(rendered_content).to have_css "opce-principal"
+    expect(rendered_content).to have_no_text(I18n.t("placeholders.default"))
+
+    formatted_values = component.formatted_custom_field_values
+    expect(component.formatted_custom_field_values).to equal(formatted_values)
+  end
+
+  it "renders the placeholder when no user is selected" do
+    render_inline(described_class.new(model: project, attribute:, writable: false, truncated: false))
+
+    expect(rendered_content).to have_text(I18n.t("placeholders.default"))
+  end
+
+  it "renders a placeholder if the selected value is removed after loading the model" do
+    value = create(:custom_value, :skip_validations, customized: project, custom_field:, value: selected_user.id.to_s)
+    project.reload
+    expect(project.public_send(attribute)).to eq(selected_user)
+    value.destroy!
+
+    render_inline(described_class.new(model: project, attribute:, writable: false, truncated: false))
+
+    expect(rendered_content).to have_text(I18n.t("placeholders.default"))
+    expect(rendered_content).to have_no_css("opce-principal")
+  end
+end

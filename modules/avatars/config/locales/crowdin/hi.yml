@@ -3,16 +3,37 @@ hi:
   are_you_sure_delete_avatar: क्या आप निश्चित रूप से अपना अवतार मिटाना चाहते हैं?
   avatar_deleted: अवतार सफ़लतापूर्वक मिटा दिया गया।
   avatars:
-    label_avatar: अवतार
+    background_color_hint: Leave blank for an automatic color.
+    delete_image: Delete image
+    edit_avatar: Edit avatar
+    image_hint: Choose a JPG, PNG, or GIF. Your image is saved when you select Save.
+    image_required: Choose an image, or select a different avatar option.
+    label_avatar_text: Avatar text
+    label_background_color: Background color
     label_gravatar: गृवतार
     label_local_avatar: अनुकूलित अवतार
+    label_option: Avatar option
+    manage_gravatar: Manage your image on Gravatar
+    message_avatar_updated: Avatar changed successfully.
+    preview: Preview
+    randomize_color: Randomize color
     settings:
       enable_gravatars: उपयोगकर्ता के Gravatar सक्षम करें
       enable_local_avatars: 'उपयोक्‍ता अनूकूल‍ित अवतार  सक्षम करें। '
       gravatar_default: पूर्व-निर्धारित Gravatar चित्र
-    text_avatar_gravatar_html: OpenProject uses your Gravatar if you registered one at %{gravatar_url}, or a default image or icon if one exists.
-    text_avatar_local: You can also upload a custom avatar that overrides the Gravatar by clicking the image. We recommend an image of 128 by 128 pixels.
-    text_avatar_local_only: You can upload a custom avatar by clicking the image. We recommend an image of 128 by 128 pixels.
+    text_avatar_text: Enter up to two characters. Leave blank to use your name's initials.
+    text_invalid_error: Use only visible characters.
+    text_length_error: Enter up to two characters.
+    types:
+      gravatar:
+        description: The image registered for your email address on Gravatar
+        label: Gravatar
+      image:
+        description: A custom image you can upload to this instance
+        label: Image
+      initials:
+        description: Use your name's initials or override them with up to two characters.
+        label: Initials
   empty_file_error: कृपया वैध चित्र अपलोड करें (jpg, png, gif)
   error_image_size: चित्र अत्यधिक बड़ा है।
   error_image_upload: चित्र सुरक्षित करने में त्रुटि

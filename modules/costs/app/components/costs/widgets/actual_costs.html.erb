@@ -1,4 +1,4 @@
-<%# -- copyright
+<%#-- copyright
 OpenProject is an open source project management software.
 Copyright (C) the OpenProject GmbH
 
@@ -20,12 +20,11 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
 
-++# %>
+++#%>
 
 <%=
   widget_wrapper do |container|
@@ -51,7 +50,7 @@ See COPYRIGHT and LICENSE files for more details.
     else
       render(Primer::Beta::Blankslate.new) do |blankslate|
         blankslate.with_visual_icon(icon: :"op-cost-reports")
-        blankslate.with_heading(tag: :h3).with_content(t(".blankslate.heading"))
+        blankslate.with_heading(tag: :h4).with_content(t(".blankslate.heading"))
         blankslate.with_description_content(t(".blankslate.description"))
         blankslate.with_primary_action(
           href: dialog_time_entries_path,

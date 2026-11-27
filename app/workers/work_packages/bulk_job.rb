@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -42,12 +41,7 @@ module WorkPackages
       self.follow = follow
       self.work_packages = WorkPackage.where(id: work_package_ids)
 
-      service_class
-        .new(user:, work_packages:)
-        .call(params)
-        .on_success(&method(:successful_status_update))
-        .on_failure(&method(:failure_status_update))
-        .then(&method(:wrap_result))
+      User.execute_as(user) { perform_bulk_operation(params) }
     end
 
     def store_status?
@@ -59,6 +53,15 @@ module WorkPackages
     end
 
     protected
+
+    def perform_bulk_operation(params)
+      service_class
+        .new(user:, work_packages:)
+        .call(params)
+        .on_success { |call| successful_status_update(call) }
+        .on_failure { |call| failure_status_update(call) }
+        .then { |call| wrap_result(call) }
+    end
 
     def wrap_result(call)
       message = call.success? ? success_message : bulk_error_message(work_packages, call)

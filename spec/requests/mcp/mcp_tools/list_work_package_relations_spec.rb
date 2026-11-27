@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -79,12 +78,50 @@ RSpec.describe McpTools::ListWorkPackageRelations do
     create(:member, project: disallowed_project, user:, roles: [create(:project_role, permissions: %i[])])
   end
 
-  context "when the mcp_server enterprise feature is enabled", with_ee: %i[mcp_server] do
-    it_behaves_like "MCP text tool"
+  it_behaves_like "MCP text tool"
+
+  it "finds all relations of the work package" do
+    mcp_request
+    expect(parsed_results.dig("structuredContent", "items").size).to eq(relations.size)
+  end
+
+  it "responds with properly formatted relations" do
+    mcp_request
+    parsed_results.dig("structuredContent", "items").each do |rel|
+      expect(rel.to_json).to match_json_schema.from_docs("relation_read_model")
+    end
+  end
+
+  context "when not passing a work_package_id" do
+    let(:call_args) { {} }
+
+    it_behaves_like "MCP tool execution error response"
+  end
+
+  context "when passing a semantic identifier as work_package_id" do
+    let(:call_args) { { work_package_id: work_package.identifier } }
 
     it "finds all relations of the work package" do
       mcp_request
       expect(parsed_results.dig("structuredContent", "items").size).to eq(relations.size)
+    end
+  end
+
+  context "when not allowed to see the source work package" do
+    let!(:work_package) { create(:work_package, project: disallowed_project) }
+
+    it "shows an error response" do
+      mcp_request
+      expect(parsed_results.dig("structuredContent", "error")).to eq("Can't find given work package.")
+    end
+  end
+
+  context "when not allowed to see some related work packages" do
+    let!(:relations) do
+      [
+        create(:relates_relation, from: work_package),
+        create(:follows_relation, successor: work_package, predecessor: create(:work_package, project: disallowed_project))
+      ]
     end
 
     it "responds with properly formatted relations" do
@@ -94,61 +131,14 @@ RSpec.describe McpTools::ListWorkPackageRelations do
       end
     end
 
-    context "when not passing a work_package_id" do
-      let(:call_args) { {} }
-
-      it_behaves_like "MCP tool execution error response"
-    end
-
-    context "when passing a semantic identifier as work_package_id" do
-      let(:call_args) { { work_package_id: work_package.identifier } }
-
-      it "finds all relations of the work package" do
-        mcp_request
-        expect(parsed_results.dig("structuredContent", "items").size).to eq(relations.size)
-      end
-    end
-
-    context "when not allowed to see the source work package" do
-      let!(:work_package) { create(:work_package, project: disallowed_project) }
-
-      it "shows an error response" do
-        mcp_request
-        expect(parsed_results.dig("structuredContent", "error")).to eq("Can't find given work package.")
-      end
-    end
-
-    context "when not allowed to see some related work packages" do
-      let!(:relations) do
-        [
-          create(:relates_relation, from: work_package),
-          create(:follows_relation, successor: work_package, predecessor: create(:work_package, project: disallowed_project))
-        ]
-      end
-
-      it "responds with properly formatted relations" do
-        mcp_request
-        parsed_results.dig("structuredContent", "items").each do |rel|
-          expect(rel.to_json).to match_json_schema.from_docs("relation_read_model")
-        end
-      end
-
-      it "hides relations to invisible work packages" do
-        mcp_request
-
-        results = parsed_results.dig("structuredContent", "items")
-        hrefs = results.map { |rel| rel.dig("_links", "to", "href") }
-
-        expect(hrefs).to include("/api/v3/work_packages/#{relations.first.to.id}")
-        expect(hrefs).not_to include("/api/v3/work_packages/#{relations.last.to.id}")
-      end
-    end
-  end
-
-  context "when the mcp_server enterprise feature is disabled" do
-    it "responds in a 404" do
+    it "hides relations to invisible work packages" do
       mcp_request
-      expect(last_response).to have_http_status(404)
+
+      results = parsed_results.dig("structuredContent", "items")
+      hrefs = results.map { |rel| rel.dig("_links", "to", "href") }
+
+      expect(hrefs).to include("/api/v3/work_packages/#{relations.first.to.id}")
+      expect(hrefs).not_to include("/api/v3/work_packages/#{relations.last.to.id}")
     end
   end
 end

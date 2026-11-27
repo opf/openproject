@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -85,7 +84,7 @@ RSpec.describe "User card view", :js, with_ee: %i[resource_management] do
       find_test_selector("op-user-card", text: user.name).click
 
       within("##{ResourcePlannerViews::UserCardList::UserAllocationsDialogComponent::DIALOG_ID}") do
-        expect(page).to have_text(I18n.t("resource_management.user_allocations_dialog.blank"))
+        expect(page).to have_text(I18n.t("resource_management.user_allocations_dialog.blank_in_timeframe"))
       end
     end
 
@@ -194,17 +193,17 @@ RSpec.describe "User card view", :js, with_ee: %i[resource_management] do
 
     before do
       create(:user_working_hours, user: member, valid_from: Date.new(2025, 1, 1), monday: 240)
-      # 720 min booked Thu-Fri, but only Friday overlaps the window => capacity weighting puts 360 of it on each day.
+      # 720 min booked Thu-Fri are scheduled as 480 on Thursday and 240 on Friday.
       # The window's capacity is 720 (Fri 480 + the 4h Monday 240)
       create(:resource_allocation, principal: member, entity: create(:work_package, project:),
                                    allocated_time: 720, start_date: Date.new(2026, 1, 8), end_date: Date.new(2026, 1, 9))
       visit project_resource_planner_view_path(project, planner, view)
     end
 
-    it "shows utilization prorated over the window's working time capacity" do
-      # 360 booked (Friday only) / 720 capacity => 50%
+    it "shows the scheduled time within the window against its working time capacity" do
+      # 240 scheduled on Friday / 720 capacity => 33%
       within(find_test_selector("op-user-card", text: member.name)) do
-        expect(page).to have_text("50%")
+        expect(page).to have_text("33%")
       end
     end
   end

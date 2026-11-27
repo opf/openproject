@@ -141,14 +141,14 @@ with [Nextcloud](#nextcloud-integration) and [OneDrive](#onedrive-integration). 
 triggered test to check the connection between OpenProject and the respective
 storage. [Read more about health status checks for OpenProject's external file storages](../system-admin-guide/files/external-file-storages/health-status/).
 
-### Custom action
+### Automations
 
-A custom action in OpenProject is defined as customizable buttons which trigger a certain action upon work packages. Custom actions are included in the [Enterprise](#enterprise-add-on) edition of OpenProject and part of automated _workflows_. Custom actions support you to easily update several work package attributes at once – with a single click.
+Automations in OpenProject let you configure buttons that apply predefined changes to work package attributes with a single click. This feature is available as an [Enterprise add-on](#enterprise-add-on).
 
-**More information on custom actions in OpenProject**
+**More information on automations in OpenProject**
 
-- [Watch a short video how custom actions work](../system-admin-guide/manage-work-packages/custom-actions/#automated-workflows-with-custom-actions-enterprise-add-on).
-- [Read this guide on how to create custom actions](../system-admin-guide/manage-work-packages/custom-actions/#create-custom-actions).
+- [Watch a short video showing how automations work](../system-admin-guide/manage-work-packages/work-package-automations/).
+- [Read this guide on how to create automations](../system-admin-guide/manage-work-packages/work-package-automations/#create-automations).
 - [Read this blog article on how to create an intelligent workflow with custom action - explained with an example](https://www.openproject.org/blog/customize-workflows/).
 
 ### Custom field
@@ -208,7 +208,7 @@ Filters are essential for task and project management in OpenProject. You have s
 
 ### Forum
 
-A forum in OpenProject is defined as a module used to display forums and forum messages. The module has to be activated in the [project settings](#project-settings) by a project admin and a forum has to be created in the forums tab in the project settings to be displayed in the side navigation. [Read more about forums in OpenProject](../user-guide/forums/).
+A forum in OpenProject is defined as a module used to display forums and their topics. The module has to be activated in the [project settings](#project-settings) by a project admin to be displayed in the side navigation. [Read more about forums in OpenProject](../user-guide/forums/).
 
 ## G
 
@@ -282,7 +282,7 @@ Macros in OpenProject are dynamic shortcuts that help automate repetitive tasks.
 
 ### MCP Server
 
-The OpenProject MCP Server is an [Enterprise add-on](#enterprise-add-on) that enables the integration of [artificial intelligence (AI)](#artificial-intelligence-ai) with OpenProject. AI assistants and similar tools can connect to OpenProject using the Model Context Protocol (MCP), an open standard that enables AI applications to connect to external systems and access their data and functionality. Through the MCP Server, connected tools can access project information and perform supported actions in OpenProject while respecting existing permissions and business rules. [Read more about the MCP Server in OpenProject](../system-admin-guide/integrations/mcp-server/).
+The OpenProject MCP Server is a Community edition feature that enables the integration of [artificial intelligence (AI)](#artificial-intelligence-ai) with OpenProject. AI assistants and similar tools can connect to OpenProject using the Model Context Protocol (MCP), an open standard that enables AI applications to connect to external systems and access their data and functionality. Through the MCP Server, connected tools can access project information and perform supported actions in OpenProject while respecting existing permissions and business rules. [Read more about the MCP Server in OpenProject](../system-admin-guide/ai/mcp-server/).
 
 ### Meetings
 
@@ -304,13 +304,13 @@ In OpenProject, a member is defined as a single person in a project. Project mem
 
 A module in OpenProject is defined as an independent unit of functionality that can be used to extend and improve the existing core functions. A project admin can activate and de-activate modules in the project settings. Some examples for modules in OpenProject are: Forums, Time and costs, Wiki or the Work packages module. [See our user guide for more information on all modules in OpenProject](../user-guide/#overview-of-modules-in-openproject).
 
-### My time tracking
-
-My time tracking is the name of an OpenProject [module](#module) that allows users to view, log and edit their personal time tracked on work packages. It can be displayed in a calendar or list view. A [system admin](#admin) can decide whether exact time tracking is allowed, which means users can add start and finish time to their entries. If administrators want to force their users to log start and finish time, an option to 'Require exact times' is available as an [Enterprise add-on](#enterprise-add-on). [Read more about time tracking with OpenProject in our user guide](../user-guide/time-and-costs/time-tracking/).
-
 ### My page
 
 The My page in OpenProject is defined as your personal [dashboard](#dashboard) with important overarching project information, such as work package reports, news, spent time, or a calendar. It can be configured to your specific needs. [Read more about the My page in OpenProject](../getting-started/my-page/).
+
+### My work
+
+My work is the name of an OpenProject [module](#module) that allows users to view, log and edit their personal time tracked on work packages. It can be displayed in a calendar or list view. A [system admin](#admin) can decide whether exact time tracking is allowed, which means users can add start and finish time to their entries. If administrators want to force their users to log start and finish time, an option to 'Require exact times' is available as an [Enterprise add-on](#enterprise-add-on). [Read more about time tracking with OpenProject in our user guide](../user-guide/time-and-costs/time-tracking/).
 
 ## N
 
@@ -597,7 +597,7 @@ To make it easier for project managers to work with work package hierarchies, Op
 
 ### Workflow
 
-A workflow in OpenProject is defined as the allowed transitions between status for a [role](#role) and a type, i.e. which status changes can a certain role implement depending on the [work package type](#work-package-type). Workflows can be defined in the admin settings. For example, you might only want developers to be able to set the status "developed". [Read more about work package workflows in OpenProject](../system-admin-guide/manage-work-packages/work-package-types/workflows).
+A workflow in OpenProject is defined as the allowed transitions between status for a [role](#role) and a type, i.e. which status changes can a certain role implement depending on the [work package type](#work-package-type). Workflows can be defined in the admin settings. For example, you might only want developers to be able to set the status "developed". [Read more about work package workflows in OpenProject](../system-admin-guide/manage-work-packages/work-package-workflows).
 
 ### Work package
 

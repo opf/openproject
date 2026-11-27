@@ -20,23 +20,23 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
+import { HalResource, HalResourceLinks } from 'core-app/features/hal/resources/hal-resource';
 import { Attachable } from 'core-app/features/hal/resources/mixins/attachable-mixin';
 
 interface MeetingResourceLinks {
-  addAttachment(attachment:HalResource):Promise<unknown>;
+  addAttachment:CallableHalLink;
 }
 
 class MeetingBaseResource extends HalResource {
   title:string;
   project:HalResource;
-  public $links:MeetingResourceLinks;
+  public $links:MeetingResourceLinks & HalResourceLinks;
 }
 
 export const MeetingResource = Attachable(MeetingBaseResource);

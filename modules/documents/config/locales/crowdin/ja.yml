@@ -61,9 +61,9 @@ ja:
           invalid_scheme: WebSocketプロトコル（ws:// または wss://）を使用する必要があります。
           label: HocuspocusサーバーのURL
         page_header:
-          description: |-
-            この機能を有効にすると、リアルタイム共同編集により、複数のユーザーが同時にドキュメントを編集できるようになります。
-            この機能を利用するには、正常に動作する %{hocuspocus_server_link} が必要です。
+          description_html: |-
+            When enabled, real-time collaboration allows multiple users to edit a document at the same time.
+            It requires a working [Hocuspocus server](hocuspocus_server_link) to function.
       disable_text_collaboration_dialog:
         confirmation_checkbox_message: データが永久に失われる可能性があることは承知しています
         confirmation_message: |-
@@ -81,6 +81,12 @@ ja:
         primary_action: リアルタイムでの共同作業を可能にする
         success: リアルタイムでの共同作業が可能になりました。
     button_add_type: タイプ
+    collaboration_token:
+      errors:
+        collaboration_disabled: Real-time collaboration is not enabled.
+        collaboration_token_not_allowed: Requests authenticated with a collaboration token cannot request collaboration tokens.
+        invalid_previous_token: The previous collaboration token is invalid, already revoked, or does not belong to this document and user.
+        not_collaborative: The document does not support real-time collaboration.
     delete_dialog:
       confirmation_message_html: この操作を行うと、このドキュメントおよびすべての添付ファイルが完全に削除されます。本当に実行しますか？
       heading: このドキュメントを削除しますか？
@@ -117,7 +123,7 @@ ja:
       currently_offline: 現在、オフラインです。
     label_attachment_author: 添付ファイルの作成者
     label_categories: カテゴリ
-    last_updated_at: Last saved %{time}.
+    last_updated_at_html: Last saved %{time}.
     menu:
       all: 全てのドキュメント
       collaboration_settings: リアルタイムのコラボレーション

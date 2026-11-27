@@ -22,14 +22,15 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Members
   class RowComponent < ::RowComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+    include RolesHelper
+
     property :principal
     delegate :project, to: :table
 
@@ -119,11 +120,11 @@ module Members
 
     def roles_label
       project_roles = member.roles.grep(ProjectRole).uniq.sort
-      label = h project_roles.collect(&:name).join(", ")
+      label = role_names_with_permissions_preview(project_roles)
 
       if principal&.admin?
-        label << tag(:br) if project_roles.any?
-        label << I18n.t(:label_member_all_admin)
+        label += tag(:br) if project_roles.any?
+        label += h I18n.t(:label_member_all_admin)
       end
 
       label

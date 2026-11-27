@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -71,7 +70,7 @@ module Import
     transition from: IMPORT_ERROR,           to: [IMPORTING, REVERTING]
     transition from: IMPORTED,               to: [FINALIZING, REVERTING]
     transition from: FINALIZING,             to: [FINALIZING_ERROR, FINALIZING_DONE]
-    transition from: FINALIZING_ERROR,       to: [FINALIZING]
+    transition from: FINALIZING_ERROR,       to: [FINALIZING, REVERTING]
     transition from: REVERTING,              to: [REVERTED, REVERT_ERROR]
     transition from: REVERT_ERROR,           to: [REVERTING]
 
@@ -183,7 +182,7 @@ module Import
     end
 
     def deletable?
-      !running? && !in_state?(IMPORTED, IMPORT_ERROR, REVERT_ERROR)
+      !running? && !can_transition_to?(REVERTING)
     end
   end
 end

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -39,7 +38,7 @@ RSpec.describe Projects::CreationWizard do
 
   describe "#project_creation_wizard_artifact_name" do
     context "when no value is stored" do
-      it "returns the default artifact name" do
+      it "returns the default artefact name" do
         expect(project.project_creation_wizard_artifact_name).to eq("project_creation_wizard")
       end
     end
@@ -47,7 +46,7 @@ RSpec.describe Projects::CreationWizard do
     context "when the stored value is nil" do
       before { project.update_column(:settings, project.settings.merge("project_creation_wizard_artifact_name" => nil)) }
 
-      it "returns the default artifact name" do
+      it "returns the default artefact name" do
         project.reload
         expect(project.project_creation_wizard_artifact_name).to eq("project_creation_wizard")
       end

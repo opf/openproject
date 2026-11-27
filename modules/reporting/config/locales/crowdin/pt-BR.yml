@@ -22,8 +22,15 @@
 ---
 pt-BR:
   activerecord:
+    errors:
+      models:
+        cost_report:
+          pivot_axes_do_not_match_group_bys: As linhas e as colunas devem, juntas, abranger exatamente os critérios de agrupamento da consulta.
     models:
       cost_query:
+        one: Relatório de custos
+        other: Relatórios de custos
+      cost_report:
         one: Relatório de custos
         other: Relatórios de custos
   button_save_report_as: Salvar relatório como...
@@ -38,6 +45,7 @@ pt-BR:
       end_time: Hora de término
       start_time: Hora de início
       title: Exportação XLS dos seus relatórios de custos
+    invalid_filters: 'The export could not be generated: %{errors}'
     timesheet:
       button: Exportar planilha de horas em PDF
       overview_per_user_day: 'Visão geral: Horas por usuário por dia'
@@ -46,6 +54,11 @@ pt-BR:
       time: Hora
       timesheet: Planilha de horas
       title: Sua exportação de planilha de horas em PDF
+  filter_error_invalid_date: "%{filter}: %{value} is not a valid date."
+  filter_error_invalid_integer: "%{filter}: %{value} is not a valid integer."
+  filter_error_missing_values:
+    one: "%{filter} requires a value."
+    other: "%{filter} requires %{count} values."
   information_restricted_depending_on_permission: Dependendo de suas permissões esta página pode conter informações restritas.
   label_click_to_edit: Clique para editar.
   label_closed: fechado
@@ -99,7 +112,6 @@ pt-BR:
   plugin_openproject_reporting:
     description: Este plugin permite a criação de relatórios de custos personalizados com filtragem e agrupamento criados pelo plugin OpenProject Time e custos.
     name: Relatórios do OpenProject
-  project_module_reporting_module: Relatórios de custos
   reporting:
     group_by:
       selected_columns: Colunas selecionadas
@@ -107,5 +119,3 @@ pt-BR:
   text_costs_are_rounded_note: Valores exibidos são arredondados. Todos os cálculos baseiam-se em valores não-arredondados.
   toggle_multiselect: ativar/desativar multiseleção
   units: Unidades
-  validation_failure_date: não é uma data válida
-  validation_failure_integer: não é um valor inteiro válido

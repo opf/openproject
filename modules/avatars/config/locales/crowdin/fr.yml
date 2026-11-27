@@ -3,16 +3,37 @@ fr:
   are_you_sure_delete_avatar: Voulez-vous vraiment supprimer votre avatar ?
   avatar_deleted: L'avatar a bien été supprimé.
   avatars:
-    label_avatar: Avatar
+    background_color_hint: Laissez ce champ vide pour que la couleur soit choisie automatiquement.
+    delete_image: Supprimer l’image
+    edit_avatar: Modifier l'avatar
+    image_hint: Choisissez un fichier JPG, PNG ou GIF. Votre image est enregistrée lorsque vous cliquez sur « Enregistrer ».
+    image_required: Choisissez une image ou sélectionnez un autre avatar.
+    label_avatar_text: Texte de l'avatar
+    label_background_color: Arrière-plan
     label_gravatar: Gravatar
     label_local_avatar: Avatar personnalisé
+    label_option: Options de l'avatar
+    manage_gravatar: Gérez votre photo de profil sur Gravatar
+    message_avatar_updated: L'avatar a bien été changé.
+    preview: Aperçu
+    randomize_color: Choisir une couleur au hasard
     settings:
       enable_gravatars: Activer les gravatars de l'utilisateur
       enable_local_avatars: Activer les avatars personnalisés de l'utilisateur
       gravatar_default: Image Gravatar par défaut
-    text_avatar_gravatar_html: OpenProject utilise votre Gravatar si vous en avez créé un sur %{gravatar_url}, ou une image ou une icône par défaut si celle-ci existe.
-    text_avatar_local: En cliquant sur l'image, vous pouvez également importer un avatar personnalisé qui remplacera celui de Gravatar. Nous vous recommandons d'utiliser une image de 128 × 128 pixels.
-    text_avatar_local_only: Vous pouvez importer un avatar personnalisé en cliquant sur l'image. Nous vous recommandons d'utiliser une image de 128 × 128 pixels.
+    text_avatar_text: Saisissez jusqu'à deux caractères. Laissez ce champ vide pour utiliser les initiales de votre nom.
+    text_invalid_error: N'utilisez que des caractères visibles.
+    text_length_error: Saisissez jusqu'à deux caractères.
+    types:
+      gravatar:
+        description: L'image associée à votre adresse e-mail sur Gravatar
+        label: Gravatar
+      image:
+        description: Une image personnalisée que vous pouvez télécharger sur cette instance
+        label: Image
+      initials:
+        description: Utilisez les initiales de votre nom ou remplacez-les par deux caractères au maximum.
+        label: Initiales
   empty_file_error: Veuillez importer une image valide (JPG, PNG, GIF)
   error_image_size: L'image est trop grande.
   error_image_upload: Erreur lors de la sauvegarde de l'image.

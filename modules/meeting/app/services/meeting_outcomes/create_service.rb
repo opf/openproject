@@ -22,14 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module MeetingOutcomes
   class CreateService < ::BaseServices::Create
+    include Meetings::JournalAfterPerform
     include MeetingAgendaItems::JournalizeWorkPackageActivity
 
     def after_perform(call)
@@ -46,12 +46,12 @@ module MeetingOutcomes
       meeting = outcome.meeting_agenda_item.meeting
 
       journalize_agenda_item(outcome.meeting_agenda_item,
-                             Journal::CausedByMeetingAgendaItemDiscussed.new(meeting))
+                             Journal::CausedByMeetingAgendaItemDiscussed.new(meeting, outcome))
 
       return unless outcome.work_package_kind?
 
       journalize_work_package(outcome.work_package,
-                              Journal::CausedByMeetingOutcomeRecorded.new(meeting))
+                              Journal::CausedByMeetingOutcomeRecorded.new(meeting, outcome))
     end
   end
 end

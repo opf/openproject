@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -37,31 +36,29 @@ module OpenProject::Reporting
              bundled: true do
       view_actions = %i[index show drill_down available_values]
       edit_actions = %i[create update rename destroy]
+      view_controllers = ["cost_reports", "reporting/cost_reports"]
+      entry_permissions = %i[view_time_entries view_own_time_entries view_cost_entries view_own_cost_entries]
 
-      # register reporting_module including permissions
+      # Cost reports have no project module of their own and are enabled together with costs.
       project_module :costs do
         permission :save_cost_reports,
-                   { cost_reports: edit_actions },
+                   { cost_reports: edit_actions, "reporting/cost_reports": edit_actions },
                    permissible_on: :project
         permission :save_private_cost_reports,
-                   { cost_reports: edit_actions },
+                   { cost_reports: edit_actions, "reporting/cost_reports": edit_actions },
                    permissible_on: :project
       end
 
       Rails.application.reloader.to_prepare do
         OpenProject::AccessControl.map do
-          # register additional permissions for viewing time and cost entries through the CostReportsController
-          view_actions.each do |action|
-            OpenProject::AccessControl.permission(:view_time_entries).controller_actions << "cost_reports/#{action}"
-            OpenProject::AccessControl.permission(:view_own_time_entries).controller_actions << "cost_reports/#{action}"
-            OpenProject::AccessControl.permission(:view_cost_entries).controller_actions << "cost_reports/#{action}"
-            OpenProject::AccessControl.permission(:view_own_cost_entries).controller_actions << "cost_reports/#{action}"
+          # register additional permissions for viewing time and cost entries through the cost report controllers
+          reporting_actions = view_controllers.flat_map do |controller|
+            view_actions.map { |action| "#{controller}/#{action}" } + ["#{controller}/menus/show"]
           end
 
-          OpenProject::AccessControl.permission(:view_time_entries).controller_actions << "cost_reports/menus/show"
-          OpenProject::AccessControl.permission(:view_own_time_entries).controller_actions << "cost_reports/menus/show"
-          OpenProject::AccessControl.permission(:view_cost_entries).controller_actions << "cost_reports/menus/show"
-          OpenProject::AccessControl.permission(:view_own_cost_entries).controller_actions << "cost_reports/menus/show"
+          entry_permissions.each do |permission|
+            OpenProject::AccessControl.permission(permission).controller_actions.concat(reporting_actions)
+          end
         end
       end
 
@@ -78,14 +75,14 @@ module OpenProject::Reporting
       # menu extensions
       menu :top_menu,
            :cost_reports_global,
-           { controller: "/cost_reports", action: "index", project_id: nil },
+           { controller: "/reporting/cost_reports", action: "index", project_id: nil },
            caption: :cost_reports_title,
            icon: "op-cost-reports",
            if: should_render
 
       menu :global_menu,
            :cost_reports_global,
-           { controller: "/cost_reports", action: "index", project_id: nil },
+           { controller: "/reporting/cost_reports", action: "index", project_id: nil },
            after: :news,
            caption: :cost_reports_title,
            icon: "op-cost-reports",
@@ -93,14 +90,14 @@ module OpenProject::Reporting
 
       menu :global_menu,
            :cost_reports_global_report_menu,
-           { controller: "/cost_reports", action: "index", project_id: nil },
+           { controller: "/reporting/cost_reports", action: "index", project_id: nil },
            parent: :cost_reports_global,
            partial: "cost_reports/menus/menu",
            if: should_render
 
       menu :project_menu,
            :costs,
-           { controller: "/cost_reports", action: "index" },
+           { controller: "/reporting/cost_reports", action: "index" },
            after: :news,
            caption: :cost_reports_title,
            if: Proc.new { |project| project.module_enabled?(:costs) },
@@ -108,7 +105,7 @@ module OpenProject::Reporting
 
       menu :project_menu,
            :costs_menu,
-           { controller: "/cost_reports", action: "index" },
+           { controller: "/reporting/cost_reports", action: "index" },
            if: Proc.new { |project| project.module_enabled?(:costs) },
            partial: "cost_reports/menus/menu",
            parent: :costs
@@ -130,7 +127,7 @@ module OpenProject::Reporting
                                  format: :boolean
     end
 
-    patches %i[CustomFieldsController]
-    patch_with_namespace :BasicData, :SettingSeeder
+    prepend_module "OpenProject::Reporting::Patches::CustomFieldsControllerPatch",
+                   into: "Admin::Settings::CustomFieldsBaseController"
   end
 end

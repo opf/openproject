@@ -1,0 +1,390 @@
+---
+de:
+  activerecord:
+    attributes:
+      llm_capability_verdict:
+        capability: Fähigkeit
+        model_id: Modell
+        state: Status
+      llm_connection:
+        api_format: API-Format
+        api_key: API-Schlüssel
+        base_url: Host-URL
+        default_chat_model: Standardmäßiges Chat-Modell
+        default_embedding_model: Standard-Embedding-Modell
+        env_fingerprint: Übernommene Umgebungskonfiguration
+        env_provisioned_at: Aus der Umgebung übernommen
+        llm_features_enabled: LLMs für diese Instanz aktivieren
+      llm_feature_binding:
+        feature_key: Feature
+        model: Modell
+        semantic_index: Semantischer Index
+      llm_model:
+        admin_context_window: Kontextfenster
+        capability_function_calling: Tool-Aufrufe
+        capability_reasoning: Reasoning
+        capability_structured_output: Strukturierte Ausgabe
+        capability_vision: Vision
+        display_name: Anzeigename
+        manual: Manuell eingegeben
+        raw_metadata: Metadaten
+        external: Modellname
+      semantic_index:
+        context_token_length: Kontextlänge
+        description: Beschreibung
+        embedding_vector_dimensions: Dimensionen
+        llm_feature_bindings: Funktionskonfiguration
+        model: Modell
+        state: Status
+        title: Anzeigename
+    errors:
+      messages:
+        semantic_search_unavailable: ist derzeit nicht verfügbar.
+      models:
+        llm_connection:
+          attributes:
+            api_format:
+              not_supported: erfordert Zugangsdaten, die OpenProject nicht speichern kann, etwa einen separaten geheimen Schlüssel oder eine Region.
+            api_key:
+              invalid_api_key: wurde vom LLM-Server abgelehnt.
+            base:
+              singleton: Es kann nur eine LLM-Verbindung aktiv sein.
+            base_url:
+              cannot_be_connected_to: konnte nicht erreicht werden. Bitte stellen Sie sicher, dass der LLM-Server läuft und von OpenProject aus erreichbar ist.
+              models_endpoint_missing: stellt unter dieser Adresse keine Modellliste bereit, daher konnte auch der API-Schlüssel nicht überprüft werden. Bitte überprüfen Sie die URL, insbesondere ob sie das API-Versionssegment enthält (zum Beispiel https://example.com/v1).
+              not_openai_compatible: hat keine gültige Modellliste zurückgegeben. Bitte stellen Sie sicher, dass die URL auf einen OpenAI-API-kompatiblen Endpunkt verweist, einschließlich des API-Versionssegments (zum Beispiel https://example.com/v1).
+              request_timed_out: hat nicht rechtzeitig geantwortet. Bitte stellen Sie sicher, dass der LLM-Server erreichbar und nicht überlastet ist.
+              ssl_error: konnte nicht über eine sichere Verbindung erreicht werden. Bitte überprüfen Sie das TLS-Zertifikat des LLM-Servers oder verwenden Sie eine http://-URL, wenn der Server kein TLS anbietet.
+              ssrf_filtered: wird zu einer blockierten Adresse aufgelöst. Wenn der LLM-Server in einem internen Netzwerk läuft, erlauben Sie seine IP über die Umgebungsvariable %{env_name}.
+            custom_headers:
+              invalid: muss Header-Namen auf reine Textwerte abbilden.
+            default_chat_model_id:
+              cannot_chat: ist laut LLM-Server ein Embedding-Modell und kann nicht für Chats verwendet werden.
+              not_available: wird vom konfigurierten LLM-Server nicht angeboten.
+            default_embedding_model_id:
+              cannot_embed: kann laut LLM-Server keine Embeddings erzeugen.
+              not_available: wird vom konfigurierten LLM-Server nicht angeboten.
+            llm_features_enabled:
+              requires_connection: kann erst aktiviert werden, wenn eine Verbindung konfiguriert wurde.
+        llm_feature_binding:
+          attributes:
+            feature_key:
+              not_registered: gehört zu keiner bekannten KI-Funktion.
+            model_id:
+              not_available: wird vom konfigurierten LLM-Server nicht angeboten.
+            semantic_index:
+              not_for_chat_feature: gilt nur für Funktionen, die Embeddings erzeugen.
+        llm_model:
+          attributes:
+            base:
+              configured_from_env: Die Umgebung konfiguriert dieses Modell als Standard, daher kann es hier nicht entfernt oder umbenannt werden.
+              discovered: Es können nur manuell eingegebene Modelle entfernt werden. Der LLM-Server verwaltet die von ihm gemeldeten Modelle.
+            external_id:
+              conflicting_capabilities: hat gespeicherte Fähigkeitsangaben, die im Widerspruch zu denen dieses Modells stehen.
+        semantic_index:
+          attributes:
+            base:
+              active: Der semantische Index ist aktiv. Aktivieren Sie zuerst einen anderen semantischen Index.
+              locked_while_indexing: kann während der Indizierung nicht geändert werden.
+            model_id:
+              not_offered: ist kein Embedding-Modell, das vom konfigurierten LLM-Server angeboten wird.
+  admin:
+    semantic_indexes:
+      activate:
+        body_html: Die semantische Suche verwendet ab sofort <b>%{title}</b>.
+        body_switch_html: Die semantische Suche wechselt ab sofort von <b>%{current}</b> zu <b>%{title}</b>. %{current} bleibt bereit und kann wieder aktiviert werden.
+        button: Aktivieren
+        confirm: Aktivieren
+        success: "„%{title}“ ist jetzt der aktive semantische Index."
+        title: "„%{title}“ aktivieren?"
+      active: Aktiv
+      box:
+        empty_description: Erstellen Sie einen neuen semantischen Index, um Arbeitspakete über ihre Bedeutung auffindbar zu machen.
+        empty_title: Noch kein semantischer Index
+        new: Semantischer Index
+        title: Semantische Indizes
+      destroy:
+        description: Der semantische Index und seine Einstellungen werden entfernt. Dies kann nicht rückgängig gemacht werden.
+        heading: "%{title} löschen?"
+        title: Semantischen Index löschen
+      dialog:
+        edit_title: "„%{title}“ bearbeiten"
+        new_title: Neuer semantischer Index
+      form:
+        context_token_length_caption: Maximale Anzahl an Token, die pro Arbeitspaket in das Embedding einfließen.
+        embedding_vector_dimensions_caption: Muss zum ausgewählten Modell passen.
+        immutable: Modell, Kontextlänge und Dimensionen können nach dem Erstellen nicht mehr geändert werden. Erstellen Sie einen neuen semantischen Index, um andere Parameter zu verwenden.
+        model_caption: Es werden nur Modelle angeboten, von denen bekannt ist, dass sie Embeddings erzeugen.
+        option_unqualified: "%{model} (nicht mehr geeignet)"
+      indexing:
+        failed_requests:
+          one: 1 Anfrage ist fehlgeschlagen.
+          other: "%{count} Anfragen sind fehlgeschlagen."
+        not_ready:
+          model_missing: Das Modell %{model} wird von der Verbindung nicht mehr angeboten.
+          no_connection: Es ist keine aktive LLM-Verbindung konfiguriert.
+          pgvector_missing: Die Erweiterung pgvector ist nicht installiert. Installieren Sie sie und führen Sie die Migrationen erneut aus, um mit der Indizierung zu beginnen.
+        progress: "%{percentage}% erledigt"
+      menu:
+        delete: Löschen
+        locked_while_active: Kann nicht gelöscht werden, solange er aktiv ist.
+        locked_while_indexing: Kann während der Indizierung nicht gelöscht werden.
+      start_indexing:
+        button:
+          failed: Indizierung wiederholen
+          not_indexed: Indizierung starten
+          ready: Neu indizieren
+        not_indexable: Dieser semantische Index wird bereits indiziert.
+        started: Die Indizierung von „%{title}“ wurde gestartet.
+      states:
+        failed: Fehlgeschlagen
+        indexing: Wird indiziert
+        not_indexed: Nicht indiziert
+        ready: Bereit
+      stop_indexing:
+        button: Anhalten
+        not_indexing: Dieser semantische Index wird gerade nicht indiziert.
+        stopped: Die Indizierung von „%{title}“ wurde gestoppt.
+    llm_connections:
+      header_description: Verbinden Sie OpenProject mit einem LLM-Server und überprüfen Sie die angebotenen Modelle.
+      delete_api_key:
+        configured_from_env: Diese Verbindung wird über die Umgebung konfiguriert und kann hier nicht geändert werden.
+        description: OpenProject sendet bei seinen Anfragen keinen API-Schlüssel mehr. Die Funktionen arbeiten nur weiter, wenn der Server keine Authentifizierung erfordert. Sie können jederzeit einen neuen Schlüssel eingeben.
+        heading: Gespeicherten API-Schlüssel löschen?
+        menu_label: API-Schlüssel entfernen
+        success: Der API-Schlüssel wurde entfernt.
+        title: API-Schlüssel entfernen
+      disabled_notice: Die LLM-Funktionen sind für diese Instanz deaktiviert. Aktivieren Sie sie zuerst hier.
+      disconnect:
+        configured_from_env: Diese Verbindung wird über die Umgebung konfiguriert und kann hier nicht geändert werden.
+        description: OpenProject verwendet den LLM-Server nicht mehr. KI-Funktionen sind nicht verfügbar, bis Sie die Verbindung wiederherstellen.
+        heading: Verbindung zum LLM-Server trennen?
+        keeps_bindings: 'Das für jede Funktion gewählte Modell bleibt erhalten: %{features}.'
+        keeps_models: Die Modellliste bleibt erhalten, einschließlich aller manuell hinzugefügten Modelle.
+        keeps_settings: Endpunkt und API-Format bleiben erhalten. Nur der gespeicherte API-Schlüssel wird entfernt.
+        menu_label: Trennen
+        success: OpenProject hat die Verbindung zum LLM-Server getrennt.
+        title: Trennen
+      form:
+        api_format_caption: Die API, die der Server unterstützt. Wählen Sie „OpenAI“ für die meisten Gateways und selbst gehosteten Server.
+        api_key_caption: Der Schlüssel, mit dem sich OpenProject beim Server authentifiziert. Lassen Sie das Feld leer, wenn der Server keine Authentifizierung erfordert.
+        api_key_caption_discarded: Der eingegebene Schlüssel wurde nicht gespeichert und wird nicht erneut angezeigt. Geben Sie ihn noch einmal ein, um ihn zu speichern, oder lassen Sie das Feld leer, um den gespeicherten Schlüssel beizubehalten.
+        api_key_caption_env: Der Schlüssel stammt aus der Umgebung.
+        api_key_remove: Schlüssel entfernen
+        base_url_caption: Die Basis-URL des Servers, zum Beispiel https://example.com/v1.
+        env_applied: Am %{time} aus der Umgebung übernommen. Geänderte Variablen werden beim nächsten Seeding der Datenbank wirksam.
+        env_changed: Die Umgebungsvariablen haben sich geändert, seit sie am %{time} übernommen wurden. Die folgenden Werte bleiben bis zum nächsten Seeding der Datenbank in Verwendung.
+        env_pending: Diese Verbindung wird über Umgebungsvariablen konfiguriert, die aber noch nicht übernommen wurden. Beim nächsten Seeding der Datenbank werden die folgenden Werte ersetzt und diese Seite wird gesperrt.
+        label_connecting: LLM-Server wird kontaktiert…
+        llm_features_enabled_caption: Wenn deaktiviert, funktionieren keine LLM-gestützten KI-Funktionen mehr. Die Verbindungseinstellungen bleiben erhalten.
+        server_description: Verbinden Sie OpenProject mit einem Server, der das API-Format „%{api_format}“ unterstützt, damit KI-Funktionen ihn nutzen können. Welcher Server das ist, legt die folgende Host-URL fest.
+        server_group: Server
+      tabs:
+        connection: Verbindung
+        features: Funktionskonfiguration
+        models: Modelle
+      update:
+        disabled: Gespeichert. Die LLM-Funktionen sind für diese Instanz deaktiviert.
+        no_models: Gespeichert, aber es sind noch keine Modelle hinterlegt. Entweder bietet der Server keine Modellliste an oder dem Endpunkt fehlt das API-Versionssegment (zum Beispiel /v1). Aktualisieren Sie die Liste im Tab „Modelle“.
+        success: Die Verbindung zum LLM-Server wurde erfolgreich hergestellt.
+    llm_feature_bindings:
+      dangling: "%{model} wird vom LLM-Server nicht mehr angeboten. Diese Funktion wird erst wieder ausgeführt, wenn ein anderes Modell ausgewählt wird."
+      form:
+        model_caption_ruled_out: Modelle, denen bekanntermaßen eine für diese Funktion benötigte Fähigkeit fehlt, werden nicht angeboten.
+      inherit_with_default: Standard verwenden (%{model})
+      inherit_without_default: Standard verwenden (keiner festgelegt)
+      option_unqualified: "%{model} (für diese Funktion nicht mehr geeignet)"
+      update:
+        model_incapable: Das Modell für %{feature} wurde gespeichert, aber der Server hat soeben gemeldet, dass es %{capability} nicht unterstützt. Wählen Sie ein anderes Modell oder legen Sie die Fähigkeit am Modell fest, wenn Sie es besser wissen.
+        success: Das Modell für %{feature} wurde gespeichert.
+    llm_health_status:
+      create:
+        success: 'Die Überprüfungen wurden ausgeführt: %{passed} bestanden, %{warnings} Warnungen, %{failures} fehlgeschlagen.'
+      create_health_status_report:
+        success: Die Überprüfungen wurden ausgeführt.
+      show:
+        blankslate_description: Führen Sie die Überprüfungen aus, um festzustellen, ob OpenProject den LLM-Server erreichen kann, ob dieser den API-Schlüssel akzeptiert und ob jede KI-Funktion über ein nutzbares Modell verfügt.
+        blankslate_heading: Diese Verbindung wurde noch nicht überprüft
+        download: Bericht herunterladen
+        last_check: 'Zuletzt überprüft: %{datetime}.'
+        run_checks: Überprüfungen ausführen
+        running: Überprüfungen werden ausgeführt...
+        summary: "%{passed} bestanden, %{warnings} Warnungen, %{failures} fehlgeschlagen."
+        title: Verbindungsstatus
+    llm_models:
+      configured_from_env: Die Umgebung konfiguriert dieses Modell als Standard, daher kann es hier nicht entfernt oder umbenannt werden.
+      create:
+        success: "%{model} wurde hinzugefügt."
+      defaults:
+        chat_caption: Embedding-Modelle werden nicht angeboten.
+        description: Wird von KI-Funktionen verwendet, die nicht selbst ein Modell auswählen.
+        embedding_caption: Es werden nur Modelle angeboten, von denen bekannt ist, dass sie Embeddings erzeugen. [Weitere Informationen](docs_url) zu Modelltypen.
+        embedding_none: Von keinem Modell ist bekannt, dass es Embeddings erzeugt. Wenn Sie wissen, dass ein Modell dies kann, öffnen Sie es in der Liste unten und setzen Sie seinen Typ auf „Embedding-Modell“.
+        embedding_option_unqualified: "%{model} (nicht als Embedding-Modell bekannt)"
+        heading: Standardmodelle
+        success: Die Standardmodelle wurden gespeichert.
+      destroy:
+        description: Das Modell wird nicht mehr für KI-Funktionen angeboten.
+        description_bound: Dieses Modell wird derzeit von %{features} verwendet. Diese Funktionen stehen nicht mehr zur Verfügung, bis ein anderes Modell ausgewählt wird.
+        heading: "%{model} entfernen?"
+        success: "%{model} wurde entfernt."
+        title: Modell entfernen
+      edit:
+        description: Bearbeiten, wie OpenProject dieses Modell verwendet.
+      form:
+        context_window: Kontextfenster
+        context_window_caption: Wie viele Token dieses Modell akzeptiert. Leer lassen, wenn Sie es nicht wissen.
+        context_window_known: Leer lassen, um %{value}, %{source} zu verwenden.
+        display_name_caption: Ein optionaler, verständlicher Name, der anstelle der Modell-ID angezeigt wird.
+        external_id_caption: Der Modellname genau so, wie er vom Server erwartet wird.
+        model_type: Modelltyp
+        model_type_caption: Chat-Modelle beantworten Anfragen. Embedding-Modelle wandeln Text für die Suche in Vektoren um. [Weitere Informationen](docs_url).
+        model_type_chat: Chat-Modell
+        model_type_embedding: Embedding-Modell
+        model_type_unspecified: Nicht angegeben
+        state_inherited: Vom Server erben (%{state})
+        state_supported: Unterstützt
+        state_unsupported: Nicht unterstützt
+      index:
+        add_model: Modell
+        blank_description: Der Server hat keine Modelle gemeldet. Aktualisieren Sie die Liste, sobald der Server erreichbar ist, oder fügen Sie manuell ein Modell hinzu.
+        blank_title: Keine Modelle verfügbar
+        context_window: Kontextfenster
+        filter_label: Modelle filtern
+        identifier: Modell
+        kind: Typ
+        refresh: Modelle auffrischen
+        source: Quelle
+        source_discovered: Server
+        source_discovered_description: Vom Server gemeldet
+        source_manual: Manuell
+        source_manual_description: Von einem Administrator manuell hinzugefügt
+        source_withdrawn: Zurückgezogen
+        source_withdrawn_description: Wird vom Server nicht mehr gemeldet
+        stale_warning: Die Verbindungseinstellungen wurden nach der letzten Aktualisierung der Modellliste geändert, daher ist die Liste möglicherweise veraltet. Aktualisieren Sie die Modelle, um sicherzugehen.
+      new:
+        description: Nennen Sie ein Modell, das dieser Server verwenden kann, das er jedoch nicht bekannt gibt, und beschreiben Sie, wozu es in der Lage ist.
+        title: Modell hinzufügen
+      refresh:
+        failure: Die Modellliste konnte nicht aktualisiert werden. Bitte prüfen Sie, ob der LLM-Server noch erreichbar ist.
+        success: Die Modellliste wurde aktualisiert.
+      update:
+        success: "%{model} wurde aktualisiert."
+  attributes:
+    semantic_similarity: Ähnlichkeit
+  label_search_by_meaning: Suche gemäß Bedeutung
+  llm:
+    api_formats:
+      anthropic: Anthropic
+      azure: Azure OpenAI
+      bedrock: AWS Bedrock
+      deepseek: DeepSeek
+      gemini: Google Gemini
+      gpustack: GPUStack
+      mistral: Mistral
+      ollama: Ollama
+      openai: OpenAI
+      openrouter: OpenRouter
+      perplexity: Perplexity
+      vertexai: Google Vertex AI
+      xai: xAI
+    capabilities:
+      embeddings:
+        label: Einbettungen
+      function_calling:
+        label: Tool-Aufrufe
+      reasoning:
+        label: Reasoning
+      structured_output:
+        label: Strukturierte Ausgabe
+      vision:
+        label: Vision
+    context_window_sources:
+      registry: für dieses Modell veröffentlicht
+      server: vom Server gemeldet
+    features:
+      description_assistant:
+        caption: Führt die Textaktionen aus, die Benutzer auf Arbeitspaket-Beschreibungen anwenden, wie zum Beispiel Korrekturlesen, Umschreiben und Strukturieren.
+        caption_with_link: Führt die [Textaktionen](text_actions_url) aus, die Benutzer auf Arbeitspaketbeschreibungen anwenden, wie beispielsweise Korrekturlesen, Überarbeiten und Strukturieren.
+        label: Textassistent
+      semantic_search:
+        caption: Indiziert Arbeitspakete, damit sie nach ihrer Bedeutung statt nach Schlüsselwörtern gefunden werden können.
+        label: Semantische Suche
+    health_checks:
+      configuration:
+        api_format_supported: Endpunktformat ist nutzbar
+        base_url_present: Endpunkt ist konfiguriert
+        credentials_present: API-Schlüssel ist gespeichert
+        enabled: Verbindung ist aktiviert
+        feature_flag: KI-Funktionen sind aktiviert
+        header: Konfiguration
+      errors:
+        api_key_missing: Es ist kein API-Schlüssel gespeichert. Das ist nur korrekt, wenn der LLM-Server keine Authentifizierung erfordert.
+        catalogue_never_fetched: Die Modellliste wurde noch nie vom Server abgerufen.
+        catalogue_stale: Die Modellliste wurde zuletzt am %{fetched_at} abgerufen und entspricht möglicherweise nicht mehr dem Angebot des Servers.
+        catalogue_stale_settings: Die Verbindungseinstellungen wurden nach der letzten Aktualisierung der Modellliste geändert. Aktualisieren Sie die Modelle im Tab „Modelle“.
+        chat_failed: Der Server hat eine Anfrage für %{model} mit dem Status %{status} abgelehnt.
+        connection_disabled: Die Verbindung ist konfiguriert, aber deaktiviert, daher wird sie von keiner Funktion verwendet.
+        connection_error: Der Server konnte nicht erreicht werden. Bitte stellen Sie sicher, dass er läuft und von OpenProject aus erreichbar ist.
+        default_model_missing: "%{model} wird vom Server nicht mehr angeboten."
+        default_model_unset: Im Tab „Modelle“ wurde kein Standardmodell ausgewählt, daher greifen die Funktionen auf ihre eigene Auswahl zurück.
+        empty_completion: "%{model} hat mit einer leeren Nachricht geantwortet."
+        feature_flag_off: Die Funktion „LLM-Verbindung“ ist deaktiviert, daher wird die Verbindung noch nicht verwendet.
+        features_incapable: 'Das gewählte Modell bietet Folgendes nicht: %{capabilities}. Daher kann Folgendes nicht ausgeführt werden: %{features}.'
+        features_model_missing: 'Folgendes verweist auf ein Modell, das der Server nicht mehr anbietet: %{features}.'
+        features_unbound: Für %{features} wurde noch kein Modell ausgewählt.
+        invalid_api_key: Der Server hat den gespeicherten API-Schlüssel abgelehnt.
+        model_not_served: Der Server hat keine Route für %{model} (404). Prüfen Sie, ob das Modell für Ihr Konto noch angeboten wird und ob die Host-URL das API-Versionssegment enthält.
+        models_endpoint_missing: Der Server stellt unter dieser Adresse keine Modellliste bereit, daher konnte auch der API-Schlüssel nicht überprüft werden. Prüfen Sie, ob die URL das API-Versionssegment enthält (zum Beispiel https://example.com/v1).
+        no_model_to_test: Es ist kein Modell zum Testen verfügbar. Fügen Sie zuerst ein Modell hinzu oder wählen Sie ein Standardmodell aus.
+        no_models: Der Server veröffentlicht keine Modellliste. Entweder bietet er keine an oder dem Endpunkt fehlt das API-Versionssegment. Modelle können manuell hinzugefügt werden; ob der Endpunkt korrekt ist, zeigt erst die Inferenzprüfung.
+        no_models_endpoint: Der Server bietet keine Modellliste an, daher konnte der API-Schlüssel nicht überprüft werden. Führen Sie die Inferenzprüfung aus, um ihn zu überprüfen.
+        not_configured: Es wurde kein Endpunkt konfiguriert.
+        not_openai_compatible: Der Endpunkt hat keine gültige Modellliste zurückgegeben. Bitte stellen Sie sicher, dass er auf einen OpenAI-API-kompatiblen Endpunkt verweist, einschließlich des API-Versionssegments.
+        request_timed_out: Der Server hat nicht rechtzeitig geantwortet.
+        semantic_index_model_missing: Der aktive semantische Index „%{title}“ wurde mit %{model} erstellt, das der Server nicht mehr anbietet. Aktivieren Sie einen anderen semantischen Index, damit die Suche nach Bedeutung weiterhin funktioniert.
+        server_error: Der Server hat mit dem Status %{status} geantwortet.
+        ssrf_filtered: Der Endpunkt wird zu einer blockierten Adresse aufgelöst.
+        unsupported_api_format: "%{api_format} erfordert Zugangsdaten, die OpenProject nicht speichern kann."
+      features:
+        active_semantic_index_intact: Das Modell des aktiven semantischen Index ist noch verfügbar
+        bindings_resolvable: Jede Funktion hat ein nutzbares Modell
+        header: KI-Funktionen
+      inference:
+        chat_round_trip: Der Server beantwortet eine Anfrage
+        header: Inferenz
+      models:
+        catalogue_fresh: Modellliste ist aktuell
+        catalogue_present: Modelle sind verfügbar
+        default_chat_model: Standardmäßiges Chat-Modell
+        default_embedding_model: Standard-Embedding-Modell
+        header: Modelle
+      server:
+        credentials_accepted: Der Server akzeptiert den API-Schlüssel
+        header: Server
+        reachable: Der Server ist erreichbar
+    health_report_kinds:
+      full: Vollständige Überprüfung, einschließlich einer Inferenzanfrage.
+      without_inference: Ohne Inferenzanfrage überprüft, wie bei der geplanten Überprüfung. Führen Sie die Überprüfungen aus, um eine Inferenzanfrage einzuschließen.
+    model_kinds:
+      chat: Chat
+      embedding: Einbettung
+    pgvector:
+      admin_check: Datenbankerweiterung pgvector aktiviert (optional)
+      unavailable: Die semantische Suche ist nicht verfügbar, da die Erweiterung pgvector in der Datenbank nicht eingerichtet ist. Installieren Sie pgvector für PostgreSQL und führen Sie die Datenbankmigrationen erneut aus. [Weitere Informationen](docs_url)
+    verdict_states:
+      supported: unterstützt
+      unknown: nicht verifiziert
+      unsupported: nicht unterstützt
+  llm_connections:
+    side_panel:
+      health_status_component:
+        last_check: 'Zuletzt überprüft: %{datetime}.'
+        never_checked: Diese Verbindung wurde noch nicht überprüft.
+        open_report: Vollständigen Gesundheitsbericht öffnen
+        run_checks: Überprüfungen jetzt ausführen
+        running: Überprüfungen werden ausgeführt...
+        title: Verbindungsstatus
+  menus:
+    admin:
+      llm_connection: LLM-Einstellungen

@@ -20,19 +20,37 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
 
-++# %>
+++#%>
 
-<%=
-  render(Primer::OpenProject::PageHeader.new) do |header|
-    header.with_title { title }
-    header.with_breadcrumbs(breadcrumb_items)
-    header.with_description do
-      render(Backlogs::SprintReports::HeaderInfolineComponent.new(sprint: @sprint))
-    end
-  end
-%>
+<%= render(Primer::OpenProject::PageHeader.new) do |header| %>
+  <%
+    # As a flex item, the h2 defaults to min-width: auto and cannot shrink below its single line of text,
+    # so it overflows the title bar. min-width-0 lets it shrink, so the text truncates.
+    header.with_title(classes: "min-width-0") do
+  %>
+    <%=
+      # The title renders inside an h2, which only permits phrasing content such as span, so divs are not allowed.
+      # For the same reason, the dialog showing the full title is rendered in the description instead.
+      render(
+        OpPrimer::ExpandableTextComponent.new(
+          tag: :span,
+          expansion: :dialog,
+          dialog_id: title_dialog_id,
+          render_dialog: false
+        )
+      ) { title }
+    %>
+  <% end %>
+  <% header.with_breadcrumbs(breadcrumb_items) %>
+  <% header.with_description do %>
+    <%= render(Backlogs::SprintReports::HeaderInfolineComponent.new(sprint: @sprint)) %>
+    <%= render(Primer::Alpha::Dialog.new(id: title_dialog_id, title: t("js.label_expand_text"), visually_hide_title: true)) do |dialog| %>
+      <% dialog.with_header %>
+      <% dialog.with_body_content(title) %>
+    <% end %>
+  <% end %>
+<% end %>

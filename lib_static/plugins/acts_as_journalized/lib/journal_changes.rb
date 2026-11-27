@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -48,6 +47,7 @@ module JournalChanges
       get_project_phases_changes,
       get_target_versions_changes,
       get_observed_in_versions_changes,
+      get_labels_changes,
       get_file_links_changes,
       get_participants_changes,
       get_agenda_items_changes
@@ -82,12 +82,10 @@ module JournalChanges
   def get_custom_comments_changes
     return unless journable.respond_to?(:custom_comments)
 
-    association = ->(journal) { filter_admin_only_custom_fields(journal.custom_comment_journals) }
-
     ::Acts::Journalized::Differ::Association.new(
       predecessor,
       self,
-      association:,
+      association: :custom_comment_journals,
       id_attribute: :custom_field_id
     ).single_attribute_changes(
       :text,
@@ -104,7 +102,7 @@ module JournalChanges
         relation = relation.with(cf_mappings: journable.project_custom_field_project_mappings)
                            .joins("INNER JOIN cf_mappings USING (custom_field_id)")
       end
-      filter_admin_only_custom_fields(relation)
+      relation
     }
 
     ::Acts::Journalized::Differ::Association.new(
@@ -128,7 +126,7 @@ module JournalChanges
       association: :project_phase_journals,
       id_attribute: :phase_id
     ).multiple_attributes_changes(
-      %i[active date_range],
+      %i[active date_range status],
       key_prefix: "project_phase"
     )
   end
@@ -154,6 +152,16 @@ module JournalChanges
     return if old_value == new_value
 
     { observed_in_versions: [old_value, new_value] }
+  end
+
+  def get_labels_changes
+    return unless journable.respond_to?(:labels)
+
+    old_value = predecessor && joined_label_ids(predecessor)
+    new_value = joined_label_ids(self)
+    return if old_value == new_value
+
+    { labels: [old_value, new_value] }
   end
 
   def get_file_links_changes
@@ -217,6 +225,10 @@ module JournalChanges
     journal.observed_in_version_journals.map(&:version_id).sort.join(",").presence
   end
 
+  def joined_label_ids(journal)
+    journal.label_journals.map(&:label_id).sort.join(",").presence
+  end
+
   def participant_baseline_journal
     journals = journable.journals.to_a
     current_index = journals.index { |entry| entry.id == id }
@@ -237,12 +249,5 @@ module JournalChanges
     return if names.empty?
 
     [nil, names.join(", ")]
-  end
-
-  def filter_admin_only_custom_fields(relation)
-    return relation if User.current.admin?
-    return relation unless journable.admin_only_custom_fields_allowed?
-
-    relation.joins(:custom_field).where(custom_fields: { admin_only: false })
   end
 end

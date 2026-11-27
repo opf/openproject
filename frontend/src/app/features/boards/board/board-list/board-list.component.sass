@@ -23,6 +23,13 @@ $board-list-max-width: 300px
     align-items: center
     max-height: 52px
 
+    &.-large-header
+      // Fixed (not max) height,
+      // so that headers which don't need the full height, still align with the other columns
+      max-height: none
+      height: 68px
+      align-items: start
+
     editable-toolbar-title
       flex: 1
       margin-bottom: 0
@@ -35,7 +42,7 @@ $board-list-max-width: 300px
 
   &--add-button
     background-color: var(--body-background)
-    width: calc(100% - 30px - #{$scrollbar-size})
+    width: calc(100% - 30px)
     margin: 0 15px
     box-shadow: 1px 1px 3px 0px var(--borderColor-default)
 
@@ -59,7 +66,7 @@ $board-list-max-width: 300px
       display: grid
       // In order to enable automatic scrolling within the card view,
       // it is important that second container is limited in the height, so that it is scrollable.
-      grid-template: 34px minmax(0, 1fr) / 1fr
+      grid-template: minmax(34px, max-content) minmax(0, 1fr) / 1fr
 
   // Make the button sticky so that it does not scroll,
   // Unfortunately we cannot let the card container scroll because there seem to be a Chrome bug,
@@ -70,3 +77,11 @@ $board-list-max-width: 300px
     position: sticky
     top: 0px
     z-index: 1
+    // Reserves the same scrollbar gutter as the card list below, which is
+    // zero for overlay scrollbars, so the button lines up with the cards.
+    overflow-y: hidden
+    scrollbar-gutter: stable
+    scrollbar-width: thin
+    // Room for the button shadow, which the hidden overflow would clip
+    padding-bottom: 4px
+    margin-bottom: -4px

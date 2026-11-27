@@ -20,99 +20,95 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { Component, ElementRef } from '@angular/core';
+import { OpenprojectFieldsModule } from 'core-app/shared/components/fields/openproject-fields.module';
 import { TestBed } from '@angular/core/testing';
-import { StateService, Transition, TransitionService } from '@uirouter/core';
-import * as Turbo from '@hotwired/turbo';
-import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import type { Mock } from 'vitest';
+import { By } from '@angular/platform-browser';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { EditingPortalService } from 'core-app/shared/components/fields/edit/editing-portal/editing-portal-service';
-import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
-import { EditFormRoutingService } from 'core-app/shared/components/fields/edit/edit-form/edit-form-routing.service';
-import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
-import { GlobalEditFormChangesTrackerService } from 'core-app/shared/components/fields/edit/services/global-edit-form-changes-tracker/global-edit-form-changes-tracker.service';
-import { vi } from 'vitest';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
+import { EditingPortalService } from '../editing-portal/editing-portal-service';
+import { GlobalEditFormChangesTrackerService } from '../services/global-edit-form-changes-tracker/global-edit-form-changes-tracker.service';
+import { ResourceChangesetCommit } from '../services/hal-resource-editing.service';
+import { EditFormComponent } from './edit-form.component';
+import { EditableAttributeFieldComponent } from '../field/editable-attribute-field.component';
+import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
+
+@Component({
+  template: '<edit-form [resource]="resource" (onSaved)="saved = $event.savedResource" />',
+  imports: [OpenprojectFieldsModule],
+})
+class WorkPackageFormHostComponent {
+  resource:WorkPackageResource;
+  saved:WorkPackageResource|undefined;
+}
 
 describe('EditFormComponent', () => {
-  let onBeforeCallback:(transition:Transition) => unknown;
-
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
+  let editingPortal:{ create:Mock };
 
   beforeEach(async () => {
-    await TestBed
-      .configureTestingModule({
-        declarations: [
-          EditFormComponent,
-        ],
-        providers: [
-          {
-            provide: TransitionService,
-            useValue: {
-              onBefore: vi.fn((_criteria:unknown, callback:(transition:Transition) => unknown) => {
-                onBeforeCallback = callback;
-                return vi.fn();
-              }),
-            },
-          },
-          { provide: ConfigurationService, useValue: { warnOnLeavingUnsaved: vi.fn().mockReturnValue(true) } },
-          { provide: EditingPortalService, useValue: {} },
-          { provide: StateService, useValue: {} },
-          { provide: I18nService, useValue: { t: vi.fn().mockReturnValue('Leave edit mode?') } },
-          { provide: EditFormRoutingService, useValue: { blockedTransition: vi.fn().mockReturnValue(true) } },
-          {
-            provide: GlobalEditFormChangesTrackerService,
-            useValue: {
-              addToActiveForms: vi.fn(),
-              removeFromActiveForms: vi.fn(),
-            },
-          },
-        ],
-      })
-      .compileComponents();
+    editingPortal = { create: vi.fn() };
+    TestBed.overrideModule(OpenprojectFieldsModule, {
+      set: { declarations: [EditFormComponent], exports: [EditFormComponent], imports: [], providers: [], schemas: [] },
+    });
+    await TestBed.configureTestingModule({
+      imports: [WorkPackageFormHostComponent],
+      providers: [
+        provideHttpClient(), provideHttpClientTesting(),
+        { provide: EditingPortalService, useValue: editingPortal },
+        { provide: GlobalEditFormChangesTrackerService, useValue: { addToActiveForms: vi.fn(), removeFromActiveForms: vi.fn() } },
+        { provide: SchemaCacheService, useValue: {} },
+        { provide: I18nService, useValue: {} },
+      ],
+    }).compileComponents();
   });
 
-  it('restores a canceled browser Back transition without navigating forward', () => {
-    const fixture = TestBed.createComponent(EditFormComponent);
-    const component = fixture.componentInstance;
-    const urlRouterUpdate = vi.fn();
-    const transition = {
-      options: vi.fn().mockReturnValue({ source: 'url' }),
-      from: vi.fn().mockReturnValue({ name: 'work-packages.partitioned.split' }),
-      params: vi.fn().mockReturnValue({ workPackageId: '46' }),
-      router: {
-        stateService: {
-          href: vi.fn().mockReturnValue('/work_packages/details/46/overview'),
-        },
-        urlRouter: {
-          update: urlRouterUpdate,
-        },
-      },
-    } as unknown as Transition;
-    const turboPush = vi.spyOn(
-      Turbo.session.history,
-      'push',
-    ).mockImplementation(() => undefined);
-    const historyForward = vi.spyOn(window.history, 'forward');
-    const confirm = vi.spyOn(window, 'confirm').mockReturnValue(false);
-    const cancel = vi.spyOn(component, 'cancel');
+  it('emits the saved work-package instance through its typed template output', () => {
+    const factory = TestBed.inject(HalResourceService);
+    factory.registerResource('WorkPackage', { cls: WorkPackageResource });
+    const original = factory.createHalResourceOfType<WorkPackageResource>('WorkPackage', { subject: 'New' });
+    const saved = factory.createHalResourceOfType<WorkPackageResource>('WorkPackage', { id: 42, subject: 'Saved' });
+    const change = new ResourceChangeset(original);
+    const commit = new ResourceChangesetCommit(change, saved);
+    const fixture = TestBed.createComponent(WorkPackageFormHostComponent);
+    fixture.componentInstance.resource = original;
+    fixture.detectChanges();
+    const form = fixture.debugElement.query(By.directive(EditFormComponent)).injector.get(EditFormComponent);
+    const output = vi.spyOn(form.onSavedEmitter, 'emit');
 
-    component.activeFields = {
-      description: {} as EditFieldHandler,
+    form.onSaved(commit);
+
+    expect(output).toHaveBeenCalledWith({ savedResource: saved, isInitial: true });
+    expect(fixture.componentInstance.saved).toBe(saved);
+  });
+
+  it('returns a field to its display when its editor fails to render', async () => {
+    const fixture = TestBed.createComponent(WorkPackageFormHostComponent);
+    fixture.detectChanges();
+    const form = fixture.debugElement.query(By.directive(EditFormComponent)).injector.get(EditFormComponent);
+    const field:Pick<EditableAttributeFieldComponent, 'fieldName'|'editContainer'|'setActive'|'deactivate'> = {
+      fieldName: 'subject',
+      editContainer: new ElementRef(document.createElement('div')),
+      setActive: vi.fn(),
+      deactivate: vi.fn(),
     };
+    form.register(field as EditableAttributeFieldComponent);
+    const failure = new Error('render failed');
+    editingPortal.create.mockRejectedValue(failure);
 
-    expect(onBeforeCallback(transition)).toBe(false);
-    expect(confirm).toHaveBeenCalledWith('Leave edit mode?');
-    expect(cancel).not.toHaveBeenCalled();
-    expect(turboPush).toHaveBeenCalledOnce();
-    expect(turboPush.mock.calls[0][0].pathname).toBe('/work_packages/details/46/overview');
-    expect(urlRouterUpdate).toHaveBeenCalledWith(true);
-    expect(historyForward).not.toHaveBeenCalled();
+    await expect(form.activateField(form, {} as IFieldSchema, 'subject', [])).rejects.toBe(failure);
+
+    expect(field.setActive).toHaveBeenCalledWith(true);
+    expect(field.deactivate).toHaveBeenCalledOnce();
   });
 });

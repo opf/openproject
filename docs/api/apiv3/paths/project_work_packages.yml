@@ -2,7 +2,8 @@
 ---
 get:
   summary: Get work packages of project
-  operationId: Get_Project_Work_Package_Collection
+  deprecated: true
+  operationId: get_project_work_package_collection
   tags:
     - Work Packages
   description: Returns the collection of work packages that are related to the given project.
@@ -115,7 +116,8 @@ get:
 
 post:
   summary: Create work package in project
-  operationId: Create_Project_Work_Package
+  deprecated: true
+  operationId: create_project_work_package
   tags:
     - Work Packages
   description: |-
@@ -154,6 +156,9 @@ post:
         application/hal+json:
           schema:
             $ref: '../components/schemas/work_package_model.yml'
+          examples:
+            response:
+              $ref: "../components/examples/work_package_simple_response.yml"
       description: OK
     '400':
       $ref: "../components/responses/invalid_request_body.yml"

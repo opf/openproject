@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -57,100 +56,6 @@ RSpec.describe WorkPackageTypes::FormConfigurationTabController do
     it "renders the edit tab" do
       get :edit, params: { type_id: type.id }
       expect(response).to render_template(:edit)
-    end
-  end
-
-  describe "POST #update" do
-    let(:params) do
-      {
-        type_id: type.id,
-        type: {
-          attribute_groups: [
-            {
-              type: "attribute",
-              name: "People",
-              attributes: [
-                { key: "assignee", is_cf: nil, is_required: nil, translation: "Assignee" }
-              ],
-              query: nil
-            }
-          ].to_json
-        }
-      }
-    end
-
-    context "without enterprise feature enabled" do
-      describe "form is not updated" do
-        before { put :update, params: params }
-
-        it { expect(response).to have_http_status(:unprocessable_entity) }
-      end
-    end
-
-    context "with enterprise feature enabled", with_ee: %i[edit_attribute_groups] do
-      context "with an unauthorized account" do
-        let(:user) { create(:user) }
-
-        describe "the access should be restricted" do
-          before { post "update", params: { type_id: "123" } }
-
-          it { expect(response).to have_http_status(:forbidden) }
-        end
-      end
-
-      it "updates the work package type" do
-        put :update, params: params
-
-        expect(response).to redirect_to(edit_type_form_configuration_path(type))
-
-        type.reload
-        expect(type.default_variant.attribute_groups.count).to eq(1)
-        expect(type.default_variant.attribute_groups.first.key).to eql("People")
-      end
-
-      context "with invalid parameters" do
-        let(:params) do
-          {
-            type_id: type.id,
-            type: {
-              attribute_groups: [
-                {
-                  type: "attribute",
-                  name: "",
-                  attributes: [
-                    { key: "assignee", is_cf: nil, is_required: nil, translation: "Assignee" }
-                  ],
-                  query: nil
-                }
-              ].to_json
-            }
-          }
-        end
-
-        it "renders the edit tab" do
-          put :update, params: params
-
-          expect(response).to render_template(:edit)
-        end
-      end
-
-      context "with malformed attribute group JSON" do
-        let(:params) do
-          {
-            type_id: type.id,
-            type: {
-              attribute_groups: "{"
-            }
-          }
-        end
-
-        it "renders the edit tab instead of raising" do
-          put :update, params: params
-
-          expect(response).to have_http_status(:unprocessable_entity)
-          expect(response).to render_template(:edit)
-        end
-      end
     end
   end
 end

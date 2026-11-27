@@ -22,13 +22,12 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Shared behaviour for custom fields that belong to a CustomFieldSection and
+# Shared behavior for custom fields that belong to a CustomFieldSection and
 # maintain their position within that section via attribute_order.
 # Include in UserCustomField and ProjectCustomField.
 module CustomField::Sectionable
@@ -41,11 +40,22 @@ module CustomField::Sectionable
     validates :custom_field_section_id, presence: true
 
     after_create_commit :add_to_section_order
+    # Keeps attribute_order in sync however the section changes (e.g. the edit form).
+    # CustomFieldSections::MoveKeyService also reorders, which makes this partly redundant there.
+    # It must not be after_update_commit: it has to run inside the service's transaction,
+    # before insert_after_key places the key at the dropped position.
+    after_update :move_to_section_order, if: :saved_change_to_custom_field_section_id?
     after_destroy_commit :remove_from_section_order
   end
 
   def add_to_section_order
     custom_field_section.add_to_order(column_name)
+  end
+
+  def move_to_section_order
+    previous_section_id, = saved_change_to_custom_field_section_id
+    CustomFieldSection.find_by(id: previous_section_id)&.remove_from_order(column_name)
+    add_to_section_order
   end
 
   def remove_from_section_order

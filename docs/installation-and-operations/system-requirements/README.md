@@ -26,7 +26,9 @@ This is for a single server running OpenProject for up to 200 total users. Depen
 
 OpenProject officially supports [PostgreSQL version 16](https://www.postgresql.org/) or above since [OpenProject 16.0.0](../../release-notes/16/16-0-0/).
 
-PostgreSQL versions 13 - 15 are not officially supported, but MAY continue to work, but could result in incompatibilities and degraded performance in the future. If you are using one of these versions currently, we have a [migration guide on how to upgrade to PostgreSQL 17](../misc/migration-to-postgresql17/) and strongly recommend you to upgrade your DBMS, as there are significant performance improvements.
+PostgreSQL versions 13 - 15 are not officially supported, but MAY continue to work, but could result in incompatibilities and degraded performance in the future. If you are using one of these versions currently, we have a [migration guide on how to upgrade to PostgreSQL 18](../misc/migration-to-postgresql18/) and strongly recommend you to upgrade your DBMS, as there are significant performance improvements.
+
+New managed installations default to PostgreSQL 18 with pgvector available. Existing installations do not need pgvector for an application update. See the [PostgreSQL 18 guide](../misc/migration-to-postgresql18/) for installation and activation instructions.
 
 OpenProject currently requires some bundled extensions, that should be available in all distributions, but may require additional packages:
 
@@ -180,7 +182,6 @@ The [package-based installation](../installation/packaged) requires one of the f
 | Distribution (**64 bits only**) | End of life software package                                 |
 |---------------------------------| ------------------------------------------------------------ |
 | Ubuntu 22.04 Jammy              | _≈ 2027 Q2_                                                  |
-| Ubuntu 20.04 Focal              | 2025 Q3 - [OpenProject 16.2](https://community.openproject.org/wp/64078) |
 | Debian 12 Bookworm              | _2028 Q2_                                                    |
 | Debian 11 Bullseye              | _2026 Q3_                                                    |
 | CentOS/RHEL 9.x                 | _≈ 2027 Q2_                                                  |
@@ -212,9 +213,9 @@ We support the latest two [openDesk minor releases](https://gitlab.opencode.de/b
 
 #### Nextcloud Server
 
-- [Nextcloud 32](https://nextcloud.com/changelog/#latest32)
 - [Nextcloud 33](https://nextcloud.com/changelog/#latest33)
 - [Nextcloud 34](https://nextcloud.com/changelog/#latest34)
+- [Nextcloud 35](https://nextcloud.com/changelog/#latest35)
 
 > [!TIP]
 >
@@ -229,8 +230,7 @@ We support the latest two [openDesk minor releases](https://gitlab.opencode.de/b
 
 ##### OpenProject integration
 
-- [OpenProject Integration 3.1.0](https://github.com/nextcloud/integration_openproject/releases/tag/v3.1.0) — Nextcloud 33, 34 or higher
-- [OpenProject Integration 2.11.3](https://github.com/nextcloud/integration_openproject/releases/tag/v2.11.3) — Nextcloud 32
+- [OpenProject Integration 3.3.0](https://github.com/nextcloud/integration_openproject/releases/tag/v3.3.0) — Nextcloud 33, 34 or 35
 
 ##### Team folders
 

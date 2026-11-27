@@ -3,29 +3,4 @@
   [currentTabId]="currentTabId"
   (tabSelected)="tabSelected.emit($event)"
   class="op-work-package-tabs"
-  >
-  @if (view === 'split') {
-    <ng-container slot="actions">
-      <li class="tab-icon">
-        <button
-          type="button"
-          class="spot-link work-packages--details-fullscreen-icon"
-          [title]="text.details.goToFullScreen"
-          (click)="switchToFullscreen()"
-          >
-          <op-icon icon-classes="icon-context icon-no-color icon-to-fullscreen" />
-        </button>
-      </li>
-      <li class="tab-icon">
-        <button
-          type="button"
-          class="spot-link work-packages--details-close-icon"
-          [title]="text.details.close"
-          (click)="close()"
-          >
-          <op-icon icon-classes="icon-context icon-no-color icon-close" />
-        </button>
-      </li>
-    </ng-container>
-  }
-</op-scrollable-tabs>
+  />

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -104,6 +103,22 @@ RSpec.describe Queries::WorkPackages::Filter::StatusFilter do
       it "is true" do
         expect(instance)
           .to be_ar_object_filter
+      end
+    end
+
+    describe "#available_operators" do
+      it "includes status category operators in the correct order" do
+        expect(instance.available_operators).to eq(
+          [
+            Queries::Operators::OpenWorkPackages,
+            Queries::Operators::ToDoWorkPackages,
+            Queries::Operators::InProgressWorkPackages,
+            Queries::Operators::ClosedWorkPackages,
+            Queries::Operators::EqualsOr,
+            Queries::Operators::NotEquals,
+            Queries::Operators::All
+          ]
+        )
       end
     end
   end

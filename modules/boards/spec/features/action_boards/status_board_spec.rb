@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,6 +32,8 @@ require_relative "../support/board_page"
 RSpec.describe "Status action board",
                :js,
                :selenium do
+  include Components::Autocompleter::NgSelectAutocompleteHelpers
+
   let(:user) do
     create(:user,
            member_with_roles: { project => role })
@@ -54,7 +55,7 @@ RSpec.describe "Status action board",
   let!(:priority) { create(:default_priority) }
   let!(:open_status) { create(:default_status, name: "Open") }
   let!(:whatever_status) { create(:status, name: "Whatever") }
-  let!(:closed_status) { create(:status, is_closed: true, name: "Closed") }
+  let!(:closed_status) { create(:status, category: "closed", name: "Closed") }
   let!(:work_package) { create(:work_package, project:, subject: "Foo", status: whatever_status) }
 
   let(:filters) { Components::WorkPackages::Filters.new }
@@ -107,6 +108,30 @@ RSpec.describe "Status action board",
       board_page.expect_list "Closed"
     end
 
+    it "keeps a moved card in place and still shows changes made elsewhere (OP-20534)" do
+      create(:work_package, project:, type:, subject: "Task 1", status: open_status)
+      board_index.visit!
+      board_page = board_index.create_board action: "Kanban"
+      board_page.expect_list "Open"
+      board_page.add_list option: "Closed"
+      board_page.expect_list "Closed"
+      board_page.expect_card "Open", "Task 1"
+      board_page.wait_for_lists_reload
+
+      board_page.move_card_by_name("Task 1", from: "Open", to: "Closed")
+      board_page.expect_card("Open", "Task 1", present: false)
+      board_page.expect_card("Closed", "Task 1", present: true)
+
+      open_query = board_page.board(reload: true).contained_queries.find_by(name: "Open")
+      added_elsewhere = create(:work_package, project:, type:, subject: "Added elsewhere", status: open_status)
+      open_query.ordered_work_packages.create!(work_package: added_elsewhere, position: 0)
+      open_query.touch
+
+      board_page.expect_card("Open", "Added elsewhere", present: true)
+      board_page.expect_card("Open", "Task 1", present: false)
+      board_page.expect_card("Closed", "Task 1", present: true)
+    end
+
     it "does not change moving card project when filtering on projects (Bug #44895)" do
       other_project = create(:project,
                              types: [type],
@@ -150,6 +175,34 @@ RSpec.describe "Status action board",
 
       expect(wp_task.status).to eq(whatever_status), "Moving the card should have updated the status"
       expect(wp_task.project).to eq(project), "Moving the card should not change the project"
+    end
+
+    it_behaves_like "a project picker searchable by identifier" do
+      let(:target_project) { project }
+      let(:control_project) do
+        create(:project,
+               name: "Unrelated Control Project",
+               identifier: "unrelated-control-project",
+               types: [type],
+               enabled_module_names: %i[work_package_tracking board_view],
+               members: { user => role })
+      end
+
+      before do
+        board_index.visit!
+
+        # Create new board
+        board_page = board_index.create_board action: "Kanban"
+
+        board_page.filters.open
+        board_page.filters.add_filter("Project")
+      end
+
+      def search_project(query)
+        search_autocomplete(page.find("#filter_project op-project-autocompleter"),
+                            query:,
+                            results_selector: ".ng-dropdown-panel-items")
+      end
     end
 
     it "allows management of boards", with_settings: { login_required: false } do
@@ -244,9 +297,7 @@ RSpec.describe "Status action board",
       board_page.expect_card("Closed", "Task 1", present: true)
       board_page.expect_card("Whatever", work_package.subject, present: false)
 
-      # Expect query props to be present
-      url = URI.parse(page.current_url).query
-      expect(url).to include("query_props=")
+      expect(page).to have_current_query_params("query_props" => be_present)
 
       # Save that filter
       board_page.save

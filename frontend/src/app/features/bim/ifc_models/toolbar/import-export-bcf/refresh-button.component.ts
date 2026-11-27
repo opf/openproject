@@ -20,23 +20,23 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { StateService } from '@uirouter/core';
 
 @Component({
   template: `
-    <a [title]="text.refresh_hover"
+    <button type="button"
+       opTooltip
+       [label]="text.refresh_hover"
        class="button refresh-button"
        (click)="refresh()">
       <op-icon icon-classes="button--icon icon-workflow" />
-    </a>
+    </button>
   `,
   selector: 'op-refresh-button',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -44,7 +44,6 @@ import { StateService } from '@uirouter/core';
 })
 export class RefreshButtonComponent {
   readonly I18n = inject(I18nService);
-  readonly state = inject(StateService);
 
   public text = {
     refresh: this.I18n.t('js.bcf.refresh'),
@@ -52,6 +51,6 @@ export class RefreshButtonComponent {
   };
 
   refresh() {
-    void this.state.go('.', {}, { reload: true });
+    window.location.reload();
   }
 }

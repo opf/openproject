@@ -22,8 +22,15 @@
 ---
 fi:
   activerecord:
+    errors:
+      models:
+        cost_report:
+          pivot_axes_do_not_match_group_bys: The rows and columns must together cover exactly the grouping criteria of the query.
     models:
       cost_query:
+        one: Cost report
+        other: Cost reports
+      cost_report:
         one: Cost report
         other: Cost reports
   button_save_report_as: Tallenna raportti nimellä...
@@ -38,6 +45,7 @@ fi:
       end_time: End time
       start_time: Start time
       title: Your Cost Reports XLS export
+    invalid_filters: 'The export could not be generated: %{errors}'
     timesheet:
       button: Export PDF timesheet
       overview_per_user_day: 'Overview: Hours per user per day'
@@ -46,6 +54,11 @@ fi:
       time: Aika
       timesheet: Timesheet
       title: Your PDF timesheet export
+  filter_error_invalid_date: "%{filter}: %{value} is not a valid date."
+  filter_error_invalid_integer: "%{filter}: %{value} is not a valid integer."
+  filter_error_missing_values:
+    one: "%{filter} requires a value."
+    other: "%{filter} requires %{count} values."
   information_restricted_depending_on_permission: Käyttöoikeuksistasi riippuen tämä sivu voi sisältää estettyä informaatioa.
   label_click_to_edit: Muokkaa napsauttamalla tätä.
   label_closed: suljettu
@@ -99,7 +112,6 @@ fi:
   plugin_openproject_reporting:
     description: This plugin allows creating custom cost reports with filtering and grouping created by the OpenProject Time and costs plugin.
     name: OpenProject Reporting
-  project_module_reporting_module: Kustannusraportit
   reporting:
     group_by:
       selected_columns: Valitut sarakkeet
@@ -107,5 +119,3 @@ fi:
   text_costs_are_rounded_note: Näytetyt arvot ovat pyöristettyjä. Kaikki laskutoimitukset tehdään pyöristämättömillä arvoilla.
   toggle_multiselect: ota käyttöön/poista käytöstä monivalinta
   units: Yksiköt
-  validation_failure_date: ei ole kelvollinen päivämäärä
-  validation_failure_integer: ei ole kelvollinen kokonaisluku

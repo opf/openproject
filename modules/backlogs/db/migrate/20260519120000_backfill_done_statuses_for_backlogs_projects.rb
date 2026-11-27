@@ -22,23 +22,27 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 class BackfillDoneStatusesForBacklogsProjects < ActiveRecord::Migration[8.1]
   def up
-    mandatory_ids = Status.where(is_closed: true).ids
-    return if mandatory_ids.empty?
-
-    Project
-      .joins(:enabled_modules)
-      .where(enabled_modules: { name: "backlogs" })
-      .find_each do |project|
-        project.done_status_ids = (project.done_status_ids | mandatory_ids)
-      end
+    execute <<~SQL.squish
+      INSERT INTO done_statuses_for_project (project_id, status_id)
+      SELECT DISTINCT projects.id, statuses.id
+      FROM projects
+      JOIN enabled_modules ON enabled_modules.project_id = projects.id AND enabled_modules.name = 'backlogs'
+      CROSS JOIN statuses
+      WHERE statuses.is_closed
+        AND NOT EXISTS (
+          SELECT 1
+          FROM done_statuses_for_project existing
+          WHERE existing.project_id = projects.id
+            AND existing.status_id = statuses.id
+        )
+    SQL
   end
 
   def down; end

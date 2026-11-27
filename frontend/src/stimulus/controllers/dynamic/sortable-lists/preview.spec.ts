@@ -20,12 +20,12 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { within } from '@testing-library/dom';
 import { renderDragPreview, sanitizePreview } from './preview';
 
 describe('sortable lists drag preview', () => {
@@ -37,7 +37,6 @@ describe('sortable lists drag preview', () => {
     article.setAttribute('data-dragging', 'source');
     article.setAttribute('data-drop-position', 'top');
     article.setAttribute('data-drop-position-owner', '123');
-    article.setAttribute('data-selected', '');
     article.setAttribute('aria-current', 'true');
     article.setAttribute('aria-roledescription', 'draggable');
 
@@ -54,20 +53,19 @@ describe('sortable lists drag preview', () => {
   }
 
   describe('sanitizePreview', () => {
-    it('strips behaviour and interaction-state attributes from the clone', () => {
+    it('strips behavior and interaction-state attributes from the clone', () => {
       const element = previewTarget();
 
       sanitizePreview(element);
 
-      expect(element.hasAttribute('data-controller')).toBe(false);
-      expect(element.hasAttribute('data-action')).toBe(false);
-      expect(element.hasAttribute('data-sortable-lists--item-target')).toBe(false);
-      expect(element.hasAttribute('data-dragging')).toBe(false);
-      expect(element.hasAttribute('data-drop-position')).toBe(false);
-      expect(element.hasAttribute('data-drop-position-owner')).toBe(false);
-      expect(element.hasAttribute('data-selected')).toBe(false);
-      expect(element.hasAttribute('aria-current')).toBe(false);
-      expect(element.hasAttribute('aria-roledescription')).toBe(false);
+      expect(element).not.toHaveAttribute('data-controller');
+      expect(element).not.toHaveAttribute('data-action');
+      expect(element).not.toHaveAttribute('data-sortable-lists--item-target');
+      expect(element).not.toHaveAttribute('data-dragging');
+      expect(element).not.toHaveAttribute('data-drop-position');
+      expect(element).not.toHaveAttribute('data-drop-position-owner');
+      expect(element).not.toHaveAttribute('aria-current');
+      expect(element).not.toHaveAttribute('aria-roledescription');
     });
 
     it('strips dynamic target attributes from descendants', () => {
@@ -116,8 +114,8 @@ describe('sortable lists drag preview', () => {
       expect(preview).not.toBe(target);
       expect(preview.tagName).toEqual('ARTICLE');
       expect(preview.style.width).toEqual('320px');
-      expect(preview.hasAttribute('data-preview')).toBe(true);
-      expect(preview.hasAttribute('data-controller')).toBe(false);
+      expect(preview).toHaveAttribute('data-preview');
+      expect(preview).not.toHaveAttribute('data-controller');
     });
 
     it('zeroes the clone margin so source spacing utilities render no whitespace', () => {
@@ -153,8 +151,8 @@ describe('sortable lists drag preview', () => {
 
       renderDragPreview({ previewTarget: target, sourceElement: target, container });
 
-      expect(container.classList.contains('Box--condensed')).toBe(true);
-      expect(container.classList.contains('Box--spacious')).toBe(false);
+      expect(container).toHaveClass('Box--condensed');
+      expect(container).not.toHaveClass('Box--spacious');
     });
 
     it('adds no density class when the Box carries none', () => {
@@ -167,8 +165,227 @@ describe('sortable lists drag preview', () => {
 
       renderDragPreview({ previewTarget: target, sourceElement: target, container });
 
-      expect(container.classList.contains('Box--condensed')).toBe(false);
-      expect(container.classList.contains('Box--spacious')).toBe(false);
+      expect(container).not.toHaveClass('Box--condensed');
+      expect(container).not.toHaveClass('Box--spacious');
+    });
+
+    describe('batch count badge', () => {
+
+      it('adds no badge for a single-card drag (the default)', () => {
+        const target = withWidth(previewTarget(), 320);
+        const container = document.createElement('div');
+
+        renderDragPreview({ previewTarget: target, sourceElement: target, container });
+
+        expect(within(container).queryByText('1')).toBeNull();
+        expect(container.style.paddingTop).toEqual('');
+        expect(container.style.paddingRight).toEqual('');
+        expect(container.style.paddingBottom).toEqual('');
+      });
+
+      it('adds no badge when batchSize is explicitly 1', () => {
+        const target = withWidth(previewTarget(), 320);
+        const container = document.createElement('div');
+
+        renderDragPreview({
+          previewTarget: target, sourceElement: target, container, batchSize: 1,
+        });
+
+        expect(within(container).queryByText('1')).toBeNull();
+      });
+
+      it('adds a badge with the batch count inside the container for a multi-card drag', () => {
+        const target = withWidth(previewTarget(), 320);
+        const container = document.createElement('div');
+
+        renderDragPreview({
+          previewTarget: target, sourceElement: target, container, batchSize: 3,
+        });
+
+        expect(container).toContainElement(within(container).getByText('3'));
+      });
+
+      it('carries the Primer Counter classes and the batch-badge class', () => {
+        const target = withWidth(previewTarget(), 320);
+        const container = document.createElement('div');
+
+        renderDragPreview({
+          previewTarget: target, sourceElement: target, container, batchSize: 3,
+        });
+
+        expect(within(container).getByText('3'))
+          .toHaveClass('Counter', 'Counter--primary', 'op-sortable-lists-drag-preview-batch-badge');
+      });
+
+      it('anchors the badge to the container without disturbing the already-appended preview clone', () => {
+        const target = withWidth(previewTarget(), 320);
+        const container = document.createElement('div');
+
+        renderDragPreview({
+          previewTarget: target, sourceElement: target, container, batchSize: 3,
+        });
+
+        // The preview clone survives lit-html's render() alongside the badge:
+        // both are present in the container at once.
+        expect(container).toContainElement(container.querySelector('[data-preview]'));
+        expect(container).toContainElement(within(container).getByText('3'));
+      });
+
+      // The padding holds the badge's overhang inside the container's border
+      // box. It has to be written inline and after Pragmatic's own popover
+      // reset (padding: 0), which the pre-zeroed padding here reproduces. The
+      // widths stay in drag_and_drop.sass, so what is written is a reference
+      // to its tokens rather than a length.
+      it('pads the container inline past Pragmatic popover reset for a multi-card drag', () => {
+        const target = withWidth(previewTarget(), 320);
+        const container = document.createElement('div');
+        container.style.padding = '0';
+
+        renderDragPreview({
+          previewTarget: target, sourceElement: target, container, batchSize: 3,
+        });
+
+        expect(container.style.position).toEqual('relative');
+        expect(container.style.paddingTop).toEqual('var(--op-drag-badge-overhang)');
+        expect(container.style.paddingRight).toEqual('var(--op-drag-stack-overhang)');
+        expect(container.style.paddingBottom).toEqual('var(--op-drag-stack-overhang)');
+        expect(container.style.paddingLeft).toEqual('0px');
+      });
+
+      it('omits the badge when showBatchBadge is false', () => {
+        const target = withWidth(previewTarget(), 320);
+        const container = document.createElement('div');
+
+        renderDragPreview({
+          previewTarget: target, sourceElement: target, container, batchSize: 3, showBatchBadge: false,
+        });
+
+        expect(within(container).queryByText('3')).toBeNull();
+      });
+
+      it('keeps the stack without the badge overhang when showBatchBadge is false', () => {
+        const target = withWidth(previewTarget(), 320);
+        const container = document.createElement('div');
+        container.style.padding = '0';
+
+        renderDragPreview({
+          previewTarget: target, sourceElement: target, container, batchSize: 3, showBatchBadge: false,
+        });
+
+        expect(container.querySelector('[data-preview]')).toHaveAttribute('data-stack-depth', '2');
+        expect(container.style.position).toEqual('');
+        expect(container.style.paddingTop).toEqual('0px');
+        expect(container.style.paddingRight).toEqual('var(--op-drag-stack-overhang)');
+        expect(container.style.paddingBottom).toEqual('var(--op-drag-stack-overhang)');
+      });
+
+      it('anchors the badge to the grab point when badgeAnchor is provided', () => {
+        const target = withWidth(previewTarget(), 320);
+        const container = document.createElement('div');
+
+        renderDragPreview({
+          previewTarget: target,
+          sourceElement: target,
+          container,
+          batchSize: 3,
+          badgeAnchor: { x: 40, y: 30 },
+        });
+
+        const badge = within(container).getByText('3');
+        expect(badge).toHaveAttribute('data-cursor-anchored');
+        expect(badge.style.getPropertyValue('--op-drag-badge-x')).toEqual('40px');
+        expect(badge.style.getPropertyValue('--op-drag-badge-y')).toEqual('30px');
+      });
+
+      it('leaves the badge unanchored when badgeAnchor is omitted', () => {
+        const target = withWidth(previewTarget(), 320);
+        const container = document.createElement('div');
+
+        renderDragPreview({
+          previewTarget: target, sourceElement: target, container, batchSize: 3,
+        });
+
+        const badge = within(container).getByText('3');
+        expect(badge).not.toHaveAttribute('data-cursor-anchored');
+        expect(badge).not.toHaveAttribute('style');
+      });
+    });
+
+    describe('batch stack', () => {
+      const previewIn = (container:HTMLElement) => container.querySelector('[data-preview]');
+
+      it('leaves the clone unstacked for a single-card drag (the default)', () => {
+        const target = withWidth(previewTarget(), 320);
+        const container = document.createElement('div');
+
+        renderDragPreview({ previewTarget: target, sourceElement: target, container });
+
+        expect(previewIn(container)).not.toHaveAttribute('data-stack-depth');
+      });
+
+      it('leaves the clone unstacked when batchSize is explicitly 1', () => {
+        const target = withWidth(previewTarget(), 320);
+        const container = document.createElement('div');
+
+        renderDragPreview({
+          previewTarget: target, sourceElement: target, container, batchSize: 1,
+        });
+
+        expect(previewIn(container)).not.toHaveAttribute('data-stack-depth');
+      });
+
+      it.each([
+        [2, '1'],
+        [3, '2'],
+        [4, '3'],
+      ])('gives a batch of %i a layer per card behind the front one', (batchSize, depth) => {
+        const target = withWidth(previewTarget(), 320);
+        const container = document.createElement('div');
+
+        renderDragPreview({
+          previewTarget: target, sourceElement: target, container, batchSize,
+        });
+
+        expect(previewIn(container)).toHaveAttribute('data-stack-depth', depth);
+      });
+
+      // Capping how deep the stack draws belongs to the stylesheet, which
+      // holds every depth past its layers at the deepest one it has.
+      it('passes a large batch through uncapped', () => {
+        const target = withWidth(previewTarget(), 320);
+        const container = document.createElement('div');
+
+        renderDragPreview({
+          previewTarget: target, sourceElement: target, container, batchSize: 27,
+        });
+
+        expect(previewIn(container)).toHaveAttribute('data-stack-depth', '26');
+      });
+
+      it('stacks the clone for a multi-card drag without disturbing its own classes', () => {
+        const target = withWidth(previewTarget(), 320);
+        target.classList.add('op-card');
+        const container = document.createElement('div');
+
+        renderDragPreview({
+          previewTarget: target, sourceElement: target, container, batchSize: 3,
+        });
+
+        expect(previewIn(container)).toHaveAttribute('data-stack-depth', '2');
+        expect(previewIn(container)).toHaveClass('op-card');
+      });
+
+      it('adds no element for the layers, so the container holds only the clone and the badge', () => {
+        const target = withWidth(previewTarget(), 320);
+        const container = document.createElement('div');
+
+        renderDragPreview({
+          previewTarget: target, sourceElement: target, container, batchSize: 3,
+        });
+
+        expect(container.querySelectorAll('[data-preview]')).toHaveLength(1);
+        expect(container.children).toHaveLength(2);
+      });
     });
   });
 });

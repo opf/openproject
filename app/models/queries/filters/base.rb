@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -69,6 +68,11 @@ class Queries::Filters::Base
     new(name, options)
   end
 
+  ##
+  # Key under which saved queries persist this filter when it stands in for
+  # another filter; +nil+ means the filter is stored under its own key.
+  def self.stored_key = nil
+
   def [](name)
     send(name)
   end
@@ -94,6 +98,10 @@ class Queries::Filters::Base
 
   def available?
     true
+  end
+
+  def required?
+    false
   end
 
   def available_operators

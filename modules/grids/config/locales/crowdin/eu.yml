@@ -31,7 +31,7 @@ eu:
         title: Members
         view_all_members: View all members
         x_more:
-          one: and one more member.
+          one: and %{count} more member.
           other: and %{count} more members.
       news:
         no_results: Nothing new to report.

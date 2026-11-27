@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -34,7 +33,7 @@ require "features/work_packages/shared_contexts"
 require "support/edit_fields/edit_field"
 require "features/work_packages/work_packages_page"
 
-RSpec.describe "description inplace editor", :js, :selenium do
+RSpec.describe "description inplace editor", :js do
   let(:project) { create(:project_with_types, public: true) }
   let(:property_name) { :description }
   let(:property_title) { "Description" }
@@ -48,7 +47,7 @@ RSpec.describe "description inplace editor", :js, :selenium do
   end
   let(:user) { create(:admin) }
   let(:field) { TextEditorField.new wp_page, "description" }
-  let(:wp_page) { Pages::SplitWorkPackage.new(work_package, project) }
+  let(:wp_page) { Pages::PrimerizedSplitWorkPackage.new(work_package, project) }
 
   before do
     login_as(user)
@@ -62,7 +61,7 @@ RSpec.describe "description inplace editor", :js, :selenium do
       field.expect_state_text(description_text)
 
       # Regression test #24033
-      # Cancelling an edition several tiems properly resets the value
+      # Cancelling an edition several times properly resets the value
       field.activate!
 
       field.set_value "My intermittent edit 1"

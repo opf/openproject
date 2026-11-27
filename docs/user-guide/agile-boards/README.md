@@ -44,9 +44,13 @@ You can create as many Agile boards in a project as you need and configure them 
 
 ![create a new board in the boards module](create-a-new-board-in-the-boards-module.png)
 
+Another way to create a board is by clicking the **+ (Plus)** button in the top right corner of the header navigation. 
+
+![Header navigation showing the plus button used to create a new board](OpenProject_user_guide_boards_project_header.png)
+
 ## Choose between board types
 
-Choose the board type and title.
+Choose the **Board type** and enter a **Title**. If you create the board using the plus button in the header navigation, you also need to select a **Project** from the dropdown menu.
 
 ![Create a new board in OpenProject](choose-board-type.png)
 
@@ -69,7 +73,7 @@ Each list represents a status. That means that all work packages with the status
 When creating a new Kanban board a list of all work packages in the default status (usually this is the status "New") will be added automatically, while additional lists need to be added manually. 
 
 > [!TIP]
-> You can not move work packages from or to every status. Please find out more about the [workflow rules and restrictions here](../../system-admin-guide/manage-work-packages/work-package-types/workflows).
+> You can not move work packages from or to every status. Please find out more about the [workflow rules and restrictions here](../../system-admin-guide/manage-work-packages/work-package-workflows).
 
 ![Example of a Kanban board in OpenProject boards module](openproject_userguide_boards_kanban.png)
 
@@ -104,7 +108,7 @@ Please note: This will only display one hierarchy level below the displayed work
 
 Choose a meaningful title for your Board so that it is clear, e.g. for other team members, what you want to do.
 
-![boards title](boards-title-2111905.png)
+![boards title](boards-title.png)
 
 ## Add lists to your board
 
@@ -157,9 +161,9 @@ Apart from the Status board you can **update a work package's status** directly 
 
 ![boards-select-status-from-card](boards-select-status-from-card.png)
 
-A **double click on a card** will open the work package's **fullscreen view.** The **arrow** on top will bring you back to the boards view.
+A **double click on a card** will open the work package's **fullscreen view.** 
 
-![back-to-boards-view-button](back-to-boards-view-button.png)
+![Work package opened in full-screen view from an Agile board](open-full-screen-view.png)
 
 Clicking on **Open details view** (the blue "**i**") will open the work package's [split screen view](../work-packages/work-package-views/#split-screen-view). You can close it by clicking on the **"x"** in its upper right corner.
 
@@ -179,11 +183,11 @@ Removing a card will not delete the work package, you can still add it back to t
 
 To **create new** boards, **open existing** boards, or **delete** boards, navigate to the main Boards menu item.
 
- ![OpenProject-manage-boards](OpenProject-manage-boards-1568640234856.png)
+ ![OpenProject-manage-boards](OpenProject-manage-boards.png)
 
 Verify and **update roles and permissions for boards** in the [system's administration](../../system-admin-guide/users-permissions/) if necessary.
 
-![roles and permissions](image-20201006120925442.png)
+![roles and permissions](update-roles-and-permissions-for-boards.png)
 
 ## Agile boards examples
 

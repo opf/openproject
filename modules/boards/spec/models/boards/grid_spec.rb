@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -88,6 +87,18 @@ RSpec.describe Boards::Grid do
 
         expect(instance.board_type_attribute).to eq("status")
       end
+    end
+  end
+
+  describe "order by name" do
+    let(:project) { create(:project) }
+
+    it "orders numbers naturally" do
+      board10 = create(:board_grid, project:, name: "Board 10")
+      board2 = create(:board_grid, project:, name: "Board 2")
+      board1 = create(:board_grid, project:, name: "Board 1")
+
+      expect(described_class.order(:name)).to eq([board1, board2, board10])
     end
   end
 

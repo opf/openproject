@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -116,6 +115,16 @@ RSpec.describe Journal::ProjectJournal do
 
         context "with a non-existing custom field (or deleted)" do
           shared_let(:key) { "custom_fields_#{custom_field.id + 1}" }
+
+          it "renders permission denied" do
+            expect(subject).not_to include(custom_field.name)
+            expect(subject).to include(I18n.t(:text_journal_permission_denied))
+          end
+        end
+
+        context "with an admin only custom field" do
+          shared_let(:custom_field) { create(:string_project_custom_field, :admin_only) }
+          shared_let(:key) { "custom_fields_#{custom_field.id}" }
 
           it "renders permission denied" do
             expect(subject).not_to include(custom_field.name)

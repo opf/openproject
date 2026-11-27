@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -34,6 +33,7 @@ export const triggerEditingEvent = 'op:selectableTitle:trigger';
 export const selectableTitleIdentifier = 'editable-toolbar-title';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'editable-toolbar-title',
   templateUrl: './editable-toolbar-title.html',
   styleUrls: ['./editable-toolbar-title.sass'],
@@ -47,7 +47,8 @@ export class EditableToolbarTitleComponent implements OnInit, OnChanges {
   readonly injector = inject(Injector);
   private cdRef = inject(ChangeDetectorRef);
 
-  @Input('title') public inputTitle:string;
+  // eslint-disable-next-line @angular-eslint/no-input-rename
+  @Input('title') public inputTitle?:string;
 
   @Input() public editable = true;
 
@@ -59,8 +60,10 @@ export class EditableToolbarTitleComponent implements OnInit, OnChanges {
 
   @Input() public smallHeader = false;
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onSave = new EventEmitter<string>();
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onEmptySubmit = new EventEmitter<void>();
 
   @HostBinding('class.title-container') baseClass = true;
@@ -72,7 +75,7 @@ export class EditableToolbarTitleComponent implements OnInit, OnChanges {
 
   @ViewChild('editableTitleInput') inputField?:ElementRef<HTMLInputElement>;
 
-  public selectedTitle:string;
+  public selectedTitle?:string;
 
   public selectableTitleIdentifier = selectableTitleIdentifier;
 
@@ -112,7 +115,7 @@ export class EditableToolbarTitleComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes:SimpleChanges):void {
     if (changes.inputTitle) {
-      this.selectedTitle = changes.inputTitle.currentValue;
+      this.selectedTitle = this.inputTitle;
     }
 
     if (changes.initialFocus && changes.initialFocus.firstChange && this.inputField!) {
@@ -154,7 +157,7 @@ export class EditableToolbarTitleComponent implements OnInit, OnChanges {
     $event.preventDefault();
 
     this.resetInputField();
-    this.selectedTitle = this.selectedTitle.trim();
+    this.selectedTitle = (this.selectedTitle ?? '').trim();
 
     // If the title is empty, show an error
     if (this.isEmpty) {

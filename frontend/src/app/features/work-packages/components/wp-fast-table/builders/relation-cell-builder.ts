@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -36,6 +35,8 @@ import { States } from 'core-app/core/states/states.service';
 import { WorkPackageRelationsService } from '../../wp-relations/wp-relations.service';
 import { QueryColumn, queryColumnTypes } from '../../wp-query/query-column';
 import { tdClassName } from './cell-builder';
+import { navigableCellClassName } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/roving-tabindex';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 export const relationCellTdClassName = 'wp-table--relation-cell-td';
 export const relationCellIndicatorClassName = 'wp-table--relation-indicator';
@@ -47,6 +48,8 @@ export class RelationCellbuilder {
 
   @LazyInject() wpTableRelationColumns:WorkPackageViewRelationColumnsService;
 
+  @LazyInject() I18n!:I18nService;
+
   constructor(public readonly injector:Injector) {
   }
 
@@ -54,6 +57,8 @@ export class RelationCellbuilder {
     const td = document.createElement('td');
     td.classList.add(tdClassName, relationCellTdClassName, column.id);
     td.dataset.columnId = column.id;
+
+    td.classList.add(navigableCellClassName);
 
     // Get current expansion and value state
     const expanded = this.wpTableRelationColumns.getExpandFor(workPackage.id!) === column.id;
@@ -72,7 +77,7 @@ export class RelationCellbuilder {
       count = relations.length;
     }
 
-    const indicator = this.renderIndicator();
+    const indicator = this.renderIndicator(workPackage, column, expanded);
     const badge = this.renderBadge(count);
 
     if (expanded) {
@@ -87,13 +92,18 @@ export class RelationCellbuilder {
     return td;
   }
 
-  private renderIndicator() {
-    const indicator = document.createElement('span');
-    indicator.classList.add(relationCellIndicatorClassName);
-    indicator.setAttribute('aria-hidden', 'true');
-    indicator.setAttribute('tabindex', '0');
+  private renderIndicator(workPackage:WorkPackageResource, column:QueryColumn, expanded:boolean) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.classList.add(relationCellIndicatorClassName);
+    button.setAttribute('tabindex', '-1');
+    button.setAttribute('aria-expanded', expanded.toString());
+    button.setAttribute('aria-label', this.I18n.t('js.work_packages.table.relations_button', {
+      column: column.name,
+      work_package: workPackage.formattedId,
+    }));
 
-    return indicator;
+    return button;
   }
 
   private renderBadge(count:number) {

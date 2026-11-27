@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -32,7 +31,6 @@ import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-ev
 import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { AbstractDateTimeValueController } from '../abstract-filter-date-time-value/abstract-filter-date-time-value.controller';
-import { validDate } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
 
 @Component({
   selector: 'op-filter-date-times-value',
@@ -90,45 +88,5 @@ export class FilterDateTimesValueComponent extends AbstractDateTimeValueControll
       return this.timezoneService.parseDatetime(this.end.toString());
     }
     return null;
-  }
-
-  public parseBegin(date:string|null) {
-    if (date === null || !validDate(date)) {
-      return;
-    }
-
-    if (date === '') {
-      this.begin = date;
-    } else {
-      const parsed = this
-        .timezoneService
-        .parseISODatetime(date)
-        .startOf('day')
-        .utc();
-
-      this.begin = this.timezoneService.formattedISODateTime(parsed);
-    }
-  }
-
-  public parseEnd(date:string|null) {
-    if (date === null || !validDate(date)) {
-      return;
-    }
-
-    if (date === '') {
-      this.end = date;
-    } else {
-      const parsed = this
-        .timezoneService
-        .parseISODatetime(date)
-        .endOf('day')
-        .utc();
-
-      this.end = this.timezoneService.formattedISODateTime(parsed);
-    }
-  }
-
-  public formatter(data:string[]):string[] {
-    return data.map((date) => this.isoDateFormatter(date));
   }
 }

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,35 +31,20 @@ class MessagesController < ApplicationController
   menu_item :forums
   default_search_scope :messages
   before_action :find_project_and_forum
-  before_action :find_message, only: %i[show edit update destroy reply quote]
+  before_action :find_message, only: %i[show edit update destroy reply quote replies]
   before_action :authorize, except: %i[edit update destroy]
   # Checked inside the method.
   no_authorization_required! :edit, :update, :destroy
 
   include AttachmentsHelper
-  include PaginationHelper
-
-  REPLIES_PER_PAGE = 100 unless const_defined?(:REPLIES_PER_PAGE)
+  include OpTurbo::ComponentStream
 
   # Show a topic and its replies
-  def show # rubocop:disable Metrics/AbcSize
+  def show
     @topic = @message.root
+    load_thread(target_id: params[:r])
 
-    @offset = params[:page]
-    # Find the page of the requested reply
-    if params[:r] && @offset.nil?
-      offset = @topic.children.where(["#{Message.table_name}.id < ?", params[:r].to_i]).count
-      @offset = 1 + (offset / REPLIES_PER_PAGE)
-    end
-
-    @replies = @topic
-               .children
-               .includes(:author, :attachments, :project, forum: :project)
-               .order(created_at: :asc)
-               .page(@offset)
-               .per_page(per_page_param)
-
-    @reply = Message.new(subject: "RE: #{@message.subject}", parent: @topic, forum: @topic.forum)
+    @reply = Message.new(parent: @topic, forum: @topic.forum)
     render action: "show", layout: !request.xhr?
   end
 
@@ -104,8 +88,11 @@ class MessagesController < ApplicationController
 
     if call.success?
       call_hook(:controller_messages_reply_after_save, params:, message: @reply)
+      redirect_to helpers.message_anchor_path(@reply)
+    else
+      load_thread
+      render action: :show, status: :unprocessable_entity
     end
-    redirect_to project_forum_topic_path(@project, @forum, @topic, r: @reply)
   end
 
   # Edit a message
@@ -141,17 +128,35 @@ class MessagesController < ApplicationController
   end
 
   def quote
-    subject = @message.subject
-    subject = "RE: #{subject}" unless subject.starts_with?("RE:")
     content = build_quote(author: @message.author, text: @message.content)
 
     respond_to do |format|
-      format.json { render json: { subject:, content: }, escape: true }
+      format.json { render json: { content: }, escape: true }
       format.any { head :not_acceptable }
     end
   end
 
+  def replies # rubocop:disable Metrics/AbcSize
+    topic = @message.root
+    segments = Messages::ThreadLayout.new(topic).gap_segments(after_id: params[:after], before_id: params[:before])
+    created_work_packages = Messages::CreatedWorkPackagesQuery.for_messages(replies_in(segments), user: current_user)
+    content = Messages::ThreadSegmentsComponent.new(topic:, segments:, created_work_packages:, focus_first: true)
+
+    turbo_streams << turbo_stream.replace(Messages::RepliesGapComponent.dom_id(params[:after], params[:before]), content)
+    respond_with_turbo_streams
+  end
+
   private
+
+  def load_thread(target_id: nil)
+    @segments = Messages::ThreadLayout.new(@topic).segments(target_id:)
+    @created_work_packages = Messages::CreatedWorkPackagesQuery.for_messages([@topic, *replies_in(@segments)],
+                                                                             user: current_user)
+  end
+
+  def replies_in(segments)
+    segments.grep(Messages::ThreadLayout::Replies).flat_map(&:messages)
+  end
 
   def find_project_and_forum
     @project = Project.visible.find(params[:project_id])
@@ -181,7 +186,7 @@ class MessagesController < ApplicationController
   end
 
   def create_reply(forum, parent)
-    create_message(forum, permitted_params.reply.merge(parent:))
+    create_message(forum, permitted_params.reply.merge(parent:, subject: "RE: #{parent.subject}".truncate(255)))
   end
 
   def build_quote(author:, text:)

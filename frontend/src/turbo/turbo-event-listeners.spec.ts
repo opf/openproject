@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -76,6 +75,28 @@ describe('addTurboEventListeners — dialog close on turbo:submit-end', () => {
 
     expect(dialog.open).toBe(true);
     expect(onClose).not.toHaveBeenCalled();
+  });
+
+  it('keeps the dialog open when an element inside it around the form sets data-keep-open-on-submit', () => {
+    document.body.innerHTML = '<dialog><div data-keep-open-on-submit="true"><form></form></div></dialog>';
+    const dialog = document.querySelector('dialog')!;
+    const form = document.querySelector('form')!;
+    dialog.showModal();
+
+    submitEnd(form, true);
+
+    expect(dialog.open).toBe(true);
+  });
+
+  it('closes the dialog when only an element outside it sets data-keep-open-on-submit', () => {
+    document.body.innerHTML = '<div data-keep-open-on-submit="true"><dialog><form></form></dialog></div>';
+    const dialog = document.querySelector('dialog')!;
+    const form = document.querySelector('form')!;
+    dialog.showModal();
+
+    submitEnd(form, true);
+
+    expect(dialog.open).toBe(false);
   });
 
   it('does nothing when the submit was not successful', () => {

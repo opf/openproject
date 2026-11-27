@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,15 +32,15 @@ class Projects::CreationWizardStatusComponent < ApplicationComponent
   include ProjectsHelper
 
   attr_reader :project, :current_user,
-              :artifact_id, :artifact_work_package
+              :artefact_id, :artefact_work_package
 
   def initialize(project:, current_user: User.current)
     super
 
     @project = project
     @current_user = current_user
-    @artifact_id = project.project_creation_wizard_artifact_work_package_id.presence
-    @artifact_work_package = find_artifact if artifact_id.present?
+    @artefact_id = project.project_creation_wizard_artifact_work_package_id.presence
+    @artefact_work_package = find_artefact if artefact_id.present?
   end
 
   def before_render
@@ -52,7 +51,7 @@ class Projects::CreationWizardStatusComponent < ApplicationComponent
   def render?
     return false unless project.project_creation_wizard_enabled
 
-    if artifact_id
+    if artefact_id
       current_user.allowed_in_project?(:view_work_packages, project)
     else
       current_user.allowed_in_project?(:edit_project_attributes, project)
@@ -62,7 +61,7 @@ class Projects::CreationWizardStatusComponent < ApplicationComponent
   private
 
   def set_status_text
-    if artifact_id
+    if artefact_id
       t("settings.project_initiation_request.status.submitted",
         wizard_name: project_creation_wizard_name(project))
     else
@@ -72,14 +71,14 @@ class Projects::CreationWizardStatusComponent < ApplicationComponent
   end
 
   def set_status_explanation
-    if artifact_work_package
+    if artefact_work_package
       t("settings.project_initiation_request.status.submitted_description")
-    elsif !artifact_id
+    elsif !artefact_id
       t("settings.project_initiation_request.status.not_completed_description")
     end
   end
 
-  def find_artifact
-    WorkPackage.visible.find_by(id: artifact_id)
+  def find_artefact
+    WorkPackage.visible.find_by(id: artefact_id)
   end
 end

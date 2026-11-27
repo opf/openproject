@@ -1,0 +1,498 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+import type { MockInstance } from 'vitest';
+import { fireEvent, screen, waitFor } from '@testing-library/dom';
+import { TestBed } from '@angular/core/testing';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
+import { buildTable, TableHarness, TableHarnessOptions } from 'core-app/features/work-packages/components/wp-fast-table/testing/table-harness';
+import { KeyboardShortcutService } from './keyboard-shortcut.service';
+
+describe('KeyboardShortcutService', () => {
+  let service:KeyboardShortcutService;
+  const harnesses:TableHarness[] = [];
+  const outsideButtons:HTMLButtonElement[] = [];
+
+  let fixture:HTMLElement;
+  let projectMeta:HTMLMetaElement|undefined;
+  let visit:MockInstance<typeof Turbo.visit>;
+
+  const inProject = (identifier:string) => {
+    projectMeta = document.createElement('meta');
+    projectMeta.name = 'current_project';
+    projectMeta.dataset.projectId = '1';
+    projectMeta.dataset.projectName = 'Demo';
+    projectMeta.dataset.projectIdentifier = identifier;
+    document.head.append(projectMeta);
+  };
+
+  const followed = (name:string) => {
+    const onClick = vi.fn((event:Event) => event.preventDefault());
+    screen.getByRole('link', { name }).addEventListener('click', onClick);
+    return onClick;
+  };
+
+  const outsideButton = () => {
+    const button = document.createElement('button');
+    outsideButtons.push(button);
+    return button;
+  };
+
+  const mountTable = async (ids:string[], options:Partial<TableHarnessOptions> = {}) => {
+    const table = buildTable({
+      workPackages: ids.map((id) => ({ id })),
+      productionMarkup: true,
+      ...options,
+      configuration: { inlineCreateEnabled: true },
+    });
+    harnesses.push(table);
+    table.tbody.closest('table')!.classList.add('keyboard-accessible-list');
+    await table.render();
+    return table;
+  };
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: FocusHelperService, useValue: {} },
+        { provide: ApiV3Service, useValue: {} },
+        { provide: ConfigurationService, useValue: {} },
+      ],
+    });
+    service = TestBed.inject(KeyboardShortcutService);
+    fixture = document.createElement('div');
+    document.body.append(fixture);
+    visit = vi.spyOn(Turbo, 'visit').mockImplementation(() => undefined);
+  });
+
+  afterEach(async () => {
+    await Promise.all(harnesses.splice(0).map((table) => table.destroy()));
+    outsideButtons.splice(0).forEach((button) => button.remove());
+    visit.mockRestore();
+    fixture.remove();
+    projectMeta?.remove();
+    projectMeta = undefined;
+  });
+
+  describe('focusNextItem', () => {
+    it('moves within the table that holds focus', async () => {
+      await mountTable(['1', '2', '3']);
+      const second = await mountTable(['4', '5', '6']);
+      second.row('4').focus();
+
+      service.focusNextItem();
+
+      expect(second.row('5')).toHaveFocus();
+      expect(second.row('5')).toHaveAttribute('tabindex', '0');
+    });
+
+    it('starts at the first row of the first table when nothing holds focus', async () => {
+      const first = await mountTable(['1', '2', '3']);
+      await mountTable(['4', '5', '6']);
+      document.body.focus();
+
+      service.focusNextItem();
+
+      expect(first.row('1')).toHaveFocus();
+    });
+
+    it('enters the table that follows focus outside every table', async () => {
+      const first = await mountTable(['1', '2', '3']);
+      const second = await mountTable(['4', '5', '6']);
+      const between = outsideButton();
+      first.tbody.closest('table')!.after(between);
+      between.focus();
+
+      service.focusNextItem();
+
+      expect(second.row('4')).toHaveFocus();
+    });
+
+    it('passes over a hidden table that follows focus', async () => {
+      const first = await mountTable(['1', '2', '3']);
+      const hidden = await mountTable(['4', '5', '6']);
+      const third = await mountTable(['7', '8', '9']);
+      hidden.tbody.closest('table')!.style.display = 'none';
+      const between = outsideButton();
+      first.tbody.closest('table')!.after(between);
+      between.focus();
+
+      service.focusNextItem();
+
+      expect(third.row('7')).toHaveFocus();
+    });
+
+    it('falls back to the first table when no table follows focus', async () => {
+      const first = await mountTable(['1', '2', '3']);
+      await mountTable(['4', '5', '6']);
+      const after = outsideButton();
+      document.body.append(after);
+      after.focus();
+
+      service.focusNextItem();
+
+      expect(first.row('1')).toHaveFocus();
+    });
+
+    it('stays on the last work package row instead of entering the create row', async () => {
+      const first = await mountTable(['1', '2', '3']);
+      const createRow = first.tbody.closest('table')!.querySelector<HTMLElement>('tbody[wpInlineCreate] > tr')!;
+      createRow.setAttribute('tabindex', '-1');
+      expect(createRow).toBeVisible();
+      first.row('3').focus();
+
+      service.focusNextItem();
+
+      expect(first.row('3')).toHaveFocus();
+    });
+  });
+
+  describe('from the totals row', () => {
+    it('moves up to the last work package row and stays on the totals row going down', async () => {
+      const table = await mountTable(['1', '2', '3']);
+      const totalsCell = table.totalsRow().cells[0];
+      totalsCell.tabIndex = -1;
+
+      totalsCell.focus();
+      service.focusPrevItem();
+      expect(table.row('3')).toHaveFocus();
+
+      totalsCell.focus();
+      service.focusNextItem();
+      expect(totalsCell).toHaveFocus();
+    });
+  });
+
+  describe('in a grouped table', () => {
+    const groupedOptions:Partial<TableHarnessOptions> = {
+      workPackages: [
+        { id: '1', attributes: { status: { href: '/api/v3/statuses/1' } } },
+        { id: '2', attributes: { status: { href: '/api/v3/statuses/2' } } },
+      ],
+      groups: [
+        { value: 'One', href: '/api/v3/statuses/1', count: 1 },
+        { value: 'Two', href: '/api/v3/statuses/2', count: 1 },
+      ],
+    };
+
+    it('skips the sums row that ends a group', async () => {
+      const table = await mountTable([], {
+        ...groupedOptions,
+        groups: [
+          { value: 'One', href: '/api/v3/statuses/1', count: 1, sums: { storyPoints: 13 } },
+          { value: 'Two', href: '/api/v3/statuses/2', count: 1, sums: { storyPoints: 21 } },
+        ],
+      });
+      const sumsRow = table.row('1').nextElementSibling as HTMLElement;
+      expect(sumsRow).toHaveClass('wp-table--sums-row');
+      expect(sumsRow).toBeVisible();
+      table.row('1').focus();
+
+      service.focusNextItem();
+
+      expect(table.groupHeader(1)).toHaveFocus();
+    });
+
+    it('moves on from a focused sums row in both directions', async () => {
+      const table = await mountTable([], {
+        ...groupedOptions,
+        groups: [
+          { value: 'One', href: '/api/v3/statuses/1', count: 1, sums: { storyPoints: 13 } },
+          { value: 'Two', href: '/api/v3/statuses/2', count: 1, sums: { storyPoints: 21 } },
+        ],
+      });
+      const sumsCell = (table.row('1').nextElementSibling as HTMLTableRowElement).cells[0];
+      sumsCell.tabIndex = -1;
+
+      sumsCell.focus();
+      service.focusNextItem();
+      expect(table.groupHeader(1)).toHaveFocus();
+
+      sumsCell.focus();
+      service.focusPrevItem();
+      expect(table.row('1')).toHaveFocus();
+    });
+
+    it('walks from a group header to the next group header, skipping the rows of a collapsed group', async () => {
+      const table = await mountTable([], groupedOptions);
+      table.groupHeader(0).focus();
+      fireEvent.keyDown(document.activeElement!, { key: 'ArrowLeft' });
+      await waitFor(() => expect(table.row('1')).not.toBeVisible());
+
+      service.focusNextItem();
+
+      expect(table.groupHeader(1)).toHaveFocus();
+
+      service.focusPrevItem();
+
+      expect(table.groupHeader(0)).toHaveFocus();
+    });
+  });
+
+  describe('focusPrevItem', () => {
+    it('moves up within the table that holds focus', async () => {
+      await mountTable(['1', '2', '3']);
+      const second = await mountTable(['4', '5', '6']);
+      second.row('6').focus();
+
+      service.focusPrevItem();
+
+      expect(second.row('5')).toHaveFocus();
+    });
+
+    it('enters the table that precedes focus outside every table at its last row', async () => {
+      const first = await mountTable(['1', '2', '3']);
+      await mountTable(['4', '5', '6']);
+      const between = outsideButton();
+      first.tbody.closest('table')!.after(between);
+      between.focus();
+
+      service.focusPrevItem();
+
+      expect(first.row('3')).toHaveFocus();
+    });
+
+    it('enters the last row of the nearest table above focus after every table', async () => {
+      await mountTable(['1', '2', '3']);
+      const second = await mountTable(['4', '5', '6']);
+      const after = outsideButton();
+      document.body.append(after);
+      after.focus();
+
+      service.focusPrevItem();
+
+      expect(second.row('6')).toHaveFocus();
+    });
+  });
+
+  describe('accessKey', () => {
+    it('clicks the element with the matching access key', () => {
+      const moreButton = outsideButton();
+      moreButton.setAttribute('accesskey', '7');
+      const onClick = vi.fn();
+      moreButton.addEventListener('click', onClick);
+      document.body.append(moreButton);
+
+      service.accessKey('moreMenu')();
+
+      expect(onClick).toHaveBeenCalledOnce();
+    });
+
+    it('clicks the first visible element with the access key', () => {
+      const hidden = outsideButton();
+      hidden.setAttribute('accesskey', '3');
+      hidden.hidden = true;
+      const visible = outsideButton();
+      visible.setAttribute('accesskey', '3');
+      const onHiddenClick = vi.fn();
+      const onVisibleClick = vi.fn();
+      hidden.addEventListener('click', onHiddenClick);
+      visible.addEventListener('click', onVisibleClick);
+      document.body.append(hidden, visible);
+
+      service.accessKey('edit')();
+
+      expect(onVisibleClick).toHaveBeenCalledOnce();
+      expect(onHiddenClick).not.toHaveBeenCalled();
+    });
+
+    it('falls back to the first element when none is visible', () => {
+      const first = outsideButton();
+      const second = outsideButton();
+      const onFirstClick = vi.fn();
+      const onSecondClick = vi.fn();
+      [first, second].forEach((button) => {
+        button.setAttribute('accesskey', '3');
+        button.hidden = true;
+      });
+      first.addEventListener('click', onFirstClick);
+      second.addEventListener('click', onSecondClick);
+      document.body.append(first, second);
+
+      service.accessKey('edit')();
+
+      expect(onFirstClick).toHaveBeenCalledOnce();
+      expect(onSecondClick).not.toHaveBeenCalled();
+    });
+
+    it('does nothing and does not throw when no element has the access key', () => {
+      const log = vi.spyOn(console, 'log').mockImplementation(() => undefined);
+
+      expect(() => service.accessKey('moreMenu')()).not.toThrow();
+
+      expect(log).not.toHaveBeenCalled();
+      log.mockRestore();
+    });
+  });
+
+  describe('newWorkPackage', () => {
+    const quickAddMenu = () => {
+      fixture.insertAdjacentHTML('beforeend', `
+        <ul id="op-app-header--quick-add-menu-list">
+          <li><a href="/projects/demo/work_packages/new?type=1">Task</a></li>
+          <li><a href="/projects/demo/work_packages/new?type=2">Bug</a></li>
+          <li><a href="/projects/new">Project</a></li>
+        </ul>
+      `);
+    };
+
+    it('clicks the visible access key 2 element', () => {
+      quickAddMenu();
+      const task = followed('Task');
+      const create = outsideButton();
+      create.setAttribute('accesskey', '2');
+      const onClick = vi.fn();
+      create.addEventListener('click', onClick);
+      document.body.append(create);
+
+      service.newWorkPackage()();
+
+      expect(onClick).toHaveBeenCalledOnce();
+      expect(task).not.toHaveBeenCalled();
+    });
+
+    it('follows the first quick-add work package type link otherwise', () => {
+      quickAddMenu();
+      const task = followed('Task');
+      const bug = followed('Bug');
+      const project = followed('Project');
+
+      service.newWorkPackage()();
+
+      expect(task).toHaveBeenCalledOnce();
+      expect(bug).not.toHaveBeenCalled();
+      expect(project).not.toHaveBeenCalled();
+    });
+
+    it('does nothing when neither exists', () => {
+      expect(() => service.newWorkPackage()()).not.toThrow();
+
+      expect(visit).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('menuLink', () => {
+    const sidebar = (html:string) => {
+      fixture.insertAdjacentHTML('beforeend', `<nav id="main-menu" aria-label="Sidebar">${html}</nav>`);
+    };
+
+    const modulesMenu = (html:string) => {
+      fixture.insertAdjacentHTML('beforeend', `<ul id="op-app-header--modules-menu-list">${html}</ul>`);
+    };
+
+    it('in a project, follows the sidebar link with the menu item class', () => {
+      inProject('demo');
+      sidebar('<a class="news-menu-item" href="/projects/demo/news">News</a>');
+      const news = followed('News');
+
+      service.menuLink('news')();
+
+      expect(news).toHaveBeenCalledOnce();
+      expect(visit).not.toHaveBeenCalled();
+    });
+
+    it('in a project, does nothing when the rendered sidebar lacks the link, even if the modules menu has it', () => {
+      inProject('demo');
+      sidebar('<a class="activity-menu-item" href="/projects/demo/activity">Activity</a>');
+      modulesMenu('<li><a href="/news">News</a></li>');
+      const globalNews = followed('News');
+
+      service.menuLink('news')();
+
+      expect(globalNews).not.toHaveBeenCalled();
+      expect(visit).not.toHaveBeenCalled();
+    });
+
+    it('in a project without a sidebar, goes to the project path', () => {
+      inProject('demo');
+      modulesMenu('<li><a href="/news">News</a></li>');
+      const globalNews = followed('News');
+
+      service.menuLink('news')();
+
+      expect(visit).toHaveBeenCalledOnce();
+      expect(visit.mock.calls[0][0]).toBe('/projects/demo/news');
+      expect(globalNews).not.toHaveBeenCalled();
+    });
+
+    it('in a project, goes to the wiki path when the sidebar has a wiki main item', () => {
+      inProject('demo');
+      sidebar('<a class="wiki-menu--main-item" href="/projects/demo/wiki/other">Other</a>');
+      const other = followed('Other');
+
+      service.menuLink('wiki')();
+
+      expect(visit).toHaveBeenCalledOnce();
+      expect(visit.mock.calls[0][0]).toBe('/projects/demo/wiki');
+      expect(other).not.toHaveBeenCalled();
+    });
+
+    it('in a project, does nothing for wiki when the sidebar has no wiki main item', () => {
+      inProject('demo');
+      sidebar('<a class="news-menu-item" href="/projects/demo/news">News</a>');
+      const news = followed('News');
+
+      service.menuLink('wiki')();
+
+      expect(visit).not.toHaveBeenCalled();
+      expect(news).not.toHaveBeenCalled();
+    });
+
+    it('outside a project, follows the modules menu link by href suffix', () => {
+      modulesMenu('<li><a href="/op/news">News</a></li><li><a href="/op/wiki_pages">Wikis</a></li>');
+      const news = followed('News');
+      const wikis = followed('Wikis');
+
+      service.menuLink('news')();
+
+      expect(news).toHaveBeenCalledOnce();
+      expect(wikis).not.toHaveBeenCalled();
+    });
+
+    it('outside a project, does nothing when the modules menu lacks the link', () => {
+      modulesMenu('<li><a href="/activity">Activity</a></li>');
+      const activity = followed('Activity');
+
+      service.menuLink('news')();
+
+      expect(activity).not.toHaveBeenCalled();
+      expect(visit).not.toHaveBeenCalled();
+    });
+
+    it('outside a project, does nothing for overview', () => {
+      modulesMenu('<li><a href="/projects">Projects</a></li>');
+      const projects = followed('Projects');
+
+      service.menuLink('overview')();
+
+      expect(projects).not.toHaveBeenCalled();
+      expect(visit).not.toHaveBeenCalled();
+    });
+  });
+});

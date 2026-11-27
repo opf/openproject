@@ -20,14 +20,17 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, computed, inject, input } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs/operators';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
+import { accessKeys } from 'core-app/shared/directives/a11y/access-keys';
 
 @Component({
   templateUrl: './wp-settings-button.component.html',
@@ -37,9 +40,20 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 export class WorkPackageSettingsButtonComponent {
   readonly I18n = inject(I18nService);
 
+  private readonly urlParams = inject(UrlParamsService);
+
   @Input() hideTableOptions = false;
 
   @Input() showCalendarSharingOption = false;
+
+  readonly listShortcuts = input(false);
+
+  private readonly detailsOpen = toSignal(
+    this.urlParams.changed$.pipe(map(() => this.urlParams.currentDetailsRouteParams() !== null)),
+    { initialValue: this.urlParams.currentDetailsRouteParams() !== null },
+  );
+
+  protected readonly accessKey = computed(() => (this.listShortcuts() && !this.detailsOpen() ? accessKeys.moreMenu : null));
 
   public text = {
     more_actions: this.I18n.t('js.button_more_actions'),

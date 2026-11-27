@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -44,6 +43,24 @@ RSpec.describe Meetings::DeleteContract do
     end
 
     it_behaves_like "contract is valid"
+
+    context "when the meeting is a series template" do
+      let(:meeting) { create(:recurring_meeting, project:).template }
+
+      it_behaves_like "contract is invalid", base: :error_unauthorized
+    end
+
+    context "when the meeting is a one-time template" do
+      let(:meeting) { create(:onetime_template, project:) }
+
+      it_behaves_like "contract is valid"
+    end
+
+    context "when deleting the entire series" do
+      let(:meeting) { create(:recurring_meeting, project:) }
+
+      it_behaves_like "contract is valid"
+    end
   end
 
   context "without permission" do

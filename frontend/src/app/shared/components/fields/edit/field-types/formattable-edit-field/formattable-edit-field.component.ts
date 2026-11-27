@@ -20,13 +20,12 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-field.component';
 import { OpCkeditorComponent } from 'core-app/shared/components/editor/components/ckeditor/op-ckeditor.component';
 import {
@@ -34,6 +33,7 @@ import {
   ICKEditorInstance,
 } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { AiActionsService } from 'core-app/core/ai-actions/ai-actions.service';
 
 @Component({
   templateUrl: './formattable-edit-field.component.html',
@@ -64,12 +64,14 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
     field: this.field.name,
     macros: 'none' as const,
     previewContext: this.previewContext,
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
     options: { rtl: this.schema.options?.rtl },
     type: 'constrained',
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
-    ...this.resource.getEditorContext(this.field.name),
+    ...(this.resource.getEditorContext(this.field.name) as Partial<ICKEditorContext>),
   } as ICKEditorContext;
+
+  private aiActions = inject(AiActionsService);
+
+  private aiActionsContextKey = this.aiActions.contextKey(this.change.pristineResource, this.field.name);
 
   ngOnInit():void {
     super.ngOnInit();
@@ -95,6 +97,8 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
   }
 
   public onCkeditorSetup(editor:ICKEditorInstance):void {
+    this.syncAiActionsContext();
+
     if (!isNewResource(this.resource)) {
       setTimeout(() => editor.editing.view.focus());
     }
@@ -129,7 +133,7 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
   }
 
   public reset():void {
-    if (this.editor && this.editor.initialized) {
+    if (this.editor?.initialized) {
       this.editor.content = this.rawValue;
 
       this.cdRef.markForCheck();
@@ -137,8 +141,9 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
   }
 
   public get rawValue():string {
-    if (this.value?.raw) {
-      return this.value.raw;
+    const value = this.value as api.v3.Formattable|null|undefined;
+    if (value?.raw) {
+      return value.raw;
     }
     return '';
   }
@@ -148,7 +153,7 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
   }
 
   public isEmpty():boolean {
-    return !(this.value?.raw);
+    return !((this.value as api.v3.Formattable|null|undefined)?.raw);
   }
 
   protected initialize():void {
@@ -157,6 +162,21 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
     if (isNewResource(this.resource) && this.editor) {
       // Reset CKEditor when reloading after type/form changes
       this.reset();
+    }
+
+    this.syncAiActionsContext();
+  }
+
+  // The editor keeps the pristine resource, while the project and type chosen in a form live in the changeset.
+  // The plugin gets a snapshot, as the projected resource changes before the actions of a new context are loaded.
+  // https://community.openproject.org/wp/AA-245
+  private syncAiActionsContext():void {
+    const editor = this.editor?.ckEditorInstance;
+    const key = this.aiActions.contextKey(this.resource, this.name);
+
+    if (editor && key !== this.aiActionsContextKey) {
+      this.aiActionsContextKey = key;
+      editor.fire('op:ai-actions:context-changed', { resource: this.aiActions.contextSnapshot(this.resource) });
     }
   }
 }

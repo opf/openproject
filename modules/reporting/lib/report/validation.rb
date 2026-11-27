@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -52,20 +51,16 @@ module Report::Validation
     self
   end
 
-  def errors
-    @errors ||= Hash.new { |h, k| h[k] = [] }
-  end
-
   def validations
     @validations ||= []
   end
 
   def validate(*values)
-    errors.clear
-    return true if validations.empty?
+    values = values.flatten
+    errors = Hash.new { |h, k| h[k] = [] }
 
-    validations.all? do |validation|
-      values.empty? ? true : send(validation, *values)
-    end
+    validations.each { |validation| send(validation, values, errors) } if values.any?
+
+    errors
   end
 end

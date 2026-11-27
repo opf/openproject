@@ -54,14 +54,14 @@ properties:
           - $ref: './link.yml'
           - description: |-
               This grid.
-              
+
               **Resource**: Grid
       attachments:
         allOf:
           - $ref: './link.yml'
           - description: |-
               The attachment collection of this grid.
-              
+
               **Resource**: AttachmentCollection
       addAttachment:
         allOf:
@@ -77,18 +77,18 @@ properties:
           - $ref: './link.yml'
           - description: |-
               Directly perform edits on this grid.
-              
+
               # Conditions
-              
+
               **Permission**: depends on the page the grid is defined for
       update:
         allOf:
           - $ref: './link.yml'
           - description: |-
               Validate edits on the grid via a form resource before committing
-              
+
               # Conditions
-              
+
               **Permission**: depends on the page the grid is defined for
       delete:
         allOf:

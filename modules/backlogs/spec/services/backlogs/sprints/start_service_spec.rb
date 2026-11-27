@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -129,6 +128,18 @@ RSpec.describe Backlogs::Sprints::StartService do
     it "fails contract validation without activating the sprint", :aggregate_failures do
       expect(result).not_to be_success
       expect(result.errors.symbols_for(:base)).to include(:dates_required)
+      expect(sprint.reload).to be_in_planning
+    end
+  end
+
+  context "when the sprint's finish date is in the past" do
+    let(:sprint) { create(:sprint, project:, start_date: 2.weeks.ago.to_date, finish_date: Date.yesterday) }
+
+    it "fails contract validation without activating the sprint", :aggregate_failures do
+      expect(result).not_to be_success
+      expect(result.errors.symbols_for(:status)).to include(:finish_date_in_past)
+      expect(result.message)
+        .to eq("Status cannot be started as long as the planned finish date is in the past.")
       expect(sprint.reload).to be_in_planning
     end
   end

@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -30,16 +29,20 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
+import { FormResource } from 'core-app/features/hal/resources/form-resource';
+import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 
 export interface WorkPackageCollectionResourceEmbedded {
   elements:WorkPackageResource[];
   groups:GroupObject[];
 }
 
-export class WorkPackageCollectionResource extends CollectionResource<WorkPackageResource> {
+export class WorkPackageCollectionResource extends CollectionResource<WorkPackageResource> implements WorkPackageCollectionResourceEmbedded {
   public schemas:CollectionResource<SchemaResource>;
 
-  public createWorkPackage:any;
+  public createWorkPackage?:CallableHalLink<FormResource>;
+
+  public customFields?:HalResource;
 
   public elements:WorkPackageResource[];
 
@@ -52,14 +55,12 @@ export class WorkPackageCollectionResource extends CollectionResource<WorkPackag
   public representations:HalResource[];
 }
 
-export interface WorkPackageCollectionResource extends WorkPackageCollectionResourceEmbedded {}
-
 /**
  * A reference to a group object as returned from the API.
  * Augmented with state information such as collapsed state.
  */
 export interface GroupObject {
-  value:any;
+  value:string|null;
   count:number;
   collapsed?:boolean;
   index:number;

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -69,6 +68,7 @@ module API
 
         link :delete,
              cache_if: -> { current_user.allowed_in_project?(:delete_meetings, represented.project) } do
+          next if represented.series_template?
           {
             href: api_v3_paths.meeting(represented.id),
             method: :delete
@@ -118,6 +118,9 @@ module API
                    represented.duration = datetime_formatter.parse_duration_to_hours(fragment, "duration", allow_nil: true)
                  }
         property :state
+
+        property :agenda_sorting_mode,
+                 setter: ->(fragment:, **) { self.agenda_sorting_mode = fragment.is_a?(String) ? fragment : nil }
 
         property :sharing
 

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -38,7 +37,7 @@ class OnboardingController < ApplicationController
 
     result = Users::UpdateService
              .new(model: @user, user: @user)
-             .call(permitted_params.user.to_h)
+             .call(user_settings_params)
 
     if result.success?
       flash[:notice] = I18n.t(:notice_account_updated)
@@ -54,5 +53,11 @@ class OnboardingController < ApplicationController
 
   def onboarding_video_dialog
     respond_with_dialog Onboarding::VideoDialogComponent.new
+  end
+
+  private
+
+  def user_settings_params
+    permitted_params.user.to_h.except("mail")
   end
 end

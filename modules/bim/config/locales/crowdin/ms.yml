@@ -102,7 +102,7 @@ ms:
     not_recommended: tidak disarankan
     recommended: disarankan
     x_bcf_issues:
-      one: Satu isu BCF
+      one: "%{count} BCF issue"
       other: "%{count} Isu-isu BCF"
       zero: Tiada isu-isu BCF
   bim:
@@ -140,8 +140,10 @@ ms:
       processing_default: 'Model IFC default berikut masih dalam proses dan oleh kerana itu belum tersedia lagi:'
   oauth:
     scopes:
-      bcf_v2_1: Akses penuh kepada BCF v2.1 API
+      bcf_v2_1: Access to the BCF v2.1 API
       bcf_v2_1_text: Aplikasi akan terima akses penuh membaca & menulis di OpenProject BCF API v2.1 untuk melaksanakan tindakan bagi pihak anda.
+      explanations_admin:
+        bcf_v2_1: Application will receive full read & write access to the OpenProject BCF API v2.1 to perform actions on the user's behalf.
   permission_delete_bcf: Padamkan isu BCF
   permission_manage_bcf: Import dan urus isu BCF
   permission_manage_bcf_explanation: |

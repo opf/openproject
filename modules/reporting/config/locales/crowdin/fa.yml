@@ -22,8 +22,15 @@
 ---
 fa:
   activerecord:
+    errors:
+      models:
+        cost_report:
+          pivot_axes_do_not_match_group_bys: The rows and columns must together cover exactly the grouping criteria of the query.
     models:
       cost_query:
+        one: گزارش هزینه
+        other: گزارش‌های هزینه
+      cost_report:
         one: گزارش هزینه
         other: گزارش‌های هزینه
   button_save_report_as: ذخیره گزارش با نام...
@@ -38,6 +45,7 @@ fa:
       end_time: زمان پایان
       start_time: زمان شروع
       title: خروجی XLS گزارش هزینه‌های شما
+    invalid_filters: 'The export could not be generated: %{errors}'
     timesheet:
       button: خروجی PDF کاربرگ زمان
       overview_per_user_day: 'نمای کلی: ساعات هر کاربر در هر روز'
@@ -46,6 +54,11 @@ fa:
       time: زمان
       timesheet: کاربرگ زمان
       title: خروجی PDF کاربرگ زمان شما
+  filter_error_invalid_date: "%{filter}: %{value} is not a valid date."
+  filter_error_invalid_integer: "%{filter}: %{value} is not a valid integer."
+  filter_error_missing_values:
+    one: "%{filter} requires a value."
+    other: "%{filter} requires %{count} values."
   information_restricted_depending_on_permission: با توجه به مجوزهای دسترسی شما، این صفحه ممکن است اطلاعات محدودی داشته باشد.
   label_click_to_edit: برای ویرایش کلیک کنید.
   label_closed: بسته
@@ -99,7 +112,6 @@ fa:
   plugin_openproject_reporting:
     description: این افزونه به شما امکان ایجاد گزارش‌های سفارشی هزینه با فیلتر کردن و گروه‌بندی ایجاد شده توسط افزونه زمان و هزینه اوپن‌پروژه را می‌دهد.
     name: گزارش OpenProject
-  project_module_reporting_module: گزارش‌های هزینه
   reporting:
     group_by:
       selected_columns: ستون‌های انتخاب‌شده
@@ -107,5 +119,3 @@ fa:
   text_costs_are_rounded_note: مقادیر نمایش‌داده‌شده گرد شده‌اند. همه محاسبات بر اساس مقادیر گردنشده انجام می‌شوند.
   toggle_multiselect: فعال/غیرفعال‌کردن انتخاب چندگانه
   units: واحدها
-  validation_failure_date: تاریخ صحیح نیست
-  validation_failure_integer: عدد درست نیست

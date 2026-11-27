@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -33,9 +32,10 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { Constructor } from 'core-app/core/util-types';
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
-import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
+import { ISchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'display-field',
   template: '<span #displayFieldContainer></span>',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -98,10 +98,9 @@ export class DisplayFieldComponent implements OnInit {
     );
   }
 
-  private attributeName(attribute:string, schema:SchemaResource):string {
+  private attributeName(attribute:string, schema:ISchemaProxy):string {
     if (schema.mappedName) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      return schema.mappedName(attribute) as string;
+      return schema.mappedName(attribute);
     }
 
     return attribute;

@@ -20,21 +20,27 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import {
   captureRowPositions,
+  isOrderableItem,
+  itemAcceptsDestination,
+  itemMobility,
   reorderRows,
+  resolveBlockMove,
+  resolveBlockMoveAvailability,
+  sortableItemMobilityAttribute,
   resolveDirectionalPreviousItemId,
   resolveMoveAvailability,
   resolveListAppendPreviousItemId,
   resolveItemPosition,
   resolveItemLabel,
   resolveItemType,
+  resolveItemElement,
   restoreRowPositions,
   rowOf,
   rowsRemainAt,
@@ -84,7 +90,7 @@ describe('sortable lists DOM helpers', () => {
 
       list.append(itemRow('1'), showMoreRow(), itemRow('2'), itemRow('3'));
 
-      expect(resolveListAppendPreviousItemId({ sourceItemId: '3', rowsContainer: list })).toEqual('2');
+      expect(resolveListAppendPreviousItemId({ excludedItems: { type: 'work_package', ids: new Set(['3']) }, rowsContainer: list })).toEqual('2');
     });
 
     it('returns null when the list has no other items', () => {
@@ -92,7 +98,7 @@ describe('sortable lists DOM helpers', () => {
 
       list.append(itemRow('1'));
 
-      expect(resolveListAppendPreviousItemId({ sourceItemId: '1', rowsContainer: list })).toBeNull();
+      expect(resolveListAppendPreviousItemId({ excludedItems: { type: 'work_package', ids: new Set(['1']) }, rowsContainer: list })).toBeNull();
     });
 
     it('returns null for an empty list nested inside an outer item, not the outer item\'s id', () => {
@@ -108,7 +114,42 @@ describe('sortable lists DOM helpers', () => {
       list.append(placeholder);
       outerItem.append(list);
 
-      expect(resolveListAppendPreviousItemId({ sourceItemId: 'field-1', rowsContainer: list })).toBeNull();
+      expect(resolveListAppendPreviousItemId({ excludedItems: { type: 'work_package', ids: new Set(['field-1']) }, rowsContainer: list })).toBeNull();
+    });
+
+    it('appends after the last row not in the excluded set', () => {
+      // rows: A, B, C — excluded {B, C} → append lands after A.
+      const rowsContainer = listElement();
+
+      rowsContainer.append(itemRow('A'), itemRow('B'), itemRow('C'));
+
+      expect(resolveListAppendPreviousItemId({
+        excludedItems: { type: 'work_package', ids: new Set(['B', 'C']) },
+        rowsContainer,
+      })).toBe('A');
+    });
+  });
+
+  describe('resolveItemElement', () => {
+    it('does not descend into a nested list for a wrapper row', () => {
+      const list = listElement();
+      const wrapper = document.createElement('li');
+      const nested = listElement();
+      nested.append(itemRow('9'));
+      wrapper.append(nested);
+      list.append(wrapper);
+
+      expect(resolveItemElement(wrapper, list)).toBeNull();
+    });
+
+    it('resolves the item a row wraps directly', () => {
+      const list = listElement();
+      const wrapper = document.createElement('li');
+      const item = itemRow('1');
+      wrapper.append(item);
+      list.append(wrapper);
+
+      expect(resolveItemElement(wrapper, list)).toBe(item);
     });
   });
 
@@ -269,6 +310,69 @@ describe('sortable lists DOM helpers', () => {
     });
   });
 
+  describe('aria-rowindex upkeep', () => {
+    afterEach(() => {
+      document.body.replaceChildren();
+    });
+
+    function indexedRow(id:string, rowindex:number):HTMLDivElement {
+      const row = divItemRow(id);
+      row.setAttribute('role', 'row');
+      row.setAttribute('aria-rowindex', String(rowindex));
+      return row;
+    }
+
+    function rowIndices(rowsContainer:HTMLElement):(string|null)[] {
+      return Array.from(rowsContainer.children).map((row) => row.getAttribute('aria-rowindex'));
+    }
+
+    it('renumbers aria-rowindex in DOM order after a reorder, keeping the page offset', () => {
+      const rowsContainer = document.createElement('div');
+      const [a, b, c] = [indexedRow('a', 5), indexedRow('b', 6), indexedRow('c', 7)];
+
+      rowsContainer.append(a, b, c);
+      reorderRows({ rows: [c], rowsContainer, previousItemId: null });
+
+      expect(itemIdOrder(rowsContainer)).toEqual(['c', 'a', 'b']);
+      expect(rowIndices(rowsContainer)).toEqual(['5', '6', '7']);
+    });
+
+    it('leaves rows without aria-rowindex untouched', () => {
+      const list = listElement();
+      const [one, two, three] = ['1', '2', '3'].map(itemRow);
+
+      list.append(one, two, three);
+      reorderRows({ rows: [three], rowsContainer: list, previousItemId: null });
+
+      expect(rowIndices(list)).toEqual([null, null, null]);
+    });
+
+    it('skips rows that carry no index, such as truncation markers', () => {
+      const rowsContainer = document.createElement('div');
+      const [a, b] = [indexedRow('a', 2), indexedRow('b', 3)];
+      const marker = showMoreRow();
+
+      rowsContainer.append(a, b, marker);
+      reorderRows({ rows: [b], rowsContainer, previousItemId: null });
+
+      expect(rowIndices(rowsContainer)).toEqual(['2', '3', null]);
+    });
+
+    it('renumbers after a rollback restores the original order, keeping the page offset', () => {
+      const rowsContainer = document.createElement('div');
+      const [a, b, c] = [indexedRow('a', 5), indexedRow('b', 6), indexedRow('c', 7)];
+
+      rowsContainer.append(a, b, c);
+      document.body.append(rowsContainer);
+      const rollback = captureRowPositions([c]);
+      reorderRows({ rows: [c], rowsContainer, previousItemId: null });
+      restoreRowPositions(rollback);
+
+      expect(itemIdOrder(rowsContainer)).toEqual(['a', 'b', 'c']);
+      expect(rowIndices(rowsContainer)).toEqual(['5', '6', '7']);
+    });
+  });
+
   describe('rowsRemainAt', () => {
     afterEach(() => {
       document.body.replaceChildren();
@@ -358,6 +462,63 @@ describe('sortable lists DOM helpers', () => {
   });
 });
 
+describe('itemMobility', () => {
+  function itemWith(mobility?:string):HTMLElement {
+    const item = document.createElement('li');
+    item.setAttribute('data-sortable-lists--item-id-value', '1');
+
+    if (mobility !== undefined) {
+      item.setAttribute(sortableItemMobilityAttribute, mobility);
+    }
+
+    return item;
+  }
+
+  it('defaults a missing attribute to free', () => {
+    expect(itemMobility(itemWith())).toBe('free');
+  });
+
+  it.each(['fixed', 'confined', 'free'])('reads the recognized value %s', (value) => {
+    expect(itemMobility(itemWith(value))).toBe(value);
+  });
+
+  // A typo must not hand the user a draggable, selectable card that only
+  // fails once the request comes back.
+  it('falls back to fixed for an unrecognized value', () => {
+    expect(itemMobility(itemWith('movable'))).toBe('fixed');
+  });
+
+  it('treats an empty attribute as unrecognized', () => {
+    expect(itemMobility(itemWith(''))).toBe('fixed');
+  });
+
+  it('derives orderable from the union', () => {
+    expect(isOrderableItem(itemWith('free'))).toBe(true);
+    expect(isOrderableItem(itemWith('confined'))).toBe(true);
+    expect(isOrderableItem(itemWith('fixed'))).toBe(false);
+  });
+});
+
+describe('itemAcceptsDestination', () => {
+  const sprint1 = { type: 'sprint', id: '1' };
+  const sprint2 = { type: 'sprint', id: '2' };
+
+  function item(mobility:'fixed'|'confined'|'free' = 'free'):HTMLElement {
+    const element = document.createElement('li');
+    element.setAttribute(sortableItemMobilityAttribute, mobility);
+    return element;
+  }
+
+  it('answers for one item which destinations it accepts', () => {
+    const ownerDestinationOf = () => sprint1;
+
+    expect(itemAcceptsDestination(item(), sprint2, ownerDestinationOf)).toBe(true);
+    expect(itemAcceptsDestination(item('fixed'), sprint1, ownerDestinationOf)).toBe(false);
+    expect(itemAcceptsDestination(item('confined'), sprint1, ownerDestinationOf)).toBe(true);
+    expect(itemAcceptsDestination(item('confined'), sprint2, ownerDestinationOf)).toBe(false);
+  });
+});
+
 describe('directional move helpers', () => {
   function container(ids:string[]):HTMLElement {
     const ul = document.createElement('ul');
@@ -380,6 +541,16 @@ describe('directional move helpers', () => {
     const ul = container(['1']);
     const stray = document.createElement('li');
     expect(resolveMoveAvailability({ itemElement: stray, rowsContainer: ul })).toBeNull();
+  });
+
+  it('reports no direction for an item in the container whose row belongs to another item', () => {
+    const ul = container(['1', '2']);
+    const nested = document.createElement('li');
+    nested.setAttribute('data-sortable-lists--item-id-value', '3');
+    itemAt(ul, 0).append(nested);
+
+    expect(resolveMoveAvailability({ itemElement: nested, rowsContainer: ul }))
+      .toEqual({ top: false, up: false, down: false, bottom: false });
   });
 
   it('maps each direction to a previous item id', () => {
@@ -472,7 +643,7 @@ describe('directional move helpers', () => {
       ul.querySelector<HTMLElement>(`[data-sortable-lists--item-id-value="${id}"]`)!;
     const at = (ul:HTMLElement, id:string) => ({ itemElement: byId(ul, id), rowsContainer: ul });
 
-    it('disables one-step moves whose neighbouring row is the divider', () => {
+    it('disables one-step moves whose neighboring row is the divider', () => {
       const ul = dividedContainer();
       expect(resolveDirectionalPreviousItemId({ ...at(ul, 'b'), direction: 'down' })).toBeUndefined();
       expect(resolveDirectionalPreviousItemId({ ...at(ul, 'c'), direction: 'up' })).toBeUndefined();
@@ -493,6 +664,217 @@ describe('directional move helpers', () => {
       expect(resolveDirectionalPreviousItemId({ ...at(ul, 'a'), direction: 'bottom' })).toBe('d');
       expect(resolveDirectionalPreviousItemId({ ...at(ul, 'd'), direction: 'top' })).toBeNull();
     });
+  });
+});
+
+describe('block move helpers', () => {
+  function fixture():{
+    rowsContainer:HTMLUListElement;
+    items:HTMLLIElement[];
+    marker:HTMLLIElement;
+    divider:HTMLLIElement;
+  } {
+    const rowsContainer = document.createElement('ul');
+    const items = ['1', '2', '3', '4'].map((id) => {
+      const row = document.createElement('li');
+      row.setAttribute('data-sortable-lists--item-id-value', id);
+      return row;
+    });
+    const marker = document.createElement('li');
+    marker.setAttribute('data-sortable-lists-prev-item-id', 'last-hidden');
+    marker.setAttribute('data-sortable-lists-omitted-count', '3');
+    const divider = document.createElement('li');
+    divider.classList.add('divider');
+
+    rowsContainer.append(...items, marker, divider);
+
+    return { rowsContainer, items, marker, divider };
+  }
+
+  it('resolves one card in all four directions', () => {
+    const { rowsContainer, items: [, second] } = fixture();
+
+    expect(resolveBlockMove({ itemElements: [second], direction: 'top', rowsContainer }))
+      .toEqual({ available: true, rows: [second], previousItemId: null });
+    expect(resolveBlockMove({ itemElements: [second], direction: 'up', rowsContainer }))
+      .toEqual({ available: true, rows: [second], previousItemId: null });
+    expect(resolveBlockMove({ itemElements: [second], direction: 'down', rowsContainer }))
+      .toEqual({ available: true, rows: [second], previousItemId: '3' });
+    expect(resolveBlockMove({ itemElements: [second], direction: 'bottom', rowsContainer }))
+      .toEqual({ available: true, rows: [second], previousItemId: 'last-hidden' });
+  });
+
+  it('matches resolveMoveAvailability for a one-card block', () => {
+    const plain = (ids:string[]):HTMLElement => {
+      const ul = document.createElement('ul');
+      ul.innerHTML = ids.map((id) => `<li data-sortable-lists--item-id-value="${id}"></li>`).join('');
+      return ul;
+    };
+    const truncated = document.createElement('ul');
+    truncated.innerHTML = [
+      '<li data-sortable-lists--item-id-value="h1"></li>',
+      '<li data-sortable-lists--item-id-value="h2"></li>',
+      '<li data-sortable-lists-prev-item-id="last-hidden"></li>',
+      '<li data-sortable-lists--item-id-value="t1"></li>',
+      '<li data-sortable-lists--item-id-value="t2"></li>',
+    ].join('');
+    const three = plain(['1', '2', '3']);
+    const cases:[HTMLElement, number][] = [
+      [three, 0],
+      [three, 1],
+      [three, 2],
+      ...[0, 1, 3, 4].map((index):[HTMLElement, number] => [truncated, index]),
+    ];
+
+    cases.forEach(([rowsContainer, index]) => {
+      const itemElement = rowsContainer.children[index] as HTMLElement;
+
+      expect(resolveBlockMoveAvailability({ itemElements: [itemElement], rowsContainer }))
+        .toEqual(resolveMoveAvailability({ itemElement, rowsContainer }));
+
+      (['top', 'up', 'down', 'bottom'] as const).forEach((direction) => {
+        const block = resolveBlockMove({ itemElements: [itemElement], direction, rowsContainer });
+        const single = resolveDirectionalPreviousItemId({ itemElement, rowsContainer, direction });
+
+        expect(block.available).toBe(single !== undefined);
+        expect(block.available ? block.previousItemId : undefined).toBe(single);
+      });
+    });
+  });
+
+  it('resolves an adjacent block in all four directions and excludes selected predecessors', () => {
+    const { rowsContainer, items: [, second, third] } = fixture();
+
+    expect(resolveBlockMove({ itemElements: [second, third], direction: 'top', rowsContainer }))
+      .toEqual({ available: true, rows: [second, third], previousItemId: null });
+    expect(resolveBlockMove({ itemElements: [second, third], direction: 'up', rowsContainer }))
+      .toEqual({ available: true, rows: [second, third], previousItemId: null });
+    expect(resolveBlockMove({ itemElements: [second, third], direction: 'down', rowsContainer }))
+      .toEqual({ available: true, rows: [second, third], previousItemId: '4' });
+    expect(resolveBlockMove({ itemElements: [second, third], direction: 'bottom', rowsContainer }))
+      .toEqual({ available: true, rows: [second, third], previousItemId: 'last-hidden' });
+  });
+
+  it('rejects an empty or fixed selection as not orderable', () => {
+    const { rowsContainer, items: [first, second] } = fixture();
+    second.setAttribute(sortableItemMobilityAttribute, 'fixed');
+
+    expect(resolveBlockMove({ itemElements: [], direction: 'top', rowsContainer }))
+      .toEqual({ available: false });
+    expect(resolveBlockMove({ itemElements: [first, second], direction: 'top', rowsContainer }))
+      .toEqual({ available: false });
+  });
+
+  it('rejects selected elements from different containers', () => {
+    const { rowsContainer, items: [first] } = fixture();
+    const { items: [foreign] } = fixture();
+
+    expect(resolveBlockMove({ itemElements: [first, foreign], direction: 'top', rowsContainer }))
+      .toEqual({ available: false });
+  });
+
+  it('rejects an inner-list item that resolves to its outer host row', () => {
+    const rowsContainer = document.createElement('ul');
+    const outerHost = document.createElement('li');
+    outerHost.setAttribute('data-sortable-lists--item-id-value', 'outer-1');
+    const nestedRows = document.createElement('ul');
+    const inner = document.createElement('li');
+    inner.setAttribute('data-sortable-lists--item-id-value', 'inner-1');
+    nestedRows.append(inner);
+    outerHost.append(nestedRows);
+
+    const outerSecond = document.createElement('li');
+    outerSecond.setAttribute('data-sortable-lists--item-id-value', 'outer-2');
+    const outerThird = document.createElement('li');
+    outerThird.setAttribute('data-sortable-lists--item-id-value', 'outer-3');
+    rowsContainer.append(outerHost, outerSecond, outerThird);
+
+    expect(resolveBlockMove({ itemElements: [inner, outerSecond], direction: 'bottom', rowsContainer }))
+      .toEqual({ available: false });
+  });
+
+  it('normalizes sparse and reverse-order input, and rejects duplicate members', () => {
+    const { rowsContainer, items: [first, second, third] } = fixture();
+
+    expect(resolveBlockMove({ itemElements: [first, third], direction: 'top', rowsContainer }))
+      .toEqual({ available: true, rows: [first, third], previousItemId: null });
+    expect(resolveBlockMove({ itemElements: [third, second], direction: 'top', rowsContainer }))
+      .toEqual({ available: true, rows: [second, third], previousItemId: null });
+    expect(resolveBlockMove({ itemElements: [second, second], direction: 'top', rowsContainer }))
+      .toEqual({ available: false });
+  });
+
+  it('rejects up and down across an adjacent truncation marker', () => {
+    const { rowsContainer, items: [, second, third], marker } = fixture();
+
+    second.after(marker);
+    expect(resolveBlockMove({ itemElements: [second], direction: 'down', rowsContainer }))
+      .toEqual({ available: false });
+    expect(resolveBlockMove({ itemElements: [third], direction: 'up', rowsContainer }))
+      .toEqual({ available: false });
+  });
+
+  it('rejects up and down across an unaddressable gap', () => {
+    const { rowsContainer, items: [, second, third], divider } = fixture();
+
+    second.after(divider);
+    expect(resolveBlockMove({ itemElements: [second], direction: 'down', rowsContainer }))
+      .toEqual({ available: false });
+    expect(resolveBlockMove({ itemElements: [third], direction: 'up', rowsContainer }))
+      .toEqual({ available: false });
+  });
+
+  it('keeps fixed rows addressable as up and down neighbors', () => {
+    const { rowsContainer, items: [first, second, third] } = fixture();
+    first.setAttribute(sortableItemMobilityAttribute, 'fixed');
+    third.setAttribute(sortableItemMobilityAttribute, 'fixed');
+
+    expect(resolveBlockMove({ itemElements: [second], direction: 'up', rowsContainer }))
+      .toEqual({ available: true, rows: [second], previousItemId: null });
+    expect(resolveBlockMove({ itemElements: [second], direction: 'down', rowsContainer }))
+      .toEqual({ available: true, rows: [second], previousItemId: '3' });
+  });
+
+  it('keeps top and bottom available across loaded sparse-list boundaries', () => {
+    const { rowsContainer, items: [, second, third, fourth], marker } = fixture();
+
+    second.after(marker);
+    expect(resolveBlockMove({ itemElements: [third], direction: 'top', rowsContainer }))
+      .toEqual({ available: true, rows: [third], previousItemId: null });
+    expect(resolveBlockMove({ itemElements: [second], direction: 'bottom', rowsContainer }))
+      .toEqual({ available: true, rows: [second], previousItemId: '4' });
+    expect(resolveBlockMove({ itemElements: [third], direction: 'bottom', rowsContainer }))
+      .toEqual({ available: true, rows: [third], previousItemId: '4' });
+    expect(resolveBlockMove({ itemElements: [fourth], direction: 'top', rowsContainer }))
+      .toEqual({ available: true, rows: [fourth], previousItemId: null });
+  });
+
+  it('rejects every move that returns the block to its effective placement', () => {
+    const { rowsContainer, items: [first, second, third, fourth], marker, divider } = fixture();
+    marker.remove();
+    divider.remove();
+
+    expect(resolveBlockMove({ itemElements: [first], direction: 'top', rowsContainer }))
+      .toEqual({ available: false });
+    expect(resolveBlockMove({ itemElements: [first, second], direction: 'up', rowsContainer }))
+      .toEqual({ available: false });
+    expect(resolveBlockMove({ itemElements: [fourth], direction: 'down', rowsContainer }))
+      .toEqual({ available: false });
+    expect(resolveBlockMove({ itemElements: [third, fourth], direction: 'bottom', rowsContainer }))
+      .toEqual({ available: false });
+  });
+
+  it('derives availability by resolving all four directions', () => {
+    const { rowsContainer, items: [first, second, third, fourth], marker, divider } = fixture();
+    marker.remove();
+    divider.remove();
+
+    expect(resolveBlockMoveAvailability({ itemElements: [first, second], rowsContainer }))
+      .toEqual({ top: false, up: false, down: true, bottom: true });
+    expect(resolveBlockMoveAvailability({ itemElements: [second, third], rowsContainer }))
+      .toEqual({ top: true, up: true, down: true, bottom: true });
+    expect(resolveBlockMoveAvailability({ itemElements: [third, fourth], rowsContainer }))
+      .toEqual({ top: true, up: true, down: false, bottom: false });
   });
 });
 
@@ -561,13 +943,13 @@ describe('resolveItemPosition', () => {
 
 describe('resolveItemLabel', () => {
   it('reads the label from the row item element and returns null without one', () => {
-    const labelled = document.createElement('li');
-    labelled.setAttribute('data-sortable-lists--item-id-value', '1');
-    labelled.setAttribute('data-sortable-lists--item-label-value', 'Story one');
+    const labeled = document.createElement('li');
+    labeled.setAttribute('data-sortable-lists--item-id-value', '1');
+    labeled.setAttribute('data-sortable-lists--item-label-value', 'Story one');
     const bare = document.createElement('li');
     bare.setAttribute('data-sortable-lists--item-id-value', '2');
 
-    expect(resolveItemLabel(labelled)).toEqual('Story one');
+    expect(resolveItemLabel(labeled)).toEqual('Story one');
     expect(resolveItemLabel(bare)).toBeNull();
   });
 });

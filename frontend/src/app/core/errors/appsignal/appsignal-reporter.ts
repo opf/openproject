@@ -20,14 +20,13 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { debugLog } from 'core-app/shared/helpers/debug_output';
-import { ErrorReporterBase, ErrorTags, MessageSeverity } from 'core-app/core/errors/error-reporter-base';
+import { ErrorReporterBase, ErrorTags, MessageSeverity, toError } from 'core-app/core/errors/error-reporter-base';
 import type { Appsignal } from './appsignal-dependency';
 import { Span } from '@appsignal/javascript';
 import { getMetaElement } from 'core-app/core/setup/globals/global-helpers';
@@ -35,31 +34,33 @@ import { getMetaElement } from 'core-app/core/setup/globals/global-helpers';
 export class AppsignalReporter extends ErrorReporterBase {
   private client:Appsignal;
 
+  public readonly loaded:Promise<void>;
+
   public captureMessage(msg:string, severity:MessageSeverity = 'info'):void {
     console.warn('Logging message %O with severity %O', msg, severity);
   }
 
-  public captureException(err:Error|string):void {
-    if (!this.client || !err) {
+  public captureException(err:unknown):void {
+    if (!this.client) {
       debugLog('Appsignal is not yet loaded, ignoring error %O', err);
       return;
     }
 
-    const error = (typeof err === 'string') ? new Error(err) : err;
-    void this.client.sendError(error, (span) => this.setupContext(span));
+    void this.send(toError(err));
   }
 
   constructor() {
     super();
     const element = getMetaElement('openproject_appsignal')!;
-    this.loadAppsignal(element);
+    this.loaded = this.loadAppsignal(element)
+      .catch((error:unknown) => debugLog('Appsignal failed to load %O', error));
   }
 
-  private loadAppsignal(element:HTMLElement) {
+  private loadAppsignal(element:HTMLElement):Promise<void> {
     const key = element.dataset.pushKey || '';
     const revision = element.dataset.version || '';
 
-    void import('./appsignal-dependency').then((imported) => {
+    return import('./appsignal-dependency').then((imported) => {
       this.client = new imported.Appsignal({
         namespace: 'frontend',
         key,
@@ -74,26 +75,21 @@ export class AppsignalReporter extends ErrorReporterBase {
     });
   }
 
-  /**
-   * @param span The appsignal span to send with
-   */
-  private async setupContext(span:Span):Promise<Span> {
-    /** Execute callbacks */
-    const results = await this.hookPromises();
+  // The SDK serializes the span right after calling back, so the tags are
+  // resolved first.
+  private async send(error:Error):Promise<void> {
+    try {
+      const tags:ErrorTags = {
+        locale: (window.I18n as { locale:string }).locale,
+        domain: window.location.hostname,
+        url_path: window.location.pathname,
+        url_query: window.location.search,
+        ...await this.contextTags(),
+      };
 
-    let tags = {
-      locale: (window.I18n as { locale:string }).locale,
-      domain: window.location.hostname,
-      url_path: window.location.pathname,
-      url_query: window.location.search,
-    };
-
-    results.forEach((added:ErrorTags) => {
-      tags = { ...tags, ...added };
-    });
-
-    span.setTags(tags);
-
-    return span;
+      await this.client.sendError(error, (span:Span) => span.setTags(tags));
+    } catch (sendError) {
+      debugLog('Appsignal failed to send %O: %O', error, sendError);
+    }
   }
 }

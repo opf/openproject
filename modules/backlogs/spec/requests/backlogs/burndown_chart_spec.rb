@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -46,6 +45,17 @@ RSpec.describe "Backlogs::BurndownChart", :skip_csrf, type: :rails_request do
 
       expect(response).to be_successful
       expect(response).to render_template("backlogs/burndown_chart/show")
+    end
+
+    context "when the sprint has no date range set" do
+      let(:sprint) { create(:sprint, project:, start_date: nil, finish_date: nil) }
+
+      it "renders the missing dates blankslate" do
+        get "/projects/#{project.identifier}/backlogs/sprints/#{sprint.id}/burndown_chart"
+
+        expect(response).to be_successful
+        expect(response.body).to include("Missing sprint dates")
+      end
     end
   end
 

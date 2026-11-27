@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -43,64 +42,71 @@ module Pages::Messages
     end
 
     def expect_content(content)
-      expect(page).to have_css(".forum-message .wiki", text: content)
+      within_test_selector("forum-post-#{message.id}") do
+        expect(page).to have_css(".op-uc-container", text: content)
+      end
     end
 
     def expect_no_replies
-      expect(page).to have_no_content("Replies")
+      expect(page).to have_test_selector("topic-summary", text: "No replies yet")
     end
 
     def expect_num_replies(num)
-      expect(page).to have_content("Replies (#{num})")
+      expect(page).to have_test_selector("topic-summary", text: num == 1 ? "1 reply" : "#{num} replies")
     end
 
     def reply(text)
-      find(".ck-content").base.send_keys text
+      previous_message_id = Message.maximum(:id)
+      find("#reply .ck-content").base.send_keys text
 
-      click_button "Submit"
+      click_button "Reply"
 
-      expect(page).to have_css(".forum-message--comments", text:)
+      expect(page).to have_css("[data-test-selector^='forum-post-']", text:)
 
-      Message.last
+      latest_message_after(previous_message_id)
     end
 
-    def quote(content:, quoted_message: nil, subject: nil)
+    def quote(content:, quoted_message: nil)
       if quoted_message
-        within "#message-#{quoted_message.id} .contextual" do
-          click_on "Quote"
+        within_test_selector("forum-post-#{quoted_message.id}") do
+          click_on accessible_name: "Message actions"
+          click_on "Quote message"
         end
       else
-        page.find_test_selector("message-quote-button").click
+        within_test_selector("forum-post-#{message.id}") do
+          click_on accessible_name: "Message actions"
+          click_on "Quote message"
+        end
       end
 
-      sleep 1
+      quoted_text = (quoted_message || Message.first).content
+      expect(page).to have_css("#reply .ck-content blockquote", text: quoted_text, wait: 20)
 
-      scroll_to_element find(".ck-content")
-      fill_in "reply_subject", with: subject if subject
-
-      editor = find(".ck-content")
+      editor = find("#reply .ck-content")
       editor.base.send_keys content
 
-      # For some reason, capybara will click on
-      # the button to add another attachment when being told to click on "Submit".
-      # Therefor, submitting by enter key.
-      subject_field = find_by_id("reply_subject")
-      subject_field.native.send_keys(:return)
+      previous_message_id = Message.maximum(:id)
+      click_button "Reply"
 
-      text = (quoted_message || Message.first).content
-      expect(page).to have_css(".forum-message--comments blockquote", text:)
+      expect(page).to have_css("[data-test-selector^='forum-post-'] blockquote", text: quoted_text)
 
-      Message.last
+      latest_message_after(previous_message_id)
     end
 
-    def expect_reply(subject:, content:, reply: nil)
-      selector = ".comment"
-      selector += "#message-#{reply.id}" if reply
+    def expect_reply(content:, reply: nil)
+      card = reply ? find_test_selector("forum-post-#{reply.id}") : all("[data-test-selector^='forum-post-']").last
 
-      within(selector) do
-        expect(page).to have_content(subject)
-        expect(page).to have_content(content)
+      within(card) do
+        expect(page).to have_text(content)
       end
+    end
+
+    def within_gap(index = 0, &)
+      within(all(test_selector("forum-thread-gap"))[index], &)
+    end
+
+    def expect_no_gap
+      expect(page).to have_no_test_selector("forum-thread-gap")
     end
 
     def expect_current_path(reply = nil)
@@ -110,6 +116,12 @@ module Pages::Messages
 
     def click_save
       click_button "Save"
+    end
+
+    def latest_message_after(message_id)
+      page.document.synchronize(10) do
+        Message.where("id > ?", message_id).order(:id).last || raise(Capybara::ElementNotFound)
+      end
     end
 
     def path

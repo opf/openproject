@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -46,6 +45,7 @@ import {
   type SortableAxis,
 } from 'core-common/drag-and-drop/reorder';
 import { closestDragBlockingElement } from 'core-common/interactive-element-helper';
+import { suspendDraggableWhileEditing } from 'core-common/drag-and-drop/suspend-draggable-while-editing';
 
 export type CleanupFn = () => void;
 
@@ -350,7 +350,7 @@ export function createSortableRoot(options:SortableRootOptions):SortableRoot {
     const trySettle = ():void => {
       if (completed && (finalized || sameList)) {
         clearDiagnostic();
-        setBusy(false);
+        if (!destroyed) setBusy(false);
       }
     };
 
@@ -533,6 +533,7 @@ export function createSortableRoot(options:SortableRootOptions):SortableRoot {
           },
         } : {}),
       });
+      const editingGuardCleanup = suspendDraggableWhileEditing(element);
 
       // No same-item exclusion here: registering as its own drop target lets
       // the root monitor's self-drop check (not this canDrop) resolve it as
@@ -564,7 +565,7 @@ export function createSortableRoot(options:SortableRootOptions):SortableRoot {
         onDrop: clearIndicator,
       });
 
-      return track(combine(draggableCleanup, dropTargetCleanup, () => {
+      return track(combine(editingGuardCleanup, draggableCleanup, dropTargetCleanup, () => {
         delete element.dataset.dragging;
         clearIndicator();
         itemsForList.delete(element);

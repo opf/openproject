@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -56,8 +55,15 @@ Rails.application.configure do
         sql: data[:sql]
       }
 
+      meta = %i[name affected_rows row_count].filter_map do |key|
+        value = data[key]
+        next if value.blank?
+
+        "#{key}=#{value.inspect}"
+      end.join(", ")
       sql_log_string = data[:sql].strip.gsub(/(^(\s+)?$\n)/, "")
-      OpenProject.logger.warn "Encountered slow SQL (#{payload[:duration]} ms): #{sql_log_string}",
+
+      OpenProject.logger.warn "Encountered slow SQL (#{meta}, duration=#{payload[:duration]} ms): #{sql_log_string}",
                               payload:,
                               # Hash of the query for reference/fingerprinting
                               reference: Digest::SHA1.hexdigest(data[:sql])

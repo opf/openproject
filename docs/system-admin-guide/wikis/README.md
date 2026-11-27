@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Wikis
-  priority: 835
+  priority: 800
 description: Wiki providers in OpenProject.
 keywords: wikis, xwiki, wiki integration, wiki provider, project wikis
 ---

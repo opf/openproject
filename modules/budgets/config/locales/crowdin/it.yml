@@ -61,6 +61,8 @@ it:
   attributes:
     budget: Bilancio
   budgets:
+    labor_budget_items:
+      no_rate_at_fixed_date: Nessuna tariffa oraria per il giorno %{date}
     widgets:
       budget_by_cost_type:
         blankslate:
@@ -106,7 +108,7 @@ it:
   events:
     budget: Bilancio modificato
   help_click_to_edit: Clicca qui per modificare.
-  help_currency_format: Formato di visualizzazione dei valori in valuta. %n viene sostituito con il valore della valuta, %u viene sostituito con l'unità di valuta.
+  help_currency_format: Format of displayed currency values. %n is replaced with the currency value, %u is replaced with the currency unit.
   help_override_rate: Immettere qui un valore per ignorare la tariffa di default.
   label_budget_available: Budget disponibile
   label_budget_details: Dettagli del budget

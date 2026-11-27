@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -234,7 +233,7 @@ export default class WorkflowCheckboxStateController extends Controller<HTMLElem
       // Reset dirtiness status for next time
       this.hasCheckboxChangesValue = false;
       this.hasStatusChangesValue = false;
-      // Let default behaviour behave…
+      // Let default behavior behave…
     }
   };
 
@@ -300,7 +299,7 @@ export default class WorkflowCheckboxStateController extends Controller<HTMLElem
         // EditComponent was replaced by a turbo-stream). Look for a live
         // element with the same href before falling back to the original.
         const liveTarget = document.querySelector<HTMLElement>(
-          `[href="${originalTarget.getAttribute('href')}"][${CONFIRMATION_TRIGGER_ATTR}]`
+          `[href="${CSS.escape(originalTarget.getAttribute('href') ?? '')}"][${CONFIRMATION_TRIGGER_ATTR}]`
         ) ?? originalTarget;
         liveTarget.dataset.confirmed = 'true';
         liveTarget.click();

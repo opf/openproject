@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,12 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
-#
+#++
 
 # Wrapper for Cuprite's `page.driver.wait_for_network_idle`
 # Used to wait for Network traffic to become idle, helping
@@ -45,9 +43,9 @@ end
 
 # Takes the above `wait_for_network_idle` a step further by waiting
 # for the page to be reloaded after some triggering action.
-def wait_for_reload
+def wait_for_reload(...)
   if using_cuprite?
-    page.driver.wait_for_reload
+    page.driver.wait_for_reload(...)
   else
     warn_about_cuprite_helper_misuse(:wait_for_reload)
   end
@@ -60,6 +58,33 @@ def warn_about_cuprite_helper_misuse(method_name)
   stack = caller(2)
   cause = [stack[0], stack.find { |line| line["_spec.rb:"] }].uniq.join(" … ")
   warn "#{method_name} used in spec not using cuprite (#{cause})"
+end
+
+# Holds the first browser request to `path` until the block continues it.
+# Yields a queue; `held.pop(timeout: ...)` returns the Ferrum request, and
+# `request.continue` releases it. Requests still queued when the block
+# ends are continued.
+def hold_requests(path)
+  held = Queue.new
+  holding = Concurrent::AtomicBoolean.new(true)
+  begin
+    browser = page.driver.browser
+    browser.network.intercept
+    browser.on(:request) { |request| hold_or_continue(request, path, holding, held) }
+    yield held
+  ensure
+    holding.make_false
+    held.pop(true).continue until held.empty?
+  end
+end
+
+def hold_or_continue(request, path, holding, held)
+  if holding.true? && URI(request.url).path == path
+    holding.make_false
+    held << request
+  else
+    request.continue
+  end
 end
 
 # Ferrum is yet support `fill_options` as a Hash
@@ -75,6 +100,29 @@ def clear_input_field_contents(input_element)
   backspaces = Array.new(input_element.value.length, :backspace)
   input_element.native.node.type(*rights)
   input_element.native.node.type(*backspaces)
+end
+
+def send_keys_without_click(element, *keys)
+  return element.send_keys(*keys) unless using_cuprite?
+
+  element.native.node.focus
+  page.driver.browser.keyboard.type(*keys)
+end
+
+def wait_for_request(url_pattern, method: "GET", wait: Capybara.default_max_wait_time)
+  return yield unless using_cuprite?
+
+  page.driver.clear_network_traffic
+  result = yield
+
+  page.document.synchronize(wait) do
+    requested = page.driver.network_traffic.any? do |exchange|
+      exchange.finished? && exchange.request&.method == method && exchange.request.url.match?(url_pattern)
+    end
+    raise Capybara::ExpectationNotMet, "Expected a finished #{method} request to #{url_pattern.inspect}" unless requested
+  end
+
+  result
 end
 
 # Waits for CKEditor to be fully initialized.

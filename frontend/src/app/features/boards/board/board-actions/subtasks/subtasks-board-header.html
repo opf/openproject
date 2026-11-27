@@ -1,16 +1,16 @@
 @if (resource) {
-  <div class="op-subtask-board-header">
-    <h2 class="editable-toolbar-title--fixed">
-      <small [textContent]="text.workPackage"></small>
-      <br/>
-      <span class="op-subtask-board-header--work-package-type"
-        [ngClass]="typeHighlightingClass"
-        [textContent]="resource.type.name">
-      </span>
-      <a [href]="pathHelper.workPackagePath(idFromLink(resource.href))"
-        [textContent]="resource.subjectWithId()"
-        target="_blank">
-      </a>
-    </h2>
-  </div>
+  <h2 class="op-board-list--header-title op-subtask-board-header editable-toolbar-title--fixed">
+    <small
+      class="op-subtask-board-header--work-package-type"
+      [ngClass]="typeHighlightingClass"
+      [textContent]="resource.type.name"
+    >
+    </small>
+    <a
+      [href]="pathHelper.workPackagePath(idFromLink(resource.href))"
+      [textContent]="resource.subjectWithId(60)"
+      target="_blank"
+    >
+    </a>
+  </h2>
 }

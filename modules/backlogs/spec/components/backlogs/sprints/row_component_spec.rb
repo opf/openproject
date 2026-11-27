@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -64,8 +63,10 @@ RSpec.describe Backlogs::Sprints::RowComponent, type: :component do
       let(:sprint) { build_stubbed(:sprint, project:, status: :in_planning, name: "Planning sprint") }
 
       it "links to the backlog filtered by sprint" do
-        expect(rendered_component).to have_link("Planning sprint",
-                                                href: project_backlogs_backlog_path(project, sprint_ids: [sprint.id]))
+        expect(rendered_component).to have_link(
+          "Planning sprint",
+          href: project_backlogs_backlog_path(project, sprint_ids: [sprint.id.to_s].to_json)
+        )
       end
     end
 
@@ -102,7 +103,8 @@ RSpec.describe Backlogs::Sprints::RowComponent, type: :component do
         query_props = {
           f: [{ n: "sprintId", o: "=", v: ["123"] }],
           t: "position:asc",
-          c: %w[id subject sprint]
+          c: %w[id subject sprint story_points],
+          is: false
         }.to_json
 
         expect(rendered_component).to have_link(
@@ -223,6 +225,66 @@ RSpec.describe Backlogs::Sprints::RowComponent, type: :component do
 
       it "falls back to zero" do
         expect(rendered_component).to have_css(".work_package_count", text: "0")
+      end
+    end
+  end
+
+  describe "dates" do
+    let(:start_date) { Date.new(2025, 1, 15) }
+    let(:finish_date) { Date.new(2025, 1, 29) }
+    let(:started_at) { Time.utc(2025, 1, 16, 9, 30) }
+    let(:completed_at) { Time.utc(2025, 1, 30, 17, 45) }
+
+    context "when the sprint is in planning" do
+      let(:sprint) { build_stubbed(:sprint, project:, status: :in_planning, start_date:, finish_date:) }
+
+      it "shows both planned dates and marks them as planned" do
+        expect(rendered_component).to have_element(:time, datetime: "2025-01-15")
+        expect(rendered_component).to have_css(".start_date", text: "(planned)")
+        expect(rendered_component).to have_element(:time, datetime: "2025-01-29")
+        expect(rendered_component).to have_css(".finish_date", text: "(planned)")
+      end
+
+      context "without a finish date" do
+        let(:finish_date) { nil }
+
+        it "leaves the finish date empty" do
+          expect(rendered_component).to have_css(".start_date", text: "(planned)")
+          expect(rendered_component).to have_element(:time, count: 1)
+          expect(rendered_component).to have_no_css(".finish_date", text: "(planned)")
+        end
+      end
+    end
+
+    context "when the sprint is active" do
+      let(:sprint) { build_stubbed(:sprint, project:, status: :active, start_date:, finish_date:, started_at:) }
+
+      it "shows the actual start with its timestamp as title and the planned finish" do
+        expect(rendered_component).to have_element(:time, datetime: "2025-01-16T09:30:00Z", title: true)
+        expect(rendered_component).to have_no_css(".start_date", text: "(planned)")
+        expect(rendered_component).to have_element(:time, datetime: "2025-01-29")
+        expect(rendered_component).to have_css(".finish_date", text: "(planned)")
+      end
+
+      context "without a start timestamp" do
+        let(:started_at) { nil }
+
+        it "falls back to the planned start" do
+          expect(rendered_component).to have_element(:time, datetime: "2025-01-15")
+          expect(rendered_component).to have_css(".start_date", text: "(planned)")
+        end
+      end
+    end
+
+    context "when the sprint is completed" do
+      let(:sprint) do
+        build_stubbed(:sprint, project:, status: :completed, start_date:, finish_date:, started_at:, completed_at:)
+      end
+
+      it "shows the actual start and finish" do
+        expect(rendered_component).to have_element(:time, datetime: "2025-01-16T09:30:00Z", title: true)
+        expect(rendered_component).to have_element(:time, datetime: "2025-01-30T17:45:00Z", title: true)
+        expect(rendered_component).to have_no_text("(planned)")
       end
     end
   end

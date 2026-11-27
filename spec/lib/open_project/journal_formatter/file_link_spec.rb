@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -65,7 +64,10 @@ RSpec.describe OpenProject::JournalFormatter::FileLink do
       end
 
       it 'if the storage name is nil and the file link does not exist, "Unknown storage" is used' do
-        expect(instance.render("file_links_12", [changes, nil]))
+        file_link
+        missing_file_link_key = "file_links_#{Storages::FileLink.maximum(:id).to_i + 1}"
+
+        expect(instance.render(missing_file_link_key, [changes, nil]))
           .to eq(I18n.t(:text_journal_file_link_deleted,
                         label: "<strong>#{I18n.t(:label_file)}</strong>",
                         old: "<strike><i>#{file_link.origin_name}</i></strike>",

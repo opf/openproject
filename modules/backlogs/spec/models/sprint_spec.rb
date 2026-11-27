@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -184,6 +183,16 @@ RSpec.describe Sprint do
           ]
         )
       end.to raise_error(ActiveRecord::NestedAttributes::TooManyRecords)
+    end
+  end
+
+  describe "order by name" do
+    it "orders numbers naturally" do
+      sprint10 = create(:sprint, project:, name: "Sprint 10")
+      sprint2 = create(:sprint, project:, name: "Sprint 2")
+      sprint1 = create(:sprint, project:, name: "Sprint 1")
+
+      expect(described_class.order(:name)).to eq([sprint1, sprint2, sprint10])
     end
   end
 

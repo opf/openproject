@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -314,34 +313,41 @@ RSpec.describe "Journalizing work package meeting activity", type: :model do
 
     before { agenda_item.meeting.update_column(:state, :in_progress) }
 
-    it "records a 'discussed' cause-only journal on the discussed work package" do
+    it "records a 'discussed' cause-only journal referencing the outcome on the discussed work package" do
+      outcome = nil
       expect do
-        MeetingOutcomes::CreateService
+        outcome = MeetingOutcomes::CreateService
           .new(user:)
           .call(meeting_agenda_item: agenda_item, kind: :information, notes: "We decided to proceed")
+          .result
       end.to change { work_package.journals.reload.count }.by(1)
 
       journal = work_package.journals.last
       expect(journal.cause_type).to eq("meeting_agenda_item_discussed")
       expect(journal.cause_meeting_id).to eq(meeting.id)
+      expect(journal.cause_outcome_id).to eq(outcome.id)
     end
 
     context "when the outcome references a different work package" do
       shared_let(:outcome_work_package) { create(:work_package, project:, author: user) }
 
-      it "journalizes both work packages with their differing causes" do
+      it "journalizes both work packages with their differing causes, each referencing the outcome" do
+        outcome = nil
         expect do
-          MeetingOutcomes::CreateService
+          outcome = MeetingOutcomes::CreateService
             .new(user:)
             .call(meeting_agenda_item: agenda_item, kind: :work_package, work_package_id: outcome_work_package.id)
+            .result
         end.to change { work_package.journals.reload.count }.by(1)
           .and change { outcome_work_package.journals.reload.count }.by(1)
 
         expect(work_package.journals.last.cause_type).to eq("meeting_agenda_item_discussed")
         expect(work_package.journals.last.cause_meeting_id).to eq(meeting.id)
+        expect(work_package.journals.last.cause_outcome_id).to eq(outcome.id)
 
         expect(outcome_work_package.journals.last.cause_type).to eq("meeting_outcome_recorded")
         expect(outcome_work_package.journals.last.cause_meeting_id).to eq(meeting.id)
+        expect(outcome_work_package.journals.last.cause_outcome_id).to eq(outcome.id)
       end
     end
 
@@ -359,6 +365,56 @@ RSpec.describe "Journalizing work package meeting activity", type: :model do
           .and change { work_package.journals.reload.count }.by(0)
 
         expect(outcome_work_package.journals.last.cause_type).to eq("meeting_outcome_recorded")
+      end
+    end
+  end
+
+  describe "deleting an outcome retains its cause-only journals with a dangling outcome link" do
+    let!(:agenda_item) { create(:wp_meeting_agenda_item, meeting:, work_package:, author: user) }
+
+    before { agenda_item.meeting.update_column(:state, :in_progress) }
+
+    it "keeps the 'discussed' journal on the agenda item work package, now pointing at the deleted outcome" do
+      outcome = MeetingOutcomes::CreateService
+        .new(user:)
+        .call(meeting_agenda_item: agenda_item, kind: :information, notes: "We decided to proceed")
+        .result
+
+      journal = work_package.journals.reload.last
+      expect(journal.cause_type).to eq("meeting_agenda_item_discussed")
+      expect(journal.cause_outcome_id).to eq(outcome.id)
+      expect(MeetingOutcome.exists?(outcome.id)).to be(true)
+
+      expect do
+        MeetingOutcomes::DeleteService.new(user:, model: outcome).call
+      end.not_to change { work_package.journals.reload.count }
+
+      expect(MeetingOutcome.exists?(outcome.id)).to be(false)
+      expect(journal.reload.cause_outcome_id).to eq(outcome.id)
+    end
+
+    context "when a simple agenda item records a work package outcome" do
+      let!(:agenda_item) { create(:meeting_agenda_item, meeting:, author: user) }
+
+      shared_let(:outcome_work_package) { create(:work_package, project:, author: user) }
+
+      it "keeps the 'recorded' journal on the outcome work package, now pointing at the deleted outcome" do
+        outcome = MeetingOutcomes::CreateService
+          .new(user:)
+          .call(meeting_agenda_item: agenda_item, kind: :work_package, work_package_id: outcome_work_package.id)
+          .result
+
+        journal = outcome_work_package.journals.reload.last
+        expect(journal.cause_type).to eq("meeting_outcome_recorded")
+        expect(journal.cause_outcome_id).to eq(outcome.id)
+        expect(MeetingOutcome.exists?(outcome.id)).to be(true)
+
+        expect do
+          MeetingOutcomes::DeleteService.new(user:, model: outcome).call
+        end.not_to change { outcome_work_package.journals.reload.count }
+
+        expect(MeetingOutcome.exists?(outcome.id)).to be(false)
+        expect(journal.reload.cause_outcome_id).to eq(outcome.id)
       end
     end
   end

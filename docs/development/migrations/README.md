@@ -6,6 +6,8 @@ OpenProject follows the Rails approach for database migrations, which allows for
 
 This is done so that old migrations don't have to be maintained. Oftentimes, migrations contain data changes along with structural changes. For those data changes, where existing data needs to be moved from one structure to another, additional libraries are necessary or application code is referenced. Both the external libraries as well as the application code might change, leading to hard to spot and costly to fix bugs. 
 
+OpenProject does not currently aim for zero-downtime migrations.
+
 ## Migration versioning
 
 For every major version of OpenProject, migrations are squashed. This means that an installation will have to be migrated to the latest major version before it can be migrated to the current one. For example, to migrate to OpenProject 16.x, an OpenProject 15.x installation must be present first.
@@ -13,7 +15,7 @@ Not all migrations are squashed. Migrations added within the last major version 
 
 ## How migration squashing works
 
-The squashing process consolidates multiple migrations into single aggregated migration files. For example, `db/migrate/1000015_aggregated_migrations.rb` contains squashed migrations for the core application, while modules have their own aggregated migration files (e.g., `modules/documents/db/migrate/1012015_aggregated_documents_migrations.rb`). The files' objective is to create the same database schema that the migrations they squash would have created.
+The squashing process consolidates multiple migrations into single aggregated migration files. For example, `db/migrate/1000016_aggregated_migrations.rb` contains squashed migrations for the core application, while modules have their own aggregated migration files (e.g., `modules/documents/db/migrate/1012015_aggregated_documents_migrations.rb`). The files' objective is to create the same database schema that the migrations they squash would have created.
 
 ### Technical implementation
 

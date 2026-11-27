@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -38,15 +37,15 @@ export default class HighlightTargetElementController extends ApplicationControl
 
     if (hash?.startsWith('#')) {
       try {
-        const el = document.querySelector<HTMLElement>(hash);
+        const el = document.getElementById(decodeURIComponent(hash.slice(1)));
         if (el) {
           this.scrollIntoView(el);
           this.addOutsideClickHandler();
         }
       } catch (e) {
-        // This is very likely an invalid selector such as a Google Analytics tag.
-        // We can safely ignore this and just not scroll in this case.
-        // Still log the error so one can confirm the reason there is no scrolling.
+        // The hash is not valid percent-encoding. We can safely ignore this and
+        // just not scroll in this case. Still log the error so one can confirm
+        // the reason there is no scrolling.
         if (e instanceof Error) {
           console.warn(`Could not scroll to given location hash: ${hash} ( ${e.message})`);
         }

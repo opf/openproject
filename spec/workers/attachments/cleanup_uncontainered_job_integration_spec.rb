@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -66,6 +65,21 @@ RSpec.describe Attachments::CleanupUncontaineredJob, type: :job do
 
     expect(Attachment.all)
       .to contain_exactly(containered_attachment, new_uncontainered_attachment, finished_upload, new_pending_upload)
+  end
+
+  context "with incomplete imports" do
+    let!(:old_import_prepared) do
+      create(:attachment, :pending_import, created_at: grace_period.minutes.ago)
+    end
+    let!(:old_import_failed) do
+      create(:attachment, :failed_import, created_at: grace_period.minutes.ago)
+    end
+
+    it "keeps them regardless of age" do
+      job.perform
+
+      expect(Attachment.all).to include(old_import_prepared, old_import_failed)
+    end
   end
 
   it "removes the staged direct uploads of the removed pending uploads only", :with_direct_uploads do

@@ -20,16 +20,14 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any */
-
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { DynamicIconName } from './dynamic-icon-map';
 import { DynamicIconDirective } from './dynamic-icon.directive';
 
 @Component({
@@ -38,7 +36,7 @@ import { DynamicIconDirective } from './dynamic-icon.directive';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 class TestHostComponent {
-  iconName = '';
+  iconName = '' as DynamicIconName;
   iconSize:'small'|'medium'|'large' = 'medium';
 }
 
@@ -157,7 +155,7 @@ describe('DynamicIconDirective', () => {
   it('should warn when rendering unknown icon', () => {
     vi.spyOn(console, 'warn').mockImplementation(() => undefined);
 
-    component.iconName = 'unknown-icon';
+    component.iconName = 'unknown-icon' as DynamicIconName;
     fixture.detectChanges();
 
     expect(console.warn).toHaveBeenCalledWith('Unknown icon: unknown-icon');
@@ -166,7 +164,7 @@ describe('DynamicIconDirective', () => {
   it('should not render anything for unknown icon', () => {
     vi.spyOn(console, 'warn').mockImplementation(() => undefined);
 
-    component.iconName = 'unknown-icon';
+    component.iconName = 'unknown-icon' as DynamicIconName;
     fixture.detectChanges();
 
     // Should not have set viewBox or other attributes
@@ -182,7 +180,7 @@ describe('DynamicIconDirective', () => {
   it('should handle empty icon name', () => {
     vi.spyOn(console, 'warn').mockImplementation(() => undefined);
 
-    component.iconName = '';
+    component.iconName = '' as DynamicIconName;
     fixture.detectChanges();
 
     // Should not warn or render anything

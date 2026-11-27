@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -90,6 +89,19 @@ RSpec.describe UserCustomField do
       cf2 = create(:user_custom_field, user_custom_field_section: other_section)
       expect(section.reload.attribute_order).to eq([cf1.column_name])
       expect(other_section.reload.attribute_order).to eq([cf2.column_name])
+    end
+
+    it "moves itself to the end of the new section's attribute_order when the section changes, " \
+       "keeping the built-in attributes in place" do
+      other_section = create(:user_custom_field_section)
+      cf = create(:user_custom_field, user_custom_field_section: section)
+      section.update_column(:attribute_order, ["login", cf.column_name, "mail"])
+      other_section.update_column(:attribute_order, ["firstname"])
+
+      cf.update!(custom_field_section_id: other_section.id)
+
+      expect(section.reload.attribute_order).to eq(%w[login mail])
+      expect(other_section.reload.attribute_order).to eq(["firstname", cf.column_name])
     end
   end
 

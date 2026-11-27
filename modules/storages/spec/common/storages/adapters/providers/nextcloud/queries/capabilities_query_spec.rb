@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -71,7 +70,7 @@ module Storages
 
             context "if both apps are installed", vcr: "nextcloud/capabilities_success" do
               let(:app_enabled?) { true }
-              let(:app_version) { SemanticVersion.parse("2.11.3") }
+              let(:app_version) { SemanticVersion.parse("3.3.0") }
               let(:group_folder_enabled?) { true }
               let(:group_folder_version) { SemanticVersion.parse("20.1.7") }
 
@@ -81,7 +80,7 @@ module Storages
             context "if team folder app is installed but disabled",
                     vcr: "nextcloud/capabilities_success_team_folders_disabled" do
               let(:app_enabled?) { true }
-              let(:app_version) { SemanticVersion.parse("2.11.3") }
+              let(:app_version) { SemanticVersion.parse("3.3.0") }
               let(:group_folder_enabled?) { false }
               let(:group_folder_version) { SemanticVersion.parse("20.1.7") }
 
@@ -91,7 +90,7 @@ module Storages
             context "if team folder app is not installed",
                     vcr: "nextcloud/capabilities_success_team_folders_not_installed" do
               let(:app_enabled?) { true }
-              let(:app_version) { SemanticVersion.parse("2.11.3") }
+              let(:app_version) { SemanticVersion.parse("3.3.0") }
               let(:group_folder_enabled?) { false }
               let(:group_folder_version) { nil }
 

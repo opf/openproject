@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Integrations
-  priority: 400
+  priority: 875
 description: Integration to OpenProject.
 keywords: projects, integration, Jira
 ---
@@ -22,6 +22,10 @@ OpenProject offers a basic GitHub integration. You will find more information ab
 ### GitLab
 
 OpenProject offers a GitLab integration, based on the [GitLab plugin contributed by the Community](https://github.com/btey/openproject-gitlab-integration). More information on the GitLab integration is available in our [GitLab integration guide](./gitlab-integration/).
+
+### SquashTM
+
+OpenProject offers an integration with the test management tool SquashTM. Link OpenProject projects to SquashTM projects and work packages to SquashTM requirements to see the related test cases directly in OpenProject. You can find more information about [setting up the integration with SquashTM](./squashtm/) and [linking a work package to a requirement](./squashtm/#link-a-work-package-to-a-requirement).
 
 ### XWiki
 

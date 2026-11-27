@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -63,6 +62,7 @@ RSpec.describe "Storage links in project menu" do
     it "has no links to enabled storage" do
       visit(project_path(id: project.id))
 
+      expect(page).to have_text(project.name)
       expect(page).to have_no_link(storage_configured_linked1.name)
       expect(page).to have_no_link(storage_configured_linked2.name)
       expect(page).to have_no_link(storage_configured_linked3.name)
@@ -108,6 +108,7 @@ RSpec.describe "Storage links in project menu" do
       it "has no links to enabled storages" do
         visit(project_path(id: project.id))
 
+        expect(page).to have_text(project.name)
         expect(page).to have_no_link(storage_configured_linked1.name)
         expect(page).to have_no_link(storage_configured_linked2.name)
         expect(page).to have_no_link(storage_configured_linked3.name)
@@ -137,6 +138,7 @@ RSpec.describe "Storage links in project menu" do
     it "has no links to enabled storages" do
       visit(project_path(id: project.id))
 
+      expect(page).to have_text(project.name)
       expect(page).to have_no_link(storage_configured_linked1.name)
       expect(page).to have_no_link(storage_configured_linked2.name)
       expect(page).to have_no_link(storage_configured_unlinked.name)
