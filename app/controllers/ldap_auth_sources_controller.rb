@@ -29,7 +29,6 @@
 
 class LdapAuthSourcesController < ApplicationController
   menu_item :ldap_authentication
-  include PaginationHelper
 
   layout "admin"
 
@@ -40,10 +39,7 @@ class LdapAuthSourcesController < ApplicationController
   before_action :prevent_editing_when_seeded, only: %i(update)
 
   def index
-    @ldap_auth_sources = LdapAuthSource
-      .order(id: :asc)
-      .page(page_param)
-      .per_page(per_page_param)
+    @ldap_auth_sources = LdapAuthSource.all
   end
 
   def new

@@ -41,4 +41,4 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render(Admin::Labels::SubHeaderComponent.new(query: @query)) %>
 
-<%= render(Admin::Labels::ListComponent.new(@labels, query: @query)) %>
+<%= render(Admin::Labels::ListComponent.new(@labels, query: @query, pagination: @pagination)) %>

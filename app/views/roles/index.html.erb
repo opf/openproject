@@ -38,4 +38,4 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<%= render(Roles::IndexComponent.new(query: @query, rows: @roles)) %>
+<%= render(Roles::IndexComponent.new(query: @query, rows: @roles, pagination: @pagination)) %>

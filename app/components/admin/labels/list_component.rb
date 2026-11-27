@@ -35,7 +35,7 @@ module Admin
 
       alias_method :labels, :model
 
-      options :query
+      options :pagination, :query
     end
   end
 end

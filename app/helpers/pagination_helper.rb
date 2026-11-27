@@ -30,11 +30,22 @@
 require "will_paginate"
 
 module PaginationHelper
+  include Pagy::Method
+
   DEFAULT_PER_PAGE = 30
   SHOW_MORE_DEFAULT_LIMIT = 5
   SHOW_MORE_PAST_DEFAULT_LIMIT = 15
   SHOW_MORE_DEFAULT_INCREMENT = 20
   SHOW_MORE_MAX_LIMIT = 1000
+
+  def paginate_scope(scope)
+    page = page_param
+    limit = per_page_param || DEFAULT_PER_PAGE
+    raise ActiveRecord::RecordNotFound if (page - 1) * limit > Pagy::Offset::MAX_OFFSET
+
+    pagination, records = pagy(:offset, scope, page:, limit:)
+    [pagination, pagination.in.zero? ? scope.none : records.load]
+  end
 
   def pagination_links_full(paginator, **)
     return unless paginator.total_entries.positive?

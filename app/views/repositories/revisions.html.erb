@@ -53,7 +53,7 @@ See COPYRIGHT and LICENSE files for more details.
   </div>
 <% end %>
 <%= render partial: "revisions", locals: { project: @project, path: "", revisions: @changesets, entry: nil } %>
-<%= pagination_links_full @changesets %>
+<%= pagy_pagination_links(@pagination, @changesets) %>
 <% content_for :header_tags do %>
   <%= auto_discovery_link_tag(:atom, params.merge({ format: "atom", page: nil, key: User.current.rss_key })) %>
 <% end %>

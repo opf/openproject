@@ -33,9 +33,10 @@ class TableComponent < ApplicationComponent
   include Primer::AttributesHelper
   include OpTurbo::Streamable
 
-  def initialize(rows: [], table_arguments: {}, **)
+  def initialize(rows: [], table_arguments: {}, pagination: nil, **)
     super(rows, **)
 
+    @pagination = pagination
     @system_arguments = table_arguments
     @system_arguments[:tag] = :table
     @system_arguments[:classes] = class_names(
@@ -107,7 +108,14 @@ class TableComponent < ApplicationComponent
   def initialize_sorted_model
     helpers.sort_init *initial_sort.map(&:to_s)
     helpers.sort_update sortable_columns_correlation
-    @model = paginate_collection apply_sort(model)
+    return if @pagination
+
+    sorted = apply_sort(model)
+    if sorted.respond_to?(:total_entries)
+      @model = sorted
+    else
+      @pagination, @model = helpers.paginate_scope(sorted)
+    end
   end
 
   ##
@@ -153,12 +161,6 @@ class TableComponent < ApplicationComponent
       .order(Arel.sql(initial_order))
   end
 
-  def paginate_collection(query)
-    query
-      .page(helpers.page_param(controller.params))
-      .per_page(helpers.per_page_param)
-  end
-
   def test_selector
     options.fetch(:test_selector) { self.class.name.dasherize }
   end
@@ -198,7 +200,15 @@ class TableComponent < ApplicationComponent
   end
 
   def paginated?
-    rows.respond_to? :total_entries
+    @pagination.present? || rows.respond_to?(:total_entries)
+  end
+
+  def pagination_links(**)
+    if @pagination
+      helpers.pagy_pagination_links(@pagination, rows, **)
+    else
+      helpers.pagination_links_full(rows, **)
+    end
   end
 
   def inline_create_link

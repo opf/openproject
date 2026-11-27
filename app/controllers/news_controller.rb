@@ -28,7 +28,6 @@
 #++
 
 class NewsController < ApplicationController
-  include Pagy::Method
   include PaginationHelper
   include Layout
 
@@ -112,12 +111,7 @@ class NewsController < ApplicationController
   private
 
   def render_news_index(scope)
-    page = page_param
-    limit = per_page_param || DEFAULT_PER_PAGE
-    return head :not_found if (page - 1) * limit > Pagy::Offset::MAX_OFFSET
-
-    @pagination, records = pagy(:offset, scope, page:, limit:)
-    @news = @pagination.in.zero? ? [] : records.to_a
+    @pagination, @news = paginate_scope(scope)
     render :index, locals: { menu_name: project_or_global_menu }
   end
 

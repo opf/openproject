@@ -33,6 +33,6 @@ module Roles
 
     FRAME_ID = "roles-list"
 
-    options :query, :rows
+    options :pagination, :query, :rows
   end
 end

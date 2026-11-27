@@ -82,12 +82,10 @@ class ForumsController < ApplicationController
   end
 
   def set_topics
-    @topics = @forum
-              .topics
-              .order(["#{Message.table_name}.sticked_on ASC", sort_clause].compact.join(", "))
-              .includes(:author, last_reply: :author)
-              .page(page_param)
-              .per_page(per_page_param)
+    scope = @forum.topics
+                 .order(["#{Message.table_name}.sticked_on ASC", sort_clause].compact.join(", "))
+                 .includes(:author, last_reply: :author)
+    @pagination, @topics = paginate_scope(scope)
   end
 
   def new; end

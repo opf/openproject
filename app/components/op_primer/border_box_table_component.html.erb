@@ -148,6 +148,6 @@ See COPYRIGHT and LICENSE files for more details.
   <% end %>
 
 <% if paginated? %>
-  <%= helpers.pagination_links_full rows, **pagination_params %>
+  <%= pagination_links(**pagination_params) %>
 <% end %>
 <% end %>
