@@ -96,6 +96,15 @@ RSpec.describe AttributeHelpText::WorkPackage do
       end
     end
 
+    context "when the user is an admin and the custom field is not configured on any type" do
+      let(:user) { create(:admin) }
+
+      it "returns the help texts for the static attribute and the custom field" do
+        expect(subject)
+          .to contain_exactly(static_instance, cf_instance)
+      end
+    end
+
     context "when the user is a member of a project whose type configures custom fields" do
       let(:permissions) { [] }
       let(:type) do

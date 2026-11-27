@@ -73,7 +73,10 @@ RSpec.describe Import::JiraCreateRelationsJob,
 
         relation = Relation.last
         expect(relation.relation_type).to eq(Relation::TYPE_RELATES)
-        expect(relation.description).to eq("#{current_wp.formatted_id} tested by #{linked_wp.formatted_id}")
+        expect(relation.description).to eq(
+          "#{linked_wp.formatted_id} tests #{current_wp.formatted_id} / " \
+          "#{current_wp.formatted_id} tested by #{linked_wp.formatted_id}"
+        )
         expect(relation.from_id).to eq(linked_wp.id)
         expect(relation.to_id).to eq(current_wp.id)
       end
@@ -82,6 +85,116 @@ RSpec.describe Import::JiraCreateRelationsJob,
         create_relations
 
         expect { create_relations }.not_to change(Relation, :count)
+      end
+    end
+
+    context "with a custom link type linked on both issues (Cloners)" do
+      let(:cloners_type) do
+        { "id" => "10001", "name" => "Cloners", "inward" => "is cloned by", "outward" => "clones" }
+      end
+
+      let(:cloned_issue_payload) do
+        jira_issue_payload.deep_dup.tap do |payload|
+          payload["id"] = "10600"
+          payload["key"] = "DPPP-20"
+          payload["fields"]["summary"] = "Cloned issue"
+          payload["fields"]["issuelinks"] = [
+            { "id" => "10400", "type" => cloners_type, "inwardIssue" => { "id" => jira_issue.origin_id } }
+          ]
+        end
+      end
+
+      let!(:jira_cloned_issue) do
+        create(:jira_issue,
+               jira_import:,
+               origin_id: "10600",
+               jira_project:,
+               payload: cloned_issue_payload)
+      end
+
+      let(:cloning_issue_payload) do
+        jira_issue_payload.deep_dup.tap do |payload|
+          payload["fields"]["issuelinks"] = [
+            { "id" => "10400", "type" => cloners_type, "outwardIssue" => { "id" => "10600" } }
+          ]
+        end
+      end
+
+      let(:cloning_wp) { jira_import.find_op_leg(jira_issue) }
+      let(:cloned_wp) { jira_import.find_op_leg(jira_cloned_issue) }
+      let(:expected_description) do
+        "#{cloning_wp.formatted_id} clones #{cloned_wp.formatted_id} / " \
+          "#{cloned_wp.formatted_id} is cloned by #{cloning_wp.formatted_id}"
+      end
+
+      before do
+        jira_issue.update!(payload: cloning_issue_payload)
+        Import::JiraCreateProjectWorkPackagesJob.perform_now(jira_import.id, jira_project.id)
+      end
+
+      it "creates a single relation describing both directions" do
+        expect { create_relations }.to change(Relation, :count).by(1)
+
+        relation = Relation.last
+        expect(relation.relation_type).to eq(Relation::TYPE_RELATES)
+        expect(relation.from_id).to eq(cloning_wp.id)
+        expect(relation.to_id).to eq(cloned_wp.id)
+        expect(relation.description).to eq(expected_description)
+      end
+
+      it "creates the same relation when only the cloned issue carries the link" do
+        jira_issue.update!(payload: cloning_issue_payload.deep_merge("fields" => { "issuelinks" => [] }))
+
+        expect { create_relations }.to change(Relation, :count).by(1)
+
+        relation = Relation.last
+        expect(relation.from_id).to eq(cloning_wp.id)
+        expect(relation.to_id).to eq(cloned_wp.id)
+        expect(relation.description).to eq(expected_description)
+      end
+    end
+
+    context "with a symmetric custom link type (Relates)" do
+      let(:related_issue_payload) do
+        jira_issue_payload.deep_dup.tap do |payload|
+          payload["id"] = "10700"
+          payload["key"] = "DPPP-30"
+          payload["fields"]["summary"] = "Related issue"
+          payload["fields"]["issuelinks"] = []
+        end
+      end
+
+      let!(:jira_related_issue) do
+        create(:jira_issue,
+               jira_import:,
+               origin_id: "10700",
+               jira_project:,
+               payload: related_issue_payload)
+      end
+
+      let(:relating_issue_payload) do
+        jira_issue_payload.deep_dup.tap do |payload|
+          payload["fields"]["issuelinks"] = [
+            {
+              "id" => "10500",
+              "type" => { "id" => "10003", "name" => "Relates", "inward" => "relates to", "outward" => "relates to" },
+              "outwardIssue" => { "id" => "10700" }
+            }
+          ]
+        end
+      end
+
+      before do
+        jira_issue.update!(payload: relating_issue_payload)
+        Import::JiraCreateProjectWorkPackagesJob.perform_now(jira_import.id, jira_project.id)
+      end
+
+      it "describes the relation only once" do
+        create_relations
+
+        relating_wp = jira_import.find_op_leg(jira_issue)
+        related_wp = jira_import.find_op_leg(jira_related_issue)
+        expect(Relation.last.description).to eq("#{relating_wp.formatted_id} relates to #{related_wp.formatted_id}")
       end
     end
 
@@ -233,7 +346,6 @@ RSpec.describe Import::JiraCreateRelationsJob,
 
     context "when the import is aborting" do
       before do
-        # rubocop:disable-next RSpec/AnyInstance
         allow_any_instance_of(Import::JiraImport)
           .to receive(:in_state?).with(:import_aborting).and_return(true)
       end

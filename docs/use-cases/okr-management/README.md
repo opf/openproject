@@ -73,7 +73,7 @@ Before setting up your OKRs, ensure the following modules are activated in your 
 
    ![OKR related work package types activated in OKR project settings in OpenProject](openproject_docs_use_case_okr_project_settings_wp_types.png)
 
-2. Use standard **statuses** such as _New_, _In progress_, and _Closed_. Optionally, [add a new work package status](../../system-admin-guide/manage-work-packages/work-package-status/#create-a-new-work-package-status), for example _Moved to next quarter_ to carry unfinished Objectives or Key Results into the following cycle.
+2. Use standard **statuses** such as _New_, _In progress_, and _Closed_. Optionally, [add a new work package status](../../system-admin-guide/manage-work-packages/work-package-statuses/#create-a-new-work-package-status), for example _Moved to next quarter_ to carry unfinished Objectives or Key Results into the following cycle.
 
    ![Example of a _Moved to next quarter_ work package status in the OpenProject administration](openproject_docs_use_case_okr_project_wp_status.png)
 

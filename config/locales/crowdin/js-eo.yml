@@ -963,6 +963,7 @@ eo:
         edit: Amasa redaktado
         move: Bulk change of project
       button_clear: Malplenigi
+      button_edit_subject: Edit subject
       comment_added: La komento estis sukcese aldonita.
       comment_send_failed: Eraro okazis. Ne eblis aldoni la komenton.
       comment_updated: La komento estis sukcese aktualigita.

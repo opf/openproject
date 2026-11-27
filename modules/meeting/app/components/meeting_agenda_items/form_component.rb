@@ -62,6 +62,7 @@ module MeetingAgendaItems
       {
         controller: "meeting-agenda-item-form ckeditor-focus scroll-into-view",
         "meeting-agenda-item-form-cancel-url-value": @cancel_path,
+        "meeting-agenda-item-form-initial-presenter-id-value": @meeting_agenda_item.presenter_id.to_s,
         "meeting-agenda-item-form-autofocus-value": @autofocus,
         "ckeditor-focus-target": "editor",
         "ckeditor-focus-autofocus-value": !@autofocus

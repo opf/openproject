@@ -178,6 +178,19 @@ export class OpSettingsMenuDirective extends OpActionMenuItems implements AfterV
         },
       },
       {
+        // Rename query shortcut
+        disabled: !this.query.id || this.authorisationService.cannot('query', 'updateImmediately'),
+        linkText: this.I18n.t('js.toolbar.settings.page_settings'),
+        icon: 'icon-edit',
+        onClick: (event:MouseEvent) => {
+          if (this.allowQueryAction(event, 'update')) {
+            document.querySelector(`${selectableTitleIdentifier}`)?.dispatchEvent(new CustomEvent(triggerEditingEvent, { bubbles: true }));
+          }
+
+          return true;
+        },
+      },
+      {
         // Insert columns. Left out on mobile rather than hidden by a class,
         // which would leave it in reach of the arrow keys (DREAM-1034).
         linkText: this.I18n.t('js.work_packages.query.add_columns'),
@@ -192,6 +205,20 @@ export class OpSettingsMenuDirective extends OpActionMenuItems implements AfterV
           return true;
         },
       },
+      {
+        // Sharing modal
+        disabled: this.authorisationService.cannot('query', 'unstar') && this.authorisationService.cannot('query', 'star'),
+        linkText: this.I18n.t('js.toolbar.settings.visibility_settings'),
+        icon: 'icon-watched',
+        onClick: (event) => {
+          if (this.allowQueryAction(event, 'unstar') || this.allowQueryAction(event, 'star')) {
+            this.opModalService.show(QuerySharingModalComponent, this.injector);
+          }
+
+          return true;
+        },
+      },
+      { divider: true },
       {
         // Sort by
         linkText: this.I18n.t('js.toolbar.settings.sort_by'),
@@ -220,19 +247,7 @@ export class OpSettingsMenuDirective extends OpActionMenuItems implements AfterV
           return true;
         },
       },
-      {
-        // Rename query shortcut
-        disabled: !this.query.id || this.authorisationService.cannot('query', 'updateImmediately'),
-        linkText: this.I18n.t('js.toolbar.settings.page_settings'),
-        icon: 'icon-edit',
-        onClick: (event:MouseEvent) => {
-          if (this.allowQueryAction(event, 'update')) {
-            document.querySelector(`${selectableTitleIdentifier}`)?.dispatchEvent(new CustomEvent(triggerEditingEvent, { bubbles: true }));
-          }
-
-          return true;
-        },
-      },
+      { divider: true },
       {
         // Query save modal
         disabled: this.authorisationService.cannot('query', 'updateImmediately'),
@@ -243,7 +258,7 @@ export class OpSettingsMenuDirective extends OpActionMenuItems implements AfterV
           if (!isPersistedResource(query) && this.allowQueryAction(event, 'updateImmediately')) {
             this.opModalService.show(SaveQueryModalComponent, this.injector);
           } else if (query.id && this.allowQueryAction(event, 'updateImmediately')) {
-            this.wpListService.save(query);
+            void this.wpListService.save(query);
           }
 
           return true;
@@ -290,19 +305,6 @@ export class OpSettingsMenuDirective extends OpActionMenuItems implements AfterV
               void this.turboRequests.requestStream(href);
             }
           }
-          return true;
-        },
-      },
-      {
-        // Sharing modal
-        disabled: this.authorisationService.cannot('query', 'unstar') && this.authorisationService.cannot('query', 'star'),
-        linkText: this.I18n.t('js.toolbar.settings.visibility_settings'),
-        icon: 'icon-watched',
-        onClick: (event) => {
-          if (this.allowQueryAction(event, 'unstar') || this.allowQueryAction(event, 'star')) {
-            this.opModalService.show(QuerySharingModalComponent, this.injector);
-          }
-
           return true;
         },
       },

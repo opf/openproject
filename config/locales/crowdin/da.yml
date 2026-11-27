@@ -1831,7 +1831,7 @@ da:
               label_import_data: Importeres nu
               label_progress: Importen er i gang …
               label_resolution_statuses_explanation: Ekstra statusser, der kombinerer status og løsning (fx "Done - Fixed")
-              label_sprint_explanation: Sprints that contain at least one issue
+              label_sprint_explanation: Sprints, der indeholder mindst én sag
               label_users_import_explanation: Brugere, der er involveret i de valgte projekter (inklusive gruppemedlemskaber)
               title: Importér data
             fetch_data:
@@ -1986,9 +1986,11 @@ da:
     labels:
       delete_dialog_component:
         confirmation: Jeg forstår, at handlingen ikke kan fortrydes
-        description_html: Mærkaten <strong>%{name}</strong> fjernes fra alle arbejdspakker i alle projekter.
         heading: Vil du slette mærkaten?
         title: Vil du slette mærkaten?
+        usage_description_html:
+          one: This will remove the label <strong>%{name}</strong> from %{count} work package that currently uses it. Are you sure you want to delete it?
+          other: This will remove the label <strong>%{name}</strong> from %{count} work packages that currently use it. Are you sure you want to delete it?
       dialog_component:
         create_title: Opret mærkat
         rename_title: Omdøb "%{name}"
@@ -3816,40 +3818,36 @@ da:
     blocks:
       community: OpenProject-fællesskabet
       new_features:
-        '17_9':
-          new_features_list:
-            line_0: Opret arbejdspakker direkte i Dokumenter.
-            line_1: Søg efter og filtrér arbejdspakker i Backlogs.
-            line_2: Vælg, om underliggende arbejdspakker skal beholdes, når en arbejdspakke slettes.
-            line_3: Brug MCP-serveren til at registrere tid, søge efter arbejdspakker ud fra deres viste id og meget mere (Professional-planen).
-            line_4: Angiv planlagt arbejde i timer, dage, uger eller måneder.
-            line_5: Se importens fremdrift, når du bruger Jira-migreringen.
-            line_6: Brug datobeskeder i Community-udgaven.
-          new_features_title: 'Versionen indeholder en række nye funktioner og forbedringer, fx:
-
-            '
         '18_0':
           new_features_list:
             line_0:
-              description: Brug dem med fælles og projektspecifikke arbejdsgange og formularer
+              description: Customize types with shared or project-specific workflows and forms.
               title: Typevarianter
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#work-package-types-and-variants-workflows-and-forms
             line_1:
-              description: Sprintrapporter med mange nye diagrammer
-              title: Agil rapportering
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              description: Track sprint progress (Community edition) and gain deeper insights with Created vs. Resolved and Epic progress charts (Professional plan).
+              title: Agile reporting
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#agile-planning-and-reporting
             line_2:
-              description: Opsummer tekst, skift format, byg på skabeloner
-              title: AI-teksthandlinger
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              description: Proofread, rewrite, and structure text directly in OpenProject (Professional plan).
+              title: AI Text Assistant
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#ai-text-assistant-and-mcp-server
             line_3:
-              description: Opret og genbrug mærkater
-              title: Mærkater
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              description: Organize and find related work packages more easily.
+              title: Work package labels
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#labels-for-work-packages
             line_4:
-              description: Konfigurer eller uddeleger brugerdefinerede felter pr. projekt
-              title: Projektspecifikke værdier
-              url: https://www.openproject.org/docs/release-notes/18-0-0/
+              description: Plan resources across projects and with placeholder users and manage work package allocations and personal day planning (Premium plan).
+              title: Extended resource management
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#resource-management-and-personal-planning
+            line_5:
+              description: Benefit from improved keyboard navigation, screen reader support, and color contrast checking.
+              title: Enhanced accessibility
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#accessibility
+            line_6:
+              description: Connect external AI assistants to OpenProject.
+              title: MCP Server released to Community
+              url: https://www.openproject.org/docs/release-notes/18-0-0/#ai-text-assistant-and-mcp-server
           new_features_title: 'Versionen indeholder en række nye funktioner og forbedringer, fx:
 
             '
@@ -5963,13 +5961,13 @@ da:
       shared: Delte projektlister
     phase_status:
       description:
-        completed: This will also mark all previous phases as complete.
-        in_progress: This will complete all previous phases and mark future phases as not started.
-        open: This will mark all future phases as not started.
+        completed: Alle tidligere faser markeres også som afsluttet.
+        in_progress: Alle tidligere faser afsluttes, og alle senere faser markeres som ikke startet.
+        open: Alle senere faser markeres som ikke startet.
       title:
         completed: Afsluttet
         in_progress: I gang
-        open: Not started
+        open: Ikke startet
     settings:
       actions:
         label_disable_all: Deaktiver alle
@@ -6936,7 +6934,7 @@ da:
       status_color_text: |
         Klik for at tildele eller ændre statussens farve.
         Den vises på statusknappen og kan bruges til at fremhæve arbejdspakker i tabellen.
-      status_default_text: Nye arbejdspakker får som standard denne status. Den kan ikke være skrivebeskyttet.
+      status_default_text: New work packages are by default set to this status. They cannot be read-only.
       status_excluded_from_totals_text: |-
         Markér feltet for at udelade arbejdspakker med denne status fra totalerne for Arbejde,
         Resterende arbejde og % færdigt i et hierarki.

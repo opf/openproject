@@ -963,6 +963,7 @@ fr:
         edit: Modifier en bloc
         move: Changer de projet en bloc
       button_clear: Effacer
+      button_edit_subject: Edit subject
       comment_added: Le commentaire a été ajouté.
       comment_send_failed: Une erreur s'est produite. Impossible de soumettre le commentaire.
       comment_updated: Le commentaire a été mis à jour.

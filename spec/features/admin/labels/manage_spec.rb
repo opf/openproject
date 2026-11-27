@@ -85,7 +85,7 @@ RSpec.describe "Managing labels", :js do
     visit admin_labels_path
 
     within_row_menu(label) { click_on "Rename" }
-    page.within_modal('Rename "Machine Learning"') do
+    page.within_modal("Rename label") do
       fill_in "Name", with: "neural learning"
       wait_for_turbo_stream { click_on "Rename" }
       expect(page).to have_text("A label with this name already exists. Please use another one.")

@@ -122,7 +122,7 @@ module Backlogs
       if result.success?
         respond_with_start_success(sprint: result.result)
       else
-        respond_with_start_finish_failure(message: start_finish_failure_message(:start, result.message))
+        respond_with_start_finish_failure(message: start_finish_failure_message(:start, result))
       end
     end
 
@@ -135,7 +135,7 @@ module Backlogs
       elsif result.includes_error?(:base, :unfinished_work_packages)
         show_finish_sprint_dialog
       else
-        respond_with_start_finish_failure(message: start_finish_failure_message(:finish, result.message))
+        respond_with_start_finish_failure(message: start_finish_failure_message(:finish, result))
       end
     end
 
@@ -263,7 +263,13 @@ module Backlogs
       format.html { redirect_back_or_to(project_backlogs_backlog_path(@project), **) }
     end
 
-    def start_finish_failure_message(action, reason)
+    def start_finish_failure_message(action, result)
+      # TODO: this is a quick and dirty way of displaying the errors without:
+      #   * potentially having a very very long list
+      #   * potentially revealing sensitive information
+      # It might be too vague oftentimes. But it is better than nothing.
+      reason = result.self_and_dependent.map(&:message).compact_blank.uniq.join(" ")
+
       if reason.present?
         I18n.t(:"notice_unsuccessful_#{action}_with_reason", reason:)
       else

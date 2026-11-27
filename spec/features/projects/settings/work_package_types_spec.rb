@@ -256,6 +256,52 @@ because it's still in use by work packages)
     end
   end
 
+  describe "deleting a variant the project owns" do
+    let!(:owned) { create(:project_owned_type_variant, type: epic, project:, variant_name: "Ours") }
+
+    before { settings_page.visit! }
+
+    it "stays on the page with the type still expanded" do
+      expect(page).to have_text("Ours")
+
+      settings_page.delete_project_variant(owned)
+
+      expect_flash(message: I18n.t(:notice_successful_delete))
+      expect(page).to have_current_path(settings_page.path, ignore_query: true)
+      expect(page).to have_no_text("Ours")
+      expect(page).to have_text("Design")
+      expect(TypeVariant).not_to exist(owned.id)
+    end
+  end
+
+  describe "deleting a variant while the migration filter is on" do
+    let!(:migrated) do
+      create(:project_owned_type_variant, type: epic, project:, variant_name: "Imported", created_by_migration: true)
+    end
+    let!(:kept) do
+      create(:project_owned_type_variant, type: epic, project:, variant_name: "Imported too", created_by_migration: true)
+    end
+
+    before { settings_page.visit! }
+
+    it "keeps the migration filter applied after the deletion" do
+      within_test_selector("project-types-migration-filter") do
+        click_on I18n.t("types.edit.variants.created_by_migration_filter.migrated")
+      end
+      expect(page).to have_text("Imported")
+      expect(page).to have_no_text("Design")
+
+      settings_page.delete_project_variant(migrated)
+
+      expect(page).to have_no_css("[data-test-selector='project-types-variant-#{migrated.id}']")
+      expect(page).to have_css(".SegmentedControl-item--selected",
+                               text: I18n.t("types.edit.variants.created_by_migration_filter.migrated"))
+      expect(page).to have_text("Imported too")
+      expect(page).to have_no_text("Design")
+      expect(TypeVariant).not_to exist(migrated.id)
+    end
+  end
+
   # Located by test selector because the tab nav above renders a "Types" link,
   # which Capybara's non-exact text matching would confuse with this button.
   def add_type(query, select_text: query)

@@ -26,6 +26,7 @@
 //++
 
 import { ApplicationController, useMeta } from 'stimulus-use';
+import { type TurboBeforeVisitEvent } from '@hotwired/turbo';
 import { useAngularServices, type PickedServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
 import { BeforeunloadController } from '../../beforeunload.controller';
 import { appendCollapsedState } from '../../../helpers/meetings-helpers';
@@ -37,7 +38,7 @@ export default class extends ApplicationController {
   declare services:Promise<PickedServices<'turboRequests'>>;
 
   private beforeUnloadController:BeforeunloadController;
-  private boundBeforeUnloadHandler = this.beforeUnloadHandler.bind(this);
+  private abortController:AbortController;
 
   static metaNames = ['csrf-token'];
 
@@ -53,7 +54,10 @@ export default class extends ApplicationController {
   connect():void {
     useMeta(this, { suffix: false });
 
-    window.addEventListener('beforeunload', this.boundBeforeUnloadHandler);
+    this.abortController = new AbortController();
+    const { signal } = this.abortController;
+    window.addEventListener('beforeunload', (event) => this.beforeUnloadHandler(event), { signal });
+    document.addEventListener('turbo:before-visit', (event) => this.beforeVisitHandler(event), { signal });
     this.beforeUnloadController = this.application.getControllerForElementAndIdentifier(document.body, 'beforeunload') as BeforeunloadController;
   }
 
@@ -113,7 +117,7 @@ export default class extends ApplicationController {
   }
 
   private handleClick(url:string, method:string):void {
-    if (hasUnsavedChanges()) {
+    if (hasUnsavedChanges(this.element)) {
       if (window.confirm(I18n.t('js.text_are_you_sure_to_cancel'))) {
         window.OpenProject.pageState = 'pristine';
         void this.sendRequest(url, method);
@@ -124,7 +128,17 @@ export default class extends ApplicationController {
   }
 
   private beforeUnloadHandler(event:BeforeUnloadEvent):void {
-    if (hasUnsavedChanges()) {
+    if (hasUnsavedChanges(this.element)) {
+      event.preventDefault();
+    }
+  }
+
+  private beforeVisitHandler(event:TurboBeforeVisitEvent):void {
+    if (window.OpenProject.pageHasUnsavedChanges) {
+      return;
+    }
+
+    if (hasUnsavedChanges(this.element) && !window.confirm(I18n.t('js.text_are_you_sure_to_cancel'))) {
       event.preventDefault();
     }
   }
@@ -141,7 +155,7 @@ export default class extends ApplicationController {
   }
 
   disconnect():void {
-    window.removeEventListener('beforeunload', this.boundBeforeUnloadHandler);
+    this.abortController.abort();
     super.disconnect();
   }
 }

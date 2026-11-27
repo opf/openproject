@@ -100,11 +100,12 @@ RSpec.describe WorkPackageTypes::Types::VariantActionsComponent, type: :componen
         expect(link["data-controller"]).to eq("async-dialog")
       end
 
-      it "passes on where to return to once deleted" do
-        render_inline(described_class.new(variant:, back_url: "/types/1/variants"))
+      it "forwards the list params to the deletion link, so the morph repaints the right list" do
+        render_inline(described_class.new(variant:, list_params: { list_context: "variants_tab", query: "hardware" }))
 
         expect(page.find_link("Delete")[:href])
-          .to eq deletion_dialog_type_variant_path(type_id: root_type.id, id: variant.id, back_url: "/types/1/variants")
+          .to eq deletion_dialog_type_variant_path(type_id: root_type.id, id: variant.id,
+                                                   list_context: "variants_tab", query: "hardware")
       end
     end
   end

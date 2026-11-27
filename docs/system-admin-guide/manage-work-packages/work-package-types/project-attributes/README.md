@@ -8,7 +8,7 @@ keywords: project attributes, work package types, work package form, project ove
 
 # Display project attributes in work packages
 
-You can display **[project attributes](../../../projects/project-attributes/)** in a dedicated tab within work packages. This allows editing project-level information directly from a work package.
+You can display [project attributes](../../../projects/project-attributes/) in a dedicated tab within work packages.
 
 Please note that only users with necessary permissions can see or edit the project attributes within a work package.
 

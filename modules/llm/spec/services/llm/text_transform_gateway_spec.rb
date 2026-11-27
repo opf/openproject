@@ -155,7 +155,8 @@ RSpec.describe Llm::TextTransformGateway, :llm_server_helpers, :webmock,
     end
 
     ["Unsupported parameter: 'reasoning_effort' is not supported with this model.",
-     "Argument not supported on this model: reasoningEffort"].each do |message|
+     "Argument not supported on this model: reasoningEffort",
+     "Reasoning is mandatory for this endpoint and cannot be disabled."].each do |message|
       it "retries once without the reasoning setting when the server answers #{message.inspect}" do
         stub_request(:post, completions)
           .to_return(bad_request(message))

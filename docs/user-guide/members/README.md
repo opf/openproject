@@ -140,6 +140,8 @@ If a work package has been [shared](../work-packages/share-work-packages), you m
 
 Members will have different roles with different permissions in a project. To find out how to configure roles and permissions click [here](../../system-admin-guide/users-permissions/roles-permissions).
 
+To see which permissions a role grants, click the info icon (i) next to the role, for example in the members list or when adding or editing a member. See [Preview the permissions of a role](../../system-admin-guide/users-permissions/roles-permissions/#preview-the-permissions-of-a-role).
+
 <div class="glossary">
 
 A **role** is defined as a set of permissions defined by a unique name. Project members are assigned to a project by specifying a user's, group's or placeholder user's name and the role(s) they should assume in the project.

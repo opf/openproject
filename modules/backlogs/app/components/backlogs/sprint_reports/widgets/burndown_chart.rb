@@ -68,6 +68,12 @@ module Backlogs
           @burndown ||= ::Sprints::Burndown.new(sprint:, project:)
         end
 
+        def chartable_work_packages
+          sprint.work_packages_for(project)
+                .visible(current_user)
+                .where(status_id: project.statuses_considered_open)
+        end
+
         def series
           { remaining: burndown.remaining,
             guideline: burndown.guideline,

@@ -45,7 +45,7 @@ export class ZenModeButtonComponent extends AbstractWorkPackageButtonComponent {
 
   public buttonClass = 'toolbar-icon';
 
-  public iconClass = 'icon-zen-mode';
+  readonly icon = 'screen-full';
 
   static inZenMode = false;
 

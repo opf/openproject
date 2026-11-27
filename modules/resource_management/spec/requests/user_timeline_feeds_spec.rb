@@ -159,6 +159,51 @@ RSpec.describe "User timeline feeds", type: :rails_request, with_ee: %i[resource
       expect(event.dig("extendedProps", "html")).to include("op-rm-timeline-bar_status")
     end
 
+    it "does not name the current project on its own allocations" do
+      get_events
+
+      html = block_events.find { |e| e["id"] == allocation.id }.dig("extendedProps", "html")
+      expect(html).not_to include("op-rm-timeline-bar--project")
+      expect(Nokogiri::HTML5.fragment(html).at_css("tool-tip").text).to eq("Develop route optimization")
+    end
+
+    context "with an allocation on a visible work package in another project" do
+      let(:other_project) do
+        create(:project, name: "Moonshot", enabled_module_names: %w[resource_management work_package_tracking])
+      end
+      let(:other_wp) { create(:work_package, project: other_project, subject: "Build the lander") }
+      let!(:other_allocation) do
+        create(:resource_allocation, entity: other_wp, principal: assignee, requested_by: assignee,
+                                     start_date: Date.new(2026, 6, 15), end_date: Date.new(2026, 6, 19),
+                                     allocated_time: 5 * 8 * 60)
+      end
+      let(:bar_event) do
+        get_events
+        block_events.find { |e| e["id"] == other_allocation.id }
+      end
+      let(:bar_html) { bar_event.dig("extendedProps", "html") }
+
+      before do
+        create(:member, principal: user, project: other_project,
+                        roles: [create(:project_role, permissions: %i[view_resource_planners view_work_packages
+                                                                      allocate_user_resources])])
+      end
+
+      it "offers no click action, even though the viewer may allocate in that project" do
+        expect(bar_event.dig("extendedProps", "editUrl")).to be_nil
+      end
+
+      it "names the project on the bar" do
+        project_label = Nokogiri::HTML5.fragment(bar_html).at_css(".op-rm-timeline-bar--project")
+
+        expect(project_label.text).to eq("Moonshot")
+      end
+
+      it "carries the project and subject in the tooltip" do
+        expect(Nokogiri::HTML5.fragment(bar_html).at_css("tool-tip").text).to eq("Moonshot - Build the lander")
+      end
+    end
+
     it "carries an edit url on each allocation event for a user who may allocate" do
       login_as create(:user, member_with_permissions: {
                         project => %i[view_resource_planners view_work_packages allocate_user_resources]
@@ -236,6 +281,75 @@ RSpec.describe "User timeline feeds", type: :rails_request, with_ee: %i[resource
       expect(bar.dig("extendedProps", "overbooked")).to be(true)
       expect(bar.dig("extendedProps", "html"))
         .to include(I18n.t("resource_management.user_timeline.overbooked_tooltip.unplannable"))
+    end
+
+    shared_examples "an undisclosed allocation bar" do
+      it "renders the bar with its hours on the assignee's row" do
+        expect(bar_html).to include(I18n.t("resource_management.allocation.hours", value: 40))
+      end
+
+      it "replaces the subject with the undisclosed label" do
+        expect(bar_html).not_to include("Confidential rocket plans")
+        expect(bar_html).to include(I18n.t("resource_management.timeline.undisclosed.work_package"))
+      end
+
+      it "replaces the tooltip with the undisclosed hint" do
+        tooltip = Nokogiri::HTML5.fragment(bar_html).at_css("tool-tip")
+
+        expect(tooltip.text).to eq(I18n.t("resource_management.timeline.undisclosed.tooltip"))
+      end
+
+      it "does not paint the work package's status color" do
+        expect(bar_html).not_to include("--rm-status-color")
+        expect(bar_html).not_to include("#AA0000")
+      end
+
+      it "offers no click action" do
+        expect(bar_event.dig("extendedProps", "editUrl")).to be_nil
+      end
+    end
+
+    context "with an allocation on a work package in another project" do
+      let(:other_project) do
+        create(:project, name: "Moonshot", enabled_module_names: %w[resource_management work_package_tracking])
+      end
+      let(:hidden_wp) do
+        create(:work_package, project: other_project, subject: "Confidential rocket plans",
+                              status: create(:status, color: create(:color, hexcode: "#AA0000")))
+      end
+      let!(:hidden_allocation) do
+        create(:resource_allocation, entity: hidden_wp, principal: assignee, requested_by: assignee,
+                                     start_date: Date.new(2026, 6, 15), end_date: Date.new(2026, 6, 19),
+                                     allocated_time: 5 * 8 * 60)
+      end
+      let(:bar_event) do
+        get_events
+        block_events.find { |e| e["id"] == hidden_allocation.id }
+      end
+      let(:bar_html) { bar_event.dig("extendedProps", "html") }
+
+      context "when the viewer cannot see that project" do
+        it_behaves_like "an undisclosed allocation bar"
+
+        it "does not name the project" do
+          expect(bar_html).not_to include("Moonshot")
+        end
+      end
+
+      context "when the viewer can see that project but not its work packages" do
+        before do
+          create(:member, principal: user, project: other_project,
+                          roles: [create(:project_role, permissions: %i[view_resource_planners allocate_user_resources])])
+        end
+
+        it_behaves_like "an undisclosed allocation bar"
+
+        it "names the project on the bar" do
+          project_label = Nokogiri::HTML5.fragment(bar_html).at_css(".op-rm-timeline-bar--project")
+
+          expect(project_label.text).to eq("Moonshot")
+        end
+      end
     end
   end
 

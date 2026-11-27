@@ -60,6 +60,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
 
         work_package = WorkPackage.find("DPPP-6")
         expect(work_package.type.name).to eq("Bug")
+        expect(work_package.start_date).to be_nil
         expect(work_package.due_date.to_s).to eq("2031-05-29")
         expect(work_package.estimated_hours).to eq(120.0)
         expect(work_package.remaining_hours).to eq(11.0)
@@ -435,6 +436,16 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
 
           work_package = WorkPackage.find("DPPP-6")
           expect(work_package.status.category).to be_nil
+        end
+      end
+
+      context "with new work package start date defaulting to add date",
+              with_settings: { work_package_startdate_is_adddate: true } do
+        it "still imports the issue without a start date" do
+          create_work_packages
+
+          work_package = WorkPackage.find("DPPP-6")
+          expect(work_package.start_date).to be_nil
         end
       end
 

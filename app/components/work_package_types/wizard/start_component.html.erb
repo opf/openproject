@@ -52,3 +52,11 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render(Primer::Beta::Heading.new(tag: :h3, font_size: 4, mb: 3)) { t_start(:next_heading) } %>
 <%= render(Primer::Beta::Text.new(tag: :p, mb: 3)) { t_scoped(:next_steps) } %>
+
+<%= render(Primer::Beta::Text.new(tag: :p, mb: 3)) do %>
+  <%= helpers.link_translate(
+        "types.creation_wizard.start.more_information",
+        links: { video: %i[type_variants_tutorial_video], docs: %i[sysadmin_docs types] },
+        font_style: :italic
+      ) %>
+<% end %>

@@ -34,20 +34,21 @@ module ResourceAllocations
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
-    def initialize(project:, allocations:, visible_work_package_ids:)
+    def initialize(project:, allocations:, visible_work_package_ids:, editable_ids:)
       super
 
       @project = project
       @allocations = allocations
       @visible_work_package_ids = visible_work_package_ids
+      @editable_ids = editable_ids
     end
 
     private
 
-    attr_reader :project, :allocations, :visible_work_package_ids
+    attr_reader :project, :allocations, :visible_work_package_ids, :editable_ids
 
     def table
-      AssignmentTableComponent.new(rows: allocations, project:, visible_work_package_ids:)
+      AssignmentTableComponent.new(rows: allocations, project:, visible_work_package_ids:, editable_ids:)
     end
   end
 end

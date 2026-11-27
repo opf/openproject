@@ -963,6 +963,7 @@ fi:
         edit: Bulk edit
         move: Bulk change of project
       button_clear: Tyhjennä
+      button_edit_subject: Edit subject
       comment_added: Kommentin lisääminen onnistui.
       comment_send_failed: On tapahtunut virhe. Kommenttia ei voitu lähettää.
       comment_updated: Kommentti päivitettiin onnistuneesti.

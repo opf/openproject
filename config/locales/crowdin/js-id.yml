@@ -957,6 +957,7 @@ id:
         edit: Edit massal
         move: Bulk change of project
       button_clear: Clear
+      button_edit_subject: Edit subject
       comment_added: The comment was successfully added.
       comment_send_failed: An error has occurred. Could not submit the comment.
       comment_updated: The comment was successfully updated.

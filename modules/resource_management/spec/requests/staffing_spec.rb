@@ -204,6 +204,48 @@ RSpec.describe "Staffing requests",
     end
   end
 
+  describe "with a work package the viewer cannot see" do
+    let(:viewer) do
+      create(:user,
+             member_with_permissions: {
+               project => %i[view_resource_planners assign_users_to_generic_allocations allocate_user_resources]
+             })
+    end
+
+    before { login_as viewer }
+
+    context "in the list" do
+      before { get project_resource_management_staffing_path(project) }
+
+      it "still lists the allocation with its Assign action" do
+        expect(response.body).to include("Earlier developer")
+        expect(response.body).to include(project_resource_management_staffing_assign_path(project, earlier_allocation))
+      end
+
+      it "replaces the subject with the undisclosed label" do
+        expect(response.body).not_to include(work_package.subject)
+        expect(response.body).to include(I18n.t("resource_management.timeline.undisclosed.work_package"))
+      end
+
+      it "offers neither Edit nor Delete" do
+        expect(response.body).not_to include(edit_project_resource_allocation_path(project, earlier_allocation))
+        expect(response.body).not_to include(I18n.t("resource_management.staffing.delete_confirmation"))
+      end
+    end
+
+    context "in the assign dialog" do
+      before do
+        get project_resource_management_staffing_assign_path(project, earlier_allocation), as: :turbo_stream
+      end
+
+      it "opens without disclosing the work package" do
+        expect(response).to have_http_status(:ok)
+        expect(response.body).not_to include(work_package.subject)
+        expect(response.body).not_to include(I18n.t("resource_management.staffing.columns.work_package"))
+      end
+    end
+  end
+
   describe "PUT assign" do
     def assign(allocation, params = {})
       put project_resource_management_staffing_assign_path(project, allocation),

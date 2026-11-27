@@ -963,6 +963,7 @@
         edit: Bulk redigere
         move: Endre prosjekt i bulk
       button_clear: Nullstill
+      button_edit_subject: Edit subject
       comment_added: Kommentaren ble lagt til.
       comment_send_failed: En feil har oppstått.  Kommentaren kunne ikke sendes inn.
       comment_updated: Kommentaren ble lagt til.

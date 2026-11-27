@@ -997,6 +997,7 @@ hu:
         edit: Tömeges szerkesztés
         move: A projekt tömeges megváltoztatása
       button_clear: Törlés
+      button_edit_subject: Edit subject
       comment_added: Megjegyzés sikeresen hozzáadva.
       comment_send_failed: Hiba történt. A megjegyzés elküldése meghiúsult.
       comment_updated: A megjegyzés sikeresen frissítve.

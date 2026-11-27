@@ -63,10 +63,11 @@ RSpec.describe Admin::Labels::DialogComponent, type: :component do
   context "for a persisted label" do
     let(:label) { create(:label, name: "Machine Learning") }
 
-    it "renders the rename title with the label's name" do
+    it "renders a static rename title without the label's name" do
       rendered_component
 
-      expect(page).to have_css("h1", text: 'Rename "Machine Learning"')
+      expect(page).to have_css("h1", text: "Rename label")
+      expect(page).to have_no_css("h1", text: "Machine Learning")
     end
 
     it "submits via a Rename button bound to the form" do

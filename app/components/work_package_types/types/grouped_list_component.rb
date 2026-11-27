@@ -50,7 +50,7 @@ module WorkPackageTypes
 
       attr_reader :types, :expanded_type_id, :page_args, :query, :created_by_migration
 
-      def migration_filter? = created_by_migration == "t"
+      def migration_filter? = created_by_migration == WorkPackageTypes::MigrationFilterComponent::MIGRATED
 
       def filtered? = query.present? || migration_filter?
 
@@ -114,7 +114,10 @@ module WorkPackageTypes
       end
 
       def variant_menu_src(variant)
-        menu_type_variant_path(type_id: variant.type_id, id: variant.id)
+        menu_type_variant_path(
+          type_id: variant.type_id, id: variant.id,
+          query:, created_by_migration:, **page_args
+        )
       end
 
       def reorderable?(type)

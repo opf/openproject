@@ -963,6 +963,7 @@ pt-PT:
         edit: Edição em massa
         move: Alteração em massa do projeto
       button_clear: Limpar
+      button_edit_subject: Edit subject
       comment_added: O comentário foi adicionado com sucesso.
       comment_send_failed: Ocorreu um erro. Não foi possível enviar o comentário.
       comment_updated: O comentário foi atualizado com sucesso.
