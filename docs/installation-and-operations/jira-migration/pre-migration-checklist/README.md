@@ -34,9 +34,10 @@ Review this against how your teams actually use Jira. If anything here would be 
 - [ ] Environment (Planned: [JIM-257](https://community.openproject.org/projects/JIM/work_packages/JIM-257))
 - [ ] Security Level (Planned: [JIM-219](https://community.openproject.org/projects/JIM/work_packages/JIM-219)) - **Note: The Security Level is currently ignored. Thus, issues with a Security Level set will be imported as regular work packages at this point.**
 - [ ] Components (Planned: [JIM-107](https://community.openproject.org/projects/JIM/work_packages/JIM-107))
-- [ ] Visibility settings of comments
-- [ ] Issue link types other than "Blocks" and "Duplicate", including custom link types (e.g. "Cloners", "tests"). OpenProject has no custom relation types, so these links become "relates to". The Jira link description (e.g. "is cloned by") is kept only as text in the relation's description, not as a relation type you can filter or schedule by.
-- [ ] Multiple links between the same two issues. OpenProject allows only one relation between two work packages, so only one of the links is imported and the others are dropped. Which one is kept is not predictable. If this matters (e.g. a "blocks" link next to a "relates to" link), remove the less important links in Jira before migrating.
+- [ ] Visibility settings of comments (Planned: [JIM-335](https://community.openproject.org/projects/JIM/work_packages/JIM-335)) - **Note: The visibility setting is currently ignored. Thus, comments with a viewing restriction will be imported as regular comment at this point.**
+- [ ] Visibility settings of work logs (Planned: [JIM-354](https://community.openproject.org/projects/JIM/work_packages/JIM-354)) - **Note: The visibility setting is currently ignored. Thus, work logs with a viewing restriction will be imported as regular work logs at this point.**
+- [ ] Issue link types other than "Relates To", "Blocks" and "Duplicate", including custom link types. (Planned: [JIM-271](https://community.openproject.org/projects/JIM/work_packages/JIM-271))
+- [ ] Multiple links between the same two issues. (Planned: [FND-304](https://community.openproject.org/projects/FND/work_packages/FND-304))
 - [ ] Archived issues (skipped entirely, don't appear in OpenProject in any form)
 
 **Not migrated, specific to custom fields:**
@@ -45,6 +46,7 @@ Review this against how your teams actually use Jira. If anything here would be 
 - [ ] Story Points (native OpenProject field, currently Story Points are imported into a custom field instead)
 - [ ] User picker / multi-user picker values, unless the referenced user is also referenced elsewhere on an imported issue (as creator, reporter, assignee, watcher, comment, attachment, worklog or history author, or an @mention). Otherwise the value comes across empty, with no reliable way to prevent this in advance.
 - [ ] Version-picker
+- [ ] Project-picker
 - [ ] Any third-party plugin-provided custom field type e.g. Scripted Fields
 - [ ] Per-context custom field values (Jira Field Contexts) - At the moment OpenProject does not support different option sets per project or issue type; a custom field's options are always global.
 
