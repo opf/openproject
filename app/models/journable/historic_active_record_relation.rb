@@ -231,6 +231,8 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
   #   before: SELECT 1 FROM "work_package_categories" WHERE (work_package_categories.work_package_id = ...
   #   after:  SELECT 1 FROM (SELECT work_packages.id AS work_package_id, work_packages.category_id
   #                          WHERE work_packages.category_id IS NOT NULL) "work_package_categories" WHERE ...
+  #
+  # TODO: Adjust for multiple categories #FND-283
   def substitute_work_package_categories_join_in_predicate(predicate)
     return unless predicate.is_a? String
 
