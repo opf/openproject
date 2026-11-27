@@ -37,6 +37,5 @@ module OpenProject::Bim::BcfXml
     end
 
     attr_reader :original_filename
-    alias :path :original_filename
   end
 end

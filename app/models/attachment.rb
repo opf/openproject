@@ -268,10 +268,12 @@ class Attachment < ApplicationRecord
   end
 
   def assign_file(source, filename:)
-    set_file_size source
-    set_content_type source
-    set_digest source
-    file.assign(source, filename:)
+    AttachmentShrine.with_file(source) do |local_file|
+      set_file_size local_file
+      set_content_type local_file
+      set_digest local_file
+      file.assign(local_file, filename:)
+    end
   end
 
   def set_file_size(file)
