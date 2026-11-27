@@ -33,9 +33,10 @@ RSpec.describe Journal::ProjectJournal do
   describe "#render_detail" do
     let(:project) { build(:project) }
     let(:journal) { build(:project_journal, journable: project) }
+    let(:user) { build_stubbed(:admin) }
 
     # The parent of a project is only named to readers who may see it.
-    current_user { build_stubbed(:admin) }
+    current_user { user }
 
     it "renders identifier field correctly" do
       html = journal.render_detail(["identifier", [nil, "my-project"]], html: true)
@@ -101,8 +102,6 @@ RSpec.describe Journal::ProjectJournal do
 
       subject { journal.render_detail([key, [nil, "value"]]) }
 
-      before { login_as(user) }
-
       context "for a member" do
         let(:user) do
           create(:user, member_with_permissions: { project => %i[view_project_attributes] })
@@ -139,6 +138,39 @@ RSpec.describe Journal::ProjectJournal do
         it "renders details" do
           expect(subject).to include(custom_field.name)
           expect(subject).not_to include(I18n.t(:text_journal_permission_denied))
+        end
+      end
+    end
+
+    context "for project phase view_permission" do
+      shared_let(:project) { create(:project) }
+      shared_let(:phase) { create(:project_phase, project:) }
+
+      {
+        "active" => [false, true],
+        "date_range" => [nil, Date.new(2025, 1, 1)..Date.new(2025, 1, 31)],
+        "status" => %w[open completed]
+      }.each do |field, values|
+        context "for the #{field} field" do
+          subject { journal.render_detail(["project_phase_#{phase.id}_#{field}", values]) }
+
+          context "with view_project_phases" do
+            let(:user) { create(:user, member_with_permissions: { project => %i[view_project_phases] }) }
+
+            it "renders details" do
+              expect(subject).to include(phase.definition.name)
+              expect(subject).not_to include(I18n.t(:text_journal_permission_denied))
+            end
+          end
+
+          context "without view_project_phases" do
+            let(:user) { create(:user, member_with_permissions: { project => %i[view_project] }) }
+
+            it "renders permission denied" do
+              expect(subject).not_to include(phase.definition.name)
+              expect(subject).to include(I18n.t(:text_journal_permission_denied))
+            end
+          end
         end
       end
     end

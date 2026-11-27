@@ -36,6 +36,7 @@ RSpec.describe "Projects life cycle settings", :js do
     create(:user,
            member_with_permissions: {
              project => %w[
+               view_project_phases
                edit_project_phases
                select_project_phases
              ]
@@ -56,6 +57,8 @@ RSpec.describe "Projects life cycle settings", :js do
   shared_let(:ready_to_close_gate) { create(:project_phase_definition, name: "Ready to Close") }
   shared_let(:closing_stage) { create(:project_phase_definition, name: "Closing") }
 
+  let(:phase_definitions) { [initiating_stage, ready_to_execute_gate, executing_stage, ready_to_close_gate, closing_stage] }
+
   let(:project_life_cycle_page) { Pages::Projects::Settings::LifeCycle.new(project) }
 
   let(:activity_page) { Pages::Projects::Activity.new(project) }
@@ -63,15 +66,7 @@ RSpec.describe "Projects life cycle settings", :js do
   context "with sufficient permissions" do
     current_user { user_with_permission }
 
-    let(:activities) do
-      [
-        initiating_stage,
-        ready_to_execute_gate,
-        executing_stage,
-        ready_to_close_gate,
-        closing_stage
-      ].map { |step| "#{step.name} activated" }
-    end
+    let(:activities) { phase_definitions.map { |definition| "#{definition.name} activated" } }
 
     it "allows toggling the active/inactive state of lifecycle steps and filtering them" do
       activity_page.visit!
@@ -177,6 +172,19 @@ RSpec.describe "Projects life cycle settings", :js do
       project_life_cycle_page.visit!
 
       project_life_cycle_page.expect_flash(message: "You are not authorized to access this page", type: :error)
+    end
+
+    it "renders the phase activities as permission denied" do
+      ProjectPhases::ActivationService
+        .new(user: user_with_permission, project:, definitions: phase_definitions)
+        .call(active: true)
+
+      activity_page.visit!
+
+      activity_page.show_details
+
+      expect(page).to have_text(I18n.t(:text_journal_permission_denied), count: 10)
+      phase_definitions.each { |definition| expect(page).to have_no_text(definition.name) }
     end
   end
 end

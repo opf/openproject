@@ -172,9 +172,15 @@ class Project < ApplicationRecord
   register_journal_formatted_fields /\Acustom_comment_\d+\z/,
                                     formatter_key: :custom_comment,
                                     view_permission: custom_field_view_permission
-  register_journal_formatted_fields /\Aproject_phase_\d+_active\z/, formatter_key: :project_phase_active
-  register_journal_formatted_fields /\Aproject_phase_\d+_date_range\z/, formatter_key: :project_phase_dates
-  register_journal_formatted_fields /\Aproject_phase_\d+_status\z/, formatter_key: :project_phase_status
+  register_journal_formatted_fields /\Aproject_phase_\d+_active\z/,
+                                    formatter_key: :project_phase_active,
+                                    view_permission: :view_project_phases
+  register_journal_formatted_fields /\Aproject_phase_\d+_date_range\z/,
+                                    formatter_key: :project_phase_dates,
+                                    view_permission: :view_project_phases
+  register_journal_formatted_fields /\Aproject_phase_\d+_status\z/,
+                                    formatter_key: :project_phase_status,
+                                    view_permission: :view_project_phases
 
   has_paper_trail
 
