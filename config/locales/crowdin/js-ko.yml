@@ -177,6 +177,10 @@ ko:
       remove_from_list: 목록에서 카드 제거
     chart:
       axis_criteria: 축 기준
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: 그래프를 표시하기 위한 데이터를 로드할 수 없습니다. 필요한 권한이 부족할 수 있습니다.
       modal_title: 작업 패키지 그래프 구성
@@ -304,6 +308,7 @@ ko:
         only_start: 현지 시간으로 %{from} 에서
         two_values: 현지 시간으로 %{from} - %{to}
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: 고급 설정
       load_error_message: 양식을 불러오는 중 오류가 발생했습니다
@@ -900,6 +905,20 @@ ko:
       unselected_title: 작업 패키지
     two_factor_authentication:
       label_two_factor_authentication: 2단계 인증
+    types:
+      projects:
+        action_menu:
+          menu_label:
+            other: Actions for %{count} selected projects
+        selection:
+          cleared: Selection cleared.
+          not_selectable: Selection unchanged. This project cannot be selected.
+          range_blocked: Selection unchanged. That range contains a project that cannot be selected.
+          range_restarted:
+            other: Could not extend the range. %{count} projects selected.
+          range_unavailable: Selection unchanged. Expand this list to select that range.
+          selected:
+            other: "%{count} projects selected."
     units:
       child_work_packages:
         other: "%{count}개의 작업 패키지 자식"

@@ -177,6 +177,10 @@ zh-TW:
       remove_from_list: 從清單列表中移除
     chart:
       axis_criteria: 軸條件
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: 無法加載用於顯示圖表的數據。可能缺少必要的權限。
       modal_title: 工作套件圖表設定
@@ -304,6 +308,7 @@ zh-TW:
         only_start: 從您的當地時間 %{from} 開始。
         two_values: "%{from} - %{to}（以您的當地時間為基準）。"
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: 進階設定
       load_error_message: 加載表單時出錯
@@ -900,6 +905,20 @@ zh-TW:
       unselected_title: 工作套件
     two_factor_authentication:
       label_two_factor_authentication: 雙因素驗證
+    types:
+      projects:
+        action_menu:
+          menu_label:
+            other: Actions for %{count} selected projects
+        selection:
+          cleared: Selection cleared.
+          not_selectable: Selection unchanged. This project cannot be selected.
+          range_blocked: Selection unchanged. That range contains a project that cannot be selected.
+          range_restarted:
+            other: Could not extend the range. %{count} projects selected.
+          range_unavailable: Selection unchanged. Expand this list to select that range.
+          selected:
+            other: "%{count} projects selected."
     units:
       child_work_packages:
         other: "%{count} work package children"
