@@ -1,4 +1,4 @@
-import type { SideMenuExtension } from '@blocknote/core';
+import type { SideMenuExtension } from '@blocknote/core/extensions';
 import type { DragEvent } from 'react';
 import type { AnyEditor } from '../editorTypes';
 

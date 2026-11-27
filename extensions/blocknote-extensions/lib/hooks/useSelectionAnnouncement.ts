@@ -32,6 +32,9 @@ export function useSelectionAnnouncement(
     const unsubscribe = editor.onSelectionChange(followSelection);
     // The work package may have been selected before there was anything to announce.
     followSelection();
-    return unsubscribe;
+    return () => {
+      unsubscribe();
+      announcer.clearAnnouncement(elementRef);
+    };
   }, [editor, elementRef, message]);
 }

@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useRef, type ReactNode, type RefObject } from 'react';
+import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode, type RefObject } from 'react';
 import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import { StyleSheetManager } from 'styled-components';
@@ -21,20 +21,40 @@ interface FullPagePortalProps {
   children:React.ReactNode;
 }
 
-const FullPagePortal = ({ anchorEl, carriedVariables = [], children }:FullPagePortalProps) => createPortal(
-  <StyleSheetManager target={document.head}>
-    <div
-      data-color-scheme={colorSchemeOf(anchorEl)}
-      style={{
-        '--bn-font-family': fontFamilyOf(anchorEl),
-        ...variablesOf(anchorEl, carriedVariables),
-      } as React.CSSProperties}
-    >
-      {children}
-    </div>
-  </StyleSheetManager>,
-  document.body
-);
+const FullPagePortal = ({ anchorEl, carriedVariables = [], children }:FullPagePortalProps) => {
+  useRerenderOnceConnected(anchorEl);
+
+  return createPortal(
+    <StyleSheetManager target={document.head}>
+      <div
+        data-color-scheme={colorSchemeOf(anchorEl)}
+        style={{
+          '--bn-font-family': fontFamilyOf(anchorEl),
+          ...variablesOf(anchorEl, carriedVariables),
+        } as React.CSSProperties}
+      >
+        {children}
+      </div>
+    </StyleSheetManager>,
+    document.body
+  );
+};
+
+// Since BlockNote 0.57 a node view renders before ProseMirror attaches its DOM,
+// so the editor's styles can only be read from the anchor a frame later.
+function useRerenderOnceConnected(anchorEl?:HTMLElement | null):void {
+  const [, setConnected] = useState(false);
+
+  useEffect(() => {
+    if (!anchorEl || anchorEl.isConnected) return undefined;
+
+    let frame = requestAnimationFrame(function check() {
+      if (anchorEl.isConnected) setConnected(true);
+      else frame = requestAnimationFrame(check);
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [anchorEl]);
+}
 
 function colorSchemeOf(anchorEl?:HTMLElement | null):string | undefined {
   return anchorEl?.closest('[data-color-scheme]')?.getAttribute('data-color-scheme') ?? undefined;
