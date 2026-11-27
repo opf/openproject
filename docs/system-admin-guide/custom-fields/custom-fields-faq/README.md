@@ -2,42 +2,63 @@
 sidebar_navigation:
   title: Custom fields FAQ
   priority: 001
-description: Frequently asked questions regarding custom fields
-keywords: custom field FAQ, project custom field, create own attribute
+description: Frequently asked questions regarding custom fields in OpenProject.
+keywords: custom field FAQ, project custom field, create own attribute, required custom fields, project-specific values
 ---
 
 # Frequently asked questions (FAQ) for custom fields
 
-## Is there a limit to how many values can be added to a work package custom field of the type **List**?
+## Where can I manage custom fields?
 
-There is no hard limit. However, the following factors may affect usability:
+Starting with OpenProject 18.0, custom fields are now managed in the area they belong to. The Custom fields section remains as an overview with links to these areas.
 
-- **Performance:** Currently, all allowed values are loaded into the work package form before it is displayed. Rendering the values in the frontend should generally not be a problem because an autocomplete field is used. However, performance on the custom field administration page, where the list of allowed values is maintained, may be affected.
-- **Usability:** Managing a very large number of values can become difficult. For example, there is currently no way to sort values automatically. If you need to enter and manually sort thousands of values (for example, 4,000), maintaining the list can become time-consuming.
+For an overview of the available custom field formats and configuration options, see [Manage custom fields](../).
 
-## Is it possible to set a custom field as required after it is already in use? What happens to existing work packages where the custom field is enabled?
+For instructions on managing custom fields in different areas of OpenProject, see the following guides:
 
-Yes. If you make an existing custom field required, existing work packages that do not yet have a value remain unchanged. However, when users edit one of these work packages, they will receive the validation message **"[Custom field name] can't be blank"** and must populate the field before they can save their changes.
+- [Work package custom fields](../../manage-work-packages/work-package-custom-fields/)
+- [Version custom fields](../../manage-work-packages/version-custom-fields/)
+- [Project attributes](../../projects/project-attributes/)
+- [User attributes](../../users-permissions/user-attributes/)
+- [Time and costs](../../time-and-costs/)
+- [Groups](../../users-permissions/groups/)
+
+## Is there a limit to how many values can be added to a work package custom field of the List format?
+
+There is no hard limit. However, a large number of selectable values may affect performance, particularly on the custom field administration page where these values are maintained.
+
+Large lists can also be difficult to maintain and navigate. When defining the available values, consider how easily users can find and select the information they need.
+
+## Can I make an existing custom field required? What happens to existing work packages?
+
+Yes. If you make an existing custom field required, users must provide a value when creating new work packages to which the custom field applies. Existing work packages that do not yet contain a value remain unchanged and can still be updated without filling in the field.
 
 ## Where do custom fields for document categories appear?
 
-You can find them under **Administration → Enumerations** by opening an existing document category or creating a new one.
+You can find them by opening an existing document category or creating a new one in the system administration.
 
-## Can I activate a custom field for multiple projects at the same time?
+## How do I make a work package custom field available in multiple projects?
 
-Yes. Open the custom field and use the **Add projects** button to assign it to multiple projects at once.
+Starting with OpenProject 18.0, work package custom fields are no longer activated or deactivated individually for each project. Instead, their availability is determined by the forms used by work package types and variants.
+
+Navigate to *Administration → Work packages → Forms*, open the relevant form, and add the custom field to it. The custom field will then be available in all projects where the types or variants using that form are enabled.
+
+To review where an existing custom field is used, navigate to *Administration → Work packages → Custom fields* and open the field. The **Forms**, **Types and variants**, and **Projects** tabs show the corresponding associations.
+
+For more information, see [Make custom fields available in work packages](../../manage-work-packages/work-package-custom-fields/#make-custom-fields-available-in-work-packages).
+
+## Can I make different custom field values available in different projects?
+
+Yes. Starting with OpenProject 18.0, you can configure project-specific values for work package custom fields of the **List**, **Hierarchy**, and **Weighted item list** formats.
+
+Using an allow filter or a block filter, you can choose which values to enable or disable for individual projects without having to create separate custom fields. To configure the available values for a particular project, open the custom field's **Projects** tab.
+
+These settings control which values users can select, not whether the custom field itself is available in a project.
+
+This functionality is an Enterprise add-on. For more information, see [Project-specific values](../../manage-work-packages/work-package-custom-fields/#project-specific-values-enterprise-add-on).
 
 ## How can I create custom fields for users?
 
-Starting with OpenProject 17.7, user custom fields have became **user attributes**.
+Starting with OpenProject 17.7, user custom fields are managed as **user attributes** under *Administration → Users and permissions → User attributes*.
 
-In versions prior to 17.7, user custom fields were managed under **Administration → Custom fields**. Since 17.7, they are managed under **Administration → Users and permissions → User attributes**.
-
-## What happened to project custom fields?
-
-Starting with OpenProject 14.0, **project custom fields** were renamed to **project attributes**.
-
-If you are looking for information about configuring project custom fields, refer to the documentation on project attributes:
-
-- **User guide:** [Project attributes](../../../user-guide/projects/project-home/project-attributes)
-- **Administrator guide:** [Project attributes](../../projects/project-attributes)
+For more information, see [Manage user attributes](../../users-permissions/user-attributes/).

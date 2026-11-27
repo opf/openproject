@@ -3,18 +3,18 @@ sidebar_navigation:
   title: Automatic subjects
   priority: 900
 description: Configure automatic work package subjects in OpenProject.
-keywords: work package subject, automatic subject, subject pattern
+keywords: work package subject, automatic subject, subject pattern, work package types, type variants
 ---
 
 # Configure automatic work package subjects (Enterprise add-on)
 
 [feature: work_package_subject_generation ]
 
-This guide explains how administrators can configure **automatic subject patterns** for work packages in OpenProject. Please also refer to the [user guide on automatic work package subjects](../../../../user-guide/work-packages/automatic-subjects/) for more details on automatic subjects within projects. 
+Automatic subject patterns combine static text with dynamic attributes, such as dates, author names, or custom fields, to automatically generate consistent and informative work package subjects.
 
-Subject patterns combine static text with dynamic attributes - such as dates, author names, or custom fields - to automatically generate consistent and informative work package subjects.
+Automatic subject patterns help teams quickly identify tasks, reduce manual errors, and standardize naming conventions across projects. Different patterns can be defined for individual work package types and variants.
 
-Automatic subject patterns help teams quickly identify tasks, reduce manual errors, and standardize naming conventions across your projects. Specific patterns can be defined for different work package types.
+For more information on using automatic subjects within projects, see the [user guide on automatic work package subjects](../../../../user-guide/work-packages/automatic-subjects/).
 
 ## How subject patterns work
 
@@ -23,44 +23,52 @@ A subject pattern includes a combination of:
 - **Static text** (e.g., `Invoice`, `Vacation Request`)
 
 > [!TIP]
-> Use the company-approved language for static text, as it will not be translated into language users can specify for their personal accounts. 
+> Use the company-approved language for static text, as it is not translated into the language users select for their personal accounts.
 
 - **Dynamic attribute placeholders** (e.g., `[Author]`, `[Start date]`, `[Custom Field: Invoice ID]`)
 
 > [!TIP]
-> Dynamic attribute placeholders will be shown in the default language defined globally for all users in your organization (under Administration -> Users and permissions -> User settings). Users can still change language settings for their personal accounts, but this will have no bearing on the automatic work package subjects. 
+> Dynamic attribute placeholders are displayed in the default language defined globally for all users in your organization under *Administration → Users and permissions → User settings*. Individual language preferences do not affect automatic work package subjects.
 
-When users create or edit work packages, OpenProject automatically replaces these placeholders with real attribute values, generating clear subjects.
+When users create or edit work packages, OpenProject automatically replaces these placeholders with the corresponding attribute values.
 
-![Example of automatic work package subject configuration in OpenProject administration](openproject_system_guide_work_package_automatic_subject_configuration_settings.png)
+## Configure automatic subjects
+
+To configure automatic subjects, navigate to *Administration → Work packages → Types*, select the relevant type or variant, and open the **Defaults** tab.
+
+You can choose between two options:
+
+- **Manually editable subjects:** Users can enter and edit work package subjects manually.
+- **Automatically generated subjects:** Work package subjects are generated from a predefined pattern and cannot be edited manually.
+
+Select **Automatically generated subjects** to define a **Subject pattern**.
+
+![Automatic work package subject configuration in the Defaults tab](openproject_system_guide_work_package_automatic_subject_configuration_settings.png)
 
 ## Add, edit and delete attributes
 
-Administrators configure subject patterns using a simple editor in the administration settings:
+You can combine static text and attribute placeholders in the **Subject pattern** field.
 
 ### How to add attributes
 
-1. Navigate to _Administration → Work Packages → Types_, choose a type, then open **Subject configuration**.
-
-2. Type `/` in the input field to open attribute search.
-
-3. Search for and select an attribute from the dropdown. The chosen attribute appears as a placeholder (e.g., `[Start date]`).
+1. Type `/` in the **Subject pattern** field to open the attribute search.
+2. Search for and select an attribute from the dropdown. The selected attribute appears as a placeholder (e.g., `[Start date]`).
+3. Add further attributes or static text as needed.
+4. Click **Save** to apply your changes.
 
 > [!TIP]
-> Some attributes can be selected not only for the work package in question, but also for it's parent work package.
-
-4. Don't forget to _Save_ your changes. 
+> Some attributes can be selected not only for the current work package but also for its parent work package.
 
 ![Automatic work package subject configuration in OpenProject administration](openproject-automatic-subjects.gif)
 
 ### How to edit attributes
 
-- Click into an existing attribute placeholder to edit it. This will trigger the attribute search again.
-- Type and select different attributes from the dropdown list. The placeholder will update automatically.
+- Click an existing attribute placeholder to open the attribute search again.
+- Search for and select a different attribute from the dropdown. The placeholder updates automatically.
 
 ### How to delete attributes
 
-- Delete an attribute placeholder same as you would a regular text (e.g., using backspace).
+Delete an attribute placeholder as you would regular text, for example, using the Backspace key.
 
 ## Supported attributes and limitations
 
@@ -68,76 +76,78 @@ Administrators configure subject patterns using a simple editor in the administr
 
 Subject patterns can include placeholders referencing the following work package attributes:
 
-| Attribute Name | Data Type         | Example    |
-| -- | -- | - |
-| Accountable    | User name         | Jon Doe    |
-| Assignee       | User name         | Jon Doe    |
-| Author         | User name         | Jon Doe    |
-| Category       | String            | Category A |
-| Created on     | Date              | 2025-01-10 |
-| Finish date    | Date              | 2025-01-15 |
-| ID             | Integer           | 3000       |
-| Observed in versions | List of version names | 1.0, 2.0 |
-| Priority       | String            | Normal     |
-| Project        | Project ID        | 30         |
-| Remaining work | Hours (float)     | 8.0        |
-| Start date     | Date              | 2025-01-12 |
-| Status         | String            | New        |
-| Type           | Work package type | Task       |
-| Version (Target versions) | List of version names | 1.0, 2.0 |
-| Work           | Hours (float)     | 10.0       |
+| Attribute Name            | Data Type             | Example    |
+| ------------------------- | --------------------- | ---------- |
+| Accountable               | User name             | Jon Doe    |
+| Assignee                  | User name             | Jon Doe    |
+| Author                    | User name             | Jon Doe    |
+| Category                  | String                | Category A |
+| Created on                | Date                  | 2025-01-10 |
+| Finish date               | Date                  | 2025-01-15 |
+| ID                        | Integer               | 3000       |
+| Observed in versions      | List of version names | 1.0, 2.0   |
+| Priority                  | String                | Normal     |
+| Project                   | Project ID            | 30         |
+| Remaining work            | Hours (float)         | 8.0        |
+| Start date                | Date                  | 2025-01-12 |
+| Status                    | String                | New        |
+| Type                      | Work package type     | Task       |
+| Version (Target versions) | List of version names | 1.0, 2.0   |
+| Work                      | Hours (float)         | 10.0       |
 
-**Custom fields**: Supported custom fields include Text, Integer, Float, List, Date, Boolean, User, Version.
-**Unsupported attributes**: Long text and Link custom fields are excluded to keep subjects concise.
+**Custom fields:** Supported custom fields include Text, Integer, Float, List, Date, Boolean, User, and Version.
 
-> [!NOTE] 
-> Ensure selected attributes are activated and available in your project and work package types to avoid showing “N/A” in subjects.
+**Unsupported attributes:** Long text and Link custom fields are excluded to keep subjects concise.
+
+> [!NOTE]
+> Make sure the referenced attributes are available in the [work package form](../../work-package-forms/) used by the relevant type or variant to avoid displaying "N/A" in automatically generated subjects.
 
 ### Project attributes
 
 | Attribute Name         | Data Type   | Example  |
-| - | -- | -- |
+| ---------------------- | ----------- | -------- |
 | Project: Active        | Boolean     | true     |
 | Project: Name          | String      | HR       |
 | Project: Status        | Status code | on_track |
 | Project: Subproject of | ID          | 123      |
 | Project: Public        | Boolean     | false    |
 
-**Custom project attributes:** Supported attributes include Integer, Float, List, Date, Boolean, User, Version.
-**Unsupported project attributes**: Long text and Link custom fields are excluded to keep subjects concise.
+**Custom project attributes:** Supported attributes include Integer, Float, List, Date, Boolean, User, and Version.
+
+**Unsupported project attributes:** Long text and Link custom fields are excluded to keep subjects concise.
 
 ## Update automatic subjects
 
 Automatic subjects update whenever an attribute referenced in the **current work package** changes and the work package is saved.
 
-> [!IMPORTANT] 
-> Attributes referencing parent work packages or project attributes won't trigger immediate updates. Changes in parent or project attributes appear only when the child work package itself is updated and saved again.
+> [!IMPORTANT]
+> Changes to referenced parent work package attributes or project attributes do not trigger immediate updates. These changes are reflected in the subject only when the work package itself is updated and saved again.
 
 ## FAQs
 
-### Why "N/A" appears in subjects
+### Why does "N/A" appear in subjects?
 
-"N/A" indicates an unavailable attribute referenced in the subject pattern. Typical causes include:
+"N/A" indicates that an attribute referenced in the subject pattern is unavailable. Typical causes include:
 
-- The attribute isn't activated in the current project.
-- The attribute was removed from form configuration after creating the pattern.
-- A parent attribute is referenced, but the parent doesn't contain the attribute.
+- The referenced attribute is not included in the form used by the work package type or variant.
+- The attribute was removed from the form after the subject pattern was configured.
+- A parent attribute is referenced, but the parent work package does not contain that attribute.
 
-### Why \[Attribute Name\] appears in subjects
+### Why does [Attribute Name] appear in subjects?
 
-\[Attribute Name\] indicates an empty attribute referenced in the subject pattern.
+An attribute name displayed in square brackets indicates that the referenced attribute has no value. Typical causes include:
 
-- The attribute hasn't been filled by the user.
-- A parent attribute is referenced, but no parent is set.
-- A project attribute is referenced, but hasn't been filled.
+- The attribute has not been filled in.
+- A parent attribute is referenced, but no parent work package is set.
+- A project attribute is referenced, but has not been filled in.
 
 ## Tips for effective patterns
 
 Good subject patterns should be:
 
-- **Concise**: Keep subjects short and readable.
-- **Relevant**: Include only essential attributes needed for quick identification.
-- **Descriptive**: Use clear static text (e.g., `Invoice`, `Bug Report`) to define the work package type.
-- **Language choice**: Use the company-approved language for 
+- **Concise:** Keep subjects short and readable.
+- **Relevant:** Include only the essential attributes needed for quick identification.
+- **Descriptive:** Use clear static text (e.g., `Invoice`, `Bug Report`) to identify the kind of work.
+- **Consistent:** Use the company-approved language for static text to maintain consistent naming across projects.
 
-Check our [Example Subject Patterns](https://www.openproject.org/blog/automatically-generated-work-package-subjects/) for inspiration.
+See our [example subject patterns](https://www.openproject.org/blog/automatically-generated-work-package-subjects/) for inspiration.

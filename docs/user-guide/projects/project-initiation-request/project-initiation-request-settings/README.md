@@ -74,7 +74,7 @@ You can configure the following:
 Select the work package type used to store the completed initiation artefact, for example _Task_, _Milestone_, or _Phase_.
 
 **Status when submitted**
-Choose the status that the work package will automatically transition to once the request is submitted. You can create [work package statuses](../../../../system-admin-guide/manage-work-packages/work-package-status/) to best fit your framework.
+Choose the status that the work package will automatically transition to once the request is submitted. You can create [work package statuses](../../../../system-admin-guide/manage-work-packages/work-package-statuses/) to best fit your framework.
 
 **Assignee when submitted**
 Select a project attribute of type **User**. The user assigned to this attribute during initiation will become the assignee of the newly created work package.

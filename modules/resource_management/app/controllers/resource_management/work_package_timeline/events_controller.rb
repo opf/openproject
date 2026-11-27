@@ -41,6 +41,7 @@ module ResourceManagement
         overbooked = ResourceAllocation.overbooked_ids(allocations)
         visible = ResourceAllocation.visible_principal_ids(allocations, current_user)
         candidates = ResourceAllocation.candidate_counts(allocations, project: @project)
+        editable = ResourceAllocation.editable_ids(allocations, current_user, project: @project)
 
         events = allocations.map do |allocation|
           {
@@ -50,7 +51,7 @@ module ResourceManagement
             end: (allocation.end_date + 1).iso8601, # FullCalendar treats the end as exclusive
             extendedProps: {
               overbooked: overbooked.include?(allocation.id),
-              editUrl: edit_url_for(allocation),
+              editUrl: (edit_allocation_path(@project, allocation) if editable.include?(allocation.id)),
               html: render_bar(allocation, visible, candidates.fetch(allocation.id, 0))
             }
           }
@@ -62,25 +63,6 @@ module ResourceManagement
       end
 
       private
-
-      def edit_url_for(allocation)
-        return unless may_allocate?(allocation)
-
-        edit_allocation_path(@project, allocation)
-      end
-
-      # The permission lives on the allocation's own project, which on a global
-      # planner differs from bar to bar.
-      def may_allocate?(allocation)
-        allocation_project = allocation.project
-        return false if allocation_project.nil?
-
-        @may_allocate ||= {}
-        @may_allocate.fetch(allocation_project.id) do
-          @may_allocate[allocation_project.id] =
-            current_user.allowed_in_project?(:allocate_user_resources, allocation_project)
-        end
-      end
 
       # One background event per work package spanning the days it is active,
       # snapped to whole columns of the requested granularity and clamped to the view.

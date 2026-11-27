@@ -69,7 +69,7 @@ enterprise_features:
   project_specific_list_values:
     href: https://www.openproject.org/docs/system-admin-guide/custom-fields/
   readonly_work_packages:
-    href: https://www.openproject.org/docs/system-admin-guide/manage-work-packages/work-package-status/#create-a-new-work-package-status
+    href: https://www.openproject.org/docs/system-admin-guide/manage-work-packages/work-package-statuses/#create-a-new-work-package-status
   work_package_subject_generation:
     href: https://www.openproject.org/docs/system-admin-guide/manage-work-packages/work-package-types/automatic-subjects/
 enterprise_guide:
@@ -237,6 +237,8 @@ terms_of_service:
 text_formatting:
   href: https://www.openproject.org/docs/user-guide/wysiwyg/
   label: :setting_text_formatting
+type_variants_tutorial_video:
+  href: https://www.openproject.org/videos/Tutorial_Project-specific_workflows_and_forms_through_type_variants/
 upgrade_guides:
   href: https://www.openproject.org/docs/installation-and-operations/operation/upgrading/
   label: :label_upgrade_guides

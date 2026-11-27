@@ -394,6 +394,7 @@ module Import
             target_versions:,
             observed_in_versions:,
             sprint: sprint_for(jira_issue),
+            start_date: nil,
             due_date:,
             # Otherwise SetAttributesService moves the due date to the next working day.
             ignore_non_working_days: due_on_non_working_day?(due_date),

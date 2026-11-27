@@ -78,6 +78,16 @@ RSpec.describe Attachments::VirusScanJob,
 
         expect(attachment).to have_received(:update!).with(status: :scanned)
       end
+
+      it "notifies that the file is available" do
+        allow(attachment).to receive(:update!)
+        allow(OpenProject::Notifications).to receive(:send)
+
+        subject
+
+        expect(OpenProject::Notifications)
+          .to have_received(:send).with(OpenProject::Events::ATTACHMENT_FILE_AVAILABLE, attachment:)
+      end
     end
 
     context "when error occurs in clamav" do
@@ -106,6 +116,18 @@ RSpec.describe Attachments::VirusScanJob,
           expect(attachment).to have_received(:update!).with(status: :quarantined)
           expect(journal_service_double)
             .to have_received(:call).with(notes: /It has been quarantined/)
+        end
+
+        it "does not notify that the file is available" do
+          allow(attachment).to receive(:update!)
+          allow(Journals::CreateService).to receive(:new).and_return(journal_service_double)
+          allow(journal_service_double).to receive(:call)
+          allow(OpenProject::Notifications).to receive(:send)
+
+          subject
+
+          expect(OpenProject::Notifications)
+            .not_to have_received(:send).with(OpenProject::Events::ATTACHMENT_FILE_AVAILABLE, anything)
         end
       end
 

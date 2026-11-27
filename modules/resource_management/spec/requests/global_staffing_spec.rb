@@ -113,6 +113,40 @@ RSpec.describe "Global staffing", :skip_csrf, type: :rails_request, with_ee: %i[
     end
   end
 
+  context "when the user may staff in a project but not see its work packages" do
+    shared_let(:blind) do
+      create(:project, name: "Blind project", enabled_module_names: %w[resource_management work_package_tracking])
+    end
+    shared_let(:blind_wp) { create(:work_package, project: blind, subject: "Hidden staffing work") }
+    shared_let(:blind_allocation) do
+      create(:resource_allocation, :with_user_filter, entity: blind_wp, filter_name: "Blind developer",
+                                                      allocated_time: 600,
+                                                      start_date: Date.new(2026, 1, 5), end_date: Date.new(2026, 1, 9))
+    end
+    shared_let(:user) do
+      create(:user, member_with_permissions: {
+               blind => %i[view_resource_planners assign_users_to_generic_allocations allocate_user_resources]
+             })
+    end
+
+    before { get resource_management_staffing_path }
+
+    it "lists the allocation under its project with its Assign action" do
+      expect(response.body).to include("Blind project", "Blind developer")
+      expect(response.body).to include(resource_management_staffing_assign_path(blind_allocation))
+    end
+
+    it "replaces the subject with the undisclosed label" do
+      expect(response.body).not_to include("Hidden staffing work")
+      expect(response.body).to include(I18n.t("resource_management.timeline.undisclosed.work_package"))
+    end
+
+    it "offers neither Edit nor Delete" do
+      expect(response.body).not_to include(edit_resource_allocation_path(blind_allocation))
+      expect(response.body).not_to include(I18n.t("resource_management.staffing.delete_confirmation"))
+    end
+  end
+
   context "without the permission anywhere" do
     before { login_as(create(:user, member_with_permissions: { busy => %i[view_resource_planners] })) }
 

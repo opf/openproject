@@ -51,8 +51,6 @@ export class WorkPackageFilterButtonComponent extends AbstractWorkPackageButtonC
 
   public buttonId = 'work-packages-filter-toggle-button';
 
-  public iconClass = 'icon-filter';
-
   constructor() {
     const I18n = inject(I18nService);
 
