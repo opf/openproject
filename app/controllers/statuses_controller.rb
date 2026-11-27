@@ -118,7 +118,7 @@ class StatusesController < ApplicationController
   end
 
   def paginated_statuses
-    @query.results.page(page_param).per_page(per_page_param)
+    paginate_within_bounds(@query.results)
   end
 
   def page_args

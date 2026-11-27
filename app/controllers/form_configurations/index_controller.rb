@@ -107,11 +107,7 @@ module FormConfigurations
     end
 
     def forms
-      @forms ||= begin
-        page = @query.results.page(page_param).per_page(per_page_param)
-        page = page.page(page.total_pages) if page.out_of_bounds? && page.total_pages.positive?
-        page
-      end
+      @forms ||= paginate_within_bounds(@query.results)
     end
 
     def form_variants

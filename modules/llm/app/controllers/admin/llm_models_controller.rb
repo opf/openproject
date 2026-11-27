@@ -44,7 +44,7 @@ module Admin
       @query = ParamsToQueryService
                  .new(LlmModel, current_user, query_class: Queries::LlmModels::LlmModelQuery)
                  .call(params)
-      @models = @query.results.paginate(page: page_param, per_page: per_page_param)
+      @models = paginate_within_bounds(@query.results)
     end
 
     # Answers the sub-header's filter input, replacing just the table.

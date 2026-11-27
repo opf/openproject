@@ -42,9 +42,7 @@ class DocumentsController < ApplicationController
   before_action :authorize
 
   def index
-    @documents = list_documents_query
-      .includes(:type)
-      .paginate(page: page_param, per_page: per_page_param)
+    @documents = paginate_within_bounds(list_documents_query.includes(:type))
   end
 
   def search

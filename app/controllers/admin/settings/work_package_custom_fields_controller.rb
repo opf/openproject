@@ -49,14 +49,14 @@ module Admin
         @filtered = @query.find_active_filter(:name_and_identifier).present? ||
                     @query.find_active_filter(:project_specific_values).present?
         @type_ids_by_project_id = @custom_field.type_ids_by_project_id
-        @projects = @query.results.paginate(page: page_param, per_page: per_page_param)
+        @projects = paginate_within_bounds(@query.results)
 
         render layout: false if turbo_frame_request?
       end
 
       def forms
         @query = forms_query
-        @forms = @query.results.page(page_param).per_page(per_page_param)
+        @forms = paginate_within_bounds(@query.results)
 
         respond_to do |format|
           format.html
@@ -69,10 +69,7 @@ module Admin
 
       def types_and_variants
         @query = types_and_variants_query
-        @variants = @query.results
-                          .includes(:type, :form_configuration, :project)
-                          .page(page_param)
-                          .per_page(per_page_param)
+        @variants = paginate_within_bounds(@query.results.includes(:type, :form_configuration, :project))
 
         respond_to do |format|
           format.html

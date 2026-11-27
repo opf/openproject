@@ -56,7 +56,7 @@ module ResourceManagement
       work_packages = view.work_packages
       return work_packages.to_a if view.manually_picked?
 
-      work_packages.page(page_param).per_page(per_page_param)
+      paginate_within_bounds(work_packages)
     end
   end
 end

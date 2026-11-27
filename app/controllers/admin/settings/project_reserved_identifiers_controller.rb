@@ -41,9 +41,7 @@ module Admin::Settings
 
     def index
       @query = build_query
-      @slugs = @query.results
-        .includes(:sluggable)
-        .paginate(page: page_param, per_page: per_page_param)
+      @slugs = paginate_within_bounds(@query.results.includes(:sluggable))
     end
 
     def search

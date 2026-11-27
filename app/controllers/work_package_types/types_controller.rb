@@ -117,9 +117,7 @@ module WorkPackageTypes
       scope = scope.with_own_or_variant_name_like(@query) if @query
       scope = scope.with_migrated_variants if migration_filter?
 
-      scope
-        .page(page_param)
-        .per_page(per_page_param)
+      paginate_within_bounds(scope)
     end
 
     def migration_filter? = params[:created_by_migration].presence == "t"

@@ -180,9 +180,11 @@ module Projects
                             :calculated_value_errors)
       end
 
-      scope
-        .includes(:enabled_modules)
-        .paginate(page: helpers.page_param(params), per_page: helpers.per_page_param(params))
+      helpers.paginate_within_bounds(
+        scope.includes(:enabled_modules),
+        page: helpers.page_param(params),
+        per_page: helpers.per_page_param(params)
+      )
     end
 
     def projects_with_levels_order_sensitive(projects, &)

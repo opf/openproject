@@ -105,11 +105,7 @@ module WorkPackageTypes
       def wizard? = false
 
       def paginated_projects
-        projects = @query.results.includes(project_types: :variant)
-        paginated = projects.paginate(page: page_param, per_page: per_page_param)
-        return paginated unless paginated.out_of_bounds? && paginated.total_pages.positive?
-
-        projects.paginate(page: paginated.total_pages, per_page: per_page_param)
+        paginate_within_bounds(@query.results.includes(project_types: :variant))
       end
     end
   end

@@ -67,12 +67,7 @@ module Wikis
     end
 
     def load_wiki_pages
-      @wiki_pages = @query
-        .results
-        .preload(:parent, wiki: :project)
-        .page(page_param)
-        .per_page(per_page_param)
-      @wiki_pages = @wiki_pages.page(@wiki_pages.total_pages) if @wiki_pages.out_of_bounds?
+      @wiki_pages = paginate_within_bounds(@query.results.preload(:parent, wiki: :project))
     end
   end
 end

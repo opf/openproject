@@ -107,11 +107,7 @@ module Workflows
     end
 
     def workflows
-      @workflows ||= begin
-        page = @query.results.page(page_param).per_page(per_page_param)
-        page = page.page(page.total_pages) if page.out_of_bounds? && page.total_pages.positive?
-        page
-      end
+      @workflows ||= paginate_within_bounds(@query.results)
     end
 
     def workflow_variants
