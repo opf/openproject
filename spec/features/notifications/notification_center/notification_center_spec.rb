@@ -352,6 +352,21 @@ RSpec.describe "Notification center",
       end
     end
 
+    %i[enter space].each do |key|
+      it "marks a notification as read with the #{key} key" do
+        visit home_path
+        wait_for_reload
+        center.open
+        center.expect_work_package_item notification, notification2
+
+        center.mark_notification_as_read_by_keyboard notification, key
+
+        center.expect_no_item notification
+        center.expect_work_package_item notification2
+        split_screen.expect_closed
+      end
+    end
+
     it "opens the next notification after marking one as read" do
       visit home_path
       wait_for_reload

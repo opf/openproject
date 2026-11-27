@@ -132,6 +132,15 @@ export class InAppNotificationEntryComponent extends UntilDestroyedMixin impleme
     }, 250);
   }
 
+  onRowKeydown(event:Event):void {
+    if (event.target !== event.currentTarget) {
+      return;
+    }
+
+    event.preventDefault();
+    this.onClick();
+  }
+
   showDetails():void {
     if (!this.workPackageId) {
       return;
