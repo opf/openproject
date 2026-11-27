@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, contentChild, Directive, inject, input } from '@angular/core';
+import { booleanAttribute, ChangeDetectionStrategy, Component, contentChild, Directive, inject, input } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { DynamicIconName } from 'core-app/shared/components/primer/dynamic-icon-map';
 import {
@@ -60,6 +60,7 @@ export class NoResultsComponent {
   readonly title = input(this.i18n.t('js.label_no_data'));
   readonly message = input<string>();
   readonly headingLevel = input<BlankslateHeadingLevel>(3);
+  readonly spacious = input(false, { transform: booleanAttribute });
 
   protected readonly action = contentChild(NoResultsActionDirective);
 }

@@ -63,7 +63,7 @@ describe('NoResultsComponent', () => {
     fixture.destroy();
   });
 
-  function render(inputs:{ icon?:DynamicIconName, title?:string, message?:string, headingLevel?:BlankslateHeadingLevel } = {}):void {
+  function render(inputs:{ icon?:DynamicIconName, title?:string, message?:string, headingLevel?:BlankslateHeadingLevel, spacious?:boolean } = {}):void {
     Object.entries(inputs).forEach(([key, value]) => fixture.componentRef.setInput(key, value));
     fixture.detectChanges();
   }
@@ -75,6 +75,18 @@ describe('NoResultsComponent', () => {
 
     expect(fixture.nativeElement.querySelector('.blankslate-container > .blankslate')).toBeInTheDocument();
     expect(screen.getByRole('heading', { level: 3, name: 'No data to display' })).toHaveClass('blankslate-heading');
+  });
+
+  it('renders a default Blankslate', () => {
+    render();
+
+    expect(fixture.nativeElement.querySelector('.blankslate')).not.toHaveClass('blankslate-spacious');
+  });
+
+  it('renders a spacious Blankslate', () => {
+    render({ spacious: true });
+
+    expect(fixture.nativeElement.querySelector('.blankslate')).toHaveClass('blankslate-spacious');
   });
 
   it('renders the heading at the given level', () => {

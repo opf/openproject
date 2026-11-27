@@ -970,6 +970,7 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       const cell = within(emptySection()!).getByRole('gridcell');
       expect(within(cell).getByRole('heading', { name: 'js.work_packages.no_results.title' })).toBeInTheDocument();
       expect(within(cell).getByText('js.work_packages.no_results.description')).toHaveClass('blankslate-description');
+      expect(cell.querySelector('.blankslate')).toHaveClass('blankslate-spacious');
     });
   });
 
