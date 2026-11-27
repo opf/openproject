@@ -117,7 +117,7 @@ module OpenProject::TextFormatting::Matchers
 
         link_to(OpenProject::TextFormatting::Helpers::StaticMacroLabel.call(work_package, label:, detailed:),
                 work_package_path_or_url(id: work_package.display_id, only_path: context[:only_path]),
-                class: "issue work_package")
+                class: link_css_classes(work_package.id))
       end
 
       def render_work_package_link(work_package, fallback_id:)
@@ -131,11 +131,19 @@ module OpenProject::TextFormatting::Matchers
 
         link_to(label,
                 work_package_path_or_url(id: href_id, only_path: context[:only_path]),
-                class: "issue work_package",
+                class: link_css_classes(work_package&.id || fallback_id),
                 data: {
                   hover_card_trigger_target: "trigger",
                   hover_card_url: hover_card_work_package_path(href_id)
                 })
+      end
+
+      def link_css_classes(work_package_id)
+        if preload_cache.closed?(work_package_id)
+          "issue work_package closed"
+        else
+          "issue work_package"
+        end
       end
 
       def resource_link_aria_label
