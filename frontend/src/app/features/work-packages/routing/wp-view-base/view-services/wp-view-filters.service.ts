@@ -64,17 +64,14 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
     'subjectOr',
     'manualSort',
     'typeahead',
-    'semanticSearch',
     'hybridSearch',
   ];
 
   /** The filter the text input edits */
-  public textFilterId:'search'|'semanticSearch'|'hybridSearch' = 'search';
+  public textFilterId:'search'|'hybridSearch' = 'search';
 
-  /** Whether the semantic search toggle is rendered */
+  /** Whether the hybrid search toggle is rendered */
   public semanticSearchAvailable = false;
-
-  public semanticSearchEnabled = false;
 
   public hybridSearchEnabled = false;
 
@@ -83,7 +80,7 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
    * so switching the mode links to the same page with the
    * search_mode parameter set accordingly.
    */
-  public searchModeUrl(mode:'text'|'semantic'|'hybrid'):string {
+  public searchModeUrl(mode:'text'|'hybrid'):string {
     const url = new URL(window.location.href);
     if (mode === 'text') {
       url.searchParams.delete('search_mode');
@@ -112,8 +109,6 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
   private updateTextFilterId(filters:QueryFilterInstanceResource[]):void {
     if (filters.some((filter) => filter.id === 'hybridSearch')) {
       this.textFilterId = 'hybridSearch';
-    } else if (filters.some((filter) => filter.id === 'semanticSearch')) {
-      this.textFilterId = 'semanticSearch';
     } else if (filters.some((filter) => filter.id === 'search')) {
       this.textFilterId = 'search';
     }

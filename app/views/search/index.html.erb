@@ -75,7 +75,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% if params[:filter] == "work_packages" %>
   <% semantic_search_available = Llm::WorkPackages::SemanticSearch.available? %>
-  <% search_mode = %w[semantic hybrid].include?(search_params[:search_mode]) && semantic_search_available ? search_params[:search_mode] : "text" %>
+  <% search_mode = search_params[:search_mode] == "hybrid" && semantic_search_available ? "hybrid" : "text" %>
   <%= angular_component_tag "opce-global-search-work-packages",
                             inputs: {
                               searchTerm: @question,

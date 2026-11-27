@@ -67,7 +67,7 @@ export class GlobalSearchWorkPackagesComponent extends UntilDestroyedMixin imple
 
   @Input() public scope:'all'|'current_project'|'';
 
-  @Input() public searchMode:'semantic'|'hybrid'|'text' = 'text';
+  @Input() public searchMode:'hybrid'|'text' = 'text';
 
   @Input() public semanticSearchAvailable = false;
 
@@ -99,21 +99,12 @@ export class GlobalSearchWorkPackagesComponent extends UntilDestroyedMixin imple
 
   ngOnInit():void {
     this.wpTableFilters.semanticSearchAvailable = this.semanticSearchAvailable;
-    this.wpTableFilters.semanticSearchEnabled = this.isSemanticSearch;
     this.wpTableFilters.hybridSearchEnabled = this.isHybridSearch;
     this.setQueryProps();
   }
 
-  public get isSemanticSearch():boolean {
-    return this.searchMode === 'semantic';
-  }
-
   public get isHybridSearch():boolean {
     return this.searchMode === 'hybrid';
-  }
-
-  private get useSemanticSearch():boolean {
-    return this.isSemanticSearch && this.semanticSearchAvailable;
   }
 
   private get useHybridSearch():boolean {
@@ -121,23 +112,11 @@ export class GlobalSearchWorkPackagesComponent extends UntilDestroyedMixin imple
   }
 
   private get searchFilterId():string {
-    if (this.useHybridSearch) {
-      return 'hybridSearch';
-    }
-    if (this.useSemanticSearch) {
-      return 'semanticSearch';
-    }
-    return 'search';
+    return this.useHybridSearch ? 'hybridSearch' : 'search';
   }
 
   private get searchSortBy():[string, string][] {
-    if (this.useHybridSearch) {
-      return [['hybridScore', 'desc']];
-    }
-    if (this.useSemanticSearch) {
-      return [['semanticSimilarity', 'asc']];
-    }
-    return [['updatedAt', 'desc']];
+    return this.useHybridSearch ? [['hybridScore', 'desc']] : [['updatedAt', 'desc']];
   }
 
   private setQueryProps():void {
