@@ -41,6 +41,12 @@ import { canonicalizeWorkPackageIdInUrl } from 'core-app/core/setup/globals/cano
 import { hideElement } from 'core-app/shared/helpers/dom-helpers';
 import { isOpenProjectCustomElement } from './openproject-custom-element';
 
+// Frame navigations promoted to page visits (split view row clicks, see
+// turbo-navigation-patch.ts) fire turbo:visit without rendering a new page. OP-20713
+function isRenderingVisit():boolean {
+  return Turbo.navigator.currentVisit?.willRender !== false;
+}
+
 export function addTurboGlobalListeners(target:Document = document, signal?:AbortSignal) {
   const runOnRenderAndLoad = () => {
     // Add to content if warnings displayed
@@ -93,6 +99,12 @@ export function addTurboGlobalListeners(target:Document = document, signal?:Abor
   target.addEventListener('turbo:before-cache', () => {
     const indicator = target.querySelector<HTMLElement>('#global-loading-indicator');
     if (indicator) hideElement(indicator);
+  }, { signal });
+
+  target.addEventListener('turbo:visit', () => {
+    if (!isRenderingVisit()) return;
+
+    target.dispatchEvent(new CustomEvent('op:page-visit'));
   }, { signal });
 
   target.addEventListener('turbo:before-morph-element', (event) => {

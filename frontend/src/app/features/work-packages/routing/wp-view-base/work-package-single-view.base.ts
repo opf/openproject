@@ -48,7 +48,18 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HookService } from 'core-app/features/plugins/hook-service';
 import { WpSingleViewService } from 'core-app/features/work-packages/routing/wp-view-base/state/wp-single-view.service';
-import { Observable } from 'rxjs';
+import {
+  EMPTY,
+  from,
+  Observable,
+  Subject,
+} from 'rxjs';
+import {
+  catchError,
+  map,
+  skip,
+  switchMap,
+} from 'rxjs/operators';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { AttachmentsResourceService } from 'core-app/core/state/attachments/attachments.service';
 import { StoragesResourceService } from 'core-app/core/state/storages/storages.service';
@@ -57,6 +68,7 @@ import { ProjectsResourceService } from 'core-app/core/state/projects/projects.s
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 
 @Directive()
 export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
@@ -104,6 +116,10 @@ export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
 
   readonly storeService = inject(WpSingleViewService);
 
+  private readonly schemaCache = inject(SchemaCacheService);
+
+  private readonly workPackageUpdates = new Subject<WorkPackageResource>();
+
   // Work package resource to be loaded from the cache
   public workPackage:WorkPackageResource;
 
@@ -130,6 +146,13 @@ export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
    * the emission count is unchanged from the original behavior.
    */
   protected observeWorkPackage():void {
+    this.workPackageUpdates
+      .pipe(
+        switchMap((wp:WorkPackageResource) => this.withLoadedSchema(wp)),
+        this.untilDestroyed(),
+      )
+      .subscribe((wp:WorkPackageResource) => this.applyWorkPackage(wp));
+
     this
       .apiV3Service
       .work_packages
@@ -142,21 +165,38 @@ export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
           this.subscribeToNumericCacheSlot(wp.id);
         }
 
-        this.applyWorkPackage(wp);
+        this.workPackageUpdates.next(wp);
       }, (error) => {
         this.handleLoadingError(error);
       });
   }
 
+  // The numeric slot replays its current copy on subscription. The fresh
+  // semantic result that triggered this subscription supersedes it.
   private subscribeToNumericCacheSlot(numericId:string):void {
-    this
+    const slot = this
       .apiV3Service
       .work_packages
       .cache
-      .state(numericId)
+      .state(numericId);
+
+    slot
       .values$()
-      .pipe(this.untilDestroyed())
-      .subscribe((nextWp:WorkPackageResource) => this.applyWorkPackage(nextWp));
+      .pipe(
+        skip(slot.hasValue() ? 1 : 0),
+        this.untilDestroyed(),
+      )
+      .subscribe((nextWp:WorkPackageResource) => this.workPackageUpdates.next(nextWp));
+  }
+
+  private withLoadedSchema(wp:WorkPackageResource):Observable<WorkPackageResource> {
+    return from(this.schemaCache.ensureLoaded(wp)).pipe(
+      map(() => wp),
+      catchError((error:unknown) => {
+        this.handleLoadingError(error);
+        return EMPTY;
+      }),
+    );
   }
 
   private applyWorkPackage(wp:WorkPackageResource):void {
