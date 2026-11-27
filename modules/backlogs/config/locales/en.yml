@@ -270,7 +270,7 @@ en:
         burndown_chart:
           blankslate:
             no_estimated_hours:
-              description: "The burndown chart will appear here once the sprint contains open work packages with work time estimates."
+              description: "The burndown chart will appear here once the sprint contains open work packages with estimated time."
               heading: "No work to display"
             no_story_points:
               description: "The burndown chart will appear here once the sprint contains open work packages with estimated story points."
@@ -279,7 +279,7 @@ en:
               description: "The burndown chart will appear here after the sprint starts."
               heading: "No work to display"
             not_started_without_estimated_hours:
-              description: "The burndown chart will appear here after the sprint starts, once the sprint contains open work packages with work time estimates."
+              description: "The burndown chart will appear here after the sprint starts, once the sprint contains open work packages with estimated time."
               heading: "No work to display"
             not_started_without_story_points:
               description: "The burndown chart will appear here after the sprint starts, once the sprint contains open work packages with estimated story points."
@@ -299,7 +299,7 @@ en:
         burnup_chart:
           blankslate:
             no_estimated_hours:
-              description: "The burnup chart will appear here once the sprint contains work packages with work time estimates."
+              description: "The burnup chart will appear here once the sprint contains work packages with estimated time."
               heading: "No work to display"
             no_story_points:
               description: "The burnup chart will appear here once the sprint contains work packages with estimated story points."
@@ -308,7 +308,7 @@ en:
               description: "The burnup chart will appear here after the sprint starts."
               heading: "No work to display"
             not_started_without_estimated_hours:
-              description: "The burnup chart will appear here after the sprint starts, once the sprint contains work packages with work time estimates."
+              description: "The burnup chart will appear here after the sprint starts, once the sprint contains work packages with estimated time."
               heading: "No work to display"
             not_started_without_story_points:
               description: "The burnup chart will appear here after the sprint starts, once the sprint contains work packages with estimated story points."
@@ -589,8 +589,8 @@ en:
             caption: "The cards and charts will display story points."
             label: "Story points"
           time:
-            caption: "The cards and charts will display work time estimates."
-            label: "Work time estimate"
+            caption: "The cards and charts will display estimated time."
+            label: "Estimated time"
 
       backlog_sharing:
         options:
