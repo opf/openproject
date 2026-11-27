@@ -33,9 +33,8 @@ module ResourcePlannerViews
       # A user's bars span every project they are allocated in, including ones the
       # viewer cannot open. Those keep their hours — the load is real and feeds the
       # utilization maths — but disclose nothing about the work package.
-      # `project_names` is only given on a global planner, where the bar has to say
-      # which project the work sits in; it holds the visible projects alone, so an
-      # entry is missing exactly when the project must stay undisclosed.
+      # `project_names` holds the visible projects other than the current one, so an
+      # entry is missing exactly when the bar must not name its project.
       def initialize(allocation:, overbooked: false, overbooked_dates: [], visible_work_package_ids: nil, project_names: nil)
         super
         @allocation = allocation

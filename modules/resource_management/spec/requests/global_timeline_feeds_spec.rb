@@ -147,6 +147,30 @@ RSpec.describe "Global timeline feeds", :skip_csrf, type: :rails_request, with_e
     expect(secret_event.dig("extendedProps", "html")).not_to include("Secret")
   end
 
+  context "with an allocation in a visible project whose work packages the viewer cannot see" do
+    let(:glass_project) do
+      create(:project, name: "Glasshouse", enabled_module_names: %w[resource_management work_package_tracking])
+    end
+    let(:glass_wp) { create(:work_package, project: glass_project, subject: "Hidden greenhouse work") }
+    let!(:glass_allocation) do
+      create(:resource_allocation, entity: glass_wp, principal: resource, state: :allocated,
+                                   start_date: Date.new(2026, 1, 19), end_date: Date.new(2026, 1, 23),
+                                   allocated_time: 600)
+    end
+
+    before do
+      create(:member, principal: user, project: glass_project,
+                      roles: [create(:project_role, permissions: %i[view_resource_planners])])
+    end
+
+    it "names the project but not the work package" do
+      glass_event = get_events.find { |e| e["id"] == glass_allocation.id }
+
+      expect(glass_event.dig("extendedProps", "html")).to include("Glasshouse")
+      expect(glass_event.dig("extendedProps", "html")).not_to include("Hidden greenhouse work")
+    end
+  end
+
   it "offers no edit url for an allocation the viewer may not change" do
     events = get_events
 

@@ -148,16 +148,17 @@ module ResourceManagement
       def render_bar(allocation)
         ResourcePlannerViews::UserTimeline::AllocationBarComponent
           .new(allocation:, overbooked: overbooked?(allocation), overbooked_dates: overbooked_dates_of(allocation),
-               visible_work_package_ids:, project_names: (visible_project_names if @project.nil?))
+               visible_work_package_ids:, project_names: visible_project_names)
           .render_in(view_context)
       end
 
-      # A global planner's bars span projects, so each one names its own. Only the
-      # projects the viewer may see are resolved; the rest stay undisclosed.
+      # A user's bars span projects, so those outside the current project name
+      # their own. Only the projects the viewer may see are resolved; the rest stay
+      # undisclosed.
       def visible_project_names
         @visible_project_names ||= begin
           project_ids = allocation_entities.map(&:project_id).uniq
-          Project.visible(current_user).where(id: project_ids).pluck(:id, :name).to_h
+          Project.visible(current_user).where(id: project_ids).where.not(id: @project).pluck(:id, :name).to_h
         end
       end
 
