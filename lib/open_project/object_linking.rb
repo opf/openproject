@@ -135,7 +135,10 @@ module OpenProject
     end
 
     # Like #link_to_user, but will render a Primer link instead of a regular link.
-    def primer_link_to_user(user, options = {})
+    def primer_link_to_user(user, options = {}) # rubocop:disable Metrics/AbcSize
+      return content_tag(:span, h(user.to_s), class: options[:class]) unless user.is_a?(User)
+      return content_tag(:span, h(user.name), class: options[:class]) if user_not_linkable?(user)
+
       options[:href] ||= user_path(user)
       options[:target] ||= "_blank"
       options[:underline] ||= false
