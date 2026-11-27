@@ -179,9 +179,11 @@ export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   // A key that moves the camera must not also trigger a page shortcut, e.g. S the global search.
-  // Page shortcuts skip keydowns whose default is prevented.
+  // Page shortcuts skip keydowns whose default is prevented; browser shortcuts such as Cmd+S
+  // must keep theirs.
   claimCameraKey(event:KeyboardEvent):void {
     if (this.keyboardEnabled
+      && !(event.ctrlKey || event.metaKey || event.altKey)
       && event.target === this.modelCanvas.nativeElement
       && this.ifcViewerService.handlesKey(event)) {
       event.preventDefault();

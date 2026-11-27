@@ -195,6 +195,14 @@ describe('IFCViewerComponent keys for page shortcuts', () => {
     expect(shortcutKeys).toEqual([]);
   });
 
+  it.each(['Control', 'Meta', 'Alt'])('leaves a camera key with %s on the canvas to the browser', async (modifier) => {
+    enableKeyboard();
+
+    await userEvent.keyboard(`{${modifier}>}s{/${modifier}}`);
+
+    expect(shortcutKeys).toContain('s');
+  });
+
   it('leaves other keys on the canvas to the page shortcuts', async () => {
     enableKeyboard();
 
