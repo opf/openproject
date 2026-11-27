@@ -218,6 +218,7 @@ RSpec.describe("Activation of storages in projects",
       let(:storage) { create(:nextcloud_storage, :as_not_automatically_managed, oauth_application:) }
       let(:project_storage) { create(:project_storage, storage:, project:) }
 
+      # rubocop:disable-next Capybara/RSpec/NegationMatcherAfterVisit
       it "automatic option is not available" do
         visit edit_project_settings_project_storage_path(project_id: project, id: project_storage)
 
@@ -255,13 +256,14 @@ RSpec.describe("Activation of storages in projects",
 
       context "when the storage is a one drive storage" do
         let(:oauth_application) { create(:oauth_application) }
-        let(:storage) { create(:one_drive_storage, :as_automatically_managed, oauth_application:) }
+        let(:storage) { create(:onedrive_storage, :as_automatically_managed, oauth_application:) }
         let(:project_storage) { create(:project_storage, storage:, project:) }
 
         before do
           mock_one_drive_authorization_validation
         end
 
+        # rubocop:disable-next Capybara/RSpec/NegationMatcherAfterVisit
         it "shows no option for manually managed permissions" do
           visit edit_project_settings_project_storage_path(project_id: project, id: project_storage)
 

@@ -28,13 +28,12 @@
 #++
 
 require "spec_helper"
+require_module_spec_helper
 
 RSpec.describe Storages::Admin::StoragesController do
   let(:user) { build(:admin) }
 
-  before do
-    login_as user
-  end
+  before { login_as(user) }
 
   describe "GET #upsell" do
     it "renders the upsell page" do
@@ -43,10 +42,10 @@ RSpec.describe Storages::Admin::StoragesController do
       expect(response).to render_template "upsell"
     end
 
-    context "with one_drive provider" do
+    context "with onedrive provider" do
       it "assigns the correct provider type" do
-        get :upsell, params: { provider: "one_drive" }
-        expect(assigns(:provider_type).short_provider_name).to eq(:one_drive)
+        get :upsell, params: { provider: "onedrive" }
+        expect(assigns(:provider_type).short_provider_name).to eq(:onedrive)
       end
     end
 
@@ -58,9 +57,9 @@ RSpec.describe Storages::Admin::StoragesController do
     end
 
     context "with missing provider param" do
-      it "defaults to one_drive provider type" do
+      it "defaults to onedrive provider type" do
         get :upsell
-        expect(assigns(:provider_type).short_provider_name).to eq(:one_drive)
+        expect(assigns(:provider_type).short_provider_name).to eq(:onedrive)
       end
     end
   end
