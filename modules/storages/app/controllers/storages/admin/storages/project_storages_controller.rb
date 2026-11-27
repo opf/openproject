@@ -175,8 +175,7 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
       component: Storages::ProjectStorages::Projects::TableComponent.new(
         query: storage_projects_query,
         storage: @storage,
-        url_for_action:,
-        params:
+        url_for_action:
       )
     )
   end
