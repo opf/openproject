@@ -307,7 +307,13 @@ class Attachment < ApplicationRecord
 
     if pending_virus_scan?
       Attachments::VirusScanJob.perform_later(self)
+    elsif status_uploaded?
+      notify_file_available
     end
+  end
+
+  def notify_file_available
+    OpenProject::Notifications.send(OpenProject::Events::ATTACHMENT_FILE_AVAILABLE, attachment: self)
   end
 
   def extract_fulltext
