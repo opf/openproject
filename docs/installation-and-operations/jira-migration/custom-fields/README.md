@@ -71,7 +71,7 @@ Jira cascading select fields have two import modes depending on your OpenProject
   The full parent-child tree is preserved. A selected value of `Animals > Cat` is stored as the `Cat` item under the `Animals` parent.
 - **Community edition**: The field is imported as a **List** custom field. 
   The option list is flattened and each level is stored as a full path string. For example, `Animals > Cat` produces both `Animals` and `Animals / Cat` as separate list options. 
-  The selected value on each issue becomes the deepest matching path.
+  The field is created as a multi-value list, and each issue gets every level of its selection: `Animals > Cat` sets both `Animals` and `Animals / Cat`.
 
 ### Date Time Picker
 
@@ -117,8 +117,8 @@ The conversion covers common elements (headings, bold, italic, links, code block
 
 ### User fields
 
-User picker and multi-user picker fields are resolved by matching the Jira user key to a user who is a member of the migrated project.
-If the Jira user was not imported because they are not a member of any selected project, the user reference is dropped for that field value.
+User picker and multi-user picker fields are resolved by matching the Jira user key to a user imported in the same run.
+Users are only imported if they are referenced elsewhere on an imported issue (as creator, reporter, assignee, watcher, comment, attachment, worklog or history author, or via an @mention). If the Jira user was not imported, the user reference is dropped for that field value.
 
 ### Field contexts
 
@@ -126,14 +126,14 @@ In Jira Data Center, a single custom field can have different allowed values in 
 The migrator handles this as follows:
 
 - Each distinct set of allowed values becomes a **separate OpenProject custom field**.
-- If multiple context groups are detected for one Jira field, each resulting custom field is named `<FieldName> (<ProjectKey>)` to disambiguate.
+- If multiple context groups are detected for one Jira field, each resulting custom field is named `<FieldName> (<ProjectKeys>)` to disambiguate, e.g. `Severity (ABC, DEF)` if a context covers several projects.
 - If all contexts share the same allowed values, a single custom field is created without a project suffix.
 - Context names are not available via the API.
   The migrator uses project keys as suffixes to disambiguate contexts, but the original context names are not preserved.
 
 During issue import, each issue is matched to the context whose projects and issue types fit. 
 If no context matches, the first available context is used as a fallback so no data is silently lost. 
-The custom field an issue resolves to is activated in that issue's project, whether it was matched or used as a fallback.
+The custom field an issue resolves to is added to that issue's type (in the "Jira import" group of the type's form), whether it was matched or used as a fallback. This also applies to existing OpenProject types that the import reuses.
 
 ### Deduplication with existing custom fields
 
