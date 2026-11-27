@@ -1,7 +1,6 @@
 <div
   class="op-ian-item--row"
   tabindex="0"
-  role="button"
   (click)="onClick()"
   (keydown.enter)="onRowKeydown($event)"
   (keydown.space)="onRowKeydown($event)"
@@ -66,12 +65,16 @@
         (click)="markAsRead($event, aggregatedNotifications)"
       ></button>
     }
-    <i
-      class="op-ian-item--button op-ian-item--button_shown-on-focus icon-info1"
-      (keydown.enter)="showDetails()"
-      tabindex="0"
-      >
-    </i>
+    <button
+      primerIconButton
+      scheme="invisible"
+      size="small"
+      icon="info"
+      [label]="text.open_details"
+      tooltip-direction="se"
+      class="op-ian-item--button op-ian-item--button_shown-on-focus"
+      (click)="openDetails($event)"
+    ></button>
   </div>
 </div>
 <div
