@@ -68,6 +68,29 @@ RSpec.describe PaginationHelper do
         .and_return(url_options.merge(controller: "work_packages", action: "index"))
     end
 
+    it "retains allowed filters and Turbo options on Pagy navigation links" do
+      params = ActionController::Parameters.new(filters: "active", ignored: "discard")
+      allow(helper).to receive(:params).and_return(params)
+      page = Pagy::Offset.new(count: 5, limit: 2, page: 2)
+
+      html = helper.pagy_pagination_links(page, %i[a b], turbo: true, turbo_action: "advance", per_page_links: false)
+
+      expect(html).to have_link("Next", href: work_packages_path(page: 3, filters: "active")) do |link|
+        expect(link["data-turbo-stream"]).to eq("true")
+        expect(link["data-turbo-action"]).to eq("advance")
+      end
+      expect(html).to have_no_css(".op-pagination--options")
+    end
+
+    it "omits the range if the records disappear after Pagy counts them" do
+      page = Pagy::Offset.new(count: 5, limit: 2, page: 3)
+
+      html = helper.pagy_pagination_links(page, [])
+
+      expect(html).to have_link("Previous", href: work_packages_path(page: 2))
+      expect(html).to have_no_css(".op-pagination--range")
+    end
+
     it "is inside a 'pagination' div" do
       expect(pagination).to have_css("div.op-pagination")
     end

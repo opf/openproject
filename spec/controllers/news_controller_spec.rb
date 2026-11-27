@@ -53,6 +53,78 @@ RSpec.describe NewsController do
       end
     end
 
+    context "as a member of one private project" do
+      shared_current_user { create(:user) }
+
+      it "counts and displays only visible news in the global index" do
+        news_in_other_project.project.update!(public: false)
+        become_member_with_permissions(project, current_user, [:view_news])
+
+        get :index
+
+        expect(assigns(:news)).to eq([news])
+        expect(response.body).to have_css(".op-pagination--range", text: "(1 - 1/1)")
+      end
+    end
+
+    context "with five project news items", with_settings: { per_page_options: "1,2,5" } do
+      let!(:older_items) do
+        (1..4).map { |days| create(:news, project:, created_at: days.days.ago) }
+      end
+
+      it "renders the middle page using the session page size" do
+        get :index, params: { project_id: project.to_param, page: 2 }, session: { per_page: 2 }
+
+        expect(assigns(:news)).to eq(older_items[1, 2])
+        expect(response.body).to have_css(".op-pagination--range[aria-live='polite']", text: "(3 - 4/5)")
+        expect(response.body).to have_link("Previous", href: project_news_index_path(project, page: 1))
+        expect(response.body).to have_link("Next", href: project_news_index_path(project, page: 3))
+      end
+
+      it "serves the same slice in the project Atom feed" do
+        get :index, format: :atom, params: { project_id: project.to_param, page: 2, per_page: 2 }
+
+        expect(response.media_type).to eq("application/atom+xml")
+        expect(assigns(:items)).to eq(older_items[1, 2])
+      end
+
+      it "renders the final partial page" do
+        get :index, params: { project_id: project.to_param, page: 3, per_page: 2 }
+
+        expect(assigns(:news)).to eq([older_items.last])
+        expect(response.body).to have_css(".op-pagination--range", text: "(5 - 5/5)")
+        expect(response.body).to have_no_link("Next")
+      end
+
+      it "keeps navigation and hides the range on an empty page" do
+        get :index, params: { project_id: project.to_param, page: 4, per_page: 2 }
+
+        expect(assigns(:news)).to be_empty
+        expect(response.body).to have_link("Previous", href: project_news_index_path(project, page: 3))
+        expect(response.body).to have_no_css(".op-pagination--range")
+      end
+    end
+
+    it "omits pagination when the project has no news" do
+      get :index, params: { project_id: create(:project).to_param }
+
+      expect(response).to be_successful
+      expect(response.body).to have_no_css(".op-pagination")
+    end
+
+    it "uses the model default when no page sizes are configured", with_settings: { per_page_options: "" } do
+      get :index
+
+      expect(assigns(:pagination).limit).to eq(30)
+      expect(response.body).to have_no_css(".op-pagination--options")
+    end
+
+    it "returns not found when the row offset exceeds the database limit" do
+      get :index, params: { page: 2**64 }
+
+      expect(response).to have_http_status(:not_found)
+    end
+
     context "when requesting the project index" do
       it "renders index with project" do
         get :index, params: { project_id: project.id }

@@ -28,6 +28,7 @@
 #++
 
 class NewsController < ApplicationController
+  include Pagy::Method
   include PaginationHelper
   include Layout
 
@@ -39,19 +40,13 @@ class NewsController < ApplicationController
 
   accept_rss_key_auth :index
 
-  def index # rubocop:disable Metrics/AbcSize
-    scope = @project ? @project.news : News.visible
-
-    @news = scope.merge(News.latest_for(current_user, count: 0))
-                  .page(page_param)
-                  .per_page(per_page_param)
+  def index
+    scope = (@project&.news || News).latest_for(current_user, count: 0)
 
     respond_to do |format|
-      format.html do
-        render locals: { menu_name: project_or_global_menu }
-      end
+      format.html { render_news_index(scope) }
       format.atom do
-        render_feed(@news,
+        render_feed(scope.page(page_param).per_page(per_page_param),
                     title: (@project ? @project.name : Setting.app_title) + ": #{I18n.t(:label_news_plural)}")
       end
     end
@@ -115,6 +110,16 @@ class NewsController < ApplicationController
   end
 
   private
+
+  def render_news_index(scope)
+    page = page_param
+    limit = per_page_param || DEFAULT_PER_PAGE
+    return head :not_found if (page - 1) * limit > Pagy::Offset::MAX_OFFSET
+
+    @pagination, records = pagy(:offset, scope, page:, limit:)
+    @news = @pagination.in.zero? ? [] : records.to_a
+    render :index, locals: { menu_name: project_or_global_menu }
+  end
 
   def find_news_object
     if @project
