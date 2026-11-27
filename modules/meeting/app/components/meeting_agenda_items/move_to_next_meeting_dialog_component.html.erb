@@ -36,7 +36,7 @@ See COPYRIGHT and LICENSE files for more details.
   ) do |dialog|
     dialog.with_header(variant: :large)
     dialog.with_body(classes: "Overlay-body_autocomplete_height--lg") do
-      concat(render(Primer::Alpha::Banner.new(scheme: :warning, mb: 3)) { simple_format(confirmation_message) })
+      concat(render(Primer::Alpha::Banner.new(scheme: :info, mb: 3)) { simple_format(confirmation_message) })
       concat(
         render(
           MeetingAgendaItems::MoveToNextMeetingFormComponent.new(
@@ -60,7 +60,7 @@ See COPYRIGHT and LICENSE files for more details.
         end
         buttons.with_component(
           Primer::Beta::Button.new(
-            scheme: :danger,
+            scheme: :primary,
             form: "move-to-next-meeting-form",
             data: { turbo: true },
             type: :submit
