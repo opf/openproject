@@ -84,10 +84,14 @@ export class QueryFiltersComponent extends UntilDestroyedMixin implements OnInit
     please_select: this.I18n.t('js.placeholders.selection'),
     filter_by_text: this.I18n.t('js.work_packages.label_filter_by_text'),
     search_by_meaning: this.I18n.t('js.global_search.search_by_meaning'),
+    search_by_text_and_meaning: this.I18n.t('js.global_search.search_by_text_and_meaning'),
     baseline_warning: this.I18n.t('js.work_packages.filters.baseline_warning'),
   };
 
   public get filterByTextLabel():string {
+    if (this.wpTableFilters.hybridSearchEnabled) {
+      return this.text.search_by_text_and_meaning;
+    }
     return this.wpTableFilters.semanticSearchEnabled
       ? this.text.search_by_meaning
       : this.text.filter_by_text;

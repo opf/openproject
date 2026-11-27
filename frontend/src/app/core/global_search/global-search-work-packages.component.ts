@@ -67,7 +67,7 @@ export class GlobalSearchWorkPackagesComponent extends UntilDestroyedMixin imple
 
   @Input() public scope:'all'|'current_project'|'';
 
-  @Input() public searchMode:'semantic'|'text' = 'text';
+  @Input() public searchMode:'semantic'|'hybrid'|'text' = 'text';
 
   @Input() public semanticSearchAvailable = false;
 
@@ -100,6 +100,7 @@ export class GlobalSearchWorkPackagesComponent extends UntilDestroyedMixin imple
   ngOnInit():void {
     this.wpTableFilters.semanticSearchAvailable = this.semanticSearchAvailable;
     this.wpTableFilters.semanticSearchEnabled = this.isSemanticSearch;
+    this.wpTableFilters.hybridSearchEnabled = this.isHybridSearch;
     this.setQueryProps();
   }
 
@@ -107,8 +108,36 @@ export class GlobalSearchWorkPackagesComponent extends UntilDestroyedMixin imple
     return this.searchMode === 'semantic';
   }
 
+  public get isHybridSearch():boolean {
+    return this.searchMode === 'hybrid';
+  }
+
   private get useSemanticSearch():boolean {
     return this.isSemanticSearch && this.semanticSearchAvailable;
+  }
+
+  private get useHybridSearch():boolean {
+    return this.isHybridSearch && this.semanticSearchAvailable;
+  }
+
+  private get searchFilterId():string {
+    if (this.useHybridSearch) {
+      return 'hybridSearch';
+    }
+    if (this.useSemanticSearch) {
+      return 'semanticSearch';
+    }
+    return 'search';
+  }
+
+  private get searchSortBy():[string, string][] {
+    if (this.useHybridSearch) {
+      return [['hybridScore', 'desc']];
+    }
+    if (this.useSemanticSearch) {
+      return [['semanticSimilarity', 'asc']];
+    }
+    return [['updatedAt', 'desc']];
   }
 
   private setQueryProps():void {
@@ -125,7 +154,7 @@ export class GlobalSearchWorkPackagesComponent extends UntilDestroyedMixin imple
       });
     } else if (this.searchTerm.length > 0) {
       filters.push({
-        [this.useSemanticSearch ? 'semanticSearch' : 'search']: {
+        [this.searchFilterId]: {
           operator: '**',
           values: [this.searchTerm],
         },
@@ -154,7 +183,7 @@ export class GlobalSearchWorkPackagesComponent extends UntilDestroyedMixin imple
     this.queryProps = {
       'columns[]': columns,
       filters: JSON.stringify(filters),
-      sortBy: JSON.stringify(this.useSemanticSearch ? [['semanticSimilarity', 'asc']] : [['updatedAt', 'desc']]),
+      sortBy: JSON.stringify(this.searchSortBy),
       showHierarchies: false,
     };
   }

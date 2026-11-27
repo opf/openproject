@@ -67,6 +67,7 @@ export class WorkPackageFilterContainerComponent extends UntilDestroyedMixin imp
     search_mode_label: I18n.t('js.global_search.search_mode'),
     search_mode_text: I18n.t('js.work_packages.label_filter_by_text'),
     search_mode_semantic: I18n.t('js.global_search.search_by_meaning'),
+    search_mode_hybrid: I18n.t('js.global_search.search_by_text_and_meaning'),
   };
 
   constructor() {

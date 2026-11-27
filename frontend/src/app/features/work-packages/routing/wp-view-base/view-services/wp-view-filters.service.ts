@@ -65,27 +65,30 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
     'manualSort',
     'typeahead',
     'semanticSearch',
+    'hybridSearch',
   ];
 
   /** The filter the text input edits */
-  public textFilterId:'search'|'semanticSearch' = 'search';
+  public textFilterId:'search'|'semanticSearch'|'hybridSearch' = 'search';
 
   /** Whether the semantic search toggle is rendered */
   public semanticSearchAvailable = false;
 
   public semanticSearchEnabled = false;
 
+  public hybridSearchEnabled = false;
+
   /**
    * The search mode is resolved by the server on page load,
    * so switching the mode links to the same page with the
    * search_mode parameter set accordingly.
    */
-  public searchModeUrl(mode:'text'|'semantic'):string {
+  public searchModeUrl(mode:'text'|'semantic'|'hybrid'):string {
     const url = new URL(window.location.href);
-    if (mode === 'semantic') {
-      url.searchParams.set('search_mode', 'semantic');
-    } else {
+    if (mode === 'text') {
       url.searchParams.delete('search_mode');
+    } else {
+      url.searchParams.set('search_mode', mode);
     }
     return url.toString();
   }
@@ -107,7 +110,9 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
   }
 
   private updateTextFilterId(filters:QueryFilterInstanceResource[]):void {
-    if (filters.some((filter) => filter.id === 'semanticSearch')) {
+    if (filters.some((filter) => filter.id === 'hybridSearch')) {
+      this.textFilterId = 'hybridSearch';
+    } else if (filters.some((filter) => filter.id === 'semanticSearch')) {
       this.textFilterId = 'semanticSearch';
     } else if (filters.some((filter) => filter.id === 'search')) {
       this.textFilterId = 'search';
