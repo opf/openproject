@@ -28,15 +28,11 @@
 import type { Plugin } from 'esbuild';
 import * as fs from 'fs';
 import * as path from 'node:path';
+import rebundle from '@rx-angular/rebundle';
 
 const customConfigPlugin:Plugin = {
   name: 'custom-config',
   setup({ initialOptions: options }) {
-    // SPIKE: Propshaft leaves files named `-[hash].digested` alone, so chunk imports keep resolving.
-    if (typeof options.chunkNames === 'string' && options.chunkNames.endsWith('-[hash]')) {
-      options.chunkNames = `${options.chunkNames}.digested`;
-    }
-
     if (options.minifySyntax) {
       // Primer elements use Catalyst which gets their tag names from their class names.
       // Minification changes the class names and will break those imports.
@@ -110,4 +106,57 @@ if (hadPreviousDollar) {
   },
 };
 
-export default [customConfigPlugin, jqueryInjectionPlugin];
+// SPIKE: Propshaft leaves files named `-[hash].digested` alone, so imports between chunks keep
+// resolving. Runs after rebundle, whose chunk file names cannot be configured.
+const digestedChunkNamesPlugin:Plugin = {
+  name: 'digested-chunk-names',
+  setup(build) {
+    build.onEnd((result) => {
+      const { entryPoints, define } = build.initialOptions;
+      if (!result.outputFiles || !result.metafile || define?.ngDevMode !== 'false') {
+        return;
+      }
+      if (!entryPoints || Array.isArray(entryPoints)) {
+        return;
+      }
+
+      const entryFiles = new Set(Object.keys(entryPoints).map((name) => `${name}.js`));
+      const isChunk = (file:string) => file.endsWith('.js') && !entryFiles.has(path.basename(file));
+      const renamed = new Set(result.outputFiles.map((file) => path.basename(file.path)).filter(isChunk));
+      const rename = (file:string) => file.replace(/\.js(\.map)?$/, '.digested.js$1');
+      const rewrite = (text:string) => text.replace(
+        /([\w.-]+\.js)(\.map)?(?![\w.-])/g,
+        (match, file:string, map = '') => (renamed.has(file) ? rename(file) + (map as string) : match),
+      );
+      const isRenamed = (file:string) => renamed.has(path.basename(file).replace(/\.map$/, ''));
+
+      result.outputFiles = result.outputFiles.map((file) => {
+        if (!/\.js(\.map)?$/.test(file.path)) {
+          return file;
+        }
+        const text = rewrite(file.text);
+        return {
+          path: isRenamed(file.path) ? rename(file.path) : file.path,
+          contents: new TextEncoder().encode(text),
+          hash: file.hash,
+          text,
+        };
+      });
+
+      result.metafile.outputs = Object.fromEntries(
+        Object.entries(result.metafile.outputs).map(([file, output]) => [
+          isRenamed(file) ? rename(file) : file,
+          {
+            ...output,
+            imports: output.imports.map((imported) => ({
+              ...imported,
+              path: isRenamed(imported.path) ? rename(imported.path) : imported.path,
+            })),
+          },
+        ]),
+      );
+    });
+  },
+};
+
+export default [rebundle(), digestedChunkNamesPlugin, customConfigPlugin, jqueryInjectionPlugin];
