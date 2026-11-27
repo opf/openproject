@@ -177,14 +177,24 @@ RSpec.describe "User timeline feeds", type: :rails_request, with_ee: %i[resource
                                      start_date: Date.new(2026, 6, 15), end_date: Date.new(2026, 6, 19),
                                      allocated_time: 5 * 8 * 60)
       end
-      let(:bar_html) do
+      let(:bar_event) do
         get_events
-        block_events.find { |e| e["id"] == other_allocation.id }.dig("extendedProps", "html")
+        block_events.find { |e| e["id"] == other_allocation.id }
       end
+      let(:bar_html) { bar_event.dig("extendedProps", "html") }
 
       before do
         create(:member, principal: user, project: other_project,
-                        roles: [create(:project_role, permissions: %i[view_work_packages])])
+                        roles: [create(:project_role, permissions: %i[view_resource_planners view_work_packages
+                                                                      allocate_user_resources])])
+      end
+
+      it "links the edit action to the allocation's own project" do
+        edit_url = bar_event.dig("extendedProps", "editUrl")
+        expect(edit_url).to eq(edit_project_resource_allocation_path(other_project, other_allocation))
+
+        get edit_url, as: :turbo_stream
+        expect(response).to have_http_status(:ok)
       end
 
       it "names the project on the bar" do
