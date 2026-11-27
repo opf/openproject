@@ -46,7 +46,7 @@ module Admin
       private
 
       def title
-        label.persisted? ? t(".rename_title", name: label.name) : t(".create_title")
+        label.persisted? ? t(".rename_label_title") : t(".create_title")
       end
 
       def button_caption
