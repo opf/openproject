@@ -175,6 +175,7 @@ en:
       updated_at: Updated on %{date_time}.
       updated_by: Last updated by %{name}.
     merge_request_component:
+      job_list_title: Jobs of the pipeline
       pipeline_statuses:
         canceled: Canceled
         canceling: Canceling
@@ -189,6 +190,7 @@ en:
         success: Success
         waiting_for_callback: Waiting for callback
         waiting_for_resource: Waiting for resource
+      show_pipeline_details: Show pipeline details
       states:
         closed: Closed
         locked: Locked

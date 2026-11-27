@@ -47,7 +47,16 @@ See COPYRIGHT and LICENSE files for more details.
 
         if latest_pipeline.present?
           row.with_column do
-            render(Primer::Beta::Link.new(href: latest_pipeline.web_url, data: { allow_external_link: true })) do
+            render(
+              Primer::Beta::Link.new(
+                href: latest_pipeline.web_url,
+                data: {
+                  allow_external_link: true,
+                  hover_card_trigger_target: :trigger,
+                  hover_card_popover_template_id: "#{unique_id}-jobs-hovercard"
+                }
+              )
+            ) do
               render(Repositories::StatusComponent.new(status: pipeline_status)) do
                 render(Primer::Beta::Text.new) { pipeline_status_label }
               end
@@ -90,3 +99,22 @@ See COPYRIGHT and LICENSE files for more details.
     end
   end
 %>
+
+<% if latest_pipeline.present? && latest_pipeline.jobs.any? %>
+  <%=
+    content_tag(:template, id: "#{unique_id}-jobs-hovercard") do
+      render(Primer::Alpha::ActionList.new) do |list|
+        list.with_heading(title: t(".job_list_title"))
+        merge_request.latest_pipeline.jobs.each do |job|
+          list.with_item(label: job.name, href: job.web_url, target: "_blank") do |item|
+            status = job_status(job.status)
+            item.with_leading_visual_icon(icon: status.icon, classes: job_icon_classes(status))
+          end
+        end
+
+        list.with_divider
+        list.with_item(label: t(".show_pipeline_details"))
+      end
+    end
+  %>
+<% end %>
