@@ -80,6 +80,7 @@ import DisableWhenClickedController from 'core-stimulus/controllers/disable-when
 import HighlightTargetElementController from 'core-stimulus/controllers/highlight-target-element.controller';
 import SelectAutosizeController from 'core-stimulus/controllers/select-autosize.controller';
 import OpZenModeController from 'core-stimulus/controllers/zen-mode.controller';
+import CaretAtEndController from 'core-stimulus/controllers/caret-at-end.controller';
 import CheckAllController from 'core-stimulus/controllers/check-all.controller';
 import CheckableController from 'core-stimulus/controllers/checkable.controller';
 import ExpandableTextController from 'core-stimulus/controllers/expandable-text.controller';
@@ -141,6 +142,7 @@ OpenProjectStimulusApplication.preregister('resource-management--created-placeho
 OpenProjectStimulusApplication.preregister('users--non-working-times', NonWorkingTimesController);
 OpenProjectStimulusApplication.preregister('users--non-working-times-form', NonWorkingTimesFormController);
 OpenProjectStimulusApplication.preregister('password-force-change', OpPasswordForceChangeController);
+OpenProjectStimulusApplication.preregister('caret-at-end', CaretAtEndController);
 OpenProjectStimulusApplication.preregister('check-all', CheckAllController);
 OpenProjectStimulusApplication.preregister('header-project-select', HeaderProjectSelectController);
 OpenProjectStimulusApplication.preregister('checkable', CheckableController);

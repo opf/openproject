@@ -43,6 +43,7 @@ module Backlogs
           required: true,
           autocomplete: "off",
           autofocus: !disabled,
+          "data-controller": "caret-at-end",
           disabled:,
           w: :full
         )
