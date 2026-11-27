@@ -31,7 +31,10 @@ module Attachments
   class VirusScanJob < ApplicationJob
     class VirusScanFailed < StandardError; end
 
-    retry_on VirusScanFailed, wait: 5.seconds, attempts: 3
+    retry_on VirusScanFailed, wait: 5.seconds, attempts: 3 do |job, error|
+      OpenProject::Notifications.send(OpenProject::Events::ATTACHMENT_SCAN_FAILED, attachment: job.arguments.first)
+      raise error
+    end
     discard_on ActiveJob::DeserializationError
 
     queue_with_priority :low
@@ -69,6 +72,7 @@ module Attachments
     def handle_success_response(attachment)
       Rails.logger.warn { "Scanned file #{attachment.id}. No viruses found." }
       attachment.update!(status: :scanned)
+      attachment.notify_file_available
     end
 
     def handle_virus_response(attachment, virus_name)

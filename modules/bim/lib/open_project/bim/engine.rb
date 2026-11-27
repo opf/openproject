@@ -231,6 +231,25 @@ module OpenProject::Bim
       OpenProject::Bim::Hooks::Hook
     end
 
+    initializer "bim.event_subscriptions" do
+      Rails.application.config.after_initialize do
+        OpenProject::Notifications.subscribe(OpenProject::Events::ATTACHMENT_FILE_AVAILABLE) do |payload|
+          attachment = payload[:attachment]
+          # Rescans of existing files also make them available, so converted models are skipped.
+          next unless attachment.ifc_file? && attachment.container.pending?
+
+          ::Bim::IfcModels::IfcConversionJob.perform_later(attachment.container)
+        end
+
+        OpenProject::Notifications.subscribe(OpenProject::Events::ATTACHMENT_SCAN_FAILED) do |payload|
+          attachment = payload[:attachment]
+          next unless attachment.ifc_file? && attachment.container.pending?
+
+          attachment.container.update!(conversion_error_message: I18n.t("ifc_models.conversion.virus_scan_failed"))
+        end
+      end
+    end
+
     initializer "bim.bcf.register_mimetypes" do
       Mime::Type.register "application/octet-stream", :bcf unless Mime::Type.lookup_by_extension(:bcf)
       Mime::Type.register "application/octet-stream", :bcfzip unless Mime::Type.lookup_by_extension(:bcfzip)

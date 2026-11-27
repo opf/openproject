@@ -44,6 +44,10 @@ module OpenProject
     AGGREGATED_MESSAGE_JOURNAL_READY = "aggregated_message_journal_ready"
 
     ATTACHMENT_CREATED = "attachment_created"
+    # The attachment's file is stored and, with virus scanning enabled, scanned clean.
+    ATTACHMENT_FILE_AVAILABLE = "attachment_file_available"
+    # Scanning the attachment's file for viruses failed, also after retrying.
+    ATTACHMENT_SCAN_FAILED = "attachment_scan_failed"
 
     JOURNAL_CREATED = "journal_created"
     JOURNAL_UPDATED = "journal_updated"
