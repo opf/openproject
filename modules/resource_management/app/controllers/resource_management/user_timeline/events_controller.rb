@@ -127,28 +127,14 @@ module ResourceManagement
       end
 
       def edit_url_for(allocation)
-        return unless editable?(allocation)
+        return unless editable_ids.include?(allocation.id)
 
         edit_allocation_path(@project, allocation)
       end
 
-      def editable?(allocation)
-        visible_work_package_ids.include?(allocation.entity_id) &&
-          (@project.nil? || allocation.project == @project) &&
-          may_allocate?(allocation)
-      end
-
-      # The permission lives on the allocation's own project, which on a global
-      # planner differs from bar to bar.
-      def may_allocate?(allocation)
-        allocation_project = allocation.project
-        return false if allocation_project.nil?
-
-        @may_allocate ||= {}
-        @may_allocate.fetch(allocation_project.id) do
-          @may_allocate[allocation_project.id] =
-            current_user.allowed_in_project?(:allocate_user_resources, allocation_project)
-        end
+      def editable_ids
+        @editable_ids ||= ResourceAllocation.editable_ids(allocations_by_principal.values.flatten, current_user,
+                                                          project: @project)
       end
 
       def render_bar(allocation)

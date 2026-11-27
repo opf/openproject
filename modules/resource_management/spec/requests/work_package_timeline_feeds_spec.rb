@@ -155,6 +155,39 @@ RSpec.describe "Work package timeline feeds", type: :rails_request, with_ee: %i[
       expect(background).not_to be_empty
       expect(background).to all(satisfy { |e| e.dig("extendedProps", "editUrl").nil? })
     end
+
+    context "with an allocation on a work package in a subproject" do
+      shared_let(:subproject) do
+        create(:project, parent: project, enabled_module_names: %w[resource_management work_package_tracking])
+      end
+      shared_let(:sub_wp) { create(:work_package, project: subproject, subject: "Subproject work") }
+      shared_let(:sub_allocation) do
+        create(:resource_allocation, entity: sub_wp, principal: assignee, requested_by: user,
+                                     start_date: Date.new(2026, 6, 1), end_date: Date.new(2026, 6, 5))
+      end
+
+      before do
+        login_as create(:user, member_with_permissions: {
+                          project => %i[view_resource_planners view_work_packages allocate_user_resources],
+                          subproject => %i[view_resource_planners view_work_packages allocate_user_resources]
+                        })
+      end
+
+      it "offers no click action on it, even though the viewer may allocate in the subproject" do
+        get_events
+
+        sub_event = block_events.find { |e| e["id"] == sub_allocation.id }
+        expect(sub_event).to be_present
+        expect(sub_event.dig("extendedProps", "editUrl")).to be_nil
+      end
+
+      it "still offers the click action on the planner's own allocations" do
+        get_events
+
+        own_event = block_events.find { |e| e["id"] == allocation_a.id }
+        expect(own_event.dig("extendedProps", "editUrl")).to eq(edit_project_resource_allocation_path(project, allocation_a))
+      end
+    end
   end
 
   describe "active-span background events" do

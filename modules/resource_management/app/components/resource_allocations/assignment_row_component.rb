@@ -99,7 +99,7 @@ module ResourceAllocations
     end
 
     def can_manage?
-      work_package_visible? && allowed_in_allocation_project?(:allocate_user_resources)
+      table.editable_ids.include?(allocation.id)
     end
 
     def allowed_in_allocation_project?(permission)

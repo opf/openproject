@@ -35,13 +35,14 @@ module ResourceAllocations
 
     main_column :resource, :work_package
 
-    attr_reader :project, :visible_work_package_ids
+    attr_reader :project, :visible_work_package_ids, :editable_ids
 
-    def initialize(project:, visible_work_package_ids: Set.new, **)
+    def initialize(project:, visible_work_package_ids:, editable_ids:, **)
       super(**)
 
       @project = project
       @visible_work_package_ids = visible_work_package_ids
+      @editable_ids = editable_ids
     end
 
     # The base derives the row class from the namespace; ours lives at the
