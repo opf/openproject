@@ -126,18 +126,18 @@ Using the burndown and burnup charts together helps teams understand whether cha
 
 [feature: sprint_report_pro_widgets ]
 
-The **Created vs resolved work packages** chart compares the number of work packages created and resolved over time.
+The **Created vs resolved work packages** chart compares how many work packages have been created and resolved over time. It helps teams look at the bigger picture of how their project is going, beyond a single sprint.
+
+The chart includes all work packages of the project, not only the ones in the sprint. Work packages that are created or resolved outside of the sprint are counted as well. It covers the same time frame as the [velocity chart](#velocity-chart-enterprise-add-on): the selected sprint and up to six preceding sprints.
 
 The chart includes:
 
-- **Created:** The cumulative number of created work packages, shown in red.
-- **Resolved:** The cumulative number of resolved work packages, shown in green.
+- **Created:** The cumulative number of work packages created in the project.
+- **Resolved:** The cumulative number of work packages resolved in the project.
+
+The area between the two lines is colored to show the trend. If it is red, more work packages are being created than resolved, and outstanding work is accumulating. If it is green, more work packages are being resolved than created, and the team is reducing outstanding work.
 
 ![Created vs resolved work packages chart in an OpenProject sprint report](openproject_user_guide_sprint_report_created_resolved.png)
-
-This chart helps teams understand whether new work is being resolved at a similar rate to which it is created.
-
-If the number of created work packages increases faster than the number of resolved work packages, outstanding work is accumulating. If the number of resolved work packages increases faster, the team is reducing outstanding work.
 
 Unlike effort-based charts, this chart measures the number of work packages rather than story points or work time estimates.
 

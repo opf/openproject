@@ -111,11 +111,11 @@ Work package cards in the Backlog and sprints view display the following informa
 - Type
 - ID
 - Status
-- Assignee
-- Effort estimate (depending on the configured unit)
-- Priority
 - Subject
 - Parent work package
+- Assignee
+- Priority
+- Effort estimate, depending on the configured unit. If the unit is set to **None**, no estimate is displayed.
 
 On smaller screens, assignee names and priority names may be hidden to preserve space while remaining available through tooltips.
 
@@ -170,7 +170,9 @@ If filtering leaves a sprint or backlog bucket with no visible work packages, a 
 
 ### Select and move multiple work packages
 
-Hold down the **Ctrl** key while clicking the individual work package cards you want to select. Selected cards are highlighted in blue. You can select work packages within the same container or across different backlog buckets, sprints, and the Inbox backlog.
+To select several work packages, hold down **Ctrl** (Windows, Linux) or **Cmd** (Mac) and click the individual work package cards. To select a range of cards, hold down **Shift** and click the first and last card. To select all work packages in a backlog bucket, a sprint, or the Inbox backlog, click into the container and press **Ctrl** + **A** (**Cmd** + **A** on Mac).
+
+Selected cards are highlighted in blue. You can select work packages within the same container or across different backlog buckets, sprints, and the Inbox backlog. To clear the selection, press **Esc**.
 
 Drag and drop the selected work packages together or open the **More** (three dots) menu of one of the selected cards to move them to another backlog bucket, sprint, or the Inbox backlog.
 
