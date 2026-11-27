@@ -20,7 +20,8 @@ In this section of the System Administration guide you can learn how to manage u
 | [Placeholder users](placeholder-users)     | Create and manage placeholder users.                         |
 | [Groups](groups)                           | View groups, create new groups, add users to groups.         |
 | [Organization](organization)               | Define your company’s structure within OpenProject.          |
+| [Memberships](memberships)                 | View and filter all memberships across projects.             |
 | [Roles and permissions](roles-permissions) | See / manage roles and permissions and add new roles.        |
 | [User visibility](user-visibility)         | Understand which users and groups a user can see.            |
 | [Permissions report](permissions-report)   | View and edit permissions assigned to currently existing roles. |
-| [Avatars](avatars)                         | Activate / deactivate user avatars (profile pictures).       |
+| [Avatars](avatars)                         | Manage avatars for users and groups, including uploaded pictures, initials, and emoji. |

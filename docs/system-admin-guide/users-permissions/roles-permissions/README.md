@@ -13,7 +13,7 @@ A user is any individual who can log into your OpenProject instance.
 
 ## Permissions
 
-Permissions control what users can see and do within OpenProject. Permission are granted to users by assigning one or more roles to the users.
+Permissions control what users can see and do within OpenProject. Permissions are granted to users by assigning one or more roles to the users.
 
 For more detailed description of each permission please refer to [Permissions guide](../permissions-guide)
 
@@ -41,7 +41,7 @@ The overview table displays all roles and their permissions. If the table contai
 
 | Scope of the role                                            | Permission examples                                          | Customization options                                        |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| Application-level: Permissions scoped to specific administrative tasks (not restricted to specific projects) | - Manage users<br>- Create projects                        | Administrators can create new global roles and assign global permissions to those role |
+| Application-level: Permissions scoped to specific administrative tasks (not restricted to specific projects) | - Manage users<br>- Create projects                        | Administrators can create new global roles and assign global permissions to those roles |
 
 ### Project role
 
@@ -141,20 +141,20 @@ The form shows the available global permissions which can be assigned to the new
 > [!TIP]
 > To create a subproject for an existing project the project permission "Create subprojects" is also required. Before granting either permission, we recommend to consider the [project identifier visibility aspect](#project-identifier-visibility).
 
-- Create portfolios
+- [Create portfolios](../../../user-guide/portfolios/)
 
-- Create programs
+- [Create programs](../../../user-guide/portfolios/#portfolios-structure-in-openproject)
 
 - [Create backups](../../backup/)
 
-- [Create users](../../users-permissions/users/#create-users)
+- [Create users](../users/#create-users)
 
 - [Edit users](../users/)
 
 > [!NOTE]
 > This allows administrators to **delegate the administration of users to other people that should not have full control of the entire OpenProject installation (Administrator)**. These users can edit attributes of any users, except administrators. This means they are able to impersonate another user by changing email address to match theirs. This is a security risk and should be considered with caution.
 
-- View all users and groups
+- [View all users and groups](../user-visibility/)
 
 > [!NOTE] 
 > This enables administrators to **allow the visibility of all users in the system**. When this global permission is _not_ assigned, a user only sees:
@@ -173,10 +173,11 @@ The form shows the available global permissions which can be assigned to the new
 > Independently of this permission, users with the **Allocate user resources** permission in at least one project can see all placeholder users with criteria, including their criteria, when they [allocate work to a placeholder user](../../../user-guide/resource-management/#allocate-to-a-placeholder-user). They cannot edit them.
 
 - View all users' mail addresses
-- Edit attribute help texts
-- Manage public project lists
+- [Edit attribute help texts](../../attribute-help-texts/)
+- [Manage public project lists](../../../user-guide/projects/project-lists/#share-with-everyone-at-openproject)
 - [View global resource planners](../../../user-guide/resource-management/#global-resource-planners)
 - [Manage public global resource planners](../../../user-guide/resource-management/#global-resource-planners)
+- [Manage default hourly rates](../users/#rate-history)
 
 ### Edit and delete roles
 
@@ -186,11 +187,40 @@ To delete an existing role, click the **More (...)** icon for the role in the li
 
 ![Option to delete a role from the menu](openproject_admin_guide_roles_permissions_delete.png)
 
-> [!IMPORTANT]
-> Roles that are assigned to a user cannot be deleted.
+If the role is still assigned to members, a confirmation dialog shows who is affected:
+
+- For project roles, each member is listed with the projects in which they have this role. If a member has the role in more than three projects, the list is shortened.
+- For global roles, only the names of the members are listed.
+- If more than 100 members are affected, only the total number of users and projects is shown.
+
+The dialog also tells you how many members will lose access to projects in which this role was their only role. After you confirm, the role is removed from all members in all projects.
+
+![Confirmation dialog for deleting a role in OpenProject, listing the members and projects that still use the role](openproject_admin_guide_roles_permissions_delete_confirmation.png)
+
+> [!TIP]
+> To review who uses a role before deleting it, filter the [Memberships](../memberships/) page by that role.
+
+### Preview the permissions of a role
+
+You can preview which permissions a role grants, so that you can assign the correct role. To open the preview, click the **info icon (i)** next to the name of a role. A dialog lists all permissions of the role, grouped by module. Each module shows the number of permissions and can be expanded or collapsed. From the dialog, you can also go to the role settings via **Edit role permissions**.
+
+The preview is available everywhere where the name of a role is shown. For example:
+
+- In the **Members** area of a project: in the list of current members, and in the forms for adding a new member and editing an existing member
+- In the invite user flow
+- In _Administration_ > _Users and permissions_:
+  - **Users**, on the **Projects** and **Global roles** tabs of a user
+  - **Groups**, on the **Projects** and **Global roles** tabs of a group
+  - **Placeholder users**, on the **Projects** tab of a placeholder user
+  - **Departments**, on the **Projects** tab of a department
+- On the **My Activity** page, in the list of your own projects with roles
+
+The preview is available to administrators and to users with the **Manage members** permission in any project. All other users can preview the permissions of the roles they have themselves.
+
+![Permissions of the role Member shown in a dialog after clicking the info icon next to the role on the Projects tab of a user in OpenProject administration](openproject_admin_guide_roles_permissions_preview.png)
 
 ### Move roles
 
-To change a role's position in the overview table, click  the **More (...)** menu for the role and select **Move**. Depending on the role's current position, you can choose **Move to top**, **Move up**, **Move down**, or **Move to bottom**.
+To change a role's position in the overview table, click the **More (...)** menu for the role and select **Move**. Depending on the role's current position, you can choose **Move to top**, **Move up**, **Move down**, or **Move to bottom**.
 
 Alternatively, use the drag handle next to a role to drag it to the desired position.
