@@ -89,4 +89,13 @@ RSpec.describe "Forum topic list", type: :rails_request do
     ActiveSupport::Notifications.subscribed(counter, "sql.active_record", &)
     count
   end
+
+  it "shows the last page when the requested page is past it", :aggregate_failures,
+     with_settings: { per_page_options: "2,20" } do
+    get project_forum_path(project, forum, page: 9, per_page: 2)
+
+    expect(response).to have_http_status(:ok)
+    expect(listed_subjects.size).to eq(1)
+    expect(Capybara.string(response.body)).to have_text("(3 - 3/3)")
+  end
 end

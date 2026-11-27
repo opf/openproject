@@ -111,6 +111,13 @@ module PaginationHelper
     paginator.paginate(page: 1, per_page: show_more_limit_param(limit:, initial_limit:))
   end
 
+  def paginate_within_bounds(scope, page: page_param, per_page: per_page_param)
+    paginated = scope.paginate(page:, per_page:)
+    return paginated unless paginated.out_of_bounds?
+
+    scope.paginate(page: paginated.total_pages, per_page:)
+  end
+
   private
 
   def pagination_pages_section(paginator, params:, allowed_params:, **)
