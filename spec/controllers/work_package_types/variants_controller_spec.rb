@@ -247,6 +247,35 @@ RSpec.describe WorkPackageTypes::VariantsController do
       end
 
     end
+
+    describe "morphing the admin list while a filter is active" do
+      let(:type) { create(:type, name: "Reportable") }
+      let!(:doomed) { create(:type_variant, type:, variant_name: "Doomed") }
+
+      it "carries the query filter so a non-matching sibling stays hidden after a destroy morph" do
+        create(:type_variant, type:, variant_name: "Hardware")
+        create(:type_variant, type:, variant_name: "Software")
+
+        delete :destroy, params: { type_id: type.id, id: doomed.id, query: "hard" }, format: :turbo_stream
+
+        expect(response.body).to include(WorkPackageTypes::Types::GroupedListComponent.component_id)
+        expect(response.body).to include("Hardware")
+        expect(response.body).not_to include("Software")
+      end
+
+      it "carries the migrated filter so a non-migrated sibling stays hidden after a destroy morph" do
+        create(:type_variant, type:, variant_name: "From migration", created_by_migration: true)
+        create(:type_variant, type:, variant_name: "Hand made")
+
+        delete :destroy, params: { type_id: type.id, id: doomed.id,
+                                   created_by_migration: WorkPackageTypes::MigrationFilterComponent::MIGRATED },
+                         format: :turbo_stream
+
+        expect(response.body).to include(WorkPackageTypes::Types::GroupedListComponent.component_id)
+        expect(response.body).to include("From migration")
+        expect(response.body).not_to include("Hand made")
+      end
+    end
   end
 
   context "without admin access" do
