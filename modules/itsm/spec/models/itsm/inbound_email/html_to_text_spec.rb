@@ -68,6 +68,19 @@ RSpec.describe ITSM::InboundEmail::HtmlToText do
         expect(text).to eq("It works again.")
       end
     end
+
+    context "with answers between quotes" do
+      let(:html) do
+        "<div class=\"moz-cite-prefix\">On 20.11.26 Help desk wrote:</div>" \
+          "<blockquote type=\"cite\">Which floor?</blockquote><p>2nd floor.</p>" \
+          "<blockquote type=\"cite\">Which model?<blockquote>Is it a printer?</blockquote></blockquote><p>HP LaserJet.</p>"
+      end
+
+      it "keeps the quotes" do
+        expect(text).to eq("On 20.11.26 Help desk wrote:\n\nWhich floor?\n\n2nd floor.\n\n" \
+                           "Which model?\nIs it a printer?\n\nHP LaserJet.")
+      end
+    end
   end
 
   context "with styling and active content" do

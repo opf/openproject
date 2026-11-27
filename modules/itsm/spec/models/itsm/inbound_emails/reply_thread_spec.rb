@@ -53,6 +53,14 @@ RSpec.describe ITSM::InboundEmails::ReplyThread do
     expect(thread).to eq(request)
   end
 
+  context "when someone outside the request replies" do
+    let(:from) { "stranger@elsewhere.example" }
+
+    it "finds the request, as only those who got the email know its ID" do
+      expect(thread).to eq(request)
+    end
+  end
+
   context "when the email refers to the request only in its References" do
     let(:headers) { { references: "<other@customer.example> <confirmation@example.com>" } }
 

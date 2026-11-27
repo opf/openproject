@@ -30,16 +30,18 @@
 module ITSM
   class InboundEmail
     class Body
-      # A block of quoted "> " lines, with the line introducing it ("On … wrote:").
-      QUOTE = /^(?:[^\n]*\S:[ \t]*\n(?:[ \t]*\n)*)?(?:[ \t]*>[^\n]*(?:\n|\z))+/
+      QUOTED_LINES = /(?:^[ \t]*>[^\n]*(?:\n|\z))+/
+      # The line introducing a quote, such as "On … wrote:", and the blank lines after it.
+      QUOTE_INTRO = /^[^\n]*\S:[ \t]*\n(?:[ \t]*\n)*/
+      QUOTE = /(?:#{QUOTE_INTRO})?#{QUOTED_LINES}/
 
       def initialize(mail)
         @mail = mail
       end
 
-      def text = normalized(extract(quotes: true))
+      def text = extract(quotes: true)
 
-      def reply_text = normalized(extract(quotes: false))
+      def reply_text = truncated(extract(quotes: false))
 
       private
 
@@ -47,12 +49,8 @@ module ITSM
 
       def instance_variables_to_inspect = []
 
-      def normalized(text) = text.gsub(/\r\n?/, "\n").strip
-
       def extract(quotes:)
-        return part_text(mail, quotes:) unless mail.multipart?
-
-        parts = body_parts("text/plain").presence || body_parts("text/html")
+        parts = mail.multipart? ? body_parts("text/plain").presence || body_parts("text/html") : [mail]
         parts.map { part_text(it, quotes:).strip }.compact_blank.join("\n\n")
       end
 
@@ -60,13 +58,37 @@ module ITSM
 
       def part_text(part, quotes:)
         case part.mime_type
-        when nil, "text/plain" then plain_text(Utf8Text.call(part.decoded.to_s), quotes:)
-        when "text/html" then HtmlToText.call(Utf8Text.call(part.decoded), quotes:)
+        when nil, "text/plain" then plain_text(decoded(part), quotes:)
+        when "text/html" then HtmlToText.call(decoded(part), quotes:)
         else ""
         end
       end
 
-      def plain_text(text, quotes:) = quotes ? text : text.gsub(/\r\n?/, "\n").gsub(QUOTE, "").gsub(/\n{3,}/, "\n\n")
+      def decoded(part) = Utf8Text.call(part.decoded.to_s).gsub(/\r\n?/, "\n")
+
+      # Several quotes mean answers between them, which need the quotes to be understood.
+      def plain_text(text, quotes:)
+        return text if quotes || text.scan(QUOTED_LINES).many?
+
+        text.sub(QUOTE, "").gsub(/\n{3,}/, "\n\n")
+      end
+
+      def truncated(text)
+        text = text.sub(/^[> \t]*#{Regexp.union(delimiters)}[ \t]*$.*/m, "") if delimiters.any?
+        text = text.gsub(delimiter_regex, "") if delimiter_regex
+        text.strip
+      end
+
+      def delimiters = Setting.mail_handler_body_delimiters.to_s.split(/[\r\n]+/).map(&:strip).compact_blank
+
+      def delimiter_regex
+        return @delimiter_regex if defined?(@delimiter_regex)
+
+        source = Setting.mail_handler_body_delimiter_regex.presence
+        @delimiter_regex = source && Regexp.new(source, Regexp::MULTILINE)
+      rescue RegexpError
+        @delimiter_regex = nil
+      end
     end
   end
 end
