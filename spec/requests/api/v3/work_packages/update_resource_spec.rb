@@ -1323,6 +1323,27 @@ RSpec.describe "API v3 Work package resource",
             .to match_array(attachment)
         end
       end
+
+      context "with minimal response requested" do
+        before do
+          header("Prefer", "return=minimal")
+        end
+
+        let(:params) { valid_params.merge(subject: "Updated subject") }
+        let!(:original_lock_version) { work_package.lock_version }
+
+        include_context "with application/hal+json content type"
+        include_context "patch request"
+
+        it do
+          expect(response).to have_http_status(:no_content)
+          expect(response.body).to be_empty
+        end
+
+        it "changes lock version" do
+          expect(work_package.reload.lock_version).not_to eq(original_lock_version)
+        end
+      end
     end
   end
 end

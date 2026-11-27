@@ -69,7 +69,7 @@ export class WorkPackageRelationsHierarchyService {
     }
 
     return workPackage
-      .changeParent(payload)
+      .changeParent(payload, { Prefer: 'return=minimal' })
       .then((wp:WorkPackageResource) => {
         this
           .apiV3Service
