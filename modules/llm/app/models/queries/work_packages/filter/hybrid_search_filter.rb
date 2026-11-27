@@ -62,7 +62,10 @@ class Queries::WorkPackages::Filter::HybridSearchFilter <
   # The semantic arm, "1=0" when semantic search is unavailable or the query
   # cannot be embedded.
   def semantic_where
-    semantic_filter.where
+    return "1=0" if vector.nil? || semantic_index_id.nil?
+
+    "#{WorkPackage.table_name}.id IN (" \
+      "#{WorkPackageEmbedding.work_package_ids_within_search_distance_sql(vector, semantic_index_id:)})"
   end
 
   private
@@ -73,9 +76,11 @@ class Queries::WorkPackages::Filter::HybridSearchFilter <
     )
   end
 
-  def semantic_filter
-    @semantic_filter ||= ::Queries::WorkPackages::Filter::SemanticSearchFilter.create!(
-      name: :semantic_search, context:, operator: "**", values:
-    )
+  def vector
+    Llm::WorkPackages::SemanticSearch.query_vector(values.first)
+  end
+
+  def semantic_index_id
+    Llm::WorkPackages::SemanticSearch.active_semantic_index&.id
   end
 end
