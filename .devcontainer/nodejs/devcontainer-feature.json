@@ -1,0 +1,13 @@
+{
+  "id": "nodejs",
+  "version": "1.0.0",
+  "name": "Node.js (NodeSource, pinned)",
+  "description": "Pins the NodeSource nodejs package installed by docker/dev/backend/Dockerfile to an exact version.",
+  "options": {
+    "version": {
+      "type": "string",
+      "default": "24.22.1",
+      "description": "Exact Node.js version to install from the NodeSource apt repository."
+    }
+  }
+}
