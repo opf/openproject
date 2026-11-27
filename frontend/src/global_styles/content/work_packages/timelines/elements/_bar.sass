@@ -1,7 +1,7 @@
 .timeline-element.bar
   position: relative
   height: 1em
-  border-radius: 2px
+  border-radius: var(--borderRadius-small)
   float: left
 
   .bar-label
@@ -45,6 +45,7 @@
   height: 100%
   background-color: var(--timeline--type-fallback-color)
   border: 1px solid
+  border-radius: var(--borderRadius-small)
 
   &.-readonly
     cursor: not-allowed !important
@@ -54,6 +55,21 @@
 
     &~.rightHandle
       cursor: not-allowed !important
+
+.baseline-bar
+  position: absolute
+  top: 1.8em
+  height: 4px
+  background-color: var(--data-gray-color-emphasis)
+  filter: grayscale(1)
+  border-radius: var(--borderRadius-small)
+
+.baseline-connector
+  position: absolute
+  top: calc(1.8em + 2px)
+  height: 0
+  border-top: 2px dotted var(--data-gray-color-emphasis)
+  pointer-events: none
 
 .active-selection-mode
 

@@ -5,6 +5,7 @@
   .diamond
     transform: rotate(45deg)
     transform-origin: center center
+    border-radius: var(--borderRadius-small)
 
     // Fallback color
     background: #555
@@ -19,6 +20,13 @@
   // Add more margin to hover right
   .labelHoverRight
     transform: translateX(calc(100% + 20px))
+
+.baseline-bar.milestone
+  width: 6px
+  height: 6px
+  border-radius: 0
+  transform: rotate(45deg)
+  transform-origin: center center
 
 .active-selection-mode
 
@@ -66,4 +74,3 @@
   .timeline-element.milestone
     .diamond:hover
       background: #ffd975 !important
-

@@ -1045,6 +1045,8 @@ en:
         addition_label: "Added to view within the comparison time period"
         column_incompatible: "This column does not show changes in Baseline mode."
         modification_label: "Modified within the comparison time period"
+        previous_date_tooltip: "Previous date: %{date}"
+        previous_dates_tooltip: "Previous dates: %{start_date} - %{finish_date}"
         removal_label: "Removed from view within the comparison time period"
       bulk_actions:
         delete: "Bulk delete"

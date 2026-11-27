@@ -62,6 +62,35 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     return Number.isNaN(date.valueOf());
   }
 
+  public getBaselineDates(renderInfo:RenderInfo):{ start:Moment, due:Moment }|null {
+    const baseline = renderInfo.workPackage.attributesByTimestamp?.[0];
+    if (!baseline?._meta.exists) {
+      return null;
+    }
+
+    const rawDate = Object.prototype.hasOwnProperty.call(baseline, 'date') ? baseline.date : renderInfo.change.projectedResource.date;
+    const date = moment(rawDate);
+    if (Number.isNaN(date.valueOf())) {
+      return null;
+    }
+
+    return { start: date, due: date };
+  }
+
+  protected positionBaselineElement(element:HTMLElement, renderInfo:RenderInfo, start:Moment, _due:Moment) {
+    const { viewParams } = renderInfo;
+    const size = 6;
+    const offsetStart = start.diff(viewParams.dateDisplayStart, 'days');
+    const left = calculatePositionValueForDayCountingPx(viewParams, offsetStart) + (viewParams.pixelPerDay / 2) - (size / 2);
+    element.style.left = `${left}px`;
+  }
+
+  protected baselineTooltip(start:Moment, _due:Moment):string {
+    return this.I18n().t('js.work_packages.baseline.previous_date_tooltip', {
+      date: this.formattedBaselineDate(start),
+    });
+  }
+
   public canMoveDates(wp:WorkPackageResource) {
     const schema = this.schemaCache().of(wp);
     return (schema.date as IOPFieldSchema).writable && schema.isAttributeEditable('date');
@@ -171,6 +200,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     }
 
     this.checkForActiveSelectionMode(renderInfo, diamond);
+    this.renderBaselineBar(renderInfo, element, date, date);
 
     return true;
   }
@@ -240,7 +270,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     labelHoverLeft.classList.add(classNameLeftHoverLabel, classNameShowOnHover, classNameHoverStyle);
     element.appendChild(labelHoverLeft);
 
-    const labels = new WorkPackageCellLabels(null, labelLeft, labelHoverLeft, labelRight, labelHoverRight, labelFarRight, renderInfo.withAlternativeLabels);
+    const labels = new WorkPackageCellLabels(labelLeft, labelHoverLeft, labelRight, labelHoverRight, labelFarRight, renderInfo.withAlternativeLabels);
     this.updateLabels(false, labels, renderInfo.change);
 
     return labels;
