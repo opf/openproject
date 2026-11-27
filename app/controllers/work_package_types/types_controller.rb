@@ -46,7 +46,6 @@ module WorkPackageTypes
 
     def index
       @expanded_type_id = expanded_type_id
-      @page_args = page_args
       @query = params[:query].presence
       @created_by_migration = params[:created_by_migration].presence
       @migrated_variants_exist = TypeVariant.created_by_migration.exists?
@@ -100,6 +99,7 @@ module WorkPackageTypes
     end
 
     def menu
+      page_args = { page: page_param, per_page: per_page_param }
       render Types::TypeActionsComponent.new(type: @type, page_args:, expanded_type_id:, filtered: filtered?),
              layout: false
     end
@@ -166,16 +166,12 @@ module WorkPackageTypes
 
     private
 
-    def page_args
-      { page: page_param, per_page: per_page_param }
-    end
-
     def expanded_type_id
       Integer(params[:expand].to_s, exception: false)
     end
 
     def ordering_component
-      Types::GroupedListComponent.new(types: types_for_index, page_args:, expanded_type_id:)
+      Types::GroupedListComponent.new(types: types_for_index, expanded_type_id:)
     end
 
     def render_ordering_result(moved, error_message:)

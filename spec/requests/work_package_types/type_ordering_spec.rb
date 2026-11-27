@@ -187,6 +187,12 @@ RSpec.describe "Type ordering", :skip_csrf,
     end
   end
 
+  it "points the lazy menus at the last page when the requested page is past it" do
+    get types_path(page: 9, per_page: 2)
+
+    expect(response.body).to have_element(src: menu_type_path(type_named("E"), page: 3, per_page: 2))
+  end
+
   it "keeps page context in the lazy menu forms", :aggregate_failures do
     get menu_type_path(type_named("C"), page: 2, per_page: 2, expand: type_named("C").id)
 

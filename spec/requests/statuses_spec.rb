@@ -77,6 +77,12 @@ RSpec.describe "Statuses", :skip_csrf, type: :rails_request do
 
         expect(response.body).to include(*statuses.map(&:name))
       end
+
+      it "points the move actions at the last page when the requested page is past it" do
+        get statuses_path(page: 9, per_page: 2)
+
+        expect(response.body).to have_element(:form, action: move_status_path(statuses.last, page: 2, per_page: 2))
+      end
     end
   end
 
