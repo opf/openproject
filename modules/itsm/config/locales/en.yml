@@ -117,6 +117,16 @@ en:
         greeting: Hello %{name},
         received: 'we have received your request "%{subject}" and recorded it as %{id}.'
         reply: To add information to your request, reply to this email.
+    project_settings:
+      incoming_mail_configuration_component:
+        description: Configure an IMAP mailbox for incoming emails.
+        edit: Edit incoming mail configuration
+        title: Incoming email
+      mailbox_configuration: Mailbox configuration
+      outgoing_mail_configuration_component:
+        description: Configure an SMTP mailbox for outgoing emails.
+        edit: Edit outgoing mail configuration
+        title: Outgoing email
   label_email_without_subject: "(no subject)"
   label_helpdesk: Help desk
   label_helpdesk_role: Help desk

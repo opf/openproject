@@ -28,13 +28,13 @@
 #++
 
 module ITSM
-  class Wizard < ::Wizard
+  class MailServerWizard < ::Wizard
     step :imap_server_configuration,
          section: :mail_servers,
-         completed_if: -> { MailServer.imap.exists? }
+         completed_if: ->(_) { MailServer.imap.exists? }
 
     step :smtp_server_configuration,
          section: :mail_servers,
-         completed_if: -> { MailServer.smtp.exists? }
+         completed_if: ->(_) { MailServer.smtp.exists? }
   end
 end

@@ -37,7 +37,9 @@ module ITSM
 
       guard_feature_flag :helpdesk
 
-      def show; end
+      def show
+        @wizard = ProjectHelpdeskWizard.new(model: @project)
+      end
     end
   end
 end
