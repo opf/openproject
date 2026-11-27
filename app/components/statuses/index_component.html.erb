@@ -36,7 +36,7 @@ See COPYRIGHT and LICENSE files for more details.
       flex.with_row do
         render(
           Statuses::TableComponent.new(
-            rows: statuses, query:, page_args:,
+            rows: statuses, query:,
             workflow_counts: Status.workflow_counts(statuses)
           )
         )

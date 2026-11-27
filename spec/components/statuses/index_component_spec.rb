@@ -32,13 +32,12 @@ require "rails_helper"
 RSpec.describe Statuses::IndexComponent, type: :component do
   subject(:rendered_component) do
     with_request_url("/statuses") do
-      render_inline(described_class.new(statuses:, query:, page_args:))
+      render_inline(described_class.new(statuses:, query:))
     end
   end
 
-  let(:page_args) { { page: 1, per_page: 20 } }
   let(:query) { Queries::Statuses::StatusQuery.new(user: User.current) }
-  let(:statuses) { Status.all.page(page_args[:page]).per_page(page_args[:per_page]) }
+  let(:statuses) { Status.all.page(1).per_page(20) }
 
   let!(:new_status) { create(:status, name: "New") }
 

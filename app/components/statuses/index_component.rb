@@ -34,6 +34,5 @@ module Statuses
 
     options :statuses
     options :query
-    options :page_args
   end
 end

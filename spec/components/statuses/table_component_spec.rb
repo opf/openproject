@@ -32,7 +32,7 @@ require "rails_helper"
 RSpec.describe Statuses::TableComponent, type: :component do
   subject(:rendered_component) do
     with_request_url("/statuses") do
-      render_inline(described_class.new(rows: statuses, query:, page_args:,
+      render_inline(described_class.new(rows: statuses, query:,
                                         workflow_counts: Status.workflow_counts(statuses)))
     end
   end

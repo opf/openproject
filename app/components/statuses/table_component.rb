@@ -34,7 +34,6 @@ module Statuses
     mobile_columns :name
 
     options :query
-    options :page_args
     options :workflow_counts
 
     def headers
@@ -58,6 +57,8 @@ module Statuses
     def mobile_title = t(:label_status_plural)
 
     def container_id = "statuses-table"
+
+    def page_args = { page: rows.current_page, per_page: rows.per_page }
 
     def container_class = "op-statuses-table"
 
@@ -107,7 +108,7 @@ module Statuses
     # installations keep working; {id} is expanded client-side.
     def move_url_template
       id_placeholder = "__id__"
-      move_status_path(id_placeholder, **page_args.to_h).sub(id_placeholder, "{id}")
+      move_status_path(id_placeholder, **page_args).sub(id_placeholder, "{id}")
     end
 
     def show_done_ratio?
