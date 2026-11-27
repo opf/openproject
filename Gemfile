@@ -89,8 +89,6 @@ gem "commonmarker", "~> 2.10.0"
 # HTML pipeline for transformations on text formatter output
 # such as sanitization or additional features
 gem "html-pipeline", "~> 2.14.0"
-# Tasklist parsing and renderer
-gem "deckar01-task_list", "~> 2.3.1"
 # Requires escape-utils for faster escaping
 gem "escape_utils", "~> 1.3"
 # Syntax highlighting used in html-pipeline with rouge

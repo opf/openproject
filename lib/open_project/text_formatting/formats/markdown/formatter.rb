@@ -27,8 +27,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "task_list/filter"
-
 module OpenProject::TextFormatting::Formats::Markdown
   class Formatter < OpenProject::TextFormatting::Formats::BaseFormatter
     RICH_FILTERS = [
