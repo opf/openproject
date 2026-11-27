@@ -56,6 +56,18 @@ class WorkPackageEmbedding < ApplicationRecord
     SQL
   end
 
+  # Ranks the work packages within search distance by ascending vector distance.
+  # Used to build the semantic side of a reciprocal rank fusion score in SQL.
+  def self.work_package_id_distance_ranks_sql(vector_literal, semantic_index_id:)
+    sanitize_sql_array([<<~SQL.squish, { semantic_index_id:, vector_literal: }])
+      SELECT work_package_id AS id,
+             ROW_NUMBER() OVER (ORDER BY embedding <=> :vector_literal) AS rn
+      FROM #{table_name}
+      WHERE semantic_index_id = :semantic_index_id
+        AND embedding <=> :vector_literal < #{MAX_SEARCH_DISTANCE}
+    SQL
+  end
+
   def self.distance_to_work_package_sql(vector_literal, semantic_index_id:)
     sanitize_sql_array([<<~SQL.squish, { semantic_index_id:, vector_literal: }])
       (SELECT embedding <=> :vector_literal FROM #{table_name}

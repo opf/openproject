@@ -276,8 +276,10 @@ en:
       update:
         success: "%{model} has been updated."
   attributes:
+    hybrid_score: "Relevance"
     semantic_similarity: "Similarity"
   label_search_by_meaning: "Search by meaning"
+  label_search_hybrid: "Search by text and meaning"
   llm:
     api_formats:
       anthropic: "Anthropic"

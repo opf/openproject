@@ -178,7 +178,9 @@ module OpenProject::Llm
     config.to_prepare do
       ::Queries::Register.register(::Query) do
         filter Queries::WorkPackages::Filter::SemanticSearchFilter
+        filter Queries::WorkPackages::Filter::HybridSearchFilter
         select Queries::WorkPackages::Selects::SemanticSimilaritySelect
+        select Queries::WorkPackages::Selects::HybridScoreSelect
       end
     end
 
