@@ -64,7 +64,7 @@ RSpec.describe Backlogs::BacklogFilterSelectPanelComponent, type: :component do
     end
 
     it "does not list completed sprints" do
-      create(:sprint, project:, name: "Done Sprint", status: :completed)
+      create(:sprint, :completed, project:, name: "Done Sprint")
       render_component(field_name: :sprint_ids)
       expect(page).to have_no_text("Done Sprint")
     end

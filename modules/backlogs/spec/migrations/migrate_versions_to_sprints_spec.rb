@@ -30,6 +30,7 @@
 require "spec_helper"
 require Rails.root.join("modules/backlogs/db/migrate/20260313164539_migrate_versions_to_sprints")
 require Rails.root.join("modules/backlogs/db/migrate/20260420160236_remove_version_settings")
+require Rails.root.join("modules/backlogs/db/migrate/20261002090000_remove_status_from_sprints")
 
 RSpec.describe MigrateVersionsToSprints, type: :model do
   subject(:migrate) { ActiveRecord::Migration.suppress_messages { described_class.migrate(:up) } }
@@ -67,11 +68,19 @@ RSpec.describe MigrateVersionsToSprints, type: :model do
   end
 
   around(:all) do |example|
-    # In this test: RemoveVersionSettings has already run.
-    # In production: RemoveVersionSettings runs after MigrateVersionsToSprints.
-    ActiveRecord::Migration.suppress_messages { RemoveVersionSettings.migrate(:down) }
+    # In this test: RemoveVersionSettings and RemoveStatusFromSprints have already run.
+    # In production: both run after MigrateVersionsToSprints.
+    ActiveRecord::Migration.suppress_messages do
+      RemoveStatusFromSprints.migrate(:down)
+      RemoveVersionSettings.migrate(:down)
+    end
+    Sprint.reset_column_information
     example.run
-    ActiveRecord::Migration.suppress_messages { RemoveVersionSettings.migrate(:up) }
+    ActiveRecord::Migration.suppress_messages do
+      RemoveVersionSettings.migrate(:up)
+      RemoveStatusFromSprints.migrate(:up)
+    end
+    Sprint.reset_column_information
   end
 
   before { use_version(as: version_type) }
@@ -168,7 +177,7 @@ RSpec.describe MigrateVersionsToSprints, type: :model do
 
       it "creates sprint with in_planning status" do
         migrate
-        expect(Sprint.last.status).to eq("in_planning")
+        expect(Sprint.last.read_attribute(:status)).to eq("in_planning")
       end
     end
 
@@ -177,7 +186,7 @@ RSpec.describe MigrateVersionsToSprints, type: :model do
 
       it "creates sprint with completed status" do
         migrate
-        expect(Sprint.last.status).to eq("completed")
+        expect(Sprint.last.read_attribute(:status)).to eq("completed")
       end
     end
 
@@ -186,7 +195,7 @@ RSpec.describe MigrateVersionsToSprints, type: :model do
 
       it "creates sprint with completed status" do
         migrate
-        expect(Sprint.last.status).to eq("completed")
+        expect(Sprint.last.read_attribute(:status)).to eq("completed")
       end
     end
   end

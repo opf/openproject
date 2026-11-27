@@ -60,7 +60,7 @@ class Backlogs::Sprints::FinishService < BaseServices::BaseContracted
   end
 
   def persist(service_call)
-    model.update!(status: "completed", completed_at: params[:completed_at])
+    model.update!(completed_at: params[:completed_at])
     service_call
   end
 

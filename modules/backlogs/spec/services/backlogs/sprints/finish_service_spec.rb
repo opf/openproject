@@ -34,7 +34,6 @@ RSpec.describe Backlogs::Sprints::FinishService do
 
   shared_let(:to_do_status) { create(:status, category: "to_do") }
   shared_let(:closed_status) { create(:status, category: "closed") }
-  let(:open_status) { to_do_status }
   shared_let(:project) do
     create(:project,
            enabled_module_names: %w[backlogs work_package_tracking],
@@ -46,8 +45,8 @@ RSpec.describe Backlogs::Sprints::FinishService do
              project => %i[view_work_packages view_sprints manage_sprint_items start_complete_sprint]
            })
   end
-  let(:sprint) { create(:sprint, project:, status: sprint_status) }
-  let(:sprint_status) { "active" }
+  let(:sprint) { create(:sprint, sprint_status, project:) }
+  let(:sprint_status) { :active }
   let(:instance) { described_class.new(user:, model: sprint) }
   let(:call_params) { {} }
 
@@ -108,7 +107,7 @@ RSpec.describe Backlogs::Sprints::FinishService do
     end
 
     context "when specifying a target sprint to move the work packages to" do
-      let(:target_sprint) { create(:sprint, project:, status: "in_planning") }
+      let(:target_sprint) { create(:sprint, :in_planning, project:) }
 
       let(:call_params) { { unfinished_action: "move_to_sprint", move_to_sprint_id: target_sprint.id } }
 
@@ -131,7 +130,7 @@ RSpec.describe Backlogs::Sprints::FinishService do
 
     context "when specifying a target sprint not shared with the project" do
       let(:other_project) { create(:project, enabled_module_names: %w[backlogs work_package_tracking]) }
-      let(:target_sprint) { create(:sprint, project: other_project, status: "in_planning") }
+      let(:target_sprint) { create(:sprint, :in_planning, project: other_project) }
 
       let(:call_params) { { unfinished_action: "move_to_sprint", move_to_sprint_id: target_sprint.id } }
 
@@ -173,7 +172,7 @@ RSpec.describe Backlogs::Sprints::FinishService do
 
   context "when the unfinished work package was last changed by the finishing user within the aggregation time",
           with_settings: { journal_aggregation_time_minutes: 5 } do
-    let(:target_sprint) { create(:sprint, project:, status: "in_planning") }
+    let(:target_sprint) { create(:sprint, :in_planning, project:) }
     let!(:open_wp) do
       User.execute_as(user) { create(:work_package, project:, sprint:, status: to_do_status) }
     end
@@ -214,7 +213,7 @@ RSpec.describe Backlogs::Sprints::FinishService do
   end
 
   context "when the sprint has multiple unfinished work packages also in other projects and a target sprint is given" do
-    let(:target_sprint) { create(:sprint, project:, status: "in_planning") }
+    let(:target_sprint) { create(:sprint, :in_planning, project:) }
     # Permissions are not necessary for this. The change is carried out regardless.
     let(:other_project) { create(:project) }
     let!(:open_wp1) do
@@ -332,13 +331,13 @@ RSpec.describe Backlogs::Sprints::FinishService do
       create(:work_package, project:, sprint:, status: closed_status)
     end
     let!(:open_wp1) do
-      create(:work_package, project:, sprint:, status: open_status)
+      create(:work_package, project:, sprint:, status: to_do_status)
     end
     let!(:open_wp2) do
-      create(:work_package, project:, sprint:, status: open_status)
+      create(:work_package, project:, sprint:, status: to_do_status)
     end
     let!(:backlog_wp) do
-      create(:work_package, project:, sprint: nil, status: open_status)
+      create(:work_package, project:, sprint: nil, status: to_do_status)
     end
 
     context "when moving to the bottom of the backlog" do
@@ -368,9 +367,9 @@ RSpec.describe Backlogs::Sprints::FinishService do
     end
 
     context "when moving to another sprint" do
-      let(:target_sprint) { create(:sprint, project:, status: "in_planning") }
+      let(:target_sprint) { create(:sprint, :in_planning, project:) }
       let!(:target_sprint_wp) do
-        create(:work_package, project:, sprint: target_sprint, status: open_status)
+        create(:work_package, project:, sprint: target_sprint, status: to_do_status)
       end
       let(:call_params) { { unfinished_action: "move_to_sprint", move_to_sprint_id: target_sprint.id } }
 
@@ -386,7 +385,7 @@ RSpec.describe Backlogs::Sprints::FinishService do
   end
 
   context "when the sprint is not active" do
-    let(:sprint_status) { "in_planning" }
+    let(:sprint_status) { :in_planning }
 
     it "returns failure and leaves the sprint unchanged", :aggregate_failures do
       expect(result).not_to be_success
@@ -396,7 +395,7 @@ RSpec.describe Backlogs::Sprints::FinishService do
   end
 
   context "when the sprint is already completed" do
-    let(:sprint_status) { "completed" }
+    let(:sprint_status) { :completed }
 
     it "returns failure and leaves the sprint unchanged", :aggregate_failures do
       expect(result).not_to be_success
