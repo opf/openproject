@@ -41,6 +41,17 @@ module API
 
           super
         end
+
+        private
+
+        # Returns true, if client has requested a minimal response.
+        # This looks for the "prefer" header suggested in RFC 7240,
+        # with the -exact- content of 'return=minimal'. In a success case,
+        # a typical response would be 204, or 200 with an empty body.
+        # Clients MUST be able to handle non-empty responses in any case.
+        def minimal_response_requested?(request)
+          request.headers["prefer"]&.downcase == "return=minimal"
+        end
       end
     end
   end
