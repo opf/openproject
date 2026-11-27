@@ -62,7 +62,7 @@ module OpenProject::ITSM
       project_module :helpdesk, if: -> { OpenProject::FeatureDecisions.helpdesk_active? } do
         permission :manage_helpdesk,
                    {
-                     "itsm/project_settings/helpdesk": %i[show]
+                     "itsm/project_settings/helpdesk": %i[show create_incoming_mailbox create_outgoing_mailbox]
                    },
                    permissible_on: :project,
                    require: :member
