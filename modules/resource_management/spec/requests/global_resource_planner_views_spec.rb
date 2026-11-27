@@ -70,6 +70,15 @@ RSpec.describe "Global resource planner views requests",
       expect(view.project).to be_nil
       expect(response.body).to include(resource_planner_view_path(planner, view))
     end
+
+    it "stores the query with the subproject setting", with_settings: { display_subprojects_work_packages: true } do
+      post resource_planner_views_path(planner),
+           params: { view_class_name: "ResourceWorkPackageList",
+                     view: { name: "All work", filter_mode: "automatic" } },
+           as: :turbo_stream
+
+      expect(Query.find(ResourceWorkPackageList.last.query_id).include_subprojects).to be(true)
+    end
   end
 
   describe "with an existing view" do

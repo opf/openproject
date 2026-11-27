@@ -95,7 +95,9 @@ module ResourceManagement
     # The `::` prefix disambiguates the top-level `Query` from
     # `ActiveRecord::AttributeMethods::Query`.
     def build_default_query
-      ::Query.new_default(project:, user: principal)
+      ::Query.new_default(project:, user: principal).tap do |query|
+        query.include_subprojects = false if project
+      end
     end
 
     # The mutated query is persisted alongside the view via the `autosave`
@@ -105,6 +107,7 @@ module ResourceManagement
       return if query.nil?
 
       query.name = configured_query_name
+      query.include_subprojects = false if project
       query.filters.clear
 
       if manual_mode?(filter_mode)

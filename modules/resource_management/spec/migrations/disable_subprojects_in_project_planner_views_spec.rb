@@ -51,7 +51,10 @@ RSpec.describe DisableSubprojectsInProjectPlannerViews, type: :model do
 
   before do
     [project_list, project_timeline, global_list].each do |view|
-      view.update!(query: view.build_default_query.tap { |query| query.include_subprojects = true })
+      view.update!(query: view.build_default_query.tap do |query|
+        query.name = view.name
+        query.include_subprojects = true
+      end)
     end
   end
 

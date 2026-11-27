@@ -151,6 +151,12 @@ RSpec.describe "ResourcePlannerViews requests",
       expect(view.query.filters.map(&:name)).to contain_exactly(:status_id)
     end
 
+    it "stores the query without subprojects", with_settings: { display_subprojects_work_packages: true } do
+      perform
+
+      expect(Query.find(ResourceWorkPackageList.last.query_id).include_subprojects).to be(false)
+    end
+
     context "when the view is manually hand-picked" do
       subject(:perform) do
         post project_resource_planner_views_path(project, resource_planner),
@@ -169,6 +175,12 @@ RSpec.describe "ResourcePlannerViews requests",
         query = ResourceWorkPackageList.last.query
         expect(query).to be_manually_sorted
         expect(query.filters.map(&:name)).to contain_exactly(:manual_sort)
+      end
+
+      it "stores the query without subprojects", with_settings: { display_subprojects_work_packages: true } do
+        perform
+
+        expect(Query.find(ResourceWorkPackageList.last.query_id).include_subprojects).to be(false)
       end
 
       it "opens the edit dialog pre-selected on manual rather than automatic" do
@@ -220,6 +232,28 @@ RSpec.describe "ResourcePlannerViews requests",
       query = view.reload.query
       expect(query.filters.map(&:name)).to contain_exactly(:manual_sort)
       expect(query).to be_manually_sorted
+    end
+
+    context "when the stored query still includes subprojects" do
+      let(:view) do
+        ResourceWorkPackageList.create!(name: "Original", parent: resource_planner, project:, principal: user).tap do |v|
+          v.update!(query: v.build_default_query.tap do |q|
+            q.name = "Original"
+            q.include_subprojects = true
+          end)
+        end
+      end
+
+      it "stores it without subprojects once the filters are saved" do
+        patch project_resource_planner_view_path(project, resource_planner, view),
+              params: {
+                view: { name: "Original", filter_mode: "automatic" },
+                filters: [{ status_id: { operator: "o", values: [] } }].to_json
+              },
+              as: :turbo_stream
+
+        expect(Query.find(view.reload.query_id).include_subprojects).to be(false)
+      end
     end
 
     it "closes the dialog and replaces the tab nav and content in place" do
