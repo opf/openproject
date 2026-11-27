@@ -22,7 +22,7 @@ Things to do by hand after an import, given the tool's current scope. If you're 
 
 This is where you act on what you decided in the "confirm you can accept what doesn't migrate" review before you started. For anything you chose to keep rather than accept the loss of:
 
-- [ ] **Workflows** (which status transitions are allowed for which roles) — only a basic, permissive setup is created automatically. Recreate the transitions you need under Administration → Work packages → Workflows. Planned: [JIM-153](https://community.openproject.org/projects/JIM/work_packages/JIM-153).
+- [ ] **Workflows** (which status transitions are allowed for which roles) — only a basic, permissive setup is created automatically, in the workflow of each imported project's type variant (named like "Task (Jira PROJECTKEY)"). The type's own workflow is not changed. Recreate the transitions you need under Administration → Work packages → Workflows. Planned: [JIM-153](https://community.openproject.org/projects/JIM/work_packages/JIM-153).
 - [ ] **Permission schemes / roles**, beyond the one basic role the import creates — set these up under Administration → Roles and permissions. Planned: [JIM-97](https://community.openproject.org/projects/JIM/work_packages/JIM-97).
 - [ ] **Agile boards** (Scrum/Kanban setup, filters, swimlanes) — recreate using OpenProject's Backlogs or Agile boards module. Planned: [JIM-106](https://community.openproject.org/projects/JIM/work_packages/JIM-106).
 - [ ] **Epic Links, Story Points** - recreate from whatever you exported beforehand.
