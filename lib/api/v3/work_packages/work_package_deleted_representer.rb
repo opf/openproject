@@ -32,9 +32,11 @@ module API
     module WorkPackages
       class WorkPackageDeletedRepresenter < ::API::Decorators::Single
         include TimestampedRepresenter
+
         attr_accessor :timestamps, :query
 
-        def initialize(model, current_user:, embed_links: false, timestamps: nil, query: nil)
+        # rubocop:disable-next Lint/UnusedMethodArgument
+        def initialize(model, current_user:, embed_links: false, timestamps: nil, query: nil, excludes: [])
           @query = query
           @timestamps = timestamps || query.try(:timestamps) || []
 

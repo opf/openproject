@@ -87,7 +87,8 @@ RSpec.describe API::V3::WorkPackageCollectionFromQueryService,
                :embed_schemas,
                :current_user,
                :timestamps,
-               :query) do
+               :query,
+               :excludes) do
       def initialize(work_packages,
                      self_link:,
                      query_params:,
@@ -99,7 +100,8 @@ RSpec.describe API::V3::WorkPackageCollectionFromQueryService,
                      embed_schemas:,
                      current_user:,
                      timestamps:,
-                     query:)
+                     query:,
+                     excludes:)
         super(work_packages,
               self_link,
               query_params,
@@ -111,7 +113,8 @@ RSpec.describe API::V3::WorkPackageCollectionFromQueryService,
               embed_schemas,
               current_user,
               timestamps,
-              query)
+              query,
+              excludes)
       end
     end
   end

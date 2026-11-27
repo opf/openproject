@@ -35,6 +35,7 @@ module API
         include API::V3::Workspaces::LinkedResource
         include API::Decorators::DateProperty
         include API::Decorators::FormattableProperty
+        include API::Decorators::ExcludableProperty
         include API::Caching::CachedRepresenter
         include ::API::V3::Attachments::AttachableRepresenterMixin
         extend ::API::V3::Utilities::CustomFieldInjector::RepresenterClass
@@ -47,9 +48,10 @@ module API
 
         attr_accessor :timestamps, :query
 
-        def initialize(model, current_user:, embed_links: false, timestamps: nil, query: nil)
+        def initialize(model, current_user:, embed_links: false, timestamps: nil, query: nil, excludes: {})
           @query = query
           @timestamps = timestamps || query.try(:timestamps) || []
+          @excludes = excludes || {}
 
           model = load_complete_model(model)
 

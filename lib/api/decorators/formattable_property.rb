@@ -42,12 +42,12 @@ module API
                                  getter: default_formattable_getter(name, plain),
                                  setter: default_formattable_setter(name),
                                  **args)
-
           attributes = {
             exec_context: :decorator,
             getter:,
             setter:,
-            render_nil: true
+            render_nil: true,
+            formattable: true
           }
 
           property name,

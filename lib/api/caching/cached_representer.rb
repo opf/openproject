@@ -37,7 +37,7 @@ module API
       }.freeze
 
       included do
-        def to_json(*)
+        def to_json(options = {})
           return super if no_caching?
 
           cached_json_rep = OpenProject::Cache.fetch(json_cache_key) do
@@ -68,7 +68,7 @@ module API
         # so cache_if/uncacheable stripping is applied. Without it, ActiveSupport's
         # Object#as_json falls back to #to_hash and leaks guarded fields.
         def as_json(*)
-          ::JSON.parse(to_json)
+          ::JSON.parse(to_json(*))
         end
 
         def json_cache_key
@@ -196,6 +196,7 @@ module API
           cacheable << json_key_custom_fields
           cacheable << json_key_parts_of_represented
           cacheable << json_key_dependencies
+          cacheable << expanded_exclusions.sort
 
           OpenProject::Cache::CacheKey.expand(OpenProject::Cache::CacheKey.key(cacheable.flatten.compact))
         end

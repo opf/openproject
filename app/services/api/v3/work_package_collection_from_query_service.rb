@@ -73,15 +73,12 @@ module API
                     :current_user,
                     :scope
 
-      def representer
-        ::API::V3::WorkPackages::WorkPackageCollectionRepresenter
-      end
-
       def calculate_resulting_params(provided_params)
         params = calculate_default_params
                  .merge(provided_params.symbolize_keys.slice(:offset, :pageSize))
         handle_offset_paging_params(params)
         handle_select_params(params, provided_params)
+        handle_exclude_params(params, provided_params)
         params
       end
 
@@ -161,7 +158,8 @@ module API
             embed_schemas: true,
             current_user:,
             timestamps: query.timestamps,
-            query:
+            query:,
+            excludes: resulting_params.dig(:exclude, "results")
           )
         end
       end
@@ -181,6 +179,10 @@ module API
 
       def handle_select_params(params, provided_params)
         params[:select] = nested_from_csv(provided_params["select"]) if provided_params["select"]
+      end
+
+      def handle_exclude_params(params, provided_params)
+        params[:exclude] = nested_from_csv(provided_params["exclude"]) if provided_params["exclude"]
       end
 
       def to_i_or_nil(value)
