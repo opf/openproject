@@ -104,8 +104,9 @@ module FrontendAssetHelper
   private
 
   def lookup_frontend_asset(unhashed_file_name)
-    hashed_file_name = ::OpenProject::Assets.lookup_asset(unhashed_file_name)
-    frontend_asset_path(hashed_file_name)
+    # SPIKE: Propshaft resolves the digested name; no own manifest.
+    Rails.application.assets.resolver.resolve("frontend/#{unhashed_file_name}") ||
+      frontend_asset_path(unhashed_file_name)
   end
 
   def frontend_asset_path(file_name)
