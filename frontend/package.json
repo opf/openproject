@@ -60,7 +60,7 @@
     "playwright": "^1.64.1",
     "source-map-explorer": "^2.5.2",
     "ts-node": "~10.9.2",
-    "typescript": "^6.0.3",
+    "typescript": "^7.0.2",
     "typescript-eslint": "^8.72.2",
     "vitest": "^5.1.1",
     "wscat": "^6.1.0"
