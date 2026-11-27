@@ -74,8 +74,6 @@ To quickly save changes in a rich text editor (for example a work package descri
 | -------------------------- | -------------- | ------------------------------------------------------------ |
 | <kbd>Ctrl</kbd> + <kbd>Enter</kbd> | <kbd>Cmd</kbd> + <kbd>Enter</kbd> | **Save changes.**<br>For inline-editable fields, save the field and close it.<br>For pages with a full WYSIWYG (meetings, wiki pages), submit the form. |
 
-Please also refer to the documentation on [working in the rich text editor in OpenProject](../wysiwyg).
-
 ## Clear a work package selection
 
 <kbd>Esc</kbd> clears every work package selection on the page, in tables and card views alike, wherever the focus is. An open menu, dialog or editable field receives the <kbd>Esc</kbd> first, so one keypress never both dismisses something and clears the selection.
@@ -100,3 +98,5 @@ return to the cell). |
 | <kbd>F2</kbd> | <kbd>F2</kbd> | **Edit** the cell. |
 
 To change the sort order without drag and drop, use **Move up**, **Move down**, **Move to top** or **Move to bottom** in the context menu (manually sorted tables only).
+
+Please also refer to the documentation on [working in the rich text editor in OpenProject](../wysiwyg).
