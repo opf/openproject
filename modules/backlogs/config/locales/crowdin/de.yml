@@ -327,6 +327,9 @@ de:
               one: Balkendiagramm der zugesagten und abgeschlossenen Zeitschätzungen des letzten Sprints.
               other: Balkendiagramm der zugesagten und abgeschlossenen Zeitschätzungen der letzten %{count} Sprints.
           summary_average: 'Durchschnittsgeschwindigkeit: %{average}.'
+          summary_story_points:
+            one: "%{value} Story-Point"
+            other: "%{value} Story-Points"
           title: Velocity-Diagramm
           velocity: "%{sprint}:"
           y_axis_title:
