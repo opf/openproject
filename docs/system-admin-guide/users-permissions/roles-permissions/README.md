@@ -204,7 +204,7 @@ The dialog also tells you how many members will lose access to projects in which
 
 You can preview which permissions a role grants, so that you can assign the correct role. To open the preview, click the **info icon (i)** next to the name of a role. A dialog lists all permissions of the role, grouped by module. Each module shows the number of permissions and can be expanded or collapsed. From the dialog, you can also go to the role settings via **Edit role permissions**.
 
-The preview is available in these places:
+The preview is available everywhere where the name of a role is shown. For example:
 
 - In the **Members** area of a project: in the list of current members, and in the forms for adding a new member and editing an existing member
 - In the invite user flow

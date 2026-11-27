@@ -19,7 +19,7 @@ To open the page, navigate to _Administration_ > _Users and permissions_ > _Memb
 Each row in the list shows one membership, with the columns **User or group**, **Project**, and **Roles**. If a member has several roles in a project, all of them are listed in the same row.
 
 - If a role comes from a group membership, the group is shown next to the role, for example *Member (via: Group Customer Support)*. This indicates that the member did not get the role directly.
-- Global memberships show **Global** instead of a project.
+- A global role is indicated by the word **Global** in the project's column.
 - Memberships in archived projects are included in the list. Their project names are shown as plain text, since archived projects have no page that can be opened.
 - User and group names link to the user or group, project names link to the project, and each role name links to the role's edit page in [Roles and permissions](../roles-permissions/).
 
