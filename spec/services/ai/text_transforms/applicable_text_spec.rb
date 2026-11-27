@@ -301,6 +301,26 @@ RSpec.describe AI::TextTransforms::ApplicableText do
       described_class.new(text, input:).mentions_converted?
     end
 
+    it "removes a new mention however often its type is repeated or nested" do
+      repeated = %(x data-id="6" data-type="user"#{' data-type="user"' * 8}> y)
+      nested = %(x data-id="6" #{(1..12).reduce('data-type="user"') { |tag, _| %(data-ty #{tag}pe="user") }}> y)
+
+      [repeated, nested].each do |text|
+        expect(applicable(text)).not_to match(AI::TextTransforms::NewMentions::PATTERN)
+      end
+    end
+
+    it "removes a new mention with thousands of repeated or nested types in a bounded time" do
+      repeated = %(x data-id="6"#{' data-type="user"' * 16_000}> y)
+      nested = %(x data-id="6" #{(1..2_000).reduce('data-type="user"') { |tag, _| %(data-ty #{tag}pe="user") }}> y)
+
+      [repeated, nested].each do |text|
+        result = Timeout.timeout(5) { applicable(text) }
+
+        expect(result).not_to match(AI::TextTransforms::NewMentions::PATTERN)
+      end
+    end
+
     def notified_by(text)
       text.scan(Notifications::CreateFromModelService::MENTION_PATTERN)
     end
@@ -395,6 +415,13 @@ RSpec.describe AI::TextTransforms::ApplicableText do
     expect(applicable("See this!!![c](u)\n\n# Heading")).to eq("See this!\\![Image: c](u)\n\n# Heading")
     expect(applicable("Look\\!![c](u)")).to eq("Look\\![Image: c](u)")
     expect(applicable("Look\\\\!![c](u)")).to eq("Look\\\\\\![Image: c](u)")
+  end
+
+  it "keeps a macro in an HTML block after a blockquote marker and tab inside its line" do
+    expect(applicable(">\t<macro>")).to eq(">\t")
+    expect(applicable(">\t<macro>\n\nrest")).to eq(">\t\n\nrest")
+    expect(applicable(">\t<macro>\r\n\r\nrest")).to eq(">\t\r\n\r\nrest")
+    expect(applicable("\n\r>\t<macro>")).to eq("\n\r>\t")
   end
 
   it "escapes output nested deeper than the HTML parser allows" do

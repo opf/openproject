@@ -436,8 +436,20 @@ module AI
       def byte_range(node)
         position = node.source_position
         first = line_offsets[position[:start_line] - 1] + position[:start_column] - 1
-        last = line_offsets[position[:end_line] - 1] + position[:end_column]
-        first...last
+        first...end_offset(position)
+      end
+
+      def end_offset(position)
+        [line_offsets[position[:end_line] - 1] + position[:end_column], line_end(position[:end_line])].min
+      end
+
+      # Commonmarker expands a tab after a blockquote marker, so a column can lie past the end of its line.
+      def line_end(line)
+        following = line_offsets[line]
+        return @text.bytesize unless following
+
+        crlf = following > 1 && @text.getbyte(following - 2) == 0x0D && @text.getbyte(following - 1) == 0x0A
+        following - (crlf ? 2 : 1)
       end
 
       # Commonmarker counts a bare CR as a line break as well.
