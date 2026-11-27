@@ -82,15 +82,16 @@ RSpec.describe OpenProject::Database do
 
     context "when the database schema has not been loaded yet" do
       before do
-        allow(migration_context.schema_migration).to receive(:table_exists?).and_return(false)
+        allow(migration_context.schema_migration).to receive_messages(table_exists?: false, create_table: nil)
+        allow(migration_context.internal_metadata).to receive(:create_table)
       end
 
       it "raises without creating the schema_migrations or ar_internal_metadata tables", :aggregate_failures do
-        expect(migration_context.schema_migration).not_to receive(:create_table)
-        expect(migration_context.internal_metadata).not_to receive(:create_table)
-
         expect { described_class.check_all_pending_migrations! }
           .to raise_error(ActiveRecord::PendingMigrationError)
+
+        expect(migration_context.schema_migration).not_to have_received(:create_table)
+        expect(migration_context.internal_metadata).not_to have_received(:create_table)
       end
     end
   end
