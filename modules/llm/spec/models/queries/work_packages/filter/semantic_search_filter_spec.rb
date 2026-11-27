@@ -77,7 +77,7 @@ RSpec.describe Queries::WorkPackages::Filter::SemanticSearchFilter do
     end
 
     it "builds the ORDER BY distance + LIMIT shape required for the HNSW index" do
-      expect(instance.where).to include("ORDER BY embedding <=> ")
+      expect(instance.where).to include("ORDER BY distance")
       expect(instance.where).to include("LIMIT #{WorkPackageEmbedding::SEARCH_LIMIT}")
     end
 

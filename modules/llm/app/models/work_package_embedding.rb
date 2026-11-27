@@ -49,13 +49,21 @@ class WorkPackageEmbedding < ApplicationRecord
     super(self.class.vector_literal(vector))
   end
 
+  # The distance threshold must stay outside the materialized CTE: inside it, the
+  # hnsw.iterative_scan session setting would keep scanning (up to hnsw.max_scan_tuples)
+  # whenever fewer than :limit embeddings are within the threshold.
+  # https://github.com/pgvector/pgvector#iterative-search-options
   def self.work_package_ids_within_search_distance_sql(vector_literal, semantic_index_id:, limit: SEARCH_LIMIT)
     sanitize_sql_array([<<~SQL.squish, { semantic_index_id:, vector_literal:, limit: limit.to_i }])
-      SELECT work_package_id FROM #{table_name}
-      WHERE semantic_index_id = :semantic_index_id
-        AND embedding <=> :vector_literal < #{MAX_SEARCH_DISTANCE}
-      ORDER BY embedding <=> :vector_literal
-      LIMIT :limit
+      WITH nearest AS MATERIALIZED (
+        SELECT work_package_id, embedding <=> :vector_literal AS distance FROM #{table_name}
+        WHERE semantic_index_id = :semantic_index_id
+        ORDER BY distance
+        LIMIT :limit
+      )
+      SELECT work_package_id FROM nearest
+      WHERE distance < #{MAX_SEARCH_DISTANCE}
+      ORDER BY distance
     SQL
   end
 

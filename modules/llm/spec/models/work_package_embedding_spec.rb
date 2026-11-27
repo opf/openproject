@@ -68,13 +68,25 @@ RSpec.describe WorkPackageEmbedding do
     let(:semantic_index) { create(:semantic_index) }
     let(:vector) { described_class.vector_literal([0.1, 0.2, 0.3]) }
 
-    it "follows the ORDER BY distance + LIMIT shape required for the HNSW index" do
+    it "applies the distance threshold outside the ORDER BY distance + LIMIT query that uses the HNSW index" do
       sql = described_class.work_package_ids_within_search_distance_sql(vector,
                                                                         semantic_index_id: semantic_index.id,
                                                                         limit: 10)
 
-      expect(sql).to include("ORDER BY embedding <=> ")
-      expect(sql).to match(/LIMIT 10\z/)
+      expect(sql).to match(/AS MATERIALIZED \(.*ORDER BY distance LIMIT 10 \) SELECT .* WHERE distance < /)
+    end
+
+    it "returns the closest work packages within the search distance even when only few are" do
+      closest = create(:work_package)
+      outside = create(:work_package)
+      create(:work_package_embedding, work_package: closest, semantic_index:, embedding: [0.1, 0.2, 0.3])
+      create(:work_package_embedding, work_package: outside, semantic_index:, embedding: [-0.1, -0.2, -0.3])
+
+      sql = described_class.work_package_ids_within_search_distance_sql(vector,
+                                                                        semantic_index_id: semantic_index.id,
+                                                                        limit: 10)
+
+      expect(described_class.connection.select_values(sql)).to eq [closest.id]
     end
 
     it "returns the work package ids within the search distance, most similar first" do
