@@ -1,5 +1,6 @@
 $blocknote-max-width: 800px
 $blocknote-side-menu-gutter: 48px // Left lane for BlockNote's side menu (drag handle + "+"); BlockNote doesn't expose this, its own default is 54px
+$heading-link-footprint: calc(var(--base-size-8) + var(--base-size-16) + 2 * var(--base-size-2)) // Start margin + 16px icon + padding of `.op-heading-link`
 
 .document-form--long-description
   .ck-content
@@ -60,9 +61,15 @@ body > .block-note-editor-container
     [data-content-type="heading"]
       scroll-margin-top: var(--base-size-16)
 
+      // The button takes no room in the line, so a heading that fills it does not wrap the
+      // icon onto a line of its own; this reserves its room inside the heading instead, where
+      // the document layout's overflow clipping cannot cut it off.
+      .bn-inline-content
+        padding-inline-end: $heading-link-footprint
+
     .op-heading-link
       display: inline-flex
-      margin-inline-start: var(--base-size-8)
+      margin-inline: var(--base-size-8) calc(-1 * #{$heading-link-footprint})
       padding: var(--base-size-2)
       border: 0
       border-radius: var(--borderRadius-medium)
