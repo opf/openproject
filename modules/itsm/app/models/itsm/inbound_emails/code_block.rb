@@ -31,7 +31,7 @@ module ITSM
   module InboundEmails
     module CodeBlock
       def self.call(content)
-        return "" if content.empty?
+        return "" if content.blank?
 
         fence = "`" * [3, content.scan(/`+/).map(&:length).max.to_i + 1].max
         "#{fence}\n#{content}\n#{fence}"
