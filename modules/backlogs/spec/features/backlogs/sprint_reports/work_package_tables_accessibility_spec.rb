@@ -52,13 +52,13 @@ RSpec.describe(
   let(:sprint) do
     create(
       :sprint,
+      completed_at ? :completed : :active,
       project:,
       name: "Accessible sprint",
       start_date: 7.days.ago,
       finish_date: Date.tomorrow,
       started_at: 5.days.ago,
-      completed_at:,
-      status: completed_at ? :completed : :active
+      completed_at:
     )
   end
   let!(:added_and_completed) do

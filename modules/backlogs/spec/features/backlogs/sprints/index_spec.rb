@@ -138,22 +138,22 @@ RSpec.describe "Sprint index", :js do
     let(:ordering_project) { create(:project) }
     let(:ordering_page) { Pages::Sprints.new(ordering_project) }
     let!(:completed_sprint) do
-      create(:sprint, project: ordering_project, status: :completed,
-                      name: "Completed sprint",
-                      start_date: Date.new(2025, 9, 1),
-                      finish_date: Date.new(2025, 9, 10))
+      create(:sprint, :completed, project: ordering_project,
+                                  name: "Completed sprint",
+                                  start_date: Date.new(2025, 9, 1),
+                                  finish_date: Date.new(2025, 9, 10))
     end
     let!(:planning_sprint) do
-      create(:sprint, project: ordering_project, status: :in_planning,
-                      name: "Planning sprint",
-                      start_date: Date.new(2025, 9, 1),
-                      finish_date: Date.new(2025, 9, 10))
+      create(:sprint, :in_planning, project: ordering_project,
+                                    name: "Planning sprint",
+                                    start_date: Date.new(2025, 9, 1),
+                                    finish_date: Date.new(2025, 9, 10))
     end
     let!(:active_sprint) do
-      create(:sprint, project: ordering_project, status: :active,
-                      name: "Active sprint",
-                      start_date: Date.new(2025, 9, 1),
-                      finish_date: Date.new(2025, 9, 10))
+      create(:sprint, :active, project: ordering_project,
+                               name: "Active sprint",
+                               start_date: Date.new(2025, 9, 1),
+                               finish_date: Date.new(2025, 9, 10))
     end
 
     current_user { create(:user, member_with_permissions: { ordering_project => permissions }) }
@@ -218,10 +218,9 @@ RSpec.describe "Sprint index", :js do
     end
     let(:sprints_page) { Pages::Sprints.new(receiving_project) }
     let!(:shared_sprint) do
-      create(:sprint,
+      create(:sprint, :in_planning,
              project: source_project,
              name: "Shared sprint",
-             status: :in_planning,
              start_date: Date.new(2025, 9, 1),
              finish_date: Date.new(2025, 9, 7))
     end
@@ -243,27 +242,24 @@ RSpec.describe "Sprint index", :js do
 
   context "when rendering sprint name links" do
     let!(:planning_sprint) do
-      create(:sprint,
+      create(:sprint, :in_planning,
              project:,
              name: "Planning sprint",
-             status: :in_planning,
              start_date: Date.new(2025, 9, 20),
              finish_date: Date.new(2025, 9, 25))
     end
     let!(:active_sprint) do
-      create(:sprint,
+      create(:sprint, :active,
              project:,
              name: "Active sprint",
-             status: :active,
              start_date: Date.new(2025, 9, 26),
              finish_date: Date.new(2025, 10, 2))
     end
     let!(:active_board) { create(:board_grid, project:, linked: active_sprint, name: "Active sprint board") }
     let!(:completed_sprint) do
-      create(:sprint,
+      create(:sprint, :completed,
              project:,
              name: "Completed sprint",
-             status: :completed,
              start_date: Date.new(2025, 8, 1),
              finish_date: Date.new(2025, 8, 10))
     end

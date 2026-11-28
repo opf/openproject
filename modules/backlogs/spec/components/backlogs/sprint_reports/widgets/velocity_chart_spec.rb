@@ -151,7 +151,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::VelocityChart, type: :component
   end
 
   context "when the sprint was never started" do
-    let(:sprint) { build_stubbed(:sprint, project:, status: "in_planning", start_date: nil, finish_date: nil) }
+    let(:sprint) { build_stubbed(:sprint, :in_planning, project:, start_date: nil, finish_date: nil) }
 
     it "renders nothing" do
       expect(rendered_component.to_s).to be_empty
@@ -160,8 +160,8 @@ RSpec.describe Backlogs::SprintReports::Widgets::VelocityChart, type: :component
 
   context "when the completed sprint has no dates" do
     let(:sprint) do
-      build_stubbed(:sprint, project:, status: "completed", start_date: nil, finish_date: nil,
-                             started_at: nil, completed_at: nil)
+      build_stubbed(:sprint, :completed, project:, start_date: nil, finish_date: nil,
+                                         started_at: nil, completed_at: nil)
     end
 
     it "renders nothing" do

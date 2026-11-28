@@ -44,9 +44,8 @@ RSpec.describe "Edit", :js do
   let(:planning_page) { Pages::Backlog.new(project) }
 
   let!(:closed_sprint) do
-    create(:sprint,
+    create(:sprint, :completed,
            project:,
-           status: "completed",
            start_date: Date.new(2025, 8, 25),
            finish_date: Date.new(2025, 9, 4))
   end

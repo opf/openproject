@@ -104,10 +104,10 @@ RSpec.describe "Backlogs project settings multiple active sprints", :js do
       context "when multiple active sprints is already enabled and multiple sprints are active" do
         before do
           project.update!(allow_multiple_active_sprints: true)
-          create(:sprint, project:, status: "active",
-                          start_date: Time.zone.today - 1, finish_date: Time.zone.today + 1)
-          create(:sprint, project:, status: "active",
-                          start_date: Time.zone.today - 1, finish_date: Time.zone.today + 1)
+          create(:sprint, :active, project:,
+                                   start_date: Time.zone.today - 1, finish_date: Time.zone.today + 1)
+          create(:sprint, :active, project:,
+                                   start_date: Time.zone.today - 1, finish_date: Time.zone.today + 1)
         end
 
         it "renders the toggle disabled with a warning" do

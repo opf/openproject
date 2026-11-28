@@ -50,9 +50,8 @@ RSpec.describe Sprints::Velocity do
   subject(:velocity) { described_class.new(sprint, project) }
 
   def completed_sprint(started_at:, completed_at:, **)
-    create(:sprint,
+    create(:sprint, :completed,
            project:,
-           status: "completed",
            start_date: started_at.to_date,
            finish_date: completed_at.to_date,
            started_at:,
@@ -61,9 +60,8 @@ RSpec.describe Sprints::Velocity do
   end
 
   def active_sprint(started_at:, **)
-    create(:sprint,
+    create(:sprint, :active,
            project:,
-           status: "active",
            start_date: started_at.to_date,
            finish_date: started_at.to_date + 14.days,
            started_at:,
@@ -141,9 +139,8 @@ RSpec.describe Sprints::Velocity do
         completed_sprint(started_at: start_of_history, completed_at: start_of_history + 2.weeks)
       end
       let!(:stale) do
-        create(:sprint,
+        create(:sprint, :in_planning,
                project:,
-               status: "in_planning",
                start_date: (start_of_history + 2.weeks).to_date,
                finish_date: (start_of_history + 4.weeks).to_date)
       end
@@ -159,9 +156,8 @@ RSpec.describe Sprints::Velocity do
         completed_sprint(started_at: start_of_history, completed_at: start_of_history + 2.weeks)
       end
       let!(:open_ended) do
-        create(:sprint,
+        create(:sprint, :in_planning,
                project:,
-               status: "in_planning",
                start_date: (start_of_history + 2.weeks).to_date,
                finish_date: nil)
       end
@@ -174,9 +170,8 @@ RSpec.describe Sprints::Velocity do
 
     context "with sprints of another project" do
       let!(:foreign) do
-        create(:sprint,
+        create(:sprint, :completed,
                project: other_project,
-               status: "completed",
                start_date: start_of_history.to_date,
                finish_date: (start_of_history + 2.weeks).to_date,
                started_at: start_of_history,

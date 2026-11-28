@@ -67,9 +67,8 @@ RSpec.describe "Start and finish sprints", :js do
            finish_date: 21.days.from_now.to_date)
   end
   let!(:closed_sprint) do
-    create(:sprint,
+    create(:sprint, :completed,
            project:,
-           status: "completed",
            start_date: 21.days.ago.to_date,
            finish_date: 11.days.ago.to_date)
   end
@@ -138,9 +137,8 @@ RSpec.describe "Start and finish sprints", :js do
 
   context "when the sprint is active" do
     let!(:first_sprint) do
-      create(:sprint,
+      create(:sprint, :active,
              project:,
-             status: "active",
              start_date: Time.zone.today,
              finish_date: 10.days.from_now.to_date)
     end

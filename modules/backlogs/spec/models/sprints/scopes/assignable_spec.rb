@@ -32,12 +32,12 @@ require "spec_helper"
 RSpec.describe Sprints::Scopes::Assignable do
   shared_let(:project) { create(:project) }
   shared_let(:other_project) { create(:project) }
-  shared_let(:in_planning_sprint_in_project) { create(:sprint, project:, status: "in_planning") }
-  shared_let(:active_sprint_in_project) { create(:sprint, project:, status: "active") }
-  shared_let(:completed_sprint_in_project) { create(:sprint, project:, status: "completed") }
-  shared_let(:in_planning_sprint_in_other_project) { create(:sprint, project: other_project, status: "in_planning") }
-  shared_let(:active_sprint_in_other_project) { create(:sprint, project: other_project, status: "active") }
-  shared_let(:completed_sprint_in_other_project) { create(:sprint, project: other_project, status: "completed") }
+  shared_let(:in_planning_sprint_in_project) { create(:sprint, :in_planning, project:) }
+  shared_let(:active_sprint_in_project) { create(:sprint, :active, project:) }
+  shared_let(:completed_sprint_in_project) { create(:sprint, :completed, project:) }
+  shared_let(:in_planning_sprint_in_other_project) { create(:sprint, :in_planning, project: other_project) }
+  shared_let(:active_sprint_in_other_project) { create(:sprint, :active, project: other_project) }
+  shared_let(:completed_sprint_in_other_project) { create(:sprint, :completed, project: other_project) }
   # WPs only exist so that the sharing aspect is (rudimentarily) tested.
   # It is not the goal of this spec to retest the whole of .for_project
   shared_let(:wp_in_other_project_in_planning_sprint) do
@@ -89,9 +89,9 @@ RSpec.describe Sprints::Scopes::Assignable do
     shared_let(:sharing_project) { create(:project, sprint_sharing: "share_all_projects") }
     shared_let(:receiving_project) { create(:project, sprint_sharing: "receive_shared") }
     shared_let(:in_planning_sprint_in_sharing_project) do
-      create(:sprint, project: sharing_project, status: "in_planning")
+      create(:sprint, :in_planning, project: sharing_project)
     end
-    shared_let(:completed_sprint_in_sharing_project) { create(:sprint, project: sharing_project, status: "completed") }
+    shared_let(:completed_sprint_in_sharing_project) { create(:sprint, :completed, project: sharing_project) }
 
     context "when the user can view sprints in the receiving project only" do
       let(:user) { create(:user, member_with_roles: { receiving_project => role }) }

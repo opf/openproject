@@ -50,9 +50,8 @@ RSpec.describe Backlogs::WorkPackages::BatchUpdateService,
            })
   end
   let!(:source_sprint) do
-    create(:sprint,
+    create(:sprint, :active,
            project:,
-           status: :active,
            start_date: Date.current,
            finish_date: 1.week.from_now.to_date)
   end

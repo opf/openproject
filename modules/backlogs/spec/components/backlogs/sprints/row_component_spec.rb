@@ -60,7 +60,7 @@ RSpec.describe Backlogs::Sprints::RowComponent, type: :component do
 
   describe "name link" do
     context "when sprint is in planning" do
-      let(:sprint) { build_stubbed(:sprint, project:, status: :in_planning, name: "Planning sprint") }
+      let(:sprint) { build_stubbed(:sprint, :in_planning, project:, name: "Planning sprint") }
 
       it "links to the backlog filtered by sprint" do
         expect(rendered_component).to have_link(
@@ -71,7 +71,7 @@ RSpec.describe Backlogs::Sprints::RowComponent, type: :component do
     end
 
     context "when sprint is active" do
-      let(:sprint) { build_stubbed(:sprint, project:, status: :active, name: "Active sprint") }
+      let(:sprint) { build_stubbed(:sprint, :active, project:, name: "Active sprint") }
 
       context "and a board exists" do
         let(:board) { build_stubbed(:board_grid, project:, linked: sprint) }
@@ -97,7 +97,7 @@ RSpec.describe Backlogs::Sprints::RowComponent, type: :component do
     end
 
     context "when sprint is completed", with_settings: { work_package_list_default_columns: %i[id subject] } do
-      let(:sprint) { build_stubbed(:sprint, project:, status: :completed, name: "Completed sprint", id: 123) }
+      let(:sprint) { build_stubbed(:sprint, :completed, project:, name: "Completed sprint", id: 123) }
 
       it "links to work packages filtered by sprint" do
         query_props = {
@@ -116,7 +116,7 @@ RSpec.describe Backlogs::Sprints::RowComponent, type: :component do
   end
 
   describe "action menu" do
-    let(:sprint) { build_stubbed(:sprint, project:, status: :in_planning, name: "Sprint 42") }
+    let(:sprint) { build_stubbed(:sprint, :in_planning, project:, name: "Sprint 42") }
 
     before do
       allow(user).to receive(:allowed_in_project?).and_return(false)
@@ -201,9 +201,8 @@ RSpec.describe Backlogs::Sprints::RowComponent, type: :component do
 
   describe "additional row behavior" do
     let(:sprint) do
-      build_stubbed(:sprint,
+      build_stubbed(:sprint, :in_planning,
                     project:,
-                    status: :in_planning,
                     name: "Sprint 42",
                     start_date: Date.new(2025, 9, 1),
                     finish_date: Date.new(2025, 9, 15))
@@ -236,7 +235,7 @@ RSpec.describe Backlogs::Sprints::RowComponent, type: :component do
     let(:completed_at) { Time.utc(2025, 1, 30, 17, 45) }
 
     context "when the sprint is in planning" do
-      let(:sprint) { build_stubbed(:sprint, project:, status: :in_planning, start_date:, finish_date:) }
+      let(:sprint) { build_stubbed(:sprint, :in_planning, project:, start_date:, finish_date:) }
 
       it "shows both planned dates and marks them as planned" do
         expect(rendered_component).to have_element(:time, datetime: "2025-01-15")
@@ -257,7 +256,7 @@ RSpec.describe Backlogs::Sprints::RowComponent, type: :component do
     end
 
     context "when the sprint is active" do
-      let(:sprint) { build_stubbed(:sprint, project:, status: :active, start_date:, finish_date:, started_at:) }
+      let(:sprint) { build_stubbed(:sprint, :active, project:, start_date:, finish_date:, started_at:) }
 
       it "shows the actual start with its timestamp as title and the planned finish" do
         expect(rendered_component).to have_element(:time, datetime: "2025-01-16T09:30:00Z", title: true)
@@ -278,7 +277,7 @@ RSpec.describe Backlogs::Sprints::RowComponent, type: :component do
 
     context "when the sprint is completed" do
       let(:sprint) do
-        build_stubbed(:sprint, project:, status: :completed, start_date:, finish_date:, started_at:, completed_at:)
+        build_stubbed(:sprint, :completed, project:, start_date:, finish_date:, started_at:, completed_at:)
       end
 
       it "shows the actual start and finish" do

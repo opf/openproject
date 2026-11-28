@@ -44,12 +44,11 @@ RSpec.describe "Work package graph widget", :js, with_flag: :sprint_reports do
   shared_let(:status_closed) { create(:closed_status, name: "Graph widget closed") }
 
   shared_let(:sprint) do
-    create(:sprint,
+    create(:sprint, :active,
            project:,
            name: "Sprint 42",
            start_date: Date.yesterday,
-           finish_date: Date.tomorrow,
-           status: :active)
+           finish_date: Date.tomorrow)
   end
 
   shared_let(:other_sprint) { create(:sprint, project:, name: "Sprint 41") }
