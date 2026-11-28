@@ -53,6 +53,10 @@ export function jsonAttribute<T extends object|number|boolean|null>(fallback:T):
       return value;
     }
 
+    if (value.trim() === '') {
+      return fallback;
+    }
+
     try {
       return JSON.parse(value) as T;
     } catch {

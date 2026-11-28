@@ -41,6 +41,12 @@ module OpenProject::TextFormatting::Filters::Macros
     def apply(macro, **)
       macro.name = CUSTOM_ELEMENT
       macro["class"] = macro["class"].gsub("op-uc-placeholder", "").squish
+      rename_query_props(macro)
+    end
+
+    def rename_query_props(macro)
+      query_props = macro.remove_attribute("data-query-props")
+      macro["query-props"] = query_props.value if query_props&.value.present?
     end
 
     def is?(macro)

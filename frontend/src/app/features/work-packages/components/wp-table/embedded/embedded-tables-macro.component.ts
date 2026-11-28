@@ -25,35 +25,31 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, ElementRef, Input, inject } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import {
   WorkPackageTableConfigurationObject,
 } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
-import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
+import { QueryRequestParams } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
+import { jsonAttribute } from 'core-app/shared/helpers/angular/attribute-inputs';
 
 @Component({
   template: `
-    <wp-embedded-table-entry [queryProps]="queryProps"
+    <wp-embedded-table-entry [queryProps]="effectiveQueryProps()"
                              [configuration]="configuration" />
   `,
   standalone: false,
-  // TODO: This component has been partially migrated to be zoneless-compatible.
-  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
-  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class EmbeddedTablesMacroComponent {
-  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  readonly queryProps = input<Partial<QueryRequestParams>|null>(null, { transform: jsonAttribute<Partial<QueryRequestParams>|null>(null) });
 
-  @Input() public queryProps:object;
+  // Fallback for HTML rendered before the macro filter wrote query-props.
+  readonly dataQueryProps = input<Partial<QueryRequestParams>|null>(null, { transform: jsonAttribute<Partial<QueryRequestParams>|null>(null) });
 
-  public configuration:WorkPackageTableConfigurationObject = {
+  protected readonly effectiveQueryProps = computed(() => this.queryProps() ?? this.dataQueryProps() ?? {});
+
+  readonly configuration:WorkPackageTableConfigurationObject = {
     actionsColumnEnabled: false,
     columnMenuEnabled: false,
     contextMenuEnabled: false,
   };
-
-  constructor() {
-    populateInputsFromDataset(this);
-  }
 }

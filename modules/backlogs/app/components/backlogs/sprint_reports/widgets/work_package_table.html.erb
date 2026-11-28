@@ -30,12 +30,9 @@ See COPYRIGHT and LICENSE files for more details.
   widget_wrapper do |container|
     container.with_body do
       if show_table?
-        helpers.angular_component_tag(
-          "opce-embedded-work-package-table",
-          inputs: {
-            queryProps: query_props,
-            configuration: table_configuration
-          }
+        custom_element_tag.opce_embedded_work_package_table(
+          query_props:,
+          configuration: table_configuration
         )
       else
         render(Primer::Beta::Blankslate.new(spacious: true)) do |blankslate|

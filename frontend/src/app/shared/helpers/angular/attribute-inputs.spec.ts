@@ -94,6 +94,11 @@ describe('attribute input transforms', () => {
       expect(transform(null)).toBeNull();
     });
 
+    it('falls back on an empty or blank attribute', () => {
+      expect(transform('')).toBeNull();
+      expect(transform('  ')).toBeNull();
+    });
+
     it('throws naming the malformed value', () => {
       expect(() => transform('{oops')).toThrow(Error);
       expect(() => transform('{oops')).toThrow('{oops');
