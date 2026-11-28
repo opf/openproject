@@ -126,11 +126,11 @@ This is a known behavior of OpenProject, but not trivial to solve. There's alrea
 
 ### When I create a new work package it's always a "Task". How can I change the default work package type?
 
-Please navigate to _Administration ->Work packages ->Types_. The type that is at the top of the list is the default type. To change it, use the arrows on the right to move another work package type to the top of the list.
+Please navigate to _Administration -> Work packages -> Types_. The type that is at the top of the list is the default type. To change it, move another work package type to the top of the list, either by dragging it by its handle or by selecting the option to change its position in its **More** (three dots) menu. See [Manage existing types and variants](../../../system-admin-guide/manage-work-packages/work-package-types/#manage-existing-types-and-variants).
 
-### I added new work package types. Why can i not see them?
+### I added new work package types. Why can I not see them?
 
-Please make sure you [activated](../../projects/project-settings/work-packages/#work-package-types) them in the project settings first. If you still can't see them (e.g. in the boards module) please upgrade OpenProject to the newest release.
+Please make sure you [activated](../../projects/project-settings/work-packages/#work-package-types) them in the project settings first.
 
 ### When I change the work package type of an existing work package, all attributes that are not part of the new work package type will be removed. What will happen to their values? Will the values be displayed again when I switch back to the original type?
 
@@ -138,7 +138,7 @@ When changing a work package type, attributes that are not part of the new type 
 
 ### I created a new work package status, why can I not choose it?
 
-Please add the new status to the workflow for all work packages you want to use it for, first. Find out [here](../../../system-admin-guide/manage-work-packages/work-package-workflows) how to do it. Please make sure to un-check the box at top ("Only display statuses that are used by this type") to be able to see your new status.
+A new status first needs to be added to the workflow used by the work package type, and allowed as a transition for your role. Find out how to [add statuses to a workflow](../../../system-admin-guide/manage-work-packages/work-package-workflows/#add-statuses-to-the-workflow) and [define allowed transitions](../../../system-admin-guide/manage-work-packages/work-package-workflows/#define-allowed-transitions).
 
 ### Is it possible to adapt or rename the status list (i.e. the available work package statuses)?
 
@@ -147,18 +147,14 @@ In the second step you can then [assign them to workflows](../../../system-admin
 
 ### We like for each department to have their own custom "status" with different value options in OpenProject. How do we do this?
 
-The status which can be selected by users (based on the workflow) is always determined based on the work package type and the role of the user. In order to use the same work package type (e.g. task) but display different status for each department, you would need to create a separate role for each department. You can then add the members of a department (ideally using a group) and assign them with the correct role. Please find the guide [here](../../../system-admin-guide/manage-work-packages/work-package-workflows).
-To work with different status, first create those status in _Administration ->Work packages ->Status_.
-Next, go to _Administration ->Work packages ->Workflow_ and select the combination of Type and Role for which you would like to set the allowed workflow transition.
-You can e.g. create a role “Marketing – Member” and select it as well as the type (e.g. “Task”). Make sure to uncheck the option “Only display statuses that are used by this type” and click on **Edit**. Now, you can select the correct status transitions.
-Repeat this step for the other (department) roles (e.g. “IT – Member”) and select the desired status transitions. This way, you can set different status for each department (only the default status is shared (i.e. “New” by default)).
-Please keep in mind that it may not be possible for a member of a different department to update the status of a work package if it has been updated before by another department (since the workflow may not support this status transition).
+The statuses a user can select are determined by the workflow of the work package type and by the user's role in the project. There are two ways to give departments different statuses for the same type, such as *Task*:
+
+- **If each department works in its own projects:** Create a variant of the type for each department and assign each variant its own [workflow](../../../system-admin-guide/manage-work-packages/work-package-workflows/). Each project then uses the variant of its department. The type keeps its name, so all tasks can still be filtered and grouped together across projects. See [When to create a type or a variant](../../../system-admin-guide/manage-work-packages/work-package-types/#when-to-create-a-type-or-a-variant).
+- **If several departments work in the same project:** Create a separate project role for each department, for example *Marketing – Member* and *IT – Member*, and assign the department members (ideally using a group) to the matching role. In the workflow of the type, then [define the allowed status transitions](../../../system-admin-guide/manage-work-packages/work-package-workflows/#select-transition-rules-and-roles) separately for each role.
+
+Please keep in mind that with role-based workflows, a member of one department may not be able to update the status of a work package that has been updated before by another department, since the workflow may not allow this status transition for their role.
 
 ## Move and duplicate
-
-> [!TIP]
-> In OpenProject 14.5 the term _Copy a work package_ was replaced by _Duplicate a work package_.
-> _Change project_ was replaced by _Move to another project_.
 
 ### Which permissions are necessary to move a work package from one project to another?
 
@@ -173,9 +169,9 @@ To move a work package from one project to another, the following requirements m
 
 You can create work package templates with hierarchies (parent and child work packages) and copy these templates, including the relations.
 First, navigate to the work package table. Highlight all work packages (in the hierarchy) which you want to copy.
-To highlight and edit several work packages at once, keep the Ctrl key pressed and select the ones to be copied.
+To highlight and edit several work packages at once, keep the Ctrl key (Cmd on Mac) pressed and select the ones to be copied. You can also select work packages with the keyboard, see [Bulk edit work packages](../edit-work-package/#bulk-edit-work-packages).
 
-**Right-click** on the highlighted work packages. This will open a context menu.
+**Right-click** on the highlighted work packages, or press **Shift** + **F10**. This will open a context menu.
 
 Select **Bulk duplicate** in order to copy all selected work packages including their relations.
 
@@ -200,7 +196,7 @@ There are no folders for work packages. To group work packages, such as tasks, y
 
 ### How can I add additional fields to a work package (e.g. "Department")?
 
-You can create a custom field for this that you add to the work package form. Please follow [these instructions](../../../system-admin-guide/custom-fields/).
+You can create a custom field for this and add it to the form used by the work package type. Please follow the instructions to [create a custom field](../../../system-admin-guide/manage-work-packages/work-package-custom-fields/#create-a-custom-field) and [add it to a form](../../../system-admin-guide/manage-work-packages/work-package-custom-fields/#add-a-custom-field-to-a-form).
 
 ### Will work package custom fields of the type "long text" be shown in the export of a work package tables?
 
@@ -216,7 +212,7 @@ Calculating a sum across different attributes (e.g. Estimated time + added hours
 
 ### Is it possible to share a work packages with a user outside my project?
 
-Yes, starting with OpenProject 13.1 you can [share a work package](../share-work-packages) with users outside your project or even with user who do not yet have an account on your instance.
+Yes, you can [share a work package](../share-work-packages) with users outside your project or even with user who do not yet have an account on your instance.
 
 ## Export
 

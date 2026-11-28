@@ -42,13 +42,10 @@ You can select one of the following relations:
 - **Predecessor (before)/ Successor (after)** - Defines a chronological relation between two work packages. For example, if you set a work package A to precede a work package B, the start date of B has to be at least a day after the finish date of A.
   Please note: If work package B is in [manual scheduling mode](../../gantt-chart/scheduling/#manual-scheduling), changing the finish date of work package A will have no effect on work package B.
 
-> [!TIP]
-> Prior to 15.1, _Predecessor (before)_ was called _Precedes_, and _Successor (after)_ was called _Follows_.
-
 For the relations of type Predecessor/Successor, you can also define **lag**, which is the minimum number of working days to keep in between the two work packages. The default setting for lag is 0 working days. Lag can also be negative. Here are a few examples:
 
 - A lag of 0 means the successor starts one working day after the predecessor finishes.
-- A lag of 2 means the successor starts three working day after the predecessor finishes.
+- A lag of 2 means the successor starts three working days after the predecessor finishes.
 - A lag of -1 means the successor starts on the same day the predecessor finishes.
 - A lag of -2 schedules the successor to start one working day before the predecessor finishes, and so on.
 
@@ -137,6 +134,8 @@ When creating a new work package as a child, you will be asked to select type, a
 ![Create a new child work package under Relations tab in OpenProject](openproject_user_guide_wp_add_child_new.png)
 
 ![Select a child work package in OpenProject](openproject_user_guide_wp_add_child_select.png)
+
+After you save, the _Relations_ tab automatically scrolls to the _Children_ section, so you can see the newly added child right away, even if the work package has many relations.
 
 For more information on the work package creation take a look at the guideline on [creating a work package](../create-work-package).
 
