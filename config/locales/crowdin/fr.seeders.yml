@@ -81,7 +81,7 @@ fr:
         item_3:
           label: Friendly
         item_4:
-          label: Professional
+          label: Professionnel
         item_5:
           label: Concise
         item_6:
@@ -155,7 +155,7 @@ fr:
                 Dans ce module, vous pouvez communiquer les actualités du projet aux membres de votre équipe.
               description: Les actualités réelles
           categories:
-            item_0: Catégorie 1 (à modifier dans les paramètres du projet)
+            item_0: Catégorie 1 (à modifier dans les paramètres du projet)
           queries:
             item_0:
               name: Plan de projet
@@ -190,7 +190,7 @@ fr:
                 options:
                   name: Pour commencer
                   text: |
-                    Nous sommes heureux que vous nous ayez rejoints ! Nous vous suggérons d'effectuer quelques essais pour vous familiariser avec OpenProject.
+                    Nous sommes heureux que vous nous ayez rejoints ! Nous vous suggérons d'effectuer quelques essais pour vous familiariser avec OpenProject.
 
                     Découvrez les fonctionnalités les plus importantes grâce à notre [Visite guidée]({{opSetting:base_url}}/projects/demo-project/work_packages/?start_onboarding_tour=true).
 
@@ -199,9 +199,9 @@ fr:
                     1. *Invitez de nouveaux membres à rejoindre votre projet* : &rightarrow; Accédez à [Membres]({{opSetting:base_url}}/projects/demo-project/members) dans la navigation du projet.
                     2. *Affichez le travail dans votre projet* : &rightarrow; Accédez à [Lots de travaux]({{opSetting:base_url}}/projects/demo-project/work_packages) dans la navigation du projet.
                     3. *Créez un nouveau lot de travaux* : &rightarrow; Accédez à [Lots de travaux &rightarrow; Créer]({{opSetting:base_url}}/projects/demo-project/work_packages/new).
-                    4. *Créez et mettez à jour un plan de projet* : &rightarrow; Accédez à [Plan de projet]({{opSetting:base_url}}/projects/demo-project/work_packages?query_id=#query.id:demo_project___query__project_plan) dans la navigation du projet.
+                    4. *Créez et mettez à jour un plan de projet* : &rightarrow; Accédez à [Plan de projet]({{opSetting:base_url}}/projects/demo-project/work_packages?query_id=##query.id:demo_project__query__project_plan) dans la navigation du projet.
                     5. *Activez d'autres modules* : &rightarrow; Accédez à [Paramètres du projet &rightarrow; Modules]({{opSetting:base_url}}/projects/demo-project/settings/modules).
-                    6. *Complétez vos tâches dans le projet* : &rightarrow; Accédez à [Lots de travaux &rightarrow; Tâches]({{opSetting:base_url}}/projects/demo-project/work_packages/details/##wp.id:set_date_and_location_of_conference/overview?query_id=##query.id:demo_project__query__tasks).
+                    6. *Complétez vos tâches dans le projet* : &rightarrow; Accédez à [Lots de travaux &rightarrow; Tâches]({{opSetting:base_url}}/projects/demo-project/work_packages/details/##wp.id:set_date_and_location_of_conference/overview?query_id=##query.id:demo_project__query__tasks).
 
                     Vous trouverez ici nos [Guides de l'utilisateur](https://www.openproject.org/docs/user-guide/).
                     Si vous avez des questions ou si avez besoin d'aide, n'hésitez pas à nous contacter : [support[at]openproject.com](mailto:support@openproject.com).
@@ -240,7 +240,7 @@ fr:
                 item_0:
                   subject: Importer les présentations sur le site Web
                 item_1:
-                  subject: Fête pour les supporters de la conférence :-)
+                  subject: Fête pour les supporters de la conférence :-)
                   description: |-
                     * [ ] Bière
                     * [ ] En-cas
@@ -276,9 +276,9 @@ fr:
           versions:
             item_0:
               wiki:
-                title: Version 1.0
+                title: Version 1.0
                 content: |
-                  ### Version 1.0
+                  ### Version 1.0
 
                   _Veuillez indiquer ici le contenu de cette version._
 
@@ -287,14 +287,14 @@ fr:
                   * Ouvrez la [Feuille de route]({{opSetting:base_url}}/projects/your-scrum-project/roadmap) pour suivre l'avancement de toutes les versions.
                   * Ouvrez [Paramètres du projet &rightarrow; Versions]({{opSetting:base_url}}/projects/your-scrum-project/settings/versions) pour associer une autre page wiki à une version.
           categories:
-            item_0: Catégorie 1 (à modifier dans les paramètres du projet)
+            item_0: Catégorie 1 (à modifier dans les paramètres du projet)
           queries:
             item_0:
               name: Plan de projet
             item_1:
-              name: Version 1.1
+              name: Version 1.1
             item_2:
-              name: Version 1.0
+              name: Version 1.0
             item_3:
               name: Tâches
           boards:
@@ -383,25 +383,25 @@ fr:
             item_11:
               subject: Développement v1.0
             item_12:
-              subject: Version 1.0
+              subject: Version 1.0
             item_13:
               subject: Développement v1.1
             item_14:
-              subject: Version 1.1
+              subject: Version 1.1
             item_15:
               subject: Développement v2.0
             item_16:
-              subject: Version 2.0
+              subject: Version 2.0
           wiki: |
             ### Réunion de planification du sprint
 
             _Veuillez documenter ici les sujets de la réunion de planification du sprint_
 
-            * Temps prévu (8 h)
-            * Entrée : backlog du produit
+            * Temps prévu (8 h)
+            * Entrée : backlog du produit
             * Sortie : backlog du sprint
 
-            * Divisé en deux périodes de temps supplémentaires de 4 h :
+            * Divisé en deux périodes de temps supplémentaires de 4 h :
 
                 * Le propriétaire du produit présente le [Backlog du produit]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) et les priorités à l'équipe et explique l'objectif du sprint, que l'équipe doit accepter. Ensemble, ils priorisent les sujets du Backlog du produit dont l'équipe s'occupera lors du prochain sprint. L'équipe s'engage à réaliser la livraison convenue.
                 * L'équipe planifie de manière autonome (sans le Propriétaire du produit) en détail et décompose les tâches des exigences discutées pour consolider un [Backlog du sprint]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
@@ -411,10 +411,10 @@ fr:
             _Veuillez documenter ici les sujets de la réunion quotidienne Scrum_
 
             * Courte réunion d'étape quotidienne de l'équipe.
-            * Temps prévu (max. 15 min).
+            * Temps prévu (max. 15 min).
             * Réunion debout pour discuter des sujets suivants du tableau de travail.
-                * Que dois-je faire jusqu'au prochain Scrum quotidien ?
-                * Qu'est-ce qui a bloqué mon travail (obstacles) ?
+                * Que dois-je faire jusqu'au prochain Scrum quotidien ?
+                * Qu'est-ce qui a bloqué mon travail (obstacles) ?
             * Le Maître Scrum gère la modération et prend des notes sur les obstacles du sprint.
             * Le Propriétaire du produit peut participer pour se maintenir au courant.
 
@@ -422,10 +422,10 @@ fr:
 
             _Veuillez documenter ici les sujets de la réunion d'examen du sprint_
 
-            * Temps prévu (4 h).
+            * Temps prévu (4 h).
             * Un maximum d'une heure de préparation par personne.
             * L'équipe montre au Propriétaire du produit et aux autres personnes intéressées ce qui a été réalisé au cours de ce sprint.
-            * Important : pas de maquettes et pas de PowerPoint ! Il suffit de démontrer la fonctionnalité du produit fini (incréments).
+            * Important : pas de maquettes et pas de PowerPoint ! Il suffit de démontrer la fonctionnalité du produit fini (incréments).
             * Les commentaires du Propriétaire du produit, des intervenants et d'autres personnes sont recueillis et seront inclus dans les travaux ultérieurs.
             * Sur la base des fonctionnalités démontrées, le Propriétaire du produit décide de mettre en œuvre cet incrément ou de le développer davantage. Cette possibilité permet un RSI précoce.
 
@@ -434,7 +434,7 @@ fr:
 
             _Veuillez documenter ici les sujets de la réunion rétrospective du sprint_
 
-            * Temps prévu (3 h).
+            * Temps prévu (3 h).
             * Après l'examen du sprint, elle sera modérée par le Maître Scrum.
             * L'équipe discute du sprint : ce qui s'est bien passé, ce qui doit être amélioré pour améliorer la productivité pour le prochain sprint ou même avoir plus de plaisir.
       statuses:
@@ -496,9 +496,9 @@ fr:
           name: Bug
       global_queries:
         item_0:
-          name: 'Sous-éléments de l''epic : user stories et bugs'
+          name: 'Sous-éléments de l''epic : user stories et bugs'
         item_1:
-          name: 'Sous-éléments d''une user story : tâches'
+          name: 'Sous-éléments d''une user story : tâches'
       type_configuration:
         item_0:
           form_configuration:

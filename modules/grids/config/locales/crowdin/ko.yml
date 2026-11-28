@@ -12,6 +12,8 @@ ko:
       models:
         grids/grid:
           end_before_start: 종료 값은 시작 값보다 커야 합니다.
+          invalid_query: reference a query that does not belong to you and the project.
+          query_unchangeable: cannot have their query replaced once it is set.
           outside: "- 그리드의 외부에 있습니다."
           overlaps: 오버랩
     models:

@@ -1873,7 +1873,7 @@ ko:
           other: This will remove the label <strong>%{name}</strong> from %{count} work packages that currently use it. Are you sure you want to delete it?
       dialog_component:
         create_title: 레이블 만들기
-        rename_title: '"%{name}" 이름 바꾸기'
+        rename_label_title: Rename label
       index:
         description: 작업 패키지를 편집할 수 있는 모든 사용자는 기존 레이블을 사용하여 작업 패키지에 자유롭게 태그를 지정하거나, 즉시 새로운 레이블을 생성할 수 있습니다. 여기에는 모든 프로젝트에서 사용자가 생성한 모든 레이블이 포함됩니다.
       row_component:
@@ -3151,8 +3151,8 @@ ko:
       capture_external_links:
         description: 사용자가 외부 링크를 방문하기 전에 캡처하고 경고를 표시하여 소셜 엔지니어링 공격을 방지하세요.
       custom_actions:
-        description: 사용자 지정 작업은 상태, 역할, 유형 또는 프로젝트를 기반으로 특정 작업 패키지에서 사용할 수 있도록 미리 정의된 작업 세트에 대한 원클릭 바로 가기입니다.
-        title: 사용자 지정 작업
+        description: Automations are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.
+        title: Automations
       custom_field_hierarchies:
         description: 계층 사용자 지정 필드를 사용하면 다중 레벨 선택 목록을 사용하여 작업 패키지 및 프로젝트의 계층 구조를 구성할 수 있습니다.
       customize_life_cycle:
@@ -7066,6 +7066,7 @@ ko:
       placeholder_description: 이 단계는 곧 사용 가능하게 됩니다.
       progress_label: "%{number}/%{total}단계"
       start:
+        more_information: For more information, watch the [tutorial](video) or read the [documentation](docs).
         next_heading: What happens next?
         submit: 시작
         type:

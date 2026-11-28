@@ -1989,11 +1989,11 @@ de:
         heading: Diese Bezeichnung löschen?
         title: Diese Bezeichnung löschen?
         usage_description_html:
-          one: This will remove the label <strong>%{name}</strong> from %{count} work package that currently uses it. Are you sure you want to delete it?
-          other: This will remove the label <strong>%{name}</strong> from %{count} work packages that currently use it. Are you sure you want to delete it?
+          one: Dadurch wird das Label <strong>%{name}</strong> von dem %{count} Arbeitspaket, welches es derzeit verwendet entfernt. Sind Sie sicher, dass Sie es löschen möchten?
+          other: Dadurch wird das Label <strong>%{name}</strong> von den %{count} Arbeitspakete, welche es derzeit verwenden entfernt. Sind Sie sicher, dass Sie es löschen möchten?
       dialog_component:
         create_title: Bezeichnung erstellen
-        rename_title: "„%{name}“ umbenennen"
+        rename_label_title: Rename label
       index:
         description: Alle Benutzer, die Arbeitspakete bearbeiten können, können Arbeitspakete entweder mit bestehenden Labels markieren oder neue erstellen. Dies umfasst alle Labels, die von Benutzern in allen Projekten erstellt wurden.
       row_component:
@@ -3282,8 +3282,8 @@ de:
       capture_external_links:
         description: Verhindern Sie Social-Engineering-Angriffe, indem Sie externe Links erfassen und davor warnen, bevor Benutzer sie besuchen.
       custom_actions:
-        description: Selbstdefinierte Aktionen sind Verknüpfungen zu einer Reihe von vordefinierten Aktionen, die Sie für bestimmte Arbeitspakete je nach Status, Rolle, Typ oder Projekt mit nur einem Klick auf einen Button auslösen.
-        title: Benutzerdefinierte Aktionen
+        description: Automations are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.
+        title: Automations
       custom_field_hierarchies:
         description: Benutzerdefinierte Felder vom Typ Hierarchie erlauben es, hierarchische Strukturen in Arbeitspaketen und Projekten zu organisieren, indem sie mehrstufige Auswahllisten nutzen.
       customize_life_cycle:
@@ -3819,32 +3819,32 @@ de:
         '18_0':
           new_features_list:
             line_0:
-              description: Customize types with shared or project-specific workflows and forms.
+              description: Typen mit gemeinsamen und projektspezifischen Workflows und Formularen konfigurieren.
               title: Typvarianten
               url: https://www.openproject.org/docs/release-notes/18-0-0/#work-package-types-and-variants-workflows-and-forms
             line_1:
-              description: Track sprint progress (Community edition) and gain deeper insights with Created vs. Resolved and Epic progress charts (Professional plan).
-              title: Agile reporting
+              description: Sprint Fortschritt (Community Edition) verstehen und tiefe Einblicke mittels Erstellte vs. Resolved and Epic progress Charts (Professional Plan) gewinnen.
+              title: Berichte für Agile
               url: https://www.openproject.org/docs/release-notes/18-0-0/#agile-planning-and-reporting
             line_2:
-              description: Proofread, rewrite, and structure text directly in OpenProject (Professional plan).
-              title: AI Text Assistant
+              description: Korrekturlesen, Überarbeiten und Strukturieren von Texten direkt in OpenProject (Professional-Plan).
+              title: AI Text Assistenz
               url: https://www.openproject.org/docs/release-notes/18-0-0/#ai-text-assistant-and-mcp-server
             line_3:
-              description: Organize and find related work packages more easily.
-              title: Work package labels
+              description: Organisieren und finden Sie verwandte Arbeitspakete einfacher und einfacher.
+              title: Arbeitspaket-Label
               url: https://www.openproject.org/docs/release-notes/18-0-0/#labels-for-work-packages
             line_4:
-              description: Plan resources across projects and with placeholder users and manage work package allocations and personal day planning (Premium plan).
-              title: Extended resource management
+              description: Planen Sie Ressourcen projektübergreifend und mit Platzhalterbenutzern und verwalten Sie die Zuweisung von Arbeitspaketen sowie die persönliche Tagesplanung (Premium-Plan).
+              title: Erweitertes Ressourcenmanagement
               url: https://www.openproject.org/docs/release-notes/18-0-0/#resource-management-and-personal-planning
             line_5:
-              description: Benefit from improved keyboard navigation, screen reader support, and color contrast checking.
-              title: Enhanced accessibility
+              description: Profitieren Sie von einer verbesserten Tastaturnavigation, der Unterstützung von Bildschirmleseprogrammen und der Überprüfung des Farbkontrasts.
+              title: Verbesserte Barrierefreiheit
               url: https://www.openproject.org/docs/release-notes/18-0-0/#accessibility
             line_6:
-              description: Connect external AI assistants to OpenProject.
-              title: MCP Server released to Community
+              description: Verbinden Sie externe KI-Assistenten mit OpenProject.
+              title: MCP-Server für die Community freigegeben
               url: https://www.openproject.org/docs/release-notes/18-0-0/#ai-text-assistant-and-mcp-server
           new_features_title: 'Dieses Release enthält verschiedene neue Funktionen und Verbesserungen, wie z. B:
 
@@ -6942,7 +6942,7 @@ de:
       status_color_text: 'Klicken zum Zuweisen einer Farbe für diesen Status. Diese wird für die Hervorhebung von Arbeitspaketen in Tabellen verwendet.
 
         '
-      status_default_text: New work packages are by default set to this status. They cannot be read-only.
+      status_default_text: Neue Arbeitspakete werden standardmäßig auf diesen Status gesetzt. Er kann nicht schreibgeschützt sein.
       status_excluded_from_totals_text: Aktivieren Sie diese Option, um Arbeitspakete mit diesem Status aus den Summen von Aufwand, Verbleibender Aufwand und % Abgeschlossen in Hierarchien auszuschließen.
       status_percent_complete_text_html: |-
         Im [statusbasierten Fortschrittsberechnungsmodus](setting_url) wird der % abgeschlossen Wert eines Arbeitspakets automatisch auf diesen Wert gesetzt, wenn dieser Status ausgewählt wird.
@@ -7244,6 +7244,7 @@ de:
       placeholder_description: Dieser Schritt wird in Kürze verfügbar sein.
       progress_label: Schritt %{number} von %{total}
       start:
+        more_information: For more information, watch the [tutorial](video) or read the [documentation](docs).
         next_heading: Was kommt als Nächstes?
         submit: Beginn
         type:

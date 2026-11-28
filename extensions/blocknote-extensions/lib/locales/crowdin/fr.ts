@@ -1,8 +1,8 @@
 export const en = {
   translation: {
     'slashMenu': {
-      'title': "Lien vers un lot de travaux existant",
-      'subtext': "Ajouter un lien dynamique à un lot de travaux unique",
+      'title': "Lier un lot de travaux existant",
+      'subtext': "Ajouter un lien dynamique vers un seul lot de travaux",
       'create': {
         'title': "Créer un nouveau lot de travaux",
         'subtext': 'Create a work package and link it here'
@@ -55,8 +55,8 @@ export const en = {
       'createInOpenProject': 'Create it in OpenProject'
     },
     'search': {
-      'label': "Lien vers un lot de travaux existant",
-      'placeholder': "Rechercher l'ID ou le sujet du lot de travaux",
+      'label': "Lier un lot de travaux existant",
+      'placeholder': "Rechercher un lot de travaux par ID ou par objet",
       'dropdownAriaLabel': "Résultats de la recherche de lots de travaux",
       'noResults': "Aucun résultat",
       'error': 'Error. Unable to load content.',
@@ -64,7 +64,7 @@ export const en = {
     },
     'unavailableWorkPackage': {
       'loading': {
-        'header': "Сhargement",
+        'header': "Chargement",
         'message': "Veuillez patienter"
       },
       'unauthorized': {
@@ -126,7 +126,7 @@ export const en = {
       'typeToSearch': 'Type to search work packages…'
     },
     'spinner': {
-      'ariaLabel': "Сhargement"
+      'ariaLabel': "Chargement"
     },
     'workPackageAttribute': {
       'missing': '{{attribute}} unavailable',

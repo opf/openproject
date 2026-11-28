@@ -12,6 +12,8 @@ ru:
       models:
         grids/grid:
           end_before_start: конечное значение должно быть больше начального.
+          invalid_query: reference a query that does not belong to you and the project.
+          query_unchangeable: cannot have their query replaced once it is set.
           outside: за пределами сетки.
           overlaps: перекрытие.
     models:

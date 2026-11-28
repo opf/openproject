@@ -12,6 +12,8 @@ hy:
       models:
         grids/grid:
           end_before_start: ավարտի արժեքը պետք է մեծ լինի սկզբի արժեքից։
+          invalid_query: reference a query that does not belong to you and the project.
+          query_unchangeable: cannot have their query replaced once it is set.
           outside: ցանցի սահմաններից դուրս է։
           overlaps: վերածածկվում են։
     models:

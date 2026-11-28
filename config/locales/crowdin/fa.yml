@@ -1991,7 +1991,7 @@ fa:
           other: This will remove the label <strong>%{name}</strong> from %{count} work packages that currently use it. Are you sure you want to delete it?
       dialog_component:
         create_title: ایجاد برچسب
-        rename_title: تغییر نام «%{name}»
+        rename_label_title: Rename label
       index:
         description: همه کاربرانی که امکان ویرایش بسته‌های کاری را دارند می‌توانند آزادانه بسته‌های کاری را با برچسب‌های موجود علامت‌گذاری کنند یا فوراً برچسب جدید بسازند. این شامل همه برچسب‌هایی است که کاربران در تمام پروژه‌ها ساخته‌اند.
       row_component:
@@ -3278,8 +3278,8 @@ fa:
       capture_external_links:
         description: با ثبت پیوندهای خارجی و هشدار پیش از بازدید کاربران، از حملات مهندسی اجتماعی جلوگیری کنید.
       custom_actions:
-        description: اقدام‌های سفارشی میانبرهای یک‌کلیکی برای مجموعه‌ای از اقدامات از پیش تعریف‌شده‌اند که می‌توانید براساس وضعیت، نقش، نوع یا پروژه روی بسته‌های کاری مشخص در دسترس قرار دهید.
-        title: اقدام‌های سفارشی
+        description: Automations are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.
+        title: Automations
       custom_field_hierarchies:
         description: فیلدهای سفارشی سلسله‌مراتبی با استفاده از فهرست‌های انتخاب چندسطحی امکان سازمان‌دهی ساختارهای سلسله‌مراتبی در بسته‌های کاری و پروژه‌ها را فراهم می‌کنند.
       customize_life_cycle:
@@ -7244,6 +7244,7 @@ fa:
       placeholder_description: این مرحله به‌زودی در دسترس خواهد بود.
       progress_label: مرحله %{number} از %{total}
       start:
+        more_information: For more information, watch the [tutorial](video) or read the [documentation](docs).
         next_heading: بعد چه اتفاقی می‌افتد؟
         submit: شروع
         type:

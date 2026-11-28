@@ -1873,7 +1873,7 @@ vi:
           other: This will remove the label <strong>%{name}</strong> from %{count} work packages that currently use it. Are you sure you want to delete it?
       dialog_component:
         create_title: Create label
-        rename_title: Rename "%{name}"
+        rename_label_title: Rename label
       index:
         description: All users able to edit work packages can freely tag work packages with either existing labels or create new ones instantly. This includes all labels created by users across all projects.
       row_component:
@@ -3135,8 +3135,8 @@ vi:
       capture_external_links:
         description: Ngăn chặn các cuộc tấn công xã hội bằng cách phát hiện và cảnh báo về các liên kết bên ngoài trước khi người dùng truy cập vào chúng.
       custom_actions:
-        description: Hành động tùy chỉnh là các phím tắt bằng một cú nhấp chuột tới một tập hợp các hành động được xác định trước mà bạn có thể cung cấp trên các gói công việc nhất định dựa trên trạng thái, vai trò, loại hoặc dự án.
-        title: Hành động tùy chỉnh
+        description: Automations are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.
+        title: Automations
       custom_field_hierarchies:
         description: Các trường tùy chỉnh phân cấp cho phép tổ chức các cấu trúc phân cấp trong các gói công việc và dự án bằng cách sử dụng danh sách chọn nhiều cấp.
       customize_life_cycle:
@@ -7069,6 +7069,7 @@ vi:
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}
       start:
+        more_information: For more information, watch the [tutorial](video) or read the [documentation](docs).
         next_heading: What happens next?
         submit: Start
         type:

@@ -40,7 +40,7 @@ fr:
       label_new_provider: New %{provider_type} provider
       label_provider: Repository provider
       menu: Dépôts
-      open_provider: Ouverte
+      open_provider: Ouvrir
       regenerate_webhook_secret_dialog_component:
         confirm_button: Regenerate secret
         description: The current webhook secret will stop working immediately. You have to enter the new secret in all webhooks of this provider.
@@ -84,8 +84,8 @@ fr:
       updated_at: Mis à jour le %{date_time}.
       updated_by: Dernière mise à jour par %{name}.
     commit_component:
-      authored_at: Publié sur %{date_time}.
-      copy_sha: Copier l'URL dans le presse-papiers
+      authored_at: Créé le %{date_time}.
+      copy_sha: Copier le SHA dans le presse-papiers
       created_by: Créé par %{name}.
       empty_message: "<empty commit message>"
     git_snippets_dialog_component:
@@ -95,47 +95,47 @@ fr:
       copy_commit_message: Copier le message de commit
       copy_create_branch_command: Copier la commande pour créer une branche avec un commit vide
       create_branch_with_empty_commit: Créer une branche avec un commit vide
-      title: Extraits de code Git rapides
+      title: Extraits rapides de code Git
     gitlab:
-      issue_closed_referenced_comment: "**Ticket fermé :** Le ticket %{issue_number} [%{issue_title}](%{issue_url}) pour [%{repository}](%{repository_url}) a été fermé par [%{gitlab_user}](%{gitlab_user_url}).\n"
-      issue_opened_referenced_comment: "**Ticket ouvert :** Le ticket %{issue_number} [%{issue_title}](%{issue_url}) pour [%{repository}](%{repository_url}) a été ouvert par [%{gitlab_user}](%{gitlab_user_url}).\n"
-      issue_reopened_referenced_comment: "**Ticket rouvert :** Le ticket %{issue_number} [%{issue_title}](%{issue_url}) pour [%{repository}](%{repository_url}) a été rouvert par [%{gitlab_user}](%{gitlab_user_url}).\n"
-      merge_request_closed_comment: "**MR fermée :** La requête de fusion %{mr_number} [%{mr_title}](%{mr_url}) pour [%{repository}](%{repository_url}) a été fermée par [%{gitlab_user}](%{gitlab_user_url}).\n"
-      merge_request_merged_comment: "**MR fusionnée :** La requête de fusion %{mr_number} [%{mr_title}](%{mr_url}) pour [%{repository}](%{repository_url}) a été fusionnée par [%{gitlab_user}](%{gitlab_user_url}).\n"
-      merge_request_opened_comment: "**MR ouverte :** La requête de fusion %{mr_number} [%{mr_title}](%{mr_url}) pour [%{repository}](%{repository_url}) a été ouverte par [%{gitlab_user}](%{gitlab_user_url}).\n"
-      merge_request_reopened_comment: "**MR rouverte :** La requête de fusion %{mr_number} [%{mr_title}](%{mr_url}) pour [%{repository}](%{repository_url}) a été rouverte par [%{gitlab_user}](%{gitlab_user_url}).\n"
-      note_commit_referenced_comment: "**Mentionné dans un commit :** [%{gitlab_user}](%{gitlab_user_url}) a mentionné ce WP dans une note de commit [%{commit_id}](%{commit_url}) sur [%{repository}](%{repository_url}) : %{commit_note}\n"
-      note_issue_commented_comment: "**Commentaire dans un ticket :**[%{gitlab_user}](%{gitlab_user_url}) a commenté ce WP dans le ticket %{issue_number} [%{issue_title}](%{issue_url}) sur [%{repository}](%{repository_url}) : %{issue_note}\n"
-      note_issue_referenced_comment: "**Mentionné dans un ticket :**[%{gitlab_user}](%{gitlab_user_url}) a mentionné ce WP dans le ticket %{issue_number} [%{issue_title}](%{issue_url}) sur [%{repository}](%{repository_url}) : %{issue_note}\n"
-      note_mr_commented_comment: "**Commentaire dans une MR :**[%{gitlab_user}](%{gitlab_user_url}) a commenté ce WP dans la requête de fusion %{mr_number} [%{mr_title}](%{mr_url}) sur [%{repository}](%{repository_url}) : %{mr_note}\n"
-      note_mr_referenced_comment: "**Mentionné dans une MR :**[%{gitlab_user}](%{gitlab_user_url}) a mentionné ce WP dans la demande de fusion %{mr_number} [%{mr_title}](%{mr_url}) sur [%{repository}](%{repository_url}) : %{mr_note}\n"
+      issue_closed_referenced_comment: "**Ticket fermé :** Le ticket %{issue_number} [%{issue_title}](%{issue_url}) du dépôt [%{repository}](%{repository_url}) a été fermé par [%{gitlab_user}](%{gitlab_user_url}).\n"
+      issue_opened_referenced_comment: "**Ticket ouvert :** Le ticket %{issue_number} [%{issue_title}](%{issue_url}) du dépôt [%{repository}](%{repository_url}) a été ouvert par [%{gitlab_user}](%{gitlab_user_url}).\n"
+      issue_reopened_referenced_comment: "**Ticket rouvert :** Le ticket %{issue_number} [%{issue_title}](%{issue_url}) du dépôt [%{repository}](%{repository_url}) a été rouvert par [%{gitlab_user}](%{gitlab_user_url}).\n"
+      merge_request_closed_comment: "**MR fermée :** La requête de fusion %{mr_number} [%{mr_title}](%{mr_url}) du dépôt [%{repository}](%{repository_url}) a été fermée par [%{gitlab_user}](%{gitlab_user_url}).\n"
+      merge_request_merged_comment: "**MR fusionnée :** La requête de fusion %{mr_number} [%{mr_title}](%{mr_url}) du dépôt [%{repository}](%{repository_url}) a été fusionnée par [%{gitlab_user}](%{gitlab_user_url}).\n"
+      merge_request_opened_comment: "**MR ouverte :** La requête de fusion %{mr_number} [%{mr_title}](%{mr_url}) du dépôt [%{repository}](%{repository_url}) a été ouverte par [%{gitlab_user}](%{gitlab_user_url}).\n"
+      merge_request_reopened_comment: "**MR rouverte :** La requête de fusion %{mr_number} [%{mr_title}](%{mr_url}) du dépôt [%{repository}](%{repository_url}) a été rouverte par [%{gitlab_user}](%{gitlab_user_url}).\n"
+      note_commit_referenced_comment: "**Mentionné dans un commit :** [%{gitlab_user}](%{gitlab_user_url}) a mentionné ce lot de travaux dans une note du commit [%{commit_id}](%{commit_url}) sur [%{repository}](%{repository_url}) : %{commit_note}\n"
+      note_issue_commented_comment: "**Commentaire dans un ticket :** [%{gitlab_user}](%{gitlab_user_url}) a mentionné ce lot de travaux dans un commentaire du ticket %{issue_number} [%{issue_title}](%{issue_url}) sur [%{repository}](%{repository_url}) : %{issue_note}\n"
+      note_issue_referenced_comment: "**Mentionné dans un ticket :** [%{gitlab_user}](%{gitlab_user_url}) a mentionné ce lot de travaux dans le ticket %{issue_number} [%{issue_title}](%{issue_url}) sur [%{repository}](%{repository_url}) : %{issue_note}\n"
+      note_mr_commented_comment: "**Commentaire dans une MR :** [%{gitlab_user}](%{gitlab_user_url}) a mentionné ce lot de travaux dans un commentaire de la requête de fusion %{mr_number} [%{mr_title}](%{mr_url}) sur [%{repository}](%{repository_url}) : %{mr_note}\n"
+      note_mr_referenced_comment: "**Mentionné dans une MR :** [%{gitlab_user}](%{gitlab_user_url}) a mentionné ce lot de travaux dans la requête de fusion %{mr_number} [%{mr_title}](%{mr_url}) sur [%{repository}](%{repository_url}) : %{mr_note}\n"
       note_snippet_referenced_comment: "**Referenced in Snippet:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) on [%{repository}](%{repository_url}): %{snippet_note}\n"
-      push_single_commit_comment_with_ref: "**Push dans %{reference} :** [%{gitlab_user}](%{gitlab_user_url}) a fait un push de [%{commit_number}](%{commit_url}) vers [%{repository}](%{repository_url}) à %{commit_timestamp} : %{commit_note}\n"
+      push_single_commit_comment_with_ref: "**Push dans %{reference} :** [%{gitlab_user}](%{gitlab_user_url}) a fait un push de [%{commit_number}](%{commit_url}) vers [%{repository}](%{repository_url}) le %{commit_timestamp} : %{commit_note}\n"
     issue_component:
       states:
-        closed: Fermée
-        opened: Ouverte
+        closed: Fermé
+        opened: Ouvert
       updated_at: Mis à jour le %{date_time}.
       updated_by: Dernière mise à jour par %{name}.
     merge_request_component:
       pipeline_statuses:
         canceled: Annulé
-        canceling: Annulation
+        canceling: Annulation en cours
         created: Créé
-        failed: Échoué
+        failed: Échec
         manual: Manuel
         pending: En attente
-        preparing: Préparation
+        preparing: Préparation en cours
         running: En cours
-        scheduled: Planifiée
-        skipped: Manqué
+        scheduled: Planifié
+        skipped: Ignoré
         success: Réussi
         waiting_for_callback: En attente de rappel
         waiting_for_resource: En attente de ressources
       states:
         closed: Fermée
-        locked: Bloqué
-        merged: Fusionné
+        locked: Verrouillée
+        merged: Fusionnée
         opened: Ouverte
       updated_at: Mis à jour le %{date_time}.
       updated_by: Dernière mise à jour par %{name}.
@@ -145,7 +145,7 @@ fr:
     work_package_tab_component:
       blank_slates:
         branches:
-          description_html: Pour créer un lien vers une branche, nommez-la de manière à ce qu'elle commence par « %{code} » ou uniquement par « %{identifier}».
+          description_html: Pour créer un lien vers une branche, donnez-lui un nom qui commence par « %{code} » ou simplement par « %{identifier} ».
           title: Aucune branche
         commits:
           description_html: Link a commit by adding the code %{code} or the URL %{url} to the commit message.
@@ -154,11 +154,11 @@ fr:
           description_html: Pour créer un lien vers un ticket, ajoutez le code %{code} au titre ou à la description.
           title: Aucun ticket
         merge_requests:
-          description_html: Pour créer une requête de fusion, ajoutez le code %{code} au titre ou à la description.
+          description_html: Pour créer un lien vers une requête de fusion, ajoutez le code %{code} au titre ou à la description.
           title: Aucune requête de fusion
       branches: Branches
-      commits: Actes accomplis
-      description_html: Pour créer un élément GitLab existant, ajoutez le code %{code} au titre ou à la description.
+      commits: Commits
+      description_html: Pour créer un lien vers un élément GitLab existant, ajoutez le code %{code} au titre ou à la description.
       git_snippets: Extraits de code Git
       issues: Tickets
       merge_requests: Requêtes de fusion

@@ -1873,7 +1873,7 @@ zh-CN:
           other: This will remove the label <strong>%{name}</strong> from %{count} work packages that currently use it. Are you sure you want to delete it?
       dialog_component:
         create_title: 创建标签
-        rename_title: 重命名“%{name}”
+        rename_label_title: Rename label
       index:
         description: 所有能够编辑工作包的用户都可以自由地使用现有标签对工作包进行标记，或即时创建新标签。这包括用户在所有项目中创建的所有标签。
       row_component:
@@ -3135,8 +3135,8 @@ zh-CN:
       capture_external_links:
         description: 在用户访问外部链接前捕获链接并发出警告，以防范社会工程攻击。
       custom_actions:
-        description: 自定义操作是一键快捷方式，指向一组预定义的操作，您可以根据状态、角色、类型或项目在某些工作包上使用这些操作。
-        title: 自定义操作
+        description: Automations are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.
+        title: Automations
       custom_field_hierarchies:
         description: 层级自定义字段通过使用多级选择列表，支持在工作包和项目中构建层级结构。
       customize_life_cycle:
@@ -7048,6 +7048,7 @@ zh-CN:
       placeholder_description: 此步骤即将推出。
       progress_label: 第 %{number} 步，共 %{total} 步
       start:
+        more_information: For more information, watch the [tutorial](video) or read the [documentation](docs).
         next_heading: What happens next?
         submit: 开始
         type:

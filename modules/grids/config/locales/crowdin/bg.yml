@@ -12,6 +12,8 @@ bg:
       models:
         grids/grid:
           end_before_start: крайната стойност трябва да е по-голяма от началната.
+          invalid_query: reference a query that does not belong to you and the project.
+          query_unchangeable: cannot have their query replaced once it is set.
           outside: е извън мрежата.
           overlaps: припокриване.
     models:

@@ -12,6 +12,8 @@ vi:
       models:
         grids/grid:
           end_before_start: giá trị kết thúc cần lớn hơn giá trị bắt đầu.
+          invalid_query: reference a query that does not belong to you and the project.
+          query_unchangeable: cannot have their query replaced once it is set.
           outside: nằm ngoài bảng dữ liệu.
           overlaps: chồng lấn.
     models:

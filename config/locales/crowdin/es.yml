@@ -1993,7 +1993,7 @@ es:
           other: This will remove the label <strong>%{name}</strong> from %{count} work packages that currently use it. Are you sure you want to delete it?
       dialog_component:
         create_title: Create label
-        rename_title: Rename "%{name}"
+        rename_label_title: Rename label
       index:
         description: All users able to edit work packages can freely tag work packages with either existing labels or create new ones instantly. This includes all labels created by users across all projects.
       row_component:
@@ -3276,8 +3276,8 @@ es:
       capture_external_links:
         description: Prevenga los ataques de ingeniería social detectando y advirtiendo sobre los enlaces externos antes de que los usuarios los visiten.
       custom_actions:
-        description: Las acciones personalizadas son accesos directos con un solo clic a un conjunto de acciones predefinidas que puede mostrar en determinados paquetes de trabajo según el estado, rol, tipo o proyecto.
-        title: Acciones personalizadas
+        description: Automations are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.
+        title: Automations
       custom_field_hierarchies:
         description: Los campos personalizados de jerarquía permiten organizar estructuras jerárquicas en paquetes de trabajo y proyectos haciendo uso de listas de selección de varios niveles.
       customize_life_cycle:
@@ -7229,6 +7229,7 @@ es:
       placeholder_description: Este paso estará disponible en breve.
       progress_label: Paso %{number} de %{total}
       start:
+        more_information: For more information, watch the [tutorial](video) or read the [documentation](docs).
         next_heading: What happens next?
         submit: Iniciar
         type:

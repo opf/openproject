@@ -65,7 +65,7 @@ export const en = {
     'unavailableWorkPackage': {
       'loading': {
         'header': 'Loading',
-        'message': "Por favor, aguarde"
+        'message': "Aguarde"
       },
       'unauthorized': {
         'header': 'Linked work package unavailable',
@@ -135,7 +135,7 @@ export const en = {
       'days_one': '{{count}} day',
       'days_other': '{{count}} days',
       'display': {
-        'label': "Etiqueta",
+        'label': "Rótulo",
         'value': "Valor",
         'both': 'Label + value'
       },

@@ -12,6 +12,8 @@ cs:
       models:
         grids/grid:
           end_before_start: konečná hodnota musí být větší než počáteční hodnota.
+          invalid_query: reference a query that does not belong to you and the project.
+          query_unchangeable: cannot have their query replaced once it is set.
           outside: je mimo mřížku.
           overlaps: se překrývá.
     models:

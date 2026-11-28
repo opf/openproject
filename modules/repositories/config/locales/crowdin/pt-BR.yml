@@ -90,30 +90,30 @@ pt-BR:
       empty_message: "<empty commit message>"
     git_snippets_dialog_component:
       branch_name: Nome da ramificação
-      commit_message: Mensagem de confirmação
+      commit_message: Mensagem do commit
       copy_branch_name: Copy branch name
       copy_commit_message: Copy commit message
       copy_create_branch_command: Copy command to create a branch with empty commit
-      create_branch_with_empty_commit: Criar ramificação com a confirmação vazia
+      create_branch_with_empty_commit: Criar ramificação com commit vazio
       title: Git quick snippets
     gitlab:
-      issue_closed_referenced_comment: "**Problema Fechado:** Problema %{issue_number} [%{issue_title}](%{issue_url}) para [%{repository}](%{repository_url}) foi fechado por [%{gitlab_user}](%{gitlab_user_url}).\n"
-      issue_opened_referenced_comment: "**Problema Aberto:** Problema %{issue_number} [%{issue_title}](%{issue_url}) para [%{repository}](%{repository_url}) foi aberto por [%{gitlab_user}](%{gitlab_user_url}).\n"
-      issue_reopened_referenced_comment: "**Problema Reaberto:** Problema %{issue_number} [%{issue_title}](%{issue_url}) para [%{repository}](%{repository_url}) foi reaberto por [%{gitlab_user}](%{gitlab_user_url}).\n"
-      merge_request_closed_comment: "**SC Fechada:** Solicitação de combinação %{mr_number} [%{mr_title}](%{mr_url}) para [%{repository}](%{repository_url}) foi fechada por [%{gitlab_user}](%{gitlab_user_url}).\n"
-      merge_request_merged_comment: "**SC Combinada:** Solicitação de combinação %{mr_number} [%{mr_title}](%{mr_url}) para [%{repository}](%{repository_url}) foi combinado por [%{gitlab_user}](%{gitlab_user_url}).\n"
-      merge_request_opened_comment: "**MR Aberto:** Solicitação de combinação %{mr_number} [%{mr_title}](%{mr_url}) para [%{repository}](%{repository_url}) foi aberta por [%{gitlab_user}](%{gitlab_user_url}).\n"
-      merge_request_reopened_comment: "**SC Reaberta:** Solicitação de combinação %{mr_number} [%{mr_title}](%{mr_url}) para [%{repository}](%{repository_url}) foi reaberta por [%{gitlab_user}](%{gitlab_user_url}).\n"
-      note_commit_referenced_comment: "**Referenciado em Confirmação:** [%{gitlab_user}](%{gitlab_user_url}) referenciou este WP em uma Nota de Confirmação %{commit_id}](%{commit_url}) em [%{repository}](%{repository_url}): %{commit_note}\n"
-      note_issue_commented_comment: "**Comentou em Problema:** [%{gitlab_user}](%{gitlab_user_url}) comentou este WP em Problema %{issue_number} [%{issue_title}](%{issue_url}) em [%{repository}](%{repository_url}): %{issue_note}\n"
-      note_issue_referenced_comment: "**Referenciado em Problema:** [%{gitlab_user}](%{gitlab_user_url}) referenciou este WP em Problema %{issue_number} [%{issue_title}](%{issue_url}) em [%{repository}](%{repository_url}): %{issue_note}\n"
-      note_mr_commented_comment: "**Comentado na SC:** [%{gitlab_user}](%{gitlab_user_url}) comentado este WP em Solicitação de Combinação %{mr_number} [%{mr_title}](%{mr_url}) em [%{repository}](%{repository_url}): %{mr_note}\n"
-      note_mr_referenced_comment: "**Referenciado na SC:** [%{gitlab_user}](%{gitlab_user_url}) referenciou este WP em Solicitação de Combinação %{mr_number} [%{mr_title}](%{mr_url}) em [%{repository}](%{repository_url}): %{mr_note}\n"
+      issue_closed_referenced_comment: "**Problema encerrado:** O problema %{issue_number} [%{issue_title}](%{issue_url}) do [%{repository}](%{repository_url}) foi encerrado por [%{gitlab_user}](%{gitlab_user_url}).\n"
+      issue_opened_referenced_comment: "**Problema aberto:** O problema %{issue_number} [%{issue_title}](%{issue_url}) do [%{repository}](%{repository_url}) foi aberto por [%{gitlab_user}](%{gitlab_user_url}).\n"
+      issue_reopened_referenced_comment: "**Problema reaberto:** O problema %{issue_number} [%{issue_title}](%{issue_url}) do [%{repository}](%{repository_url}) foi reaberto por [%{gitlab_user}](%{gitlab_user_url}).\n"
+      merge_request_closed_comment: "**Solicitação de merge encerrada:** A solicitação de merge %{mr_number} [%{mr_title}](%{mr_url}) do [%{repository}](%{repository_url}) foi encerrada por [%{gitlab_user}](%{gitlab_user_url}).\n"
+      merge_request_merged_comment: "**Solicitação de merge combinada:** A solicitação de merge %{mr_number} [%{mr_title}](%{mr_url}) do [%{repository}](%{repository_url}) foi combinado por [%{gitlab_user}](%{gitlab_user_url}).\n"
+      merge_request_opened_comment: "**MR aberto:** A solicitação de merge %{mr_number} [%{mr_title}](%{mr_url}) do [%{repository}](%{repository_url}) foi aberto por [%{gitlab_user}](%{gitlab_user_url}).\n"
+      merge_request_reopened_comment: "**Solicitação de merge reaberta:** A solicitação de merge %{mr_number} [%{mr_title}](%{mr_url}) do [%{repository}](%{repository_url}) foi reaberto por [%{gitlab_user}](%{gitlab_user_url}).\n"
+      note_commit_referenced_comment: "**Mencionado em commit:** [%{gitlab_user}](%{gitlab_user_url}) mencionou este pacote de trabalho em uma nota de commit [%{commit_id}](%{commit_url}) em [%{repository}](%{repository_url}): %{commit_note}\n"
+      note_issue_commented_comment: "**Comentou na issue:** [%{gitlab_user}](%{gitlab_user_url}) comentou sobre este pacote de trabalho na issue %{issue_number} [%{issue_title}](%{issue_url}) em [%{repository}](%{repository_url}): %{issue_note}\n"
+      note_issue_referenced_comment: "**Mencionado na issue:** [%{gitlab_user}](%{gitlab_user_url}) mencionou este pacote de trabalho na issue %{issue_number} [%{issue_title}](%{issue_url}) em [%{repository}](%{repository_url}): %{issue_note}\n"
+      note_mr_commented_comment: "**Comentou na solicitação de merge:** [%{gitlab_user}](%{gitlab_user_url}) comentou sobre este pacote de trabalho na solicitação de merge %{mr_number} [%{mr_title}](%{mr_url}) em [%{repository}](%{repository_url}): %{mr_note}\n"
+      note_mr_referenced_comment: "**Mencionado na solicitação de merge:** [%{gitlab_user}](%{gitlab_user_url}) mencionou este pacote de trabalho na solicitação de merge %{mr_number} [%{mr_title}](%{mr_url}) em [%{repository}](%{repository_url}): %{mr_note}\n"
       note_snippet_referenced_comment: "**Referenced in Snippet:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) on [%{repository}](%{repository_url}): %{snippet_note}\n"
-      push_single_commit_comment_with_ref: "**Submetido em %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) submeteu [%{commit_number}](%{commit_url}) a [%{repository}](%{repository_url}) em %{commit_timestamp}: %{commit_note}\n"
+      push_single_commit_comment_with_ref: "**Enviado para %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) enviou [%{commit_number}](%{commit_url}) para [%{repository}](%{repository_url}) em %{commit_timestamp}: %{commit_note}\n"
     issue_component:
       states:
-        closed: Fechada
+        closed: Fechado
         opened: Abrir
       updated_at: Updated on %{date_time}.
       updated_by: Last updated by %{name}.
@@ -134,7 +134,7 @@ pt-BR:
         waiting_for_resource: Waiting for resource
       states:
         closed: Fechada
-        locked: Bloqueado
+        locked: Bloqueada
         merged: Merged
         opened: Abrir
       updated_at: Updated on %{date_time}.
@@ -159,7 +159,7 @@ pt-BR:
       branches: Branches
       commits: Commits
       description_html: Link an existing GitLab element by adding the code %{code} to the title or description.
-      git_snippets: Trechos de código Git
-      issues: Itens
+      git_snippets: Trechos de código do Git
+      issues: Problemas
       merge_requests: Solicitações de combinação
-      snippets_button_label: Trechos de código Git
+      snippets_button_label: Trechos de código do Git

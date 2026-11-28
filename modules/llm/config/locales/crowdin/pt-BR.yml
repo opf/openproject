@@ -35,7 +35,7 @@ pt-BR:
         embedding_vector_dimensions: Dimensions
         llm_feature_bindings: Feature configuration
         model: Modelo
-        state: Estado
+        state: Status
         title: Nome de exibição
     errors:
       messages:
@@ -210,7 +210,7 @@ pt-BR:
         run_checks: Run checks
         running: Running checks...
         summary: "%{passed} passed, %{warnings} warnings, %{failures} failed."
-        title: Status de saúde
+        title: Status de integridade
     llm_models:
       configured_from_env: The environment configures this model as a default, so it cannot be removed or renamed here.
       create:
@@ -384,7 +384,7 @@ pt-BR:
         open_report: Abrir relatório completo de integridade
         run_checks: Executar as verificações agora
         running: Running checks...
-        title: Status de saúde
+        title: Status de integridade
   menus:
     admin:
       llm_connection: LLM settings

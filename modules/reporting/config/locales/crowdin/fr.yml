@@ -48,8 +48,8 @@ fr:
     invalid_filters: 'The export could not be generated: %{errors}'
     timesheet:
       button: Exporter la feuille de temps PDF
-      overview_per_user_day: 'Aperçu : heures par utilisateur et par jour'
-      overview_per_user_total: 'Aperçu : total des heures par utilisateur'
+      overview_per_user_day: 'Aperçu : heures par utilisateur et par jour'
+      overview_per_user_total: 'Aperçu : total des heures par utilisateur'
       sums_hours: Sommes
       time: Temps
       timesheet: Feuille de temps

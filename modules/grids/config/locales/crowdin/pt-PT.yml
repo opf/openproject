@@ -12,6 +12,8 @@ pt-PT:
       models:
         grids/grid:
           end_before_start: o valor final tem de ser maior que o valor inicial.
+          invalid_query: reference a query that does not belong to you and the project.
+          query_unchangeable: cannot have their query replaced once it is set.
           outside: está fora da rede.
           overlaps: sobreposição.
     models:

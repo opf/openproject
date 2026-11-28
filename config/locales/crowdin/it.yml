@@ -1995,7 +1995,7 @@ it:
           other: This will remove the label <strong>%{name}</strong> from %{count} work packages that currently use it. Are you sure you want to delete it?
       dialog_component:
         create_title: Crea etichetta
-        rename_title: Rinomina "%{name}"
+        rename_label_title: Rename label
       index:
         description: Tutti gli utenti che possono modificare le macro-attività possono assegnare liberamente alle macro-attività etichette esistenti o crearne subito di nuove. Sono incluse tutte le etichette create dagli utenti in tutti i progetti.
       row_component:
@@ -3284,8 +3284,8 @@ it:
       capture_external_links:
         description: Previeni gli attacchi di ingegneria sociale intercettando e avvisando gli utenti dei link esterni prima che li visitino.
       custom_actions:
-        description: Le azioni personalizzate sono scorciatoie che con un clic ti consentono di eseguire una serie di azioni predefinite che è possibile rendere disponibili su determinate macro-attività in base a stato, ruolo, tipo o progetto.
-        title: Azioni personalizzate
+        description: Automations are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.
+        title: Automations
       custom_field_hierarchies:
         description: I campi personalizzati gerarchici consentono di organizzare strutture gerarchiche di macro-attività e progetti utilizzando elenchi di selezione multilivello.
       customize_life_cycle:
@@ -7242,6 +7242,7 @@ it:
       placeholder_description: Questo passo sarà disponibile presto.
       progress_label: Passo %{number} di %{total}
       start:
+        more_information: For more information, watch the [tutorial](video) or read the [documentation](docs).
         next_heading: What happens next?
         submit: Inizia
         type:

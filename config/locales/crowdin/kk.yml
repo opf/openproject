@@ -1993,7 +1993,7 @@ kk:
           other: This will remove the label <strong>%{name}</strong> from %{count} work packages that currently use it. Are you sure you want to delete it?
       dialog_component:
         create_title: Create label
-        rename_title: Rename "%{name}"
+        rename_label_title: Rename label
       index:
         description: All users able to edit work packages can freely tag work packages with either existing labels or create new ones instantly. This includes all labels created by users across all projects.
       row_component:
@@ -3282,8 +3282,8 @@ kk:
       capture_external_links:
         description: Prevent social engineering attacks by capturing and warning about external links before users visit them.
       custom_actions:
-        description: Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.
-        title: Custom actions
+        description: Automations are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.
+        title: Automations
       custom_field_hierarchies:
         description: Hierarchy custom fields allow organizing hierarchical structures in work packages and projects by making use of multi-level select lists.
       customize_life_cycle:
@@ -7250,6 +7250,7 @@ kk:
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}
       start:
+        more_information: For more information, watch the [tutorial](video) or read the [documentation](docs).
         next_heading: What happens next?
         submit: Start
         type:

@@ -12,6 +12,8 @@ el:
       models:
         grids/grid:
           end_before_start: η τελική τιμή πρέπει να είναι μεγαλύτερη από την αρχική τιμή.
+          invalid_query: reference a query that does not belong to you and the project.
+          query_unchangeable: cannot have their query replaced once it is set.
           outside: είναι εκτός πλέγματος.
           overlaps: επικάλυψη.
     models:

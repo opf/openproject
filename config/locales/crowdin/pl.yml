@@ -2233,7 +2233,7 @@ pl:
           other: This will remove the label <strong>%{name}</strong> from %{count} work packages that currently use it. Are you sure you want to delete it?
       dialog_component:
         create_title: Create label
-        rename_title: Rename "%{name}"
+        rename_label_title: Rename label
       index:
         description: All users able to edit work packages can freely tag work packages with either existing labels or create new ones instantly. This includes all labels created by users across all projects.
       row_component:
@@ -3572,8 +3572,8 @@ pl:
       capture_external_links:
         description: Zapobiegaj atakom socjotechnicznym, przechwytując linki zewnętrzne i ostrzegając o nich, zanim użytkownicy je odwiedzą.
       custom_actions:
-        description: Akcje niestandardowe są skrótami do zestawu predefiniowanych akcji, które można udostępnić w określonych pakietach roboczych na podstawie statusu, roli, typu lub projektu.
-        title: Działania niestandardowe
+        description: Automations are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.
+        title: Automations
       custom_field_hierarchies:
         description: Pola niestandardowe hierarchii umożliwiają organizowanie hierarchicznych struktur w pakietach roboczych i projektach poprzez użycie wielopoziomowych list wyboru.
       customize_life_cycle:
@@ -7609,6 +7609,7 @@ pl:
       placeholder_description: Ten krok będzie wkrótce dostępny.
       progress_label: Krok %{number} z %{total}
       start:
+        more_information: For more information, watch the [tutorial](video) or read the [documentation](docs).
         next_heading: What happens next?
         submit: Rozpocznij
         type:

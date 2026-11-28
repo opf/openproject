@@ -46,22 +46,22 @@ fr:
     github: GitHub identifier
     github_app_owner_avatar_url: URL de l'avatar du propriétaire
     github_avatar_url: URL de l'avatar
-    github_html_url: URL de requête pull
-    github_login: Connexion GitHub
-    github_updated_at: Mise à jour à
+    github_html_url: URL de la pull request
+    github_login: Nom d'utilisateur GitHub
+    github_updated_at: Mis à jour le
     host: Hôte
     labels: Étiquettes
     repository: Dépôt
     review_comments_count: Nombre de commentaires de révision
-  button_add_deploy_target: Ajouter un objectif de déploiement
-  label_deploy_target: Objectif de déploiement
-  label_deploy_target_new: Nouvel objectif de déploiement
-  label_deploy_target_plural: Objectifs de déploiement
+  button_add_deploy_target: Ajouter une cible de déploiement
+  label_deploy_target: Cible de déploiement
+  label_deploy_target_new: Nouvelle cible de déploiement
+  label_deploy_target_plural: Cibles de déploiement
   label_github_comment_user: Acteur GitHub
   label_github_integration: Intégration GitHub
   label_github_webhook_secret: Secret du webhook
-  notice_deploy_target_created: Objectif de déploiement créé
-  notice_deploy_target_destroyed: Objectif de déploiement supprimé
+  notice_deploy_target_created: Cible de déploiement créée
+  notice_deploy_target_destroyed: Cible de déploiement supprimée
   permission_introspection: Consulter la version principale d'OpenProject et du build SHA en cours d'exécution
   permission_show_github_content: Afficher le contenu GitHub
   plugin_openproject_github_integration:
@@ -77,10 +77,10 @@ fr:
   text_github_comment_user_info: 'L''utilisateur d''OpenProject dont la clé d''API doit être utilisée pour authentifier les demandes de webhook entrantes. Lorsqu''il est défini, les demandes authentifiées avec les informations d''identification de tout autre utilisateur sont rejetées. Cet utilisateur publie également des commentaires automatisés sur le statut du déploiement des lots de travaux. Par défaut, il s''agit de l''utilisateur du système s''il n''est pas défini.
 
     '
-  text_github_webhook_secret_info: 'Un jeton secret partagé avec GitHub lors de la configuration du webhook. Lorsqu''il est défini, OpenProject vérifie l''en-tête X-Hub-Signature-256 sur chaque requête entrante et rejette les charges utiles qui ne correspondent pas. Laissez l''espace vide pour ignorer la vérification (non recommandé).
+  text_github_webhook_secret_info: 'Un jeton secret partagé avec GitHub lors de la configuration du webhook. Lorsqu''il est défini, OpenProject vérifie l''en-tête X-Hub-Signature-256 sur chaque requête entrante et rejette les charges utiles qui ne correspondent pas. Laissez ce champ vide pour ignorer la vérification (non recommandé).
 
     '
   text_github_webhook_secret_missing_warning: 'Aucun secret de webhook n''est configuré. Toute demande adressée au point de terminaison du webhook de GitHub sera acceptée sans vérification, ce qui peut permettre à des personnes non autorisées de falsifier des événements. Il est fortement recommandé de définir un secret.
 
     '
-  text_pull_request_deployed_to: "%{pr_link} déployé sur %{deploy_target_link}"
+  text_pull_request_deployed_to: "%{pr_link} : déploiement sur %{deploy_target_link}"

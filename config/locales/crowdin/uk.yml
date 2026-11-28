@@ -2237,7 +2237,7 @@ uk:
           other: This will remove the label <strong>%{name}</strong> from %{count} work packages that currently use it. Are you sure you want to delete it?
       dialog_component:
         create_title: Створити мітку
-        rename_title: Перейменувати «%{name}»
+        rename_label_title: Rename label
       index:
         description: Усі користувачі, які мають право редагувати пакети робіт, можуть вільно додавати до них наявні теги або миттєво створювати нові. Це стосується всіх тегів, створених користувачами в усіх проєктах.
       row_component:
@@ -3580,8 +3580,8 @@ uk:
       capture_external_links:
         description: Запобігайте атакам соціальної інженерії, виявляючи зовнішні посилання й попереджаючи про них користувачів перед переходом за ними.
       custom_actions:
-        description: Користувацькі дії – це ярлики набору попередньо визначених дій, які ви можете включати в певні пакети робіт залежно від статусу, ролі, типу або проєкту.
-        title: Користувацькі дії
+        description: Automations are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.
+        title: Automations
       custom_field_hierarchies:
         description: Користувацькі поля типу «Ієрархія» дають змогу впорядковувати ієрархічні структури в пакети робіт і проєкти, використовуючи багаторівневі розкривні списки.
       customize_life_cycle:
@@ -7624,6 +7624,7 @@ uk:
       placeholder_description: Цей крок стане доступним незабаром.
       progress_label: Крок %{number} з %{total}
       start:
+        more_information: For more information, watch the [tutorial](video) or read the [documentation](docs).
         next_heading: What happens next?
         submit: Почати
         type:

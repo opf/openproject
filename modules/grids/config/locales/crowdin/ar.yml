@@ -12,6 +12,8 @@ ar:
       models:
         grids/grid:
           end_before_start: يجب أن تكون قيمة النهاية أكبر من قيمة البداية.
+          invalid_query: reference a query that does not belong to you and the project.
+          query_unchangeable: cannot have their query replaced once it is set.
           outside: هو خارج الشبكة.
           overlaps: تداخل.
     models:

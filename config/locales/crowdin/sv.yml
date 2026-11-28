@@ -1993,7 +1993,7 @@ sv:
           other: This will remove the label <strong>%{name}</strong> from %{count} work packages that currently use it. Are you sure you want to delete it?
       dialog_component:
         create_title: Skapa etikett
-        rename_title: Byt namn på ”%{name}”
+        rename_label_title: Rename label
       index:
         description: Alla användare som kan redigera arbetspaket kan fritt märka dem med befintliga etiketter eller skapa nya direkt. Detta omfattar alla etiketter som användare har skapat i samtliga projekt.
       row_component:
@@ -3280,8 +3280,8 @@ sv:
       capture_external_links:
         description: Förhindra social manipulation genom att fånga upp och varna för externa länkar innan användare besöker dem.
       custom_actions:
-        description: Anpassade åtgärder är genvägar med ett klick till en uppsättning fördefinierade åtgärder som du kan göra tillgängliga för vissa arbetspaket baserat på status, roll, typ eller projekt.
-        title: Anpassade åtgärder
+        description: Automations are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.
+        title: Automations
       custom_field_hierarchies:
         description: Hierarkiska anpassade fält gör det möjligt att organisera hierarkiska strukturer i arbetspaket och projekt med hjälp av flernivålistor.
       customize_life_cycle:
@@ -7228,6 +7228,7 @@ sv:
       placeholder_description: Det här steget blir tillgängligt snart.
       progress_label: Steg %{number} av %{total}
       start:
+        more_information: For more information, watch the [tutorial](video) or read the [documentation](docs).
         next_heading: What happens next?
         submit: Starta
         type:

@@ -12,6 +12,8 @@ fa:
       models:
         grids/grid:
           end_before_start: مقدار پایان باید از مقدار شروع بزرگ‌تر باشد.
+          invalid_query: reference a query that does not belong to you and the project.
+          query_unchangeable: cannot have their query replaced once it is set.
           outside: خارج از شبکه است.
           overlaps: هم‌پوشانی.
     models:

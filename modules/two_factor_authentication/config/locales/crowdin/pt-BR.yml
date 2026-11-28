@@ -128,7 +128,7 @@ pt-BR:
         time_based: Base de tempo
         title: Autenticador para aplicativos
       webauthn:
-        description: Registre um dispositivo FIDO2 (como o YubiKey) ou o enclave seguro do seu dispositivo móvel.
+        description: Cadastre um dispositivo FIDO2 (como uma YubiKey) ou o enclave seguro do seu dispositivo móvel.
         further_steps: Após escolher um nome, basta clicar no botão "Continuar". O navegador vai pedir para você apresentar o dispositivo WebAuthn. Depois disso, o registro do dispositivo estará concluído.
         title: WebAuthn
     error_2fa_disabled: A entrega 2FA foi desativada.

@@ -72,21 +72,21 @@ fr:
           description: Ajoutez les détails de votre budget prévisionnel pour voir les données ici
           heading: Détails du budget manquants
         count_caption:
-          one: Données agrégées à partir de %{count} budget
-          other: Données agrégées à partir de %{count} budgets
+          one: Données agrégées à partir de %{count} budget
+          other: Données agrégées à partir de %{count} budgets
           zero: Aucune donnée budgétaire.
         count_caption_with_subitems:
           portfolio:
-            one: Données agrégées à partir de %{count} budget inclus dans ce portefeuille et ses sous-éléments.
-            other: Données agrégées à partir de %{count} budgets inclus dans ce portefeuille et leurs sous-éléments.
+            one: Données agrégées à partir de %{count} budget inclus dans ce portefeuille et ses sous-éléments.
+            other: Données agrégées à partir de %{count} budgets inclus dans ce portefeuille et leurs sous-éléments.
             zero: Aucune donnée budgétaire.
           program:
-            one: Données agrégées à partir de %{count} budget inclus dans ce programme et ses sous-éléments.
-            other: Données agrégées à partir de %{count} budgets inclus dans ce programme et leurs sous-éléments.
+            one: Données agrégées à partir de %{count} budget inclus dans ce programme et ses sous-éléments.
+            other: Données agrégées à partir de %{count} budgets inclus dans ce programme et leurs sous-éléments.
             zero: Aucune donnée budgétaire.
           project:
-            one: Données agrégées à partir de %{count} budget inclus dans ce projet et ses sous-éléments.
-            other: Données agrégées à partir de %{count} budgets inclus dans ce projet et leurs sous-éléments.
+            one: Données agrégées à partir de %{count} budget inclus dans ce projet et ses sous-éléments.
+            other: Données agrégées à partir de %{count} budgets inclus dans ce projet et leurs sous-éléments.
             zero: Aucune donnée budgétaire.
         title: Budget par type de coût
         view_details: Voir les détails du budget
@@ -108,7 +108,7 @@ fr:
   events:
     budget: Budget modifié
   help_click_to_edit: Cliquez ici pour modifier.
-  help_currency_format: Format des valeurs monétaires affichées. %n est remplacé par la valeur monétaire, %u est remplacé par l'unité monétaire.
+  help_currency_format: Format des valeurs monétaires affichées. %n est remplacé par la valeur monétaire et %u par l'unité monétaire.
   help_override_rate: Entrez une valeur ici pour outrepasser les tarifs de défaut.
   label_budget_available: Budget disponible
   label_budget_details: Détails du budget

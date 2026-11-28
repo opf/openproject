@@ -1993,7 +1993,7 @@ hy:
           other: This will remove the label <strong>%{name}</strong> from %{count} work packages that currently use it. Are you sure you want to delete it?
       dialog_component:
         create_title: Create label
-        rename_title: Rename "%{name}"
+        rename_label_title: Rename label
       index:
         description: All users able to edit work packages can freely tag work packages with either existing labels or create new ones instantly. This includes all labels created by users across all projects.
       row_component:
@@ -3278,8 +3278,8 @@ hy:
       capture_external_links:
         description: Կանխեք սոցիալական ինժեներիայի հարձակումները՝ հայտնաբերելով արտաքին հղումները և նախազգուշացնելով դրանց մասին, նախքան օգտատերերն այցելեն դրանք։
       custom_actions:
-        description: Հատուկ գործողությունները մեկ սեղմումով դյուրանցումներ են դեպի նախապես սահմանված գործողությունների խումբ, որոնք Դուք կարող եք հասանելի դարձնել որոշակի աշխատանքային փաթեթներում՝ ըստ կարգավիճակի, դերի, տեսակի կամ նախագծի։
-        title: Հատուկ գործողություններ
+        description: Automations are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.
+        title: Automations
       custom_field_hierarchies:
         description: Հիերարխիայի հատուկ դաշտերը թույլ են տալիս կազմակերպել հիերարխիկ կառուցվածքներ աշխատանքային փաթեթներում և նախագծերում՝ օգտագործելով բազմամակարդակ ընտրության ցանկեր։
       customize_life_cycle:
@@ -7242,6 +7242,7 @@ hy:
       placeholder_description: Այս քայլը շուտով հասանելի կլինի։
       progress_label: Քայլ %{number} %{total}-ից
       start:
+        more_information: For more information, watch the [tutorial](video) or read the [documentation](docs).
         next_heading: What happens next?
         submit: Start
         type:

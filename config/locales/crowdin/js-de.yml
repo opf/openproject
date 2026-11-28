@@ -965,7 +965,7 @@ de:
         edit: Arbeitspakete bearbeiten
         move: In anderes Projekt verschieben
       button_clear: Zurücksetzen
-      button_edit_subject: Edit subject
+      button_edit_subject: Betreff bearbeiten
       comment_added: Der Kommentar wurde erfolgreich hinzugefügt.
       comment_send_failed: Ein Fehler ist aufgetreten. Der Kommentar konnte nicht gespeichert werden.
       comment_updated: Der Kommentar wurde erfolgreich aktualisiert.

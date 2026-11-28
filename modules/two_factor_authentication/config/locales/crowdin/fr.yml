@@ -65,7 +65,7 @@ fr:
       only_sms_allowed: Seul l'envoi de SMS peut être configuré pour d'autres utilisateurs.
       self_edit_forbidden: Vous ne pouvez pas modifier vos propres appareils 2FA sur ce chemin. Allez dans Mon Compte > Authentification à deux facteurs à la place.
       self_edit_path_html: Pour ajouter ou modifier vos propres appareils 2FA, veuillez vous rendre sur la page [Authentification à deux facteurs depuis votre compte](self_edit_link)
-      text_2fa_disabled: L'utilisateur n'a configuré aucun appareil 2FA sur sa page « Mon compte »
+      text_2fa_disabled: L'utilisateur n'a configuré aucun appareil 2FA sur sa page « Mon compte »
       text_2fa_enabled: Lors de chaque connexion, cet utilisateur sera invité à entrer un jeton OTP depuis son appareil 2FA par défaut.
     backup_codes:
       generate:
@@ -186,7 +186,7 @@ fr:
       sns: Amazon SNS
       totp: Application authentificatrice
       webauthn: WebAuthn
-    text_2fa_disabled: Pour activer l’authentification à deux facteurs, utilisez le bouton ci-dessus pour inscrire un nouvel appareil 2FA. Si vous avez déjà un dispositif, vous devez en faire un appareil par défaut.
+    text_2fa_disabled: Pour activer l'authentification à deux facteurs, utilisez le bouton ci-dessus pour inscrire un nouvel appareil 2FA. Si vous avez déjà un dispositif, vous devez en faire un appareil par défaut.
     text_2fa_enabled: Lors de chaque connexion, il vous sera demandé d'entrer un jeton OTP depuis votre appareil 2FA par défaut.
     text_otp_delivery_message_sms: Votre mot de passe à usage unique pour %{app_title} est %{token}
     text_otp_delivery_message_voice: 'Votre mot de passe à usage unique pour %{app_title} est: %{pause} %{token}. %{pause} Je répète: %{pause} %{token}'

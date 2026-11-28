@@ -2233,7 +2233,7 @@ ru:
           other: This will remove the label <strong>%{name}</strong> from %{count} work packages that currently use it. Are you sure you want to delete it?
       dialog_component:
         create_title: Создать метку
-        rename_title: Переименовать "%{name}"
+        rename_label_title: Rename label
       index:
         description: Все пользователи, способные редактировать пакеты работ, могут свободно помечать пакеты работ как существующими, так и сразу создавать новые. Сюда входят все метки, созданные пользователями во всех проектах.
       row_component:
@@ -3578,8 +3578,8 @@ ru:
       capture_external_links:
         description: Предотвращать атаки социальной инженерии путем перехвата внешних ссылок до того, как пользователи их посетят.
       custom_actions:
-        description: Пользовательские действия являются ярлыками к набору заранее определенных действий, которые вы можете сделать доступными для определенных пакетов работ на основе статуса, роли, типа или проекта.
-        title: Пользовательские действия
+        description: Automations are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.
+        title: Automations
       custom_field_hierarchies:
         description: Пользовательские поля типа Иерархия позволяют организовывать иерархические структуры в пакетах работ и проектах с использованием многоуровневых списков.
       customize_life_cycle:
@@ -7605,6 +7605,7 @@ ru:
       placeholder_description: Этот шаг скоро будет доступен.
       progress_label: Шаг %{number} из %{total}
       start:
+        more_information: For more information, watch the [tutorial](video) or read the [documentation](docs).
         next_heading: What happens next?
         submit: Начать
         type:

@@ -3,7 +3,7 @@ fr:
   activerecord:
     attributes:
       itsm/email_message:
-        direction: Direction
+        direction: Sens
         from_address: De
         journal: Journal
         message_id: Message ID

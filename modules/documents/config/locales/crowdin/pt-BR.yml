@@ -66,7 +66,7 @@ pt-BR:
         page_header:
           description_html: |-
             Quando ativada, a colaboração em tempo real permite que vários usuários editem um documento simultaneamente.
-            Para funcionar, é necessário um [servidor Hocuspocus](hocuspocus_server_link) em funcionamento.
+            Para funcionar, é necessário ter um [servidor Hocuspocus](hocuspocus_server_link) em funcionamento.
       disable_text_collaboration_dialog:
         confirmation_checkbox_message: Entendo que posso perder dados permanentemente
         confirmation_message: Todos os documentos existentes podem se tornar inacessíveis. Faça isso apenas se tiver certeza de que deseja desabilitar a colaboração em tempo real e o editor BlockNote nesta instância.
@@ -108,7 +108,7 @@ pt-BR:
       heading: As categorias de arquivos agora são chamadas de “Tipos de documento”
       primary_action: Configurar tipos de documento
       secondary_action: Saiba mais sobre o módulo Documentos
-    document_type_actions: Ações do tipo de Documento
+    document_type_actions: Ações do tipo de documento
     documents_list_blank_slate:
       description: Não há documentos nesta visualização. Você pode clicar no botão abaixo para adicionar um.
       heading: Ainda não há documentos
@@ -148,7 +148,7 @@ pt-BR:
     text_collaboration_disabled_notice:
       description: |-
         Não foi possível abrir o documento porque a colaboração de texto em tempo real está desativada.
-        Entre em contato com o administrador para ativar a colaboração de texto em tempo real se você quiser acessar este documento.
+        Entre em contato com o administrador para solicitar a ativação da colaboração de texto em tempo real e acessar este documento.
   enumeration_doc_categories: Categorias de documento
   label_document_added: Documento adicionado
   label_document_category: Categoria

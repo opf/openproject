@@ -28,7 +28,7 @@ fr:
         selection:
           none: Sélectionner les fichiers à lier
           one: Link %{count} file
-          other: Lier %{count} fichiers
+          other: Lier %{count} fichiers
         success_create:
           one: Successfully created %{count} file link.
           other: "%{count} liens de fichier ont été créés avec succès."
@@ -54,7 +54,7 @@ fr:
 
               '
       files:
-        already_existing_body: 'Un fichier avec le nom « %{fileName} » existe déjà à l''emplacement où vous essayez de importer ce fichier. Que voulez-vous faire ?
+        already_existing_body: 'Un fichier avec le nom « %{fileName} » existe déjà à l''emplacement où vous essayez de importer ce fichier. Que voulez-vous faire ?
 
           '
         already_existing_header: Ce fichier existe déjà
@@ -77,7 +77,7 @@ fr:
         upload_keep_both: Garder les deux
         upload_replace: Remplacer
       information:
-        authentication_error: 'Erreur : la requête à %{storageType} n''a pas pu être authentifiée.'
+        authentication_error: 'Erreur : la requête à %{storageType} n''a pas pu être authentifiée.'
         connection_error: 'Certains paramètres de %{storageType} ne fonctionnent pas. Veuillez contacter votre administrateur %{storageType}.
 
           '
