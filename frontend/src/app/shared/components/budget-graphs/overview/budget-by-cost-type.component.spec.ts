@@ -32,35 +32,38 @@ import { within } from '@testing-library/dom';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import PrimerColorsPlugin from 'core-app/shared/components/work-package-graphs/plugin.primer-colors';
 import { BudgetByCostTypeComponent } from './budget-by-cost-type.component';
+import { defineTestCustomElement, TestCustomElement } from 'core-app/shared/helpers/angular/custom-element.spec-helper';
 import type { PieTooltipContext } from '../chart.config';
+
+const i18nStub = {
+  locale: 'en',
+  t(key:string, options:Record<string, string> = {}) {
+    const translations:Record<string, string> = {
+      'js.budgets.widgets.budget_by_cost_type.chart_label': 'Budget by cost type chart',
+      'js.budgets.widgets.budget_by_cost_type.chart_summary': `Budget amounts by cost type: ${options.values}.`,
+      'js.budgets.widgets.budget_by_cost_type.chart_value': `${options.label}: ${options.value}`,
+    };
+
+    return translations[key] ?? key;
+  },
+};
+
+const configureTestingModule = () => TestBed.configureTestingModule({
+  imports: [BudgetByCostTypeComponent],
+  providers: [
+    { provide: I18nService, useValue: i18nStub },
+    provideCharts(withDefaultRegisterables(PrimerColorsPlugin)),
+  ],
+}).compileComponents();
 
 describe('BudgetByCostTypeComponent', () => {
   let fixture:ComponentFixture<BudgetByCostTypeComponent>;
   let element:HTMLElement;
 
-  const i18nStub = {
-    locale: 'en',
-    t(key:string, options:Record<string, string> = {}) {
-      const translations:Record<string, string> = {
-        'js.budgets.widgets.budget_by_cost_type.chart_label': 'Budget by cost type chart',
-        'js.budgets.widgets.budget_by_cost_type.chart_summary': `Budget amounts by cost type: ${options.values}.`,
-        'js.budgets.widgets.budget_by_cost_type.chart_value': `${options.label}: ${options.value}`,
-      };
-
-      return translations[key] ?? key;
-    },
-  };
-
   beforeEach(async () => {
     i18nStub.locale = 'en';
 
-    await TestBed.configureTestingModule({
-      imports: [BudgetByCostTypeComponent],
-      providers: [
-        { provide: I18nService, useValue: i18nStub },
-        provideCharts(withDefaultRegisterables(PrimerColorsPlugin)),
-      ],
-    }).compileComponents();
+    await configureTestingModule();
 
     fixture = TestBed.createComponent(BudgetByCostTypeComponent);
     element = fixture.nativeElement as HTMLElement;
@@ -172,5 +175,38 @@ describe('BudgetByCostTypeComponent', () => {
     expect(popover.matches(':popover-open')).toBe(true);
     expect(within(popover).getByText('Labor')).toBeInTheDocument();
     expect(document.body.querySelector(':scope > anchored-position')).toBeNull();
+  });
+});
+
+describe('BudgetByCostTypeComponent as a custom element', () => {
+  const payload = JSON.stringify({ labels: ['Labor'], datasets: [{ data: [20] }] });
+  let custom:TestCustomElement;
+
+  beforeEach(async () => {
+    i18nStub.locale = 'en';
+    await configureTestingModule();
+  });
+
+  afterEach(() => custom.element.remove());
+
+  it('renders the chart from the chart-data and currency attributes', async () => {
+    custom = await defineTestCustomElement(BudgetByCostTypeComponent, { 'chart-data': payload, currency: 'USD' });
+
+    expect(custom.element.querySelector('canvas')).not.toBeNull();
+    expect(custom.element.textContent).toContain('Labor: $20');
+  });
+
+  it('falls back to an empty chart once the chart-data attribute is removed', async () => {
+    custom = await defineTestCustomElement(BudgetByCostTypeComponent, { 'chart-data': payload });
+
+    await custom.remove('chart-data');
+
+    expect(custom.element.querySelector('canvas')).toBeNull();
+  });
+
+  it('renders the empty state without the attribute', async () => {
+    custom = await defineTestCustomElement(BudgetByCostTypeComponent, {});
+
+    expect(custom.element.querySelector('canvas')).toBeNull();
   });
 });

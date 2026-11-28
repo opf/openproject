@@ -32,13 +32,12 @@ See COPYRIGHT and LICENSE files for more details.
       container.with_body do
         flex_layout do |flex|
           flex.with_row(mt: 3, align: :center) do
-            helpers.angular_component_tag(
-              "opce-actual-costs",
+            helpers.custom_element_tag.opce_actual_costs(
               currency: Setting.costs_currency,
-              "chart-data": {
+              chart_data: {
                 labels: chart_labels,
                 datasets: chart_datasets
-              }.to_json
+              }
             )
           end
         end

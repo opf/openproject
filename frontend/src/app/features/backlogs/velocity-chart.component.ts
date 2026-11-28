@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, Signal, computed, inject, input } from '@angular/core';
+import { Component, Signal, computed, inject, input } from '@angular/core';
 import { Chart, ChartData, ChartOptions, LegendItem, Plugin } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -35,6 +35,7 @@ import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2
 import { ChartDescriptionDirective } from 'core-app/shared/components/charts/description/chart-description.directive';
 import { ChartDescription } from 'core-app/shared/components/charts/description/chart-description';
 import AverageLinePlugin, { AVERAGE_LINE_DASH, isAverageLineVisible, toggleAverageLine } from './plugin.average-line';
+import { jsonAttribute } from 'core-app/shared/helpers/angular/attribute-inputs';
 import { getCSSVariable } from 'core-app/shared/helpers/dom-helpers';
 
 interface VelocityChartData {
@@ -46,6 +47,16 @@ interface VelocityChartData {
   yAxisTitle:string;
   summary:string;
 }
+
+const EMPTY_VELOCITY_CHART_DATA:VelocityChartData = {
+  unit: 'story_points',
+  labels: [],
+  datasets: [],
+  average: null,
+  averageLabel: '',
+  yAxisTitle: '',
+  summary: '',
+};
 
 const MAX_LABEL_LENGTH = 15;
 const DATASET_COLORS = ['blue', 'green'];
@@ -61,20 +72,19 @@ function truncate(label:string):string {
   templateUrl: './velocity-chart.component.html',
   imports: [BaseChartDirective, ChartDescriptionDirective],
   providers: [provideCharts(withDefaultRegisterables())],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VelocityChartComponent {
   readonly i18n = inject(I18nService);
   readonly timezoneService = inject(TimezoneService);
   readonly configurationService = inject(ConfigurationService);
-  readonly chartData = input.required<string>();
+  readonly chartData = input(EMPTY_VELOCITY_CHART_DATA, {
+    transform: jsonAttribute(EMPTY_VELOCITY_CHART_DATA),
+  });
 
   readonly plugins:Plugin<'bar'>[] = [ChartDataLabels, AverageLinePlugin];
 
-  readonly parsedData:Signal<VelocityChartData> = computed(() => JSON.parse(this.chartData()) as VelocityChartData);
-
   protected readonly description = computed<ChartDescription>(() => {
-    const { labels, datasets, summary } = this.parsedData();
+    const { labels, datasets, summary } = this.chartData();
     const label = this.i18n.t('js.velocity_chart.chart_label');
 
     return {
@@ -92,7 +102,7 @@ export class VelocityChartComponent {
   });
 
   readonly barChartData:Signal<ChartData<'bar'>> = computed<ChartData<'bar'>>(() => {
-    const { labels, datasets } = this.parsedData();
+    const { labels, datasets } = this.chartData();
 
     return {
       labels,
@@ -106,7 +116,7 @@ export class VelocityChartComponent {
   });
 
   readonly barChartOptions:Signal<ChartOptions<'bar'>> = computed<ChartOptions<'bar'>>(() => {
-    const { unit, average, averageLabel, yAxisTitle } = this.parsedData();
+    const { unit, average, averageLabel, yAxisTitle } = this.chartData();
     const fontColor = getCSSVariable('--body-font-color');
     const gridColor = getCSSVariable('--borderColor-muted');
     const averageColor = getCSSVariable('--fgColor-muted');
@@ -195,7 +205,7 @@ export class VelocityChartComponent {
   });
 
   private columnHeader(label:string):string {
-    if (this.parsedData().unit !== 'story_points') {
+    if (this.chartData().unit !== 'story_points') {
       return label;
     }
 
@@ -205,7 +215,7 @@ export class VelocityChartComponent {
   }
 
   formatValue(value:number):string {
-    if (this.parsedData().unit === 'time') {
+    if (this.chartData().unit === 'time') {
       return this.timezoneService.formattedChronicDurationFromHours(value);
     }
 

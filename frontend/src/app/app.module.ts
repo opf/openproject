@@ -417,7 +417,7 @@ export class OpenProjectModule implements DoBootstrap {
     registerCustomElement('opce-in-app-notification-bell', InAppNotificationBellComponent, { injector });
     registerCustomElement('opce-editable-query-props', EditableQueryPropsComponent, { injector });
     registerCustomElement('opce-time-entry-trigger-actions', TriggerActionsEntryComponent, { injector });
-    registerCustomElement('opce-wp-overview-graph', WorkPackageOverviewGraphComponent, { injector });
+    registerCustomElement('opce-wp-overview-graph', WorkPackageOverviewGraphComponent, { injector }, { attributeInputs: true });
     registerCustomElement('opce-non-working-days-list', OpNonWorkingDaysListComponent, { injector });
     registerCustomElement('opce-main-menu-resizer', MainMenuResizerComponent, { injector });
     registerCustomElement('opce-persistent-toggle', PersistentToggleComponent, { injector });
@@ -429,13 +429,13 @@ export class OpenProjectModule implements DoBootstrap {
 
     registerCustomElement('opce-my-page', MyPageComponent, { injector });
     registerCustomElement('opce-dashboard', DashboardComponent, { injector });
-    registerCustomElement('opce-burndown-chart', BurndownChartComponent, { injector });
-    registerCustomElement('opce-burnup-chart', BurnupChartComponent, { injector });
-    registerCustomElement('opce-created-resolved-chart', CreatedResolvedComponent, { injector });
-    registerCustomElement('opce-velocity-chart', VelocityChartComponent, { injector });
-    registerCustomElement('opce-sprint-work-package-graph', SprintWorkPackageGraphComponent, { injector });
-    registerCustomElement('opce-budget-by-cost-type', BudgetByCostTypeComponent, { injector });
-    registerCustomElement('opce-actual-costs', ActualCostsComponent, { injector });
-    registerCustomElement('opce-project-timeline-graph', ProjectTimelineGraphComponent, { injector });
+    registerCustomElement('opce-burndown-chart', BurndownChartComponent, { injector }, { attributeInputs: true });
+    registerCustomElement('opce-burnup-chart', BurnupChartComponent, { injector }, { attributeInputs: true });
+    registerCustomElement('opce-created-resolved-chart', CreatedResolvedComponent, { injector }, { attributeInputs: true });
+    registerCustomElement('opce-velocity-chart', VelocityChartComponent, { injector }, { attributeInputs: true });
+    registerCustomElement('opce-sprint-work-package-graph', SprintWorkPackageGraphComponent, { injector }, { attributeInputs: true });
+    registerCustomElement('opce-budget-by-cost-type', BudgetByCostTypeComponent, { injector }, { attributeInputs: true });
+    registerCustomElement('opce-actual-costs', ActualCostsComponent, { injector }, { attributeInputs: true });
+    registerCustomElement('opce-project-timeline-graph', ProjectTimelineGraphComponent, { injector }, { attributeInputs: true });
   }
 }

@@ -34,40 +34,51 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { CreatedResolvedComponent } from 'core-app/features/backlogs/created-resolved-chart.component';
+import { defineTestCustomElement, TestCustomElement } from 'core-app/shared/helpers/angular/custom-element.spec-helper';
+
+let zone:string;
+let weekStart:number;
+
+const i18nStub = {
+  locale: 'en',
+  t(key:string, options:Record<string, string|number> = {}) {
+    const translations:Record<string, string> = {
+      'js.created_resolved_chart.chart_label': 'Created vs. resolved chart',
+      'js.chart.description.caption': `${options.label}: data`,
+      'js.chart.description.date': 'Date',
+      'js.chart.description.week': 'Week of',
+      'js.sprint_charts.description_summary': `${options.label} data: ${options.from} – ${options.to}. ${options.values}.`,
+      'js.sprint_charts.description_value': `${options.label}: ${options.value}`,
+    };
+
+    return translations[key] ?? key;
+  },
+};
+
+// The real TimezoneService, stubbed only at its configuration, so that these examples exercise
+// the zone conversion rather than a stand-in for it.
+const configurationStub = {
+  isTimezoneSet: () => true,
+  timezone: () => zone,
+  dateFormatPresent: () => true,
+  dateFormat: () => 'MM/DD/YYYY',
+  timeFormatPresent: () => true,
+  timeFormat: () => 'hh:mm A',
+  startOfWeek: () => weekStart,
+};
+
+const configureTestingModule = () => TestBed.configureTestingModule({
+  imports: [CreatedResolvedComponent],
+  providers: [
+    { provide: I18nService, useValue: i18nStub },
+    { provide: ConfigurationService, useValue: configurationStub },
+    TimezoneService,
+  ],
+}).compileComponents();
 
 describe('CreatedResolvedComponent', () => {
   let fixture:ComponentFixture<CreatedResolvedComponent>;
   let element:HTMLElement;
-  let zone:string;
-  let weekStart:number;
-
-  const i18nStub = {
-    locale: 'en',
-    t(key:string, options:Record<string, string|number> = {}) {
-      const translations:Record<string, string> = {
-        'js.created_resolved_chart.chart_label': 'Created vs. resolved chart',
-        'js.chart.description.caption': `${options.label}: data`,
-        'js.chart.description.date': 'Date',
-        'js.chart.description.week': 'Week of',
-        'js.sprint_charts.description_summary': `${options.label} data: ${options.from} – ${options.to}. ${options.values}.`,
-        'js.sprint_charts.description_value': `${options.label}: ${options.value}`,
-      };
-
-      return translations[key] ?? key;
-    },
-  };
-
-  // The real TimezoneService, stubbed only at its configuration, so that these examples exercise
-  // the zone conversion rather than a stand-in for it.
-  const configurationStub = {
-    isTimezoneSet: () => true,
-    timezone: () => zone,
-    dateFormatPresent: () => true,
-    dateFormat: () => 'MM/DD/YYYY',
-    timeFormatPresent: () => true,
-    timeFormat: () => 'hh:mm A',
-    startOfWeek: () => weekStart,
-  };
 
   // The window is the server's, not the series' extent, so it is stated rather than derived.
   let range = { from: '2026-10-12T00:00:00.000Z', to: '2026-10-23T23:59:59.999Z' };
@@ -83,14 +94,7 @@ describe('CreatedResolvedComponent', () => {
     weekStart = 1;
     range = { from: '2026-10-12T00:00:00.000Z', to: '2026-10-23T23:59:59.999Z' };
 
-    await TestBed.configureTestingModule({
-      imports: [CreatedResolvedComponent],
-      providers: [
-        { provide: I18nService, useValue: i18nStub },
-        { provide: ConfigurationService, useValue: configurationStub },
-        TimezoneService,
-      ],
-    }).compileComponents();
+    await configureTestingModule();
 
     fixture = TestBed.createComponent(CreatedResolvedComponent);
     element = fixture.nativeElement as HTMLElement;
@@ -333,5 +337,46 @@ describe('CreatedResolvedComponent', () => {
 
     // 18:30Z is the following midnight in Kolkata.
     expect(callback(Date.parse('2026-10-16T18:30:00.000Z'))).toEqual('10/17/2026');
+  });
+});
+
+describe('CreatedResolvedComponent as a custom element', () => {
+  const payload = JSON.stringify({
+    step: 'hour',
+    range: { from: '2026-10-12T00:00:00.000Z', to: '2026-10-23T23:59:59.999Z' },
+    series: [
+      { id: 'created', label: 'Created', data: [{ x: '2026-10-12T09:00:00.000Z', y: 2 }] },
+      { id: 'resolved', label: 'Resolved', data: [{ x: '2026-10-12T09:00:00.000Z', y: 1 }] },
+    ],
+  });
+  let custom:TestCustomElement;
+
+  beforeEach(async () => {
+    zone = 'UTC';
+    weekStart = 1;
+    await configureTestingModule();
+  });
+
+  afterEach(() => custom.element.remove());
+
+  it('renders the chart from the chart-data attribute', async () => {
+    custom = await defineTestCustomElement(CreatedResolvedComponent, { 'chart-data': payload });
+
+    expect(custom.element.querySelector('canvas')).not.toBeNull();
+    expect(tableRows(within(custom.element).getByRole('table'))).toEqual([['10/12/2026', '2', '1']]);
+  });
+
+  it('falls back to empty data once the chart-data attribute is removed', async () => {
+    custom = await defineTestCustomElement(CreatedResolvedComponent, { 'chart-data': payload });
+
+    await custom.remove('chart-data');
+
+    expect(custom.element.querySelector('canvas')).toBeNull();
+  });
+
+  it('renders the empty state without the attribute', async () => {
+    custom = await defineTestCustomElement(CreatedResolvedComponent, {});
+
+    expect(custom.element.querySelector('canvas')).toBeNull();
   });
 });

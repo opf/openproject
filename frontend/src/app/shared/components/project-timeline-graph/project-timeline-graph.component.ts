@@ -26,7 +26,6 @@
 //++
 
 import {
-  ChangeDetectionStrategy,
   Component,
   DestroyRef,
   ElementRef,
@@ -41,6 +40,7 @@ import {
 } from '@angular/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
+import { jsonAttribute } from 'core-app/shared/helpers/angular/attribute-inputs';
 import { DataSet } from 'vis-data';
 import { Timeline } from 'vis-timeline/standalone';
 import type { DataItem } from 'vis-timeline/standalone';
@@ -54,11 +54,14 @@ import { ProjectTimelineTooltipPopover } from './project-timeline-tooltip.popove
 
 export type { ProjectTimelineItem } from './project-timeline-item.builder';
 
+const EMPTY_PHASES:ProjectPhaseData[] = [];
+const EMPTY_MILESTONES:ProjectMilestoneData[] = [];
+const EMPTY_SPRINTS:ProjectSprintData[] = [];
+
 @Component({
   selector: 'opce-project-timeline-graph',
   templateUrl: './project-timeline-graph.component.html',
   styleUrls: ['./project-timeline-graph.component.sass'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   imports: [OpenprojectContentLoaderModule],
   providers: [ProjectTimelineItemBuilder, ProjectTimelineTooltipBuilder],
@@ -66,24 +69,20 @@ export type { ProjectTimelineItem } from './project-timeline-item.builder';
 export class ProjectTimelineGraphComponent {
   readonly containerRef = viewChild.required<ElementRef<HTMLDivElement>>('container');
 
-  readonly phasesData = input.required<string>();
-  readonly milestonesData = input.required<string>();
-  readonly sprintsData = input<string>('[]');
+  readonly phasesData = input(EMPTY_PHASES, {
+    transform: jsonAttribute(EMPTY_PHASES),
+  });
 
-  readonly phases = computed<ProjectPhaseData[]>(
-    () => JSON.parse(this.phasesData()) as ProjectPhaseData[],
-  );
+  readonly milestonesData = input(EMPTY_MILESTONES, {
+    transform: jsonAttribute(EMPTY_MILESTONES),
+  });
 
-  readonly milestones = computed<ProjectMilestoneData[]>(
-    () => JSON.parse(this.milestonesData()) as ProjectMilestoneData[],
-  );
-
-  readonly sprints = computed<ProjectSprintData[]>(
-    () => JSON.parse(this.sprintsData()) as ProjectSprintData[],
-  );
+  readonly sprintsData = input(EMPTY_SPRINTS, {
+    transform: jsonAttribute(EMPTY_SPRINTS),
+  });
 
   readonly accessibleItems = computed<AccessibleProjectTimelineItem[]>(
-    () => this.itemBuilder.buildAccessibleItems(this.phases(), this.milestones(), this.sprints()),
+    () => this.itemBuilder.buildAccessibleItems(this.phasesData(), this.milestonesData(), this.sprintsData()),
   );
 
   private readonly pathHelper = inject(PathHelperService);
@@ -97,7 +96,7 @@ export class ProjectTimelineGraphComponent {
   protected readonly ready = signal(false);
 
   constructor() {
-    afterNextRender(() => this.initTimeline(this.phases(), this.milestones(), this.sprints()));
+    afterNextRender(() => this.initTimeline(this.phasesData(), this.milestonesData(), this.sprintsData()));
     inject(DestroyRef).onDestroy(() => {
       this.tooltipPopover?.destroy();
       this.timeline?.destroy();
@@ -105,9 +104,9 @@ export class ProjectTimelineGraphComponent {
     });
 
     effect(() => {
-      const phases = this.phases();
-      const milestones = this.milestones();
-      const sprints = this.sprints();
+      const phases = this.phasesData();
+      const milestones = this.milestonesData();
+      const sprints = this.sprintsData();
       if (this.timeline) {
         this.updateTimeline(phases, milestones, sprints);
       }

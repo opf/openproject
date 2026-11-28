@@ -47,7 +47,7 @@ module Backlogs
             step: created_resolved.step,
             range: charted_range,
             series: series
-          }.to_json
+          }
         end
 
         def wrapper_arguments

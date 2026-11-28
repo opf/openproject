@@ -44,10 +44,9 @@ module Projects
 
           widget_wrapper do |widget|
             widget.with_body do
-              helpers.angular_component_tag(
-                "opce-wp-overview-graph",
-                "global-scope": version.systemwide?,
-                "initial-filters": helpers.version_wp_overview_graph_initial_filters(version).to_json
+              helpers.custom_element_tag.opce_wp_overview_graph(
+                global_scope: version.systemwide?,
+                initial_filters: helpers.version_wp_overview_graph_initial_filters(version)
               )
             end
           end

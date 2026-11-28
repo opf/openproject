@@ -33,6 +33,7 @@ import { ProjectTimelineItem, ProjectTimelineGraphComponent } from './project-ti
 import { ProjectTimelineItemBuilder } from './project-timeline-item.builder';
 import { ProjectTimelineTooltipBuilder } from './project-timeline-tooltip.builder';
 import type { TooltipView } from './project-timeline-tooltip.builder';
+import { defineTestCustomElement, TestCustomElement } from 'core-app/shared/helpers/angular/custom-element.spec-helper';
 import { render } from 'lit-html';
 import type { TemplateResult } from 'lit-html';
 import '@openproject/primer-view-components/app/components/primer/anchored_position';
@@ -930,6 +931,51 @@ describe('ProjectTimelineGraphComponent', () => {
 
       expect(popover()).toHaveTextContent('Build Start');
       expect(popover()).toHaveTextContent('Test Start');
+    });
+  });
+
+  describe('as a custom element', () => {
+    let custom:TestCustomElement;
+
+    afterEach(() => custom.element.remove());
+
+    it('renders the screen reader list from the data attributes', async () => {
+      custom = await defineTestCustomElement(ProjectTimelineGraphComponent, {
+        'phases-data': JSON.stringify([phaseWithGates]),
+        'milestones-data': JSON.stringify([milestone]),
+        'sprints-data': JSON.stringify([sprint]),
+      });
+
+      const list = custom.element.querySelector('.op-project-timeline-graph--accessible-list')!;
+      expect(list).toHaveTextContent('Phase Build: 2024-04-01 to 2024-06-30');
+      expect(list).toHaveTextContent('Milestone Launch: 2024-06-30');
+      expect(list).toHaveTextContent('Sprint Sprint 1: 2024-01-01 to 2024-01-14');
+    });
+
+    it('treats a missing sprints-data attribute as no sprints', async () => {
+      custom = await defineTestCustomElement(ProjectTimelineGraphComponent, {
+        'phases-data': JSON.stringify([phaseWithGates]),
+        'milestones-data': '[]',
+      });
+
+      expect(custom.element.querySelector('.op-project-timeline-graph--accessible-list')).not.toHaveTextContent('Sprint');
+    });
+
+    it('falls back to no phases once the phases-data attribute is removed', async () => {
+      custom = await defineTestCustomElement(ProjectTimelineGraphComponent, {
+        'phases-data': JSON.stringify([phaseWithGates]),
+        'milestones-data': '[]',
+      });
+
+      await custom.remove('phases-data');
+
+      expect(custom.element.querySelector('ul.op-project-timeline-graph--accessible-list')).toBeNull();
+    });
+
+    it('renders the empty state without the attribute', async () => {
+      custom = await defineTestCustomElement(ProjectTimelineGraphComponent, {});
+
+      expect(custom.element.querySelector('ul.op-project-timeline-graph--accessible-list')).toBeNull();
     });
   });
 });

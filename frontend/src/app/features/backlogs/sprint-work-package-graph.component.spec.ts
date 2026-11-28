@@ -30,6 +30,7 @@ import { within } from '@testing-library/dom';
 import { tableColumns, tableRows } from 'core-app/shared/components/charts/description/testing/chart-description-table';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { SprintWorkPackageGraphComponent } from './sprint-work-package-graph.component';
+import { defineTestCustomElement, TestCustomElement } from 'core-app/shared/helpers/angular/custom-element.spec-helper';
 
 describe('SprintWorkPackageGraphComponent', () => {
   let fixture:ComponentFixture<SprintWorkPackageGraphComponent>;
@@ -122,6 +123,34 @@ describe('SprintWorkPackageGraphComponent', () => {
         ['In progress', '1'],
         ['Closed', '2'],
       ]);
+    });
+  });
+
+  describe('as a custom element', () => {
+    const payload = JSON.stringify({ labels: ['New'], data: [3], colors: ['#1A67A3'], summary: 'Summary' });
+    let custom:TestCustomElement;
+
+    afterEach(() => custom.element.remove());
+
+    it('renders the chart from the chart-data attribute', async () => {
+      custom = await defineTestCustomElement(SprintWorkPackageGraphComponent, { 'chart-data': payload });
+
+      expect(custom.element.querySelector('canvas')).not.toBeNull();
+      expect(tableRows(within(custom.element).getByRole('table'))).toEqual([['New', '3']]);
+    });
+
+    it('falls back to empty data once the chart-data attribute is removed', async () => {
+      custom = await defineTestCustomElement(SprintWorkPackageGraphComponent, { 'chart-data': payload });
+
+      await custom.remove('chart-data');
+
+      expect(tableRows(within(custom.element).getByRole('table'))).toEqual([]);
+    });
+
+    it('renders the empty state without the attribute', async () => {
+      custom = await defineTestCustomElement(SprintWorkPackageGraphComponent, {});
+
+      expect(tableRows(within(custom.element).getByRole('table'))).toEqual([]);
     });
   });
 });

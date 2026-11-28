@@ -44,16 +44,15 @@ See COPYRIGHT and LICENSE files for more details.
             end
           end
           flex.with_row(mt: 3, align: :center) do
-            helpers.angular_component_tag(
-              "opce-budget-by-cost-type",
+            helpers.custom_element_tag.opce_budget_by_cost_type(
               currency: Setting.costs_currency,
-              "chart-data": {
+              chart_data: {
                 labels: chart_labels,
                 datasets: [{
                   label: Budget.model_name.human,
                   data: chart_data
                 }]
-              }.to_json
+              }
             )
           end
         end

@@ -43,27 +43,24 @@ module Grids
       end
 
       def phases_data
-        return [].to_json unless view_project_phases_allowed?
+        return [] unless view_project_phases_allowed?
 
         active_project_phases
                .eager_load(definition: :color)
                .order("project_phase_definitions.position")
                .map { |phase| phase_data(phase) }
-               .to_json
       end
 
       def milestones_data
         assign_milestone_rows(milestones_scope)
           .map { |wp, row| { id: wp.id, subject: wp.subject, date: wp.due_date.iso8601, typeId: wp.type_id, row: } }
-          .to_json
       end
 
       def sprints_data
-        return [].to_json unless view_sprints_allowed?
+        return [] unless view_sprints_allowed?
 
         assign_sprint_rows(sprints_scope)
           .map { |sprint, row| sprint_data(sprint, row) }
-          .to_json
       end
 
       def any_content?

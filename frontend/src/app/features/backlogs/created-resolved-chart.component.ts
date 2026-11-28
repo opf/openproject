@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { ChartOptions } from 'chart.js';
 import { NoResultsComponent } from 'core-app/shared/components/blankslate/no-results.component';
 import { SeriesChartComponent, SeriesStyle } from 'core-app/shared/components/charts/component.series-chart';
@@ -78,7 +78,6 @@ function paleGreen():string {
   templateUrl: './created-resolved-chart.component.html',
   imports: [BaseChartDirective, ChartDescriptionDirective, NoResultsComponent],
   providers: [provideCharts(withDefaultRegisterables())],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreatedResolvedComponent extends SeriesChartComponent<SeriesKey> {
   protected readonly chartLabel = this.i18n.t('js.created_resolved_chart.chart_label');

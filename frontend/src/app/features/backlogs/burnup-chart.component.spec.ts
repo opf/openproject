@@ -35,44 +35,54 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { BurnupChartComponent } from 'core-app/features/backlogs/burnup-chart.component';
+import { defineTestCustomElement, TestCustomElement } from 'core-app/shared/helpers/angular/custom-element.spec-helper';
+
+const i18nStub = {
+  locale: 'en',
+  t(key:string, options:Record<string, string|number> = {}) {
+    const translations:Record<string, string> = {
+      'js.burnup_chart.chart_label': 'Burnup chart',
+      'js.chart.description.caption': `${options.label}: data`,
+      'js.chart.description.date': 'Date',
+      'js.chart.description.week': 'Week of',
+      'js.sprint_charts.description_summary': `${options.label} data: ${options.from} – ${options.to}. ${options.values}.`,
+      'js.sprint_charts.column_with_unit': `${options.label} (${options.unit})`,
+      'js.sprint_charts.description_value': `${options.label}: ${options.value}`,
+      'js.sprint_charts.unit.story_points': 'story points',
+      'js.sprint_charts.value_with_unit.story_points': `${options.value} story point${options.count === 1 ? '' : 's'}`,
+      'js.sprint_charts.y_axis_title.story_points': 'Story points',
+      'js.sprint_charts.y_axis_title.time': 'Estimated time',
+      'js.sprint_charts.non_working_day': 'Non-working day',
+    };
+
+    return translations[key] ?? key;
+  },
+};
+
+const configurationStub = {
+  isTimezoneSet: () => true,
+  timezone: () => 'UTC',
+  dateFormatPresent: () => true,
+  dateFormat: () => 'MM/DD/YYYY',
+  timeFormatPresent: () => true,
+  timeFormat: () => 'hh:mm A',
+  durationFormat: () => 'hours_only',
+  hoursPerDay: () => 8,
+  daysPerMonth: () => 20,
+};
+
+const configureTestingModule = () => TestBed.configureTestingModule({
+  imports: [BurnupChartComponent],
+  providers: [
+    { provide: I18nService, useValue: i18nStub },
+    { provide: ConfigurationService, useValue: configurationStub },
+    TimezoneService,
+  ],
+}).compileComponents();
 
 describe('BurnupChartComponent', () => {
   let fixture:ComponentFixture<BurnupChartComponent>;
   let element:HTMLElement;
-
-  const i18nStub = {
-    locale: 'en',
-    t(key:string, options:Record<string, string|number> = {}) {
-      const translations:Record<string, string> = {
-        'js.burnup_chart.chart_label': 'Burnup chart',
-        'js.chart.description.caption': `${options.label}: data`,
-        'js.chart.description.date': 'Date',
-        'js.chart.description.week': 'Week of',
-        'js.sprint_charts.description_summary': `${options.label} data: ${options.from} – ${options.to}. ${options.values}.`,
-        'js.sprint_charts.column_with_unit': `${options.label} (${options.unit})`,
-        'js.sprint_charts.description_value': `${options.label}: ${options.value}`,
-        'js.sprint_charts.unit.story_points': 'story points',
-        'js.sprint_charts.value_with_unit.story_points': `${options.value} story point${options.count === 1 ? '' : 's'}`,
-        'js.sprint_charts.y_axis_title.story_points': 'Story points',
-        'js.sprint_charts.y_axis_title.time': 'Estimated time',
-        'js.sprint_charts.non_working_day': 'Non-working day',
-      };
-
-      return translations[key] ?? key;
-    },
-  };
-
-  const configurationStub = {
-    isTimezoneSet: () => true,
-    timezone: () => 'UTC',
-    dateFormatPresent: () => true,
-    dateFormat: () => 'MM/DD/YYYY',
-    timeFormatPresent: () => true,
-    timeFormat: () => 'hh:mm A',
-    durationFormat: () => 'hours_only',
-    hoursPerDay: () => 8,
-    daysPerMonth: () => 20,
-  };
 
   const point = (x:string, y:number) => ({ x, y });
 
@@ -118,14 +128,7 @@ describe('BurnupChartComponent', () => {
   const describedTable = () => within(element).getByRole('table');
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [BurnupChartComponent],
-      providers: [
-        { provide: I18nService, useValue: i18nStub },
-        { provide: ConfigurationService, useValue: configurationStub },
-        TimezoneService,
-      ],
-    }).compileComponents();
+    await configureTestingModule();
 
     fixture = TestBed.createComponent(BurnupChartComponent);
     element = fixture.nativeElement as HTMLElement;
@@ -268,5 +271,44 @@ describe('BurnupChartComponent', () => {
     expect(element.querySelector('canvas')).toBeNull();
     expect(within(element).queryByRole('img')).not.toBeInTheDocument();
     expect(within(element).queryByRole('table')).not.toBeInTheDocument();
+  });
+});
+
+describe('BurnupChartComponent as a custom element', () => {
+  const payload = JSON.stringify({
+    step: 'hour',
+    range: { from: '2026-10-12T00:00:00.000Z', to: '2026-10-23T23:59:59.999Z' },
+    series: [
+      { id: 'completed', label: 'Completed work', data: [{ x: '2026-10-12T23:59:59.999Z', y: 3 }] },
+      { id: 'scope', label: 'Total work scope', data: [{ x: '2026-10-12T23:59:59.999Z', y: 10 }] },
+    ],
+  });
+  let custom:TestCustomElement;
+
+  beforeEach(async () => {
+    await configureTestingModule();
+  });
+
+  afterEach(() => custom.element.remove());
+
+  it('renders the chart from the chart-data attribute', async () => {
+    custom = await defineTestCustomElement(BurnupChartComponent, { 'chart-data': payload });
+
+    expect(custom.element.querySelector('canvas')).not.toBeNull();
+    expect(tableRows(within(custom.element).getByRole('table'))[0]).toEqual(['10/12/2026', '3', '10']);
+  });
+
+  it('falls back to empty data once the chart-data attribute is removed', async () => {
+    custom = await defineTestCustomElement(BurnupChartComponent, { 'chart-data': payload });
+
+    await custom.remove('chart-data');
+
+    expect(custom.element.querySelector('canvas')).toBeNull();
+  });
+
+  it('renders the empty state without the attribute', async () => {
+    custom = await defineTestCustomElement(BurnupChartComponent, {});
+
+    expect(custom.element.querySelector('canvas')).toBeNull();
   });
 });

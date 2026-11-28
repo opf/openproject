@@ -35,47 +35,58 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { BurndownChartComponent } from 'core-app/features/backlogs/burndown-chart.component';
+import { defineTestCustomElement, TestCustomElement } from 'core-app/shared/helpers/angular/custom-element.spec-helper';
+
+let zone:string;
+
+const i18nStub = {
+  locale: 'en',
+  t(key:string, options:Record<string, string|number> = {}) {
+    const translations:Record<string, string> = {
+      'js.burndown_chart.chart_label': 'Burndown chart',
+      'js.chart.description.caption': `${options.label}: data`,
+      'js.chart.description.date': 'Date',
+      'js.chart.description.week': 'Week of',
+      'js.sprint_charts.description_summary': `${options.label} data: ${options.from} – ${options.to}. ${options.values}.`,
+      'js.sprint_charts.column_with_unit': `${options.label} (${options.unit})`,
+      'js.sprint_charts.description_value': `${options.label}: ${options.value}`,
+      'js.sprint_charts.unit.story_points': 'story points',
+      'js.sprint_charts.value_with_unit.story_points': `${options.value} story point${options.count === 1 ? '' : 's'}`,
+      'js.sprint_charts.y_axis_title.story_points': 'Story points',
+      'js.sprint_charts.y_axis_title.time': 'Estimated time',
+    };
+
+    return translations[key] ?? key;
+  },
+};
+
+// The real TimezoneService, stubbed only at its configuration, so that these examples exercise
+// the zone conversion rather than a stand-in for it. The zone decides which day a point falls
+// on, so each example sets it rather than it being fixed here.
+const configurationStub = {
+  isTimezoneSet: () => true,
+  timezone: () => zone,
+  dateFormatPresent: () => true,
+  dateFormat: () => 'MM/DD/YYYY',
+  timeFormatPresent: () => true,
+  timeFormat: () => 'hh:mm A',
+  durationFormat: () => 'hours_only',
+  hoursPerDay: () => 8,
+  daysPerMonth: () => 20,
+};
+
+const configureTestingModule = () => TestBed.configureTestingModule({
+  imports: [BurndownChartComponent],
+  providers: [
+    { provide: I18nService, useValue: i18nStub },
+    { provide: ConfigurationService, useValue: configurationStub },
+    TimezoneService,
+  ],
+}).compileComponents();
 
 describe('BurndownChartComponent', () => {
   let fixture:ComponentFixture<BurndownChartComponent>;
   let element:HTMLElement;
-  let zone:string;
-
-  const i18nStub = {
-    locale: 'en',
-    t(key:string, options:Record<string, string|number> = {}) {
-      const translations:Record<string, string> = {
-        'js.burndown_chart.chart_label': 'Burndown chart',
-        'js.chart.description.caption': `${options.label}: data`,
-        'js.chart.description.date': 'Date',
-        'js.chart.description.week': 'Week of',
-        'js.sprint_charts.description_summary': `${options.label} data: ${options.from} – ${options.to}. ${options.values}.`,
-        'js.sprint_charts.column_with_unit': `${options.label} (${options.unit})`,
-        'js.sprint_charts.description_value': `${options.label}: ${options.value}`,
-        'js.sprint_charts.unit.story_points': 'story points',
-        'js.sprint_charts.value_with_unit.story_points': `${options.value} story point${options.count === 1 ? '' : 's'}`,
-        'js.sprint_charts.y_axis_title.story_points': 'Story points',
-        'js.sprint_charts.y_axis_title.time': 'Estimated time',
-      };
-
-      return translations[key] ?? key;
-    },
-  };
-
-  // The real TimezoneService, stubbed only at its configuration, so that these examples exercise
-  // the zone conversion rather than a stand-in for it. The zone decides which day a point falls
-  // on, so each example sets it rather than it being fixed here.
-  const configurationStub = {
-    isTimezoneSet: () => true,
-    timezone: () => zone,
-    dateFormatPresent: () => true,
-    dateFormat: () => 'MM/DD/YYYY',
-    timeFormatPresent: () => true,
-    timeFormat: () => 'hh:mm A',
-    durationFormat: () => 'hours_only',
-    hoursPerDay: () => 8,
-    daysPerMonth: () => 20,
-  };
 
   // The window is the server's, not the series' extent, so it is stated rather than derived.
   const chartData = (
@@ -96,14 +107,7 @@ describe('BurndownChartComponent', () => {
   beforeEach(async () => {
     zone = 'UTC';
 
-    await TestBed.configureTestingModule({
-      imports: [BurndownChartComponent],
-      providers: [
-        { provide: I18nService, useValue: i18nStub },
-        { provide: ConfigurationService, useValue: configurationStub },
-        TimezoneService,
-      ],
-    }).compileComponents();
+    await configureTestingModule();
 
     fixture = TestBed.createComponent(BurndownChartComponent);
     element = fixture.nativeElement as HTMLElement;
@@ -429,5 +433,45 @@ describe('BurndownChartComponent', () => {
     expect(element.querySelector('canvas')).toBeNull();
     expect(within(element).queryByRole('img')).not.toBeInTheDocument();
     expect(within(element).queryByRole('table')).not.toBeInTheDocument();
+  });
+});
+
+describe('BurndownChartComponent as a custom element', () => {
+  const payload = JSON.stringify({
+    step: 'hour',
+    range: { from: '2026-10-12T00:00:00.000Z', to: '2026-10-23T23:59:59.999Z' },
+    series: [
+      { id: 'remaining', label: 'Story points', data: [{ x: '2026-10-12T23:59:59.999Z', y: 5 }] },
+      { id: 'guideline', label: 'Guideline', data: [{ x: '2026-10-12T23:59:59.999Z', y: 6 }] },
+    ],
+  });
+  let custom:TestCustomElement;
+
+  beforeEach(async () => {
+    zone = 'UTC';
+    await configureTestingModule();
+  });
+
+  afterEach(() => custom.element.remove());
+
+  it('renders the chart from the chart-data attribute', async () => {
+    custom = await defineTestCustomElement(BurndownChartComponent, { 'chart-data': payload });
+
+    expect(custom.element.querySelector('canvas')).not.toBeNull();
+    expect(tableRows(within(custom.element).getByRole('table'))[0]).toEqual(['10/12/2026', '5', '6']);
+  });
+
+  it('falls back to empty data once the chart-data attribute is removed', async () => {
+    custom = await defineTestCustomElement(BurndownChartComponent, { 'chart-data': payload });
+
+    await custom.remove('chart-data');
+
+    expect(custom.element.querySelector('canvas')).toBeNull();
+  });
+
+  it('renders the empty state without the attribute', async () => {
+    custom = await defineTestCustomElement(BurndownChartComponent, {});
+
+    expect(custom.element.querySelector('canvas')).toBeNull();
   });
 });

@@ -34,6 +34,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { VelocityChartComponent } from './velocity-chart.component';
 import AverageLinePlugin, { isAverageLineVisible } from './plugin.average-line';
+import { defineTestCustomElement, TestCustomElement } from 'core-app/shared/helpers/angular/custom-element.spec-helper';
 
 describe('VelocityChartComponent', () => {
   let fixture:ComponentFixture<VelocityChartComponent>;
@@ -159,7 +160,7 @@ describe('VelocityChartComponent', () => {
 
   const withoutAverage = () => {
     fixture.componentRef.setInput('chartData', JSON.stringify({
-      ...fixture.componentInstance.parsedData(),
+      ...fixture.componentInstance.chartData(),
       average: null,
     }));
     fixture.detectChanges();
@@ -249,7 +250,7 @@ describe('VelocityChartComponent', () => {
   describe('with unit time', () => {
     beforeEach(() => {
       fixture.componentRef.setInput('chartData', JSON.stringify({
-        ...fixture.componentInstance.parsedData(),
+        ...fixture.componentInstance.chartData(),
         unit: 'time',
         datasets: [
           { label: 'Committed', data: [21.25, 13] },
@@ -293,6 +294,34 @@ describe('VelocityChartComponent', () => {
       const cells = within(element).getAllByRole('cell').map((cell) => cell.textContent.trim());
 
       expect(cells).toEqual(['21.25h', '20h', '13h', '8.5h']);
+    });
+  });
+
+  describe('as a custom element', () => {
+    const payload = JSON.stringify({ unit: 'story_points', labels: ['Sprint 1'], datasets: [{ label: 'Committed', data: [21] }], average: null, averageLabel: 'Average', yAxisTitle: 'Story points', summary: 'Summary' });
+    let custom:TestCustomElement;
+
+    afterEach(() => custom.element.remove());
+
+    it('renders the chart from the chart-data attribute', async () => {
+      custom = await defineTestCustomElement(VelocityChartComponent, { 'chart-data': payload });
+
+      expect(custom.element.querySelector('canvas')).not.toBeNull();
+      expect(tableRows(within(custom.element).getByRole('table'))).toEqual([['Sprint 1', '21']]);
+    });
+
+    it('falls back to empty data once the chart-data attribute is removed', async () => {
+      custom = await defineTestCustomElement(VelocityChartComponent, { 'chart-data': payload });
+
+      await custom.remove('chart-data');
+
+      expect(tableRows(within(custom.element).getByRole('table'))).toEqual([]);
+    });
+
+    it('renders the empty state without the attribute', async () => {
+      custom = await defineTestCustomElement(VelocityChartComponent, {});
+
+      expect(tableRows(within(custom.element).getByRole('table'))).toEqual([]);
     });
   });
 });

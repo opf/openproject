@@ -39,6 +39,11 @@ RSpec.describe Grids::Widgets::ProjectTimeline, type: :component do
   let(:sprints_role) { create(:project_role, permissions: [:view_sprints]) }
   let(:component) { described_class.new(project) }
 
+  def rendered_data(attribute)
+    render_inline(component)
+    JSON.parse(page.find("opce-project-timeline-graph")[attribute])
+  end
+
   before { login_as(user) }
 
   describe "#render?" do
@@ -153,7 +158,7 @@ RSpec.describe Grids::Widgets::ProjectTimeline, type: :component do
     let(:definition) { create(:project_phase_definition, :with_start_gate, :with_finish_gate) }
     let!(:phase) { create(:project_phase, project:, definition:) }
 
-    subject(:data) { JSON.parse(component.phases_data) }
+    subject(:data) { component.phases_data.as_json }
 
     context "without view_project_phases permission" do
       it { expect(data).to eq([]) }
@@ -163,7 +168,7 @@ RSpec.describe Grids::Widgets::ProjectTimeline, type: :component do
       before { create(:member, user:, project:, roles: [phases_role]) }
 
       it "includes all required fields" do
-        expect(data.first).to include(
+        expect(rendered_data("phases-data").first).to include(
           "id" => phase.id,
           "definitionId" => definition.id,
           "name" => definition.name,
@@ -198,12 +203,12 @@ RSpec.describe Grids::Widgets::ProjectTimeline, type: :component do
     let(:milestone_type) { create(:type, is_milestone: true) }
     let!(:milestone) { create(:work_package, project:, type: milestone_type, due_date: Time.zone.today) }
 
-    subject(:data) { JSON.parse(component.milestones_data) }
+    subject(:data) { component.milestones_data.as_json }
 
     before { create(:member, user:, project:, roles: [wp_role]) }
 
     it "includes all required fields" do
-      expect(data.first).to include(
+      expect(rendered_data("milestones-data").first).to include(
         "id" => milestone.id,
         "subject" => milestone.subject,
         "date" => milestone.due_date.iso8601,
@@ -243,7 +248,7 @@ RSpec.describe Grids::Widgets::ProjectTimeline, type: :component do
 
     subject(:data) do
       render_inline(component)
-      JSON.parse(component.sprints_data)
+      component.sprints_data.as_json
     end
 
     context "without view_sprints permission" do
@@ -263,7 +268,7 @@ RSpec.describe Grids::Widgets::ProjectTimeline, type: :component do
       before { create(:member, user:, project:, roles: [sprints_role]) }
 
       it "includes all required fields" do
-        expect(data.first).to include(
+        expect(rendered_data("sprints-data").first).to include(
           "id" => sprint.id,
           "name" => sprint.name,
           "startDate" => sprint.start_date.iso8601,

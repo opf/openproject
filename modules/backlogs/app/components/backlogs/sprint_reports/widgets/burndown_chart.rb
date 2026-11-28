@@ -47,7 +47,7 @@ module Backlogs
             range: charted_range,
             series: series,
             nonWorkingIntervals: non_working_intervals
-          }.to_json
+          }
         end
 
         def wrapper_arguments

@@ -56,7 +56,7 @@ module Backlogs
             data: bars.map(&:count),
             colors: bars.map(&:color),
             summary:
-          }.to_json
+          }
         end
 
         private

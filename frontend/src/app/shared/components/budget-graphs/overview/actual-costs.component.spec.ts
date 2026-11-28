@@ -32,36 +32,39 @@ import { within } from '@testing-library/dom';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import PrimerColorsPlugin from 'core-app/shared/components/work-package-graphs/plugin.primer-colors';
 import { ActualCostsComponent } from './actual-costs.component';
+import { defineTestCustomElement, TestCustomElement } from 'core-app/shared/helpers/angular/custom-element.spec-helper';
 import type { BarTooltipContext } from '../chart.config';
+
+const i18nStub = {
+  locale: 'en',
+  t(key:string, options:Record<string, string> = {}) {
+    const translations:Record<string, string> = {
+      'js.costs.widgets.actual_costs.chart_label': 'Actual costs by month chart',
+      'js.costs.widgets.actual_costs.chart_month': `${options.month}: ${options.values}`,
+      'js.costs.widgets.actual_costs.chart_summary': `Actual costs by month: ${options.months}.`,
+      'js.costs.widgets.actual_costs.chart_value': `${options.label}: ${options.value}`,
+    };
+
+    return translations[key] ?? key;
+  },
+};
+
+const configureTestingModule = () => TestBed.configureTestingModule({
+  imports: [ActualCostsComponent],
+  providers: [
+    { provide: I18nService, useValue: i18nStub },
+    provideCharts(withDefaultRegisterables(PrimerColorsPlugin)),
+  ],
+}).compileComponents();
 
 describe('ActualCostsComponent', () => {
   let fixture:ComponentFixture<ActualCostsComponent>;
   let element:HTMLElement;
 
-  const i18nStub = {
-    locale: 'en',
-    t(key:string, options:Record<string, string> = {}) {
-      const translations:Record<string, string> = {
-        'js.costs.widgets.actual_costs.chart_label': 'Actual costs by month chart',
-        'js.costs.widgets.actual_costs.chart_month': `${options.month}: ${options.values}`,
-        'js.costs.widgets.actual_costs.chart_summary': `Actual costs by month: ${options.months}.`,
-        'js.costs.widgets.actual_costs.chart_value': `${options.label}: ${options.value}`,
-      };
-
-      return translations[key] ?? key;
-    },
-  };
-
   beforeEach(async () => {
     i18nStub.locale = 'en';
 
-    await TestBed.configureTestingModule({
-      imports: [ActualCostsComponent],
-      providers: [
-        { provide: I18nService, useValue: i18nStub },
-        provideCharts(withDefaultRegisterables(PrimerColorsPlugin)),
-      ],
-    }).compileComponents();
+    await configureTestingModule();
 
     fixture = TestBed.createComponent(ActualCostsComponent);
     element = fixture.nativeElement as HTMLElement;
@@ -178,5 +181,63 @@ describe('ActualCostsComponent', () => {
     expect(popover.matches(':popover-open')).toBe(true);
     expect(within(popover).getByText('Labor')).toBeInTheDocument();
     expect(document.body.querySelector(':scope > anchored-position')).toBeNull();
+  });
+
+  it('rebuilds the y-axis tick labels when only the currency changes', () => {
+    const yTickLabel = () => {
+      const options = fixture.componentInstance.barChartOptions()!;
+      const callback = options.scales!.y!.ticks!.callback as (value:number) => string;
+      return { options, label: callback(1_000) };
+    };
+    fixture.componentRef.setInput('currency', 'EUR');
+    renderWith([{ label: 'Labor', data: [10] }]);
+    const before = yTickLabel();
+
+    fixture.componentRef.setInput('currency', 'USD');
+    fixture.detectChanges();
+    const after = yTickLabel();
+
+    expect(after.options).not.toBe(before.options);
+    expect(before.label).toContain('€');
+    expect(after.label).toContain('$');
+  });
+});
+
+describe('ActualCostsComponent as a custom element', () => {
+  const payload = JSON.stringify({ labels: ['2026-01-01'], datasets: [{ label: 'Labor', data: [1_000] }] });
+  let custom:TestCustomElement;
+
+  beforeEach(async () => {
+    i18nStub.locale = 'en';
+    await configureTestingModule();
+  });
+
+  afterEach(() => custom.element.remove());
+
+  it('renders the chart from the chart-data and currency attributes', async () => {
+    custom = await defineTestCustomElement(ActualCostsComponent, { 'chart-data': payload, currency: 'EUR' });
+
+    expect(custom.element.querySelector('canvas')).not.toBeNull();
+    expect(custom.element.textContent).toContain('January 2026: Labor: €1,000');
+  });
+
+  it('falls back to an empty chart once the chart-data attribute is removed', async () => {
+    custom = await defineTestCustomElement(ActualCostsComponent, { 'chart-data': payload });
+
+    await custom.remove('chart-data');
+
+    expect(custom.element.querySelector('canvas')).toBeNull();
+  });
+
+  it('renders the empty state without the attribute', async () => {
+    custom = await defineTestCustomElement(ActualCostsComponent, {});
+
+    expect(custom.element.querySelector('canvas')).toBeNull();
+  });
+
+  it('formats amounts in the currency attribute', async () => {
+    custom = await defineTestCustomElement(ActualCostsComponent, { 'chart-data': payload, currency: 'USD' });
+
+    expect(custom.element.textContent).toContain('Labor: $1,000');
   });
 });
