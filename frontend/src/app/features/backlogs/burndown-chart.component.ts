@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { ChartOptions, TooltipItem } from 'chart.js';
 import { NoResultsComponent } from 'core-app/shared/components/blankslate/no-results.component';
 import NonWorkingDaysPlugin, { nonWorkingDaysColor } from 'core-app/shared/components/charts/plugin.non-working-days';
@@ -98,7 +98,6 @@ function guidelineColor():string {
   templateUrl: './burndown-chart.component.html',
   imports: [BaseChartDirective, ChartDescriptionDirective, NoResultsComponent],
   providers: [provideCharts(withDefaultRegisterables(NonWorkingDaysPlugin))],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BurndownChartComponent extends SeriesChartComponent<SeriesKey> {
   protected readonly chartLabel = this.i18n.t('js.burndown_chart.chart_label');

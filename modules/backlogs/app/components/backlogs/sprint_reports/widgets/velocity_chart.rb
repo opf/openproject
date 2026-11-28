@@ -61,7 +61,7 @@ module Backlogs
             averageLabel: t(".average_legend"),
             yAxisTitle: t(".y_axis_title.#{unit}"),
             summary:
-          }.to_json
+          }
         end
 
         def velocity_label

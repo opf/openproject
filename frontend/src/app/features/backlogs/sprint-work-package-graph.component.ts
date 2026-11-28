@@ -33,6 +33,7 @@ import { color } from 'chart.js/helpers';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import PrimerColorsPlugin from 'core-app/shared/components/work-package-graphs/plugin.primer-colors';
+import { jsonAttribute } from 'core-app/shared/helpers/angular/attribute-inputs';
 import { getCSSVariable } from 'core-app/shared/helpers/dom-helpers';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ChartDescriptionDirective } from 'core-app/shared/components/charts/description/chart-description.directive';
@@ -44,6 +45,13 @@ interface SprintWorkPackageGraphData {
   colors:(string|null)[];
   summary:string;
 }
+
+const EMPTY_SPRINT_WORK_PACKAGE_GRAPH_DATA:SprintWorkPackageGraphData = {
+  labels: [],
+  data: [],
+  colors: [],
+  summary: '',
+};
 
 // A bar is filled the way `hl_background_muted_styles` fills a status badge -- its own color,
 // faded, behind its own outline -- but stronger than the 0.18 a badge uses, which a bar this
@@ -97,16 +105,14 @@ function barChartOptions():ChartOptions<'bar'> {
 export class SprintWorkPackageGraphComponent {
   private readonly i18n = inject(I18nService);
 
-  readonly chartData = input.required<string>();
+  readonly chartData = input(EMPTY_SPRINT_WORK_PACKAGE_GRAPH_DATA, {
+    transform: jsonAttribute(EMPTY_SPRINT_WORK_PACKAGE_GRAPH_DATA),
+  });
 
   readonly plugins:Plugin<'bar'>[] = [ChartDataLabels];
 
-  readonly parsedData:Signal<SprintWorkPackageGraphData> = computed(
-    () => JSON.parse(this.chartData()) as SprintWorkPackageGraphData,
-  );
-
   protected readonly description = computed<ChartDescription>(() => {
-    const { labels, data, summary } = this.parsedData();
+    const { labels, data, summary } = this.chartData();
     const label = this.i18n.t('js.sprint_work_package_graph.chart_label');
     const count = new Intl.NumberFormat(this.i18n.locale);
 
@@ -126,7 +132,7 @@ export class SprintWorkPackageGraphComponent {
 
   // One bar per status, carrying the color that status carries everywhere else in the product.
   readonly barChartData:Signal<ChartData<'bar'>> = computed<ChartData<'bar'>>(() => {
-    const { labels, data, colors } = this.parsedData();
+    const { labels, data, colors } = this.chartData();
     const borderColor = colors.map((statusColor) => statusColor ?? getCSSVariable(UNCOLORED_STATUS_FALLBACK, '#59636e'));
 
     return {

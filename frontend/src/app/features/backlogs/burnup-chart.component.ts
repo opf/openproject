@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { ChartOptions, TooltipItem } from 'chart.js';
 import { NoResultsComponent } from 'core-app/shared/components/blankslate/no-results.component';
 import { getCSSVariable } from 'core-app/shared/helpers/dom-helpers';
@@ -88,7 +88,6 @@ const SERIES_STYLE:Record<SeriesKey|NonWorkingKey, SeriesStyle<SeriesKey>> = {
   templateUrl: './burnup-chart.component.html',
   imports: [BaseChartDirective, ChartDescriptionDirective, NoResultsComponent],
   providers: [provideCharts(withDefaultRegisterables(NonWorkingDaysPlugin))],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BurnupChartComponent extends SeriesChartComponent<SeriesKey> {
   protected readonly chartLabel = this.i18n.t('js.burnup_chart.chart_label');

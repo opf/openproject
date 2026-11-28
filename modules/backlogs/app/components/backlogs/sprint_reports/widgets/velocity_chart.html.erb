@@ -45,7 +45,7 @@ See COPYRIGHT and LICENSE files for more details.
         <% end %>
       <% end %>
       <% body.with_row do %>
-        <%= helpers.angular_component_tag "opce-velocity-chart", "chart-data": chart_data, class: "d-block" %>
+        <%= helpers.custom_element_tag.opce_velocity_chart(chart_data:, class: "d-block") %>
       <% end %>
     <% end %>
   <% end %>

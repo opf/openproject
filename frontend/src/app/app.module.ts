@@ -429,11 +429,11 @@ export class OpenProjectModule implements DoBootstrap {
 
     registerCustomElement('opce-my-page', MyPageComponent, { injector });
     registerCustomElement('opce-dashboard', DashboardComponent, { injector });
-    registerCustomElement('opce-burndown-chart', BurndownChartComponent, { injector });
-    registerCustomElement('opce-burnup-chart', BurnupChartComponent, { injector });
-    registerCustomElement('opce-created-resolved-chart', CreatedResolvedComponent, { injector });
-    registerCustomElement('opce-velocity-chart', VelocityChartComponent, { injector });
-    registerCustomElement('opce-sprint-work-package-graph', SprintWorkPackageGraphComponent, { injector });
+    registerCustomElement('opce-burndown-chart', BurndownChartComponent, { injector }, { attributeInputs: true });
+    registerCustomElement('opce-burnup-chart', BurnupChartComponent, { injector }, { attributeInputs: true });
+    registerCustomElement('opce-created-resolved-chart', CreatedResolvedComponent, { injector }, { attributeInputs: true });
+    registerCustomElement('opce-velocity-chart', VelocityChartComponent, { injector }, { attributeInputs: true });
+    registerCustomElement('opce-sprint-work-package-graph', SprintWorkPackageGraphComponent, { injector }, { attributeInputs: true });
     registerCustomElement('opce-budget-by-cost-type', BudgetByCostTypeComponent, { injector });
     registerCustomElement('opce-actual-costs', ActualCostsComponent, { injector });
     registerCustomElement('opce-project-timeline-graph', ProjectTimelineGraphComponent, { injector });

@@ -31,7 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
   widget_wrapper do |container|
     container.with_body do
       if chart_available?
-        helpers.angular_component_tag "opce-created-resolved-chart", "chart-data": chart_data, class: "d-block"
+        helpers.custom_element_tag.opce_created_resolved_chart(chart_data:, class: "d-block")
       else
         blankslate
       end

@@ -43,6 +43,7 @@ import 'chartjs-adapter-luxon';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { jsonAttribute } from 'core-app/shared/helpers/angular/attribute-inputs';
 import { NonWorkingInterval } from 'core-app/shared/components/charts/plugin.non-working-days';
 import { ChartDescription, ChartDescriptionRow } from 'core-app/shared/components/charts/description/chart-description';
 import { calendarDate, calendarDaysSpanned, weekStartDate } from 'core-common/local-datetime';
@@ -137,13 +138,21 @@ const SERIES_DEFAULTS:Omit<Partial<SeriesStyle>, 'swatch'|'color'> = {
   fill: false,
 };
 
+const EMPTY_SERIES_CHART_DATA:SeriesChartData<never> = {
+  step: 'day',
+  range: { from: '1970-01-01T00:00:00.000Z', to: '1970-01-01T00:00:00.000Z' },
+  series: [],
+};
+
 @Directive()
 export abstract class SeriesChartComponent<Key extends string> {
   readonly i18n = inject(I18nService);
   readonly timezoneService = inject(TimezoneService);
   readonly configurationService = inject(ConfigurationService);
 
-  readonly chartData = input.required<string>();
+  readonly chartData = input<SeriesChartData<Key>, SeriesChartData<Key>|string|null|undefined>(EMPTY_SERIES_CHART_DATA, {
+    transform: jsonAttribute<SeriesChartData<Key>>(EMPTY_SERIES_CHART_DATA),
+  });
 
   // Everything that tells the series apart, so that a line and its swatch cannot drift. The order
   // the entries are declared in is the order the legend and the tooltip read them in. A chart
@@ -152,7 +161,7 @@ export abstract class SeriesChartComponent<Key extends string> {
   & Partial<Record<NonWorkingKey, SeriesStyle<Key>>>;
 
   protected get yAxisTitle():string {
-    return this.i18n.t(`js.sprint_charts.y_axis_title.${this.parsedInput().unit ?? 'story_points'}`);
+    return this.i18n.t(`js.sprint_charts.y_axis_title.${this.chartData().unit ?? 'story_points'}`);
   }
 
   protected abstract readonly chartLabel:string;
@@ -162,15 +171,13 @@ export abstract class SeriesChartComponent<Key extends string> {
 
   protected abstract readonly interaction:ChartOptions<'line'>['interaction'];
 
-  protected readonly parsedInput = computed(() => JSON.parse(this.chartData()) as SeriesChartData<Key>);
-
-  protected readonly nonWorkingIntervals = computed(() => this.parsedInput().nonWorkingIntervals ?? []);
+  protected readonly nonWorkingIntervals = computed(() => this.chartData().nonWorkingIntervals ?? []);
 
   // The non-working days join the series they are drawn among, without data points but present, so
   // that the legend and its toggle reach them through chart.js. Only for a chart that styled them:
   // the rest have nothing to put in that legend entry and nothing to paint under it.
   protected readonly series = computed<ChartSeries<Key|NonWorkingKey>[]>(() => {
-    const { series } = this.parsedInput();
+    const { series } = this.chartData();
 
     if (this.nonWorkingIntervals().length === 0 || this.seriesStyle[NON_WORKING_KEY] === undefined) {
       return series;
@@ -195,7 +202,7 @@ export abstract class SeriesChartComponent<Key extends string> {
   // the planned finish while counts stop at the present moment. Taken from the data instead, two
   // charts of the same sprint would span different intervals.
   private readonly chartedRange = computed(() => {
-    const { from, to } = this.parsedInput().range;
+    const { from, to } = this.chartData().range;
 
     return { min: Date.parse(from), max: Date.parse(to) };
   });
@@ -254,7 +261,7 @@ export abstract class SeriesChartComponent<Key extends string> {
     const described = this.series()
       .filter((series) => series.data.length > 0)
       .sort((a, b) => this.seriesRank(a.id) - this.seriesRank(b.id));
-    const { from, to } = this.parsedInput().range;
+    const { from, to } = this.chartData().range;
     const period = this.periodOf();
     const latest = described.map((series) => this.i18n.t('js.sprint_charts.description_value', {
       label: series.label,
@@ -291,7 +298,7 @@ export abstract class SeriesChartComponent<Key extends string> {
   }
 
   private namesUnitFor(series:ChartSeries<Key|NonWorkingKey>):boolean {
-    return this.parsedInput().unit === 'story_points' && !this.seriesNamingUnit.has(series.id);
+    return this.chartData().unit === 'story_points' && !this.seriesNamingUnit.has(series.id);
   }
 
   private columnHeader(series:ChartSeries<Key|NonWorkingKey>):string {
@@ -313,7 +320,7 @@ export abstract class SeriesChartComponent<Key extends string> {
   }
 
   private formatValue(value:number):string {
-    if (this.parsedInput().unit === 'time') {
+    if (this.chartData().unit === 'time') {
       return this.timezoneService.formattedChronicDurationFromHours(value);
     }
 
@@ -321,7 +328,7 @@ export abstract class SeriesChartComponent<Key extends string> {
   }
 
   private yTicks():YTicks {
-    if (this.parsedInput().unit === 'time') {
+    if (this.chartData().unit === 'time') {
       return { stepSize: this.configurationService.hoursPerDay(), format: (value) => this.formatValue(value) };
     }
 
@@ -329,7 +336,7 @@ export abstract class SeriesChartComponent<Key extends string> {
   }
 
   protected formattedTick(item:TooltipItem<'line'>):string {
-    return formattedTick(Number(item.parsed.x), this.parsedInput().step, this.timezoneService);
+    return formattedTick(Number(item.parsed.x), this.chartData().step, this.timezoneService);
   }
 
   protected seriesId(datasetIndex:number|undefined):Key|NonWorkingKey|undefined {
@@ -338,7 +345,7 @@ export abstract class SeriesChartComponent<Key extends string> {
 
   private periodOf():Period {
     const zone = this.timezoneService.userTimezone();
-    const { from, to } = this.parsedInput().range;
+    const { from, to } = this.chartData().range;
     const firstDay = calendarDate(from, zone);
     const lastDay = calendarDate(to, zone);
     const spanned = firstDay === null || lastDay === null ? null : calendarDaysSpanned(firstDay, lastDay);
