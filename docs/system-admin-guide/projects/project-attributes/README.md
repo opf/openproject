@@ -156,92 +156,112 @@ In the example below, a project attribute called **Initiative score (calculated)
 
 ![An example of a project attribute of type "Calculated value" in OpenProject administration](open_project_system_guide_project_attributes_calculated_value.png)
 
-#### Formula syntax reference
 
-Formulas support the literals, operators, functions and keywords listed below, and can reference other project attributes — integer, float, boolean, weighted item list scores and other calculated values.
+#### Understanding formulas for Calculated value attributes
 
-##### Literals
+When you create a "Calculated value" project attribute, you write a formula that does the math for you, similar to a formula in a spreadsheet. The formula can pull in numbers from other project attributes (like integers, decimals, yes/no fields, weighted list scores, or even other calculated values) and combine them.
 
-Number and boolean literals are supported. Numbers can be either integer (`42`) or decimal (`3.14`, `.1`). Boolean literals are uppercase (`TRUE` and `FALSE`).
+Here is a guide on what you can put in a formula.
 
-##### Precedence
+##### Basic values you can type in
 
-Operators with higher precedence evaluate before those with lower. Operators with same precedence are evaluated left to right. Precedence can be changed using parentheses:
+- **Numbers**: whole numbers like `42`, or decimals like `3.14` or `.1`.
+- **True/False**: written in all caps as `TRUE` or `FALSE`.
 
-* `5 + 3 * 2` => `11`
-* `(5 + 3) * 2` => `16`
+##### Order of operations (what gets calculated first)
 
-##### Math operators
+Just like in math class, some operations happen before others. Multiplication happens before addition, for example. If you want to force something to happen first, wrap it in parentheses.
 
-| Operator | Description    | Precedence | Examples                                  |
-|----------|----------------|:----------:|-------------------------------------------|
-| `+`      | Addition       |     10     | `1 + 2` => `3`                            |
-| `-`      | Subtraction    |     10     | `5 - 2` => `3`                            |
-| `-`      | Unary negation |     40     | `-x` negates `x`                          |
-| `*`      | Multiplication |     20     | `4 * 3` => `12`                           |
-| `/`      | Division       |     20     | `9 / 3` => `3.0`<br>`10 / 4` => `2.5`     |
-| `%`      | Modulo         |     20     | `7 % 3` => `1`                            |
-| `%`      | Percentage     |     30     | `7 + 1%` => `7.01`                        |
-| `^`      | Exponentiation |     30     | `9 ^ 0.5` => `3.0`<br>`2 ^ 3 ^ 2` => `64` |
+- `5 + 3 * 2` gives you `11` (the multiplication happens first)
+- `(5 + 3) * 2` gives you `16` (the parentheses force the addition first)
 
-##### Numeric functions
+When a formula mixes several symbols, they are calculated in this order, from first to last. Symbols on the same line have equal priority and are calculated left to right:
 
-| Name        | Description                                     | Examples                                                                                  |
-|-------------|-------------------------------------------------|-------------------------------------------------------------------------------------------|
-| `ABS`       | Absolute value                                  | `ABS(-5)` => `5`<br>`ABS(5)` => `5`                                                       |
-| `AVG`       | Arithmetic mean of arguments                    | `AVG(1, 2)` => `1.5`                                                                      |
-| `MAX`       | Largest argument                                | `MAX(3, 1, 2)` => `3`                                                                     |
-| `MIN`       | Smallest argument                               | `MIN(3, 1, 2)` => `1`                                                                     |
-| `ROUND`     | Round to 0 or specified number of decimals      | `ROUND(1.5)` => `2`<br>`ROUND(-1.5)` => `-2`<br>`ROUND(3.14159, 3)` => `3.142`            |
-| `ROUNDDOWN` | Round down to 0 or specified number of decimals | `ROUNDDOWN(1.5)` => `1`<br>`ROUNDDOWN(-1.5)` => `-2`<br>`ROUNDDOWN(0.9999, 3)` => `0.999` |
-| `ROUNDUP`   | Round up to 0 or specified number of decimals   | `ROUNDUP(1.5)` => `2`<br>`ROUNDUP(-1.5)` => `-1`<br>`ROUNDUP(1.0001, 3)` => `1.001`       |
-| `SUM`       | Sum of arguments                                | `SUM(1, 2, 3)` => `6`                                                                     |
+1. `-` (in front of a value)
+2. `%` (after a number), `^`
+3. `*`, `/`, `%`
+4. `+`, `-`
+5. `<`, `>`, `<=`, `>=`, `=`, `==`, `<>`, `!=`
+6. `AND`, `OR` (and `&&`, `||`)
 
-##### Comparison operators
+##### Math symbols you can use
 
-| Operator     | Description           | Precedence | Examples                                  |
-|--------------|-----------------------|:----------:|-------------------------------------------|
-| `<`          | Less than             |     5      | `1 < 2` => `TRUE`<br>`2 < 2` => `FALSE`   |
-| `>`          | Greater than          |     5      | `2 > 1` => `TRUE`<br>`2 > 2` => `FALSE`   |
-| `<=`         | Less than or equal    |     5      | `2 <= 2` => `TRUE`<br>`3 <= 2` => `FALSE` |
-| `>=`         | Greater than or equal |     5      | `2 >= 2` => `TRUE`<br>`2 >= 3` => `FALSE` |
-| `<>` or `!=` | Not equal             |     5      | `1 != 2` => `TRUE`<br>`1 != 1` => `FALSE` |
-| `=` or `==`  | Equal                 |     5      | `2 = 2` => `TRUE`<br>`2 = 1` => `FALSE`   |
+| Symbol | What it does | Example |
+|---|---|---|
+| `+` | Adds two numbers | `1 + 2` → `3` |
+| `-` | Subtracts one number from another | `5 - 2` → `3` |
+| `-` (in front of a value) | Makes the value negative | `-Effort`, `-(2 + 3)` → `-5` |
+| `*` | Multiplies | `4 * 3` → `12` |
+| `/` | Divides (the result can be a decimal) | `9 / 3` → `3.0`<br>`10 / 4` → `2.5` |
+| `%` | Finds the remainder after dividing | `7 % 3` → `1` |
+| `%` (after a number) | Turns a number into a percentage | `7 + 1%` → `7.01` |
+| `^` | Raises a number to a power | `9 ^ 0.5` → `3.0`<br>`2 ^ 3 ^ 2` → `64` (calculated left to right) |
 
-##### Logical operators and functions
+> [!NOTE]
+> `%` after a number simply divides it by 100, so `1%` is `0.01` and `7 + 1%` gives `7.01`, not 1% of 7. To add 1% of a value, write `7 * (1 + 1%)` → `7.07`.
 
-`AND` and `OR` are available both as operators and functions. `XOR` and `NOT` are functions only. All arguments must be logical.
+##### Useful built-in calculations
 
-When used as operators, `AND` and `OR` have the same lowest precedence `0`, lower than any other operator.
+| Name | What it does | Example |
+|---|---|---|
+| `ABS` | Strips the negative sign off a number | `ABS(-5)` → `5` |
+| `AVG` | Averages the numbers you give it | `AVG(1, 2)` → `1.5` |
+| `MAX` | Picks the biggest number | `MAX(3, 1, 2)` → `3` |
+| `MIN` | Picks the smallest number | `MIN(3, 1, 2)` → `1` |
+| `ROUND` | Rounds to the nearest whole number, or to the number of decimals you specify (negative values round to tens, hundreds, …) | `ROUND(1.5)` → `2`<br>`ROUND(3.14159, 3)` → `3.142`<br>`ROUND(190, -2)` → `200` |
+| `ROUNDDOWN` | Always rounds toward the lower number | `ROUNDDOWN(1.5)` → `1`<br>`ROUNDDOWN(-1.5)` → `-2`<br>`ROUNDDOWN(0.9999, 3)` → `0.999` |
+| `ROUNDUP` | Always rounds toward the higher number | `ROUNDUP(1.5)` → `2`<br>`ROUNDUP(-1.5)` → `-1`<br>`ROUNDUP(1.0001, 3)` → `1.001` |
+| `SUM` | Adds up all the numbers you give it | `SUM(1, 2, 3)` → `6` |
 
-| Name           | Description                                     | Examples                                                                                                        |
-|----------------|-------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
-| `AND` or `&&`  | True when all operands/arguments are `TRUE`     | `TRUE AND TRUE AND FALSE` => `FALSE`<br>`AND(TRUE, TRUE, TRUE)` => `TRUE`                                       |
-| `NOT`          | Logical negation                                | `NOT(TRUE)` => `FALSE`<br>`NOT(FALSE)` => `TRUE`                                                                |
-| `OR` or `\|\|` | True when any operand/argument is `TRUE`        | `FALSE OR FALSE OR TRUE` => `TRUE`<br>`OR(FALSE, FALSE, FALSE)` => `FALSE`                                      |
-| `XOR`          | True when an odd number of arguments are `TRUE` | `XOR(TRUE, FALSE, FALSE)` => `TRUE`<br>`XOR(TRUE, FALSE, TRUE)` => `FALSE`<br>`XOR(TRUE, TRUE, TRUE)` => `TRUE` |
+##### Comparing two values
 
-##### Conditional functions and case expression
+These check whether something is true and give you back `TRUE` or `FALSE`.
 
-`IF(condition, when_true, when_false)` returns one of two branches based on a boolean condition:
+| Symbol | What it checks | Example |
+|---|---|---|
+| `<` | Is the first number smaller? | `1 < 2` → `TRUE` |
+| `>` | Is the first number bigger? | `2 > 1` → `TRUE` |
+| `<=` | Is it smaller or equal? | `2 <= 2` → `TRUE` |
+| `>=` | Is it bigger or equal? | `2 >= 2` → `TRUE` |
+| `<>` or `!=` | Are they different? | `1 != 2` → `TRUE` |
+| `=` or `==` | Are they the same? | `2 = 2` → `TRUE` |
 
-`IF(1 > 2, 123, 456)` => `456`
+##### Combining true/false conditions
 
-`SWITCH(value, candidate1, result1, candidate2, result2, ..., default)` compares `value` against each candidate and returns the matching result, or the trailing `default` unless it is omitted:
+These only work with `TRUE`/`FALSE` values (not numbers). `AND` and `OR` can be written either between values or as functions.
 
-`SWITCH(200, 100, 1, 200, 2, 3)` => `2`
+| Name | What it does | Example |
+|---|---|---|
+| `AND` or `&&` | True only if everything you give it is true | `TRUE AND TRUE AND FALSE` → `FALSE`<br>`AND(TRUE, TRUE, TRUE)` → `TRUE` |
+| `OR` or `\|\|` | True if at least one thing you give it is true | `FALSE OR FALSE OR TRUE` → `TRUE`<br>`OR(FALSE, FALSE, FALSE)` → `FALSE` |
+| `NOT` | Flips true to false and vice versa | `NOT(TRUE)` → `FALSE` |
+| `XOR` | True only if an odd number of things are true | `XOR(TRUE, FALSE, FALSE)` → `TRUE`<br>`XOR(TRUE, TRUE, TRUE)` → `TRUE` |
 
-`SWITCH(4, 1, TRUE, 2, FALSE, TRUE)` => `TRUE`
+##### Making decisions in a formula
 
-`SWITCH(300, 100, 1, 200, 2)` => invalid
+**`IF`** — pick one of two outcomes depending on a condition:
 
-`CASE` provides similar behaviour using keyword form. Invalid if no branch matches and there is no `ELSE`:
+`IF(1 > 2, 123, 456)` → since `1 > 2` is false, this gives `456`
 
-`CASE 200 WHEN 100 THEN 1 WHEN 200 THEN 2 ELSE 3 END` => `2`
+**`SWITCH`** — check a value against a list of possibilities, and use the matching result:
 
-`CASE 4 WHEN 1 THEN TRUE WHEN 2 THEN FALSE ELSE TRUE END` => `TRUE`
+`SWITCH(200, 100, 1, 200, 2, 3)` → `200` matches the second option, so this gives `2`
 
-`CASE 300 WHEN 100 THEN 1 WHEN 200 THEN 2 END` => invalid
+`SWITCH(300, 100, 1, 200, 2)` → invalid, because none of the options match and there's no fallback default at the end
+
+**`CASE ... WHEN ... THEN ... ELSE ... END`** — does the same thing as `SWITCH`, just written differently:
+
+`CASE 200 WHEN 100 THEN 1 WHEN 200 THEN 2 ELSE 3 END` → `2`
+
+(If nothing matches and there's no `ELSE`, the formula is invalid.)
+
+**Examples put together**
+
+- `(Strategic fit * 0.4) + (User benefit * 0.4) - (Effort * 0.2)` weights three attributes and combines them into one priority score.
+- `IF(Budget approved AND Risk score <= 3, Strategic fit * 2, Strategic fit)` doubles the score for approved, low-risk projects. `Budget approved` is a yes/no attribute.
+- `ROUND(AVG(Strategic fit, User benefit, Customer impact), 1)` averages three ratings and rounds the result to one decimal.
+- `Effort > 8 OR NOT(Team available)` gives `TRUE` for projects that are likely to be hard to staff.
+
 
 ## Modify project attributes
 
