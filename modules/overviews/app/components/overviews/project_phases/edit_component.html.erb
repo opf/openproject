@@ -18,18 +18,14 @@
           render(Projects::LifeCycle::Form.new(f))
         end
         flex.with_row do
-          helpers.angular_component_tag "opce-wp-date-picker-instance",
-                                        inputs: {
-                                          start_date: model.start_date,
-                                          due_date: model.finish_date,
-                                          ignore_non_working_days: false,
-                                          schedule_manually: true,
-                                          date_mode: "range",
-                                          minDate: model.default_start_date,
-                                          start_date_field_id: "project_phase_start_date",
-                                          due_date_field_id: "project_phase_finish_date",
-                                          duration_field_id: "project_phase_duration"
-                                        }
+          custom_element_tag.opce_wp_date_picker_instance(
+            start_date: model.start_date,
+            due_date: model.finish_date,
+            ignore_non_working_days: false,
+            schedule_manually: true,
+            date_mode: "range",
+            min_date: model.default_start_date
+          )
         end
       end
     end
