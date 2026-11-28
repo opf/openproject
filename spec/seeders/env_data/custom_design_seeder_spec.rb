@@ -94,10 +94,10 @@ RSpec.describe EnvData::CustomDesignSeeder, :webmock do
       RequestStore.clear!
       custom_style = CustomStyle.current
       expect(custom_style.logo.file).to be_present
-      expect(custom_style.logo.file.content_type).to eq "image/png"
+      expect(custom_style.logo.file.mime_type).to eq "image/png"
 
       expect(custom_style.touch_icon.file).to be_present
-      expect(custom_style.touch_icon.file.content_type).to eq "image/png"
+      expect(custom_style.touch_icon.file.mime_type).to eq "image/png"
     end
   end
 
@@ -115,7 +115,7 @@ RSpec.describe EnvData::CustomDesignSeeder, :webmock do
       custom_style = CustomStyle.current
 
       expect(custom_style.logo.file).to be_present
-      expect(custom_style.logo.file.content_type).to eq "image/svg+xml"
+      expect(custom_style.logo.file.mime_type).to eq "image/svg+xml"
     end
 
     it "downloads the asset in a job" do
@@ -145,7 +145,7 @@ RSpec.describe EnvData::CustomDesignSeeder, :webmock do
 
       expect(custom_style.favicon.file).to be_nil
       expect(custom_style.logo.file).to be_present
-      expect(custom_style.logo.file.content_type).to eq "image/png"
+      expect(custom_style.logo.file.mime_type).to eq "image/png"
     end
   end
 

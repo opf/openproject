@@ -192,8 +192,8 @@ gem "rack-timeout", "~> 0.7.0", require: "rack/timeout/base"
 gem "nokogiri", "~> 1.19.4"
 
 gem "carrierwave", "~> 2.2.7"
-gem "carrierwave_direct", "~> 3.0.0"
 gem "fog-aws"
+gem "shrine", "~> 3.10.2"
 gem "ssrf_filter", "~> 1.6"
 gem "web-push", "~> 3.1"
 

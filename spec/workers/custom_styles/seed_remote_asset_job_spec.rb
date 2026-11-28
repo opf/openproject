@@ -48,14 +48,12 @@ RSpec.describe CustomStyles::SeedRemoteAssetJob do
       perform
 
       expect(custom_style.reload.logo.file).to be_present
-      expect(custom_style.logo.file.content_type).to eq "image/png"
-      expect(custom_style.logo.file.filename).to eq "logo.png"
+      expect(custom_style.logo.file.mime_type).to eq "image/png"
+      expect(custom_style.logo.file.original_filename).to eq "logo.png"
       expect(Rails.logger).to have_received(:info).with("Seeded design asset 'logo' from #{url}.")
     end
 
     it "stores the file even when invoked inside an open transaction" do
-      # Mimics RootSeeder: CarrierWave only uploads in after_commit, and Rails
-      # drops after_commit on earlier instances of the same row in a transaction.
       CustomStyle.transaction do
         described_class.perform_now(custom_style, :favicon, url)
         described_class.perform_now(custom_style, :logo, url)
@@ -77,8 +75,8 @@ RSpec.describe CustomStyles::SeedRemoteAssetJob do
       it "detects the content type and extension" do
         perform
 
-        expect(custom_style.reload.logo.file.content_type).to eq "image/svg+xml"
-        expect(custom_style.logo.file.filename).to eq "logo.svg"
+        expect(custom_style.reload.logo.file.mime_type).to eq "image/svg+xml"
+        expect(custom_style.logo.file.original_filename).to eq "logo.svg"
       end
     end
   end
@@ -154,7 +152,7 @@ RSpec.describe CustomStyles::SeedRemoteAssetJob do
         Timeout.timeout(10) { perform }
 
         expect(custom_style.reload.logo.file).to be_present
-        expect(custom_style.logo.file.content_type).to eq "image/png"
+        expect(custom_style.logo.file.mime_type).to eq "image/png"
       end
     end
   end

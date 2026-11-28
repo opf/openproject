@@ -139,7 +139,7 @@ RSpec.shared_examples "it supports direct uploads" do
               end
 
               it "points to AWS" do
-                expect(link["href"]).to eq "https://#{MockCarrierwave.bucket}.s3.amazonaws.com/"
+                expect(link["href"]).to eq "https://#{MockCarrierwave.bucket}.s3.amazonaws.com"
               end
 
               it "has the method POST" do
@@ -151,8 +151,8 @@ RSpec.shared_examples "it supports direct uploads" do
 
                 expect(fields).to be_present
                 expect(fields).to include(
-                  "key", "acl", "policy",
-                  "X-Amz-Signature", "X-Amz-Credential", "X-Amz-Algorithm", "X-Amz-Date",
+                  "key", "policy",
+                  "x-amz-signature", "x-amz-credential", "x-amz-algorithm", "x-amz-date",
                   "success_action_status"
                 )
 
@@ -166,7 +166,8 @@ RSpec.shared_examples "it supports direct uploads" do
                 staging_key = "uploads/direct_uploads/attachment/#{json['id']}/cat.png"
 
                 expect(fields["key"]).to eq staging_key
-                expect(Base64.decode64(fields["policy"])).to include %(["starts-with","$key","#{staging_key}"])
+                conditions = JSON.parse(Base64.decode64(fields["policy"])).fetch("conditions")
+                expect(conditions).to include({ "key" => staging_key })
               end
 
               it "also includes the content type and the necessary policy in the form fields" do
@@ -175,9 +176,8 @@ RSpec.shared_examples "it supports direct uploads" do
                 expect(fields).to include("policy", "Content-Type")
                 expect(fields["Content-Type"]).to eq metadata[:contentType]
 
-                policy = Base64.decode64 fields["policy"]
-
-                expect(policy).to include '["starts-with","$Content-Type",""]'
+                conditions = JSON.parse(Base64.decode64(fields["policy"])).fetch("conditions")
+                expect(conditions).to include({ "Content-Type" => metadata[:contentType] })
               end
             end
           end
@@ -468,7 +468,6 @@ RSpec.shared_examples "an APIv3 attachment resource", content_type: :json, type:
         let(:attachment) do
           att = create(:attachment, container:, file: mock_file, author: current_user)
 
-          att.file.store!
           att.send :write_attribute, :file, mock_file.original_filename
           att.send :write_attribute, :content_type, mock_file.content_type
           att.save!
@@ -521,7 +520,6 @@ RSpec.shared_examples "an APIv3 attachment resource", content_type: :json, type:
           let(:content_disposition) { "#{text_disposition}; filename=foobar.txt" }
           let(:attachment) do
             att = create(:attachment, container:, file: mock_file, author: current_user)
-            att.file.store!
             att.send :write_attribute, :file, mock_file.original_filename
             att.send :write_attribute, :content_type, "text/plain"
             att.send :write_attribute, :charset, nil
@@ -538,7 +536,6 @@ RSpec.shared_examples "an APIv3 attachment resource", content_type: :json, type:
           let(:content_disposition) { "#{text_disposition}; filename=foobar.js" }
           let(:attachment) do
             att = create(:attachment, container:, file: mock_file, author: current_user)
-            att.file.store!
             att.send :write_attribute, :file, mock_file.original_filename
             att.send :write_attribute, :content_type, "text/x-javascript"
             att.send :write_attribute, :charset, nil
@@ -555,7 +552,6 @@ RSpec.shared_examples "an APIv3 attachment resource", content_type: :json, type:
           let(:content_disposition) { "#{text_disposition}; filename=foobar.txt" }
           let(:attachment) do
             att = create(:attachment, container:, file: mock_file, author: current_user)
-            att.file.store!
             att.send :write_attribute, :file, mock_file.original_filename
             att.send :write_attribute, :content_type, "text/plain"
             att.send :write_attribute, :charset, "utf-8"
@@ -576,7 +572,6 @@ RSpec.shared_examples "an APIv3 attachment resource", content_type: :json, type:
           let(:content_disposition) { "#{text_disposition}; filename=iso.txt" }
           let(:attachment) do
             att = create(:attachment, container:, file: mock_file, author: current_user)
-            att.file.store!
             att.send :write_attribute, :file, mock_file.original_filename
             att.send :write_attribute, :content_type, "text/plain"
             att.send :write_attribute, :charset, "iso-8859-1"

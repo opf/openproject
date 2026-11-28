@@ -46,17 +46,6 @@ module OpenProject
         https? && hsts?
       end
 
-      ##
-      # We only allow direct uploads to S3 as we are using the carrierwave_direct
-      # gem which only supports S3 for the time being.
-      #
-      # Do not allow direct uploads when using IAM-profile-based authorization rather
-      # than access-key-based ones since carrierwave_direct does not support that.
-      #
-      # We do support direct uploads for S3-compatible object storage services
-      # only if remote storage upload and download hosts were configured explicitly.
-      # Since these only have to be configured if you want to use direct uploads,
-      # we assume what ever provider you use does support this if you do.
       def direct_uploads_supported?
         remote_storage? && remote_storage_aws? && !use_iam_profile? &&
           (using_amazon_s3? || using_custom_remote_storage_hosts?)

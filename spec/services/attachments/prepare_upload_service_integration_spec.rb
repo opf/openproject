@@ -66,8 +66,8 @@ RSpec.describe Attachments::PrepareUploadService,
       .to eql file_size
   end
 
-  it "sets the file for carrierwave" do
-    expect(attachment.file.file.path)
+  it "preserves the final storage path" do
+    expect(attachment.file.path)
       .to end_with "attachment/file/#{attachment.id}/#{file_name}"
   end
 
@@ -88,8 +88,8 @@ RSpec.describe Attachments::PrepareUploadService,
   context "with a special character in the filename" do
     let(:file_name) { "document=number 5.png" }
 
-    it "sets the file for carrierwave" do
-      expect(attachment.file.file.path)
+    it "preserves the final storage path" do
+      expect(attachment.file.path)
         .to end_with "attachment/file/#{attachment.id}/document_number_5.png"
     end
   end

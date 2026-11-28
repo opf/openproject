@@ -441,9 +441,6 @@ GEM
       marcel (~> 1.0.0)
       mini_mime (>= 0.1.3)
       ssrf_filter (~> 1.0)
-    carrierwave_direct (3.0.0)
-      carrierwave (>= 2.2.0)
-      fog-aws
     cbor (0.5.10.3)
     cgi (0.5.2)
     childprocess (5.1.0)
@@ -476,6 +473,7 @@ GEM
       nokogiri (>= 1.6)
     concurrent-ruby (1.3.8)
     connection_pool (3.0.3)
+    content_disposition (1.0.0)
     cookiejar (0.3.4)
     cork (0.2.0)
       colored (~> 1.2)
@@ -530,6 +528,9 @@ GEM
     dotenv-rails (3.2.0)
       dotenv (= 3.2.0)
       railties (>= 6.1)
+    down (5.6.2)
+      addressable (~> 2.8)
+      base64 (~> 0.3)
     drb (2.2.3)
     dry-configurable (1.4.0)
       dry-core (~> 1.0)
@@ -1402,6 +1403,9 @@ GEM
       websocket (~> 1.0)
     shoulda-matchers (8.0.1)
       activesupport (>= 7.2)
+    shrine (3.10.2)
+      content_disposition (~> 1.0)
+      down (~> 5.1)
     signet (0.22.2)
       addressable (~> 2.8)
       faraday (>= 0.17.5, < 3.a)
@@ -1574,7 +1578,6 @@ DEPENDENCIES
   capybara-screenshot (~> 1.0.17)
   capybara_accessible_selectors!
   carrierwave (~> 2.2.7)
-  carrierwave_direct (~> 3.0.0)
   climate_control
   closure_tree (~> 9.8.0)
   colored2
@@ -1761,6 +1764,7 @@ DEPENDENCIES
   selenium-devtools
   selenium-webdriver (~> 4.52)
   shoulda-matchers (~> 8.0)
+  shrine (~> 3.10.2)
   simplecov (~> 1.3.2)
   spring
   spring-commands-rspec
@@ -1854,7 +1858,6 @@ CHECKSUMS
   capybara-screenshot (1.0.27) sha256=afa1896cc23df77be1774e8d3b3ce3953bf060aeaa04ff87607b5daf689174f2
   capybara_accessible_selectors (0.15.0)
   carrierwave (2.2.7) sha256=1ede8f502f420e8a34ca1ccbbc9dc92ea159e94583e1194b4ea720a5ccc2d855
-  carrierwave_direct (3.0.0) sha256=da4105ec7beea2687817b95ad95181be3d657248ec1cb5a0e5c35a45b176fc2f
   cbor (0.5.10.3) sha256=c3aa1d0c7e9bbffe8de4bed554f588d7926c62276ffe2dd7fabb65bae801d28a
   cgi (0.5.2) sha256=61ca30298171190fd4fa0d8018e57ada456eae9b7a2b78526debf7f0a0e6f8bb
   childprocess (5.1.0) sha256=9a8d484be2fd4096a0e90a0cd3e449a05bc3aa33f8ac9e4d6dcef6ac1455b6ec
@@ -1878,6 +1881,7 @@ CHECKSUMS
   compare-xml (1.0.2) sha256=278b35a89ea5f6ee841328d71238233a1c4ca4c9188abbe7eec6c80f4952d18c
   concurrent-ruby (1.3.8) sha256=b2f1be836e968ccc78ccfce277ea79c72a88633f22306782c16ff23fb415d1e1
   connection_pool (3.0.3) sha256=e0f8ee3ee0039396753e06e8a2dde0ef028e40f7df29e97f57da7577c489cb5e
+  content_disposition (1.0.0) sha256=aa153da9c1543a45413a3f5f281d8dd50384bb0fba864fe1bd42ba80d88da516
   cookiejar (0.3.4) sha256=11b16acfc4baf7a0f463c21a6212005e04e25f5554d4d9f24d97f3492dfda0df
   cork (0.2.0) sha256=d0d5688bf9fbd9e07d4f77524306d59ce4d9453dcf586cf01700903bf897e0f1
   cose (1.3.1) sha256=d5d4dbcd6b035d513edc4e1ab9bc10e9ce13b4011c96e3d1b8fe5e6413fd6de5
@@ -1900,6 +1904,7 @@ CHECKSUMS
   doorkeeper (5.9.10) sha256=6345423418223edb196d1609dc31165315e40b96945ab2c77850b98eea3f1375
   dotenv (3.2.0) sha256=e375b83121ea7ca4ce20f214740076129ab8514cd81378161f11c03853fe619d
   dotenv-rails (3.2.0) sha256=657e25554ba622ffc95d8c4f1670286510f47f2edda9f68293c3f661b303beab
+  down (5.6.2) sha256=594c9f2e1749a4fecb94f32c73152c6fee8156b452f873b78eafdef802e926e5
   drb (2.2.3) sha256=0b00d6fdb50995fe4a45dea13663493c841112e4068656854646f418fda13373
   dry-configurable (1.4.0) sha256=e35d1b5f3c081753ef361f564919db79000f32cfa6f20ee3a3ba5921b41b73ce
   dry-core (1.2.0) sha256=0cc5a7da88df397f153947eeeae42e876e999c1e30900f3c536fb173854e96a1
@@ -2255,6 +2260,7 @@ CHECKSUMS
   selenium-devtools (0.155.0) sha256=c8d9844ff6fc759ce0afbb473a6f95240b7650285f1760080441f84427c6b950
   selenium-webdriver (4.52.0) sha256=5d45ba100ea8b57f5a8c25979a636d48b4c60c39973478930d78e884bdeecd2d
   shoulda-matchers (8.0.1) sha256=5dbb46e5765b9da225111b085e0819e8c8a121ff94bba430a153eb1ea2c60288
+  shrine (3.10.2) sha256=c41f392ee55609575e0fd4634fdb6a144aa37b29db6c6cd90e9bf92ae117e6aa
   signet (0.22.2) sha256=9c6861bb599845ea0cb05ffadd3d64c7a3b07a29bdee0f5352bcbe87b7ade21d
   simplecov (1.3.2) sha256=2a22ec1759f1b8db60881a2e038758956fc69ef93ed669be0bde0678de6d0e85
   simpleidn (0.3.0) sha256=12ca730bed2f3db04d11e9bfd1bca3e11fb37f55b21eb2e9793fb5814bf54d03

@@ -58,7 +58,7 @@ module EnvData
     end
 
     def seed_logos(custom_style)
-      CustomStyle.uploaders.each_key do |key|
+      CustomStyle::ASSET_FIELDS.each do |key|
         data = Setting.seed_design[key.to_s]
 
         if data.blank?

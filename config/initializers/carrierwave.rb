@@ -51,8 +51,6 @@ module CarrierWave
         config.fog_credentials = credentials
         config.fog_directory   = directory
         config.fog_public      = public
-
-        config.use_action_status = true
       end
     end
   end
@@ -70,7 +68,10 @@ end
 # fast rename instead of a full copy across filesystems.
 CarrierWave.tmp_path = File.join(Dir.tmpdir, "carrierwave")
 
-Rails.application.executor.to_complete { FogFileUploader.discard_downloads }
+Rails.application.executor.to_complete do
+  FogFileUploader.discard_downloads
+  AttachmentFile.discard_downloads
+end
 
 unless OpenProject::Configuration.fog_credentials.empty?
   CarrierWave::Configuration.configure_fog!

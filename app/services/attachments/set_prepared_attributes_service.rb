@@ -55,20 +55,8 @@ module Attachments
       end
     end
 
-    # Returns the value for the attachment's file column.
-    # A blank filename is left for the contract to reject with a proper validation error instead of
-    # being sanitized here, as `CarrierWave::SanitizedFile#sanitize` cannot handle a nil value.
     def filename(params)
-      return nil if params[:filename].blank?
-
-      pending_direct_upload_filename(params[:filename])
-    end
-
-    # The name has to be in the same format as what Carrierwave will produce later on. If they are different,
-    # Carrierwave will alter the name (both local and remote) whenever the attachment is saved with the remote
-    # file loaded.
-    def pending_direct_upload_filename(filename)
-      CarrierWave::SanitizedFile.new(nil).send(:sanitize, filename)
+      AttachmentShrine.sanitize_filename(params[:filename]) if params[:filename].present?
     end
   end
 end

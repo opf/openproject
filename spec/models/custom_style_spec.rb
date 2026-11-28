@@ -130,7 +130,7 @@ RSpec.describe CustomStyle do
     let(:image) { raise "define me!" }
     let(:custom_style) { create "custom_style_with_#{image}" }
 
-    let!(:file_path) { custom_style.send(image).file.path }
+    let!(:file_path) { custom_style.send(image).local_file.path }
 
     subject { custom_style.send :"remove_#{image}!" }
 

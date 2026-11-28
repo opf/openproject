@@ -32,11 +32,7 @@ module CustomStyles
   class SeedRemoteAssetJob < ApplicationJob
     include GoodJob::ActiveJobExtensions::Concurrency
 
-    # RootSeeder wraps seeding in a single transaction.
-    # At the same time, CarrierWave only actually _saves_ the file in an after_commit callback.
-    # Rails will however only run after_commit callbacks on the last instance to save a given row.
-    # Since introduction of this job, we are now saving multiple times, so some uploads were lost.
-    # By enqueueing the job after the transaction commit, we ensure that the file is saved to fog/disk.
+    # The worker must be able to load the style created by RootSeeder.
     self.enqueue_after_transaction_commit = true
 
     # Only one asset for a given CustomStyle may be stored at a time. During seed,
@@ -101,11 +97,6 @@ module CustomStyles
         build_attachable_file(key.to_s, data) do |file|
           style.public_send("#{key}=", file)
           style.save!
-
-          # CarrierWave only uploads in after_commit. Inside RootSeeder's transaction,
-          # Rails runs those callbacks on only one AR instance of this row, so force
-          # the upload now
-          style.public_send(:"store_#{key}!")
         end
 
         style
