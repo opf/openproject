@@ -178,7 +178,8 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
   # Additional table joins can appear in the where clause, such as the custom_values table join.
   # We need to substitute the table name ("custom_values") with the journalized table name
   # ("customized_journals") in order to retrieve historic data from the journalized table.
-  # The same applies to "work_package_versions" and "work_package_version_journals".
+  # The same applies to "work_package_versions" and "work_package_version_journals",
+  # and to "work_package_categories" and "work_package_category_journals".
 
   def substitute_join_tables_in_where_clause(relation)
     relation.where_clause.instance_variable_get(:@predicates).each do |predicate|
@@ -237,28 +238,21 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
                     "\"#{version_journals}\""
   end
 
-  # Only the single category_id is journaled, so the join table read by
-  # `Queries::WorkPackages::Filter::CategoryFilter` is swapped for a stand-in built from it:
-  #
-  #   before: SELECT 1 FROM "work_package_categories" WHERE (work_package_categories.work_package_id = ...
-  #   after:  SELECT 1 FROM (SELECT work_packages.id AS work_package_id, work_packages.category_id
-  #                          WHERE work_packages.category_id IS NOT NULL) "work_package_categories" WHERE ...
-  #
-  # TODO: Adjust for multiple categories #FND-283
+  # As with the "work_package_versions" join, only String predicates are handled. This is the way we are
+  # receiving the predicate from the `Queries::WorkPackages::Filter::CategoryFilter`.
   def substitute_work_package_categories_join_in_predicate(predicate)
     return unless predicate.is_a? String
 
-    join_table_source = "FROM \"#{WorkPackageCategory.table_name}\""
-    journaled_category_source = "FROM (#{journaled_work_package_categories_sql}) \"#{WorkPackageCategory.table_name}\""
+    category_journals = Journal::WorkPackageCategoryJournal.table_name
+    work_package_categories = WorkPackageCategory.table_name
+    models = model.table_name
 
-    predicate.gsub!(join_table_source, journaled_category_source)
-  end
-
-  def journaled_work_package_categories_sql
-    <<~SQL.squish
-      SELECT #{model.table_name}.id AS work_package_id, #{model.table_name}.category_id
-      WHERE #{model.table_name}.category_id IS NOT NULL
-    SQL
+    # The work_package_category_journals table has no direct relation to the work_packages table,
+    # but it has to the journals table. We join it to the journals table instead.
+    predicate.gsub! "#{work_package_categories}.work_package_id = #{models}.id",
+                    "#{category_journals}.journal_id = #{models}.journal_id"
+    predicate.gsub! "\"#{work_package_categories}\"",
+                    "\"#{category_journals}\""
   end
 
   # Add a timestamp condition: Select the work package journals that are the
