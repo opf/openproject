@@ -26,7 +26,6 @@
 //++
 
 import {
-  ChangeDetectionStrategy,
   Component,
   ElementRef,
   Signal,
@@ -40,15 +39,17 @@ import { ChartConfiguration, ChartData } from 'chart.js';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { chartFont, chartLegend, createPieTooltipRenderer } from 'core-app/shared/components/budget-graphs/chart.config';
 import type { PieTooltipContext } from 'core-app/shared/components/budget-graphs/chart.config';
+import { jsonAttribute, stringAttribute } from 'core-app/shared/helpers/angular/attribute-inputs';
 import { generateId } from 'core-app/shared/helpers/dom-helpers';
 import PrimerColorsPlugin from 'core-app/shared/components/work-package-graphs/plugin.primer-colors';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
+
+const EMPTY_PIE_CHART_DATA:ChartData<'pie'> = { labels: [], datasets: [] };
 
 @Component({
   selector: 'opce-budget-by-cost-type',
   templateUrl: './budget-by-cost-type.component.html',
   imports: [BaseChartDirective],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [provideCharts(withDefaultRegisterables(PrimerColorsPlugin))],
 })
 export class BudgetByCostTypeComponent {
@@ -74,17 +75,19 @@ export class BudgetByCostTypeComponent {
     });
   }
 
-  readonly chartData = input.required<string>();
-  readonly currency = input<string>('€');
+  readonly chartData = input(EMPTY_PIE_CHART_DATA, {
+    transform: jsonAttribute(EMPTY_PIE_CHART_DATA),
+  });
 
-  readonly pieChartData = computed<ChartData<'pie'>>(() => JSON.parse(this.chartData()) as ChartData<'pie'>);
+  readonly currency = input('€', { transform: stringAttribute('€') });
+
   readonly hasChartData = computed(() => {
-    const { datasets } = this.pieChartData();
+    const { datasets } = this.chartData();
     return datasets.length > 0 && datasets[0].data.length > 0;
   });
 
   readonly chartDescription = computed(() => {
-    const { labels = [], datasets } = this.pieChartData();
+    const { labels = [], datasets } = this.chartData();
     const values = labels.map((label, index) => this.i18n.t(
       'js.budgets.widgets.budget_by_cost_type.chart_value',
       {

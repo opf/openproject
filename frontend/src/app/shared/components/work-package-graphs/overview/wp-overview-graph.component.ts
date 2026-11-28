@@ -26,9 +26,9 @@
 //++
 
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, InputSignal, OnInit, ViewChild, inject, input,
-  booleanAttribute, model,
+  ChangeDetectorRef, Component, InputSignal, ViewChild, effect, inject, input, model, untracked,
 } from '@angular/core';
+import { booleanAttributeOr, jsonAttribute } from 'core-app/shared/helpers/angular/attribute-inputs';
 import {
   WorkPackageEmbeddedGraphComponent,
   WorkPackageEmbeddedGraphDataset,
@@ -49,23 +49,21 @@ type GraphFilter = Record<string, { operator:string; values:unknown[] }>;
   selector: 'opce-wp-overview-graph',
   templateUrl: './wp-overview-graph.template.html',
   styleUrls: ['./wp-overview-graph.component.sass'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     WpGraphConfigurationService,
   ],
   standalone: false,
 })
-export class WorkPackageOverviewGraphComponent implements OnInit {
+export class WorkPackageOverviewGraphComponent {
   readonly I18n = inject(I18nService);
   readonly graphConfigurationService = inject(WpGraphConfigurationService);
   protected readonly cdr = inject(ChangeDetectorRef);
 
-  // Rendered as a custom element, so inputs may arrive as attribute strings.
-  readonly initialFilters = input<GraphFilter[]|null, string|GraphFilter[]|null>(null, {
-    transform: (value) => (typeof value === 'string' ? JSON.parse(value) as GraphFilter[] : value),
+  readonly initialFilters = input<GraphFilter[]|null, GraphFilter[]|string|null>(null, {
+    transform: jsonAttribute<GraphFilter[]|null>(null),
   });
 
-  readonly globalScope = input(false, { transform: booleanAttribute });
+  readonly globalScope = input(false, { transform: booleanAttributeOr(false) });
 
   @ViewChild('wpEmbeddedGraphMulti') private embeddedGraphMulti:WorkPackageEmbeddedGraphComponent;
 
@@ -92,14 +90,17 @@ export class WorkPackageOverviewGraphComponent implements OnInit {
       { label: I18n.t('js.work_packages.properties.priority'), key: 'priority' },
       { label: I18n.t('js.work_packages.properties.author'), key: 'author' },
       { label: I18n.t('js.work_packages.properties.assignee'), key: 'assignee' }];
-  }
 
-  ngOnInit() {
-    this.setQueryProps();
+    effect(() => {
+      this.initialFilters();
+      this.globalScope();
+      untracked(() => this.setQueryProps());
+    });
   }
 
   public setQueryProps() {
     this.datasets = [];
+    this.error = null;
 
     const params = this.graphParams;
 
