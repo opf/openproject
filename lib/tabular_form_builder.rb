@@ -103,7 +103,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     input = CustomElementHelper::TagBuilder.new(@template).opce_basic_single_date_picker(
       class: options[:class].presence,
       value: date_picker_value(field),
-      input_id: field_id(field, index: options[:index]),
+      input_id: options[:id] || field_id(field, index: options[:index]),
       name: options[:name] || field_name(field, index: options[:index]),
       remote_field_key:,
       input_class_names: ("remote-field--input" if remote_field_key),
