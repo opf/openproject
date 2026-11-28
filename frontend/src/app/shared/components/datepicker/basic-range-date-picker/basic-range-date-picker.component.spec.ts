@@ -374,4 +374,16 @@ describe('OpBasicRangeDatePickerComponent as a custom element on mobile', () => 
     expect(custom.element.querySelector('#range')).toHaveAttribute('name', 'pause[date_range]');
     expect(custom.element.querySelector('#range')).toHaveAttribute('data-value', '2026-08-01 - 2026-08-14');
   });
+
+  it('keeps the submitted range out of the form while disabled', async () => {
+    const custom = await defineTestCustomElement(OpBasicRangeDatePickerComponent, {
+      'input-id': 'range',
+      name: 'pause[date_range]',
+      value: '2026-08-01 - 2026-08-14',
+      disabled: 'disabled',
+    });
+
+    expect(custom.element.querySelector('#range-start')).toHaveProperty('disabled', true);
+    expect(custom.element.querySelector('#range')).toHaveProperty('disabled', true);
+  });
 });
