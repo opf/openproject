@@ -98,6 +98,30 @@ RSpec.describe ITSM::EmailThread do
     end
   end
 
+  describe ".in_project" do
+    let!(:thread) { create(:itsm_email_thread, work_package:) }
+
+    before { create(:itsm_email_thread) }
+
+    it "lists the threads of the project's work packages" do
+      expect(described_class.in_project(work_package.project)).to contain_exactly(thread)
+    end
+  end
+
+  describe ".with_participant" do
+    let!(:thread) do
+      create(:itsm_email_thread, requester_email: "jane@customer.example", recipients: ["colleague@customer.example"])
+    end
+
+    before { create(:itsm_email_thread, requester_email: "joe@customer.example") }
+
+    it "lists the threads with that address as requester or recipient" do
+      expect(described_class.with_participant("jane@customer.example")).to contain_exactly(thread)
+      expect(described_class.with_participant("colleague@customer.example")).to contain_exactly(thread)
+      expect(described_class.with_participant("stranger@elsewhere.example")).to be_empty
+    end
+  end
+
   describe "#inbound_message_ids" do
     let(:thread) { create(:itsm_email_thread, work_package:) }
 

@@ -319,6 +319,116 @@ RSpec.describe ITSM::InboundEmail do
     end
   end
 
+  describe "#reply_text" do
+    subject(:reply_text) { email.reply_text }
+
+    let(:raw) do
+      Mail.new do
+        from "jane@customer.example"
+        text_part { body "It works again.\r\n\r\nOn Fri, Help desk wrote:\r\n> we have received your request." }
+        html_part { body "<p>It works again.</p><blockquote>we have received your request.</blockquote>" }
+      end.to_s
+    end
+
+    it "is the text without the quoted email" do
+      expect(reply_text).to eq("It works again.")
+      expect(email.text).to include("> we have received your request.")
+    end
+
+    context "with only an HTML version" do
+      let(:raw) do
+        Mail.new do
+          from "jane@customer.example"
+          content_type "text/html; charset=UTF-8"
+          body "<p>It works again.</p><blockquote>we have received your request.</blockquote>"
+        end.to_s
+      end
+
+      it "is the text without the quoted email" do
+        expect(reply_text).to eq("It works again.")
+      end
+    end
+
+    context "with the signature below the quoted email" do
+      let(:raw) do
+        "From: jane@customer.example\r\n\r\nIt works again.\r\n\r\nOn 20.11.26 15:44, Help desk wrote:\r\n" \
+          "> we have received your request.\r\n>\r\n\r\n-- \r\nJane Doe"
+      end
+
+      it "keeps the signature" do
+        expect(reply_text).to eq("It works again.\n\n-- \nJane Doe")
+      end
+    end
+
+    context "with answers between quoted lines" do
+      let(:raw) do
+        "From: jane@customer.example\r\n\r\nThanks for the quick reply. You asked:\r\n\r\n> Which floor?\r\n\r\n" \
+          "2nd floor.\r\n\r\n> Which model?\r\n\r\nHP LaserJet."
+      end
+
+      it "keeps the questions with the answers" do
+        expect(reply_text).to eq("Thanks for the quick reply. You asked:\n\n> Which floor?\n\n2nd floor.\n\n" \
+                                 "> Which model?\n\nHP LaserJet.")
+      end
+    end
+
+    context "with answers between quotes in HTML" do
+      let(:raw) do
+        Mail.new do
+          from "jane@customer.example"
+          content_type "text/html; charset=UTF-8"
+          body "<blockquote>Which floor?</blockquote><p>2nd floor.</p><blockquote>Which model?</blockquote><p>HP LaserJet.</p>"
+        end.to_s
+      end
+
+      it "keeps the questions with the answers" do
+        expect(reply_text).to eq("Which floor?\n\n2nd floor.\n\nWhich model?\n\nHP LaserJet.")
+      end
+    end
+
+    context "with a line set to truncate emails after it",
+            with_settings: { mail_handler_body_delimiters: "-----Original Message-----\r\n__________" } do
+      let(:raw) do
+        "From: jane@customer.example\r\n\r\nIt works again.\r\n\r\n-----Original Message-----\r\n" \
+          "From: Help desk\r\nwe have received your request."
+      end
+
+      it "cuts the text from that line" do
+        expect(reply_text).to eq("It works again.")
+        expect(email.text).to include("we have received your request.")
+      end
+    end
+
+    context "with a pattern set to truncate emails",
+            with_settings: { mail_handler_body_delimiter_regex: "^From: Help desk.*" } do
+      let(:raw) { "From: jane@customer.example\r\n\r\nIt works again.\r\n\r\nFrom: Help desk\r\nwe have received your request." }
+
+      it "cuts the text from the match" do
+        expect(reply_text).to eq("It works again.")
+      end
+
+      context "when the pattern is invalid", with_settings: { mail_handler_body_delimiter_regex: "(" } do
+        it "keeps the text" do
+          expect(reply_text).to eq("It works again.\n\nFrom: Help desk\nwe have received your request.")
+        end
+      end
+    end
+
+    context "with a line ending in a colon that is not followed by a quote" do
+      let(:raw) { "From: jane@customer.example\r\n\r\nWhat I tried so far:\r\n- restarting it" }
+
+      it "keeps it" do
+        expect(reply_text).to eq("What I tried so far:\n- restarting it")
+      end
+    end
+
+    context "with only quoted text" do
+      let(:raw) { "From: jane@customer.example\r\n\r\n> The printer is broken." }
+
+      it { is_expected.to eq("") }
+    end
+  end
+
   describe "#header_value" do
     let(:raw) { "From: jane@customer.example\r\nAuto-Submitted: auto-replied\r\nX-Bad: \xFFvalue\r\n\r\nHello".b }
 

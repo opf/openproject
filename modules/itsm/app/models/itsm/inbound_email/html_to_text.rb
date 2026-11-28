@@ -31,21 +31,35 @@ module ITSM
   class InboundEmail
     class HtmlToText
       HIDDEN_LINK_TARGET = /\A(#|(javascript|vbscript|data|cid):)/i
+      QUOTE = "blockquote, .gmail_quote"
+      QUOTE_INTRO = ".moz-cite-prefix"
 
-      def self.call(html) = new(html).call
+      def self.call(html, quotes: true) = new(html, quotes:).call
 
-      def initialize(html)
-        @document = Loofah.html5_document(html).scrub!(:prune)
+      def initialize(html, quotes: true)
+        @html = html
+        @quotes = quotes
       end
 
       def call
+        document = Loofah.html5_document(html).scrub!(:prune)
+        remove_quote(document) unless quotes
         document.css("a[href]").each { |link| link.replace(document.create_text_node(link_text(link))) }
         document.to_text(encode_special_chars: false).strip
       end
 
       private
 
-      attr_reader :document
+      attr_reader :html, :quotes
+
+      # Several quotes mean answers between them, which need the quotes to be understood.
+      def remove_quote(document)
+        quote, *others = document.css(QUOTE).reject { it.ancestors(QUOTE).any? }
+        return if quote.nil? || others.any?
+
+        quote.remove
+        document.css(QUOTE_INTRO).each(&:remove)
+      end
 
       def link_text(link)
         text = link.text.strip

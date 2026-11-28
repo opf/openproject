@@ -44,6 +44,45 @@ RSpec.describe ITSM::InboundEmail::HtmlToText do
     expect(text).to eq("Hello team,\n\nfirst line\nsecond line\n\na & b <c>")
   end
 
+  context "without quotes" do
+    subject(:text) { described_class.call(html, quotes: false) }
+
+    context "with a quoted email from Gmail" do
+      let(:html) do
+        "<div>It works again.</div><div class=\"gmail_quote gmail_quote_container\">" \
+          "<div class=\"gmail_attr\">On Fri, Help desk wrote:</div><blockquote>we have received your request.</blockquote></div>"
+      end
+
+      it "removes the quote and the line introducing it" do
+        expect(text).to eq("It works again.")
+      end
+    end
+
+    context "with a quoted email from Thunderbird" do
+      let(:html) do
+        "<p>It works again.</p><div class=\"moz-cite-prefix\">On 20.11.26 Help desk wrote:</div>" \
+          "<blockquote type=\"cite\">we have received your request.</blockquote>"
+      end
+
+      it "removes the quote and the line introducing it" do
+        expect(text).to eq("It works again.")
+      end
+    end
+
+    context "with answers between quotes" do
+      let(:html) do
+        "<div class=\"moz-cite-prefix\">On 20.11.26 Help desk wrote:</div>" \
+          "<blockquote type=\"cite\">Which floor?</blockquote><p>2nd floor.</p>" \
+          "<blockquote type=\"cite\">Which model?<blockquote>Is it a printer?</blockquote></blockquote><p>HP LaserJet.</p>"
+      end
+
+      it "keeps the quotes" do
+        expect(text).to eq("On 20.11.26 Help desk wrote:\n\nWhich floor?\n\n2nd floor.\n\n" \
+                           "Which model?\nIs it a printer?\n\nHP LaserJet.")
+      end
+    end
+  end
+
   context "with styling and active content" do
     let(:html) do
       "<html><head><link rel=\"stylesheet\" href=\"https://styles.example/mail.css\"></head><body>" \

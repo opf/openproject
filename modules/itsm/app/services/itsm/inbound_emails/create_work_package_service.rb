@@ -30,6 +30,8 @@
 module ITSM
   module InboundEmails
     class CreateWorkPackageService < ::BaseServices::BaseCallable
+      include Shared::ServiceContext
+
       Input = Data.define(:mailbox, :email) do
         delegate :project, to: :mailbox
         delegate :headers, to: :email
@@ -44,10 +46,10 @@ module ITSM
 
       def perform
         @input = Input.new(**params)
-        return missing_sender if headers.from_address.nil?
 
-        in_locked_transaction do
-          next processed_thread if processed_message
+        in_user_context do
+          processed = EmailMessage.in_project(project).find_by(message_id: headers.message_id)
+          next ServiceResult.success(result: processed.thread) if processed
 
           create_work_package
             .bind { |work_package| create_email_thread(work_package) }
@@ -60,23 +62,6 @@ module ITSM
       attr_reader :user, :input
 
       delegate :email, :project, :headers, to: :input
-
-      def in_locked_transaction
-        result = nil
-        OpenProject::Mutex.with_advisory_lock_transaction(project, "itsm_email_#{headers.message_id}") do
-          result = yield
-          raise ActiveRecord::Rollback if result.failure?
-        end
-        result
-      end
-
-      def processed_message
-        return @processed_message if defined?(@processed_message)
-
-        @processed_message = EmailMessage.in_project(project).find_by(message_id: headers.message_id)
-      end
-
-      def processed_thread = ServiceResult.success(result: processed_message.thread)
 
       def create_work_package
         WorkPackages::CreateService.new(user:).call(project:, **WorkPackageAttributes.from_email(email).to_h)
@@ -91,10 +76,6 @@ module ITSM
                                                      journal: thread.work_package.journals.first,
                                                      status: :processed,
                                                      **MessageAttributes.from_email(email).to_h)
-      end
-
-      def missing_sender
-        ServiceResult.failure(result: EmailThread.new).tap { it.errors.add(:requester_email, :blank) }
       end
     end
   end
