@@ -42,4 +42,13 @@ describe('CalendarEntryComponent as a custom element', () => {
 
     expect(custom.element.querySelector('.query')).toHaveTextContent('42');
   });
+
+  it('removes the router class from the body on destroy', () => {
+    const fixture = TestBed.createComponent(CalendarEntryComponent);
+    expect(document.body).toHaveClass('router--calendar');
+
+    fixture.destroy();
+
+    expect(document.body).not.toHaveClass('router--calendar');
+  });
 });

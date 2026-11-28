@@ -44,6 +44,6 @@ export class CalendarEntryComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-    document.body.classList.add('router--calendar');
+    document.body.classList.remove('router--calendar');
   }
 }
