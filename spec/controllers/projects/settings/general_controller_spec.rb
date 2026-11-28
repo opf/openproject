@@ -37,6 +37,24 @@ RSpec.describe Projects::Settings::GeneralController do
     allow(controller).to receive(:set_localization)
   end
 
+  describe "updating project progress" do
+    let(:project) { create(:project) }
+
+    it "persists a whole-number percentage from the project settings form" do
+      patch :update, params: { project_id: project.identifier, project: { progress_percent: "60" } }
+
+      expect(response).to redirect_to action: :show
+      expect(project.reload.progress_percent).to eq(60)
+    end
+
+    it "rejects a percentage above 100" do
+      patch :update, params: { project_id: project.identifier, project: { progress_percent: "101" } }
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(project.reload.progress_percent).to be_nil
+    end
+  end
+
   describe "PATCH #update" do
     let(:project) { build_stubbed(:project) }
 

@@ -61,6 +61,18 @@ describe('WorkPackageAuthorization', () => {
     expect(unavailable.map((action) => action.key)).not.toContain('view_markdown');
   });
 
+  it('shows the Status Report JSON download only when the API advertises it', () => {
+    const href = '/work_packages/14/status_report_json';
+    const report = buildWorkPackage({ download_status_json: { href } });
+    const permitted = new WorkPackageAuthorization(report, pathHelper)
+      .permittedActionsWithLinks(PERMITTED_CONTEXT_MENU_ACTIONS);
+    const unavailable = new WorkPackageAuthorization(buildWorkPackage(), pathHelper)
+      .permittedActionsWithLinks(PERMITTED_CONTEXT_MENU_ACTIONS);
+
+    expect(permitted.find((action) => action.key === 'download_status_json')?.link).toBe(href);
+    expect(unavailable.map((action) => action.key)).not.toContain('download_status_json');
+  });
+
   it('resolves copy_link_to_clipboard to the short path without a format', () => {
     const authorization = new WorkPackageAuthorization(markdownWorkPackage(), pathHelper);
 

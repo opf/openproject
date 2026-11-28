@@ -55,6 +55,15 @@ module WorkPackage::PDFExport::Templates
         settings_component: WorkPackages::Exports::Generate::Templates::ArtefactSettingsComponent,
         exporter: WorkPackage::PDFExport::Artefact,
         defaults: artefact_defaults
+      },
+      {
+        id: "status_report",
+        label: I18n.t("pdf_generator.template_status_report.label"),
+        caption: I18n.t("pdf_generator.template_status_report.caption"),
+        settings_component: WorkPackages::Exports::Generate::Templates::StatusReportSettingsComponent,
+        exporter: WorkPackage::PDFExport::StatusReport,
+        defaults: ->(_work_package) { hyphenation_defaults },
+        enabled_by_default: false
       }
     ]
   end

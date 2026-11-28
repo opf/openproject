@@ -58,30 +58,38 @@ class Type::PdfExportTemplates
 
   def find(template_id)
     built_in_template = built_in_templates.find { |t| t[:id] == template_id }
-    to_template(built_in_template, @type.export_templates_disabled || []) if built_in_template
+    to_template(built_in_template) if built_in_template
   end
 
   def enable_all
     raise_if_readonly!
 
     @type.export_templates_disabled = []
+    @type.export_templates_enabled = built_in_templates.pluck(:id)
   end
 
   def disable_all
     raise_if_readonly!
 
     @type.export_templates_disabled = built_in_templates.pluck(:id)
+    @type.export_templates_enabled = []
   end
 
   def toggle(template_id)
     raise_if_readonly!
 
-    disabled = @type.export_templates_disabled || []
-    if disabled.include?(template_id)
-      disabled.delete(template_id)
+    template = find(template_id)
+    return if template.nil?
+
+    enabled = Array(@type.export_templates_enabled) - [template_id]
+    disabled = Array(@type.export_templates_disabled) - [template_id]
+    if template.enabled
+      disabled << template_id
     else
-      disabled.push(template_id)
+      enabled << template_id
     end
+
+    @type.export_templates_enabled = enabled
     @type.export_templates_disabled = disabled
   end
 
@@ -147,12 +155,15 @@ class Type::PdfExportTemplates
   end
 
   def build_templates
-    disabled = @type.export_templates_disabled || []
-    built_in_templates.map { |built_in_template| to_template(built_in_template, disabled) }
+    built_in_templates.map { |built_in_template| to_template(built_in_template) }
   end
 
-  def to_template(built_in_template, disabled)
-    Template.new(**built_in_template, enabled: disabled.exclude?(built_in_template[:id]))
+  def to_template(built_in_template)
+    template_id = built_in_template.fetch(:id)
+    enabled = Array(@type.export_templates_disabled).exclude?(template_id) &&
+      (built_in_template.fetch(:enabled_by_default, true) || Array(@type.export_templates_enabled).include?(template_id))
+
+    Template.new(**built_in_template.except(:enabled_by_default), enabled:)
   end
 
   def sort_by_order(templates, order)

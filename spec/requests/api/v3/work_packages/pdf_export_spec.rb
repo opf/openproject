@@ -114,6 +114,23 @@ RSpec.describe "API v3 work package PDF export" do
         expect(WorkPackage::PDFExport::Artefact).to have_received(:new).with(work_package, anything)
       end
 
+      it "rejects the status report template until it is enabled" do
+        get "#{path}?template=status_report"
+
+        expect(response).to have_http_status :bad_request
+      end
+
+      it "renders the status report template when it is enabled" do
+        variant = type.default_variant
+        variant.pdf_export_templates.toggle("status_report")
+        variant.save!
+
+        get "#{path}?template=status_report"
+
+        expect(response).to have_http_status :ok
+        expect(response.body).to start_with("%PDF")
+      end
+
       it "defaults to the first template enabled for the type" do
         type.default_variant.pdf_export_templates.toggle("attributes")
         type.default_variant.save!

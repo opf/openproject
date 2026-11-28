@@ -151,6 +151,17 @@ module API
           }
         end
 
+        link :download_status_json do
+          next if represented.new_record? || !export_work_packages_allowed?
+          next unless WorkPackage::Exports::StatusReportData.enabled_for?(represented)
+
+          {
+            href: status_report_json_work_package_path(id: represented.id),
+            type: "application/json",
+            title: I18n.t("js.button_download_status_json")
+          }
+        end
+
         link :atom,
              cache_if: -> { export_work_packages_allowed? } do
           next if represented.new_record? || !Setting.feeds_enabled?

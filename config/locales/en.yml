@@ -308,6 +308,7 @@ en:
         parent: "Subproject of"
         portfolio: "Portfolio"
         program: "Program"
+        progress_percent: "Project progress (%)"
         project_creation_wizard_assignee_custom_field: "Assignee when submitted"
         project_creation_wizard_enabled: "Project initiation request"
         project_creation_wizard_notification_text: "Notification text"
@@ -5990,6 +5991,16 @@ en:
     template_contract:
       caption: Work package details formatted to the standard German contract form.
       label: "Contract"
+    template_status_report:
+      caption: A project status report with the work packages selected in its embedded tables.
+      label: "Status Report"
+      no_related_work_packages: No related work packages
+      project_attributes: Project attributes
+      project_progress: Project progress
+      project_status: Project status
+      report_details: Report details
+      status_summary: Status summary
+      workflow_status: Workflow status
   permission_add_internal_comments: "Write internal comments"
   permission_add_messages: "Post messages"
   permission_add_portfolios: "Create portfolios"
@@ -6297,7 +6308,7 @@ en:
         no_results_title_text: There are currently no activities available.
       button_update_details: Update details
       button_update_parent_project: Update parent project
-      button_update_status_description: Update status description
+      button_update_status: Update status
       categories:
         no_results_content_text: Create a new work package category
         no_results_title_text: There are currently no work package categories.

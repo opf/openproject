@@ -162,6 +162,7 @@ en:
     button_delete: "Delete"
     button_delete_watcher: "Delete watcher"
     button_details_view: "Details view"
+    button_download_status_json: "Download status JSON"
     button_duplicate: "Duplicate"
     button_edit: "Edit"
     button_expand_all: "Expand all"

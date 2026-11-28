@@ -8,7 +8,7 @@ keywords: work package exports, CSV, Excel, XLS, PDF
 
 # Export work packages
 
-You can export [multiple work packages](#export-multiple-work-packages) in PDF/XLS/CSV formats or [a single work package](#export-a-single-work-package) in PDF/Atom format.
+You can export [multiple work packages](#export-multiple-work-packages) in PDF/XLS/CSV formats or [a single work package](#export-a-single-work-package) in PDF or Atom format, or download a [status report as JSON](status-report-json).
 
 ## Overview
 
@@ -20,6 +20,7 @@ You can export [multiple work packages](#export-multiple-work-packages) in PDF/X
 | [XLS export (Excel)](xls-excel)                     | Export the work package table as a spreadsheet for Microsoft Excel.               |
 | [CSV export](csv)                                   | Export the work package table as a comma-separated file.                          |
 | [Work package PDF export](work-package-pdf)         | Export one work package in PDF format using a template.                           |
+| [Status report JSON](status-report-json)             | Download a machine-readable status report from a work package.                     |
 | [Work package Atom export](work-package-atom)       | Export one work package in Atom format.                                           |
 
 ## Export multiple work packages

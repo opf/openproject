@@ -76,6 +76,11 @@ export const PERMITTED_CONTEXT_MENU_ACTIONS:WorkPackageAction[] = [
     turboRequest: true,
   },
   {
+    key: 'download_status_json',
+    link: 'download_status_json',
+    icon: 'icon-file-text',
+  },
+  {
     key: 'view_markdown',
     link: 'markdown',
     icon: 'icon-file-text',
@@ -107,7 +112,7 @@ const GROUPED_ACTION_KEYS = {
     'relation-follows',
     'relations',
   ],
-  export: ['generate_pdf', 'view_markdown', 'export-atom'],
+  export: ['generate_pdf', 'download_status_json', 'view_markdown', 'export-atom'],
   configure: [],
   destroy: ['delete'],
 } as const satisfies Record<string, readonly string[]>;
