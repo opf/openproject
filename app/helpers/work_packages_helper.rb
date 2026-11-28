@@ -153,6 +153,19 @@ module WorkPackagesHelper
     end
   end
 
+  def work_package_categories_label
+    attribute = Setting::WorkPackageMultipleCategories.active? ? :categories : :category
+    WorkPackage.human_attribute_name(attribute)
+  end
+
+  def work_package_categories_value(work_package)
+    if Setting::WorkPackageMultipleCategories.active?
+      work_package.categories.sort_by(&:name).join(", ")
+    else
+      work_package.category
+    end
+  end
+
   private
 
   def stored_column_id(name)
