@@ -28,3 +28,37 @@
 export function isOpenProjectCustomElement(node:EventTarget | null):node is HTMLElement{
   return node instanceof HTMLElement && node.tagName.startsWith('OPCE-');
 }
+
+export const ATTRIBUTE_INPUTS_MARKER = 'opAttributeInputs';
+
+interface AttributeInputsElementClass extends CustomElementConstructor {
+  [ATTRIBUTE_INPUTS_MARKER]:true;
+  observedAttributes:readonly string[];
+}
+
+export function markAttributeInputs(constructor:CustomElementConstructor):void {
+  Object.defineProperty(constructor, ATTRIBUTE_INPUTS_MARKER, { value: true });
+}
+
+export function hasAttributeInputs(constructor:CustomElementConstructor | undefined):constructor is AttributeInputsElementClass {
+  return !!constructor
+    && ATTRIBUTE_INPUTS_MARKER in constructor
+    && constructor[ATTRIBUTE_INPUTS_MARKER] === true
+    && 'observedAttributes' in constructor
+    && Array.isArray(constructor.observedAttributes);
+}
+
+export function refreshAttributeInputs(element:HTMLElement, newElement:HTMLElement):void {
+  const constructor = customElements.get(element.localName);
+  if (!hasAttributeInputs(constructor)) return;
+
+  constructor.observedAttributes.forEach((name) => {
+    const value = newElement.getAttribute(name);
+
+    if (value === null) {
+      element.removeAttribute(name);
+    } else if (element.getAttribute(name) !== value) {
+      element.setAttribute(name, value);
+    }
+  });
+}

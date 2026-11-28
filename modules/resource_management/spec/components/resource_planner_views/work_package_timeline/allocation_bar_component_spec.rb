@@ -41,7 +41,7 @@ RSpec.describe ResourcePlannerViews::WorkPackageTimeline::AllocationBarComponent
     # The name is rendered client-side by the opce-principal element; assert it
     # carries the principal rather than the (absent) server-rendered text.
     expect(page).to have_css("opce-principal")
-    expect(page.find("opce-principal")["data-principal"]).to include("Lisa Anderson")
+    expect(page.find("opce-principal")["principal"]).to include("Lisa Anderson")
   end
 
   it "anonymises an assigned principal the current user may not see" do

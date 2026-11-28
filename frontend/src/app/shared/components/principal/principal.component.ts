@@ -25,15 +25,15 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnChanges, OnInit, ViewEncapsulation, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, ViewEncapsulation, afterRenderEffect, inject, input, untracked } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
-import { AvatarOptions, AvatarSize, HoverCardOptions, PrincipalRendererService } from './principal-renderer.service';
+import { booleanAttributeOr, jsonAttribute, optionalStringAttribute, stringAttribute } from 'core-app/shared/helpers/angular/attribute-inputs';
+import { AvatarOptions, AvatarSize, HoverCardOptions, isAvatarSize, NameOptions, PrincipalRendererService } from './principal-renderer.service';
 import { PrincipalLike } from './principal-types';
-import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 import { PrincipalType } from 'core-app/shared/components/principal/principal-helper';
 import { PrincipalsResourceService } from 'core-app/core/state/principals/principals.service';
 
@@ -48,11 +48,10 @@ export interface PrincipalInput {
   template: '',
   selector: principalSelector,
   styleUrls: ['./principal.component.sass'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   standalone: false,
 })
-export class OpPrincipalComponent implements OnInit, OnChanges {
+export class OpPrincipalComponent {
   readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly PathHelper = inject(PathHelperService);
   readonly principalRenderer = inject(PrincipalRendererService);
@@ -62,74 +61,71 @@ export class OpPrincipalComponent implements OnInit, OnChanges {
   readonly timezoneService = inject(TimezoneService);
   readonly cdRef = inject(ChangeDetectorRef);
 
-  @Input() principal:PrincipalLike;
+  readonly principal = input<PrincipalLike|null, PrincipalLike|string|null|undefined>(null, { transform: jsonAttribute<PrincipalLike|null>(null) });
 
-  @Input() hideAvatar = false;
+  readonly hideAvatar = input(false, { transform: booleanAttributeOr(false) });
 
-  @Input() avatarImageAltText?:string;
+  readonly avatarImageAltText = input<string|undefined, string|null|undefined>(undefined, { transform: optionalStringAttribute() });
 
-  @Input() avatarImageUrl?:string;
+  readonly avatarImageUrl = input<string|undefined, string|null|undefined>(undefined, { transform: optionalStringAttribute() });
 
-  @Input() avatarFallbackImageUrl?:string;
+  readonly avatarFallbackImageUrl = input<string|undefined, string|null|undefined>(undefined, { transform: optionalStringAttribute() });
 
-  @Input() hideName = false;
+  readonly hideName = input(false, { transform: booleanAttributeOr(false) });
 
-  @Input() nameClasses? = '';
+  readonly nameClasses = input('', { transform: stringAttribute('') });
 
-  @Input() link = true;
+  readonly link = input(true, { transform: booleanAttributeOr(true) });
 
-  @Input() size:AvatarSize = 'default';
+  readonly size = input<AvatarSize, string|null|undefined>('default', {
+    transform: (value) => (isAvatarSize(value) ? value : 'default'),
+  });
 
-  @Input() avatarClasses? = '';
+  readonly avatarClasses = input('', { transform: stringAttribute('') });
 
-  @Input() hoverCard= true;
-  @Input() hoverCardUrl= '';
+  readonly hoverCard = input(true, { transform: booleanAttributeOr(true) });
 
-  @Input() title = '';
+  readonly hoverCardUrl = input('', { transform: stringAttribute('') });
 
-  private initialized = false;
+  readonly nameTitle = input('', { transform: stringAttribute('') });
 
   public constructor() {
-    populateInputsFromDataset(this);
-  }
+    afterRenderEffect({
+      write: () => {
+        const principal = this.principal();
+        const name:NameOptions = {
+          hide: this.hideName(),
+          link: this.link(),
+          classes: this.nameClasses(),
+        };
+        const avatarOptions:AvatarOptions = {
+          hide: this.hideAvatar(),
+          size: this.size(),
+          imageAltText: this.avatarImageAltText(),
+          imageUrl: this.avatarImageUrl(),
+          fallbackImageUrl: this.avatarFallbackImageUrl(),
+        };
+        const hoverCardOptions:HoverCardOptions = {
+          isActivated: this.hoverCard(),
+          url: this.hoverCardUrl(),
+        };
+        const nameTitle = this.nameTitle();
 
-  ngOnInit() {
-    this.initialized = true;
-    this.render();
-  }
+        untracked(() => {
+          const host = this.elementRef.nativeElement;
+          host.replaceChildren();
+          if (!principal?.name) return;
 
-  ngOnChanges() {
-    if (this.initialized) this.render();
-  }
-
-  private render() {
-    this.elementRef.nativeElement.replaceChildren();
-    if (this.principal?.name) {
-      const avatarOptions:AvatarOptions = {
-        hide: this.hideAvatar,
-        size: this.size,
-        imageAltText: this.avatarImageAltText,
-        imageUrl: this.avatarImageUrl,
-        fallbackImageUrl: this.avatarFallbackImageUrl,
-      };
-
-      const hoverCardOptions:HoverCardOptions = {
-        isActivated: this.hoverCard,
-        url: this.hoverCardUrl,
-      };
-
-      this.principalRenderer.render(
-        this.elementRef.nativeElement,
-        this.principal,
-        {
-          hide: this.hideName,
-          link: this.link,
-          classes: this.nameClasses,
-        },
-        avatarOptions,
-        hoverCardOptions,
-        this.title === '' ? null : this.title,
-      );
-    }
+          this.principalRenderer.render(
+            host,
+            principal,
+            name,
+            avatarOptions,
+            hoverCardOptions,
+            nameTitle === '' ? null : nameTitle,
+          );
+        });
+      },
+    });
   }
 }

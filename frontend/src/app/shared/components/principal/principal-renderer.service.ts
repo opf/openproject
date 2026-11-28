@@ -36,7 +36,12 @@ import { IPrincipal } from 'core-app/core/state/principals/principal.model';
 import { PrincipalLike } from './principal-types';
 import { hrefFromPrincipal, PrincipalType, typeFromHref } from './principal-helper';
 
-export type AvatarSize = 'default'|'medium'|'mini';
+export const AVATAR_SIZES = ['default', 'medium', 'mini'] as const;
+export type AvatarSize = typeof AVATAR_SIZES[number];
+
+export function isAvatarSize(value:unknown):value is AvatarSize {
+  return AVATAR_SIZES.includes(value as AvatarSize);
+}
 
 export interface HoverCardOptions {
   isActivated:boolean,

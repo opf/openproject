@@ -70,7 +70,7 @@ RSpec.describe Avatars::FormSectionComponent, type: :component do
     expect(page).to have_css("aside[aria-label='Preview']")
     expect(page).to have_css(".avatars--preview opce-principal", count: 3)
     %w[default medium mini].each do |size|
-      selector = ".avatars--preview opce-principal[data-size='\"#{size}\"'][data-hover-card='false'][data-link='false']"
+      selector = ".avatars--preview opce-principal[size='#{size}'][hover-card='false'][link='false']"
       expect(page).to have_css(selector)
     end
   end
