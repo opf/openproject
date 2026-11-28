@@ -222,48 +222,22 @@ export default class FiltersFormController extends Controller {
 
   singleDayTargetConnected(target:HTMLElement) {
     this.addChangeListener(target);
-    this.registerAngularPickerWithMultiInput(target, 'opce-basic-single-date-picker');
   }
 
   dateRangeTargetConnected(target:HTMLElement) {
     this.addChangeListener(target);
-    this.registerAngularPickerWithMultiInput(target, 'opce-range-date-picker');
   }
 
   singleDatetimeTargetConnected(target:HTMLElement) {
-    this.datetimeTargetConnected(target);
+    this.addChangeListener(target);
   }
 
   datetimeFromTargetConnected(target:HTMLElement) {
-    this.datetimeTargetConnected(target);
+    this.addChangeListener(target);
   }
 
   datetimeToTargetConnected(target:HTMLElement) {
-    this.datetimeTargetConnected(target);
-  }
-
-  private datetimeTargetConnected(target:HTMLElement) {
     this.addChangeListener(target);
-    this.registerAngularPickerWithMultiInput(target, 'opce-basic-single-datetime-picker');
-  }
-
-  // angular_component_tag serializes @Input() bindings as JSON in data-* attributes, so the
-  // Angular date picker wrapper's data-name holds a JSON-encoded value that primer-multi-input
-  // cannot use to identify its child fields.  date_picker.html.erb therefore also sets
-  // data-multi-input-name as a plain string with the intended field name.
-  // This method is called when the Stimulus target connects, i.e. after Angular has already
-  // bootstrapped the component and consumed its data-* attributes, so we can safely overwrite
-  // data-name with the plain string from data-multi-input-name without interfering with Angular.
-  // primer-multi-input.activateField() then uses data-name to show/hide the correct picker
-  // when the filter operator changes.
-  private registerAngularPickerWithMultiInput(target:HTMLElement, tagName:string) {
-    const wrapper = target.closest<HTMLElement>(tagName);
-    if (wrapper?.closest('primer-multi-input')) {
-      const multiInputName = wrapper.getAttribute('data-multi-input-name');
-      if (multiInputName) {
-        wrapper.setAttribute('data-name', multiInputName);
-      }
-    }
   }
 
   simpleValueTargetDisconnected(target:HTMLElement) {

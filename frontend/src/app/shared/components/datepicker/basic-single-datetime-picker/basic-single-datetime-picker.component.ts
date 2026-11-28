@@ -26,15 +26,17 @@
 //++
 
 import {
+  afterRenderEffect,
   AfterViewInit,
-  ChangeDetectionStrategy,
   Component,
+  effect,
   ElementRef,
   EventEmitter,
   forwardRef,
   inject,
   Injector,
-  Input,
+  input,
+  linkedSignal,
   OnDestroy,
   Output,
   ViewChild,
@@ -46,8 +48,13 @@ import { DayElement } from 'flatpickr/dist/types/instance';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { onDayCreate } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
 import { isoToWallClockDate, wallClockDateToISO } from 'core-common/local-datetime';
+import {
+  booleanAttributeOr,
+  jsonAttribute,
+  optionalStringAttribute,
+  stringAttribute,
+} from 'core-app/shared/helpers/angular/attribute-inputs';
 import { DatePicker } from '../datepicker';
-import { populateInputsFromDataset } from '../../dataset-inputs';
 
 // The submitted input holds the ISO value, while the visible alt input shows the user's format.
 const ISO_FORMAT = 'ISO';
@@ -56,7 +63,6 @@ const DISPLAY_FORMAT = 'DISPLAY';
 @Component({
   selector: 'op-basic-single-datetime-picker',
   templateUrl: './basic-single-datetime-picker.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [
     {
@@ -76,59 +82,49 @@ export class OpBasicSingleDatetimePickerComponent implements ControlValueAccesso
 
   @Output() picked = new EventEmitter<void>();
 
-  @Input() value = '';
+  private readonly defaultInputId = `flatpickr-input-${+(new Date())}`;
 
-  @Input() id = `flatpickr-input-${+(new Date())}`;
+  readonly value = input('', { transform: stringAttribute('') });
 
-  @Input() name = '';
+  readonly inputId = input(this.defaultInputId, { transform: stringAttribute(this.defaultInputId) });
 
-  @Input() required = false;
+  readonly name = input('', { transform: stringAttribute('') });
 
-  @Input() set disabled(disabled:boolean) {
-    this._disabled = disabled;
-    this.applyDisabled();
-  }
+  readonly required = input(false, { transform: booleanAttributeOr(false) });
 
-  get disabled():boolean {
-    return this._disabled;
-  }
+  readonly disabled = input(false, { transform: booleanAttributeOr(false) });
 
-  @Input() placeholder = '';
+  readonly placeholder = input('', { transform: stringAttribute('') });
 
-  @Input() inputClassNames = '';
+  readonly inputClassNames = input('', { transform: stringAttribute('') });
 
-  @Input() inDialog:string;
+  readonly inDialog = input(undefined, { transform: optionalStringAttribute() });
 
-  @Input() dataAction = '';
+  readonly inputAttrs = input<Record<string, string>, Record<string, string>|string|null|undefined>({}, { transform: jsonAttribute({}) });
 
-  @Input() set inputAttrs(attrs:Record<string, string> | null) {
-    this._inputAttrs = attrs ?? {};
-    this.applyInputAttrs();
-  }
+  readonly currentValue = linkedSignal(() => this.value());
+
+  readonly isDisabled = linkedSignal(() => this.disabled());
 
   @ViewChild('input') input:ElementRef<HTMLInputElement>;
 
   public datePickerInstance:DatePicker;
 
-  private _inputAttrs:Record<string, string> = {};
-
-  private _disabled = false;
-
   private closedByEscape = false;
 
   constructor() {
-    populateInputsFromDataset(this);
+    afterRenderEffect(() => this.applyInputAttrs(this.inputAttrs()));
+    effect(() => this.applyDisabled(this.isDisabled()));
   }
 
   ngAfterViewInit():void {
     this.initializeDatePicker();
-    this.applyInputAttrs();
   }
 
-  private applyInputAttrs():void {
+  private applyInputAttrs(attrs:Record<string, string>):void {
     const el = this.input?.nativeElement;
     if (el) {
-      Object.entries(this._inputAttrs).forEach(([key, val]) => el.setAttribute(key, val));
+      Object.entries(attrs).forEach(([key, val]) => el.setAttribute(key, val));
     }
   }
 
@@ -137,17 +133,17 @@ export class OpBasicSingleDatetimePickerComponent implements ControlValueAccesso
   }
 
   writeValue(value:string|null):void {
-    this.value = value ?? '';
+    this.currentValue.set(value ?? '');
 
-    if (this.value) {
-      this.datePickerInstance?.setDates(this.value);
+    if (value) {
+      this.datePickerInstance?.setDates(value);
     } else {
       this.datePickerInstance?.clear();
     }
   }
 
   setDisabledState(disabled:boolean):void {
-    this.disabled = disabled;
+    this.isDisabled.set(disabled);
   }
 
   onChange = (_:string):void => undefined;
@@ -165,7 +161,7 @@ export class OpBasicSingleDatetimePickerComponent implements ControlValueAccesso
   // In a dialog, the calendar has to be in the top layer as well. Clicking the input counts as a click
   // on the backdrop and removes the calendar from the top layer, see OpBasicSingleDatePickerComponent.
   private sendCalendarToTopLayer():void {
-    if (!this.datePickerInstance?.isOpen || !this.inDialog) {
+    if (!this.datePickerInstance?.isOpen || !this.inDialog()) {
       return;
     }
 
@@ -178,14 +174,14 @@ export class OpBasicSingleDatetimePickerComponent implements ControlValueAccesso
   private initializeDatePicker():void {
     this.datePickerInstance = new DatePicker(
       this.injector,
-      this.id,
-      this.value || '',
+      this.inputId(),
+      this.currentValue() || '',
       {
         enableTime: true,
         time_24hr: this.timezoneService.uses24HourClock(),
         allowInput: true,
         altInput: true,
-        altInputClass: ['spot-input', this.inputClassNames].join(' '),
+        altInputClass: ['spot-input', this.inputClassNames()].join(' '),
         dateFormat: ISO_FORMAT,
         altFormat: DISPLAY_FORMAT,
         formatDate: (date:Date, format:string) => this.formatDate(date, format),
@@ -193,7 +189,7 @@ export class OpBasicSingleDatetimePickerComponent implements ControlValueAccesso
         onReady: (_dates:Date[], _dateStr:string, instance:flatpickr.Instance) => {
           instance.calendarContainer.classList.add('op-datepicker-modal--flatpickr-instance');
           this.setUpVisibleInput(instance);
-          this.applyDisabled();
+          this.applyDisabled(this.isDisabled());
         },
         onChange: (dates:Date[]) => {
           this.updateValue(dates);
@@ -222,11 +218,11 @@ export class OpBasicSingleDatetimePickerComponent implements ControlValueAccesso
 
   private updateValue(dates:Date[]):void {
     const value = dates[0] ? wallClockDateToISO(dates[0], this.timezoneService.userTimezone()) ?? '' : '';
-    if (this.isSameInstant(value, this.value)) {
+    if (this.isSameInstant(value, this.currentValue())) {
       return;
     }
 
-    this.value = value;
+    this.currentValue.set(value);
     this.onTouched(value);
     this.onChange(value);
     this.valueChange.emit(value);
@@ -258,8 +254,8 @@ export class OpBasicSingleDatetimePickerComponent implements ControlValueAccesso
   // flatpickr hides the original input, so labels pointing to the id have to reach the visible one.
   private setUpVisibleInput(instance:flatpickr.Instance):void {
     if (instance.altInput) {
-      instance.input.id = `${this.id}-value`;
-      instance.altInput.id = this.id;
+      instance.input.id = `${this.inputId()}-value`;
+      instance.altInput.id = this.inputId();
       instance.altInput.addEventListener('click', () => this.sendCalendarToTopLayer());
       instance.altInput.addEventListener('keydown', (event:KeyboardEvent) => {
         if (event.key === 'Escape') {
@@ -269,16 +265,17 @@ export class OpBasicSingleDatetimePickerComponent implements ControlValueAccesso
     }
   }
 
-  private applyDisabled():void {
+  private applyDisabled(disabled:boolean):void {
     const altInput = this.datePickerInstance?.datepickerInstance?.altInput;
     if (altInput) {
-      altInput.disabled = this.disabled;
+      altInput.disabled = disabled;
     }
   }
 
   private appendToBodyOrDialog():HTMLElement|undefined {
-    if (this.inDialog) {
-      return document.getElementById(this.inDialog)!;
+    const inDialog = this.inDialog();
+    if (inDialog) {
+      return document.getElementById(inDialog)!;
     }
 
     return undefined;

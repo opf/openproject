@@ -308,8 +308,8 @@ RSpec.describe Filters::FilterFormComponent, type: :component do
                 "data-filter--filters-form-target": /filterValueContainer/,
                 "data-filter-name": filter_name,
                 visible: :all)
-          .all(:element, "data-in-dialog": /.*/, visible: :all)
-          .map { |picker| JSON.parse(picker["data-in-dialog"]) }
+          .all(:element, "in-dialog": /.*/, visible: :all)
+          .pluck("in-dialog")
     end
 
     it "forwards the dialog selector into the autocomplete options of ListForm filters" do

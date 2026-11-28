@@ -28,7 +28,7 @@
 #++
 
 class Widget::Filters::Date < Widget::Filters::Base
-  include AngularHelper
+  include CustomElementHelper
 
   def render_filter # rubocop:disable Metrics/AbcSize
     name = "values[#{filter_class.underscore_name}][]"
@@ -40,12 +40,11 @@ class Widget::Filters::Date < Widget::Filters::Base
                          class: "sr-only"
 
       arg1 = content_tag :span, id: "#{id_prefix}arg_1" do
-        text1 = angular_component_tag "opce-basic-single-date-picker",
-                                      inputs: {
-                                        value: filter.operator.forced == :integers ? "" : filter.values.first.to_s,
-                                        id: "#{id_prefix}arg_1_val",
-                                        name:
-                                      }
+        text1 = custom_element_tag.opce_basic_single_date_picker(
+          value: filter.operator.forced == :integers ? "" : filter.values.first.to_s,
+          input_id: "#{id_prefix}arg_1_val",
+          name:
+        )
         label1 + text1
       end
 
@@ -54,12 +53,11 @@ class Widget::Filters::Date < Widget::Filters::Base
                          class: "sr-only"
 
       arg2 = content_tag :span, id: "#{id_prefix}arg_2", class: "advanced-filters--filter-value2" do
-        text2 = angular_component_tag "opce-basic-single-date-picker",
-                                      inputs: {
-                                        value: filter.operator.forced == :integers ? "" : filter.values.second.to_s,
-                                        id: "#{id_prefix}arg_2_val",
-                                        name: name.to_s
-                                      }
+        text2 = custom_element_tag.opce_basic_single_date_picker(
+          value: filter.operator.forced == :integers ? "" : filter.values.second.to_s,
+          input_id: "#{id_prefix}arg_2_val",
+          name:
+        )
         label2 + text2
       end
 

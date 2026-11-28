@@ -26,7 +26,7 @@
 //++
 
 import { isEqual, omitBy } from 'lodash-es';
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector, Input, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Injector, OnInit, ViewChild, inject, input, linkedSignal } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { DayElement } from 'flatpickr/dist/types/instance';
@@ -37,11 +37,17 @@ import { DeviceService } from 'core-app/core/browser/device.service';
 import { DatePicker } from '../datepicker';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
+import { booleanAttributeOr, optionalStringAttribute } from 'core-app/shared/helpers/angular/attribute-inputs';
 import { fromEvent } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 export type DateMode = 'single'|'range';
+
+const dateModes:readonly DateMode[] = ['single', 'range'];
+
+function dateModeAttribute(value:string|null|undefined):DateMode {
+  return dateModes.find((mode) => mode === value) ?? 'single';
+}
 
 @Component({
   selector: 'op-wp-date-picker-instance',
@@ -51,10 +57,9 @@ export type DateMode = 'single'|'range';
       #flatpickrTarget
       hidden>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class OpWpDatePickerInstanceComponent extends UntilDestroyedMixin implements AfterViewInit {
+export class OpWpDatePickerInstanceComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit {
   readonly injector = inject(Injector);
   readonly cdRef = inject(ChangeDetectorRef);
   readonly apiV3Service = inject(ApiV3Service);
@@ -64,21 +69,17 @@ export class OpWpDatePickerInstanceComponent extends UntilDestroyedMixin impleme
   readonly pathHelper = inject(PathHelperService);
   readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
-  @Input() public ignoreNonWorkingDays:boolean;
-  @Input() public scheduleManually:boolean;
+  readonly ignoreNonWorkingDays = input(false, { transform: booleanAttributeOr(false) });
+  readonly scheduleManually = input(false, { transform: booleanAttributeOr(false) });
 
-  @Input() public startDate:string|null;
-  @Input() public dueDate:string|null;
+  readonly startDate = input(undefined, { transform: optionalStringAttribute() });
+  readonly dueDate = input(undefined, { transform: optionalStringAttribute() });
 
-  @Input() public isSchedulable = true;
-  @Input() public dateMode:DateMode;
-  @Input() public minDate:string|null;
+  readonly isSchedulable = input(true, { transform: booleanAttributeOr(true) });
+  readonly dateMode = input<DateMode, string|null|undefined>('single', { transform: dateModeAttribute });
+  readonly minDate = input(undefined, { transform: optionalStringAttribute() });
 
-  @Input() startDateFieldId:string;
-  @Input() dueDateFieldId:string;
-  @Input() durationFieldId:string;
-
-  @Input() isMilestone = false;
+  private readonly nonWorkingDaysIgnored = linkedSignal(() => this.ignoreNonWorkingDays());
 
   @ViewChild('flatpickrTarget') flatpickrTarget:ElementRef<HTMLInputElement>;
 
@@ -88,11 +89,9 @@ export class OpWpDatePickerInstanceComponent extends UntilDestroyedMixin impleme
   private minimalSchedulingDate:Date|null;
   private onFlatpickrSetValuesBound = this.onFlatpickrSetValues.bind(this);
 
-  constructor() {
-    super();
-    populateInputsFromDataset(this);
-    this.startDateValue = this.toDate(this.startDate);
-    this.dueDateValue = this.toDate(this.dueDate);
+  ngOnInit():void {
+    this.startDateValue = this.toDate(this.startDate());
+    this.dueDateValue = this.toDate(this.dueDate());
     this.computeMinimalSchedulingDate();
   }
 
@@ -128,8 +127,8 @@ export class OpWpDatePickerInstanceComponent extends UntilDestroyedMixin impleme
 
     this.datePickerInstance.setOption('mode', details.mode);
 
-    if (this.ignoreNonWorkingDays !== details.ignoreNonWorkingDays) {
-      this.ignoreNonWorkingDays = details.ignoreNonWorkingDays;
+    if (this.nonWorkingDaysIgnored() !== details.ignoreNonWorkingDays) {
+      this.nonWorkingDaysIgnored.set(details.ignoreNonWorkingDays);
       this.datePickerInstance.datepickerInstance.redraw();
     }
 
@@ -140,7 +139,7 @@ export class OpWpDatePickerInstanceComponent extends UntilDestroyedMixin impleme
   }
 
   private computeMinimalSchedulingDate() {
-    if (this.dateMode === 'single') {
+    if (this.dateMode() === 'single') {
       this.minimalSchedulingDate = null;
     } else {
       this.minimalSchedulingDate = this.startDateValue && this.timezoneService.utcDateToLocalDate(this.startDateValue);
@@ -200,7 +199,7 @@ export class OpWpDatePickerInstanceComponent extends UntilDestroyedMixin impleme
     }
   }
 
-  private toDate(date:string|null):Date|null {
+  private toDate(date:string|undefined):Date|null {
     return date ? new Date(date) : null;
   }
 
@@ -223,7 +222,7 @@ export class OpWpDatePickerInstanceComponent extends UntilDestroyedMixin impleme
 
   private datePickerOptions() {
     const options = {
-      mode: this.dateMode,
+      mode: this.dateMode(),
       showMonths: this.deviceService.isMobile ? 1 : 2,
       inline: true,
       onReady: (_date, _datestr, instance) => {
@@ -236,12 +235,12 @@ export class OpWpDatePickerInstanceComponent extends UntilDestroyedMixin impleme
       onDayCreate: async (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
         onDayCreate(
           dayElem,
-          this.ignoreNonWorkingDays,
+          this.nonWorkingDaysIgnored(),
           await this.datePickerInstance?.isNonWorkingDay(dayElem.dateObj),
           this.isDayDisabled(dayElem),
         );
       },
-      minDate: this.minDate,
+      minDate: this.minDate(),
     } as flatpickr.Options.Options;
 
     return omitBy(options, (v) => v == null);
@@ -258,8 +257,8 @@ export class OpWpDatePickerInstanceComponent extends UntilDestroyedMixin impleme
   }
 
   private isDayDisabled(dayElement:DayElement):boolean {
-    return !this.isSchedulable
-      || (!this.scheduleManually
+    return !this.isSchedulable()
+      || (!this.scheduleManually()
         && !!this.minimalSchedulingDate
         && dayElement.dateObj < this.minimalSchedulingDate);
   }

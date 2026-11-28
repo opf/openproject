@@ -33,7 +33,6 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { DatePicker } from '../datepicker';
 import flatpickr from 'flatpickr';
 import { DayElement } from 'flatpickr/dist/types/instance';
-import { populateInputsFromDataset } from '../../dataset-inputs';
 import { debounce } from 'lodash-es';
 import {
   SpotDropModalTeleportationService,
@@ -136,10 +135,6 @@ export class OpModalSingleDatePickerComponent implements ControlValueAccessor, O
       title: this.I18n.t('js.work_packages.datepicker_modal.ignore_non_working_days.title'),
     },
   };
-
-  constructor() {
-    populateInputsFromDataset(this);
-  }
 
   ngOnInit() {
     this.applyLabel = this.applyLabel || this.text.apply;

@@ -28,6 +28,8 @@
 #++
 
 module CustomFieldsHelper
+  include CustomElementHelper
+
   def blank_custom_field_label_tag(name, custom_field)
     label = [h(custom_field.name)]
     label << content_tag("span", " *", class: "required") if custom_field.is_required?
@@ -45,23 +47,21 @@ module CustomFieldsHelper
 
     case field_format.try(:edit_as)
     when "date"
-      angular_component_tag "opce-basic-single-date-picker",
-                            class: "form--text-field-container",
-                            inputs: {
-                              required: custom_field.required?,
-                              id: field_id,
-                              name: field_name,
-                              value:
-                            }
+      custom_element_tag.opce_basic_single_date_picker(
+        class: "form--text-field-container",
+        required: custom_field.required?,
+        input_id: field_id,
+        name: field_name,
+        value:
+      )
     when "datetime"
-      angular_component_tag "opce-basic-single-datetime-picker",
-                            class: "form--text-field-container",
-                            inputs: {
-                              required: custom_field.required?,
-                              id: field_id,
-                              name: field_name,
-                              value:
-                            }
+      custom_element_tag.opce_basic_single_datetime_picker(
+        class: "form--text-field-container",
+        required: custom_field.required?,
+        input_id: field_id,
+        name: field_name,
+        value:
+      )
     when "text"
       styled_text_area_tag(field_name, value, id: field_id, rows: 3, with_text_formatting: true)
     when "bool"

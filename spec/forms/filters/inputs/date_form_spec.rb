@@ -77,7 +77,7 @@ RSpec.describe Filters::Inputs::DateForm, type: :forms do
     it "passes the filter name on to both date pickers" do
       expected_attributes = { "data-filter--filters-form-target" => "singleDay", "data-filter-name" => filter.name.to_s }
       expect(rendered_form).to have_element "opce-basic-single-date-picker",
-                                            "data-input-attributes": expected_attributes.to_json,
+                                            "input-attrs": expected_attributes.to_json,
                                             visible: :all
     end
   end
@@ -104,7 +104,7 @@ RSpec.describe Filters::Inputs::DateForm, type: :forms do
 
     it "uses the single date picker" do
       expect(rendered_form).to have_element "opce-basic-single-date-picker",
-                                            "data-value": '"2026-07-01"',
+                                            value: "2026-07-01",
                                             visible: :all
       expect(rendered_form).to have_no_element "opce-basic-single-datetime-picker", visible: :all
     end
@@ -116,17 +116,16 @@ RSpec.describe Filters::Inputs::DateForm, type: :forms do
                                           visible: :all
   end
 
-  # `inDialog` reaches the angular picker as a JSON-encoded data attribute.
   describe "dialog_id" do
     context "when given" do
       let(:dialog_id) { "my-dialog" }
 
       it "attaches both pickers to the dialog so the calendar is not clipped by it" do
         expect(rendered_form).to have_element "opce-basic-single-date-picker",
-                                              "data-in-dialog": '"my-dialog"',
+                                              "in-dialog": "my-dialog",
                                               visible: :all
         expect(rendered_form).to have_element "opce-range-date-picker",
-                                              "data-in-dialog": '"my-dialog"',
+                                              "in-dialog": "my-dialog",
                                               visible: :all
       end
     end
@@ -134,7 +133,7 @@ RSpec.describe Filters::Inputs::DateForm, type: :forms do
     context "when not given" do
       it "leaves the pickers without a dialog target" do
         expect(rendered_form).to have_element "opce-basic-single-date-picker", visible: :all
-        expect(rendered_form).to have_no_element "data-in-dialog": /.*/, visible: :all
+        expect(rendered_form).to have_no_element "in-dialog": /.*/, visible: :all
       end
     end
   end

@@ -35,7 +35,7 @@ import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-
       (keydown.enter)="handler.handleUserSubmit()"
       (picked)="handler.handleUserSubmit()"
       class="inline-edit--field"
-      [id]="handler.htmlId"
+      [inputId]="handler.htmlId"
       [required]="required"
       [disabled]="inFlight"
       [opAutofocus]="autofocus"

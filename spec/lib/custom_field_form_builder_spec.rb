@@ -107,12 +107,16 @@ RSpec.describe CustomFieldFormBuilder do
           <<~HTML
             <opce-basic-single-date-picker
               class="custom-class"
-              data-value="null"
-              data-id='"user_custom_field_#{custom_field.id}"'
-              data-name='"user[#{custom_field.id}]"'
+              input-id="user#{custom_field.id}"
+              name="user[#{custom_field.id}]"
             ></opce-basic-single-date-picker>
           HTML
         ).at_path("opce-basic-single-date-picker")
+      end
+
+      it "points the label at the inner input id" do
+        expect(output).to have_element :label, for: "user#{custom_field.id}"
+        expect(output).to have_element "opce-basic-single-date-picker", "input-id": "user#{custom_field.id}"
       end
     end
 

@@ -25,7 +25,24 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, forwardRef, Injector, Input, OnDestroy, OnInit, Output, ViewChild, ViewEncapsulation, inject } from '@angular/core';
+import {
+  afterRenderEffect,
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  forwardRef,
+  inject,
+  Injector,
+  input,
+  linkedSignal,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { onDayCreate, validDate } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
@@ -33,13 +50,17 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { DatePicker } from '../datepicker';
 import flatpickr from 'flatpickr';
 import { DayElement } from 'flatpickr/dist/types/instance';
-import { populateInputsFromDataset } from '../../dataset-inputs';
 import { DeviceService } from 'core-app/core/browser/device.service';
+import {
+  booleanAttributeOr,
+  jsonAttribute,
+  optionalStringAttribute,
+  stringAttribute,
+} from 'core-app/shared/helpers/angular/attribute-inputs';
 
 @Component({
   selector: 'op-basic-single-date-picker',
   templateUrl: './basic-single-date-picker.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [
     {
@@ -62,42 +83,33 @@ export class OpBasicSingleDatePickerComponent implements ControlValueAccessor, O
 
   @Output() picked = new EventEmitter();
 
-  private _value = '';
+  private readonly defaultInputId = `flatpickr-input-${+(new Date())}`;
 
-  @Input() set value(newValue:string) {
-    this._value = newValue;
-  }
+  readonly value = input('', { transform: stringAttribute('') });
 
-  get value() {
-    return this._value;
-  }
+  readonly inputId = input(this.defaultInputId, { transform: stringAttribute(this.defaultInputId) });
 
-  @Input() id = `flatpickr-input-${+(new Date())}`;
+  readonly name = input('', { transform: stringAttribute('') });
 
-  @Input() name = '';
+  readonly required = input(false, { transform: booleanAttributeOr(false) });
 
-  @Input() required = false;
+  readonly disabled = input(false, { transform: booleanAttributeOr(false) });
 
-  @Input() disabled = false;
+  readonly placeholder = input('', { transform: stringAttribute('') });
 
-  @Input() placeholder = '';
+  readonly minimalDate = input<Date|null, Date|string|null|undefined>(null, {
+    transform: (value) => (typeof value === 'string' ? new Date(value) : value ?? null),
+  });
 
-  @Input() minimalDate:Date|null = null;
+  readonly inputClassNames = input('', { transform: stringAttribute('') });
 
-  @Input() inputClassNames = '';
+  readonly remoteFieldKey = input(undefined, { transform: optionalStringAttribute() });
 
-  @Input() remoteFieldKey = null;
+  readonly inDialog = input(undefined, { transform: optionalStringAttribute() });
 
-  @Input() inDialog:string;
+  readonly inputAttrs = input<Record<string, string>, Record<string, string>|string|null|undefined>({}, { transform: jsonAttribute({}) });
 
-  @Input() dataAction = '';
-
-  @Input() set inputAttrs(attrs:Record<string, string> | null) {
-    this._inputAttrs = attrs ?? {};
-    this.applyInputAttrs();
-  }
-
-  private _inputAttrs:Record<string, string> = {};
+  readonly currentValue = linkedSignal<string|null>(() => this.value());
 
   @ViewChild('input') input:ElementRef<HTMLInputElement>;
 
@@ -111,7 +123,7 @@ export class OpBasicSingleDatePickerComponent implements ControlValueAccessor, O
   public datePickerInstance:DatePicker;
 
   constructor() {
-    populateInputsFromDataset(this);
+    afterRenderEffect(() => this.applyInputAttrs(this.inputAttrs()));
   }
 
   ngOnInit() {
@@ -122,14 +134,13 @@ export class OpBasicSingleDatePickerComponent implements ControlValueAccessor, O
     if (!this.mobile) {
       this.initializeDatePicker();
     }
-    this.applyInputAttrs();
   }
 
-  private applyInputAttrs():void {
+  private applyInputAttrs(attrs:Record<string, string>):void {
     const el = this.input?.nativeElement
-      ?? this.elementRef.nativeElement.querySelector<HTMLInputElement>(`input[id="${CSS.escape(this.id)}"]`);
+      ?? this.elementRef.nativeElement.querySelector<HTMLInputElement>(`input[id="${CSS.escape(this.inputId())}"]`);
     if (el) {
-      Object.entries(this._inputAttrs).forEach(([key, val]) => el.setAttribute(key, val));
+      Object.entries(attrs).forEach(([key, val]) => el.setAttribute(key, val));
     }
   }
 
@@ -157,8 +168,8 @@ export class OpBasicSingleDatePickerComponent implements ControlValueAccessor, O
   private initializeDatePicker() {
     this.datePickerInstance = new DatePicker(
       this.injector,
-      this.id,
-      this.value || '',
+      this.inputId(),
+      this.currentValue() ?? '',
       {
         allowInput: true,
         mode: 'single',
@@ -182,12 +193,14 @@ export class OpBasicSingleDatePickerComponent implements ControlValueAccessor, O
         onOpen: () => {
           this.sentCalendarToTopLayer();
         },
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onDayCreate: async (_dObj:Date[], _dStr:string, _fp:flatpickr.Instance, dayElem:DayElement) => {
+          const minimalDate = this.minimalDate();
           onDayCreate(
             dayElem,
             true,
             await this.datePickerInstance?.isNonWorkingDay(dayElem.dateObj),
-            !!this.minimalDate && dayElem.dateObj <= this.minimalDate,
+            !!minimalDate && dayElem.dateObj <= minimalDate,
           );
         },
         static: false,
@@ -197,9 +210,9 @@ export class OpBasicSingleDatePickerComponent implements ControlValueAccessor, O
     );
   }
 
-  writeValue(value:string):void {
-    this.value = value;
-    this.datePickerInstance?.setDates(this.value);
+  writeValue(value:string|null):void {
+    this.currentValue.set(value);
+    this.datePickerInstance?.setDates(value ?? '');
   }
 
   onChange = (_:string):void => {};
@@ -223,7 +236,7 @@ export class OpBasicSingleDatePickerComponent implements ControlValueAccessor, O
   // so clicking on it would be considered a click on the backdrop which removes an item from
   // the top layer again.
   public sentCalendarToTopLayer() {
-    if (!this.datePickerInstance.isOpen || !this.inDialog) {
+    if (!this.datePickerInstance.isOpen || !this.inDialog()) {
       return;
     }
 
@@ -234,8 +247,9 @@ export class OpBasicSingleDatePickerComponent implements ControlValueAccessor, O
   }
 
   private appendToBodyOrDialog():HTMLElement|undefined {
-    if (this.inDialog) {
-      return document.getElementById(this.inDialog)!;
+    const inDialog = this.inDialog();
+    if (inDialog) {
+      return document.getElementById(inDialog)!;
     }
 
     return undefined;

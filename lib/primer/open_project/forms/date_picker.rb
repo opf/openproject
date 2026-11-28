@@ -32,13 +32,59 @@ module Primer
     module Forms
       # :nodoc:
       class DatePicker < Primer::Forms::TextField
-        include AngularHelper
-
         def initialize(input:, datepicker_options:)
           super(input:)
 
           @field_wrap_arguments[:invalid] = true if @input.invalid?
           @datepicker_options = datepicker_options
+        end
+
+        private
+
+        def picker_tag
+          CustomElementHelper::TagBuilder
+            .new(@view_context)
+            .public_send(@datepicker_options.fetch(:component).underscore, **picker_attributes)
+        end
+
+        def picker_attributes
+          {
+            data: multi_input_data,
+            **field_attributes,
+            input_class_names: @datepicker_options.fetch(:class) { @input.input_arguments[:class] },
+            input_attrs: inner_input_attributes.presence,
+            placeholder: @input.input_arguments[:placeholder],
+            in_dialog: @datepicker_options[:inDialog],
+            show_clear_button: @datepicker_options[:showClearButton]
+          }
+        end
+
+        def field_attributes
+          {
+            input_id: @datepicker_options.fetch(:id) { builder.field_id(@input.name) },
+            name: @datepicker_options.fetch(:name) { builder.field_name(@input.name) },
+            value: serialized_value
+          }
+        end
+
+        def multi_input_data
+          {
+            targets: @input.input_arguments.dig(:data, :targets),
+            name: @input.input_arguments.dig(:data, :name)
+          }.compact
+        end
+
+        def serialized_value
+          value = @datepicker_options.fetch(:value) { @input.input_arguments[:value] || builder.object&.send(@input.name) }
+          value.respond_to?(:iso8601) ? value.iso8601 : value
+        end
+
+        # The action belongs on the inner input: on the custom element, Stimulus would bind it
+        # a second time and run it again for the change event bubbling up from the input.
+        def inner_input_attributes
+          action = @datepicker_options.dig(:data, :action)
+
+          { "data-action" => action }.compact.merge(@datepicker_options[:input_attributes] || {})
         end
       end
     end

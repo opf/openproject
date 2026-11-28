@@ -287,7 +287,15 @@ JJ Abrams</textarea>
     it "outputs element" do
       expect(output).to have_css "opce-basic-single-date-picker"
       # Regression test, allow for the name to be passed through
-      expect(output).to have_css "opce-basic-single-date-picker[data-name='\"#{options[:name]}\"']"
+      expect(output).to have_css "opce-basic-single-date-picker[name='#{options[:name]}']"
+    end
+
+    context "with a time value" do
+      before { resource.last_login_on = Time.utc(2026, 12, 24, 10, 0, 0) }
+
+      it "passes the value as an ISO 8601 string" do
+        expect(output).to have_element "opce-basic-single-date-picker", value: "2026-12-24T10:00:00Z"
+      end
     end
   end
 

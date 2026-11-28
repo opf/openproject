@@ -31,6 +31,7 @@ module WorkPackages
   module DatePicker
     class FormComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
+      include CustomElementHelper
       include OpTurbo::Streamable
 
       attr_accessor :form_id, :show_date_form, :work_package, :schedule_manually, :focused_field, :triggering_field,

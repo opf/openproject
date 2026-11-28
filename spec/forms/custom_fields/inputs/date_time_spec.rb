@@ -41,12 +41,12 @@ RSpec.describe CustomFields::Inputs::DateTime, type: :forms do
 
   it "renders the datetime picker for the custom field value" do
     expect(rendered_form).to have_element "opce-basic-single-datetime-picker",
-                                          "data-name": "work_package[#{custom_field.id}]".to_json
+                                          name: "work_package[#{custom_field.id}]"
   end
 
   context "without a value" do
     it "passes an empty value" do
-      expect(rendered_form).to have_element "opce-basic-single-datetime-picker", "data-value": "".to_json
+      expect(rendered_form).to have_element "opce-basic-single-datetime-picker", value: ""
     end
   end
 
@@ -55,7 +55,7 @@ RSpec.describe CustomFields::Inputs::DateTime, type: :forms do
 
     it "passes the stored UTC value" do
       expect(rendered_form).to have_element "opce-basic-single-datetime-picker",
-                                            "data-value": "2026-10-01T12:30:00Z".to_json
+                                            value: "2026-10-01T12:30:00Z"
     end
   end
 
@@ -66,7 +66,7 @@ RSpec.describe CustomFields::Inputs::DateTime, type: :forms do
 
     it "attaches the calendar to the dialog" do
       expect(rendered_form).to have_element "opce-basic-single-datetime-picker",
-                                            "data-in-dialog": "create-work-package-dialog".to_json
+                                            "in-dialog": "create-work-package-dialog"
     end
   end
 

@@ -215,23 +215,21 @@ See COPYRIGHT and LICENSE files for more details.
           <div class="form--field">
             <%= styled_label_tag :work_package_start_date, WorkPackage.human_attribute_name(:start_date) %>
             <div class="form--field-container -visible-overflow">
-              <%= angular_component_tag "opce-basic-single-date-picker",
-                                        class: "form--text-field-container",
-                                        inputs: {
-                                          id: "work_package_start_date",
-                                          name: "work_package[start_date]"
-                                        } %>
+              <%= custom_element_tag.opce_basic_single_date_picker(
+                    class: "form--text-field-container",
+                    input_id: "work_package_start_date",
+                    name: "work_package[start_date]"
+                  ) %>
             </div>
           </div>
           <div class="form--field">
             <%= styled_label_tag :work_package_due_date, WorkPackage.human_attribute_name(:due_date) %>
             <div class="form--field-container -visible-overflow">
-              <%= angular_component_tag "opce-basic-single-date-picker",
-                                        class: "form--text-field-container",
-                                        inputs: {
-                                          id: "work_package_due_date",
-                                          name: "work_package[due_date]"
-                                        } %>
+              <%= custom_element_tag.opce_basic_single_date_picker(
+                    class: "form--text-field-container",
+                    input_id: "work_package_due_date",
+                    name: "work_package[due_date]"
+                  ) %>
             </div>
           </div>
           <% if WorkPackage.work_based_mode? %>

@@ -31,6 +31,7 @@ module Overviews
   module ProjectPhases
     class EditComponent < ApplicationComponent
       include ApplicationHelper
+      include CustomElementHelper
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
     end
