@@ -99,6 +99,7 @@ module API
               optional :after, type: Integer, default: 0, values: ->(value) { value >= 0 }
             end
             get do
+              @run.fail_if_stalled!
               run_representer(@run, after: params[:after])
             end
 

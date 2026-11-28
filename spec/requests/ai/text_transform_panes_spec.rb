@@ -297,6 +297,38 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
       end
     end
 
+    it "fails a run that has not moved on for longer than the budget allows and offers to try again" do
+      run = run_with_events(:running, ["text_delta", { "delta" => "Partial" }])
+      quiet = (AI::TextTransformRun::STALLED_AFTER + 1.minute).ago
+      run.update_columns(updated_at: quiet)
+      run.events.update_all(created_at: quiet)
+
+      get ai_text_transform_pane_path(run.uuid, **pane_params, after: 1, state: "generating"), headers: stream
+
+      expect(run.reload).to be_failed
+      expect(response.body).to include("Generation failed", "Generating the text was interrupted before it finished.",
+                                       "Try again", 'data-state="failed"')
+    end
+
+    it "shows the text after an unclosed comment" do
+      run = run_with_events(:succeeded, ["completed", { "text" => "Intro\n\n<!-- note\n\n## Heading\n\nText after." }])
+
+      get ai_text_transform_pane_path(run.uuid, **pane_params), headers: stream
+
+      expect(response.body).to include("&lt;!-- note", "Heading", "Text after.")
+    end
+
+    it "keeps code as code when it shows the text without its markup" do
+      text = "<image src=x>\n\n`[[[1:Example]]]`\n\n```\n[[[1:Example]]]\n```\n"
+      run = run_with_events(:succeeded, ["completed", { "text" => text }])
+
+      get ai_text_transform_pane_path(run.uuid, **pane_params), headers: stream
+
+      expect(response.body).to include('<code class="op-uc-code">[[[1:Example]]]</code>')
+        .and match(%r{<pre class="op-uc-code-block">(?:<code[^>]*>)?\[\[\[1:Example\]\]\]})
+      expect(response.body).not_to include("wiki-page-link")
+    end
+
     it "shows the stopped state for a blocked response" do
       run = run_with_events(:failed, ["error", { "reason" => "blocked", "message" => "Blocked." }])
 
@@ -403,6 +435,28 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
       expect(detail["text"]).to eq("Fixed  [Image: chart](https://example.com/a.png)")
     end
 
+    it "hands over no image that removing a macro joins together" do
+      text = "<macro>\n\n!<macro></macro>[chart](https://example.test/pixel.png)"
+      run = run_with_events(:succeeded, ["completed", { "text" => text }])
+
+      post apply_ai_text_transform_pane_path(run.uuid), params: pane_params, headers: stream
+
+      detail = JSON.parse(Nokogiri::HTML5.fragment(response.body).at("turbo-stream")["detail"])
+      expect(detail["text"]).to eq("\n\n[Image: chart](https://example.test/pixel.png)")
+    end
+
+    it "hands over no new mention that malformed markup hides" do
+      devs = %(<mention class=mention data-type=group data-id=3 data-text=@Devs>@Devs</mention>)
+      text = %(<macro>\n\n<div><mention x">#{devs}"></mention></div>)
+      run = run_with_events(:succeeded, ["completed", { "text" => text }])
+
+      post apply_ai_text_transform_pane_path(run.uuid), params: pane_params, headers: stream
+
+      detail = JSON.parse(Nokogiri::HTML5.fragment(response.body).at("turbo-stream")["detail"])
+      expect(detail["text"]).to include("@Devs")
+      expect(detail["text"]).not_to include("data-type")
+    end
+
     it "hands over new mentions only as plain text" do
       run = run_with_events(:succeeded, ["completed", { "text" => %(Ask group#3 and user:"ann".) }])
 
@@ -410,6 +464,16 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
 
       detail = JSON.parse(Nokogiri::HTML5.fragment(response.body).at("turbo-stream")["detail"])
       expect(detail["text"]).to eq(%(Ask group 3 and user: "ann".))
+    end
+
+    it "hands over code as code when it hands over the text without its markup" do
+      text = "<image src=x>\n\n`[[[1:Example]]]`\n\n```\n[[[1:Example]]]\n```\n"
+      run = run_with_events(:succeeded, ["completed", { "text" => text }])
+
+      post apply_ai_text_transform_pane_path(run.uuid), params: pane_params, headers: stream
+
+      detail = JSON.parse(Nokogiri::HTML5.fragment(response.body).at("turbo-stream")["detail"])
+      expect(detail["text"]).to eq("`[[[1:Example]]]`\n\n```\n[[[1:Example]]]\n```")
     end
 
     context "without the permission to edit the work package any more" do

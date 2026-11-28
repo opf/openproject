@@ -102,6 +102,23 @@ RSpec.describe AI::TextTransformRun do
     end
   end
 
+  describe "#append_event_while_active" do
+    subject(:run) { create(:ai_text_transform_run, :running) }
+
+    it "appends the event to an active run" do
+      run.append_event_while_active("text_delta", delta: "x")
+
+      expect(run.events.map { [it.kind, it.payload] }).to eq([["text_delta", { "delta" => "x" }]])
+    end
+
+    it "appends nothing once the run has ended" do
+      run.fail!(:interrupted)
+
+      expect(run.append_event_while_active("text_delta", delta: "x")).to be_nil
+      expect(run.events.map(&:kind)).to eq(%w[error])
+    end
+  end
+
   describe "#events_after" do
     subject(:run) { create(:ai_text_transform_run) }
 
@@ -118,11 +135,20 @@ RSpec.describe AI::TextTransformRun do
   describe "#start!" do
     subject(:run) { create(:ai_text_transform_run) }
 
-    it "sets the status to running" do
-      run.start!
+    it "sets the status to running and records it as the first event" do
+      expect(run.start!).to be(true)
 
       expect(run.reload).to be_running
       expect(run.finished_at).to be_nil
+      expect(run.events.map { [it.kind, it.payload] }).to eq([["status", { "status" => "running" }]])
+    end
+
+    it "leaves a run that is no longer queued as it is" do
+      described_class.where(id: run.id).update_all(status: "failed")
+
+      expect(run.start!).to be(false)
+      expect(run.reload).to be_failed
+      expect(run.events).to be_empty
     end
   end
 
@@ -148,6 +174,116 @@ RSpec.describe AI::TextTransformRun do
     it "rejects non-terminal statuses" do
       expect { run.finish!("running") }.to raise_error(ArgumentError, /not a terminal status/)
       expect(run.reload).to be_running
+    end
+
+    it "leaves a run that another writer finished first as it is" do
+      described_class.where(id: run.id).update_all(status: "failed", error_message: "first")
+
+      expect(run.finish!("succeeded")).to be(false)
+      expect(run.reload).to have_attributes(status: "failed", error_message: "first")
+    end
+  end
+
+  describe "#succeed!" do
+    subject(:run) { create(:ai_text_transform_run, :running) }
+
+    it "succeeds the run and records the text as a completed event" do
+      expect(run.succeed!("done")).to be(true)
+
+      expect(run.reload).to have_attributes(status: "succeeded", finished_at: be_present)
+      expect(run.events.map { [it.kind, it.payload] }).to eq([["completed", { "text" => "done" }]])
+    end
+
+    it "leaves a run that already failed and its events as they are" do
+      run.fail!(:interrupted)
+
+      expect(run.succeed!("done")).to be(false)
+      expect(run.reload).to be_failed
+      expect(run.events.map(&:kind)).to eq(%w[error])
+    end
+  end
+
+  describe "#fail!" do
+    subject(:run) { create(:ai_text_transform_run, :running) }
+
+    it "fails the run with the translated message and records it as an error event" do
+      expect(run.fail!(:interrupted)).to be(true)
+
+      message = "Generating the text was interrupted before it finished."
+      expect(run.reload).to have_attributes(status: "failed", error_message: message, finished_at: be_present)
+      expect(run.events.map { [it.kind, it.payload] }).to eq([["error", { "message" => message, "reason" => "interrupted" }]])
+    end
+
+    it "leaves a finished run and its events as they are" do
+      run.finish!("succeeded")
+
+      expect(run.fail!(:interrupted)).to be(false)
+      expect(run.reload).to be_succeeded
+      expect(run.events).to be_empty
+    end
+  end
+
+  describe "#stalled?" do
+    let(:quiet) { described_class::STALLED_AFTER + 1.minute }
+
+    it "is true for a running run without an event for longer than the budget allows" do
+      running = create(:ai_text_transform_run, :running, updated_at: quiet.ago)
+      create(:ai_text_transform_run_event, run: running, created_at: quiet.ago)
+
+      expect(running).to be_stalled
+    end
+
+    it "is false for a run still waiting in the queue, as its job has not used any of the budget yet" do
+      expect(create(:ai_text_transform_run, updated_at: quiet.ago)).not_to be_stalled
+    end
+
+    it "is false while events keep coming" do
+      running = create(:ai_text_transform_run, :running, updated_at: quiet.ago)
+      create(:ai_text_transform_run_event, run: running, created_at: 1.minute.ago)
+
+      expect(running).not_to be_stalled
+      expect(create(:ai_text_transform_run, :running, updated_at: 1.minute.ago)).not_to be_stalled
+    end
+
+    it "is false for a finished run" do
+      expect(create(:ai_text_transform_run, :succeeded, updated_at: quiet.ago)).not_to be_stalled
+    end
+  end
+
+  describe "#fail_if_stalled!" do
+    let(:quiet) { described_class::STALLED_AFTER + 1.minute }
+
+    it "fails a stalled run as interrupted" do
+      run = create(:ai_text_transform_run, :running, updated_at: quiet.ago)
+
+      expect(run.fail_if_stalled!).to be(true)
+      expect(run.reload).to have_attributes(status: "failed")
+      expect(run.events.last.payload).to include("reason" => "interrupted")
+    end
+
+    it "ends a stalled run as cancelled when its cancellation was requested, even though that touches the run" do
+      run = create(:ai_text_transform_run, :running, created_at: quiet.ago, updated_at: quiet.ago)
+      run.request_cancel!
+
+      expect(run.reload.fail_if_stalled!).to be(true)
+      expect(run.reload).to be_cancelled
+      expect(run.events).to be_empty
+    end
+
+    it "leaves a run alone that is still active" do
+      run = create(:ai_text_transform_run, :running, updated_at: 1.minute.ago)
+
+      expect(run.fail_if_stalled!).to be(false)
+      expect(run.reload).to be_running
+    end
+
+    it "leaves a run alone that its job moved on after the run was loaded" do
+      run = create(:ai_text_transform_run, :running, updated_at: quiet.ago)
+      described_class.where(id: run.id).update_all(updated_at: Time.current)
+
+      expect(run.fail_if_stalled!).to be(false)
+      expect(run.reload).to be_running
+      expect(run.events).to be_empty
     end
   end
 

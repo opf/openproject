@@ -46,6 +46,19 @@ RSpec.describe AI::TextTransformJob do
     expect(AI::TextTransforms::Execution).not_to have_received(:new)
   end
 
+  it "fails a run whose previous execution was interrupted, so it ends with an error" do
+    run = create(:ai_text_transform_run, :running)
+    create(:ai_text_transform_run_event, run:, seq: 1, kind: "text_delta", payload: { "delta" => "Partial" })
+    allow(AI::TextTransforms::Execution).to receive(:new)
+
+    described_class.perform_now(run.id)
+
+    expect(AI::TextTransforms::Execution).not_to have_received(:new)
+    expect(run.reload).to have_attributes(status: "failed",
+                                          error_message: "Generating the text was interrupted before it finished.")
+    expect(run.events.order(:seq).last).to have_attributes(kind: "error", payload: include("reason" => "interrupted"))
+  end
+
   it "executes a queued run as its user" do
     run = create(:ai_text_transform_run)
     execution = instance_double(AI::TextTransforms::Execution)

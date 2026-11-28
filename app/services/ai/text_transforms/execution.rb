@@ -62,12 +62,11 @@ module AI
       def perform_run
         return fail_run(:not_available) unless Availability.new(gateway:).runnable(run.action).available?
 
-        run.start!
-        record("status", status: "running")
+        return unless run.start!
+
         stream
         flush
-        record("completed", text:)
-        run.finish!("succeeded")
+        run.succeed!(text)
       end
 
       def stream
@@ -91,18 +90,13 @@ module AI
         @last_flush = clock.call
         return if buffer.empty?
 
-        record("text_delta", delta: buffer.dup)
+        run.append_event_while_active("text_delta", delta: buffer.dup)
         buffer.clear
       end
 
       def still_wanted?
         current = AI::TextTransformRun.find_by(id: run.id)
-        current.present? && !current.cancel_requested?
-      end
-
-      def record(kind, payload)
-        event = run.append_event(kind, payload)
-        Rails.logger.debug { "AI run #{run.uuid}: #{event.kind} ##{event.seq}" }
+        current.present? && !current.terminal? && !current.cancel_requested?
       end
 
       def finish(status)
@@ -114,11 +108,7 @@ module AI
       def fail_run(reason)
         return unless AI::TextTransformRun.exists?(run.id)
 
-        message = OpenProject::LocaleHelper.with_locale_for(run.user) do
-          I18n.t("ai.text_transform.errors.#{reason}")
-        end
-        record("error", message:, reason: reason.to_s)
-        run.finish!("failed", error_message: message)
+        run.fail!(reason)
       end
     end
   end

@@ -136,6 +136,70 @@ RSpec.describe AI::TextTransforms::Execution,
     expect(events).to eq([[1, "status", { "status" => "running" }]])
   end
 
+  it "stops without touching a run that was failed as interrupted mid-stream" do
+    gateway = AI::TextTransforms::FakeGateway.new(deltas: %w[a b c],
+                                                  before_each: lambda {
+                                                    advance.call(0.6)
+                                                    AI::TextTransformRun.find(run.id).fail!(:interrupted)
+                                                  })
+
+    execute(gateway)
+
+    expect(run).to be_failed
+    expect(events.pluck(1)).to eq(%w[status error])
+    expect(events.last[2]).to include("reason" => "interrupted")
+  end
+
+  it "does not complete a run that was failed as interrupted after the final liveness check" do
+    gateway = AI::TextTransforms::FakeGateway.new(deltas: %w[a])
+    interrupted = false
+    allow(AI::TextTransformRun).to receive(:find_by).and_wrap_original do |original, *args|
+      original.call(*args).tap do
+        AI::TextTransformRun.find(run.id).fail!(:interrupted) unless interrupted
+        interrupted = true
+      end
+    end
+
+    execute(gateway)
+
+    expect(run).to be_failed
+    expect(events.pluck(1)).to include("error").and exclude("completed")
+  end
+
+  it "records no text after the run was failed between the liveness check and the flush" do
+    gateway = AI::TextTransforms::FakeGateway.new(deltas: %w[a])
+    allow(AI::TextTransformRun).to receive(:find_by).and_wrap_original do |original, *args|
+      original.call(*args).tap { AI::TextTransformRun.find(run.id).fail!(:interrupted) }
+    end
+
+    execute(gateway)
+
+    expect(events.pluck(1)).to eq(%w[status error])
+  end
+
+  it "records no running status after a run that another writer failed right after it started" do
+    gateway = AI::TextTransforms::FakeGateway.new(deltas: %w[a])
+    allow(run).to receive(:start!).and_wrap_original do |original|
+      original.call.tap { AI::TextTransformRun.find(run.id).fail!(:interrupted) }
+    end
+
+    execute(gateway)
+
+    expect(run).to be_failed
+    expect(events.pluck(1)).to eq(%w[status error])
+  end
+
+  it "does not start a run that is no longer queued" do
+    gateway = AI::TextTransforms::FakeGateway.new(deltas: %w[a])
+    AI::TextTransformRun.where(id: run.id).update_all(status: "failed")
+
+    execute(gateway)
+
+    expect(run).to be_failed
+    expect(gateway.calls).to be_empty
+    expect(events).to be_empty
+  end
+
   it "stops silently when the run was deleted mid-stream" do
     gateway = AI::TextTransforms::FakeGateway.new(deltas: %w[a b],
                                                   before_each: lambda {
@@ -145,6 +209,18 @@ RSpec.describe AI::TextTransforms::Execution,
 
     expect { described_class.new(run, gateway:, clock:).call }.not_to raise_error
     expect(AI::TextTransformRun.exists?(run.id)).to be(false)
+  end
+
+  it "stops silently when the user and with them the run were deleted before the upstream error" do
+    gateway = AI::TextTransforms::FakeGateway.new(deltas: %w[a b],
+                                                  error: AI::TextTransforms::Errors::Upstream.new("detail"),
+                                                  raise_after: 1,
+                                                  before_each: lambda {
+                                                    NotificationSetting.where(user_id: run.user_id).delete_all
+                                                    User.where(id: run.user_id).delete_all
+                                                  })
+
+    expect { described_class.new(AI::TextTransformRun.find(run.id), gateway:, clock:).call }.not_to raise_error
   end
 
   it "fails with timeout when the budget is exceeded" do

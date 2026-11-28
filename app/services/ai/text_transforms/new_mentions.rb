@@ -37,6 +37,8 @@ module AI
       TAG = %r{<(/?)mention\b(?:[^>"']|"[^"]*"|'[^']*')*>?}i
       PRINCIPAL_TYPE = /\s*data-type="(?:user|group)"/
       PRINCIPAL_TYPES = %w[user group].freeze
+      PRINCIPAL_TYPE_VALUE = /="(?:user|group)"/
+      MAX_PASSES = 3
 
       def initialize(input)
         @input = input.to_s
@@ -51,6 +53,8 @@ module AI
       end
 
       def new_tag?(attributes)
+        return found_unless(false) unless attributes
+
         type = attributes["data-type"]
         return false unless PRINCIPAL_TYPES.include?(type)
 
@@ -62,18 +66,31 @@ module AI
           fragment.css("mention").any? { new_tag?(it) }
       end
 
+      # Removing a part of a mention can join the rest into a new one, so it is converted until nothing changes.
+      # Parts nested in each other need one pass per level, so a text that is still changing after a few passes
+      # has the values of its type attributes emptied instead.
       def convert(text)
+        MAX_PASSES.times do
+          converted = convert_once(text, PRINCIPAL_TYPE, "")
+          return converted if converted == text
+
+          text = converted
+        end
+        convert_once(text, PRINCIPAL_TYPE_VALUE, '=""')
+      end
+
+      private
+
+      def convert_once(text, type_attribute, replacement)
         without_new_tags(text).gsub(PATTERN) do
           mention = Regexp.last_match
           type, key, tag = target(mention.captures)
           next mention[0] if known?(type, key)
 
           @found = true
-          tag ? mention[0].sub(PRINCIPAL_TYPE, "") : plain_text(type, mention[0])
+          tag ? mention[0].gsub(type_attribute, replacement) : plain_text(type, mention[0])
         end
       end
-
-      private
 
       def without_new_tags(text)
         open_tags = []
@@ -84,8 +101,11 @@ module AI
         end
       end
 
+      # A tag the parser refuses, such as one with hundreds of attributes, cannot be checked and counts as new.
       def attributes(tag)
         Nokogiri::HTML5.fragment(tag).element_children.first || {}
+      rescue ArgumentError
+        nil
       end
 
       def found_unless(known)
