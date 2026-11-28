@@ -7,10 +7,9 @@
       )
     end
   else
-    helpers.angular_component_tag "opce-wp-full-view",
-                                  inputs: {
-                                    workPackageId: @id,
-                                    activeTab: @tab
-                                  }
+    custom_element_tag.opce_wp_full_view(
+      work_package_id: @id,
+      active_tab: @tab
+    )
   end
 %>

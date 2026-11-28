@@ -25,11 +25,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, ElementRef, Input, inject } from '@angular/core';
+import { Component, input } from '@angular/core';
 import {
   WorkPackageIsolatedQuerySpaceDirective,
 } from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
-import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
+import { stringAttribute } from 'core-app/shared/helpers/angular/attribute-inputs';
 
 /**
  * An entry component to be rendered by Rails which opens an isolated query space
@@ -40,21 +40,16 @@ import { populateInputsFromDataset } from 'core-app/shared/components/dataset-in
   standalone: false,
   template: `
     <op-wp-full-view
-      [workPackageId]="workPackageId"
-      [activeTab]="activeTab"
+      [workPackageId]="workPackageId()"
+      [activeTab]="activeTab()"
     ></op-wp-full-view>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkPackageFullViewEntryComponent {
-  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
-
-  @Input() workPackageId:string;
-  @Input() activeTab:string;
+  readonly workPackageId = input('', { transform: stringAttribute('') });
+  readonly activeTab = input('', { transform: stringAttribute('') });
 
   constructor() {
-    populateInputsFromDataset(this);
-
     document.body.classList.add('router--work-packages-full-view', 'router--work-packages-base');
   }
 }

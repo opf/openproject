@@ -25,11 +25,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, inject } from '@angular/core';
+import { Component, OnDestroy, input } from '@angular/core';
 import {
   WorkPackageIsolatedQuerySpaceDirective,
 } from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
-import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
+import { stringAttribute } from 'core-app/shared/helpers/angular/attribute-inputs';
 
 const splitViewBodyClass = 'router--work-packages-partitioned-split-view-details';
 
@@ -46,25 +46,20 @@ let splitViewInstanceCount = 0;
 @Component({
   hostDirectives: [WorkPackageIsolatedQuerySpaceDirective],
   template: `
-    <op-wp-split-view [workPackageId]="workPackageId"
-      [activeTab]="activeTab"
+    <op-wp-split-view [workPackageId]="workPackageId()"
+      [activeTab]="activeTab()"
       [showTabs]="false"
-      [resizerClass]="resizerClass"
+      [resizerClass]="resizerClass()"
      />
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
 export class WorkPackageSplitViewEntryComponent implements OnDestroy {
-  @Input() workPackageId:string;
-  @Input() activeTab:string;
-  @Input() resizerClass:string;
-
-  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  readonly workPackageId = input('', { transform: stringAttribute('') });
+  readonly activeTab = input('', { transform: stringAttribute('') });
+  readonly resizerClass = input('', { transform: stringAttribute('') });
 
   constructor() {
-    populateInputsFromDataset(this);
-
     splitViewInstanceCount += 1;
     document.body.classList.add(splitViewBodyClass);
   }

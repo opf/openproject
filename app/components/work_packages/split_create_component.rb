@@ -29,6 +29,7 @@
 
 class WorkPackages::SplitCreateComponent < ApplicationComponent
   include OpTurbo::Streamable
+  include CustomElementHelper
 
   def initialize(project_identifier:, type: nil, parent_id: nil)
     super

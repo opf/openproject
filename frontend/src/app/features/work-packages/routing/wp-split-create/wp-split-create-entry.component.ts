@@ -25,11 +25,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, inject } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, input } from '@angular/core';
 import {
   WorkPackageIsolatedQuerySpaceDirective,
 } from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
-import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
+import { optionalStringAttribute, stringAttribute } from 'core-app/shared/helpers/angular/attribute-inputs';
 
 const splitCreateBodyClass = 'router--work-packages-partitioned-split-view-new';
 
@@ -48,22 +48,18 @@ let splitCreateInstanceCount = 0;
   standalone: false,
   template: `
     <wp-new-split-view
-      [stateParams]="{ projectPath: projectIdentifier, type: type, parent_id: parentId }"
-      [resizerClass]="resizerClass"
+      [stateParams]="{ projectPath: projectIdentifier(), type: type(), parent_id: parentId() }"
+      [resizerClass]="resizerClass()"
     />
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkPackageSplitCreateEntryComponent implements AfterViewInit, OnDestroy {
-  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
-
-  @Input() projectIdentifier?:string;
-  @Input() type?:string;
-  @Input() parentId?:string;
-  @Input() resizerClass:string;
+  readonly projectIdentifier = input(undefined, { transform: optionalStringAttribute() });
+  readonly type = input(undefined, { transform: optionalStringAttribute() });
+  readonly parentId = input(undefined, { transform: optionalStringAttribute() });
+  readonly resizerClass = input('', { transform: stringAttribute('') });
 
   constructor() {
-    populateInputsFromDataset(this);
     splitCreateInstanceCount += 1;
     document.body.classList.add(splitCreateBodyClass);
   }

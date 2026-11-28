@@ -1,10 +1,7 @@
 <%=
-  helpers.angular_component_tag "opce-wp-full-copy",
-                                inputs: {
-                                  type: @type,
-                                  copiedFromWorkPackageId: @copied_from_work_package_id,
-                                  projectIdentifier: @project.present? ? @project.identifier : nil,
-                                  resizerClass: "op-work-package-split-view"
-                                }
-
+  custom_element_tag.opce_wp_full_copy(
+    type: @type,
+    copied_from_work_package_id: @copied_from_work_package_id,
+    project_identifier: @project.present? ? @project.identifier : nil
+  )
 %>
