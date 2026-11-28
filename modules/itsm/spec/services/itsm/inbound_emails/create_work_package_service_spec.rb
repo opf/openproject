@@ -42,8 +42,11 @@ RSpec.describe ITSM::InboundEmails::CreateWorkPackageService do
   let(:cc) { ["Colleague@Customer.example", "help@example.com", "jane@customer.example"] }
   let(:email_subject) { "Printer broken" }
   let(:body) { "The printer on floor 2 is broken." }
+  let(:files) { {} }
   let(:raw) do
-    Mail.new(message_id: "<#{message_id}>", from:, to: "support@example.com", cc:, subject: email_subject, body:).to_s
+    Mail.new(message_id: "<#{message_id}>", from:, to: "support@example.com", cc:, subject: email_subject, body:)
+      .tap { |mail| files.each { |filename, content| mail.add_file(filename:, content:) } }
+      .to_s
   end
   let(:work_package) { result.result.work_package }
   let!(:status) { create(:default_status) }
@@ -81,6 +84,42 @@ RSpec.describe ITSM::InboundEmails::CreateWorkPackageService do
       cc_addresses: %w[colleague@customer.example help@example.com jane@customer.example],
       subject: "Printer broken"
     )
+  end
+
+  context "with attachments" do
+    let(:files) { { "report.txt" => "The report." } }
+
+    it "adds them to the work package, in its first activity entry" do
+      expect(work_package.attachments.map(&:filename)).to eq(["report.txt"])
+      expect(work_package.journals.sole.attachable_journals.map(&:filename)).to eq(["report.txt"])
+    end
+
+    context "with a file larger than allowed", with_settings: { attachment_max_size: 1 } do
+      let(:files) { { "report.txt" => "The report.", "video.mp4" => "x" * 2.kilobytes } }
+
+      it "adds the others and notes the skipped one below the text" do
+        expect(work_package.attachments.map(&:filename)).to eq(["report.txt"])
+        expect(work_package.description)
+          .to eq("```\nThe printer on floor 2 is broken.\n```\n\nNot attached: `video.mp4` (larger than 1 kB)")
+      end
+    end
+
+    context "when the work package is not kept" do
+      let(:message_id) { "#{'a' * 1000}@customer.example" }
+
+      it "deletes them, as the email is kept to be tried again" do
+        expect(result).to be_failure
+        expect(Attachment.count).to eq(0)
+      end
+    end
+
+    context "when the email was already processed" do
+      before { described_class.new(user:).call(mailbox:, email: ITSM::InboundEmail.new(raw)) }
+
+      it "does not add them again" do
+        expect { result }.not_to change(Attachment, :count)
+      end
+    end
   end
 
   context "when the email was already processed in this project" do

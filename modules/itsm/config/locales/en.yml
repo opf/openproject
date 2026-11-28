@@ -57,6 +57,7 @@ en:
               fetch_in_progress: "The mailbox is already being checked."
               inactive: "The mailbox is paused."
               processing_failed: "The emails could not be processed. They stay in the mailbox and are tried again. Check the OpenProject worker logs for details."
+              reply_not_added: "A reply could not be added to its work package, for example because the help desk user may not comment on it. The email stays in the mailbox and is tried again. Check the OpenProject worker logs for details."
               server_error: "The mail server returned an error: %{server_message}"
               timeout: "The mail server stopped responding."
               tls_failed: "No secure connection to the mail server could be established. Check its certificate."
@@ -117,7 +118,15 @@ en:
         greeting: Hello %{name},
         received: 'we have received your request "%{subject}" and recorded it as %{id}.'
         reply: To add information to your request, reply to this email.
+    inbound_emails:
+      not_attached: "Not attached: %{files}"
+      not_attached_reasons:
+        failed: could not be saved
+        file_too_large: larger than %{size}
+        not_allowed: attachments not allowed on this work package
+        not_allowlisted: file type not allowed
   label_email_without_subject: "(no subject)"
+  label_email_without_text: "(no text)"
   label_helpdesk: Help desk
   label_helpdesk_role: Help desk
   label_helpdesk_user: Help desk

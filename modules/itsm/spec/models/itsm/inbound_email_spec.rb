@@ -319,6 +319,70 @@ RSpec.describe ITSM::InboundEmail do
     end
   end
 
+  describe "#reply_text" do
+    subject(:reply_text) { email.reply_text }
+
+    let(:raw) do
+      Mail.new do
+        from "jane@customer.example"
+        text_part { body "It works again.\r\n\r\nOn Fri, Help desk wrote:\r\n> we have received your request." }
+        html_part { body "<p>It works again.</p><blockquote>we have received your request.</blockquote>" }
+      end.to_s
+    end
+
+    it "is the text without the quoted email" do
+      expect(reply_text).to eq("It works again.")
+      expect(email.text).to include("> we have received your request.")
+    end
+
+    context "with only an HTML version" do
+      let(:raw) do
+        Mail.new do
+          from "jane@customer.example"
+          content_type "text/html; charset=UTF-8"
+          body "<p>It works again.</p><blockquote>we have received your request.</blockquote>"
+        end.to_s
+      end
+
+      it "is the text without the quoted email" do
+        expect(reply_text).to eq("It works again.")
+      end
+    end
+
+    context "with the signature below the quoted email" do
+      let(:raw) do
+        "From: jane@customer.example\r\n\r\nIt works again.\r\n\r\nOn 20.11.26 15:44, Help desk wrote:\r\n" \
+          "> we have received your request.\r\n>\r\n\r\n-- \r\nJane Doe"
+      end
+
+      it "keeps the signature" do
+        expect(reply_text).to eq("It works again.\n\n-- \nJane Doe")
+      end
+    end
+
+    context "with answers between quoted lines" do
+      let(:raw) { "From: jane@customer.example\r\n\r\n> Which floor?\r\n2nd floor.\r\n> Which model?\r\nHP LaserJet." }
+
+      it "keeps the answers" do
+        expect(reply_text).to eq("2nd floor.\nHP LaserJet.")
+      end
+    end
+
+    context "with a line ending in a colon that is not followed by a quote" do
+      let(:raw) { "From: jane@customer.example\r\n\r\nWhat I tried so far:\r\n- restarting it" }
+
+      it "keeps it" do
+        expect(reply_text).to eq("What I tried so far:\n- restarting it")
+      end
+    end
+
+    context "with only quoted text" do
+      let(:raw) { "From: jane@customer.example\r\n\r\n> The printer is broken." }
+
+      it { is_expected.to eq("") }
+    end
+  end
+
   describe "#header_value" do
     let(:raw) { "From: jane@customer.example\r\nAuto-Submitted: auto-replied\r\nX-Bad: \xFFvalue\r\n\r\nHello".b }
 
@@ -362,6 +426,51 @@ RSpec.describe ITSM::InboundEmail do
       let(:raw) { "From: jane@customer.example\r\n\r\nHello" }
 
       it { expect(email).not_to be_report }
+    end
+  end
+
+  describe "#attachments" do
+    subject(:attachments) { email.attachments }
+
+    let(:raw) do
+      Mail.new(from: "jane@customer.example", body: "The printer is broken.").tap do |mail|
+        mail.add_file(filename: "Drücker.pdf", content: "%PDF-1.4 report")
+        mail.attachments.inline["logo.png"] = "\x89PNG\r\n\x1A\n".b
+      end.to_s
+    end
+
+    it "lists the attached files and the images embedded in the text" do
+      expect(attachments.map(&:filename)).to eq(%w[Drücker.pdf logo.png])
+      expect(attachments.map(&:content_type)).to eq(%w[application/pdf image/png])
+      expect(attachments.first.content).to eq("%PDF-1.4 report")
+    end
+
+    it "keeps them out of the text" do
+      expect(email.text).to eq("The printer is broken.")
+    end
+
+    it "keeps the content out of inspect" do
+      expect(attachments.first.inspect).not_to include("PDF")
+    end
+
+    context "with line breaks in a file name" do
+      let(:filename) { "=?UTF-8?Q?report=0A=0A**urgent**=0D.pdf?=" }
+      let(:raw) do
+        "From: jane@customer.example\r\nMIME-Version: 1.0\r\nContent-Type: multipart/mixed; boundary=b\r\n\r\n" \
+          "--b\r\nContent-Type: text/plain\r\n\r\nHello\r\n" \
+          "--b\r\nContent-Type: application/pdf\r\nContent-Disposition: attachment; filename=\"#{filename}\"\r\n" \
+          "Content-Transfer-Encoding: base64\r\n\r\nJVBERg==\r\n--b--\r\n"
+      end
+
+      it "replaces them with spaces" do
+        expect(attachments.sole.filename).to eq("report  **urgent** .pdf")
+      end
+    end
+
+    context "without attachments" do
+      let(:raw) { "From: jane@customer.example\r\n\r\nHello" }
+
+      it { is_expected.to be_empty }
     end
   end
 end

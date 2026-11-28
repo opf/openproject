@@ -63,6 +63,9 @@ module ITSM
 
     scope :sent_to, ->(address) { outbound.sent.where("? = ANY(to_addresses)", address) }
     scope :created_since, ->(time) { where(created_at: time..) }
+    scope :referring_to, ->(message_id) do
+      where(in_reply_to: message_id).or(where("? = ANY(referenced_message_ids)", message_id))
+    end
 
     private
 

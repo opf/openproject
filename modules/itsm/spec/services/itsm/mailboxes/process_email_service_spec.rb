@@ -58,11 +58,26 @@ RSpec.describe ITSM::Mailboxes::ProcessEmailService do
     allow(Rails.logger).to receive(:warn) { |&message| warned << message.call }
   end
 
-  it "creates a work package as the help desk user and removes the email from the server" do
+  it "creates a work package as the help desk user and marks the email as seen, keeping it on the server" do
     expect { result }.to change { WorkPackage.where(project:, author: ITSM.helpdesk_user).count }.by(1)
     expect(result).to be_success
-    expect(imap).to have_received(:uid_store).with(7, "+FLAGS", %i[Seen Deleted])
-    expect(imap).to have_received(:uid_expunge).with(7)
+    expect(imap).to have_received(:uid_store).with(7, "+FLAGS", [:Seen])
+    expect(imap).not_to have_received(:uid_expunge)
+  end
+
+  context "with an attachment" do
+    let(:raw) do
+      Mail.new(message_id: "<request-1@customer.example>", from: "jane@customer.example", to: "support@example.com",
+               subject: "Printer broken", body: "The printer is broken.")
+        .tap { it.add_file(filename: "report.txt", content: "The report.") }
+        .to_s
+    end
+
+    it "adds it to the work package" do
+      result
+
+      expect(WorkPackage.last.attachments.map(&:filename)).to eq(["report.txt"])
+    end
   end
 
   it "queues the confirmation for the new work package" do
@@ -82,10 +97,10 @@ RSpec.describe ITSM::Mailboxes::ProcessEmailService do
   context "when the email was already processed" do
     before { described_class.new(mailbox:, session:).call(uid: 7) }
 
-    it "removes it without creating another work package or confirming it again" do
+    it "marks it as seen without creating another work package or confirming it again" do
       expect { result }.not_to change(WorkPackage, :count)
       expect(ITSM::OutboundEmails::SendConfirmationJob).to have_been_enqueued.once
-      expect(imap).to have_received(:uid_expunge).with(7).twice
+      expect(imap).to have_received(:uid_store).with(7, "+FLAGS", [:Seen]).twice
       expect(logged).to include("Already in work package ##{WorkPackage.last.id}")
     end
   end
@@ -93,9 +108,9 @@ RSpec.describe ITSM::Mailboxes::ProcessEmailService do
   context "when the email is an automatic reply" do
     let(:headers) { { "Auto-Submitted" => "auto-replied" } }
 
-    it "removes it without creating a work package" do
+    it "marks it as seen without creating a work package" do
       expect { result }.not_to change(WorkPackage, :count)
-      expect(imap).to have_received(:uid_expunge).with(7)
+      expect(imap).to have_received(:uid_store).with(7, "+FLAGS", [:Seen])
       expect(logged).to include("Ignored (automatic)")
       expect(ITSM::OutboundEmails::SendConfirmationJob).not_to have_been_enqueued
     end
@@ -103,18 +118,55 @@ RSpec.describe ITSM::Mailboxes::ProcessEmailService do
 
   context "when the email replies to a message of the project" do
     let(:headers) { { in_reply_to: "<earlier@customer.example>" } }
+    let(:work_package) { create(:work_package, project:) }
 
     before do
       create(:itsm_email_message, message_id: "earlier@customer.example",
-                                  thread: create(:itsm_email_thread, work_package: create(:work_package, project:)))
+                                  thread: create(:itsm_email_thread, work_package:))
     end
 
-    it "marks it as seen and leaves it on the server" do
+    it "adds it as a comment of the help desk user and marks it as seen" do
       expect { result }.not_to change(WorkPackage, :count)
+      expect(work_package.journals.reload.last).to have_attributes(user: ITSM.helpdesk_user,
+                                                                   notes: "```\nThe printer is broken.\n```")
       expect(imap).to have_received(:uid_store).with(7, "+FLAGS", [:Seen])
-      expect(imap).not_to have_received(:uid_expunge)
-      expect(logged).to include("Not processed (reply)")
+      expect(logged).to include("Added as a comment to work package ##{work_package.id}")
       expect(ITSM::OutboundEmails::SendConfirmationJob).not_to have_been_enqueued
+    end
+
+    context "when it was already added" do
+      before { described_class.new(mailbox:, session:).call(uid: 7) }
+
+      it "marks it as seen without adding another comment" do
+        expect { result }.not_to change(Journal, :count)
+        expect(imap).to have_received(:uid_store).with(7, "+FLAGS", [:Seen]).twice
+        expect(logged).to include("Already in work package ##{work_package.id}")
+      end
+    end
+
+    context "when the help desk user may not comment on the work package" do
+      before { helpdesk_member.destroy }
+
+      it "fails and leaves the email untouched, to be tried again" do
+        expect { result }.not_to change(Journal, :count)
+        expect(result.failure.code).to eq(:reply_not_added)
+        expect(imap).not_to have_received(:uid_store)
+        expect(warned).to include(start_with("Comment not added"))
+      end
+    end
+  end
+
+  context "when a reply to the email was processed first" do
+    let(:work_package) { create(:work_package, project:) }
+
+    before do
+      create(:itsm_email_message, message_id: "reply@customer.example", in_reply_to: "request-1@customer.example",
+                                  thread: create(:itsm_email_thread, work_package:))
+    end
+
+    it "adds it to the reply's work package" do
+      expect { result }.not_to change(WorkPackage, :count)
+      expect(logged).to include("Added as a comment to work package ##{work_package.id}")
     end
   end
 
@@ -128,14 +180,25 @@ RSpec.describe ITSM::Mailboxes::ProcessEmailService do
     end
   end
 
-  context "when no work package can be created" do
+  context "when the email has no sender" do
     let(:raw) { "Message-ID: <request-1@customer.example>\r\nTo: support@example.com\r\nSubject: Hello\r\n\r\nHello" }
 
-    it "marks it as seen and warns with the reason" do
+    it "marks it as seen and warns" do
+      expect { result }.not_to change(WorkPackage, :count)
       expect(result).to be_success
       expect(imap).to have_received(:uid_store).with(7, "+FLAGS", [:Seen])
       expect(imap).not_to have_received(:uid_expunge)
-      expect(warned).to include("Not processed (requester_email blank)")
+      expect(warned).to include("Not processed (no sender)")
+    end
+  end
+
+  context "when the email cannot be stored" do
+    let(:raw) { "Message-ID: <#{'x' * 1000}@customer.example>\r\nFrom: jane@customer.example\r\n\r\nHello" }
+
+    it "marks it as seen and warns with the reason" do
+      expect { result }.not_to change(WorkPackage, :count)
+      expect(imap).to have_received(:uid_store).with(7, "+FLAGS", [:Seen])
+      expect(warned).to include("Not processed (message_id too_long)")
       expect(ITSM::OutboundEmails::SendConfirmationJob).not_to have_been_enqueued
     end
   end
@@ -148,6 +211,20 @@ RSpec.describe ITSM::Mailboxes::ProcessEmailService do
       expect(result.failure.code).to eq(:work_package_not_created)
       expect(imap).not_to have_received(:uid_store)
       expect(warned).to include("Work package not created (priority blank)")
+    end
+
+    context "with an attachment" do
+      let(:raw) do
+        Mail.new(message_id: "<request-1@customer.example>", from: "jane@customer.example", to: "support@example.com",
+                 subject: "Printer broken", body: "The printer is broken.")
+          .tap { it.add_file(filename: "report.txt", content: "The report.") }
+          .to_s
+      end
+
+      it "keeps no attachment, as the email is tried again with its files" do
+        expect(result).to be_failure
+        expect(Attachment.count).to eq(0)
+      end
     end
   end
 
