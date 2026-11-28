@@ -922,11 +922,14 @@ export default class PageController extends Controller {
   private serializeFilterComponentValue(formData:FormData, filter:HTMLElement, name:string) {
     // Reporting filters embed Angular custom elements that may not materialize
     // matching named inputs until the user interacts with them.
-    const datePicker = filter.querySelector<HTMLElement>('opce-basic-single-date-picker[name][value]');
-    const dateValue = datePicker?.getAttribute('value');
+    const dateValues = Array.from(filter.querySelectorAll<HTMLElement>('opce-basic-single-date-picker[name][value]'))
+      .filter((datePicker) => datePicker.getAttribute('name') === name && !datePicker.closest('[hidden]'))
+      .filter((datePicker) => !datePicker.querySelector('input'))
+      .map((datePicker) => datePicker.getAttribute('value'))
+      .filter((value):value is string => !!value);
 
-    if (datePicker?.getAttribute('name') === name && dateValue) {
-      formData.append(name, dateValue);
+    if (dateValues.length > 0) {
+      dateValues.forEach((value) => formData.append(name, value));
       return true;
     }
 

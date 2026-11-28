@@ -93,7 +93,59 @@ describe('Reporting PageController serialization', () => {
     expect(formDataValues(formData, 'values[subject][]')).toEqual([]);
   });
 
-  it('falls back to the date picker attributes when the input is still empty', () => {
+  it('falls back to the date picker attributes before the inputs are rendered', () => {
+    fixturesElement.innerHTML = `
+      <li id="filter_spent_on">
+        <opce-basic-single-date-picker name="values[spent_on][]" value="2026-03-07"></opce-basic-single-date-picker>
+      </li>
+    `;
+
+    const formData = new FormData();
+
+    privateController.syncFilterValues(formData, 'spent_on');
+
+    expect(formDataValues(formData, 'values[spent_on][]')).toEqual(['2026-03-07']);
+  });
+
+  it('serializes both dates of a between filter before the inputs are rendered', () => {
+    fixturesElement.innerHTML = `
+      <li id="filter_spent_on">
+        <span id="spent_on_arg_1">
+          <opce-basic-single-date-picker name="values[spent_on][]" value="2026-03-01"></opce-basic-single-date-picker>
+        </span>
+        <span id="spent_on_arg_2">
+          <opce-basic-single-date-picker name="values[spent_on][]" value="2026-03-07"></opce-basic-single-date-picker>
+        </span>
+      </li>
+    `;
+
+    const formData = new FormData();
+
+    privateController.syncFilterValues(formData, 'spent_on');
+
+    expect(formDataValues(formData, 'values[spent_on][]')).toEqual(['2026-03-01', '2026-03-07']);
+  });
+
+  it('skips the date picker of an inactive argument', () => {
+    fixturesElement.innerHTML = `
+      <li id="filter_spent_on">
+        <span id="spent_on_arg_1">
+          <opce-basic-single-date-picker name="values[spent_on][]" value="2026-03-01"></opce-basic-single-date-picker>
+        </span>
+        <span id="spent_on_arg_2" hidden>
+          <opce-basic-single-date-picker name="values[spent_on][]" value="2026-03-07" hidden></opce-basic-single-date-picker>
+        </span>
+      </li>
+    `;
+
+    const formData = new FormData();
+
+    privateController.syncFilterValues(formData, 'spent_on');
+
+    expect(formDataValues(formData, 'values[spent_on][]')).toEqual(['2026-03-01']);
+  });
+
+  it('does not restore the server value once a rendered date input is cleared', () => {
     fixturesElement.innerHTML = `
       <li id="filter_spent_on">
         <opce-basic-single-date-picker name="values[spent_on][]" value="2026-03-07">
@@ -106,7 +158,7 @@ describe('Reporting PageController serialization', () => {
 
     privateController.syncFilterValues(formData, 'spent_on');
 
-    expect(formDataValues(formData, 'values[spent_on][]')).toEqual(['2026-03-07']);
+    expect(formDataValues(formData, 'values[spent_on][]')).toEqual([]);
   });
 
   it('falls back to autocompleter dataset values with numeric and string ids', () => {
