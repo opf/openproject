@@ -378,7 +378,7 @@ export class OpenProjectModule implements DoBootstrap {
     registerCustomElement('opce-basic-single-date-picker', OpBasicSingleDatePickerComponent, { injector });
     registerCustomElement('opce-basic-single-datetime-picker', OpBasicSingleDatetimePickerComponent, { injector });
     registerCustomElement('opce-range-date-picker', OpBasicRangeDatePickerComponent, { injector });
-    registerCustomElement('opce-global-search', GlobalSearchInputComponent, { injector });
+    registerCustomElement('opce-global-search', GlobalSearchInputComponent, { injector }, { attributeInputs: true });
     registerCustomElement('opce-autocompleter', OpAutocompleterComponent, { injector });
     registerCustomElement('opce-project-autocompleter', ProjectAutocompleterComponent, { injector });
     registerCustomElement('opce-members-autocompleter', MembersAutocompleterComponent, { injector });

@@ -67,8 +67,8 @@ RSpec.describe "Semantic search in the global search", :js,
   it "finds work packages by meaning" do
     table = search_work_packages_page
 
-    expect(page).to have_css("opce-global-search-work-packages[data-semantic-search-available='true']")
-    expect(page).to have_css('opce-global-search-work-packages[data-search-mode=\'"semantic"\']')
+    expect(page).to have_css("opce-global-search-work-packages[semantic-search-available]")
+    expect(page).to have_css("opce-global-search-work-packages[search-mode='semantic']")
     table.expect_work_package_subject(similar_wp.subject)
     table.ensure_work_package_not_listed!(text_match_wp)
   end
@@ -77,8 +77,8 @@ RSpec.describe "Semantic search in the global search", :js,
     it "does not offer semantic search and falls back to text search" do
       table = search_work_packages_page
 
-      expect(page).to have_css("opce-global-search-work-packages[data-semantic-search-available='false']")
-      expect(page).to have_css('opce-global-search-work-packages[data-search-mode=\'"text"\']')
+      expect(page).to have_css("opce-global-search-work-packages[semantic-search-available='false']")
+      expect(page).to have_css("opce-global-search-work-packages[search-mode='text']")
       table.expect_work_package_subject(text_match_wp.subject)
       table.ensure_work_package_not_listed!(similar_wp)
     end
@@ -92,8 +92,8 @@ RSpec.describe "Semantic search in the global search", :js,
     it "does not offer semantic search and falls back to text search" do
       table = search_work_packages_page
 
-      expect(page).to have_css("opce-global-search-work-packages[data-semantic-search-available='false']")
-      expect(page).to have_css('opce-global-search-work-packages[data-search-mode=\'"text"\']')
+      expect(page).to have_css("opce-global-search-work-packages[semantic-search-available='false']")
+      expect(page).to have_css("opce-global-search-work-packages[search-mode='text']")
       table.expect_work_package_subject(text_match_wp.subject)
       table.ensure_work_package_not_listed!(similar_wp)
     end

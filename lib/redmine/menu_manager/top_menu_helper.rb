@@ -28,6 +28,7 @@
 #++
 
 module Redmine::MenuManager::TopMenuHelper
+  include CustomElementHelper
   include Redmine::MenuManager::TopMenu::HelpMenu
   include Redmine::MenuManager::TopMenu::ProjectsMenu
   include Redmine::MenuManager::TopMenu::QuickAddMenu
@@ -91,10 +92,9 @@ module Redmine::MenuManager::TopMenuHelper
   end
 
   def render_global_search_input
-    angular_component_tag "opce-global-search",
-                          inputs: {
-                            placeholder: I18n.t("global_search.placeholder", app_title: Setting.app_title)
-                          }
+    custom_element_tag.opce_global_search(
+      placeholder: I18n.t("global_search.placeholder", app_title: Setting.app_title)
+    )
   end
 
   def render_top_menu_right

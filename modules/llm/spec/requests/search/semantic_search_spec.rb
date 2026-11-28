@@ -59,22 +59,22 @@ RSpec.describe "Search page with semantic search", :skip_csrf,
   it "marks semantic search as available and maps search_mode=semantic" do
     get_search_page(search_mode: "semantic")
 
-    expect(component_tag["data-semantic-search-available"]).to eq "true"
-    expect(component_tag["data-search-mode"]).to eq '"semantic"'
+    expect(component_tag["semantic-search-available"]).to eq ""
+    expect(component_tag["search-mode"]).to eq "semantic"
   end
 
   it "defaults to text search mode without search_mode param" do
     get_search_page
 
-    expect(component_tag["data-search-mode"]).to eq '"text"'
+    expect(component_tag["search-mode"]).to eq "text"
   end
 
   context "with the feature flag off", with_flag: { semantic_search: false } do
     it "marks semantic search as unavailable and uses text search" do
       get_search_page(search_mode: "semantic")
 
-      expect(component_tag["data-semantic-search-available"]).to eq "false"
-      expect(component_tag["data-search-mode"]).to eq '"text"'
+      expect(component_tag["semantic-search-available"]).to eq "false"
+      expect(component_tag["search-mode"]).to eq "text"
     end
   end
 
@@ -86,8 +86,8 @@ RSpec.describe "Search page with semantic search", :skip_csrf,
     it "marks semantic search as unavailable and uses text search" do
       get_search_page(search_mode: "semantic")
 
-      expect(component_tag["data-semantic-search-available"]).to eq "false"
-      expect(component_tag["data-search-mode"]).to eq '"text"'
+      expect(component_tag["semantic-search-available"]).to eq "false"
+      expect(component_tag["search-mode"]).to eq "text"
     end
   end
 end
