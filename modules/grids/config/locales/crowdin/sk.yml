@@ -12,8 +12,6 @@ sk:
       models:
         grids/grid:
           end_before_start: koncová hodnota musí byť väčšia ako počiatočná hodnota.
-          invalid_query: reference a query that does not belong to you and the project.
-          query_unchangeable: cannot have their query replaced once it is set.
           outside: je mimo mriežku.
           overlaps: prekrývajú.
     models:

@@ -339,6 +339,9 @@ rw:
               one: Bar chart of committed and completed estimated time of the last sprint.
               other: Bar chart of committed and completed estimated time of the last %{count} sprints.
           summary_average: 'Average velocity: %{average}.'
+          summary_story_points:
+            one: "%{value} story point"
+            other: "%{value} story points"
           title: Velocity chart
           velocity: "%{sprint}:"
           y_axis_title:

@@ -50,7 +50,7 @@ ro:
       work_package:
         backlog_bucket: Backlog bucket
         backlog_inbox: Backlog inbox
-        backlogs_work_package_type: Tipul de restante
+        backlogs_work_package_type: Tip restanță
         position: Poziție
         sprint: Sprint
         story_points: Puncte
@@ -353,6 +353,10 @@ ro:
               few: Bar chart of committed and completed estimated time of the last %{count} sprints.
               other: Bar chart of committed and completed estimated time of the last %{count} sprints.
           summary_average: 'Average velocity: %{average}.'
+          summary_story_points:
+            one: "%{value} story point"
+            few: "%{value} story points"
+            other: "%{value} story points"
           title: Velocity chart
           velocity: "%{sprint}:"
           y_axis_title:

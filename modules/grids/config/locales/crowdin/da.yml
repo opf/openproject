@@ -12,8 +12,6 @@ da:
       models:
         grids/grid:
           end_before_start: Slutværdien skal være større end startværdien.
-          invalid_query: reference a query that does not belong to you and the project.
-          query_unchangeable: cannot have their query replaced once it is set.
           outside: er uden for gitteret.
           overlaps: overlapper.
     models:

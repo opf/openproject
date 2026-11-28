@@ -12,8 +12,6 @@ zh-TW:
       models:
         grids/grid:
           end_before_start: 結束值必須大於開始值。
-          invalid_query: reference a query that does not belong to you and the project.
-          query_unchangeable: cannot have their query replaced once it is set.
           outside: 不在網格(grid)內。
           overlaps: 重疊
     models:

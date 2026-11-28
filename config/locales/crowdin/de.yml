@@ -137,10 +137,10 @@ de:
         commented: Kommentiert
       custom_field:
         admin_only: Nur für Administratoren
+        allow_additional_project_values: Projektadministratoren können projektspezifische Werte hinzufügen
         allow_non_open_versions: Erlaube nicht-offene Versionen
         content_right_to_left: Linksläufiger Inhalt
         default_value: Standardwert
-        editable: Bearbeitbar
         field_format: Format
         formula: Formel
         has_comment: Ein Kommentarfeld hinzufügen
@@ -153,11 +153,18 @@ de:
         min_value: Minimal erlaubter Wert
         multi_value: Mehrfachauswahl zulassen
         possible_values: Mögliche Werte
+        project_level_value_management: Projektadministratoren können verfügbare Werte auf Projektebene verwalten
         project_specific_value_restriction: Projektspezifische Werte
         regexp: Regulärer Ausdruck
         searchable: Durchsuchbar
         semantic_key: Semantische Bedeutung
+        user_self_editable: Bearbeitbar
         visible_on_user_card: Auf Benutzerkarte anzeigen
+      custom_field/hierarchy/item:
+        label: Label
+        parent: Übergeordnetes Element
+        short: Kurz
+        weight: Gewichtung
       custom_field/project_specific_value_restriction:
         restriction: Beschränkung
       custom_value:
@@ -342,8 +349,11 @@ de:
         custom_field_section: Abschnitt
       project_type:
         variant: Variante
+      push_subscription:
+        endpoint: Endpunkt
+        session_id: Sitzung
       query:
-        child_work_packages: Unteraufgaben
+        child_work_packages: Kinder
         column_names: Spalten
         columns: Spalten
         display_representation: Anzeigemodus
@@ -532,6 +542,7 @@ de:
         ancestor: Nachkommen von
         begin_deletion: Beginn des Löschvorgangs
         begin_insertion: Beginn der Einfügung
+        categories: Kategorien
         children: Unteraufgaben
         derived_done_ratio: Insgesamt % abgeschlossen
         derived_remaining_hours: Verbleibende Arbeit insgesamt
@@ -717,18 +728,41 @@ de:
               invalid_tokens: Nur numerische Werte, mathematische Operatoren, Funktionen, Schlüsselworte und Projektattribute vom Typ Integer, Float, Berechneter Wert und Gewichtete Liste sind erlaubt.
               multi_value_list_not_aggregated: Attribute mit Mehrfachauswahl (%{custom_fields}) können nur innerhalb von Aggregatfunktionen verwendet werden.
               not_allowed_custom_fields_referenced: Das Attribut %{custom_fields} kann nicht verwendet werden, da es zu einem Zirkelbezug führt; ein Attribut hängt vom anderen ab.
+            project_level_value_management:
+              not_available_for_all_values: ist nur verfügbar, wenn die Werte pro Projekt eingeschränkt sind.
             project_specific_value_restriction:
-              not_supported: ist nur für benutzerdefinierte Felder von Arbeitspaketen der Formate „Liste“, „Hierarchie“ und „gewichtete Elementliste“ verfügbar.
+              not_supported: ist nur für benutzerdefinierte Felder von Arbeitspaketen der Formate „Liste“, „Hierarchie“ und „gewichtete Liste“ verfügbar.
             required:
               cannot_be_true: kann nicht auf 'wahr' gesetzt werden.
+            value:
+              parent_only_in_project: kann nicht für alle Projekte bereitgestellt werden, da sein übergeordnetes Element nur in diesem Projekt verfügbar ist.
+              required_by_project_values: kann nicht deaktiviert werden, da darunter projektspezifische Werte hinzugefügt wurden.
           previous_custom_field_recalculation_unprocessed: Die Neuberechnung früherer Änderungen für dieses benutzerdefinierte Feld wurde noch nicht durchgeführt. Bitte versuchen Sie es in ein paar Minuten erneut.
           referenced_in_other_fields_html:
             one: "%{name} wird bei der Berechnung eines Projektattributs verwendet %{links}."
             other: "%{name} wird bei der Berechnung von Projektattribute verwendet %{links}."
+        custom_field/hierarchy/item:
+          attributes:
+            base:
+              root_item: Die oberste Ebene einer Hierarchie kann nicht gelöscht werden.
+            label:
+              not_unique: muss innerhalb der gleichen Hierarchieebene eindeutig sein.
+            parent:
+              other_hierarchy: müssen derselben Hierarchie angehören.
+              other_project: muss ein globaler Wert sein oder zum selben Projekt gehören.
+              own_descendant: darf weder der Wert selbst noch eines seiner untergeordneten Elemente sein.
+            project_id:
+              additional_values_not_allowed: kann diesem benutzerdefinierten Feld keine Werte hinzufügen.
+            short:
+              not_unique: muss innerhalb der gleichen Hierarchieebene eindeutig sein.
         custom_fields_project:
           attributes:
             project_ids:
               blank: Bitte wählen Sie ein Projekt aus.
+        custom_option:
+          attributes:
+            project_id:
+              additional_values_not_allowed: kann diesem benutzerdefinierten Feld keine Werte hinzufügen.
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -774,8 +808,6 @@ de:
             name:
               blank: ist obligatorisch. Bitte wählen Sie einen Namen aus.
               not_unique: ist bereits in Gebrauch. Bitte wählen Sie einen anderen Namen aus.
-        jira:
-          invalid_protocol: Bitte geben Sie ein gültiges Protokoll an (http oder https)
         label:
           attributes:
             name:
@@ -839,8 +871,8 @@ de:
               cannot_assign_multiple_variants_of_parent: Nur eine einzige Variante eines Typs kann im Projekt aktiv sein
               cannot_assign_variant_and_parent: 'Eine Variante und deren übergeordnete Variante können nicht beide aktiv sein '
               in_use_by_work_packages: 'wird noch genutzt von folgenden Arbeitspaketen: %{types}'
-              switch_target_blank: Wählen Sie die Variante aus, zu der Sie wechseln möchten
-              switch_target_identical: Der Zieltyp muss sich von dem Typ unterscheiden, den das Projekt derzeit verwendet
+              switch_target_blank: Wählen Sie einen Typ oder eine Variante aus, die das Projekt verwenden kann.
+              switch_target_identical: In diesem Projekt wird dieser Typ bzw. diese Variante bereits verwendet.
               switch_target_not_in_family: Es ist nur möglich, zu einer anderen Variante desselben Typs zu wechseln
           cannot_be_assigned_to_artefact_work_package: Der gewählte Nutzer darf im Arbeitspaket nicht zugewiesen werden.
           foreign_wps_reference_version: Arbeitspakete in nicht verknüpften Projekten verweisen auf Versionen des Projekts oder seiner verknüpften Projekte.
@@ -861,6 +893,10 @@ de:
             variant:
               must_be_owned_by_the_project: Es darf sich nicht um eine Variante handeln, die zu einem anderen Projekt gehört.
               must_belong_to_the_type: muss eine Variante des Typs sein, den das Projekt verwendet.
+        push_subscription:
+          attributes:
+            base:
+              too_many_push_subscriptions: Nur %{count} Geräte können Browserbenachrichtigungen gleichzeitig empfangen.
         queries/filters/base:
           attributes:
             values:
@@ -920,6 +956,7 @@ de:
           must_not_point_to_openproject_directory: darf nicht auf ein von OpenProject verwaltetes Repository-Verzeichnis zeigen.
           no_directory: ist kein Verzeichnis.
           not_available: SCM-Anbieter ist nicht verfügbar
+          not_in_allowed_local_paths: is not inside a directory that is allowed for local repositories.
           not_whitelisted: wird durch die Konfiguration nicht erlaubt.
         role:
           attributes:
@@ -1085,7 +1122,9 @@ de:
             target_versions:
               error_readonly: kann nicht festgelegt werden, da Sie in diesem Projekt keine Versionen zuweisen dürfen.
             type:
-              cannot_be_milestone_due_to_children: kann kein Meilenstein werden, da dieses Arbeitspaket Unteraufgaben besitzt.
+              cannot_be_milestone_due_to_children: kann kein Meilenstein werden, da dieses Arbeitspaket Unterelemente besitzt.
+          categories_only_allow_single_value: Kategorien können nur einen einzigen Wert enthalten.
+          category_and_categories_mutually_exclusive: "„Category“ und „Categories“ können nicht gleichzeitig auf unterschiedliche Werte gesetzt werden."
           is_not_a_valid_target_for_time_entries: 'Arbeitspaket #%{id} ist kein gültiges Ziel für die Zuordnung der Zeiterfassungseinträge.'
           readonly_status: Das Arbeitspaket befindet sich in einem schreibgeschützten Status, so dass seine Attribute nicht geändert werden können.
           target_versions_only_allow_single_value: Zielversionen können nur einen einzigen Wert enthalten.
@@ -1159,8 +1198,8 @@ de:
         one: Benutzerdefiniertes Feld
         other: Benutzerdefinierte Felder
       custom_field/hierarchy/item:
-        one: Hierarchie-Element
-        other: Hierarchie-Elemente
+        one: Hierarchiewert
+        other: Hierarchiewerte
       custom_field_section:
         one: Abschnitt
         other: Abschnitte
@@ -1561,7 +1600,7 @@ de:
         heading: Farbschema ändern?
         title: Farbschema ändern
     enterprise:
-      add_token: Enterprise-Edition Support Token hochladen
+      add_token: Enterprise edition Support Token hochladen
       book_now: Jetzt buchen
       buttons:
         contact: Kontaktieren Sie uns für eine Demo
@@ -1578,9 +1617,9 @@ de:
       enterprise_link: Klicken Sie hier für weitere Informationen.
       get_quote: Angebot anfordern
       order: Enterprise on-premises bestellen
-      paste: Enterprise-Edition Support Token hier einfügen
+      paste: Enterprise edition Support Token hier einfügen
       replace_token: Aktuellen Enterprise edition Support Token ersetzen
-      required_for_feature: Dieses Add-on ist nur mit einem aktiven Enterprise-Edition Support-Token verfügbar.
+      required_for_feature: Dieses Add-on ist nur mit einem aktiven Enterprise edition Support-Token verfügbar.
       start_trial: Kostenlose Testversion starten
       status:
         expired: Abgelaufen
@@ -1606,7 +1645,7 @@ de:
         contribution_callout: 'Bitte helfen Sie uns, den Jira Migrator mit Ihrem Feedback und Ihren privaten Datenspenden zu verbessern. Sie können [der Entwicklergemeinschaft](link) des Jira Migrator beitreten.
 
           '
-        description: Der Jira Migrator befindet sich derzeit in der Beta-Phase. Wir unterstützen derzeit Jira Server/Data Center Versionen 8.x, 9.x, 10.x und 11.x. Cloud-Instanzen werden derzeit nicht unterstützt.
+        description: Dieser Jira Migrator befindet sich derzeit in der Beta-Phase. Wir unterstützen derzeit Jira Server/Data Center Versionen 8.x, 9.x, 10.x und 11.x. Jira 8 benötigt Basic-Authentifizierung. Cloud-Instanzen werden derzeit nicht unterstützt.
         title: Beta - Probieren Sie es aus!
       basic_auth_password_deleted: Das Passwort für die Basic-Authentifizierung wurde erfolgreich gelöscht.
       blank:
@@ -1620,7 +1659,6 @@ de:
         connection_timeout: 'Die Verbindung zum Jira-Server wurde unterbrochen: %{message}'
         parse_error: 'Die Jira API-Antwort konnte nicht gelesen werden: %{message}'
         ssl_error: 'SSL-Fehler bei der Verbindung zum Jira-Server: %{message}'
-        ssrf_block_doc_link: Bitte sehen Sie sich unsere [Dokumentation](docs_url) an.
         ssrf_blocked: 'Verbindung blockiert: Der Jira-Host wird zu einer privaten IP-Adresse aufgelöst. Wenn Ihre Jira-Instanz in einem internen Netzwerk läuft, erlauben Sie ihre IP über die OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST Umgebungsvariable.'
         unsupported_endpoint: Die Jira-API verfügt über keinen Endpunkt unter %{path} (Status %{status})
       columns:
@@ -1633,6 +1671,53 @@ de:
       configuration:
         new: Neue Konfiguration
         title: Jira-Konfiguration
+      connection_check:
+        authorization:
+          administrator: Jira-Administrator
+          credentials_accepted: Zugangsdaten akzeptiert
+          header: Authentifizierung
+        configuration:
+          credentials_present: Zugangsdaten
+          header: Konfiguration
+          url_valid: Jira-URL
+        dialog:
+          button_continue: Trotzdem fortfahren
+          button_fix: Konfiguration korrigieren
+          failure:
+            description_html: Die Konfiguration wurde gespeichert, aber die Überprüfung <strong>%{check}</strong> ist fehlgeschlagen. Sie können fortfahren, aber das Abrufen der Daten wird fehlschlagen, bis dies behoben ist.
+            title: Verbindungsüberprüfung fehlgeschlagen
+          warning:
+            description_html: Die Konfiguration wurde gespeichert, doch die Überprüfung <strong>%{check}</strong> hat eine Warnung gemeldet. Der Import funktioniert möglicherweise nicht wie erwartet. Fahren Sie auf eigene Gefahr fort.
+            title: Warnung zur Verbindungsprüfung
+        errors:
+          api_error: Jira hat den HTTP-Status „%{status}“ zurückgegeben. Überprüfen Sie die URL und stellen Sie sicher, dass Jira läuft.
+          basic_auth_password_missing: Bei der Basisauthentifizierung wurde kein Passwort eingegeben.
+          basic_auth_required: Der Jira Migrator benötigt eine Basic-Authentifizierung für Jira %{version}. Wählen Sie „Basic-Authentifizierung“ aus und geben Sie den Benutzernamen und das Passwort eines Jira-Administrators ein.
+          basic_auth_username_missing: Für die Basic-Authentifizierung wurde kein Benutzername eingegeben.
+          credentials_rejected: Jira hat die Anmeldedaten abgelehnt. Bitte überprüfen Sie, ob diese korrekt sind und nicht abgelaufen sind.
+          invalid_response: Der Server unter dieser URL hat keine Antwort im JSON-Format zurückgegeben. Bitte überprüfen Sie die URL.
+          invalid_url: Geben Sie eine gültige URL ein, die mit http:// oder https:// beginnt.
+          not_administrator: Der Jira-Benutzer, zu dem diese Anmeldedaten gehören, ist kein Jira-Administrator. Verwenden Sie die Anmeldedaten eines Jira-Administrators.
+          not_found: Der Server unter dieser URL verfügt über keine Jira-API. Bitte überprüfen Sie die URL.
+          not_jira: Der Server unter dieser URL hat nicht wie als Jira geantwortet. Bitte überprüfen Sie die URL.
+          personal_access_token_missing: Es wurde kein persönliches Zugriffstoken eingegeben.
+          ssl_error: Die sichere Verbindung zu Jira ist fehlgeschlagen. Bitte überprüfen Sie, ob das Jira-Zertifikat gültig ist und von OpenProject als vertrauenswürdig eingestuft wird.
+          ssrf_blocked: Der Jira-Host wird auf eine private IP-Adresse aufgelöst, die von OpenProject blockiert wird. Falls Jira in einem internen Netzwerk ausgeführt wird, fügen Sie dessen IP-Adresse der Umgebungsvariablen „OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST“ hinzu und starten Sie OpenProject neu.
+          timeout: Jira hat nicht rechtzeitig geantwortet. Überprüfen Sie die URL und stellen Sie sicher, dass OpenProject den Jira-Server erreichen kann.
+          unexpected_error: Jira hat auf eine Weise geantwortet, mit der OpenProject nicht gerechnet hatte. Bitte überprüfen Sie, ob die URL auf Jira verweist.
+          unknown_version: OpenProject konnte die Jira-Version nicht ermitteln. Der Import funktioniert möglicherweise nicht wie erwartet. Fahren Sie auf eigene Gefahr fort.
+          unreachable: Jira konnte nicht erreicht werden. Überprüfen Sie die URL und stellen Sie sicher, dass OpenProject den Jira-Server erreichen kann.
+          unsupported_version: Jira %{version} ist keine unterstützte Version. Der Import funktioniert möglicherweise nicht wie erwartet. Fahren Sie auf eigene Gefahr fort.
+        form_values_checked: Die Werte im Formular wurden überprüft. Sie sind noch nicht gespeichert.
+        last_check: 'Zuletzt geprüft: %{datetime}'
+        not_checked: Noch nicht überprüft.
+        server:
+          auth_method_supported: Authentifizierungsmethode
+          header: Jira-Server
+          reachable: Server erreichbar
+          responds_as_jira: Antwortet als Jira
+          version_supported: Unterstützte Version
+        title: Verbindungsprüfung
       description: Verwenden Sie dieses Tool, um Daten aus Ihrer Jira-Instanz zu importieren. Sie können mehrere Jira-Hosts konfigurieren und auswählen, was bei jedem Importlauf importiert werden soll.
       errors:
         cannot_delete_with_imports: Jira-Hosts mit laufenden Importen können nicht gelöscht werden
@@ -1677,6 +1762,7 @@ de:
         blank:
           description: Erstellen Sie einen Importlauf, um den Import von Informationen aus dieser Jira-Instanz zu starten
           title: Noch keine Importläufe eingerichtet
+        connection_check_error: Die Verbindungsprüfung ist fehlgeschlagen, daher wurden keine Daten abgerufen. Beheben Sie alle im Seitenbereich angezeigten Fehler und versuchen Sie es erneut.
         history: Historie
         import_blocked_error: Ein anderer Jira-Importlauf wird gerade durchgeführt oder wartet auf die Überprüfung. Bitte schließen Sie ihn ab oder machen Sie ihn rückgängig, bevor Sie einen neuen Import starten.
         index:
@@ -1734,9 +1820,6 @@ de:
             title: Meta-Daten der ausgewählten Projekte abrufen
           JiraRevertImportJob:
             title: Import wird rückgängig gemacht
-        not_administrator_error:
-          basic: Die Jira-Konfiguration verwendet einen Benutzer mit Basisauthentifizierung ohne Administratorrechte. Für eine erfolgreiche Migration ist ein Jira-Administrator erforderlich. Bitte bearbeiten Sie die Konfiguration mit den Anmeldedaten eines Administrators und versuchen Sie es erneut.
-          bearer: Für die Jira-Konfiguration wird ein persönliches Zugriffstoken (PAT) eines Benutzers verwendet. Für eine erfolgreiche Migration ist ein persönliches Zugriffstoken eines Administrators erforderlich. Bitte passen Sie die Konfiguration mit einem Administrator-Token an und versuchen Sie es erneut.
         project_identifier_taken: 'Sie versuchen ein Projekt mit einem bereits verwendeten Identifikator zu importieren: %{taken_identifier}. Bitte aktualisieren Sie die Projektkennung in Jira und klicken Sie dann auf Wiederholen.'
         remove_error: Ein Jira-Import kann nicht entfernt werden während er läuft
         side_panel:
@@ -1963,19 +2046,9 @@ de:
               rest_line_text: Eltern-Kind-Beziehungen für %{projects_number} weitere Projekte erstellen
               title: Eltern-Kind-Beziehungen aus Unteraufgaben erstellen
       test:
-        api_error: Jira API hat den Fehlerstatus %{status} zurückgegeben. Bitte überprüfen Sie die URL Ihrer Jira-Instanz und die Zugangsdaten.
         basic_auth_password_invalid: Ungültiges Passwort für die Basic-Authentifizierung. Bitte überprüfen Sie Ihre Anmeldedaten in der Konfiguration.
         basic_auth_username_invalid: Ungültiger Nutzername für die Basic-Authentifizierung. Bitte überprüfen Sie Ihre Anmeldedaten in der Konfiguration.
-        connection_error: 'Verbindungsfehler: %{message}'
-        error: Beim Testen der Verbindung ist ein unerwarteter Fehler aufgetreten
-        failed: 'Verbindung fehlgeschlagen: Serverinformationen können nicht abgerufen werden'
-        invalid_url: Bitte eine gültige URL eingeben
-        not_administrator:
-          basic: Der Benutzer des Tokens muss Jira-Administrator sein.
-          bearer: Das persönliche Zugriffstoken muss ein Administrator-Token sein.
-        parse_error: Die Antwort des Servers konnte nicht gelesen werden. Der Server ist möglicherweise keine gültige Jira-Instanz.
         personal_access_token_invalid: Ungültiges persönliches Zugriffstoken (PAT). Bitte überprüfen Sie Ihre Anmeldedaten in der Konfiguration.
-        success: Erfolgreich verbunden mit %{server} (Version %{version})
       title: Jira Migrator
       user:
         unknown_name: Unbekannt
@@ -1993,7 +2066,7 @@ de:
           other: Dadurch wird das Label <strong>%{name}</strong> von den %{count} Arbeitspakete, welche es derzeit verwenden entfernt. Sind Sie sicher, dass Sie es löschen möchten?
       dialog_component:
         create_title: Bezeichnung erstellen
-        rename_label_title: Rename label
+        rename_title: "„%{name}“ umbenennen"
       index:
         description: Alle Benutzer, die Arbeitspakete bearbeiten können, können Arbeitspakete entweder mit bestehenden Labels markieren oder neue erstellen. Dies umfasst alle Labels, die von Benutzern in allen Projekten erstellt wurden.
       row_component:
@@ -2145,6 +2218,37 @@ de:
           error: Die Reihenfolge des Abschnitts konnte nicht geändert werden.
         move:
           error: Die Reihenfolge des Abschnitts konnte nicht geändert werden.
+      push_notifications:
+        checking: Wird geprüft …
+        description: Benutzer haben die Möglichkeit, OpenProject als Progressive-Web-App-Version (PWA) in modernen Webbrowsern zu installieren. Dadurch können sie OpenProject-Benachrichtigungen in ihrem Betriebssystem erhalten.
+        hosts_intro: 'OpenProject sendet Push-Benachrichtigungen an den jeweiligen Push-Dienst, den der Browser des jeweiligen Benutzers abonniert hat. Die folgende Überprüfung kontaktiert die Push-Dienste der gängigen Browser sowie jeden Dienst, den ein bestehendes Abonnement nutzt:'
+        http_status: HTTP %{code}
+        key_managed_by_environment: Der Push-Signaturschlüssel wird über die Umgebungsvariable OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY bereitgestellt. Um ihn zu erneuern, ändern Sie bitte die Variable.
+        key_renewed: Der Push-Signaturschlüssel wurde erneuert. Es müssen auf allen Geräten die Browser-Benachrichtigungen erneut aktiviert werden.
+        key_unreadable: Der Push-Signaturschlüssel konnte nicht gelesen werden. Bitte erneuern Sie ihn, um die Browser-Benachrichtigungen wiederherzustellen; anschließend mussen auf allen Geräten die Browser-Benachrichtigungen erneut aktiviert werden.
+        reachable: Erreichbar
+        reasons:
+          connection: Die Verbindung ist fehlgeschlagen
+          filtered: Die Anfrage wurde durch den SSRF-Schutz blockiert
+          invalid_host: Der Hostname ist ungültig
+          private_address: Der Host wurde zu einer privaten Adresse aufgelöst
+          sample_unresolved: Der Beispiel-Host konnte nicht aufgelöst werden; Ergebnis nicht eindeutig
+          timeout: Keine Antwort innerhalb von %{seconds} Sekunden
+          tls: Der TLS-Verbindungsaufbau ist fehlgeschlagen
+          unresolved: Der Hostname konnte nicht aufgelöst werden
+        renew_key: Schlüssel erneuern
+        renew_key_dialog:
+          confirm_button: Schlüssel erneuern
+          confirmation: Ich habe verstanden, dass auf jedem Gerät die Browser-Benachrichtigungen erneut eingerichtet werden müssen.
+          description:
+            one: 'OpenProject signiert jede Browserbenachrichtigung mit diesem Schlüssel (VAPID), damit die Browser-Push-Dienste die Herkunft der Nachricht verifizieren können. Ein neuer Schlüssel trennt alle Geräteverbindungen: Ein bestehendes Abonnement wird gelöscht, und Nutzer müssen die Browserbenachrichtigungen auf allen Geräten erneut aktivieren.'
+            other: 'OpenProject signiert jede Browserbenachrichtigung mit diesem Schlüssel (VAPID), damit die Browser-Push-Dienste die Herkunft der Nachricht verifizieren können. Das Einrichten eines neuen Schlüssels trennt alle Geräteverbindungen: %{count} bestehende Abonnements werden gelöscht, und Nutzer müssen die Browserbenachrichtigungen auf allen Geräten erneut aktivieren.'
+            zero: 'OpenProject signiert jede Browserbenachrichtigung mit diesem Schlüssel (VAPID), damit die Browser-Push-Dienste die Herkunft der Nachricht verifizieren können. Das Einrichten eines neuen Schlüssels trennt alle Geräteverbindungen: es bestehen keine Abonnements, Nutzer müssen die Browserbenachrichtigungen auf allen Geräten erneut aktivieren.'
+          heading: Den Push-Signaturschlüssel erneuern?
+          title: Schlüssel erneuern
+        unreachable: Nicht erreichbar
+        verify_reachability: Erreichbarkeit überprüfen
+        verify_reachability_description: Um auf Benachrichtigungen zu überprüfen, sendet OpenProject eine inhaltsfreie Wecknachricht. Die installierte PWA holt dann die ungelesene Anzahl über die Sitzung des Benutzers. Die folgenden Push-Dienste sehen den Endpunkt des Abonnements, die Adresse und den öffentlichen Schlüssel dieser Instanz sowie die Zeit der einzelnen Pushs.
       user_custom_field_sections:
         destroy:
           error: Der Abschnitt konnte nicht gelöscht werden.
@@ -2352,6 +2456,8 @@ de:
     quarantined_message: In der Datei '%{filename}' wurde ein Virus entdeckt. Sie wurde unter Quarantäne gestellt und kann nicht heruntergeladen werden.
   api_v3:
     attributes:
+      category:
+        deprecated: 'Deprecated: Dieses unäre Feld wird durch `categories` ersetzt. Verwenden Sie stattdessen `categories` zum Lesen und Schreiben. Solange die Unterstützung mehrerer Versionen nicht aktiviert ist, akzeptiert `categories` höchstens einen Wert und darf nicht zusammen mit `category` in derselben Anfrage angegeben werden.'
       property: Eigenschaft
       version:
         deprecated: 'Deprecated: Dieses unäre Feld wird durch `targetVersions` ersetzt. Verwenden Sie stattdessen `targetVersions` zum Lesen und Schreiben. Solange die Unterstützung mehrerer Versionen nicht aktiviert ist, akzeptiert `targetVersions` höchstens einen Wert und darf nicht zusammen mit `version` in derselben Anfrage angegeben werden.'
@@ -2497,6 +2603,7 @@ de:
     public: Öffentlich
     reason: Grund
     recipient: Empfänger
+    reporter: Reporter
     required: Erforderlich
     responsible: Verantwortlich
     role: Rollen
@@ -2603,12 +2710,13 @@ de:
   button_actions: Aktionen
   button_add: Hinzufügen
   button_add_comment: Kommentar hinzufügen
-  button_add_item_above: Element oben hinzufügen
-  button_add_item_below: Element unten hinzufügen
+  button_add_item_above: Wert oberhalb hinzufügen
+  button_add_item_below: Wert unterhalb hinzufügen
   button_add_member: Mitglied hinzufügen
   button_add_menu_entry: Menüpunkt hinzufügen
   button_add_non_working_time: Freie Zeit
   button_add_sub_item: Unterelement hinzufügen
+  button_add_sub_value: Unterwert hinzufügen
   button_add_watcher: Beobachter hinzufügen
   button_all_filters: Alle Filter
   button_annotate: Kommentieren
@@ -2813,7 +2921,7 @@ de:
     admin:
       hierarchy:
         subitems:
-          one: "%{count} Unterelemente"
+          one: "%{count} Unterelement"
           other: "%{count} Unterelemente"
           zero: keine Unterelemente
       items:
@@ -2822,27 +2930,34 @@ de:
           item:
             description: Füge Elemente zu dieser Liste hinzu, um Unterelemente innerhalb eines anderen zu erstellen
             title: Dieses Element hat keine untergeordnete Hierarchieebene
+          project_item:
+            description: Dieses Element gehört zum Projekt %{project}. Er darf keine globalen Unterelemente enthalten. Unterelemente können ausschließlich in der [Projektverwaltung](project_administration) hinzugefügt werden.
           root:
             description: Beginnen Sie mit dem Hinzufügen von Elementen in das selbstdefinierte Feld der Typ-Hierarchie. Jedes Element kann verwendet werden, um eine Hierarchie darunter zu erstellen. Um Unterelemente innerhalb einer Hierarchie zu navigieren und zu erstellen, klicken Sie auf das erstellte Element.
             title: Ihre Liste der Elemente ist leer
         delete_dialog:
           description: Mit dieser Aktion werden das Element und alle seine Unterelemente unwiderruflich entfernt. Alle zugewiesenen Werte werden endgültig gelöscht. Wenn dieses Feld erforderlich ist, kann das Entfernen von Elementen dazu führen, dass bestehende Arbeitspakete ungültig werden.
           heading: Slebstdefiniertes Feldelement löschen?
-          title: Selbstdefiniertes Feldelement löschen
+          title: Element löschen
         placeholder:
-          label: Elementbezeichnung
+          label: Wertbeschriftung
           short: Kurzname
           weight: Gewichtung
       notice:
-        remember_items_and_projects: Bitte denken Sie daran, Einträge für dieses benutzerdefinierte Feld festzulegen und sicherzustellen, dass es in mindestens einem Projekt verwendet wird.
+        remember_items_and_projects: Bitte denken Sie daran, Elemente für dieses benutzerdefinierte Feld festzulegen und sicherzustellen, dass es in mindestens einem Projekt verwendet wird.
       projects:
-        changes_heading: Wichtige Änderungen
-        changes_text: 'Ab Version 18.0 werden benutzerdefinierte Felder nicht mehr auf Projektebene aktiviert oder deaktiviert. Sie werden in Formulare integriert, die anschließend in verschiedenen Typen und Varianten verwendet werden. Die folgende Liste zeigt Projekte, die Typen oder Varianten nutzen, in denen Formulare mit diesem benutzerdefinierten Feld enthalten sind.
-
-          '
+        additional_values_disabled_notice: Projektadministratoren können diesem benutzerdefinierten Feld keine Elemente mehr hinzufügen. Bereits vorhandene projektspezifische Elemente bleiben weiterhin verfügbar.
+        additional_values_disabled_project_notice: Projektadministratoren können diesem benutzerdefinierten Feld keine Elemente mehr hinzufügen. Bereits vorhandene projektspezifische Elemente bleiben weiterhin verfügbar.
+        available_values: Verfügbare Werte
         configure: Konfigurieren Sie projektspezifische Werte für %{project}
+        delete_value_dialog:
+          description: Durch diese Aktion wird das Element unter %{project} unwiderruflich entfernt. Alle zugewiesenen Elemente werden dauerhaft gelöscht.
+          heading: Projektspezifisches Element löschen?
+          title: Projektspezifisches Element löschen
         disable_all: Alle deaktivieren
-        editing_values_notice: Sie bearbeiten derzeit die Liste der Werte, die für dieses benutzerdefinierte Feld im Projekt [%{project}](project_url) sichtbar sind.
+        edit_value: Wert bearbeiten
+        editing_values_notice_html: Sie bearbeiten die Elemente von <strong>%{custom_field}</strong> in [%{project}](project_url).
+        editing_values_project_admins_notice: Auch die Projektadministratoren dieses Projekts können diese Elemente ändern.
         empty_state:
           description: Fügen Sie dieses benutzerdefinierte Feld dem Formular eines Typs hinzu, der in einem Projekt verwendet wird.
           title: Dieses benutzerdefinierte Feld wird in keinem Projekt verwendet
@@ -2855,10 +2970,28 @@ de:
         filter_no_results:
           description: Ändern Sie die Filter, um weitere Projekte anzuzeigen.
           title: Keine Projekte entsprechen diesem Filter
+        global_values_column: Globale Elemente
+        make_available_to_all_projects: Für alle Projekte verfügbar machen
+        make_available_to_all_projects_confirm: '"%{value}" für alle Projekte verfügbar machen?'
+        new_value: Wert
+        project_admins_manage_notice: Projektadministratoren können die Elemente dieses benutzerdefinierten Feldes in ihren Projekten verwalten. Sie können jedes der unten aufgeführten Projekte einsehen und anpassen.
+        project_specific_values_column: Projektspezifische Elemente
         quick_filter:
           all: Alle Projekte
           with_project_specific_values: Projektspezifische Werte
+        required_value_notice: Kann nicht deaktiviert werden, da ein projektspezifischer Wert auf Unterebene aktiviert ist
         types_column: Verwendet in Typen
+        value_actions: Aktionen
+        value_dialog:
+          edit_title: Wert bearbeiten
+          name: Name
+          name_caption_html: Nur verfügbar in <strong>%{project}</strong>.
+          parent: Zum übergeordneten Element hinzufügen
+          short_caption: Wählen Sie optional einen kürzeren Namen oder Code für diesen Wert aus.
+          title: Projektspezifischen Wert hinzufügen
+          title_with_parent: Projektspezifisches Element zu "%{parent}" hinzufügen
+          top_level: Oberste Ebene
+          weight_caption: Jedem Wert ist eine Gewichtung zugeordnet.
         values_empty_state:
           description: Fügen Sie diesem benutzerdefinierten Feld Werte hinzu, um auszuwählen, welche davon in diesem Projekt verfügbar sein sollen.
           title: Dieses benutzerdefinierte Feld enthält noch keine Werte
@@ -2890,8 +3023,6 @@ de:
       admin_only:
         all: Das Attribut ist nur für Administratoren sichtbar. Nutzer ohne Adminrechte können dieses Attribut nicht sehen oder bearbeiten.
         project: Das Attribut ist nur für Administratoren sichtbar. Nutzer ohne Adminrechte können dieses Attribut nicht sehen oder bearbeiten.
-      editable:
-        all: Feld darf von Benutzern ohne Administratorrechte bearbeitet werden.
       formula:
         project: Geben Sie numerische Werte ein oder tippen Sie „/“, um nach einem Attribut, einem Operator, einer Funktion oder einem anderen Token zu suchen. Weitere Informationen finden Sie in der [Dokumentation zur Formelsyntax](docs_url).
       has_comment:
@@ -2921,6 +3052,8 @@ de:
       searchable:
         all: Inkludiert die Werte des Feldes in die globale Suche.
         project: Das Attribut kann als Filter in Projektlisten ausgewählt werden.
+      user_self_editable:
+        all: Feld darf von Benutzern ohne Administratorrechte bearbeitet werden.
       visible_on_user_card:
         all: Wenn diese Option aktiviert ist, wird der Wert dieses Feldes in der Benutzerinformationskarte angezeigt, wenn Sie über einen Benutzer in der Anwendung bewegen.
     is_enabled_globally: Für alle Projekte aktiviert
@@ -2942,10 +3075,22 @@ de:
       block:
         caption: Standardmäßig stehen alle Werte für alle Projekte zur Verfügung; Sie können jedoch bestimmte Werte für einzelne Projekte manuell deaktivieren.
         label: 'Werte deaktivieren: Wählen Sie für jedes Projekt manuell aus, welche Werte deaktiviert werden sollen'
+      label: Projektspezifisch
+      label_with_project: 'Projektspezifisch: %{project}'
+      project_admins:
+        additional_values_caption: Hinzugefügte Elemente sind nur in dem Projekt vorhanden, in dem sie erstellt wurden. Sie können sie später allen Projekten zur Verfügung stellen.
+        remaining_values_count:
+          one: "%{count} projektspezifischer Wert"
+          other: "%{count} projektspezifische Werte"
+        remaining_values_warning:
+          one: "%{count} Projekt hat bereits %{values}. Sie bleiben in diesem Projekt verfügbar, aber Projektadministratoren können keine neuen hinzufügen, es sei denn, dass ‘%{setting}’ überprüft wird."
+          other: "%{count} Projekte haben bereits %{values}. Sie bleiben in diesen Projekten verfügbar, aber Projektadministratoren können keine neuen hinzufügen, es sei denn, dass ‘%{setting}’ überprüft wird."
+        value_management_caption: Projektadministratoren können bestimmte Elemente für ihr Projekt aktivieren oder deaktivieren. Alle globalen Elemente sind für sie sichtbar.
       switch_warning:
         all: Alle Werte stehen in allen Projekten zur Verfügung.
         allow: In keinem Projekt werden Werte für dieses benutzerdefinierte Feld angeboten, bis sie einzelne Werte für einzelne Projekte zugelassen haben.
         block: Alle Werte sind in allen Projekten verfügbar, es sei denn, Sie deaktivieren sie manuell in einzelnen Projekten.
+      value_with_project: "%{value} (%{project})"
     reorder_alphabetical: Alphabetisch umsortieren
     reorder_confirmation: 'Warnung: Die aktuelle Reihenfolge der verfügbaren Werte sowie alle nicht gespeicherten Werte gehen verloren. Sind Sie sicher, dass Sie fortfahren möchten?'
     semantic_keys:
@@ -3282,8 +3427,8 @@ de:
       capture_external_links:
         description: Verhindern Sie Social-Engineering-Angriffe, indem Sie externe Links erfassen und davor warnen, bevor Benutzer sie besuchen.
       custom_actions:
-        description: Automations are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.
-        title: Automations
+        description: Selbstdefinierte Aktionen sind Verknüpfungen zu einer Reihe von vordefinierten Aktionen, die Sie für bestimmte Arbeitspakete je nach Status, Rolle, Typ oder Projekt mit nur einem Klick auf einen Button auslösen.
+        title: Benutzerdefinierte Aktionen
       custom_field_hierarchies:
         description: Benutzerdefinierte Felder vom Typ Hierarchie erlauben es, hierarchische Strukturen in Arbeitspaketen und Projekten zu organisieren, indem sie mehrstufige Auswahllisten nutzen.
       customize_life_cycle:
@@ -3394,7 +3539,7 @@ de:
   error_custom_option_not_found: Option ist nicht vorhanden.
   error_enterprise_activation_user_limit: Ihr Konto konnte nicht aktiviert werden (Nutzerlimit erreicht). Bitte kontaktieren Sie Ihren Administrator um Zugriff zu erhalten.
   error_enterprise_plan_needed: Sie benötigen den Enterprise-Plan %{plan}, um diese Aktion durchzuführen.
-  error_enterprise_token_invalid_domain: Die Enterprise-Edition ist nicht aktiv. Die aktuelle Domain (%{actual}) entspricht nicht dem erwarteten Hostnamen (%{expected}).
+  error_enterprise_token_invalid_domain: Die Enterprise edition ist nicht aktiv. Die aktuelle Domain (%{actual}) entspricht nicht dem erwarteten Hostnamen (%{expected}).
   error_external_authentication_failed_message: 'Die externe Authentifizierung ist fehlgeschlagen: %{message}'
   error_failed_to_delete_entry: Fehler beim Löschen dieses Eintrags.
   error_in_dependent: 'Fehler beim Versuch, abhängiges Objekt zu ändern: %{dependent_class} #%{related_id} - %{related_subject}: %{error}'
@@ -3607,6 +3752,7 @@ de:
       save_title: Formular speichern
     index:
       actions:
+        create: Formular
         edit: Formular bearbeiten
         menu: Aktionen für %{name}
         rename: Name und Beschreibung bearbeiten
@@ -3904,7 +4050,7 @@ de:
       meeting_series_backlog_html: Backlog der Terminserie %{link}
       meeting_series_template_html: Vorlage der Terminserie %{link}
       meeting_template_html: Besprechungsvorlage %{link}
-      progress_mode_changed_to_status_based: Fortschrittberechnung wurde auf Status-bezogen gesetzt
+      progress_mode_changed_to_status_based: Fortschrittberechnung wurde auf Status-basiert gesetzt
       status_excluded_from_totals_set_to_false_message: jetzt in den Gesamtwerten der Hierarchie enthalten
       status_excluded_from_totals_set_to_true_message: jetzt von den Hierarchie-Gesamtwerten ausgeschlossen
       status_percent_complete_changed: "% abgeschlossen von %{old_value}% auf %{new_value} % geändert"
@@ -4121,6 +4267,10 @@ de:
   label_custom_field_default_type: Leerer Typ
   label_custom_field_new: Neues benutzerdefiniertes Feld
   label_custom_field_plural: Benutzerdefinierte Felder
+  label_custom_field_values_all: Alle benutzerdefinierten Felder
+  label_custom_field_values_customizable: In diesem Projekt anpassbar
+  label_custom_field_values_customized: In diesem Projekt angepasst
+  label_custom_field_values_uniform: Gleiche Werte in allen Projekten
   label_custom_pdf_export_settings: Benutzerdefinierte PDF-Export-Einstellungen
   label_custom_style: Design
   label_custom_style_description: Wählen Sie über Design und Farben aus, wie die OpenProject Benutzeroberfläche und Exporte aussehen sollen.
@@ -4144,7 +4294,7 @@ de:
   label_delete_user: Benutzer löschen
   label_deleted: gelöscht
   label_deleted_custom_field: "(gelöschtes benutzerdefiniertes Feld)"
-  label_deleted_custom_item: "(gelöschter Eintrag)"
+  label_deleted_custom_item: "(gelöschter Wert)"
   label_deleted_custom_option: "(gelöschte Option)"
   label_deleted_label: "(gelöschte Bezeichnung)"
   label_deleted_version: "(gelöschte Version)"
@@ -4182,7 +4332,7 @@ de:
   label_end_to_start: Ende - Anfang
   label_enterprise: Enterprise
   label_enterprise_active_users: "%{current}/%{limit} gebuchte aktive Nutzer"
-  label_enterprise_edition: Enterprise Edition
+  label_enterprise_edition: Enterprise edition
   label_enterprise_support: Enterprise Support
   label_enumeration_new: Neuer Aufzählungswert
   label_enumeration_value: Aufzählungswert
@@ -4283,8 +4433,6 @@ de:
   label_invalid_file_type: Dieser Dateityp wird nicht unterstützt.
   label_invitation: Einladung
   label_invite_user: Nutzer einladen
-  label_item: Element
-  label_item_plural: Elemente
   label_jira_import: Jira-Migrator
   label_journal: Änderungen
   label_journal_diff: Beschreibungsvergleich
@@ -4657,6 +4805,7 @@ de:
   label_user_settings: Benutzereinstellungen
   label_users_settings: Benutzereinstellungen
   label_value: Wert
+  label_value_plural: Elemente
   label_value_x: 'Wert: %{x}'
   label_version_custom_field_plural: Benutzerdefinierte Felder
   label_version_edit: Version bearbeiten
@@ -5099,6 +5248,7 @@ de:
       mail_notification: Mailbenachrichtigung
       mails_and_notifications: E-Mails und Benachrichtigungen
       mcp_configurations: Model Context Protocol (MCP)
+      push_notifications: Browser-Benachrichtigungen
       text_actions: Textassistent
     quick_add:
       label: Hinzufügen…
@@ -5289,9 +5439,36 @@ de:
         title: Projektspezifische Benachrichtigungen
     notifications_and_email:
       tabs:
+        browser_push: Browser-Benachrichtigungen
         email_reminders: E-Mail-Erinnerungen
         notifications: Benachrichtigungseinstellungen
       title: Benachrichtigungen und E-Mail
+    push_notifications:
+      description: Erhalten Sie Benachrichtigungen über ungelesene Nachrichten auch, wenn OpenProject nicht geöffnet ist. Die Benachrichtigungen verbleiben in OpenProject und werden nicht mit dem Push-Dienstleister geteilt.
+      disable: Für diesen Browser deaktivieren
+      enable: Für diesen Browser aktivieren
+      no_devices: Bislang empfängt noch kein Gerät Browser-Benachrichtigungen.
+      no_devices_description: Aktivieren Sie die Browser-Benachrichtigungen auf einem Gerät, und es wird hier angezeigt.
+      revoke: Widerrufen
+      revoke_confirm: Möchten Sie keine Browser-Benachrichtigungen mehr an %{device} senden?
+      revoke_device: Widerrufen %{device}
+      revoked: Die Browser-Benachrichtigungen wurden für dieses Gerät deaktiviert.
+      signed_out: Abgemeldet
+      signed_out_description: Ein Gerät, das ausgeloggt ist, hält Browserbenachrichtigungen deaktiviert. Die Benachrichtigungen werden fortgesetzt, wenn Sie sich dort erneut anmelden. Widerrufen Sie das Gerät, um die Benachrichtigungen dauerhaft zu aktivieren.
+      status:
+        blocked: Benachrichtigungen sind für diese Seite in Ihren Browsereinstellungen blockiert.
+        disabled: Für diesen Browser sind in der aktuellen Sitzung keine Browser-Benachrichtigungen aktiviert.
+        enabled: Für diesen Browser sind in der aktuellen Sitzung Browserbenachrichtigungen aktiviert.
+        error: Die Browser-Benachrichtigungen konnten nicht geändert werden. Bitte versuchen Sie es erneut.
+        prompting: Warten auf Ihre Genehmigung für Browser-Benachrichtigungen...
+        subscribing: Push-Benachrichtigungen werden im Browser registriert...
+        timeout: Ihr Browser konnte die Registrierung für Push-Benachrichtigungen nicht rechtzeitig abschließen. Bitte überprüfen Sie Ihre Netzwerkverbindung und versuchen Sie es erneut.
+        unsupported: Browser-Benachrichtigungen sind in diesem Browser nicht verfügbar.
+      this_session: Diese Sitzung
+      title: Browser-Benachrichtigungen
+      try_again: Bitte versuchen Sie es erneut
+      try_again_label: Bitte versuchen Sie erneut, die Browserbenachrichtigungen für diesen Browser zu ändern
+      unavailable: Browser-Benachrichtigungen sind auf dieser Instanz vorübergehend nicht verfügbar.
   news:
     index:
       no_results_content_text: Neuigkeit hinzufügen
@@ -5561,7 +5738,6 @@ de:
       eql?: muss gleich %{left} sein.
       filled?: muss ausgefüllt werden.
       format?: hat ein ungültiges Format.
-      greater_or_equal_zero: muss größer oder gleich 0 sein.
       gt?: muss größer als %{num} sein.
       gteq?: muss größer oder gleich %{num} sein.
       hash?: muss ein Hash sein.
@@ -5574,18 +5750,6 @@ de:
       max_size?: darf nicht länger als %{num} Zeichen sein.
       not_found: nicht gefunden.
       respond_to?: die erforderliche Methode nicht implementiert.
-      rules:
-        custom_field:
-          format_not_supported: format '%{field_format}' wird nicht unterstützt.
-        item:
-          not_persisted: muss ein bereits vorhandenes Element sein.
-          root_item: kann keine Hierarchiewurzel sein.
-        label:
-          not_unique: muss innerhalb der gleichen Hierarchieebene eindeutig sein.
-        parent:
-          not_descendant: muss ein Unterelement der Hierarchiewurzel sein.
-        short:
-          not_unique: muss innerhalb der gleichen Hierarchieebene eindeutig sein.
       str?: muss eine Zeichenkette sein.
       time?: muss eine Zeit sein.
       type?: muss %{type} sein.
@@ -5597,7 +5761,7 @@ de:
       blueprint: Blaupause für Muster
       depth: Tiefe
       enabled: Aktiviert
-      item: Element
+      item: Wert
       label: Bezeichnung
       parent: Übergeordnetes Arbeitspaket
       short: Kurzname
@@ -5771,6 +5935,10 @@ de:
   permission_manage_user: Benutzer bearbeiten
   permission_manage_versions: Versionen verwalten
   permission_manage_wiki: Wiki verwalten
+  permission_manage_work_package_custom_field_values: Werte benutzerdefinierter Arbeitspaket-Felder verwalten
+  permission_manage_work_package_custom_field_values_explanation: 'Wählen Sie aus, welche Werte der benutzerdefinierten Felder für Arbeitspakete im Projekt verfügbar sind, und fügen Sie, sofern das benutzerdefinierte Feld dies zulässt, Werte hinzu, die ausschließlich für dieses Projekt verfügbar sind.
+
+    '
   permission_manage_work_package_relations: Arbeitspaket-Beziehungen verwalten
   permission_manage_working_times: Arbeitszeiten für alle Benutzer verwalten
   permission_manage_working_times_explanation: 'Ermöglicht die Verwaltung von Arbeitszeiten für alle Benutzer, einschließlich persönlicher arbeitsfreier Tage.
@@ -6015,9 +6183,18 @@ de:
         changes_text: 'Ab Version 18.0 werden benutzerdefinierte Felder nicht mehr auf dieser Seite für jedes Projekt einzeln aktiviert oder deaktiviert. Sie sind Bestandteil von Formularen, die von Formulartypen und -varianten verwendet werden. Die folgende Liste zeigt die benutzerdefinierten Felder in den Arbeitspaketen dieses Projekts sowie die Varianten, in denen sie enthalten sind.
 
           '
+        column_format: Format
         column_name: Benutzerdefiniertes Feld
-        column_variants: Varianten
+        column_types: Angezeigt im Typ
         no_results_title_text: Derzeit stehen keine benutzerdefinierten Felder zur Verfügung.
+        project_specific_values_count:
+          one: "%{count} projektspezifischer Wert"
+          other: "%{count} projektspezifische Werte"
+        search_label: Benutzerdefinierte Felder suchen
+        values_description: 'Legen Sie fest, welche Werte von „ %{custom_field} “ Ihr Team in „ %{project}“ verwenden darf. Globale Werte werden mit anderen Projekten geteilt und von Administratoren verwaltet. Projektspezifische Werte sind nur in diesem Projekt verfügbar.
+
+          '
+        values_filter: Werte
       forums:
         no_results_content_text: Neues Forum erstellen
         no_results_title_text: Derzeit gibt es keine Foren für dieses Projekt.
@@ -6105,7 +6282,13 @@ de:
         project_specific_variant: Projektspezifische Variante
         remove_from_project: Aus dem Projekt entfernen
         switch:
-          apply: Anwenden
+          confirm_description: Der Wechsel zu %{type} versteckt die Felder, die nicht enthalten sind. Ihre Werte sind nicht mehr sichtbar, werden aber beibehalten.
+          confirm_submit: Wechseln
+          confirm_title: Variante wechseln?
+          confirmation: Ich verstehe, dass Felder, die die neue Variante nicht beinhaltet, zusammen mit ihren Werten versteckt werden
+          identical:
+            one: In diesem Projekt wird dieser Typ bzw. diese Variante bereits verwendet.
+            other: In diesen Projekten wird dieser Typ bzw. diese Variante bereits verwendet.
           impact:
             hidden_description: Die von Ihnen ausgewählte Variante enthält diese Felder nicht. Alle Werte, die zuvor in diesen Feldern eingetragen waren, sind nun nicht mehr sichtbar.
             hidden_heading: Felder, die entfernt werden
@@ -6124,8 +6307,17 @@ de:
             work_packages:
               one: "%{count} Arbeitspaket verwendet die neue Konfiguration"
               other: "%{count} Arbeitspakete verwenden die neue Konfiguration"
-          success: Das Projekt nutzt nun %{type}.
-          target_label: Variante
+          invalid_target:
+            one: Wählen Sie einen Typ oder eine Variante aus, die das Projekt verwenden soll.
+            other: Wählen Sie einen Typ oder eine Variante aus, die die Projekte verwenden sollen.
+          listed_projects:
+            one: 'Das folgende Projekt wird geändert:'
+            other: 'Die folgenden Projekte werden geändert:'
+          submit: Anwenden
+          success:
+            one: Das Projekt nutzt nun %{type}.
+            other: Die ausgewählten Projekte nutzen nun %{type}.
+          target_label: Neuer Typ oder Variante
           title: "%{type}: Variante wechseln"
         type_not_found: Der ausgewählte Typ konnte nicht gefunden werden.
         use_in_project: In diesem Projekt verwenden
@@ -6163,6 +6355,25 @@ de:
       status_restored: Verbindung wiederhergestellt. Neuladen…
       status_still: Noch offline. Wir versuchen es gleich erneut.
       title: Offline
+    push:
+      all_read_title: Keine ungelesenen Benachrichtigungen
+      fallback_title: Neue Aktivität in OpenProject
+      group_title:
+        one: "%{count} Aktualisierung"
+        other: "%{count} Aktualisierungen"
+      more_title:
+        one: "%{count} weiteres Arbeitspaket"
+        other: "%{count} weitere Arbeitspakete"
+      reasons:
+        assigned: "%{actor} hat Sie zugewiesen"
+        commented: "%{actor} kommentierte"
+        date_alert_due_date: Benachrichtigung für Zieldatum
+        date_alert_start_date: Benachrichtigung für Startdatum
+        mentioned: "%{actor} hat Sie erwähnt"
+        reminder: Erinnerung
+        responsible: "%{actor} hat Sie als Verwantwortlich benannt"
+        shared: "%{actor} habe ein Arbeitspaket mit Ihnen geteilt"
+        updated: "%{actor} aktualisiert"
   queries:
     apply_filter: vorkonfigurierten Filter anwenden
     configure_view:
@@ -6303,7 +6514,7 @@ de:
       not_available: Genutzter Festplattenspeicher ist nicht für dieses Projektarchiv verfügbar.
       oauth_application_details_html: 'Der Client Geheimcode wird nach dem Schließen dieses Fensters nicht mehr zugänglich sein. Bitte kopieren Sie diese Werte in die Nextcloud OpenProject Integrationseinstellungen:'
       oauth_application_details_link_text: Zu den Einstellungen gehen
-      setup_documentation_details: 'Wenn Sie Hilfe bei der Konfiguration eines neuen Dateispeichers benötigen, konsultieren Sie bitte die Dokumentation: '
+      setup_documentation_details: 'Wenn Sie Hilfe bei der Konfiguration eines neuen Datei-Speichers benötigen, konsultieren Sie bitte die Dokumentation: '
       setup_documentation_details_link_text: Dateispeicher einrichten
       show_warning_details: Um diesen Dateispeicher nutzen zu können, müssen Sie das Modul und den spezifischen Speicher in den Projekteinstellungen jedes gewünschten Projekts aktivieren.
       update_timeout: |-
@@ -6603,6 +6814,12 @@ de:
   setting_user_format: Format des Benutzernamens
   setting_users_deletable_by_admins: Admins können Nutzeraccounts löschen
   setting_users_deletable_by_self: Nutzer können ihren Account löschen
+  setting_web_push_enabled: Browser-Benachrichtigungen
+  setting_web_push_enabled_caption: Ermöglicht es Benutzern, die OpenProject als Progressive Web App installiert haben, Benachrichtigungen des Betriebssystems zu erhalten, wenn sie ungelesene Benachrichtigungen in OpenProject haben.
+  setting_web_push_enabled_false: Browser-Benachrichtigungen nicht erlauben
+  setting_web_push_enabled_false_caption: Benutzer können in ihren Kontoeinstellungen keine Browser-Benachrichtigungen aktivieren, selbst wenn sie die PWA installiert haben
+  setting_web_push_enabled_true: Browser-Benachrichtigungen erlauben
+  setting_web_push_enabled_true_caption: Benutzer können in ihren Kontoeinstellungen Browser-Benachrichtigungen aktivieren, wenn sie die PWA installiert haben
   setting_welcome_on_homescreen: Willkommens-Block auf Startseite anzeigen
   setting_welcome_text: Text für Willkommens-Block
   setting_welcome_title: Titel des Willkommens-Block
@@ -7244,7 +7461,6 @@ de:
       placeholder_description: Dieser Schritt wird in Kürze verfügbar sein.
       progress_label: Schritt %{number} von %{total}
       start:
-        more_information: For more information, watch the [tutorial](video) or read the [documentation](docs).
         next_heading: Was kommt als Nächstes?
         submit: Beginn
         type:
@@ -7427,12 +7643,23 @@ de:
       project_specific_variant_suffix: "(Projektspezifische Variante)"
       projects:
         actions:
-          confirm_remove: Den Typ %{type} von %{project} entfernen?
-          remove_from_project: Aus dem Projekt entfernen
+          remove_from_project: Typ aus diesem Projekt entfernen
+          remove_from_projects: Typ aus diesen Projekten entfernen
           switch_variant: Variante wechseln
         add_dialog:
           no_projects_selected: Bitte wählen Sie mindestens ein Projekt.
           search_placeholder: Projekte suchen
+        bulk_remove:
+          confirmation:
+            one: Ich verstehe, dass dieser Typ in diesem Projekt nicht mehr verfügbar sein wird
+            other: Ich verstehe, dass dieser Typ in den ausgewählten Projekten nicht mehr verfügbar sein wird
+          description:
+            one: Dieser Typ wird im folgenden Projekt nicht mehr verfügbar sein, es sei denn, es gibt noch Arbeitspakete dieses Typs.
+            other: Dieser Typ wird in den folgenden Projekten nicht mehr verfügbar sein, es sei denn, es gibt noch Arbeitspakete dieses Typs.
+          submit: Entfernen
+          title:
+            one: Typ '%{type}' aus diesem Projekt entfernen?
+            other: Typ '%{type}' aus diesen Projekten entfernen?
         disable_all: Für alle Projekte deaktivieren
         empty_state:
           description: Fügen Sie ein Projekt hinzu, das diese Konfiguration verwendet.
@@ -7711,6 +7938,7 @@ de:
     sessions:
       browser: Browser
       browser_session: "(Browser-Sitzung)"
+      browser_with_version: "%{name} (Version %{version})"
       current: Aktuell (dieses Gerät)
       deletion_warning: Sind Sie sicher, dass Sie diese Sitzung widerrufen möchten? Sie werden auf diesem Gerät abgemeldet.
       device: Gerät / Betriebssystem
@@ -7817,7 +8045,7 @@ de:
   warning_user_limit_reached_admin_html: 'Das Hinzufügen zusätzlicher Benutzer überschreitet das aktuelle Benutzerlimit. Bitte [aktualisieren Sie Ihr Abonnement](upgrade_url) um sicherzustellen, dass externe Benutzer auf diese Instanz zugreifen können.
 
     '
-  warning_user_limit_reached_instructions: 'Du hast dein Nutzerlimit erreicht (%{current}/%{max} active users). Bitte kontaktiere sales@openproject.com um deinen Enterprise Edition Plan upzugraden und weitere Nutzer hinzuzufügen.
+  warning_user_limit_reached_instructions: 'Du hast dein Nutzerlimit erreicht (%{current}/%{max} active users). Bitte kontaktiere sales@openproject.com um deinen Enterprise edition Plan upzugraden und weitere Nutzer hinzuzufügen.
 
     '
   wiki:
@@ -7894,7 +8122,7 @@ de:
       blocked_by_description: Dieses Arbeitspaket kann erst geschlossen werden, nachdem das verknüpfte Arbeitspaket geschlossen wurde
       blocked_description: Dieses Arbeitspaket kann erst geschlossen werden, nachdem das verknüpfte Arbeitspaket geschlossen wurde
       blocks_description: Das verknüpfte Arbeitspaket kann erst geschlossen werden, wenn dieses Arbeitspaket geschlossen ist
-      child: Unteraufgabe
+      child: Kind
       child_description: Macht das zugehörige Arbeitspaket zu einer Unteraufgabe des aktuellen (übergeordneten) Arbeitspakets
       duplicated_by_description: Das zugehörige Arbeitspaket ist eine Kopie dieses Arbeitspakets
       duplicated_description: Das zugehörige Arbeitspaket ist eine Kopie dieses Arbeitspakets
@@ -8007,7 +8235,7 @@ de:
           manual_with_children: Hat Unteraufgaben aber ihre Startdaten werden ignoriert.
         title:
           automatic_mobile: Automatisch geplant.
-          automatic_with_children: Unteraufgaben bestimmen Termine.
+          automatic_with_children: Die Termine sind durch untergeordnete Arbeitspakete bestimmt.
           automatic_with_predecessor: Der Anfangstermin wird von einem Vorgänger festgelegt.
           manual_mobile: Manuell geplant.
           manually_scheduled: Manuell geplant – Daten unabhängig von Beziehungen.

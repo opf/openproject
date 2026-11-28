@@ -12,8 +12,6 @@ az:
       models:
         grids/grid:
           end_before_start: end value needs to be larger than the start value.
-          invalid_query: reference a query that does not belong to you and the project.
-          query_unchangeable: cannot have their query replaced once it is set.
           outside: is outside of the grid.
           overlaps: overlap.
     models:

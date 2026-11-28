@@ -137,10 +137,10 @@ da:
         commented: Kommenterede
       custom_field:
         admin_only: Kun for administratorer
+        allow_additional_project_values: Projektadministratorer kan tilføje projektspecifikke værdier
         allow_non_open_versions: Tillad versioner, der ikke er åbne
         content_right_to_left: Indhold fra højre mod venstre
         default_value: Forhåndsvalgt værdi
-        editable: Redigerbar
         field_format: Format
         formula: Formel
         has_comment: Tilføj et tekstfelt til en kommentar
@@ -153,11 +153,18 @@ da:
         min_value: Mindste værdi
         multi_value: Tillad flere valg
         possible_values: Mulige værdier
+        project_level_value_management: Projektadministratorer kan administrere værdier på projektniveau
         project_specific_value_restriction: Projektspecifikke værdier
         regexp: Regulært udtryk
         searchable: Søgbar
         semantic_key: Semantisk betydning
+        user_self_editable: Redigerbar
         visible_on_user_card: Vis på brugerkortet
+      custom_field/hierarchy/item:
+        label: Betegnelse
+        parent: Overordnet
+        short: Kort navn
+        weight: Vægt
       custom_field/project_specific_value_restriction:
         restriction: Begrænsning
       custom_value:
@@ -342,6 +349,9 @@ da:
         custom_field_section: Afsnit
       project_type:
         variant: Variant
+      push_subscription:
+        endpoint: Endepunkt
+        session_id: Session
       query:
         child_work_packages: Underordnede arbejdspakker
         column_names: Kolonner
@@ -532,6 +542,7 @@ da:
         ancestor: Underordnet af
         begin_deletion: Start på sletning
         begin_insertion: Start på indsættelse
+        categories: Kategorier
         children: Underelementer
         derived_done_ratio: Samlet % færdigt
         derived_remaining_hours: Samlet resterende arbejde
@@ -717,18 +728,41 @@ da:
               invalid_tokens: Kun talværdier, operatorer, funktioner, nøgleord og projektattributter af typen heltal, decimaltal, beregnet værdi og vægtet liste er tilladt.
               multi_value_list_not_aggregated: Attributter med flere valg (%{custom_fields}) kan kun bruges i aggregeringsfunktioner.
               not_allowed_custom_fields_referenced: 'Attributten %{custom_fields} kan ikke bruges, fordi den fører til en cirkulær reference: Den ene attribut afhænger af den anden.'
+            project_level_value_management:
+              not_available_for_all_values: er kun tilgængelig, når værdierne er begrænset pr. projekt.
             project_specific_value_restriction:
               not_supported: er kun tilgængelig for brugerdefinerede felter til arbejdspakker af formaterne liste, hierarki og vægtet liste.
             required:
               cannot_be_true: kan ikke slås til.
+            value:
+              parent_only_in_project: kan ikke gøres tilgængelig for alle projekter, fordi dens overordnede værdi kun er tilgængelig i dette projekt.
+              required_by_project_values: kan ikke slås fra, fordi projektet har tilføjet værdier under den.
           previous_custom_field_recalculation_unprocessed: Genberegningen af tidligere ændringer i dette brugerdefinerede felt er endnu ikke anvendt. Prøv igen om et par minutter.
           referenced_in_other_fields_html:
             one: "%{name} bruges i beregningen af projektattributten %{links}."
             other: "%{name} bruges i beregningerne af projektattributter: %{links}."
+        custom_field/hierarchy/item:
+          attributes:
+            base:
+              root_item: Hierarkiets rod kan ikke slettes.
+            label:
+              not_unique: skal være entydig på samme niveau i hierarkiet.
+            parent:
+              other_hierarchy: skal høre til samme hierarki.
+              other_project: skal være en global værdi eller høre til samme projekt.
+              own_descendant: kan ikke være værdien selv eller en af dens underværdier.
+            project_id:
+              additional_values_not_allowed: kan ikke tilføje værdier til dette brugerdefinerede felt.
+            short:
+              not_unique: skal være entydigt på samme niveau i hierarkiet.
         custom_fields_project:
           attributes:
             project_ids:
               blank: Vælg et projekt.
+        custom_option:
+          attributes:
+            project_id:
+              additional_values_not_allowed: kan ikke tilføje værdier til dette brugerdefinerede felt.
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -774,8 +808,6 @@ da:
             name:
               blank: er obligatorisk. Vælg et navn.
               not_unique: er allerede i brug. Vælg et andet navn.
-        jira:
-          invalid_protocol: Angiv en gyldig protokol (http eller https)
         label:
           attributes:
             name:
@@ -839,8 +871,8 @@ da:
               cannot_assign_multiple_variants_of_parent: Der kan kun aktiveres én variant af en type i projektet
               cannot_assign_variant_and_parent: 'En variant og dens overordnede type kan ikke tildeles samtidig '
               in_use_by_work_packages: 'bruges stadig af arbejdspakker: %{types}'
-              switch_target_blank: Vælg den variant, der skal skiftes til
-              switch_target_identical: Måltypen skal være en anden end den type, projektet bruger nu
+              switch_target_blank: Vælg en type eller variant, som projektet kan bruge.
+              switch_target_identical: Projektet bruger allerede denne type eller variant.
               switch_target_not_in_family: Der kan kun skiftes til en anden type i samme familie
           cannot_be_assigned_to_artefact_work_package: Den valgte bruger må ikke få tildelt arbejdspakker.
           foreign_wps_reference_version: Arbejdspakker i ikke-efterkommerprojekter refererer til versioner af projektet eller dets efterkommere.
@@ -861,6 +893,10 @@ da:
             variant:
               must_be_owned_by_the_project: må ikke være en variant, som et andet projekt ejer.
               must_belong_to_the_type: skal være en variant af den type, projektet bruger.
+        push_subscription:
+          attributes:
+            base:
+              too_many_push_subscriptions: Kun %{count} enheder kan få browsernotifikationer på samme tid.
         queries/filters/base:
           attributes:
             values:
@@ -920,6 +956,7 @@ da:
           must_not_point_to_openproject_directory: må ikke pege på en repository-mappe, som OpenProject administrerer.
           no_directory: er ikke et katalog.
           not_available: SCM-leverandør utilgængelig
+          not_in_allowed_local_paths: is not inside a directory that is allowed for local repositories.
           not_whitelisted: tillades ikke af opsætningen.
         role:
           attributes:
@@ -1086,6 +1123,8 @@ da:
               error_readonly: kan ikke angives, fordi du ikke har tilladelse til at tildele versioner i dette projekt.
             type:
               cannot_be_milestone_due_to_children: kan ikke være en milepæl, fordi arbejdspakken har underordnede.
+          categories_only_allow_single_value: Kategorier kan kun indeholde én værdi.
+          category_and_categories_mutually_exclusive: Kategori og kategorier kan ikke sættes til forskellige værdier på samme tid.
           is_not_a_valid_target_for_time_entries: 'Arbejdspakke # %{id} er ikke et gyldig mål for tildeling af tider.'
           readonly_status: Arbejdspakken har en skrivebeskyttet status, så dens attributter kan ikke ændres.
           target_versions_only_allow_single_value: Målversioner kan kun indeholde én værdi.
@@ -1159,8 +1198,8 @@ da:
         one: Brugerdefineret felt
         other: Brugerdefinerede felter
       custom_field/hierarchy/item:
-        one: Hierarkielement
-        other: Hierarkielementer
+        one: Hierarkiværdi
+        other: Hierarkiværdier
       custom_field_section:
         one: Afsnit med brugerdefinerede felter
         other: Afsnit med brugerdefinerede felter
@@ -1606,7 +1645,7 @@ da:
         contribution_callout: 'Hjælp os med at forbedre Jira-migreringen med din feedback og ved at donere private data. Du kan [blive en del af udviklingsfællesskabet](link) bag Jira-migreringen.
 
           '
-        description: Jira-migreringen er i beta. Vi understøtter Jira Server/Data Center version 8.x, 9.x, 10.x og 11.x. Cloud-installationer understøttes ikke endnu.
+        description: Jira-migreringen er i beta. Vi understøtter Jira Server/Data Center version 8.x, 9.x, 10.x og 11.x. Jira 8 kræver basic auth. Cloud-installationer understøttes ikke endnu.
         title: Beta – prøv det!
       basic_auth_password_deleted: Adgangskoden til basic auth er slettet.
       blank:
@@ -1620,7 +1659,6 @@ da:
         connection_timeout: 'Tidsgrænsen for forbindelsen til Jira-serveren blev overskredet: %{message}'
         parse_error: 'Svaret fra Jiras API kunne ikke fortolkes: %{message}'
         ssl_error: 'SSL-fejl ved forbindelse til Jira-serveren: %{message}'
-        ssrf_block_doc_link: Se vores [dokumentation](docs_url).
         ssrf_blocked: 'Forbindelsen er blokeret: Jira-værten peger på en privat IP-adresse. Hvis din Jira-installation kører på et internt netværk, kan du tillade dens IP-adresse med miljøvariablen OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST.'
         unsupported_endpoint: Jiras API har intet slutpunkt på %{path} (status %{status})
       columns:
@@ -1633,6 +1671,53 @@ da:
       configuration:
         new: Ny konfiguration
         title: Jira-konfiguration
+      connection_check:
+        authorization:
+          administrator: Jira-administrator
+          credentials_accepted: Legitimationsoplysningerne er godkendt
+          header: Autorisation
+        configuration:
+          credentials_present: Legitimationsoplysninger
+          header: Konfiguration
+          url_valid: Jira-URL
+        dialog:
+          button_continue: Fortsæt alligevel
+          button_fix: Ret konfigurationen
+          failure:
+            description_html: Konfigurationen er gemt, men tjekket <strong>%{check}</strong> mislykkedes. Du kan fortsætte, men det vil mislykkes at hente data, indtil fejlen er rettet.
+            title: Forbindelsestjekket mislykkedes
+          warning:
+            description_html: Konfigurationen er gemt, men tjekket <strong>%{check}</strong> gav en advarsel. Importen fungerer måske ikke som forventet. Fortsæt på eget ansvar.
+            title: Advarsel fra forbindelsestjekket
+        errors:
+          api_error: Jira svarede med HTTP-status %{status}. Kontrollér URL'en, og at Jira kører.
+          basic_auth_password_missing: Der er ikke angivet nogen adgangskode til basic auth.
+          basic_auth_required: Jira-migreringen kræver basic auth til Jira %{version}. Vælg basic auth, og angiv brugernavn og adgangskode for en Jira-administrator.
+          basic_auth_username_missing: Der er ikke angivet noget brugernavn til basic auth.
+          credentials_rejected: Jira afviste legitimationsoplysningerne. Kontrollér, at de er korrekte og ikke er udløbet.
+          invalid_response: Serveren på denne URL svarede ikke med JSON. Kontrollér URL'en.
+          invalid_url: Angiv en gyldig URL, der starter med http:// eller https://.
+          not_administrator: Jira-brugeren bag legitimationsoplysningerne er ikke Jira-administrator. Brug en Jira-administrators legitimationsoplysninger.
+          not_found: Serveren på denne URL har intet Jira-API. Kontrollér URL'en.
+          not_jira: Serveren på denne URL svarede ikke som Jira. Kontrollér URL'en.
+          personal_access_token_missing: Der er ikke angivet noget personligt adgangstoken.
+          ssl_error: Den sikre forbindelse til Jira mislykkedes. Kontrollér, at Jiras certifikat er gyldigt, og at OpenProject har tillid til det.
+          ssrf_blocked: Jira-værten peger på en privat IP-adresse, som OpenProject blokerer. Hvis Jira kører på et internt netværk, så føj dens IP-adresse til miljøvariablen OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST, og genstart OpenProject.
+          timeout: Jira svarede ikke i tide. Kontrollér URL'en, og at OpenProject kan nå Jira-serveren.
+          unexpected_error: Jira svarede på en måde, som OpenProject ikke forventede. Kontrollér, at URL'en peger på Jira.
+          unknown_version: OpenProject kunne ikke finde ud af, hvilken version af Jira der kører. Importen fungerer måske ikke som forventet. Fortsæt på eget ansvar.
+          unreachable: Jira kunne ikke nås. Kontrollér URL'en, og at OpenProject kan nå Jira-serveren.
+          unsupported_version: Jira %{version} er ikke en understøttet version. Importen fungerer måske ikke som forventet. Fortsæt på eget ansvar.
+        form_values_checked: Værdierne i formularen er tjekket. De er endnu ikke gemt.
+        last_check: 'Seneste tjek: %{datetime}'
+        not_checked: Endnu ikke tjekket.
+        server:
+          auth_method_supported: Godkendelsesmetode
+          header: Jira-server
+          reachable: Serveren kan nås
+          responds_as_jira: Svarer som Jira
+          version_supported: Understøttet version
+        title: Forbindelsestjek
       description: Brug dette værktøj til at importere data fra din Jira-installation. Du kan konfigurere flere Jira-værter og vælge, hvad der skal importeres i hver importkørsel.
       errors:
         cannot_delete_with_imports: En Jira-vært med eksisterende importer kan ikke slettes
@@ -1677,6 +1762,7 @@ da:
         blank:
           description: Opret en importkørsel for at begynde at importere oplysninger fra denne Jira-installation
           title: Der er endnu ikke oprettet nogen importkørsler
+        connection_check_error: Forbindelsestjekket mislykkedes, så der blev ikke hentet nogen data. Ret de mislykkede tjek i sidepanelet, og prøv igen.
         history: Historik
         import_blocked_error: En anden importkørsel fra Jira er i gang eller venter på gennemsyn. Gør den færdig, eller tilbagefør den, før du starter en ny import.
         index:
@@ -1734,9 +1820,6 @@ da:
             title: Henter metadata om de valgte projekter
           JiraRevertImportJob:
             title: Tilbagefører denne importkørsel fra Jira
-        not_administrator_error:
-          basic: Jira-konfigurationen bruger en basic auth-bruger uden administratortilladelser. Migreringen kræver en Jira-administrator for at kunne gennemføres. Rediger konfigurationen med en administrators legitimationsoplysninger, og prøv igen.
-          bearer: Jira-konfigurationen bruger en almindelig brugers personlige adgangstoken. Migreringen kræver et personligt adgangstoken fra en administrator for at kunne gennemføres. Rediger konfigurationen med et administratortoken, og prøv igen.
         project_identifier_taken: 'Du forsøger at importere et projekt med et id, der allerede er i brug: %{taken_identifier}. Ret projektets id i Jira, og klik så på Prøv igen.'
         remove_error: En importkørsel fra Jira kan ikke fjernes, mens den kører
         side_panel:
@@ -1963,19 +2046,9 @@ da:
               rest_line_text: Opretter overordnet-underordnet-relationer ud fra underopgaver for %{projects_number} projekter mere
               title: Opret overordnet-underordnet-relationer ud fra underopgaver
       test:
-        api_error: Jiras API returnerede fejlstatus %{status}. Kontrollér URL'en til din Jira-installation og legitimationsoplysningerne.
         basic_auth_password_invalid: Ugyldig adgangskode til basic auth. Kontrollér legitimationsoplysningerne i konfigurationen.
         basic_auth_username_invalid: Ugyldigt brugernavn til basic auth. Kontrollér legitimationsoplysningerne i konfigurationen.
-        connection_error: 'Forbindelsesfejl: %{message}'
-        error: Der opstod en uventet fejl under test af forbindelsen
-        failed: 'Forbindelsen mislykkedes: Serveroplysningerne kunne ikke hentes'
-        invalid_url: Angiv en gyldig URL
-        not_administrator:
-          basic: Basic auth-brugeren skal være Jira-administrator.
-          bearer: Det personlige adgangstoken skal være et administratortoken.
-        parse_error: Svaret fra serveren kunne ikke fortolkes. Serveren er måske ikke en gyldig Jira-installation.
         personal_access_token_invalid: Ugyldigt personligt adgangstoken (PAT). Kontrollér legitimationsoplysningerne i konfigurationen.
-        success: Forbundet til %{server} (version %{version})
       title: Jira-migrering
       user:
         unknown_name: Ukendt
@@ -1993,7 +2066,7 @@ da:
           other: Mærkaten <strong>%{name}</strong> fjernes fra de %{count} arbejdspakker, der bruger den nu. Er du sikker på, at du vil slette den?
       dialog_component:
         create_title: Opret mærkat
-        rename_label_title: Rename label
+        rename_title: Omdøb "%{name}"
       index:
         description: Alle brugere, der kan redigere arbejdspakker, kan frit sætte eksisterende mærkater på arbejdspakker eller oprette nye med det samme. Det omfatter alle mærkater, som brugerne har oprettet i alle projekter.
       row_component:
@@ -2145,6 +2218,37 @@ da:
           error: Afsnittets placering kunne ikke ændres.
         move:
           error: Afsnittets placering kunne ikke ændres.
+      push_notifications:
+        checking: Tjekker …
+        description: Brugerne kan vælge at installere OpenProject som en progressiv webapp (PWA) i moderne browsere. Gør de det, kan de også få notifikationer fra styresystemet om aktivitet i OpenProject.
+        hosts_intro: 'OpenProject sender push til den push-tjeneste, som den enkelte brugers browser abonnerer via. Tjekket nedenfor kontakter de store browseres push-tjenester og alle tjenester, som et eksisterende abonnement bruger:'
+        http_status: HTTP %{code}
+        key_managed_by_environment: Push-signeringsnøglen angives med miljøvariablen OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY. Skift variablen for at forny nøglen.
+        key_renewed: Push-signeringsnøglen er fornyet. Alle enheder skal slå browsernotifikationer til igen.
+        key_unreadable: Push-signeringsnøglen kunne ikke læses. Forny den for at få browsernotifikationerne tilbage. Derefter skal alle enheder slå browsernotifikationer til igen.
+        reachable: Kan nås
+        reasons:
+          connection: Forbindelsen mislykkedes
+          filtered: Anmodningen blev blokeret af SSRF-beskyttelsen
+          invalid_host: Værtsnavnet er ugyldigt
+          private_address: Værten peger på en privat adresse
+          sample_unresolved: Eksempelværten kunne ikke slås op; resultatet er ikke entydigt
+          timeout: Intet svar inden for %{seconds} sekunder
+          tls: TLS-handshake mislykkedes
+          unresolved: Værtsnavnet kunne ikke slås op
+        renew_key: Forny nøgler
+        renew_key_dialog:
+          confirm_button: Forny nøglen
+          confirmation: Jeg forstår, at alle enheder skal slå browsernotifikationer til igen.
+          description:
+            one: 'OpenProject signerer hver browsernotifikation med denne nøgle (VAPID), så alle browseres push-tjenester kan stole på den. En ny nøgle afbryder forbindelsen til alle enheder: det ene eksisterende abonnement slettes, og alle brugere skal slå browsernotifikationer til igen på hver enhed.'
+            other: 'OpenProject signerer hver browsernotifikation med denne nøgle (VAPID), så alle browseres push-tjenester kan stole på den. En ny nøgle afbryder forbindelsen til alle enheder: %{count} abonnementer slettes, og alle brugere skal slå browsernotifikationer til igen på hver enhed.'
+            zero: 'OpenProject signerer hver browsernotifikation med denne nøgle (VAPID), så alle browseres push-tjenester kan stole på den. En ny nøgle afbryder forbindelsen til alle enheder: der findes endnu ingen abonnementer, men alle brugere skal slå browsernotifikationer til igen på hver enhed.'
+          heading: Vil du forny push-signeringsnøglen?
+          title: Forny nøgler
+        unreachable: Kan ikke nås
+        verify_reachability: Tjek, om tjenesterne kan nås
+        verify_reachability_description: For at tjekke for notifikationer sender OpenProject en push uden indhold, der vækker appen. Den installerede PWA henter derefter antallet af ulæste over brugerens session. Følgende push-tjenester ser abonnementets endepunkt, denne installations adresse og offentlige nøgle samt tidspunktet for hver push.
       user_custom_field_sections:
         destroy:
           error: Afsnittet kunne ikke slettes.
@@ -2352,6 +2456,8 @@ da:
     quarantined_message: Der blev fundet virus i filen '%{filename}'. Den er sat i karantæne og kan ikke hentes.
   api_v3:
     attributes:
+      category:
+        deprecated: 'Forældet: Dette felt med én værdi erstattes af `categories`. Læs og skriv `categories` i stedet. Så længe flere kategorier ikke er aktiveret, tager `categories` højst én værdi og må ikke skrives sammen med `category` i samme forespørgsel.'
       property: Egenskab
       version:
         deprecated: 'Forældet: Dette felt med én værdi erstattes af `targetVersions`. Læs og skriv `targetVersions` i stedet. Så længe flere versioner ikke er aktiveret, tager `targetVersions` højst én værdi og må ikke skrives sammen med `version` i samme forespørgsel.'
@@ -2497,6 +2603,7 @@ da:
     public: Offentlig
     reason: Årsag
     recipient: Modtager
+    reporter: Indberetter
     required: Obligatorisk
     responsible: Ansvarlig
     role: Rolle
@@ -2603,12 +2710,13 @@ da:
   button_actions: Handlinger
   button_add: Tilføj
   button_add_comment: Tilføj kommentar
-  button_add_item_above: Tilføj element ovenfor
-  button_add_item_below: Tilføj element nedenfor
+  button_add_item_above: Tilføj værdi ovenfor
+  button_add_item_below: Tilføj værdi nedenfor
   button_add_member: Tilføj medlem
   button_add_menu_entry: Tilføj menupunkt
   button_add_non_working_time: Fravær
   button_add_sub_item: Tilføj underelement
+  button_add_sub_value: Tilføj underværdi
   button_add_watcher: Tilføj følger
   button_all_filters: Alle filtre
   button_annotate: Anmærke
@@ -2813,36 +2921,43 @@ da:
     admin:
       hierarchy:
         subitems:
-          one: "%{count} underelement"
-          other: "%{count} underelementer"
-          zero: ingen underelementer
+          one: "%{count} underværdi"
+          other: "%{count} underværdier"
+          zero: ingen underværdier
       items:
-        actions: Handlinger for element
+        actions: Handlinger for værdi
         blankslate:
           item:
-            description: Tilføj elementer til listen for at oprette underelementer i et andet element
-            title: Elementet har ikke noget hierarkiniveau under sig
+            description: Tilføj værdier til listen for at oprette underværdier i en anden værdi
+            title: Værdien har ikke noget hierarkiniveau under sig
+          project_item:
+            description: Værdien hører til projektet %{project}. Den kan ikke have globale underværdier. Underværdier kan kun tilføjes i [projektadministrationen](project_administration).
           root:
-            description: Begynd med at tilføje elementer til hierarkiet. Hvert element kan have sine egne underelementer. Klik på et element for at åbne det og tilføje underelementer.
-            title: Din liste over elementer er tom
+            description: Begynd med at tilføje værdier til hierarkiet. Hver værdi kan have sine egne underværdier. Klik på en værdi for at åbne den og tilføje underværdier.
+            title: Din liste over værdier er tom
         delete_dialog:
-          description: Handlingen fjerner elementet og alle dets underelementer, og det kan ikke fortrydes. Alle tildelte værdier slettes permanent. Hvis feltet er obligatorisk, kan det gøre eksisterende arbejdspakker ugyldige at fjerne elementer.
-          heading: Vil du slette elementet i det brugerdefinerede felt?
-          title: Slet element i brugerdefineret felt
+          description: Handlingen fjerner værdien og alle dens underværdier, og det kan ikke fortrydes. Alle tildelte værdier slettes permanent. Hvis feltet er obligatorisk, kan det gøre eksisterende arbejdspakker ugyldige at fjerne værdier.
+          heading: Vil du slette værdien i det brugerdefinerede felt?
+          title: Slet værdi i brugerdefineret felt
         placeholder:
-          label: Elementets betegnelse
+          label: Værdiens betegnelse
           short: Kort navn
           weight: Vægt
       notice:
-        remember_items_and_projects: Husk at angive elementer for det brugerdefinerede felt og at sørge for, at det bruges i mindst ét projekt.
+        remember_items_and_projects: Husk at angive værdier for det brugerdefinerede felt og at sørge for, at det bruges i mindst ét projekt.
       projects:
-        changes_heading: Vigtige ændringer
-        changes_text: 'Fra version 18.0 bliver brugerdefinerede felter ikke længere aktiveret eller deaktiveret på projektniveau. De indgår i formularer, som derefter bruges i forskellige typer og varianter. Listen nedenfor viser projekter, der bruger typer eller varianter med formularer, som indeholder dette brugerdefinerede felt.
-
-          '
+        additional_values_disabled_notice: Projektadministratorer kan ikke længere tilføje værdier til dette brugerdefinerede felt. Eksisterende projektspecifikke værdier er stadig tilgængelige.
+        additional_values_disabled_project_notice: Projektadministratorer kan ikke længere tilføje værdier til dette brugerdefinerede felt. Eksisterende projektspecifikke værdier er dog stadig tilgængelige.
+        available_values: Tilgængelige værdier
         configure: Konfigurer projektspecifikke værdier for %{project}
+        delete_value_dialog:
+          description: Handlingen fjerner værdien fra %{project}, og det kan ikke fortrydes. Alle tildelte værdier slettes permanent.
+          heading: Vil du slette den projektspecifikke værdi?
+          title: Slet projektspecifik værdi
         disable_all: Deaktiver alle
-        editing_values_notice: Du redigerer listen over værdier, der er synlige for dette brugerdefinerede felt i projektet [%{project}](project_url).
+        edit_value: Rediger værdi
+        editing_values_notice_html: Du redigerer værdierne i <strong>%{custom_field}</strong> i [%{project}](project_url).
+        editing_values_project_admins_notice: Projektadministratorer i dette projekt kan også ændre værdierne.
         empty_state:
           description: Føj dette brugerdefinerede felt til formularen for en type, der bruges i et projekt.
           title: Intet projekt bruger dette brugerdefinerede felt
@@ -2855,10 +2970,28 @@ da:
         filter_no_results:
           description: Skift filtrene for at se flere projekter.
           title: Ingen projekter matcher filteret
+        global_values_column: Globale værdier
+        make_available_to_all_projects: Gør tilgængelig for alle projekter
+        make_available_to_all_projects_confirm: Vil du gøre »%{value}« tilgængelig for alle projekter?
+        new_value: Værdi
+        project_admins_manage_notice: Projektadministratorer kan administrere værdierne i dette brugerdefinerede felt i deres projekter. Du kan gennemgå og justere ethvert projekt nedenfor.
+        project_specific_values_column: Projektspecifikke værdier
         quick_filter:
           all: Alle projekter
           with_project_specific_values: Med projektspecifikke værdier
+        required_value_notice: Kan ikke slås fra, fordi en underordnet projektspecifik værdi er slået til.
         types_column: Vises i typen
+        value_actions: Handlinger for værdi
+        value_dialog:
+          edit_title: Rediger værdi
+          name: Navn
+          name_caption_html: Kun tilgængelig i <strong>%{project}</strong>.
+          parent: Tilføj til overordnet
+          short_caption: Vælg eventuelt et kortere navn eller en kode for værdien.
+          title: Tilføj projektspecifik værdi
+          title_with_parent: Tilføj projektspecifik værdi til »%{parent}«
+          top_level: Øverste niveau
+          weight_caption: Hver værdi har en tilknyttet vægt.
         values_empty_state:
           description: Tilføj værdier til dette brugerdefinerede felt for at vælge, hvilke af dem der er tilgængelige i dette projekt.
           title: Dette brugerdefinerede felt har endnu ingen værdier
@@ -2890,8 +3023,6 @@ da:
       admin_only:
         all: Markér feltet for kun at vise det brugerdefinerede felt for administratorer. Brugere uden administratorrettigheder kan hverken se eller redigere det.
         project: Markér feltet for kun at vise attributten for administratorer. Brugere uden administratorrettigheder kan hverken se eller redigere den.
-      editable:
-        all: Lad brugerne selv redigere feltet.
       formula:
         project: Tilføj talværdier, eller skriv / for at søge efter en attribut, operator, funktion eller et andet element. Se [dokumentationen om formelsyntaks](docs_url) for at få en oversigt.
       has_comment:
@@ -2921,6 +3052,8 @@ da:
       searchable:
         all: Medtag feltets værdier, når der søges med den globale søgning.
         project: Markér feltet for at gøre attributten tilgængelig som filter i projektlister.
+      user_self_editable:
+        all: Lad brugerne selv redigere feltet.
       visible_on_user_card:
         all: Når feltet er markeret, vises værdien på brugerens informationskort, når man holder musen over en bruger i programmet.
     is_enabled_globally: Er aktiveret globalt
@@ -2942,10 +3075,22 @@ da:
       block:
         caption: Som standard er alle værdier tilgængelige for alle projekter, men du kan manuelt deaktivere bestemte værdier for enkelte projekter.
         label: 'Blokeringsfilter: Vælg manuelt, hvilke værdier der skal deaktiveres for hvert projekt'
+      label: Projektspecifik
+      label_with_project: 'Projektspecifik: %{project}'
+      project_admins:
+        additional_values_caption: Tilføjede værdier er kun tilgængelige i det projekt, de er oprettet i. Du kan senere gøre dem tilgængelige for alle projekter.
+        remaining_values_count:
+          one: "%{count} projektspecifik værdi"
+          other: "%{count} projektspecifikke værdier"
+        remaining_values_warning:
+          one: "%{count} projekt har allerede %{values}. De er stadig tilgængelige i projektet, men projektadministratorer kan ikke tilføje nye, medmindre »%{setting}« er markeret."
+          other: "%{count} projekter har allerede %{values}. De er stadig tilgængelige i projekterne, men projektadministratorer kan ikke tilføje nye, medmindre »%{setting}« er markeret."
+        value_management_caption: Projektadministratorer kan slå bestemte værdier til eller fra for deres projekt. De kan se alle globale værdier.
       switch_warning:
         all: Alle værdier bliver tilgængelige i alle projekter.
         allow: Ingen værdier bliver tilgængelige for noget projekt, medmindre du aktiverer dem manuelt i hvert enkelt projekt.
         block: Alle værdier bliver tilgængelige i alle projekter, medmindre du deaktiverer dem manuelt i enkelte projekter.
+      value_with_project: "%{value} (%{project})"
     reorder_alphabetical: Sortér værdierne alfabetisk
     reorder_confirmation: 'Advarsel: Den nuværende rækkefølge af de tilgængelige værdier og alle værdier, der ikke er gemt, går tabt. Er du sikker på, at du vil fortsætte?'
     semantic_keys:
@@ -3282,8 +3427,8 @@ da:
       capture_external_links:
         description: Forebyg social engineering-angreb ved at opfange eksterne links og advare om dem, før brugerne åbner dem.
       custom_actions:
-        description: Automations are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.
-        title: Automations
+        description: Brugerdefinerede handlinger er genveje, der med ét klik udfører en række foruddefinerede handlinger. Du kan gøre dem tilgængelige på bestemte arbejdspakker ud fra status, rolle, type eller projekt.
+        title: Brugerdefinerede handlinger
       custom_field_hierarchies:
         description: Brugerdefinerede felter af typen hierarki gør det muligt at ordne hierarkiske strukturer i arbejdspakker og projekter med valglister i flere niveauer.
       customize_life_cycle:
@@ -3348,7 +3493,7 @@ da:
       virus_scanning:
         description: Sørg for, at filer, der overføres til OpenProject, scannes for virus, før andre brugere får adgang til dem.
       weighted_item_lists:
-        description: Med vægtede lister kan du oprette en liste, hvor hvert element har en tilknyttet talværdi.
+        description: Med vægtede lister kan du oprette en liste, hvor hver værdi har en tilknyttet talværdi.
       work_package_sharing:
         description: Del arbejdspakker med brugere, der ikke er medlemmer af projektet.
       work_package_subject_generation:
@@ -3609,6 +3754,7 @@ da:
       save_title: Gem formular
     index:
       actions:
+        create: Formular
         edit: Rediger formular
         menu: Handlinger for %{name}
         rename: Rediger navn og beskrivelse
@@ -4123,6 +4269,10 @@ da:
   label_custom_field_default_type: Tom typebetegnelse
   label_custom_field_new: Nyt brugerdefineret felt
   label_custom_field_plural: Brugerdefinerede felter
+  label_custom_field_values_all: Alle brugerdefinerede felter
+  label_custom_field_values_customizable: Kan tilpasses i dette projekt
+  label_custom_field_values_customized: Tilpasset i dette projekt
+  label_custom_field_values_uniform: Samme værdier i alle projekter
   label_custom_pdf_export_settings: Brugerdefinerede indstillinger for PDF-eksport
   label_custom_style: Design
   label_custom_style_description: Vælg, hvordan OpenProject skal se ud for dig med temaer, vælg de standardfarver, der skal bruges i programmet, og hvordan eksporter skal se ud.
@@ -4146,7 +4296,7 @@ da:
   label_delete_user: Slet bruger
   label_deleted: slettet
   label_deleted_custom_field: "(slettet brugerdefineret felt)"
-  label_deleted_custom_item: "(slettet element)"
+  label_deleted_custom_item: "(slettet værdi)"
   label_deleted_custom_option: "(slettet valgmulighed)"
   label_deleted_label: "(slettet mærkat)"
   label_deleted_version: "(slettet version)"
@@ -4172,7 +4322,7 @@ da:
   label_duplicate: dublet
   label_duplicated_by: dubleret af
   label_duplicates: dublerer
-  label_edit: Rediger
+  label_edit: Redigér
   label_edit_x: 'Rediger: %{x}'
   label_empty_element: "(tom)"
   label_enable_multi_select: Slå flervalg til/fra
@@ -4285,8 +4435,6 @@ da:
   label_invalid_file_type: Filtypen understøttes ikke.
   label_invitation: Invitation
   label_invite_user: Invitér bruger
-  label_item: Element
-  label_item_plural: Elementer
   label_jira_import: Jira-migrering
   label_journal: Journal
   label_journal_diff: Sammenligning af beskrivelser
@@ -4659,6 +4807,7 @@ da:
   label_user_settings: Brugerindstillinger
   label_users_settings: Indstillinger for brugere
   label_value: Værdi
+  label_value_plural: Værdier
   label_value_x: 'Værdi: %{x}'
   label_version_custom_field_plural: Brugerdefinerede felter for versioner
   label_version_edit: Rediger version
@@ -5101,6 +5250,7 @@ da:
       mail_notification: E-mail-notifikationer
       mails_and_notifications: E-mails og notifikationer
       mcp_configurations: Model Context Protocol (MCP)
+      push_notifications: Browsernotifikationer
       text_actions: Tekstassistent
     quick_add:
       label: Tilføj …
@@ -5291,9 +5441,36 @@ da:
         title: Projektspecifikke notifikationer
     notifications_and_email:
       tabs:
+        browser_push: Browsernotifikationer
         email_reminders: Påmindelser via e-mail
         notifications: Notifikationsindstillinger
       title: Notifikationer og e-mail
+    push_notifications:
+      description: Få besked med push-notifikationer fra styresystemet via denne browser, når du har ulæste notifikationer, også når OpenProject ikke er åben. Indholdet af dine notifikationer bliver i OpenProject og deles ikke med udbyderen af notifikationerne.
+      disable: Slå fra for denne browser
+      enable: Slå til for denne browser
+      no_devices: Der er endnu ingen enheder, der får browsernotifikationer.
+      no_devices_description: Slå browsernotifikationer til på en enhed, så vises den her.
+      revoke: Tilbagekald
+      revoke_confirm: Vil du holde op med at sende browsernotifikationer til %{device}?
+      revoke_device: Tilbagekald %{device}
+      revoked: Browsernotifikationer er slået fra for enheden.
+      signed_out: Logget ud
+      signed_out_description: På en enhed, der er logget ud, sættes browsernotifikationerne på pause, og de genoptages, når du logger ind der igen. Tilbagekald enheden for at stoppe dem helt.
+      status:
+        blocked: Notifikationer er blokeret for dette websted i browserens indstillinger.
+        disabled: Browsernotifikationer er ikke slået til for denne browser i den aktuelle session.
+        enabled: Browsernotifikationer er slået til for denne browser i den aktuelle session.
+        error: Browsernotifikationerne kunne ikke ændres. Prøv igen.
+        prompting: Venter på, at du tillader notifikationer i browserens dialog …
+        subscribing: Registrerer browseren hos dens push-tjeneste …
+        timeout: Browseren blev ikke færdig med at registrere sig til push i tide. Tjek netværksforbindelsen, og prøv igen.
+        unsupported: Browsernotifikationer er ikke tilgængelige i denne browser.
+      this_session: Denne session
+      title: Browsernotifikationer
+      try_again: Prøv igen
+      try_again_label: Prøv igen at ændre browsernotifikationer for denne browser
+      unavailable: Browsernotifikationer er midlertidigt utilgængelige i denne installation.
   news:
     index:
       no_results_content_text: Tilføj en nyhed
@@ -5356,7 +5533,7 @@ da:
   notice_no_principals_found: Ingen resultater fundet.
   notice_not_authorized: Du har ikke tilladelser til at gå til denne side.
   notice_not_authorized_archived_project: Det projekt du forsøger at tilgå er blevet arkiveret.
-  notice_parent_item_not_found: Det overordnede element blev ikke fundet.
+  notice_parent_item_not_found: Den overordnede værdi blev ikke fundet.
   notice_password_confirmation_failed: Den indtastede adgangskode er forkert.
   notice_principals_found_multiple: "Der blev fundet %{number} resultater. \n Tryk på Tab for at gå til det første resultat."
   notice_principals_found_single: "Der er ét resultat. \n Tryk på Tab for at gå til det."
@@ -5557,7 +5734,6 @@ da:
       eql?: skal være lig med %{left}.
       filled?: skal udfyldes.
       format?: har et ugyldigt format.
-      greater_or_equal_zero: skal være større end eller lig med 0.
       gt?: skal være større end %{num}.
       gteq?: skal være større end eller lig med %{num}.
       hash?: skal være en hash.
@@ -5570,18 +5746,6 @@ da:
       max_size?: må højst være på %{num} tegn.
       not_found: blev ikke fundet.
       respond_to?: implementerer ikke den krævede metode.
-      rules:
-        custom_field:
-          format_not_supported: formatet '%{field_format}' understøttes ikke.
-        item:
-          not_persisted: skal være et eksisterende element.
-          root_item: kan ikke være et rodelement.
-        label:
-          not_unique: skal være entydig på samme niveau i hierarkiet.
-        parent:
-          not_descendant: skal ligge under hierarkiets rod.
-        short:
-          not_unique: skal være entydig på samme niveau i hierarkiet.
       str?: skal være en streng.
       time?: skal være et klokkeslæt.
       type?: skal være %{type}.
@@ -5593,7 +5757,7 @@ da:
       blueprint: Skabelon for mønster
       depth: Dybde
       enabled: Aktiveret
-      item: Element
+      item: Værdi
       label: Betegnelse
       parent: Overordnet
       short: Kort navn
@@ -5767,6 +5931,10 @@ da:
   permission_manage_user: Rediger brugere
   permission_manage_versions: Administrer versioner
   permission_manage_wiki: Administrer wiki
+  permission_manage_work_package_custom_field_values: Administrer værdier i brugerdefinerede felter til arbejdspakker
+  permission_manage_work_package_custom_field_values_explanation: 'Vælg, hvilke værdier i brugerdefinerede felter til arbejdspakker der er tilgængelige i projektet, og tilføj værdier, der kun er tilgængelige i projektet, hvis det brugerdefinerede felt tillader det.
+
+    '
   permission_manage_work_package_relations: Administrer relationer mellem arbejdspakker
   permission_manage_working_times: Administrer arbejdstid for alle brugere
   permission_manage_working_times_explanation: 'Giver brugerne mulighed for at administrere arbejdstiden for alle brugere, også personlige arbejdsfrie dage.
@@ -6011,9 +6179,18 @@ da:
         changes_text: 'Fra og med version 18.0 aktiveres og deaktiveres brugerdefinerede felter ikke længere pr. projekt. De indgår i formularer, som typer og varianter bruger. Listen nedenfor viser de brugerdefinerede felter på dette projekts arbejdspakker og de varianter, der indeholder dem.
 
           '
+        column_format: Format
         column_name: Brugerdefineret felt
-        column_variants: Varianter
+        column_types: Vises i typen
         no_results_title_text: Der er i øjeblikket ingen brugerdefinerede felter tilgængelige.
+        project_specific_values_count:
+          one: "%{count} projektspecifik værdi"
+          other: "%{count} projektspecifikke værdier"
+        search_label: Søg i brugerdefinerede felter
+        values_description: 'Vælg, hvilke værdier i %{custom_field} dit team kan bruge i %{project}. Globale værdier deles med andre projekter og administreres af administratorer. Projektspecifikke værdier er kun tilgængelige i dette projekt.
+
+          '
+        values_filter: Værdier
       forums:
         no_results_content_text: Opret et nyt forum
         no_results_title_text: Der er i øjeblikket ingen fora for projektet.
@@ -6101,7 +6278,13 @@ da:
         project_specific_variant: Projektspecifik variant
         remove_from_project: Fjern fra projekt
         switch:
-          apply: Anvend
+          confirm_description: Når der skiftes til %{type}, skjules de felter, som den ikke indeholder. Deres værdier bevares, men vises ikke længere.
+          confirm_submit: Skift
+          confirm_title: Vil du skifte typevariant?
+          confirmation: Jeg forstår, at felter, som den nye variant ikke indeholder, skjules sammen med deres værdier
+          identical:
+            one: Projektet bruger allerede denne type eller variant.
+            other: De valgte projekter bruger allerede denne type eller variant.
           impact:
             hidden_description: Den valgte variant indeholder ikke disse felter. Eventuelle værdier, som felterne havde, vises ikke længere.
             hidden_heading: Felter, der fjernes
@@ -6120,8 +6303,17 @@ da:
             work_packages:
               one: "%{count} arbejdspakke kommer til at bruge den nye konfiguration"
               other: "%{count} arbejdspakker kommer til at bruge den nye konfiguration"
-          success: Projektet bruger nu %{type}.
-          target_label: Variant
+          invalid_target:
+            one: Vælg en type eller variant, som projektet kan bruge.
+            other: Vælg en type eller variant, som alle de valgte projekter kan bruge.
+          listed_projects:
+            one: 'Følgende projekt skifter:'
+            other: 'Følgende projekter skifter:'
+          submit: Anvend
+          success:
+            one: Projektet bruger nu %{type}.
+            other: De valgte projekter bruger nu %{type}.
+          target_label: Ny type eller variant
           title: "%{type}: Skift variant"
         type_not_found: Den valgte type blev ikke fundet.
         use_in_project: Brug i dette projekt
@@ -6159,6 +6351,25 @@ da:
       status_restored: Forbindelsen er genoprettet. Genindlæser …
       status_still: Stadig offline. Vi prøver igen om lidt.
       title: Offline
+    push:
+      all_read_title: Ingen ulæste notifikationer
+      fallback_title: Ny aktivitet i OpenProject
+      group_title:
+        one: "%{count} opdatering"
+        other: "%{count} opdateringer"
+      more_title:
+        one: "%{count} arbejdspakke mere"
+        other: "%{count} arbejdspakker mere"
+      reasons:
+        assigned: "%{actor} tildelte dig"
+        commented: "%{actor} kommenterede"
+        date_alert_due_date: Påmindelse om slutdato
+        date_alert_start_date: Påmindelse om startdato
+        mentioned: "%{actor} omtalte dig"
+        reminder: Påmindelse
+        responsible: "%{actor} gjorde dig ansvarlig"
+        shared: "%{actor} har delt en arbejdspakke med dig"
+        updated: "%{actor} opdaterede"
   queries:
     apply_filter: Tildel filter som specificeret på forhånd
     configure_view:
@@ -6595,6 +6806,12 @@ da:
   setting_user_format: Format for brugernavne
   setting_users_deletable_by_admins: Brugerens konti kan slettes af administratorer
   setting_users_deletable_by_self: Brugererne kan selv slette deres konti
+  setting_web_push_enabled: Browsernotifikationer
+  setting_web_push_enabled_caption: Lader brugere, der har installeret OpenProject som en progressiv webapp, få notifikationer fra styresystemet, når de har ulæste notifikationer i OpenProject.
+  setting_web_push_enabled_false: Tillad ikke browsernotifikationer
+  setting_web_push_enabled_false_caption: Brugerne kan ikke slå browsernotifikationer til i deres kontoindstillinger, heller ikke hvis de har installeret PWA'en
+  setting_web_push_enabled_true: Tillad browsernotifikationer
+  setting_web_push_enabled_true_caption: Brugerne kan slå browsernotifikationer til i deres kontoindstillinger, hvis de har installeret PWA'en
   setting_welcome_on_homescreen: Vis velkomstblok på hjemmeskærm
   setting_welcome_text: Velkomstblok-tekst
   setting_welcome_title: Velkomstblok-titel
@@ -7239,7 +7456,6 @@ da:
       placeholder_description: Dette trin bliver snart tilgængeligt.
       progress_label: Trin %{number} af %{total}
       start:
-        more_information: For more information, watch the [tutorial](video) or read the [documentation](docs).
         next_heading: Hvad sker der nu?
         submit: Start
         type:
@@ -7420,12 +7636,23 @@ da:
       project_specific_variant_suffix: "(Projektspecifik variant)"
       projects:
         actions:
-          confirm_remove: Vil du fjerne typen %{type} fra %{project}?
-          remove_from_project: Fjern fra projekt
+          remove_from_project: Fjern typen fra dette projekt
+          remove_from_projects: Fjern typen fra disse projekter
           switch_variant: Skift variant
         add_dialog:
           no_projects_selected: Vælg mindst ét projekt.
           search_placeholder: Søg efter projekter
+        bulk_remove:
+          confirmation:
+            one: Jeg forstår, at typen ikke længere er tilgængelig i dette projekt
+            other: Jeg forstår, at typen ikke længere er tilgængelig i de valgte projekter
+          description:
+            one: Typen er ikke længere tilgængelig i følgende projekt, medmindre det stadig har arbejdspakker af denne type.
+            other: Typen er ikke længere tilgængelig i følgende projekter. Projekter, der stadig har arbejdspakker af denne type, beholder den.
+          submit: Fjern
+          title:
+            one: Vil du fjerne typen '%{type}' fra dette projekt?
+            other: Vil du fjerne typen '%{type}' fra disse projekter?
         disable_all: Deaktiver for alle projekter
         empty_state:
           description: Tilføj et projekt for at bruge konfigurationen dér.
@@ -7704,6 +7931,7 @@ da:
     sessions:
       browser: Browser
       browser_session: "(Browsersession)"
+      browser_with_version: "%{name} (version %{version})"
       current: Aktuel (denne enhed)
       deletion_warning: Er du sikker på, at du vil tilbagekalde sessionen? Du bliver logget ud på denne enhed.
       device: Enhed/styresystem

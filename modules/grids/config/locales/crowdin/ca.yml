@@ -12,8 +12,6 @@ ca:
       models:
         grids/grid:
           end_before_start: el valor final ha de ser major que el valor inicial.
-          invalid_query: reference a query that does not belong to you and the project.
-          query_unchangeable: cannot have their query replaced once it is set.
           outside: és fora de la graella.
           overlaps: superposició.
     models:

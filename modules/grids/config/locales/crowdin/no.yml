@@ -12,8 +12,6 @@
       models:
         grids/grid:
           end_before_start: sluttverdien må være større enn startverdien.
-          invalid_query: reference a query that does not belong to you and the project.
-          query_unchangeable: cannot have their query replaced once it is set.
           outside: er utenfor rutenett.
           overlaps: overlapp.
     models:

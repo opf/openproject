@@ -12,8 +12,6 @@ lt:
       models:
         grids/grid:
           end_before_start: pabaigos reikšmė turi būti didesnė už pradžios reikšmę.
-          invalid_query: reference a query that does not belong to you and the project.
-          query_unchangeable: cannot have their query replaced once it is set.
           outside: yra už tinklelio.
           overlaps: persidengia.
     models:

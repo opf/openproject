@@ -12,8 +12,6 @@ ro:
       models:
         grids/grid:
           end_before_start: valoarea finală trebuie să fie mai mare decât valoarea inițială.
-          invalid_query: reference a query that does not belong to you and the project.
-          query_unchangeable: cannot have their query replaced once it is set.
           outside: se află în afara rețelei.
           overlaps: suprapunere.
     models:

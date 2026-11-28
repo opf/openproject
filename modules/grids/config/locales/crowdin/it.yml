@@ -12,8 +12,6 @@ it:
       models:
         grids/grid:
           end_before_start: il valore finale deve essere più grande del valore iniziale.
-          invalid_query: reference a query that does not belong to you and the project.
-          query_unchangeable: cannot have their query replaced once it is set.
           outside: è fuori dalla griglia.
           overlaps: sovrapposizione.
     models:

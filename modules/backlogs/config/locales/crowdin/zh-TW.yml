@@ -325,6 +325,8 @@ zh-TW:
             time:
               other: Bar chart of committed and completed estimated time of the last %{count} sprints.
           summary_average: 'Average velocity: %{average}.'
+          summary_story_points:
+            other: "%{value} story points"
           title: Velocity chart
           velocity: "%{sprint}:"
           y_axis_title:
@@ -506,7 +508,7 @@ zh-TW:
   permission_view_sprints: 檢視衝刺
   plugin_openproject_backlogs:
     description: 此模組新增了讓敏捷團隊能夠在 Scrum 專案中使用 OpenProject 的功能。
-    name: OpenProject待辦事項
+    name: OpenProject代辦事項
   project_module_backlogs: 待辦事項
   projects:
     copy:

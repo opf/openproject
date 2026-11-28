@@ -12,8 +12,6 @@ ja:
       models:
         grids/grid:
           end_before_start: 終了値は開始値よりも大きくする必要があります。
-          invalid_query: reference a query that does not belong to you and the project.
-          query_unchangeable: cannot have their query replaced once it is set.
           outside: グリッドの外側です。
           overlaps: オーバーラップ。
     models:
