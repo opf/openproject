@@ -130,6 +130,11 @@ FactoryBot.define do
                                                 version: version + 1,
                                                 notes: "")
 
+          category_ids = attributes.delete(:category_ids) ||
+                         (attributes.key?(:category_id) && [attributes[:category_id]].compact) ||
+                         work_package.work_package_categories.map(&:category_id)
+          category_attributes = category_ids.map { { category_id: it } }
+
           data_attributes = work_package_attributes
                               .extract!(*Journal::WorkPackageJournal.attribute_names)
                               .symbolize_keys
@@ -139,7 +144,6 @@ FactoryBot.define do
           work_package_cv_attributes = work_package.custom_values.map { it.attributes.slice("custom_field_id", "value") }
           version_attributes = work_package.work_package_versions.where(kind: "target")
                                            .map { it.attributes.slice("version_id", "kind") }
-          category_attributes = work_package.work_package_categories.map { it.attributes.slice("category_id") }
 
           create(:work_package_journal,
                  **journal_attributes,

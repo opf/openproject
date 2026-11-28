@@ -264,6 +264,7 @@ class Journable::WithHistoricAttributes < SimpleDelegator
     merge_target_versions_changes!(changes, historic_journable)
     merge_observed_in_versions_changes!(changes, historic_journable)
     merge_labels_changes!(changes, historic_journable)
+    merge_categories_changes!(changes, historic_journable)
 
     changes
   end
@@ -312,6 +313,21 @@ class Journable::WithHistoricAttributes < SimpleDelegator
 
     {}.tap do |changes|
       changes["labels"] = [old_ids, new_ids].map { joined_ids(it) } if old_ids != new_ids
+    end
+  end
+
+  def merge_categories_changes!(changes, historic_journable)
+    return unless __getobj__.respond_to?(:work_package_categories)
+
+    changes.merge!(categories_changes(historic_journable))
+  end
+
+  def categories_changes(historic_journable)
+    old_ids = sorted_association_ids(historic_journable, :categories)
+    new_ids = sorted_association_ids(__getobj__, :categories)
+
+    {}.tap do |changes|
+      changes["categories"] = [old_ids, new_ids].map { joined_ids(it) } if old_ids != new_ids
     end
   end
 

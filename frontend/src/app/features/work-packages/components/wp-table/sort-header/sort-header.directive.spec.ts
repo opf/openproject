@@ -68,7 +68,7 @@ describe('SortHeaderDirective', () => {
   const tables:TableHarness[] = [];
   const subject = { id: 'subject', name: 'Subject', href: '/api/v3/queries/columns/subject', _type: queryColumnTypes.PROPERTY } as QueryColumn;
   const status = { id: 'status', name: 'Status', href: '/api/v3/queries/columns/status', _type: queryColumnTypes.PROPERTY } as QueryColumn;
-  const category = { id: 'category', name: 'Category', href: '/api/v3/queries/columns/category', _type: queryColumnTypes.PROPERTY } as QueryColumn;
+  const updatedAt = { id: 'updatedAt', name: 'Updated on', href: '/api/v3/queries/columns/updatedAt', _type: queryColumnTypes.PROPERTY } as QueryColumn;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -167,7 +167,7 @@ describe('SortHeaderDirective', () => {
     });
 
     it('repaints the baseline warning when baseline mode changes', async () => {
-      const { mounted, host } = mount(category);
+      const { mounted, host } = mount(updatedAt);
       const baseline = mounted.debugElement.injector.get(WorkPackageViewBaselineService);
       const warning = () => host.querySelector('.generic-table--sort-header--error-indicator');
       expect(warning()).toBeNull();

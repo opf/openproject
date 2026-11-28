@@ -383,6 +383,42 @@ RSpec.describe "API v3 Work package resource",
             end
           end
 
+          describe "when requesting only a historic timestamp with since-changed categories" do
+            let(:timestamps) { [Timestamp.parse("2015-01-01T00:00:00Z")] }
+
+            let(:category_a) { create(:category, project:, name: "Alpha") }
+            let(:category_b) { create(:category, project:, name: "Bravo") }
+
+            let(:work_package) do
+              create(:work_package,
+                     subject: "The current work package",
+                     project:,
+                     category: category_a,
+                     journals: {
+                       created_at => { subject: "The original work package" },
+                       1.day.ago + 1 => {}
+                     }).tap do |wp|
+                wp.update!(category: category_b)
+              end
+            end
+
+            it "renders the category of the requested time, not the current one" do
+              expect(subject)
+                .to be_json_eql({ href: api_v3_paths.category(category_a.id), title: category_a.name }.to_json)
+                .at_path("_links/category")
+            end
+
+            context "when the multiple categories gate is active",
+                    with_flag: { work_package_multiple_categories: true },
+                    with_settings: { work_package_multiple_categories: true } do
+              it "renders the categories of the requested time, not the current ones" do
+                expect(subject)
+                  .to be_json_eql([{ href: api_v3_paths.category(category_a.id), title: category_a.name }].to_json)
+                  .at_path("_links/categories")
+              end
+            end
+          end
+
           describe "when the work package has not been present at the baseline time" do
             let(:timestamps) { [Timestamp.parse("2015-01-01T00:00:00Z"), Timestamp.now] }
             let(:created_at) { 10.days.ago }

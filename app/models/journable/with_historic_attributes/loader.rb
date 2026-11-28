@@ -69,6 +69,7 @@ class Journable::WithHistoricAttributes
       load_versions_associations(journalized, journal_ids, kind: "target", association: :target_versions)
       load_versions_associations(journalized, journal_ids, kind: "observed_in", association: :observed_in_versions)
       load_labels_association(journalized, journal_ids)
+      load_categories_association(journalized, journal_ids)
 
       journalized
     end
@@ -105,6 +106,18 @@ class Journable::WithHistoricAttributes
         label_journals = Array(label_journals_by_journal_id[work_package.journal_id])
         historic_labels = label_journals.filter_map(&:label).sort_by(&:id)
         set_association_from_journal!(work_package:, records: historic_labels, association: :labels)
+      end
+    end
+
+    def load_categories_association(journalized, journal_ids)
+      return unless journalized_class.method_defined?(:work_package_categories)
+
+      category_journals_by_journal_id = load_category_journals_by_journal_id(journal_ids)
+
+      journalized.each do |work_package|
+        category_journals = Array(category_journals_by_journal_id[work_package.journal_id])
+        historic_categories = category_journals.filter_map(&:category).sort_by(&:id)
+        set_association_from_journal!(work_package:, records: historic_categories, association: :categories)
       end
     end
 
@@ -161,6 +174,13 @@ class Journable::WithHistoricAttributes
       Journal::LabelJournal
         .where(journal_id: journal_ids)
         .includes(:label)
+        .group_by(&:journal_id)
+    end
+
+    def load_category_journals_by_journal_id(journal_ids)
+      Journal::WorkPackageCategoryJournal
+        .where(journal_id: journal_ids)
+        .includes(:category)
         .group_by(&:journal_id)
     end
 

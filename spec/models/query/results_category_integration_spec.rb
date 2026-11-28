@@ -228,6 +228,19 @@ RSpec.describe Query::Results, "Filtering, sorting and grouping by categories" d
       it "matches the category the work packages had at that time" do
         expect(results.work_packages).to contain_exactly(formerly_alpha_wp)
       end
+
+      context "with a work package that had several categories at that time" do
+        let(:filter) { ["category_id", "=", [beta.id.to_s]] }
+
+        let!(:formerly_alpha_and_beta_wp) do
+          create(:work_package, project:, category: alpha,
+                                journals: { 2.days.ago => { category_ids: [alpha.id, beta.id] }, 1.hour.ago => {} })
+        end
+
+        it "matches each of the categories" do
+          expect(results.work_packages).to contain_exactly(formerly_alpha_and_beta_wp, newly_alpha_wp)
+        end
+      end
     end
   end
 end
