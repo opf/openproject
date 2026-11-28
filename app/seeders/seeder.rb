@@ -35,6 +35,10 @@ class Seeder
       @logger ||= Rails.logger
     end
 
+    def mode_identifier(classic:, semantic:)
+      Setting::WorkPackageIdentifier.semantic? ? semantic : classic
+    end
+
     def log_to_stdout!
       @logger = Logger.new($stdout)
       @logger.level = Logger::DEBUG

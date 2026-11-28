@@ -43,7 +43,7 @@ module DemoData
     # Turns ##<tag>:<ref_name> into a link to the referenced object, and
     # ##<tag>.id:<ref_name> into its record id.
     #
-    # - `<tag>` can be one of `query`, `sprint`, or `wp`.
+    # - `<tag>` can be one of `query`, `sprint`, `wp`, or `project`.
     # - `<ref_name>` is a reference which was used to register the object.
     #
     # For instance:
@@ -65,17 +65,16 @@ module DemoData
     #   package referenced with :some_subject and ID here is 42.
     #
     #   Alternatively `##wp.id:some_subject` is translated into just the ID.
-    def with_references(str)
+    #
+    # - Turns `##project.identifier:demo_project` into the identifier of the
+    #   project referenced with :demo_project, e.g. `demo-project` or `DEMO`.
+    def with_references(str, tags: %w[query sprint wp project])
       return str if str.blank?
 
-      str.gsub(/##(query|sprint|wp)(\.id)?:[a-z_0-9]+/) do |match|
-        tag, reference = match.delete("#").split(":", 2)
-        instance = seed_data.find_reference(reference.to_sym)
-        if match.include?(".id")
-          instance.id
-        else
-          link(tag, instance)
-        end
+      str.gsub(/##(?<tag>#{tags.join('|')})(?:\.(?<attribute>id|identifier))?:(?<reference>[a-z_0-9]+)/) do
+        match = Regexp.last_match
+        instance = seed_data.find_reference(match[:reference].to_sym)
+        match[:attribute] ? instance.public_send(match[:attribute]) : link(match[:tag], instance)
       end
     end
 
