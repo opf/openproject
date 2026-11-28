@@ -93,12 +93,10 @@ describe('Reporting PageController serialization', () => {
     expect(formDataValues(formData, 'values[subject][]')).toEqual([]);
   });
 
-  it('falls back to the date picker dataset when the input is still empty', () => {
+  it('falls back to the date picker attributes when the input is still empty', () => {
     fixturesElement.innerHTML = `
       <li id="filter_spent_on">
-        <opce-basic-single-date-picker
-          data-name='"values[spent_on][]"'
-          data-value='"2026-03-07"'>
+        <opce-basic-single-date-picker name="values[spent_on][]" value="2026-03-07">
           <input type="text" name="values[spent_on][]" value="">
         </opce-basic-single-date-picker>
       </li>

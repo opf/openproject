@@ -2,7 +2,7 @@
   [value]="begin"
   [opAutofocus]="shouldFocus"
   [required]="true"
-  [id]="'values-' + filter.id + '-begin'"
+  [inputId]="'values-' + filter.id + '-begin'"
   [name]="'v[' + filter.id + ']-begin'"
   class="advanced-filters--date-field"
  />
@@ -12,7 +12,7 @@
 
 <op-basic-single-datetime-picker (valueChange)="end = $event"
   [value]="end"
-  [id]="'values-' + filter.id + '-end'"
+  [inputId]="'values-' + filter.id + '-end'"
   [name]="'v[' + filter.id + ']-end'"
   class="advanced-filters--date-field"
  />

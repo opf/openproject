@@ -33,6 +33,7 @@ module WorkPackages
       include ApplicationHelper
       include OpenProject::FormTagHelper
       include AngularHelper
+      include CustomElementHelper
       include VersionsHelper
       include CustomFieldsHelper
       include HookHelper

@@ -107,9 +107,8 @@ RSpec.describe CustomFieldFormBuilder do
           <<~HTML
             <opce-basic-single-date-picker
               class="custom-class"
-              data-value="null"
-              data-id='"user_custom_field_#{custom_field.id}"'
-              data-name='"user[#{custom_field.id}]"'
+              input-id="user_custom_field_#{custom_field.id}"
+              name="user[#{custom_field.id}]"
             ></opce-basic-single-date-picker>
           HTML
         ).at_path("opce-basic-single-date-picker")

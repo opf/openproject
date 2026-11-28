@@ -223,23 +223,21 @@ See COPYRIGHT and LICENSE files for more details.
             <div class="form--field">
               <label class="form--label" for="start_date"><%= WorkPackage.human_attribute_name(:start_date) %></label>
               <div class="form--field-container -visible-overflow">
-                <%= angular_component_tag "opce-basic-single-date-picker",
-                                          inputs: {
-                                            id: "start_date",
-                                            name: "start_date",
-                                            value: selected_values[:start_date]
-                                          } %>
+                <%= custom_element_tag.opce_basic_single_date_picker(
+                      input_id: "start_date",
+                      name: "start_date",
+                      value: selected_values[:start_date]
+                    ) %>
               </div>
             </div>
             <div class="form--field">
               <label class="form--label" for="due_date"><%= WorkPackage.human_attribute_name(:due_date) %></label>
               <div class="form--field-container -visible-overflow">
-                <%= angular_component_tag "opce-basic-single-date-picker",
-                                          inputs: {
-                                            id: "due_date",
-                                            name: "due_date",
-                                            value: selected_values[:due_date]
-                                          } %>
+                <%= custom_element_tag.opce_basic_single_date_picker(
+                      input_id: "due_date",
+                      name: "due_date",
+                      value: selected_values[:due_date]
+                    ) %>
               </div>
             </div>
             <% if target_variant %>

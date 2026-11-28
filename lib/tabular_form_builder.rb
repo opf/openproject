@@ -35,7 +35,6 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   include ActionView::Helpers::AssetTagHelper
   include ERB::Util
   include TextFormattingHelper
-  include AngularHelper
 
   def self.tag_with_label_method(selector, &)
     ->(field, options = {}, *args) do
@@ -98,29 +97,18 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
     @object_name.to_s.sub!(/\[\]$/, "") || @object_name.to_s.sub!(/\[\]\]$/, "]")
 
-    inputs = {
-      value: @object.public_send(field),
-      id: field_id(field, index: options[:index]),
-      name: options[:name] || field_name(field, index: options[:index])
-    }
-
-    if options.dig(:data, :"remote-field-key")
-      inputs["remote-field-key"] = options.dig(:data, :"remote-field-key")
-      inputs[:inputClassNames] = "remote-field--input"
-    end
-
-    if !options[:show_ignore_non_working_days].nil?
-      inputs["show-ignore-non-working-days"] = options[:show_ignore_non_working_days]
-    end
-
-    if options[:required]
-      inputs[:required] = options[:required]
-    end
+    remote_field_key = options.dig(:data, :"remote-field-key")
 
     label = label_for_field(field, label_options)
-    input = angular_component_tag("opce-basic-single-date-picker",
-                                  class: options[:class],
-                                  inputs:)
+    input = CustomElementHelper::TagBuilder.new(@template).opce_basic_single_date_picker(
+      class: options[:class].presence,
+      value: date_picker_value(field),
+      input_id: field_id(field, index: options[:index]),
+      name: options[:name] || field_name(field, index: options[:index]),
+      remote_field_key:,
+      input_class_names: ("remote-field--input" if remote_field_key),
+      required: options[:required].presence
+    )
     (label + container_wrap_field(input, :date_picker, options))
   end
 
@@ -194,6 +182,11 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   TEXT_LIKE_FIELDS = %i(
     number_field password_field url_field telephone_field email_field
   ).freeze
+
+  def date_picker_value(field)
+    value = @object.public_send(field)
+    value.respond_to?(:iso8601) ? value.iso8601 : value
+  end
 
   def container_wrap_field(field_html, selector, options = {})
     ret = if options.delete(:no_field_container)

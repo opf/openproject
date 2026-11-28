@@ -77,7 +77,7 @@ RSpec.describe "ResourcePlanners requests",
       expect(response.body).to include("resource_planner[date_range]")
       expect(response.body).to include("2026-08-01 - 2026-08-14")
       # The timeframe is optional, so the range has to be removable again.
-      expect(response.body).to include("data-show-clear-button")
+      expect(response.body).to include(' show-clear-button=""')
     end
   end
 

@@ -15,7 +15,7 @@
   </span>
   @if (valueVisible) {
     <span class="form--text-field-container -slim">
-      <op-basic-single-date-picker [id]="fieldId + '_visible'"
+      <op-basic-single-date-picker [inputId]="fieldId + '_visible'"
         [name]="fieldId + '_input'"
         [value]="fieldValue"
         (valueChange)="updateField($event)"

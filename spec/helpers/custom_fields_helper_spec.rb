@@ -41,23 +41,32 @@ RSpec.describe CustomFieldsHelper do
       end
 
       it "renders the datetime picker for the custom field value" do
-        expect(rendered).to have_element "opce-basic-single-datetime-picker", "data-name": field_name.to_json
+        expect(rendered).to have_element "opce-basic-single-datetime-picker",
+                                         "input-id": "work_package_custom_field_values_#{custom_field.id}",
+                                         name: field_name
       end
 
       it "renders the picker as wide as the other text fields" do
         expect(rendered).to have_css "opce-basic-single-datetime-picker.form--text-field-container"
       end
 
-      it "passes on whether the field is required" do
-        expect(rendered).to have_element "opce-basic-single-datetime-picker",
-                                         "data-required": custom_field.required?.to_json
+      it "leaves an optional field optional" do
+        expect(rendered).to have_no_element "opce-basic-single-datetime-picker", required: /.*/
+      end
+
+      context "when the field is required" do
+        let(:custom_field) { build_stubbed(:wp_custom_field, :datetime, is_required: true) }
+
+        it "marks the picker as required" do
+          expect(rendered).to have_element "opce-basic-single-datetime-picker", required: "required"
+        end
       end
 
       context "with a submitted value" do
         let(:value) { "2026-10-01T12:30:00Z" }
 
         it "passes the value" do
-          expect(rendered).to have_element "opce-basic-single-datetime-picker", "data-value": value.to_json
+          expect(rendered).to have_element "opce-basic-single-datetime-picker", value:
         end
       end
     end

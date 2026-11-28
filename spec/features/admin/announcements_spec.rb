@@ -41,7 +41,7 @@ RSpec.describe "Admin announcement" do
     visit "/admin/announcements/edit"
 
     expect(page).to have_field("announcement_text", type: "textarea", with: "Hello world", visible: :all)
-    expect(page).to have_css(%(opce-basic-single-date-picker[data-value='"2026-12-24"']), visible: :all)
+    expect(page).to have_css("opce-basic-single-date-picker[value='2026-12-24']", visible: :all)
     expect(page).to have_checked_field("Active")
 
     uncheck "Active"

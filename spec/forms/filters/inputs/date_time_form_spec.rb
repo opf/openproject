@@ -69,7 +69,7 @@ RSpec.describe Filters::Inputs::DateTimeForm, type: :forms do
   context "with an on-date operator (=d)" do
     it "shows the local date of the user's time zone in the date picker" do
       expect(rendered_form).to have_element "opce-basic-single-date-picker",
-                                            "data-value": '"2026-01-01"',
+                                            value: "2026-01-01",
                                             visible: :all
     end
   end
@@ -80,7 +80,7 @@ RSpec.describe Filters::Inputs::DateTimeForm, type: :forms do
 
     it "shows the timestamp in a datetime picker" do
       expect(rendered_form).to have_element "opce-basic-single-datetime-picker",
-                                            "data-value": '"2026-07-01T08:30:00Z"',
+                                            value: "2026-07-01T08:30:00Z",
                                             visible: :all
     end
   end
@@ -94,10 +94,10 @@ RSpec.describe Filters::Inputs::DateTimeForm, type: :forms do
 
       expect(range[:class]).to include("FormControl-horizontalGroup")
       expect(range).to have_element "opce-basic-single-datetime-picker",
-                                    "data-value": '"2026-01-01T08:30:00Z"',
+                                    value: "2026-01-01T08:30:00Z",
                                     visible: :all
       expect(range).to have_element "opce-basic-single-datetime-picker",
-                                    "data-value": '"2026-10-30T17:00:00Z"',
+                                    value: "2026-10-30T17:00:00Z",
                                     visible: :all
     end
 
@@ -106,13 +106,12 @@ RSpec.describe Filters::Inputs::DateTimeForm, type: :forms do
     end
   end
 
-  # `inDialog` reaches the angular picker as a JSON-encoded data attribute.
   describe "dialog_id" do
     let(:dialog_id) { "my-dialog" }
 
     it "attaches the datetime pickers to the dialog so the calendar is not clipped by it" do
       expect(rendered_form).to have_element "opce-basic-single-datetime-picker",
-                                            "data-in-dialog": '"my-dialog"',
+                                            "in-dialog": "my-dialog",
                                             count: 3,
                                             visible: :all
     end

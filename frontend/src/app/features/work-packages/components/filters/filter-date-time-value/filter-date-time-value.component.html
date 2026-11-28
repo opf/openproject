@@ -1,5 +1,5 @@
 @if (pointInTime) {
-  <op-basic-single-datetime-picker [id]="'values-' + filter.id"
+  <op-basic-single-datetime-picker [inputId]="'values-' + filter.id"
     [name]="'v[' + filter.id + ']'"
     class="advanced-filters--date-field"
     [required]="true"
@@ -10,7 +10,7 @@
     [opAutofocus]="shouldFocus"
    />
 } @else {
-  <op-basic-single-date-picker [id]="'values-' + filter.id"
+  <op-basic-single-date-picker [inputId]="'values-' + filter.id"
     [name]="'v[' + filter.id + ']'"
     class="advanced-filters--date-field"
     [required]="true"

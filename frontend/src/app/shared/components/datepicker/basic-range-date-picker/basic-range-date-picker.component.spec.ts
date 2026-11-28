@@ -33,7 +33,23 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { DeviceService } from 'core-app/core/browser/device.service';
 import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
+import { defineTestCustomElement } from 'core-app/shared/helpers/angular/custom-element.spec-helper';
 import { OpBasicRangeDatePickerComponent } from './basic-range-date-picker.component';
+
+function configureCustomElement(isMobile:boolean) {
+  return TestBed
+    .configureTestingModule({
+      declarations: [OpBasicRangeDatePickerComponent],
+      imports: [FormsModule, OpTooltipDirective],
+      providers: [
+        { provide: I18nService, useValue: { t: (key:string) => key } },
+        { provide: TimezoneService, useValue: {} },
+        { provide: DeviceService, useValue: { isMobile } },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    })
+    .compileComponents();
+}
 
 describe('OpBasicRangeDatePickerComponent', () => {
   let component:OpBasicRangeDatePickerComponent;
@@ -68,7 +84,7 @@ describe('OpBasicRangeDatePickerComponent', () => {
   const render = async (value:string[] = []) => {
     fixture = TestBed.createComponent(OpBasicRangeDatePickerComponent);
     component = fixture.componentInstance;
-    fixture.componentRef.setInput('id', 'range');
+    fixture.componentRef.setInput('inputId', 'range');
     fixture.componentRef.setInput('value', value);
     fixture.detectChanges();
     await fixture.whenStable();
@@ -92,7 +108,7 @@ describe('OpBasicRangeDatePickerComponent', () => {
       enterDate('range-end', '2025-01-08');
       await vi.advanceTimersByTimeAsync(20);
 
-      expect(component.value).toEqual(['2025-01-07', '2025-01-08']);
+      expect(component.currentValue()).toEqual(['2025-01-07', '2025-01-08']);
       expect(valueChange).toHaveBeenCalledTimes(1);
       expect(valueChange).toHaveBeenCalledWith(['2025-01-07', '2025-01-08']);
     });
@@ -104,7 +120,7 @@ describe('OpBasicRangeDatePickerComponent', () => {
       enterDate('range-start', '2025-01-07');
       await vi.advanceTimersByTimeAsync(20);
 
-      expect(component.value).toEqual(['2025-01-07', '2025-01-08']);
+      expect(component.currentValue()).toEqual(['2025-01-07', '2025-01-08']);
       expect(valueChange).toHaveBeenCalledTimes(1);
       expect(valueChange).toHaveBeenCalledWith(['2025-01-07', '2025-01-08']);
     });
@@ -163,7 +179,7 @@ describe('OpBasicRangeDatePickerComponent', () => {
       component.clearValue();
       await vi.advanceTimersByTimeAsync(50);
 
-      expect(component.value).toEqual([]);
+      expect(component.currentValue()).toEqual([]);
       expect(valueChange).toHaveBeenCalledTimes(1);
       expect(valueChange).toHaveBeenCalledWith([]);
     });
@@ -176,7 +192,7 @@ describe('OpBasicRangeDatePickerComponent', () => {
       component.writeValue(['2024-12-01', '2024-12-02']);
       await vi.advanceTimersByTimeAsync(50);
 
-      expect(component.value).toEqual(['2024-12-01', '2024-12-02']);
+      expect(component.currentValue()).toEqual(['2024-12-01', '2024-12-02']);
       expect(valueChange).not.toHaveBeenCalled();
     });
 
@@ -199,7 +215,7 @@ describe('OpBasicRangeDatePickerComponent', () => {
       enterDate('range-end', '2025-01-08');
       await vi.advanceTimersByTimeAsync(50);
 
-      expect(component.value).toEqual(['2025-01-07', '2025-01-08']);
+      expect(component.currentValue()).toEqual(['2025-01-07', '2025-01-08']);
       expect(valueChange).toHaveBeenCalledTimes(1);
       expect(valueChange).toHaveBeenCalledWith(['2025-01-07', '2025-01-08']);
     });
@@ -213,7 +229,7 @@ describe('OpBasicRangeDatePickerComponent', () => {
       component.writeValue(['2024-12-01', '2024-12-02']);
       await vi.advanceTimersByTimeAsync(50);
 
-      expect(component.value).toEqual(['2024-12-01', '2024-12-02']);
+      expect(component.currentValue()).toEqual(['2024-12-01', '2024-12-02']);
       expect(valueChange).not.toHaveBeenCalled();
     });
   });
@@ -236,7 +252,7 @@ describe('OpBasicRangeDatePickerComponent', () => {
       component.clearValue();
       await vi.advanceTimersByTimeAsync(50);
 
-      expect(component.value).toEqual([]);
+      expect(component.currentValue()).toEqual([]);
     });
 
     it('commits the same text again after clearing', async () => {
@@ -248,7 +264,7 @@ describe('OpBasicRangeDatePickerComponent', () => {
       enterDate('range', '2025-01-07 - 2025-01-08');
       await vi.advanceTimersByTimeAsync(50);
 
-      expect(component.value).toEqual(['2025-01-07', '2025-01-08']);
+      expect(component.currentValue()).toEqual(['2025-01-07', '2025-01-08']);
       expect(valueChange).toHaveBeenCalledTimes(3);
       expect(valueChange).toHaveBeenLastCalledWith(['2025-01-07', '2025-01-08']);
     });
@@ -273,5 +289,89 @@ describe('OpBasicRangeDatePickerComponent', () => {
         expect(fixture.nativeElement.querySelectorAll('tool-tip')).toHaveLength(0);
       });
     });
+  });
+});
+
+describe('OpBasicRangeDatePickerComponent as a custom element', () => {
+  beforeEach(async () => {
+    vi.spyOn(OpBasicRangeDatePickerComponent.prototype as unknown as { initializeDatePicker:() => void }, 'initializeDatePicker')
+      .mockImplementation(() => undefined);
+    await configureCustomElement(false);
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+    document.body.replaceChildren();
+  });
+
+  it('sets the inner input from the attributes', async () => {
+    const custom = await defineTestCustomElement(OpBasicRangeDatePickerComponent, {
+      'input-id': 'planner_date_range',
+      name: 'planner[date_range]',
+      value: '2026-08-01 - 2026-08-14',
+      required: 'required',
+      placeholder: 'Pick a range',
+      'show-clear-button': '',
+      'input-attrs': JSON.stringify({ 'data-action': 'change->form#refresh', 'data-filter-name': 'dateRange' }),
+    });
+    const input = custom.element.querySelector<HTMLInputElement>('[data-test-selector="op-basic-range-date-picker"]')!;
+
+    expect(custom.element).not.toHaveAttribute('id');
+    expect(input).toHaveAttribute('id', 'planner_date_range');
+    expect(input).toHaveAttribute('name', 'planner[date_range]');
+    expect(input).toHaveValue('2026-08-01 - 2026-08-14');
+    expect(input).toBeRequired();
+    expect(input).toHaveAttribute('placeholder', 'Pick a range');
+    expect(input).toHaveAttribute('data-action', 'change->form#refresh');
+    expect(input).toHaveAttribute('data-filter-name', 'dateRange');
+    expect(custom.element.querySelector('[data-test-selector="op-basic-range-date-picker-clear"]')).toBeInTheDocument();
+  });
+
+  it('follows the disabled attribute toggled after connecting', async () => {
+    const custom = await defineTestCustomElement(OpBasicRangeDatePickerComponent, { 'input-id': 'range' });
+    const input = custom.element.querySelector('#range')!;
+
+    await custom.set('disabled', 'disabled');
+
+    expect(input).toHaveProperty('disabled', true);
+
+    await custom.remove('disabled');
+
+    expect(input).toBeEnabled();
+  });
+
+  it('reads a JSON array value attribute as the range', async () => {
+    const custom = await defineTestCustomElement(OpBasicRangeDatePickerComponent, {
+      'input-id': 'range',
+      value: JSON.stringify(['2026-08-01', '2026-08-14']),
+    });
+
+    expect(custom.element.querySelector('#range')).toHaveValue('2026-08-01 - 2026-08-14');
+  });
+
+  it('leaves the range empty without a value attribute', async () => {
+    const custom = await defineTestCustomElement(OpBasicRangeDatePickerComponent, { 'input-id': 'range', 'show-clear-button': '' });
+
+    expect(custom.element.querySelector('#range')).toHaveValue('');
+    expect(custom.element.querySelector('[data-test-selector="op-basic-range-date-picker-clear"]')).not.toBeInTheDocument();
+  });
+});
+
+describe('OpBasicRangeDatePickerComponent as a custom element on mobile', () => {
+  beforeEach(() => configureCustomElement(true));
+
+  afterEach(() => document.body.replaceChildren());
+
+  it('splits the range into start and end inputs and keeps the submitted one', async () => {
+    const custom = await defineTestCustomElement(OpBasicRangeDatePickerComponent, {
+      'input-id': 'range',
+      name: 'pause[date_range]',
+      value: '2026-08-01 - 2026-08-14',
+    });
+
+    expect(custom.element.querySelector('#range-start')).toHaveValue('2026-08-01');
+    expect(custom.element.querySelector('#range-end')).toHaveValue('2026-08-14');
+    expect(custom.element.querySelector('#range')).toHaveAttribute('name', 'pause[date_range]');
+    expect(custom.element.querySelector('#range')).toHaveAttribute('data-value', '2026-08-01 - 2026-08-14');
   });
 });

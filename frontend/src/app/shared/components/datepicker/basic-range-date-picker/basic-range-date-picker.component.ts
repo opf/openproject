@@ -25,7 +25,29 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, debounced, effect, ElementRef, forwardRef, HostBinding, Injector, Input, OnInit, output, Resource, signal, untracked, ViewChild, ViewEncapsulation, WritableSignal, inject } from '@angular/core';
+import {
+  afterRenderEffect,
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  computed,
+  debounced,
+  effect,
+  ElementRef,
+  forwardRef,
+  HostBinding,
+  inject,
+  Injector,
+  input,
+  linkedSignal,
+  OnInit,
+  output,
+  Resource,
+  untracked,
+  ViewChild,
+  ViewEncapsulation,
+  WritableSignal,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   ControlValueAccessor,
@@ -39,10 +61,28 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { DatePicker } from '../datepicker';
 import flatpickr from 'flatpickr';
 import { DayElement } from 'flatpickr/dist/types/instance';
-import { populateInputsFromDataset } from '../../dataset-inputs';
 import { DeviceService } from 'core-app/core/browser/device.service';
+import {
+  booleanAttributeOr,
+  jsonAttribute,
+  optionalStringAttribute,
+  stringAttribute,
+} from 'core-app/shared/helpers/angular/attribute-inputs';
 
 export const rangeSeparator = '-';
+
+function rangeValueAttribute(value:string|string[]|null|undefined):string[] {
+  if (typeof value !== 'string') {
+    return value ?? [];
+  }
+
+  if (value.trimStart().startsWith('[')) {
+    const dates:unknown = JSON.parse(value);
+    return Array.isArray(dates) ? dates.map(String) : [];
+  }
+
+  return value.split(/\s-\s/);
+}
 
 export const opBasicRangeDatePickerSelector = 'op-basic-range-date-picker';
 
@@ -52,7 +92,6 @@ export const opBasicRangeDatePickerSelector = 'op-basic-range-date-picker';
   styleUrls: [
     './basic-range-date-picker.component.sass',
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [
     {
@@ -79,57 +118,44 @@ export class OpBasicRangeDatePickerComponent implements OnInit, ControlValueAcce
   // the usages without it keep their previous layout. On mobile the native date
   // inputs clear themselves, so no button is rendered there.
   @HostBinding('class.op-basic-range-datepicker_clearable') get clearable():boolean {
-    return this.showClearButton && !this.mobile;
+    return this.showClearButton() && !this.mobile;
   }
 
   readonly valueChange = output<string[]>();
 
-  private _value:string[] = [];
+  private readonly defaultInputId = `flatpickr-input-${+(new Date())}`;
 
-  @Input() set value(newValue:string|string[]) {
-    const dates = (typeof newValue === 'string') ? newValue.split(/\s-\s/) : newValue;
+  readonly value = input<string[], string|string[]|null|undefined>([], { transform: rangeValueAttribute });
 
-    if (this.resolveDateArrayToString(dates) !== this.stringValue) {
-      this.cancelPendingInput();
-    }
+  readonly inputId = input(this.defaultInputId, { transform: stringAttribute(this.defaultInputId) });
 
-    this.assignValue(dates);
-  }
+  readonly name = input('', { transform: stringAttribute('') });
 
-  get value() {
-    return this._value;
-  }
+  readonly required = input(false, { transform: booleanAttributeOr(false) });
 
-  @Input() id = `flatpickr-input-${+(new Date())}`;
+  readonly disabled = input(false, { transform: booleanAttributeOr(false) });
 
-  @Input() name = '';
+  readonly showClearButton = input(false, { transform: booleanAttributeOr(false) });
 
-  @Input() required = false;
+  readonly placeholder = input('', { transform: stringAttribute('') });
 
-  @Input() disabled = false;
+  readonly minimalDate = input<Date|null, Date|string|null|undefined>(null, {
+    transform: (value) => (typeof value === 'string' ? new Date(value) : value ?? null),
+  });
 
-  @Input() showClearButton = false;
+  readonly inputClassNames = input('', { transform: stringAttribute('') });
 
-  @Input() placeholder = '';
+  readonly inDialog = input(undefined, { transform: optionalStringAttribute() });
 
-  @Input() minimalDate:Date|null = null;
+  readonly inputAttrs = input<Record<string, string>, Record<string, string>|string|null|undefined>({}, { transform: jsonAttribute({}) });
 
-  @Input() inputClassNames = '';
+  readonly currentValue = linkedSignal(() => this.value(), {
+    equal: (a, b) => this.resolveDateArrayToString(a) === this.resolveDateArrayToString(b),
+  });
 
-  @Input() inDialog:string;
-
-  @Input() dataAction = '';
-
-  @Input() set inputAttrs(attrs:Record<string, string> | null) {
-    this._inputAttrs = attrs ?? {};
-    this.applyInputAttrs();
-  }
-
-  private _inputAttrs:Record<string, string> = {};
+  readonly stringValue = computed(() => this.resolveDateArrayToString(this.currentValue()));
 
   @ViewChild('input') input:ElementRef<HTMLInputElement>;
-
-  stringValue = '';
 
   datePickerInstance:DatePicker;
 
@@ -141,7 +167,7 @@ export class OpBasicRangeDatePickerComponent implements OnInit, ControlValueAcce
   };
 
   constructor() {
-    populateInputsFromDataset(this);
+    afterRenderEffect(() => this.applyInputAttrs(this.inputAttrs()));
     this.commitWhenSettled(this.desktopDates, this.settledDesktopDates);
     this.commitWhenSettled(this.mobileDraft, this.settledMobileDraft);
   }
@@ -154,18 +180,17 @@ export class OpBasicRangeDatePickerComponent implements OnInit, ControlValueAcce
     if (!this.mobile) {
       this.initializeDatePicker();
     }
-    this.applyInputAttrs();
   }
 
-  private applyInputAttrs():void {
+  private applyInputAttrs(attrs:Record<string, string>):void {
     const el = this.input?.nativeElement
-      ?? this.elementRef.nativeElement.querySelector<HTMLInputElement>(`input[id="${CSS.escape(this.id)}"]`);
+      ?? this.elementRef.nativeElement.querySelector<HTMLInputElement>(`input[id="${CSS.escape(this.inputId())}"]`);
     if (el) {
-      Object.entries(this._inputAttrs).forEach(([key, val]) => el.setAttribute(key, val));
+      Object.entries(attrs).forEach(([key, val]) => el.setAttribute(key, val));
     }
   }
 
-  private readonly desktopDates = signal<string[]|null>(null);
+  private readonly desktopDates = linkedSignal<string[], string[]|null>({ source: this.currentValue, computation: () => null });
 
   private readonly settledDesktopDates = debounced(this.desktopDates, 16);
 
@@ -173,12 +198,13 @@ export class OpBasicRangeDatePickerComponent implements OnInit, ControlValueAcce
     this.desktopDates.set(this.resolveDateStringToArray(value));
   }
 
-  private readonly mobileDraft = signal<string[]|null>(null);
+  private readonly mobileDraft = linkedSignal<string[], string[]|null>({ source: this.currentValue, computation: () => null });
 
   private readonly settledMobileDraft = debounced(this.mobileDraft, 16);
 
   changeMobileDateFromInput(index:0|1, date:string):void {
-    const draft = [...(this.mobileDraft() ?? [this.value[0] || '', this.value[1] || ''])];
+    const current = this.currentValue();
+    const draft = [...(this.mobileDraft() ?? [current[0] || '', current[1] || ''])];
     draft[index] = date;
     this.mobileDraft.set(draft);
   }
@@ -202,7 +228,7 @@ export class OpBasicRangeDatePickerComponent implements OnInit, ControlValueAcce
 
     this.onChange(newDates);
     this.onTouched(newDates);
-    this.assignValue(newDates);
+    this.currentValue.set(newDates);
     this.cdRef.detectChanges();
 
     if (newDates.find((el) => !validDate(el))) {
@@ -232,16 +258,11 @@ export class OpBasicRangeDatePickerComponent implements OnInit, ControlValueAcce
     this.mobileDraft.set(null);
   }
 
-  private assignValue(dates:string[]):void {
-    this._value = dates;
-    this.stringValue = this.resolveDateArrayToString(dates);
-  }
-
   private initializeDatePicker() {
     this.datePickerInstance = new DatePicker(
       this.injector,
-      this.id,
-      this.value || '',
+      this.inputId(),
+      this.currentValue(),
       {
         allowInput: true,
         mode: 'range',
@@ -264,11 +285,12 @@ export class OpBasicRangeDatePickerComponent implements OnInit, ControlValueAcce
         },
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onDayCreate: async (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
+          const minimalDate = this.minimalDate();
           onDayCreate(
             dayElem,
             true,
             await this.datePickerInstance?.isNonWorkingDay(dayElem.dateObj),
-            !!this.minimalDate && dayElem.dateObj <= this.minimalDate,
+            !!minimalDate && dayElem.dateObj <= minimalDate,
           );
         },
         static: false,
@@ -278,8 +300,8 @@ export class OpBasicRangeDatePickerComponent implements OnInit, ControlValueAcce
     );
   }
 
-  writeValue(value:string[]):void {
-    this.value = value;
+  writeValue(value:string[]|null):void {
+    this.currentValue.set(value ?? []);
   }
 
   // No-ops until the ControlValueAccessor registers the real callbacks below.
@@ -312,7 +334,7 @@ export class OpBasicRangeDatePickerComponent implements OnInit, ControlValueAcce
   // so clicking on it would be considered a click on the backdrop which removes an item from
   // the top layer again.
   public sentCalendarToTopLayer() {
-    if (!this.datePickerInstance.isOpen || !this.inDialog) {
+    if (!this.datePickerInstance.isOpen || !this.inDialog()) {
       return;
     }
 
@@ -323,8 +345,9 @@ export class OpBasicRangeDatePickerComponent implements OnInit, ControlValueAcce
   }
 
   private appendToBodyOrDialog():HTMLElement|undefined {
-    if (this.inDialog) {
-      return document.getElementById(this.inDialog)!;
+    const inDialog = this.inDialog();
+    if (inDialog) {
+      return document.getElementById(inDialog)!;
     }
 
     return undefined;

@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import moment from 'moment';
 import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-field.component';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
@@ -37,13 +37,12 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
       (keydown.enter)="handler.handleUserSubmit()"
       (picked)="handler.handleUserSubmit()"
       class="inline-edit--field"
-      [id]="handler.htmlId"
+      [inputId]="handler.htmlId"
       [required]="required"
       [disabled]="inFlight"
       [opAutofocus]="autofocus"
      />
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
 export class DateEditFieldComponent extends EditFieldComponent implements OnInit {

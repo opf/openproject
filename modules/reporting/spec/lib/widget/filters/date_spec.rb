@@ -53,4 +53,15 @@ RSpec.describe Widget::Filters::Date, type: :component do
   it "renders date picker" do
     expect(rendered_component).to have_element "opce-basic-single-date-picker"
   end
+
+  it "passes the id, name and value of both date pickers as plain attributes" do
+    expect(rendered_component).to have_element "opce-basic-single-date-picker",
+                                               "input-id": "due_date_arg_1_val",
+                                               name: "values[due_date][]",
+                                               value: ""
+    expect(rendered_component).to have_element "opce-basic-single-date-picker",
+                                               "input-id": "due_date_arg_2_val",
+                                               name: "values[due_date][]",
+                                               value: ""
+  end
 end
