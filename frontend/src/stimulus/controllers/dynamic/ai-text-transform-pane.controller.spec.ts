@@ -130,6 +130,14 @@ describe('AiTextTransformPaneController', () => {
       expect(rect().bottom).toBe(window.innerHeight - 8);
     });
 
+    it('keeps the whole of a pane shorter than the minimum height inside the viewport', () => {
+      pane().style.height = '150px';
+      dragBy(byTestId('header'), 0, 5000);
+
+      expect(rect().height).toBe(150);
+      expect(rect().bottom).toBe(window.innerHeight - 8);
+    });
+
     it('keeps the pane below the top bar', () => {
       ctx.container.insertAdjacentHTML(
         'afterbegin',
@@ -277,6 +285,73 @@ describe('AiTextTransformPaneController', () => {
       expect(rect().left).toBe(8);
       expect(rect().right).toBe(window.innerWidth - 8);
       expect(rect().bottom).toBe(window.innerHeight - 8);
+    });
+
+    describe('when the result grows a pinned pane', () => {
+      function growResult():HTMLElement {
+        Object.assign(pane().style, { height: '', display: 'flex', flexDirection: 'column' });
+        pane().insertAdjacentHTML(
+          'beforeend',
+          `<div style="flex: 1; overflow: auto;"><div style="height: ${window.innerHeight * 2}px;"></div></div>
+           <button type="button">Replace</button>`,
+        );
+        return ctx.screen.getByRole('button', { name: 'Replace' });
+      }
+
+      function dragHalfwayDown():number {
+        dragBy(byTestId('header'), 0, window.innerHeight / 2);
+        return rect().top;
+      }
+
+      it('keeps the pane at its place and inside the window with its footer visible', () => {
+        const top = dragHalfwayDown();
+        const replace = growResult();
+
+        expect(rect().top).toBe(top);
+        expect(rect().bottom).toBe(window.innerHeight - 8);
+        expect(replace.getBoundingClientRect().bottom).toBeLessThanOrEqual(window.innerHeight - 8);
+      });
+
+      it('lets the pane grow again when it is dragged up', () => {
+        dragHalfwayDown();
+        growResult();
+        dragBy(byTestId('header'), 0, -window.innerHeight);
+
+        expect(rect().top).toBe(8);
+        expect(rect().bottom).toBe(window.innerHeight - 8);
+      });
+
+      it('can be dragged back down after it grew from being dragged up', () => {
+        const top = dragHalfwayDown();
+        growResult();
+        dragBy(byTestId('header'), 0, -50);
+        dragBy(byTestId('header'), 0, 50);
+
+        expect(rect().top).toBe(top);
+        expect(rect().bottom).toBe(window.innerHeight - 8);
+      });
+
+      it('keeps the next pane at the remembered place and inside the window', async () => {
+        const top = dragHalfwayDown();
+        wrapper()!.remove();
+        await ctx.mount(HTML);
+        const replace = growResult();
+
+        expect(rect().top).toBe(top);
+        expect(rect().bottom).toBe(window.innerHeight - 8);
+        expect(replace.getBoundingClientRect().bottom).toBeLessThanOrEqual(window.innerHeight - 8);
+      });
+
+      it('moves the next pane up when too little room is left below the remembered place', async () => {
+        dragHalfwayDown();
+        pane().style.top = `${window.innerHeight - 100}px`;
+        wrapper()!.remove();
+        await ctx.mount(HTML);
+        growResult();
+
+        expect(rect().top).toBe(window.innerHeight - 240 - 8);
+        expect(rect().bottom).toBe(window.innerHeight - 8);
+      });
     });
   });
 
