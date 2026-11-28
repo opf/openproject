@@ -41,10 +41,15 @@ module PaginationHelper
   def paginate_scope(scope)
     page = page_param
     limit = per_page_param || DEFAULT_PER_PAGE
-    raise ActiveRecord::RecordNotFound if (page - 1) * limit > Pagy::Offset::MAX_OFFSET
+    checked_page_offset(page, limit)
 
     pagination, records = pagy(:offset, scope, page:, limit:)
     [pagination, pagination.in.zero? ? scope.none : records.load]
+  end
+
+  def page_scope_without_count(scope)
+    limit = per_page_param || DEFAULT_PER_PAGE
+    scope.offset(checked_page_offset(page_param, limit)).limit(limit)
   end
 
   def pagination_links_full(paginator, **)
@@ -133,6 +138,13 @@ module PaginationHelper
   end
 
   private
+
+  def checked_page_offset(page, limit)
+    offset = (page - 1) * limit
+    raise ActiveRecord::RecordNotFound if offset > Pagy::Offset::MAX_OFFSET
+
+    offset
+  end
 
   def pagination_controls(page, pages, limit, params: {}, allowed_params: nil, per_page_links: true, **)
     content_tag(:div, class: ["op-pagination", { "op-pagination--single-page": pages <= 1 }]) do

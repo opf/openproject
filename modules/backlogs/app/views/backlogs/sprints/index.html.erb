@@ -52,6 +52,7 @@ See COPYRIGHT and LICENSE files for more details.
     <%=
       render Backlogs::Sprints::TableComponent.new(
         rows: @sprints,
+        pagination: @pagination,
         project: @project,
         work_package_counts: @work_package_counts,
         test_selector: "all-sprints-table"

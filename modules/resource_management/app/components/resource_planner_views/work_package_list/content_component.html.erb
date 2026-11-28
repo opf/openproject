@@ -37,6 +37,7 @@ See COPYRIGHT and LICENSE files for more details.
   <%
     table = ResourcePlannerViews::WorkPackageList::TableComponent.new(
       rows: work_packages,
+      pagination: @pagination,
       view: @view,
       project: @project,
       resource_planner: @resource_planner,

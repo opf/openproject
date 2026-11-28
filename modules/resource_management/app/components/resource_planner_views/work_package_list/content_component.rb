@@ -31,12 +31,14 @@ module ResourcePlannerViews::WorkPackageList
   class ContentComponent < ApplicationComponent
     include ResourcePlannerViews::ReloadableFrame
 
-    def initialize(view:, project:, resource_planner:, work_packages: [], allocations: {}, visible_principal_ids: nil)
+    def initialize(view:, project:, resource_planner:, work_packages: [], pagination: nil, allocations: {},
+                   visible_principal_ids: nil)
       super
 
       @view = view
       @project = project
       @resource_planner = resource_planner
+      @pagination = pagination
       @work_packages = work_packages
       @allocations = allocations
       @visible_principal_ids = visible_principal_ids

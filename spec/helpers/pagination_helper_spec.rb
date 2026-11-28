@@ -250,6 +250,25 @@ RSpec.describe PaginationHelper do
     end
   end
 
+  describe "#page_scope_without_count" do
+    it "fetches a numbered slice with a single query" do
+      allow(helper).to receive_messages(page_param: 2, per_page_param: 3)
+      scope = Project.order(:id)
+
+      slice = nil
+      expect { slice = helper.page_scope_without_count(scope).load }.to have_a_query_limit(1)
+
+      expect(slice.offset_value).to eq(3)
+      expect(slice.limit_value).to eq(3)
+    end
+
+    it "rejects an offset beyond the database limit" do
+      allow(helper).to receive_messages(page_param: 2**64, per_page_param: 2)
+
+      expect { helper.page_scope_without_count(Project.all) }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+  end
+
   describe "#page_param" do
     it "returns page if provided and sensible" do
       page = 2

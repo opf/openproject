@@ -30,6 +30,40 @@
 require_relative "../spec_helper"
 
 RSpec.describe BudgetsController do
+  describe "#index", with_settings: { per_page_options: "1" } do
+    render_views
+
+    let(:project) { create(:project, enabled_module_names: %i[budgets work_package_tracking]) }
+    let(:user) { create(:user, member_with_permissions: { project => [:view_budgets] }) }
+    let!(:older) { create(:budget, project:, author: user) }
+    let!(:newer) { create(:budget, project:, author: user) }
+
+    before { login_as(user) }
+
+    it "renders the older budget and the range on page two" do
+      get :index, params: { project_id: project.identifier, page: 2 }
+
+      expect(response.body).to have_text(older.subject)
+      expect(response.body).to have_no_text(newer.subject)
+      expect(response.body).to have_css(".op-pagination--range", text: "(2 - 2/2)")
+    end
+
+    it "links a stale page back to the last budget page" do
+      get :index, params: { project_id: project.identifier, page: 3 }
+
+      expect(response.body).to have_link("Previous", href: projects_budgets_path(project, page: 2))
+      expect(response.body).to have_no_css(".op-pagination--range")
+    end
+
+    it "exports the same page as CSV" do
+      get :index, params: { project_id: project.identifier, page: 2 }, format: :csv
+
+      expect(response.media_type).to start_with("text/csv")
+      expect(response.body).to include(older.subject)
+      expect(response.body).not_to include(newer.subject)
+    end
+  end
+
   describe "#destroy_info" do
     let(:project) { create(:project_with_types, enabled_module_names: %i[budgets work_package_tracking]) }
     let(:user) { create(:user, member_with_permissions: { project => %i[view_budgets edit_budgets] }) }

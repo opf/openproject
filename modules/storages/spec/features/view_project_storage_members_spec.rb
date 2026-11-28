@@ -90,6 +90,19 @@ RSpec.describe "Project storage members connection status view", :js do
       end
     end
 
+    it "keeps the storage and project when paging through visible users", with_settings: { per_page_options: "1" } do
+      login_as user
+      path = project_settings_project_storage_members_path(project, project_storage_id: project_storage.id)
+      visit path
+
+      first_member = page.find("tbody tr.member")[:id]
+      within(".op-pagination") { click_link "Next" }
+
+      expect(page).to have_current_path("#{path}?page=2")
+      expect(page).to have_css(".op-pagination--range", text: /2 - 2/)
+      expect(page.find("tbody tr.member")[:id]).not_to eq(first_member)
+    end
+
     it "lists project members connection statuses" do
       login_as user
 

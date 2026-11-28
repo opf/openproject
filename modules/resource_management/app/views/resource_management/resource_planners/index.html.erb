@@ -40,8 +40,8 @@ See COPYRIGHT and LICENSE files for more details.
 %>
   <%= render(ResourcePlanners::IndexSubHeaderComponent.new(project: @project)) %>
 
-  <% if @resource_planners.any? %>
-    <%= render(ResourcePlanners::TableComponent.new(rows: @resource_planners, current_project: @project)) %>
+  <% if @pagination.count.positive? %>
+    <%= render(ResourcePlanners::TableComponent.new(rows: @resource_planners, pagination: @pagination, current_project: @project)) %>
   <% else %>
     <% blank_description = @project ? "resource_management.blankslate.desc" : "resource_management.blankslate.global_desc" %>
     <%= render(Primer::Beta::Blankslate.new) do |blankslate|

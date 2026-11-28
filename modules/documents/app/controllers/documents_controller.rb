@@ -42,14 +42,14 @@ class DocumentsController < ApplicationController
   before_action :authorize
 
   def index
-    @documents = list_documents_query
-      .includes(:type)
-      .paginate(page: page_param, per_page: per_page_param)
+    @pagination, @documents = paginate_scope(list_documents_query.includes(:type))
   end
 
   def search
     index
-    replace_via_turbo_stream component: Documents::TableComponent.new(rows: @documents, project: @project)
+    replace_via_turbo_stream(
+      component: Documents::TableComponent.new(rows: @documents, pagination: @pagination, project: @project)
+    )
     current_url = url_for(params.permit(:controller, :filters, :sortBy).merge(action: "index"))
     turbo_streams << turbo_stream.push_state(current_url)
 
@@ -215,7 +215,7 @@ class DocumentsController < ApplicationController
     redirect_to document_path(call.result, state: :edit)
   end
 
-  def setup_collaboration_context # rubocop:disable Metrics/AbcSize
+  def setup_collaboration_context
     return unless current_user.allowed_in_project?(:view_documents, @project)
 
     token_result = Documents::OAuth::TokenWithMetadataService

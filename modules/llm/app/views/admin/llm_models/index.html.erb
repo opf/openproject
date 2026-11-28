@@ -57,4 +57,4 @@ See COPYRIGHT and LICENSE files for more details.
 <%= render(LlmConnections::DefaultModelsComponent.new(@connection)) %>
 
 <%= render(LlmConnections::Models::SubHeaderComponent.new(@query)) %>
-<%= render(LlmConnections::ModelsTableComponent.new(rows: @models, connection: @connection)) %>
+<%= render(LlmConnections::ModelsTableComponent.new(rows: @models, pagination: @pagination, connection: @connection)) %>

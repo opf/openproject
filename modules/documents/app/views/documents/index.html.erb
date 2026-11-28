@@ -38,6 +38,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render(Documents::SubHeaderComponent.new(query: @query, project: @project)) %>
 
-<%= render(Documents::TableComponent.new(rows: @documents, project: @project)) %>
+<%= render(Documents::TableComponent.new(rows: @documents, pagination: @pagination, project: @project)) %>
 
 <% html_title(t(:label_document_plural)) %>

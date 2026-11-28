@@ -65,13 +65,15 @@ class BudgetsController < ApplicationController
     sort_init "id", "desc"
     sort_update default_budget_sort
 
-    @budgets = visible_sorted_budgets
-
     respond_to do |format|
       format.html do
+        @pagination, @budgets = paginate_scope(visible_sorted_budgets)
         render action: "index", layout: !request.xhr?
       end
-      format.csv { send_data(budgets_to_csv(@budgets), type: "text/csv; header=present", filename: "export.csv") }
+      format.csv do
+        budgets = page_scope_without_count(visible_sorted_budgets)
+        send_data(budgets_to_csv(budgets), type: "text/csv; header=present", filename: "export.csv")
+      end
     end
   end
 
@@ -262,8 +264,6 @@ class BudgetsController < ApplicationController
       .order(sort_clause)
       .includes(:author)
       .where(project_id: @project.id)
-      .page(page_param)
-      .per_page(per_page_param)
   end
 
   def check_if_workpackages_need_reassignment
