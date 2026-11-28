@@ -4,16 +4,16 @@ fr:
   avatar_deleted: L'avatar a bien été supprimé.
   avatars:
     background_color_hint: Laissez ce champ vide pour que la couleur soit choisie automatiquement.
-    delete_image: Supprimer l’image
+    delete_image: Supprimer l'image
     edit_avatar: Modifier l'avatar
-    image_hint: Choisissez un fichier JPG, PNG ou GIF. Votre image est enregistrée lorsque vous cliquez sur « Enregistrer ».
-    image_required: Choisissez une image ou sélectionnez un autre avatar.
+    image_hint: Choisissez un fichier JPG, PNG ou GIF. Votre image est enregistrée lorsque vous cliquez sur « Enregistrer ».
+    image_required: Choisissez une image ou sélectionnez une autre option d'avatar.
     label_avatar_text: Texte de l'avatar
-    label_background_color: Arrière-plan
+    label_background_color: Couleur d'arrière-plan
     label_gravatar: Gravatar
     label_local_avatar: Avatar personnalisé
-    label_option: Options de l'avatar
-    manage_gravatar: Gérez votre photo de profil sur Gravatar
+    label_option: Option d'avatar
+    manage_gravatar: Gérez votre image sur Gravatar
     message_avatar_updated: L'avatar a bien été changé.
     preview: Aperçu
     randomize_color: Choisir une couleur au hasard
@@ -29,12 +29,12 @@ fr:
         description: L'image associée à votre adresse e-mail sur Gravatar
         label: Gravatar
       image:
-        description: Une image personnalisée que vous pouvez télécharger sur cette instance
+        description: Une image personnalisée que vous pouvez téléverser sur cette instance
         label: Image
       initials:
         description: Utilisez les initiales de votre nom ou remplacez-les par deux caractères au maximum.
         label: Initiales
-  empty_file_error: Veuillez importer une image valide (JPG, PNG, GIF)
+  empty_file_error: Veuillez téléverser une image valide (JPG, PNG, GIF)
   error_image_size: L'image est trop grande.
   error_image_upload: Erreur lors de la sauvegarde de l'image.
   label_avatar: Avatar
@@ -43,7 +43,7 @@ fr:
   label_current_avatar: Avatar actuel
   message_avatar_uploaded: L'avatar a bien été changé.
   plugin_openproject_avatars:
-    description: Ce plugin permet aux utilisateurs d'OpenProject de téléverser une image à utiliser comme avatar ou d'utiliser des images enregistrées dans Gravatar.
+    description: Ce plugin permet aux utilisateurs d'OpenProject de téléverser une image qui servira d'avatar ou d'utiliser des images enregistrées dans Gravatar.
     name: Avatars
   unable_to_delete_avatar: L'avatar n'a pas pu être supprimé.
   wrong_file_format: Les formats autorisés sont JPG, PNG et GIF

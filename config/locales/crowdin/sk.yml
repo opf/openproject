@@ -958,6 +958,7 @@ sk:
           must_not_point_to_openproject_directory: must not point to an OpenProject-managed repository directory.
           no_directory: nie je adresár.
           not_available: SCM dodávateľ nie je k dispozícii
+          not_in_allowed_local_paths: is not inside a directory that is allowed for local repositories.
           not_whitelisted: nie je povolené aktuálnou konfiguráciou.
         role:
           attributes:

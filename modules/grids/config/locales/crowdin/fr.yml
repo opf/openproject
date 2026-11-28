@@ -27,12 +27,12 @@ fr:
       empty: Ce widget est actuellement vide.
       members:
         no_results: Aucun membre visible.
-        show_members_count: Afficher les %{count} membres
+        show_members_count: Afficher les %{count} membres
         title: Membres
         view_all_members: Afficher tous les membres
         x_more:
-          one: et %{count} un nouveau membre.
-          other: et %{count} d'autres membres.
+          one: et %{count} membre supplémentaire.
+          other: et %{count} membres supplémentaires.
       news:
         no_results: Rien de nouveau à signaler.
       not_available: Ce widget n'est pas disponible.

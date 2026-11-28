@@ -27,12 +27,12 @@ fr:
         edit_query: Modifier la requête
       work_packages_settings:
         warning_progress_calculation_mode_change_from_field_to_status_html: Passer du mode de calcul de la progression basé sur le travail au mode basé sur le statut entraînera la perte de toutes les valeurs de <i>% réalisé</i> existantes et leur remplacement par les valeurs associées à chaque statut. Les valeurs existantes pour <i>Travail restant</i> peuvent également être recalculées pour refléter ce changement. Cette action est irréversible.
-        warning_progress_calculation_mode_change_from_status_to_field_html: Passer du mode de calcul de la progression basé sur le statut au mode basé sur le travail rendra le champ <i>% réalisé</i> librement modifiable. Si vous renseignez éventuellement une valeur pour <i>Travail</i> ou <i>Travail restant</i>, celle-ci sera également liée au <i>% réalisé</i>. La modification du <i>Travail restant</i> pourra alors mettre à jour le <i>% réalisé</i>.
+        warning_progress_calculation_mode_change_from_status_to_field_html: Passer du mode de calcul de la progression basé sur le statut au mode basé sur le travail rendra le champ <i>% réalisé</i> librement modifiable. Si vous renseignez éventuellement une valeur pour <i>Travail</i> ou <i>Travail restant</i>, celle-ci sera également liée au <i>% réalisé</i>. La modification du <i>Travail restant</i> pourra alors mettre à jour le <i>% réalisé</i>.
       working_days:
         add_non_working_day: Jour non travaillé
         already_added_error: Un jour non travaillé pour cette date existe déjà. Il ne peut y avoir qu'un seul jour non travaillé créé pour chaque date unique.
         calendar:
-          empty_state_description: Aucun jour de travail spécifique n'est défini pour cette année. Cliquez sur « + jour non travaillé » ci-dessous pour ajouter une date.
+          empty_state_description: Aucun jour de travail spécifique n'est défini pour cette année. Cliquez sur « + jour non travaillé » ci-dessous pour ajouter une date.
           empty_state_header: Jours non travaillés
           new_date: "(nouveau)"
     ajax:
@@ -41,7 +41,7 @@ fr:
       updating: Mise à jour...
     attachments:
       delete: Supprimer la pièce jointe
-      delete_confirmation: 'Voulez-vous vraiment supprimer ce fichier ? Cette action est irréversible.
+      delete_confirmation: 'Voulez-vous vraiment supprimer ce fichier ? Cette action est irréversible.
 
         '
       draggable_hint: 'Faites glisser le champ de l''éditeur pour incorporer une image ou une pièce jointe de référence. Les champs fermés de l''éditeur seront ouverts tant que vous continuer à faire glisser.
@@ -63,7 +63,7 @@ fr:
         single: Sélectionner «%{name} »
       remove: Supprimer %{name}
     autocompleter:
-      create_label: Créer un label
+      create_label: Créer une étiquette
       notFoundText: Aucun élément trouvé
       placeholder: Saisir pour rechercher
       project:
@@ -105,14 +105,14 @@ fr:
       legends:
         changes_between: Modifications entre
         changes_since: Modifications depuis le
-        in_your_timezone: 'Dans votre fuseau horaire local :'
+        in_your_timezone: 'Dans votre fuseau horaire local :'
         maintained_with_changes: Maintenu avec les modifications
         no_longer_meets_filter_criteria: Ne répond plus aux critères de filtrage
         now_meets_filter_criteria: Répond désormais aux critères de filtrage
         state_at: State at
       show_changes_since: Afficher les modifications depuis
       time: Heure 
-      time_description: 'Dans votre fuseau horaire : %{datetime}'
+      time_description: 'Dans votre fuseau horaire : %{datetime}'
       to: À
       toggle_title: Référence
     breadcrumb: Fil d'Ariane
@@ -151,7 +151,7 @@ fr:
     button_log_time: Consigner du temps
     button_more: Plus
     button_more_actions: Plus d'actions
-    button_move_to_position: Déplacer vers la position
+    button_move_to_position: Déplacer à la position
     button_open_details: Ouvrir la vue détaillée
     button_open_fullscreen: Ouvrir l'affichage plein écran
     button_quote: Citer
@@ -197,7 +197,7 @@ fr:
         polar_area: Aire polaire
         radar: Radar
     clipboard:
-      browser_error: 'Votre navigateur ne prend pas en charge la copie dans le presse-papiers. Veuillez effectuer la copie manuellement : %{content}'
+      browser_error: 'Votre navigateur ne prend pas en charge la copie dans le presse-papiers. Veuillez effectuer la copie manuellement : %{content}'
       copied_successful: Copie réussie dans le presse-papiers !
     close_filter_title: Fermer le filtre
     close_form_title: Fermer le formulaire
@@ -280,7 +280,7 @@ fr:
       embedded_table_loading: 'La vue intégrée n''a pas pu être chargée : %{message}'
       internal: Une erreur interne s'est produite.
       query_saving: La vue n'a pas pu être enregistrée.
-    error_attachment_upload: 'Échec du téléversement du fichier : %{error}'
+    error_attachment_upload: 'Échec du téléversement du fichier : %{error}'
     error_attachment_upload_permission: Vous n'avez pas l'autorisation de téléverser des fichiers sur cette ressource.
     error_could_not_resolve_user_name: Impossible d'identifier l'utilisateur à partir de son nom
     error_could_not_resolve_version_name: Impossible de résoudre le nom de la version
@@ -354,7 +354,7 @@ fr:
       current_project: Dans ce projet
       current_project_and_all_descendants: Dans ce projet + sous-projets
       direct_hit_available: Lot de travaux avec ID exact trouvé. Appuyez sur Entrée pour l'ouvrir.
-      items_available: "%{count} éléments disponibles"
+      items_available: "%{count} éléments disponibles"
       recently_viewed: Consultés récemment
       search_by_meaning: Search by meaning
       search_mode: Search mode
@@ -377,11 +377,11 @@ fr:
       description: Vous pouvez utiliser l'URL (iCalendar) pour vous abonner à ce calendrier dans un client externe et afficher les informations mises à jour du lot de travaux à partir de là.
       ical_generation_error_text: An error occurred while generating the calendar URL.
       inital_setup_error_message: An error occurred while fetching data.
-      success_message: L'adresse URL « %{name} » a été copiée avec succès dans votre presse-papiers. Collez-la dans votre client de calendrier pour compléter l'abonnement.
+      success_message: L'adresse URL « %{name} » a été copiée avec succès dans votre presse-papiers. Collez-la dans votre client de calendrier pour compléter l'abonnement.
       title: S'abonner au calendrier
       token_name_description_text: Si vous vous abonnez à ce calendrier à partir de plusieurs appareils, ce nom vous permettra de les distinguer dans votre liste de <a href="%{myAccessTokensUrl}" target="_blank">jetons d'accès</a>.
-      token_name_label: Où comptez-vous l'utiliser ?
-      token_name_placeholder: Saisissez un nom, par exemple « Téléphone »
+      token_name_label: Où comptez-vous l'utiliser ?
+      token_name_placeholder: Saisissez un nom, par exemple « Téléphone »
       warning: Veillez à ne pas partager pas cette adresse URL avec d'autres utilisateurs. Quiconque disposant de ce lien sera en mesure de voir les détails du lot de travaux sans nécessité d'avoir un compte ou de saisir un mot de passe.
     include_projects:
       apply: Appliquer
@@ -397,7 +397,7 @@ fr:
       tooltip:
         current_project: Ceci est le projet dans lequel vous vous trouvez actuellement.
         does_not_match_search: Le projet ne correspond pas aux critères de recherche.
-        include_all_selected: Projet déjà inclus, car l'option « Inclure tous les sous-projets » est activée.
+        include_all_selected: Projet déjà inclus, car l'option « Inclure tous les sous-projets » est activée.
     include_workspaces:
       types:
         portfolio: Portefeuille
@@ -572,8 +572,8 @@ fr:
     label_reset: Réinitialiser
     label_resize_project_menu: Redimensionner le menu du projet
     label_save_as: Enregistrer sous
-    label_scroll_left: Défilement vers la gauche
-    label_scroll_right: Défilement vers la droite
+    label_scroll_left: Faire défiler vers la gauche
+    label_scroll_right: Faire défiler vers la droite
     label_search_columns: Rechercher une colonne
     label_select_watcher: Sélectionner un observateur...
     label_selected_filter_list: Filtres sélectionnés
@@ -581,9 +581,9 @@ fr:
     label_show_in_menu: Afficher la vue dans le menu
     label_sort_by: Trier par
     label_sort_higher: Déplacer vers le haut
-    label_sort_highest: Déplacer vers le haut
+    label_sort_highest: Déplacer en haut
     label_sort_lower: Déplacer vers le bas
-    label_sort_lowest: Déplacer vers le bas
+    label_sort_lowest: Déplacer en bas
     label_sorted_by: trié par
     label_sorting: Tri
     label_spent_time: Temps passé
@@ -632,7 +632,7 @@ fr:
       button_save: Enregistrer
       button_submit: Envoyer
       destroy_time_entry:
-        text: Voulez-vous vraiment supprimer la saisie de temps suivante ?
+        text: Voulez-vous vraiment supprimer la saisie de temps suivante ?
         title: Confirmer la suppression de la saisie de temps
       form_submit:
         text: Voulez-vous vraiment effectuer cette action ?
@@ -668,7 +668,7 @@ fr:
           at_all: Les nouvelles notifications apparaîtront ici lorsqu'il y a une activité qui vous concerne.
           with_current_filter: Il n'y a pas de notifications dans cette vue pour le moment
         text_update_date_by: "%{date} par"
-        total_count_warning: Affichage des %{newest_count} notifications les plus récentes. %{more_count} autres ne sont pas affichées.
+        total_count_warning: Affichage des %{newest_count} notifications les plus récentes. %{more_count} autres ne sont pas affichées.
       date_alerts:
         milestone_date: Date jalon
         overdue: En retard
@@ -745,7 +745,7 @@ fr:
       per_page_navigation: Sélection des éléments par page
     placeholders:
       default: "-"
-      description: 'Description : Cliquez pour modifier...'
+      description: 'Description : Cliquez pour modifier...'
       description_double_click: 'Description: Double click to edit...'
       relation_description: Cliquez pour ajouter une description à cette relation
       selection: Veuillez sélectionner
@@ -753,7 +753,7 @@ fr:
     project:
       autocompleter:
         label: Complétion automatique du projet
-      click_to_switch_to_project: 'Projet : %{projectname}'
+      click_to_switch_to_project: 'Projet : %{projectname}'
       context: Contexte du projet
       not_available: Projet N/D
       required_outside_context: 'Veuillez choisir le projet dans lequel créer le lot de travaux afin d''afficher tous les attributs. Vous ne pouvez sélectionner que les projets dans lesquels le type ci-dessus est activé.
@@ -835,7 +835,7 @@ fr:
       sorting_disabled: le tri est désactivé
     sortable_lists:
       announcements:
-        batch_too_large: Impossible de déplacer %{count} éléments à la fois. Sélectionnez-en au maximum %{max}.
+        batch_too_large: Impossible de déplacer %{count} éléments à la fois. Sélectionnez-en au maximum %{max}.
         fallback_item_label: Élément
         fallback_list_name: une autre liste
         menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
@@ -844,12 +844,12 @@ fr:
           other: Échec du déplacement. Vérifiez les positions actuelles des éléments.
         move_failed_rolled_back: Le déplacement a échoué. %{label} est revenu à sa position précédente.
         move_failed_rolled_back_batch:
-          other: Échec du déplacement. %{count} éléments ont retrouvé leurs positions précédentes.
+          other: Échec du déplacement. %{count} éléments ont retrouvé leurs positions précédentes.
         moved: "%{label} a été déplacé à la position %{position} sur %{total}"
         moved_batch:
-          other: "%{count} éléments déplacés aux positions %{first} à %{last} sur %{total}"
+          other: "%{count} éléments déplacés aux positions %{first} à %{last} sur %{total}"
         moved_batch_to_list:
-          other: "%{count} éléments déplacés vers %{list}, aux positions %{first} à %{last} sur %{total}"
+          other: "%{count} éléments déplacés vers %{list}, aux positions %{first} à %{last} sur %{total}"
         moved_to_list: "%{label} a été déplacé vers %{list}, à la position %{position} sur %{total}"
       selection:
         cleared: Sélection effacée.
@@ -868,11 +868,11 @@ fr:
         focus_grab: Il s'agit d'une ancre de mise au point pour les fenêtres modales. Appuyez sur Maj+Tab pour revenir à l'élément de déclenchement modal.
       filter_chip:
         remove: Retirer
-    text_are_you_sure: Confirmez-vous ?
-    text_are_you_sure_to_cancel: Vous avez des modifications non enregistrées sur cette page. Voulez-vous vraiment les supprimer ?
+    text_are_you_sure: Confirmez-vous ?
+    text_are_you_sure_to_cancel: Vous avez des modifications non enregistrées sur cette page. Voulez-vous vraiment les supprimer ?
     text_data_lost: Toutes les données saisies seront perdues.
     text_query_destroy_confirmation: Voulez-vous vraiment supprimer la vue sélectionnée ?
-    text_user_wrote: "%{value} a écrit :"
+    text_user_wrote: "%{value} a écrit :"
     text_work_packages_destroy_confirmation: Voulez-vous vraiment supprimer le(s) lot(s) de travaux sélectionné(s) ?
     time_entry:
       title: Consigner du temps
@@ -880,8 +880,8 @@ fr:
     timer:
       button_stop: Arrêter le suivi du temps actuel
       start_new_timer: Démarrer un nouveau suivi du temps
-      timer_already_running: 'Pour démarrer un nouveau suivi du temps, vous devez d''abord arrêter le suivi actuel :'
-      timer_already_stopped: Aucun suivi du temps n'est actif pour ce lot de travaux, l'avez-vous arrêté dans une autre fenêtre ?
+      timer_already_running: 'Pour démarrer un nouveau suivi du temps, vous devez d''abord arrêter le suivi actuel :'
+      timer_already_stopped: Aucun suivi du temps n'est actif pour ce lot de travaux, l'avez-vous arrêté dans une autre fenêtre ?
       tracking_time: Temps de suivi
     tl_toolbar:
       outlines: Niveau de hiérarchie
@@ -934,9 +934,9 @@ fr:
         other: "%{count} jours"
         zero: 0 jour
       hour:
-        one: "%{count} h"
-        other: "%{count} h"
-        zero: 0 h
+        one: "%{count} h"
+        other: "%{count} h"
+        zero: 0 h
       hour_string: "%{hours} h"
       word:
         one: "%{count} word"
@@ -960,9 +960,9 @@ fr:
     wiki_formatting:
       code: Code en ligne
       deleted: Barré
-      heading1: Titre 1
-      heading2: Titre 2
-      heading3: Titre 3
+      heading1: Titre 1
+      heading2: Titre 2
+      heading3: Titre 3
       image: Image
       italic: Italique
       ordered_list: Liste ordonnée
@@ -1015,7 +1015,7 @@ fr:
       description_options_show: Afficher les options
       duplicate:
         title: Dupliquer les lots de travaux
-      edit_attribute: "%{attribute} : Modifier"
+      edit_attribute: "%{attribute} : Modifier"
       faulty_query:
         description: Votre vue contient une erreur et n'a pas pu être traitée.
         title: Les lots de travaux n'ont pas pu être chargés.
@@ -1039,13 +1039,13 @@ fr:
         pagination: Passer à la pagination du tableau
       key_value: "%{key} : %{value}"
       label_collapse_expand_groups: Collapse or expand groups
-      label_column_multiselect: 'Champ de liste déroulante combinée : sélectionnez avec les touches fléchées, confirmez la sélection avec la touche Entrée et supprimez avec la touche Retour arrière'
+      label_column_multiselect: 'Champ de liste déroulante combinée : sélectionnez avec les touches fléchées, confirmez la sélection avec la touche Entrée et supprimez avec la touche Retour arrière'
       label_disable_multi_select: Désactiver la sélection multiple
       label_enable_multi_select: Activer la sélection multiple
       label_filter_add: Ajouter un filtre
       label_filter_by_text: Filtrer par texte
       label_options: Options
-      limited_results: Seuls %{count} lots de travaux peuvent être affichés en mode de tri manuel. Réduisez le nombre de résultats en appliquant des filtres ou passez au tri automatique.
+      limited_results: Seuls %{count} lots de travaux peuvent être affichés en mode de tri manuel. Réduisez le nombre de résultats en appliquant des filtres ou passez au tri automatique.
       message_error_during_bulk_delete: Une erreur s'est produite lors de la tentative de suppression des lots de travaux.
       message_successful_bulk_delete: Les lots de travaux ont été supprimés.
       message_successful_show_in_fullscreen: Cliquez ici pour ouvrir ce lot de travaux en affichage plein écran.
@@ -1100,7 +1100,7 @@ fr:
         add_columns: Ajouter des colonnes
         click_to_edit_query_name: Cliquez pour modifier le titre de cette vue.
         column_names: Colonnes
-        confirm_edit_cancel: Voulez-vous vraiment annuler la modification du nom de cette vue ? Le titre sera rétabli à sa valeur précédente.
+        confirm_edit_cancel: Voulez-vous vraiment annuler la modification du nom de cette vue ? Le titre sera rétabli à sa valeur précédente.
         display_sums: Afficher les totaux
         errors:
           duplicate_query_title: Ce nom de vue existe déjà. Continuer quand même ?
@@ -1109,11 +1109,11 @@ fr:
         filters: Filtres
         group_by: Grouper les résultats par
         group_by_column: Group by %{column}
-        group_by_disabled_by_hierarchy: L'option « Grouper par » est désactivée, car le mode hiérarchie est activé.
+        group_by_disabled_by_hierarchy: L'option « Grouper par » est désactivée, car le mode hiérarchie est activé.
         hierarchy_disabled_by_group_by: Le mode hiérarchie est désactivé, car les résultats sont groupés par %{column}.
         move_column_left: Déplacer la colonne vers la gauche
         move_column_right: Déplacer la colonne vers la droite
-        public_text: 'Publiez cette vue pour permettre aux autres utilisateurs d''y accéder. Les utilisateurs disposant de l''autorisation « Gérer les vues publiques » peuvent modifier ou supprimer une requête publique. Cela n''affecte pas la visibilité des résultats des lots de travaux dans cette vue et, selon leurs autorisations, les utilisateurs peuvent voir des résultats différents.
+        public_text: 'Publiez cette vue pour permettre aux autres utilisateurs d''y accéder. Les utilisateurs disposant de l''autorisation « Gérer les vues publiques » peuvent modifier ou supprimer une requête publique. Cela n''affecte pas la visibilité des résultats des lots de travaux dans cette vue et, selon leurs autorisations, les utilisateurs peuvent voir des résultats différents.
 
           '
         remove_column: Retirer la colonne
@@ -1127,7 +1127,7 @@ fr:
         presets:
           custom: À une date/heure particulière
           month: Dans un mois
-          three_days: Dans 3 jours
+          three_days: Dans 3 jours
           tomorrow: Demain
           week: Dans une semaine
         subtitle: Vous recevrez une notification pour ce lot de travaux au moment choisi.
@@ -1144,7 +1144,7 @@ fr:
         cleared: Sélection effacée.
         selected:
           one: "%{count} work package selected."
-          other: "%{count} lots de travaux sélectionnés."
+          other: "%{count} lots de travaux sélectionnés."
       sharing:
         show_all_users: Afficher tous les utilisateurs avec lesquels le lot de travaux a été partagé
         title: Partager le lot de travaux
@@ -1183,7 +1183,7 @@ fr:
         show_timeline_hint: Afficher un diagramme de Gantt interactif sur le côté droit du tableau. Vous pouvez modifier sa largeur en faisant glisser le séparateur entre le tableau et le diagramme de Gantt.
         sorting_mode:
           automatic: Automatique
-          description: 'Choisissez le mode de tri de vos lots de travaux :'
+          description: 'Choisissez le mode de tri de vos lots de travaux :'
           manually: Manuellement
           warning: Vous perdrez votre tri précédent lors de l'activation du mode de tri automatique.
       tabs:

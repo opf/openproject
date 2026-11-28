@@ -956,6 +956,7 @@ da:
           must_not_point_to_openproject_directory: må ikke pege på en repository-mappe, som OpenProject administrerer.
           no_directory: er ikke et katalog.
           not_available: SCM-leverandør utilgængelig
+          not_in_allowed_local_paths: is not inside a directory that is allowed for local repositories.
           not_whitelisted: tillades ikke af opsætningen.
         role:
           attributes:
@@ -2061,8 +2062,8 @@ da:
         heading: Vil du slette mærkaten?
         title: Vil du slette mærkaten?
         usage_description_html:
-          one: This will remove the label <strong>%{name}</strong> from %{count} work package that currently uses it. Are you sure you want to delete it?
-          other: This will remove the label <strong>%{name}</strong> from %{count} work packages that currently use it. Are you sure you want to delete it?
+          one: Mærkaten <strong>%{name}</strong> fjernes fra den %{count} arbejdspakke, der bruger den nu. Er du sikker på, at du vil slette den?
+          other: Mærkaten <strong>%{name}</strong> fjernes fra de %{count} arbejdspakker, der bruger den nu. Er du sikker på, at du vil slette den?
       dialog_component:
         create_title: Opret mærkat
         rename_title: Omdøb "%{name}"
@@ -3966,32 +3967,32 @@ da:
         '18_0':
           new_features_list:
             line_0:
-              description: Customize types with shared or project-specific workflows and forms.
+              description: Tilpas typer med fælles eller projektspecifikke arbejdsgange og formularer.
               title: Typevarianter
               url: https://www.openproject.org/docs/release-notes/18-0-0/#work-package-types-and-variants-workflows-and-forms
             line_1:
-              description: Track sprint progress (Community edition) and gain deeper insights with Created vs. Resolved and Epic progress charts (Professional plan).
-              title: Agile reporting
+              description: Følg sprintens fremdrift (Community-udgaven), og få dybere indsigt med diagrammerne Oprettede og løste arbejdspakker og Fremdrift for epics (Professional-planen).
+              title: Agil rapportering
               url: https://www.openproject.org/docs/release-notes/18-0-0/#agile-planning-and-reporting
             line_2:
-              description: Proofread, rewrite, and structure text directly in OpenProject (Professional plan).
-              title: AI Text Assistant
+              description: Korrekturlæs, omskriv og strukturér tekst direkte i OpenProject (Professional-planen).
+              title: AI-tekstassistent
               url: https://www.openproject.org/docs/release-notes/18-0-0/#ai-text-assistant-and-mcp-server
             line_3:
-              description: Organize and find related work packages more easily.
-              title: Work package labels
+              description: Organiser og find relaterede arbejdspakker lettere.
+              title: Mærkater på arbejdspakker
               url: https://www.openproject.org/docs/release-notes/18-0-0/#labels-for-work-packages
             line_4:
-              description: Plan resources across projects and with placeholder users and manage work package allocations and personal day planning (Premium plan).
-              title: Extended resource management
+              description: Planlæg ressourcer på tværs af projekter og med pladsholder-brugere, og administrer fordelinger af arbejdspakker og personlig dagsplanlægning (Premium-planen).
+              title: Udvidet ressourcestyring
               url: https://www.openproject.org/docs/release-notes/18-0-0/#resource-management-and-personal-planning
             line_5:
-              description: Benefit from improved keyboard navigation, screen reader support, and color contrast checking.
-              title: Enhanced accessibility
+              description: Få glæde af forbedret tastaturnavigation, understøttelse af skærmlæsere og tjek af farvekontrast.
+              title: Bedre tilgængelighed
               url: https://www.openproject.org/docs/release-notes/18-0-0/#accessibility
             line_6:
-              description: Connect external AI assistants to OpenProject.
-              title: MCP Server released to Community
+              description: Forbind eksterne AI-assistenter med OpenProject.
+              title: MCP-server frigivet til Community
               url: https://www.openproject.org/docs/release-notes/18-0-0/#ai-text-assistant-and-mcp-server
           new_features_title: 'Versionen indeholder en række nye funktioner og forbedringer, fx:
 
@@ -7150,7 +7151,7 @@ da:
       status_color_text: |
         Klik for at tildele eller ændre statussens farve.
         Den vises på statusknappen og kan bruges til at fremhæve arbejdspakker i tabellen.
-      status_default_text: New work packages are by default set to this status. They cannot be read-only.
+      status_default_text: Nye arbejdspakker får som standard denne status. Den kan ikke være skrivebeskyttet.
       status_excluded_from_totals_text: |-
         Markér feltet for at udelade arbejdspakker med denne status fra totalerne for Arbejde,
         Resterende arbejde og % færdigt i et hierarki.

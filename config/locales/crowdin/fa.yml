@@ -954,6 +954,7 @@ fa:
           must_not_point_to_openproject_directory: نباید به دایرکتوری مخزنی که توسط OpenProject مدیریت می‌شود اشاره کند.
           no_directory: دایرکتوری نیست.
           not_available: ارائه‌دهنده SCM در دسترس نیست
+          not_in_allowed_local_paths: is not inside a directory that is allowed for local repositories.
           not_whitelisted: طبق پیکربندی مجاز نیست.
         role:
           attributes:

@@ -238,13 +238,19 @@ fa:
         burndown_chart:
           blankslate:
             no_estimated_hours:
-              description: The burndown chart will appear here once the sprint has an open work package with work time estimate.
+              description: The burndown chart will appear here once the sprint contains open work packages with work time estimates.
               heading: No work to display
             no_story_points:
-              description: The burndown chart will appear here once the sprint has an open work package with estimated story points.
+              description: The burndown chart will appear here once the sprint contains open work packages with estimated story points.
               heading: No work to display
             not_started:
               description: The burndown chart will appear here after the sprint starts.
+              heading: No work to display
+            not_started_without_estimated_hours:
+              description: The burndown chart will appear here after the sprint starts, once the sprint contains open work packages with work time estimates.
+              heading: No work to display
+            not_started_without_story_points:
+              description: The burndown chart will appear here after the sprint starts, once the sprint contains open work packages with estimated story points.
               heading: No work to display
             too_long:
               description: The sprint duration exceeded the 1-year limit of the burndown chart's timespan.
@@ -261,13 +267,19 @@ fa:
         burnup_chart:
           blankslate:
             no_estimated_hours:
-              description: The burnup chart will appear here once the sprint has received a work package with work time estimate.
+              description: The burnup chart will appear here once the sprint contains work packages with work time estimates.
               heading: No work to display
             no_story_points:
-              description: The burnup chart will appear here once the sprint has received a work package with estimated story points.
+              description: The burnup chart will appear here once the sprint contains work packages with estimated story points.
               heading: No work to display
             not_started:
               description: The burnup chart will appear here after the sprint starts.
+              heading: No work to display
+            not_started_without_estimated_hours:
+              description: The burnup chart will appear here after the sprint starts, once the sprint contains work packages with work time estimates.
+              heading: No work to display
+            not_started_without_story_points:
+              description: The burnup chart will appear here after the sprint starts, once the sprint contains work packages with estimated story points.
               heading: No work to display
             too_long:
               description: The sprint duration exceeded the 1-year limit of the burnup chart's timespan.
@@ -376,7 +388,7 @@ fa:
           added:
             blankslate:
               empty:
-                description: بسته‌های کاری افزوده‌شده پس از تاریخ شروع اسپرینت در اینجا نمایش داده می‌شوند.
+                description: Work packages that were added after the sprint starts will appear here.
               not_started:
                 description: بسته‌های کاری افزوده‌شده پس از شروع اسپرینت در اینجا نمایش داده می‌شوند.
             title: افزایش محدوده کار پس از شروع اسپرینت
@@ -392,7 +404,7 @@ fa:
           removed:
             blankslate:
               empty:
-                description: بسته‌های کاری حذف‌شده پس از تاریخ شروع اسپرینت در اینجا نمایش داده می‌شوند.
+                description: Work packages that were removed after the sprint starts will appear here.
               not_started:
                 description: بسته‌های کاری حذف‌شده پس از شروع اسپرینت در اینجا نمایش داده می‌شوند.
             title: کاهش محدوده کار پس از شروع اسپرینت

@@ -82,17 +82,17 @@ fr:
           connection_warning: 'The settings were saved, but the connection to SquashTM failed: %{reason}'
     execution_statuses:
       blocked: Bloqué
-      cancelled: Annulée
+      cancelled: Annulé
       error: Erreur
-      failure: Échoué
+      failure: Échec
       not_executed: Not executed
       not_found: Not found
       not_run: Not run
       ready: Ready
       running: En cours
       settled: Settled
-      skipped: Manqué
-      success: Approuvé
+      skipped: Ignoré
+      success: Succès
       untestable: Untestable
       warning: Avertissement
     project_settings:

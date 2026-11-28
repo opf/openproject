@@ -982,6 +982,7 @@ hu:
           must_not_point_to_openproject_directory: must not point to an OpenProject-managed repository directory.
           no_directory: nem egy könyvtár.
           not_available: SCM szolgáltató nem elérhető
+          not_in_allowed_local_paths: is not inside a directory that is allowed for local repositories.
           not_whitelisted: a konfiguráció nem engedélyezi.
         role:
           attributes:

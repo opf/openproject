@@ -700,7 +700,7 @@ pt-BR:
             content_type:
               blank: O tipo de conteúdo do arquivo não pode ficar em branco.
               format: "%{message}"
-              not_allowlisted: O arquivo foi rejeitado por um filtro automático. '%{value}' não é permitido para ‘upload’.
+              not_allowlisted: O arquivo foi rejeitado por um filtro automático. Não é permitido enviar “%{value}”.
         capability:
           context:
             global: Global
@@ -786,11 +786,11 @@ pt-BR:
         form_configuration:
           attributes:
             attribute_groups:
-              attribute_unknown: Atributo de pacote de trabalho inválido usado.
-              attribute_unknown_name: 'Atributo de pacote de trabalho inválido: %{attribute}'
-              duplicate_group: O nome de grupo %{group} foi usado mais de uma vez. Nomes de grupos devem ser únicos.
-              group_without_name: O nome do grupo não pode estar em branco.
-              query_invalid: 'A consulta incorporada ''%{group}'' é inválida: %{details}'
+              attribute_unknown: Atributo de pacote de trabalho utilizado inválido.
+              attribute_unknown_name: 'Atributo de pacote de trabalho utilizado inválido: %{attribute}'
+              duplicate_group: O nome do grupo “%{group}” está sendo usado mais de uma vez. Os nomes dos grupos devem ser únicos.
+              group_without_name: O nome do grupo não pode ficar em branco.
+              query_invalid: 'A consulta incorporada “%{group}” é inválida: %{details}'
             base:
               default_undeletable: The default form cannot be deleted. Mark another form as default first.
         grids/grid:
@@ -811,10 +811,10 @@ pt-BR:
         label:
           attributes:
             name:
-              blank: Nome não pode estar vazio.
+              blank: O nome não pode ficar vazio.
               format: "%{message}"
-              taken: Uma etiqueta com este nome já existe. Por favor, use outra.
-              too_long: O nome é muito longo (máximo são %{count} caracteres).
+              taken: Já existe um rótulo com esse nome. Use outro.
+              too_long: O nome é muito longo (o máximo é de %{count} caracteres).
         ldap_auth_source:
           attributes:
             tls_certificate_string:
@@ -956,6 +956,7 @@ pt-BR:
           must_not_point_to_openproject_directory: não deve apontar para um diretório de repositório gerenciado pelo OpenProject.
           no_directory: não é um diretório.
           not_available: Fornecedor SCM não está disponível
+          not_in_allowed_local_paths: is not inside a directory that is allowed for local repositories.
           not_whitelisted: não é permitido pela configuração.
         role:
           attributes:
@@ -1081,8 +1082,8 @@ pt-BR:
               must_be_set_when_remaining_work_and_percent_complete_are_set: obrigatório quando o Trabalho restante e o % de conclusão são definidos.
               not_a_number: não é uma duração válida.
             id:
-              blank: O ID não pode estar em branco.
-              cannot_add_child_because_of_lack_of_permission: Não é possível adicionar filho porque você não tem permissão para editar o pacote de trabalho selecionado.
+              blank: O ID não pode ficar em branco.
+              cannot_add_child_because_of_lack_of_permission: Não é possível adicionar um item filho porque você não tem permissão para editar o pacote de trabalho selecionado.
               format: "%{message}"
             identifier:
               must_not_be_changed: 'não pode ser alterado manualmente. Os identificadores de pacotes de trabalho são atribuídos automaticamente e resolvidos pela tabela de aliases, e alterações manuais podem quebrar links e o histórico de identificadores. Se essa alteração for intencional, salve com "save(context: :%{context})" e mantenha a tabela work_package_semantic_aliases consistente.'
@@ -1260,8 +1261,8 @@ pt-BR:
         one: Prioridade
         other: Prioridades
       label:
-        one: Etiqueta
-        other: Etiquetas
+        one: Rótulo
+        other: Rótulos
       ldap_auth_source:
         one: Conexão LDAP
         other: Conexões LDAP
@@ -1576,7 +1577,7 @@ pt-BR:
         description: Defina uma paleta de cores para usar em outras partes da aplicação. Essas cores estarão disponíveis, por exemplo, ao escolher uma cor para representar um status ou tipo.
       edit_color: Editar %{color}
       export:
-        description: Envie e gerencie arquivos de imagem personalizados usados em suas exportações em PDF.
+        description: Envie e gerencie arquivos de imagem personalizados usados nas exportações para PDF.
         title: Custom export
       fonts:
         file_is_invalid: não é um arquivo de fonte TTF válido.
@@ -2058,34 +2059,34 @@ pt-BR:
     labels:
       delete_dialog_component:
         confirmation: Entendo que esta ação é irreversível
-        heading: Excluir esta etiqueta?
-        title: Excluir esta etiqueta?
+        heading: Excluir este rótulo?
+        title: Excluir este rótulo?
         usage_description_html:
           one: This will remove the label <strong>%{name}</strong> from %{count} work package that currently uses it. Are you sure you want to delete it?
           other: This will remove the label <strong>%{name}</strong> from %{count} work packages that currently use it. Are you sure you want to delete it?
       dialog_component:
-        create_title: Criar etiqueta
+        create_title: Criar rótulo
         rename_title: Renomear "%{name}"
       index:
-        description: Todos os usuários com permissão para editar pacotes de trabalho podem atribuir livremente rótulos a esses pacotes, seja utilizando rótulos já existentes, seja criando novos instantaneamente. Isso inclui todos os rótulos criados pelos usuários em todos os projetos.
+        description: Todos os usuários com permissão para editar pacotes de trabalho podem adicionar livremente rótulos aos pacotes de trabalho, usando rótulos existentes ou criando novos na hora. Isso inclui todos os rótulos criados por usuários em todos os projetos.
       row_component:
         used_in_work_packages:
           one: "%{count} pacote de trabalho"
           other: "%{count} pacotes de trabalho"
       sub_header_component:
-        button_add: Etiqueta
-        label_add: Adicionar etiqueta
+        button_add: Rótulo
+        label_add: Adicionar rótulo
         search_placeholder: Digite aqui para pesquisar
       table_component:
         blank_slate:
-          description: Etiquetas criadas por usuários em pacotes de trabalho aparecerão aqui.
-          title: Nenhuma etiqueta ainda
+          description: Os rótulos criados pelos usuários nos pacotes de trabalho aparecerão aqui.
+          title: Ainda não há rótulos
         headers:
-          name: Etiqueta
+          name: Rótulo
           usage: Usado em
         no_matches:
-          description: Tente um termo de busca diferente.
-          title: Nenhuma etiqueta corresponde à sua pesquisa
+          description: Tente usar outro termo de pesquisa.
+          title: Nenhum rótulo corresponde à sua pesquisa
     mcp_configurations:
       index:
         description: O protocolo de contexto do modelo permite que agentes de IA forneçam aos seus usuários ferramentas e recursos disponibilizados por esta instância do OpenProject. Este recurso ainda está em versão beta.
@@ -2411,7 +2412,7 @@ pt-BR:
           assignee: Transições adicionais disponíveis para o responsável pelo pacote de trabalho.
           author: Transições adicionais disponíveis para o autor do pacote de trabalho.
         menu_label: Transições exibidas
-      workflow_button: Fluxo de Trabalho
+      workflow_button: Fluxo de trabalho
   ai:
     text_transform:
       errors:
@@ -2436,7 +2437,7 @@ pt-BR:
         stopped_description: The response was blocked before it finished, so the partial text was discarded.
         stopped_title: Generation stopped
         title: AI result
-        try_again: Tente novamente
+        try_again: Tentar novamente
   announcements:
     content: Conteúdo
     is_active: atualmente exibido
@@ -2646,7 +2647,7 @@ pt-BR:
     actions:
       add: Adicionar ação
       assigned_to:
-        executing_user_value: "(Atribuir ao usuário que executar)"
+        executing_user_value: "(Atribuir ao usuário executor)"
       name: Ações
     conditions: Condições
     edit: Edit automation %{name}
@@ -3351,32 +3352,32 @@ pt-BR:
       board_view: Quadros avançados
       calculated_values: Valores calculados
       capture_external_links: Capturar links externos
-      custom_actions: Ações Personalizadas
+      custom_actions: Ações personalizadas
       custom_field_hierarchies: Hierarquias
-      customize_life_cycle: Personalizar Ciclo de Vida
+      customize_life_cycle: Personalizar ciclo de vida
       define_custom_style: Tema e logotipo personalizados
-      edit_attribute_groups: Editar atributo de grupos
-      gantt_pdf_export: Exportar diagrama de Gantt para PDF
+      edit_attribute_groups: Editar grupos de atributos
+      gantt_pdf_export: Exportação de Gantt para PDF
       internal_comments: Comentários internos
       ldap_groups: Sincronização de usuários e grupos LDAP
       meeting_templates: Modelos de reunião reutilizáveis
       nextcloud_sso: Autenticação única para o armazenamento do Nextcloud
-      one_drive_sharepoint_file_storage: Armazenamento de Arquivos OneDrive/SharePoint
-      placeholder_users: Usuários Genéricos
+      one_drive_sharepoint_file_storage: Armazenamento de arquivos no OneDrive/SharePoint
+      placeholder_users: Usuários fictícios
       portfolio_management: Gestão de portfólio
       project_creation_wizard: Solicitação de início de projeto
-      project_list_sharing: Compartilhamento de Lista de Projetos
+      project_list_sharing: Compartilhamento da lista de projetos
       project_specific_list_values: Project-specific values for custom fields
-      readonly_work_packages: Pacotes de Trabalho somente leitura
+      readonly_work_packages: Pacotes de trabalho somente para leitura
       scim_api: API do servidor SCIM
       sso_auth_providers: Autenticação única (SSO)
-      team_planner_view: Planejador de Equipes
+      team_planner_view: Visualização do planejador de equipe
       text_assistant: Text assistant
       virus_scanning: Verificação de antivírus
       weighted_item_lists: Weighted lists
-      work_package_query_relation_columns: Colunas de relação de consulta do pacote de trabalho
+      work_package_query_relation_columns: Colunas de relação da consulta de pacotes de trabalho
       work_package_sharing: Compartilhar pacotes de trabalho com pessoas de fora da organização
-      work_package_subject_generation: Geração de assunto do pacote de trabalho
+      work_package_subject_generation: Geração de assunto de pacote de trabalho
       xwiki_integration: XWiki Integration
     teaser:
       description_html: Você possui acesso a todos os recursos do %{trial_plan}.
@@ -3405,17 +3406,17 @@ pt-BR:
       welcome_description: Obtenha uma visão geral sobre gestão de projetos e colaboração em equipe com a edição Enterprise do OpenProject.
       welcome_title: Visão geral rápida dos recursos
     upsell:
-      already_have_token: 'Já possui um token? Adicione-o usando o botão abaixo para fazer o "upgrade" para o plano Enterprise.
+      already_have_token: 'Já possui um token? Adicione-o usando o botão abaixo para fazer upgrade para o plano Enterprise contratado.
 
         '
       baseline_comparison:
-        description: Destaque as alterações realizadas nesta lista desde qualquer ponto no passado.
+        description: Destaque as alterações realizadas nesta lista desde qualquer momento no passado.
       benefits:
-        description: Quais os benefícios da edição Enterprise Edition local?
+        description: Quais são os benefícios da edição Enterprise instalada localmente?
         high_security: Recursos de segurança
-        high_security_text: Logon único (SAML, OpenID Connect, CAS), grupos LDAP.
+        high_security_text: Autenticação única (SAML, OpenID Connect, CAS), grupos LDAP.
         installation: Suporte à instalação
-        installation_text: Engenheiros de software experientes darão orientações durante todo o processo de instalação e configuração em sua própria infraestrutura.
+        installation_text: Engenheiros de software experientes orientam você durante todo o processo de instalação e configuração em sua própria infraestrutura.
         premium_features: Complementos Enterprise
         premium_features_text: Quadros ágeis, tema e logotipo personalizados, gráficos, fluxos de trabalho inteligentes com ações personalizadas, pesquisa de texto completo em anexos de itens de trabalho e campos personalizados com seleção múltipla.
         professional_support: Suporte profissional
@@ -3426,15 +3427,15 @@ pt-BR:
       capture_external_links:
         description: Evite ataques de engenharia social detectando e alertando sobre links externos antes que os usuários os acessem.
       custom_actions:
-        description: As ações personalizadas são atalhos de clique único para um conjunto de ações pré-definidas que você pode disponibilizar em certos pacotes de trabalho com base no estado, função, tipo ou projeto.
+        description: As ações personalizadas são atalhos de um clique para um conjunto de ações predefinidas que podem ser disponibilizadas em determinados pacotes de trabalho com base no status, na função, no tipo ou no projeto.
         title: Ações personalizadas
       custom_field_hierarchies:
         description: Campos personalizados de hierarquia permitem organizar estruturas hierárquicas nos pacotes de trabalho e projetos por meio de listas de seleção de vários níveis.
       customize_life_cycle:
         description: Criar e organizar fases do projeto diferentes das fornecidas pelo planejamento do ciclo de projeto PM2.
       define_custom_style:
-        description: Personalize a instalação de seu OpenProject com seu logotipo e cores.
-        more_info: 'Obs.: o logotipo usado pode ser acessado publicamente.'
+        description: Personalize sua instalação do OpenProject com seu próprio logotipo e suas próprias cores.
+        more_info: 'Observação: o logotipo utilizado ficará disponível publicamente.'
         title: Tema de cor e logotipo personalizados
       edit_attribute_groups:
         description: 'Personalize o formulário com estes complementos adicionais:'
@@ -3462,7 +3463,7 @@ pt-BR:
         description: 'Usuários de espaço reservado são uma forma de atribuir pacotes de trabalho a pessoas que não fazem parte do seu projeto. Eles podem ser úteis em diversas situações, por exemplo, quando você precisa acompanhar tarefas de um recurso que ainda não foi nomeado ou não está disponível, ou quando não deseja conceder acesso dessa pessoa ao OpenProject, mas ainda quer registrar as tarefas atribuídas a ela.
 
           '
-        title: Usuários de espaço reservado
+        title: Usuários fictícios
       plan_name: Plano enterprise %{plan}
       plan_text_html: Disponível a partir do %{plan_name}.
       plan_title: Complemento do %{plan} Enterprise
@@ -3486,17 +3487,17 @@ pt-BR:
       text_actions:
         description: Proofread, rewrite and structure text with AI, right where you write. Use the built-in actions or add your own.
         title: Text assistant
-      title: Complemento empresarial
+      title: Complemento Enterprise
       trial_text: Este recurso está incluído no seu período de avaliação do Enterprise ativo.
       unlimited: Ilimitado
       virus_scanning:
-        description: Garantir que os arquivos carregados no OpenProject sejam verificados quanto à presença de vírus antes de serem acessados por outros usuários.
+        description: Garanta que os arquivos enviados ao OpenProject sejam verificados quanto à presença de vírus antes de ficarem acessíveis a outros usuários.
       weighted_item_lists:
         description: Weighted lists allow you to create a list with underlying numeric values associated.
       work_package_sharing:
         description: Compartilhe pacotes de trabalho com usuários que não são membros do projeto.
       work_package_subject_generation:
-        description: Crie assuntos gerados automaticamente com base em atributos e textos referenciados.
+        description: Crie assuntos gerados automaticamente usando atributos e textos de referência.
   email_calendar_updates:
     button:
       disabled: Habilitar
@@ -3511,7 +3512,7 @@ pt-BR:
       title: Versão de avaliação corporativa
   enumeration_activities: Atividades de controle de tempo
   enumeration_caption_order_changed: Ordem alterada com sucesso.
-  enumeration_could_not_be_moved: Enumeração não pôde ser movida.
+  enumeration_could_not_be_moved: Não foi possível mover a enumeração.
   enumeration_default_value_caption: Definir este %{model} como padrão substituirá o %{model} padrão anterior.
   enumeration_reported_project_statuses: Publicação denunciada
   enumeration_work_package_priorities: Prioridades do pacote de trabalho
@@ -3680,7 +3681,7 @@ pt-BR:
           caption: Esta opção criará uma cópia de cada pacote de trabalho para cada relação que ele tenha com outros pacotes de trabalho.
           label: Incluir relações
     errors:
-      embedded_table_with_too_many_columns: Essa tabela embutida de pacotes de trabalho não coube na página, por favor, reduza o número de colunas.
+      embedded_table_with_too_many_columns: Não foi possível ajustar esta tabela incorporada de pacotes de trabalho à página. Reduza o número de colunas.
     failed: 'Ocorreu um erro ao tentar exportar os pacotes de trabalho: %{message}'
     format:
       atom: Atom
@@ -3949,7 +3950,7 @@ pt-BR:
         warning: Aviso
   help_texts:
     views:
-      favoured: Marcar esta visão como favorita e adicionar à barra lateral de visualização salva à esquerda.
+      favoured: Marque esta visualização como favorita e adicione-a à barra lateral de visualizações salvas à esquerda.
       project: "%{plural} sempre estão anexados a um projeto. Você só pode selecionar projetos aqui que o módulo %{plural} está ativo. Depois de criar um %{singular} você pode adicionar pacotes de trabalho de outros projetos a ele.\n"
       public: Publique esta exibição, permitindo que outros usuários acessem sua visualização. Usuários com a permissão de 'Gerenciar exibições públicas' podem modificar ou remover a consulta pública. Isto não afeta a visibilidade dos resultados do pacote de trabalho nesta exibição e, dependendo de suas permissões, os usuários podem ver resultados diferentes.
   homescreen:
@@ -3993,7 +3994,7 @@ pt-BR:
               description: Connect external AI assistants to OpenProject.
               title: MCP Server released to Community
               url: https://www.openproject.org/docs/release-notes/18-0-0/#ai-text-assistant-and-mcp-server
-          new_features_title: 'O lançamento inclui vários novos recursos e melhorias, como:
+          new_features_title: 'A versão inclui vários novos recursos e melhorias, como:
 
             '
         header: Leia sobre novos recursos e atualizações do produto.
@@ -4061,7 +4062,7 @@ pt-BR:
           '
         progress_calculation_adjusted: Cálculo de progresso automaticamente <a href="%{href}" target="_blank"> ajustado com a atualização de versão</a>.
         progress_calculation_adjusted_from_disabled_mode: Cálculo de progresso automaticamente <a href="%{href}" target="_blank">definido para o modo com base em trabalho e ajustado com a atualização de versão</a>.
-        scheduling_mode_adjusted: Modo de agendamento ajustado automaticamente com a atualização da versão.
+        scheduling_mode_adjusted: O modo de agendamento foi ajustado automaticamente com a atualização da versão.
         sprint_migration: A versão "%{version_name}" foi copiada como um sprint.
         stale_target_versions_removed: Versão de destino desatualizada removida automaticamente. Ela havia sido adicionada novamente por engano quando várias versões de destino estavam habilitadas.
         target_versions_repaired: Versões de destino sincronizadas automaticamente com o campo Versão antes de habilitar várias versões de destino.
@@ -4413,7 +4414,7 @@ pt-BR:
   label_in: em
   label_in_less_than: em menos de
   label_in_more_than: em mais de
-  label_in_progress_work_packages: em progresso
+  label_in_progress_work_packages: em andamento
   label_inactive: Inativo
   label_include_sub_projects: Incluir subprojetos
   label_includes: inclui
@@ -4439,7 +4440,7 @@ pt-BR:
   label_journal_diff: Comparação de Descrição
   label_jump_to_a_project: Saltar para um projeto...
   label_keyword_plural: Palavras-chave
-  label_label_plural: Etiquetas
+  label_label_plural: Rótulos
   label_language: Idioma
   label_languages: Idiomas
   label_last_activity: Última atividade
@@ -4710,7 +4711,7 @@ pt-BR:
   label_scroll_right: Rolar para a direita
   label_search: Pesquisar
   label_search_by_name: Pesquisar por nome
-  label_seeded_from_env_warning: Este registro foi criado por meio de uma configuração de variável de ambiente e, portanto, não pode ser editado através da interface do usuário.
+  label_seeded_from_env_warning: Este registro foi criado por meio de uma variável de ambiente de configuração. Não é possível editá-lo pela interface do usuário.
   label_select_main_menu_item: Selecione novo item do menu principal
   label_send_information: Enviar novas credenciais ao usuário
   label_send_invitation: Enviar Convite
@@ -5266,7 +5267,7 @@ pt-BR:
         token/api:
           attention_text: Trate os tokens de API como senhas. Qualquer pessoa com este token terá acesso às informações desta instância. Compartilhe-o apenas com usuários de confiança.
           create_button: Criar
-          dialog_body: Este token permitirá que aplicativos de terceiros se comuniquem com sua instância. Para diferenciar o novo token de API, de um nome a ela.
+          dialog_body: Este token permitirá que aplicativos de terceiros se comuniquem com sua instância. Para diferenciar o novo token de API, dê um nome a ele.
           dialog_title: Criar novo token de API
           expires_on_caption: The token stays valid until the end of the selected day.
           expiry_custom: Custom date
@@ -5353,7 +5354,7 @@ pt-BR:
         add_button: Token de API
         blank_description: Ainda não há um token de API. Você pode criar um usando o botão abaixo.
         blank_title: Sem token de API
-        disabled_text: Os tokens de API não estão habilitados pelo administrador. Entre em contato com o administrador para utilizar este recurso.
+        disabled_text: O administrador não habilitou os tokens de API. Entre em contato com ele para usar esse recurso.
         static_token_name: Token de API
         table_title: Tokens de API
         text_hint: Os tokens de API permitem que aplicativos de terceiros se comuniquem com esta instância do OpenProject por meio de APIs REST.
@@ -5889,7 +5890,7 @@ pt-BR:
   permission_edit_timelines: Editar cronogramas
   permission_edit_wiki_pages: Editar páginas wiki
   permission_edit_work_package_comments: Moderar comentários
-  permission_edit_work_package_comments_explanation: 'Atenção: Usuários com esta permissão podem editar comentários de qualquer pessoa.'
+  permission_edit_work_package_comments_explanation: 'Atenção: os usuários com esta permissão podem editar os comentários de qualquer pessoa.'
   permission_edit_work_packages: Editar pacotes de trabalho
   permission_export_projects: Exportar projetos
   permission_export_work_packages: Exportar pacotes de trabalho
@@ -6033,7 +6034,7 @@ pt-BR:
     edit:
       priority_color_text: |
         Clique para atribuir ou alterar a cor desta prioridade.
-        Pode ser usado para destacar pacotes de trabalho na tabela.
+        Ela pode ser usada para destacar pacotes de trabalho na tabela.
   program:
     count:
       one: "%{count} program"
@@ -6072,7 +6073,7 @@ pt-BR:
       title: Alterar o identificador do projeto
       warning_one: Membros do projeto terão que realocar os repositórios do projeto.
       warning_two: Links existentes para o projeto deixarão de funcionar.
-    not_available: Projeto N/A
+    not_available: Projeto não aplicável
     template:
       copying: 'Seu projeto está sendo criado a partir do modelo selecionado. Você será notificado por e-mail assim que o projeto estiver disponível.
 
@@ -6134,7 +6135,7 @@ pt-BR:
         in_progress: This will complete all previous phases and mark future phases as not started.
         open: This will mark all future phases as not started.
       title:
-        completed: Concluída
+        completed: Concluído
         in_progress: Em andamento
         open: Not started
     settings:
@@ -6596,7 +6597,7 @@ pt-BR:
 
     '
   setting_allowed_link_protocols: Protocolos de link permitidos
-  setting_allowed_link_protocols_text_html: Permite que estes protocolos sejam apresentados como links nas descrições do pacote de trabalho, campos de texto e comentários. Por exemplo, %{tel_code} ou %{element_code}. Insira um protocolo por linha. <br/> Os protocolos %{http_code}, %{https_code} e %{mailto_code} estão sempre permitidos.
+  setting_allowed_link_protocols_text_html: Permitir que esses protocolos sejam convertidos em links nas descrições dos pacotes de trabalho, nos campos de texto longo e nos comentários. Por exemplo, %{tel_code} ou %{element_code}. Insira um protocolo por linha. <br/>Os protocolos %{http_code}, %{https_code} e %{mailto_code} são sempre permitidos.
   setting_antivirus_scan_action: Ação do arquivo infectado
   setting_antivirus_scan_mode: Modo escanear
   setting_api_tokens_enabled: Ativar tokens de API
@@ -6764,7 +6765,7 @@ pt-BR:
   setting_self_registration_caption: 'Escolha o mecanismo de auto-registro para os usuários. Tenha atenção à configuração selecionada, pois algumas opções permitem que os usuários ativem suas próprias contas nesta instância.
 
     '
-  setting_self_registration_disabled: Desativado
+  setting_self_registration_disabled: Desabilitado
   setting_self_registration_disabled_caption: 'O registro de contas por conta própria não é permitido. Apenas administradores e usuários com a permissão global de criação de usuários podem criar novas contas.
 
     '
@@ -7059,7 +7060,7 @@ pt-BR:
         helper_text_html: 'Os comentários internos permitem que uma equipe interna se comunique de forma privada entre si. Eles são visíveis apenas para funções selecionadas que possuem as permissões necessárias e não serão exibidos publicamente. [Clique aqui para saber mais](docs_url)
 
           '
-      not_allowed_text: Você não tem as permissões necessárias para visualizar esta página.
+      not_allowed_text: Você não possui as permissões necessárias para visualizar esta página.
       work_package_identifier: Identificadores de pacote de trabalho
     working_days:
       section_holidays_and_closures: Feriados e fechamentos
@@ -7101,7 +7102,7 @@ pt-BR:
         label: Compartilhe com todos em %{instance_name}
       publishing_denied: Você não possui permissão para tornar as listas de projetos públicas.
       upsell:
-        message: Compartilhar listas de projetos com usuários individuais é um complemento Enterprise.
+        message: O compartilhamento de listas de projetos com usuários individuais é um complemento Enterprise.
       user_details:
         can_manage_public_lists: Pode ser editado devido a permissões globais.
         can_view_because_public: Já pode ser visualizado porque a lista é compartilhada com todos
@@ -7894,11 +7895,11 @@ pt-BR:
         no_roles_found: Nenhuma função encontrada
         required: Selecione uma função
       success_message:
-        group: O grupo agora faz parte de %{project}. Enquanto isso, você já pode planejar com este grupo e atribuir pacotes de trabalho por exemplo.
+        group: O grupo agora faz parte de %{project}. Enquanto isso, você já pode planejar com esse grupo e, por exemplo, atribuir pacotes de trabalho.
         placeholder_user: O espaço reservado agora pode ser usado em %{project}. Enquanto isso, você já pode planejar com esse usuário e, por exemplo, atribuir pacotes de trabalho.
-        user: O usuário agora pode entrar para acessar %{project}. Enquanto isso, você já pode planejar com este usuário e atribuir pacotes de trabalho por exemplo.
+        user: O usuário já pode fazer login para acessar %{project}. Enquanto isso, você já pode planejar com esse usuário e, por exemplo, atribuir pacotes de trabalho.
       summary:
-        next_button: Enviar Convite
+        next_button: Enviar convite
       title:
         invite: Convidar usuário
         invite_principal_to_project: Convide %{principal} para %{project}
@@ -8459,8 +8460,8 @@ pt-BR:
       select:
         caption: The type uses the status transitions of the workflow you pick here.
         label: Fluxo de trabalho
-        placeholder: Selecionar um fluxo de trabalho...
-      title: Alterar o fluxo de trabalho
+        placeholder: Selecionar um fluxo de trabalho…
+      title: Alterar fluxo de trabalho
     copies:
       form:
         target_role_ids:
@@ -8486,7 +8487,7 @@ pt-BR:
       copy_from:
         caption: The new workflow starts with a copy of that workflow's status transitions.
         label: Copy from
-        placeholder: Selecionar um fluxo de trabalho...
+        placeholder: Selecionar um fluxo de trabalho…
       copy_title: Copy workflow %{name}
       description:
         caption: Add a short description about where and how will this workflow be used.
@@ -8506,7 +8507,7 @@ pt-BR:
       save_title: Save workflow
     index:
       actions:
-        create: Fluxo de Trabalho
+        create: Fluxo de trabalho
         edit: Editar transições
         menu: Ações para %{name}
         rename: Editar nome e descrição
@@ -8610,7 +8611,7 @@ pt-BR:
       days:
         non_working: "%{day} agora é um dia não útil"
         working: "%{day} agora é um dia útil"
-    warning: 'Alterar quais dias da semana são considerados dias úteis ou não úteis pode afetar as datas de início e término de todos os pacotes de trabalho e ciclos de vida em todos os projetos desta instância.
+    warning: 'Alterar quais dias da semana são considerados dias úteis ou não úteis pode afetar as datas de início e término de todos os pacotes de trabalho e ciclos de vida de todos os projetos nesta instância.
 
       '
   you: você

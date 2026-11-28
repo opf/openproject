@@ -962,6 +962,7 @@ uk:
           must_not_point_to_openproject_directory: не має вказувати на каталог репозиторію, яким керує OpenProject.
           no_directory: не є каталогом.
           not_available: Постачальник SCM недоступний
+          not_in_allowed_local_paths: is not inside a directory that is allowed for local repositories.
           not_whitelisted: не дозволяється конфігурацією.
         role:
           attributes:

@@ -956,6 +956,7 @@
           must_not_point_to_openproject_directory: must not point to an OpenProject-managed repository directory.
           no_directory: er ikke en katalog
           not_available: SCM leverandør er ikke tilgjengelig
+          not_in_allowed_local_paths: is not inside a directory that is allowed for local repositories.
           not_whitelisted: er ikke tillatt av konfigurasjonen.
         role:
           attributes:

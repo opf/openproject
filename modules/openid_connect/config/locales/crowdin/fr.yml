@@ -38,7 +38,7 @@ fr:
               format: URL du point de terminaison de la découverte %{message}
               response_is_not_json: " ne renvoie pas de corps JSON."
               response_is_not_successful: " répond par %{status}."
-              response_misses_required_attributes: " ne renvoie pas les attributs requis. Les attributs manquants sont : %{missing_attributes}."
+              response_misses_required_attributes: " ne renvoie pas les attributs requis. Les attributs manquants sont : %{missing_attributes}."
           invalid_claims_essential: ne définit pas de booléen pour %{attribute}.
           invalid_claims_location: 'contiennent des emplacements non pris en charge : %{invalid}. Les emplacements pris en charge sont les suivants : %{supported}.'
           invalid_claims_values: ne définit pas de tableau pour %{attribute}.
@@ -79,8 +79,8 @@ fr:
       display_name: Le nom du fournisseur. Il sera affiché comme bouton de connexion et dans la liste des fournisseurs.
       endpoint_url: L'URL du point de terminaison qui vous a été communiquée par le fournisseur OpenID Connect
       group_regexes: Un motif d'expression régulière par ligne. Veuillez lire [la documentation](docs_url) pour en savoir plus sur la manière de procéder.
-      group_regexes_detail_html: Vous pouvez également définir des motifs à l'aide d'expressions régulières pour faire correspondre les noms de groupes aux revendications de groupes. Par exemple, si vous saisissez un motif tel que <code>^Level1/Level2/([\w/]+)$</code>, le groupe « Groupname/SubGroup » sera extrait d'une réponse comprenant « Level1/Level2/GroupName/SubGroup ». Si aucun motif ne correspond, le groupe est ignoré. Laissez le champ vide pour synchroniser tous les groupes en utilisant leur nom complet.
-      group_regexes_testing: Cliquez sur « Tester le modèle » pour tester votre expression régulière par rapport aux informations userinfo OIDC.
+      group_regexes_detail_html: Si vous le souhaitez, définissez des motifs à l'aide d'expressions régulières pour sélectionner les noms de groupes dans la revendication des groupes. Par exemple, si vous saisissez un motif tel que <code>^Level1/Level2/([\w/]+)$</code>, le groupe « Groupname/SubGroup » sera extrait d'une réponse comprenant « Level1/Level2/GroupName/SubGroup ». Si aucun motif ne correspond, le groupe est ignoré. Laissez le champ vide pour synchroniser tous les groupes sous leur nom complet.
+      group_regexes_testing: Cliquez sur « Tester le modèle » pour tester votre expression régulière par rapport aux informations userinfo OIDC.
       group_sync: Automatically extract and synchronize group membership information from the identity provider.
       groups_claim: Indiquez le nom de la revendication censée indiquer les noms des groupes dont l'utilisateur est membre.
       limit_self_registration: Si cette option est activée, les utilisateurs peuvent s'inscrire par le biais de ce fournisseur uniquement si la configuration du côté du fournisseur le permet.
@@ -165,7 +165,7 @@ fr:
       delete_result_direct: Ce fournisseur est marqué comme fournisseur de connexion directe. Le paramètre sera supprimé et les utilisateurs ne seront plus redirigés vers le fournisseur pour se connecter.
       delete_result_user_count:
         one: "%{count} user is currently still using this provider. They will need to be re-invited or logging in with another provider."
-        other: "%{count} utilisateurs utilisent encore ce fournisseur. Ils devront être réinvités ou se connecter par le biais d'un autre fournisseur."
+        other: "%{count} utilisateurs utilisent encore ce fournisseur. Ils devront être réinvités ou se connecter par le biais d'un autre fournisseur."
         zero: Aucun utilisateur n'utilise actuellement ce fournisseur. Aucune action supplémentaire n'est requise.
       input_delete_confirmation_html: Saisissez le nom du fournisseur %{name} pour confirmer la suppression.
       irreversible_notice: La suppression d'un fournisseur SSO est une action irréversible.

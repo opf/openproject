@@ -956,6 +956,7 @@ it:
           must_not_point_to_openproject_directory: non deve puntare a una directory di repository gestita da OpenProject.
           no_directory: non è una directory.
           not_available: Il gestore SCM non è disponibile
+          not_in_allowed_local_paths: is not inside a directory that is allowed for local repositories.
           not_whitelisted: non è consentito dalla configurazione.
         role:
           attributes:

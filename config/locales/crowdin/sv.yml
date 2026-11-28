@@ -956,6 +956,7 @@ sv:
           must_not_point_to_openproject_directory: får inte peka på en katalog för ett arkiv som hanteras av OpenProject.
           no_directory: är inte en katalog.
           not_available: SCM leverantör är inte tillgänglig
+          not_in_allowed_local_paths: is not inside a directory that is allowed for local repositories.
           not_whitelisted: tillåts inte av konfigurationen.
         role:
           attributes:

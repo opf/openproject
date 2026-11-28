@@ -956,6 +956,7 @@ es:
           must_not_point_to_openproject_directory: no debe apuntar a un directorio de repositorios gestionado por OpenProject.
           no_directory: no es un directorio.
           not_available: El proveedor SMC no está disponible
+          not_in_allowed_local_paths: is not inside a directory that is allowed for local repositories.
           not_whitelisted: no está permitido por la configuración.
         role:
           attributes:

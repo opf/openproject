@@ -955,6 +955,7 @@ ko:
           must_not_point_to_openproject_directory: "- OpenProject 관리 리포지토리 디렉터리를 가리키지 않아야 합니다."
           no_directory: 디텍터리가 아님
           not_available: SCM 업체가 가용하지 않습니다.
+          not_in_allowed_local_paths: is not inside a directory that is allowed for local repositories.
           not_whitelisted: 은(는) 설절에 허용되지 않습니다.
         role:
           attributes:

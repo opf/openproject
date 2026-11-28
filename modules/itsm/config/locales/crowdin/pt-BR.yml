@@ -7,7 +7,7 @@ pt-BR:
         from_address: De
         journal: Journal
         message_id: Message ID
-        status: Estado
+        status: Status
         subject: Assunto
       itsm/email_thread:
         recipients: Recipients

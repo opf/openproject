@@ -956,6 +956,7 @@ el:
           must_not_point_to_openproject_directory: must not point to an OpenProject-managed repository directory.
           no_directory: δεν είναι κατάλογος.
           not_available: Ο προμηθευτής SCM δεν είναι διαθέσιμος
+          not_in_allowed_local_paths: is not inside a directory that is allowed for local repositories.
           not_whitelisted: δεν επιτρέπεται από την διαμόρφωση.
         role:
           attributes:

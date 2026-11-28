@@ -89,8 +89,8 @@ pt-BR:
         not_logged_in: 'Para adicionar um link, visualizar ou enviar arquivos relacionados a este pacote de trabalho, inicie sessão em %{storageType}
 
           '
-        suggest_logout: Você pode tentar realizar o login novamente para corrigir este problema.
-        suggest_relink: Você pode tentar se revincular sua conta através do botão de login abaixo para corrigir este problema.
+        suggest_logout: Você pode tentar sair e entrar novamente para ver se isso resolve o problema.
+        suggest_relink: Você pode tentar vincular sua conta novamente pelo botão de login abaixo para ver se isso resolve o problema.
       link_existing_files: Vincular arquivos existentes
       link_files_in_storage: Vincular arquivos em %{storageType}
       login: Início de sessão de %{storageType}

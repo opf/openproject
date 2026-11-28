@@ -12,7 +12,7 @@ fr:
         authentication_method: Méthode d'authentification
         authentication_methods:
           oauth2_sso: Authentification unique via le fournisseur d'identité OpenID Connect
-          two_way_oauth2: Flux bidirectionnel de code d'autorisation OAuth 2.0
+          two_way_oauth2: Flux bidirectionnel de code d'autorisation OAuth 2.0
         token_exchange_scope: Portée XWiki
         url: URL de l'instance
         wiki_audience: Audience de XWiki
@@ -82,11 +82,11 @@ fr:
         show:
           description: Choisissez d'activer ou de désactiver les wikis de projet
       oauth_application_info_component:
-        confirm_replace_oauth_application: Cette action réinitialisera les identifiants OAuth actuels. Après confirmation, vous devrez saisir à nouveau les identifiants dans votre instance XWiki et tous les utilisateurs devront renouveler leur autorisation. Voulez-vous vraiment continuer ?
+        confirm_replace_oauth_application: Cette action réinitialisera les identifiants OAuth actuels. Après confirmation, vous devrez saisir à nouveau les identifiants dans votre instance XWiki et tous les utilisateurs devront renouveler leur autorisation. Voulez-vous vraiment continuer ?
         label_oauth_client_id: ID client OAuth
         replace_oauth_application: Remplacer l'application OpenProject OAuth
       oauth_client_info_component:
-        confirm_replace_oauth_client: Cette action réinitialisera les identifiants OAuth XWiki actuels. Tous les utilisateurs devront renouveler leur autorisation auprès de XWiki. Voulez-vous vraiment continuer ?
+        confirm_replace_oauth_client: Cette action réinitialisera les identifiants OAuth XWiki actuels. Tous les utilisateurs devront renouveler leur autorisation auprès de XWiki. Voulez-vous vraiment continuer ?
         label_oauth_client_id: ID client OAuth
         replace_oauth_client: Remplacer l'application XWiki OAuth
       redirect_uri_info_component:
@@ -184,8 +184,8 @@ fr:
         all: Toutes les pages du wiki
         main: Pages principales du wiki
       sub_pages_count:
-        one: Sous-page %{count}
-        other: Sous-pages %{count}
+        one: "%{count} sous-page"
+        other: "%{count} sous-pages"
     inline_wiki_page_dialog:
       title_add: Ajouter une page wiki existante
       title_create: Créer une nouvelle page wiki

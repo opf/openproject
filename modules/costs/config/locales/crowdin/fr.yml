@@ -169,7 +169,7 @@ fr:
         active_projects: Projets actifs
       cost_type_projects:
         for_all_projects_blank_slate:
-          description: Décochez la case « Pour tous les projets » dans l'onglet « Détails » pour limiter ce type de coût à des projets spécifiques.
+          description: Décochez la case « Pour tous les projets » dans l'onglet « Détails » pour limiter ce type de coût à des projets spécifiques.
           heading: Ce type de coût est activé dans tous les projets
         no_projects:
           description: Ajoutez des projets pour que ce type de coût puisse y être utilisé.
@@ -182,12 +182,12 @@ fr:
       cost_types:
         for_all_projects_hint: Ce type de coût est activé dans tous les projets.
         heading: Types de coûts
-        hint: Sélectionnez les types de coûts qui s'affichent dans votre projet lorsque les collaborateurs saisissent leurs coûts.
+        hint: Sélectionnez les types de coûts qui s'affichent dans votre projet lorsque les membres saisissent leurs coûts.
         in_use_hint: Ce type de coût ne peut pas être désactivé, car des coûts ont déjà été enregistrés pour celui-ci dans ce projet.
         none_active: Aucun type de coût n'est actuellement actif dans ce projet.
       time_and_costs: Temps et coûts
       time_entry_activities:
-        heading: Journal
+        heading: Suivi du temps
         hint: Sélectionnez les activités de suivi du temps qui s'affichent dans votre projet lorsque les membres saisissent leur temps.
   costs:
     widgets:
@@ -294,8 +294,8 @@ fr:
   setting_costs_currency: Devise
   setting_costs_currency_caption: Il s'agit de l'unité monétaire. Il peut s'agir d'un code ISO à trois lettres comme EUR, USD ou JPY ou d'un symbole comme €, $ ou ¥.
   setting_costs_currency_format: Format de devise
-  setting_costs_currency_format_prefix: Avant le nombre (par exemple EUR 100)
-  setting_costs_currency_format_suffix: Après le nombre (par exemple 100 EUR)
+  setting_costs_currency_format_prefix: Avant le nombre (par exemple EUR 100)
+  setting_costs_currency_format_suffix: Après le nombre (par exemple 100 EUR)
   setting_enforce_tracking_start_and_end_times: Exiger les heures de début et de fin
   setting_enforce_tracking_start_and_end_times_caption: Rend la saisie des heures de début et de fin obligatoire lors de la journalisation.
   setting_enforce_without_allow: Il est nécessaire d'autoriser les heures de début et de fin pour pouvoir les exiger
@@ -326,5 +326,5 @@ fr:
     day: 'Total du jour : %{hours}'
     month: 'Total du mois : %{hours}'
     week: 'Total de la semaine : %{hours}'
-    workweek: 'Total de la semaine de travail : %{hours}'
+    workweek: 'Total de la semaine de travail : %{hours}'
   week: semaine

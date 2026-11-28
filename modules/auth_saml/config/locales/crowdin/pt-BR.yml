@@ -7,7 +7,7 @@ pt-BR:
         assertion_consumer_service_url: URL do ACS (Serviço Consumidor de Aserção)
         authn_requests_signed: Assinar solicitações de autenticação SAML
         certificate: Certificado usado pelo OpenProject para solicitações SAML
-        digest_method: Algoritmo de resumo
+        digest_method: Algoritmo de resumo criptográfico
         display_name: Nome
         format: Formato
         icon: Ícone personalizado
@@ -17,8 +17,8 @@ pt-BR:
         idp_entity_id: ID da entidade do provedor de identidade
         idp_slo_service_url: Endpoint de logout do provedor de identidade
         idp_sso_service_url: Endpoint de login do provedor de identidade
-        limit_self_registration: Limitar auto registro
-        metadata_url: URL de metadados do provedor de identidade
+        limit_self_registration: Restringir o autorregistro
+        metadata_url: URL dos metadados do provedor de identidade
         name_identifier_format: Formato do identificador de nome
         private_key: Chave privada correspondente para solicitações SAML do OpenProject
         scope: Escopo
@@ -184,7 +184,7 @@ pt-BR:
       notice_created: Um novo provedor de identidade SAML foi criado com sucesso.
       plural: Provedores de identidade SAML
       refresh_metadata:
-        apply: Aplicar as alterações
+        apply: Aplicar alterações
         description: Review the configuration fetched from your identity provider. Changes are saved only when you apply them.
         no_changes: The metadata matches the current configuration.
         title: Review metadata changes
@@ -217,7 +217,7 @@ pt-BR:
           description: You can check if the configuration fetched from your identity provider has changed.
       singular: Provedor de identidade SAML
       upsell:
-        description: Conecte o OpenProject a um provedor de identidade SAML
+        description: Conectar o OpenProject a um provedor de identidade SAML
         title: Autenticação única (SSO) com SAML
     settings:
       metadata_none: Eu não tenho metadados

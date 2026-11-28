@@ -958,6 +958,7 @@ ru:
           must_not_point_to_openproject_directory: не должен указывать на каталог репозитория, управляемого OpenProject.
           no_directory: не является каталогом.
           not_available: SCM поставщик не доступен
+          not_in_allowed_local_paths: is not inside a directory that is allowed for local repositories.
           not_whitelisted: не допускается конфигурацией.
         role:
           attributes:

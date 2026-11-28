@@ -955,6 +955,7 @@ zh-TW:
           must_not_point_to_openproject_directory: must not point to an OpenProject-managed repository directory.
           no_directory: 不是一個資料夾
           not_available: 版本控制無法使用
+          not_in_allowed_local_paths: is not inside a directory that is allowed for local repositories.
           not_whitelisted: 不被設定所允許
         role:
           attributes:

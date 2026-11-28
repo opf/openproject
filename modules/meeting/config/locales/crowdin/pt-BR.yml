@@ -256,8 +256,8 @@ pt-BR:
   label_meeting_reload: Recarregar
   label_meeting_reopen_action: Reabrir reunião
   label_meeting_selection_caption: Só é possível adicionar este pacote de trabalho a uma reunião futura ou em andamento.
-  label_meeting_send_updates: Enviar por e-mail convite de calendário e atualizações
-  label_meeting_send_updates_caption: Enviar convite por e-mail para todos os participantes desta reunião
+  label_meeting_send_updates: Enviar convite e atualizações do calendário por e-mail
+  label_meeting_send_updates_caption: Enviar convites por e-mail a todos os participantes desta reunião
   label_meeting_series: Séries da reunião
   label_meeting_series_details: Detalhes da série de reuniões
   label_meeting_state: Estado da reunião
@@ -348,7 +348,7 @@ pt-BR:
       series_template: Esses arquivos anexados serão adicionados a todas as reuniões futuras da série.
       text: Os arquivos anexados estão disponíveis para todos os participantes da reunião. Você também pode arrastá-los e soltá-los nas anotações dos itens da pauta.
     blankslate:
-      desc: Você pode criar uma nova reunião ou mudar o critério de filtro
+      desc: Você pode criar uma nova reunião ou alterar os critérios de filtragem
       title: Não há reuniões para exibir
     cancel:
       reason_caption: This will be included in the cancellation email sent to participants when notifications are enabled.
@@ -474,8 +474,8 @@ pt-BR:
           label: Atas
       title: Exportar PDF
     ical_response:
-      meeting_not_found: Reunião não encontrada por UID.
-      update_failed: Não foi possível atualizar status de participação.
+      meeting_not_found: Reunião não encontrada para o UID informado.
+      update_failed: Não foi possível atualizar o status de participação.
     label_export_pdf: Exportar PDF
     label_mail_all_participants: Enviar convite por e-mail para todos os participantes
     notifications:
@@ -508,13 +508,13 @@ pt-BR:
         no_participants: Sem participantes
         participants: Participantes
         remove_participant: Remover participante
-        show_all: Mostrar todos
+        show_all: Exibir tudo
       text:
         manage_participants: Pesquisar e adicionar membros do projeto como participantes desta reunião.
         search_for_members: Pesquisar membros do projeto
         template: Esses participantes serão convidados automaticamente para todas as futuras reuniões à medida que forem criadas.
     presentation_mode:
-      button_present: Presente
+      button_present: Apresentar
       current_item: Item atual
       exit: Sair da apresentação
       next: Próximo
@@ -537,9 +537,9 @@ pt-BR:
       view_details: Visualizar todas as reuniões
   meeting_participant:
     participation_status:
-      accepted: Aceitar
-      declined: Recusar
-      needs_action: Nenhuma resposta
+      accepted: Aceito
+      declined: Recusado
+      needs_action: Sem resposta
       tentative: Talvez
       unknown: Desconhecido
   meeting_section:
@@ -700,7 +700,7 @@ pt-BR:
       title: Cancelar ocorrência da reunião
     starts: Começa
     template:
-      banner_html: 'Você está atualmente editando um modelo de série de reunião: %{link}. Cada nova ocorrência de uma reunião na série usará este modelo. As alterações não afetarão reuniões passadas ou já criadas.
+      banner_html: 'Você está editando um modelo de uma série de reuniões: %{link}. Cada nova ocorrência de reunião da série usará esse modelo. As alterações não afetarão reuniões anteriores nem reuniões já criadas.
 
         '
       blank_title: O modelo da sua série de reuniões está vazio
@@ -708,13 +708,13 @@ pt-BR:
       description: 'Este modelo será utilizado sempre que novas reuniões na série forem criadas. Você pode adicionar itens da agenda, participantes e anexos a este modelo.
 
         '
-      draft_banner_html: 'Você está atualmente editando um modelo de série de reunião: %{link}. Cada nova ocorrência de uma reunião na série usará este modelo. As alterações não afetarão reuniões passadas ou já criadas. Nenhum convide por e-mail será enviado neste modo de rascunho atual até você abra a primeira reunião.
+      draft_banner_html: 'Você está editando um modelo de uma série de reuniões: %{link}. Cada nova ocorrência de reunião da série usará esse modelo. As alterações não afetarão reuniões anteriores nem reuniões já criadas. Nenhum convite por e-mail será enviado enquanto você estiver neste modo de rascunho. Os convites só serão enviados quando você abrir a primeira reunião.
 
         '
       label_edit_template: Editar modelo
       label_view_template: Ver modelo
     time_zone_difference_banner:
-      description: 'As datas abaixo se referem ao fuso horário da série de reuniões (%{actual_zone}), não ao seu fuso horário local (%{user_zone}).
+      description: 'As datas abaixo estão no fuso horário da série de reuniões (%{actual_zone}), e não no seu fuso horário local (%{user_zone}).
 
         '
       title: Diferença de fuso horário
@@ -747,16 +747,16 @@ pt-BR:
   text_email_updates_enabled: As atualizações de calendário por e-mail estão habilitados. Todos os participantes receberão convites atualizados por e-mail quando você fizer alterações.
   text_email_updates_muted: As atualizações de calendário por e-mail estão silenciadas. Os participantes não receberão convites atualizados por e-mail quando você fizer alterações.
   text_exit_draft_mode_dialog_subtitle: Não é possível voltar ao modo rascunho depois de agendar uma reunião.
-  text_exit_draft_mode_dialog_template_subtitle: Você não pode retornar ao modo rascunho após isto.
+  text_exit_draft_mode_dialog_template_subtitle: Não será possível voltar ao modo de rascunho depois disso.
   text_exit_draft_mode_dialog_template_title: Abrir a primeira ocorrência desta série de reuniões?
-  text_exit_draft_mode_dialog_title: Abrir esta reunião e enviar convites?
+  text_exit_draft_mode_dialog_title: Abrir esta reunião e enviar os convites?
   text_in_hours: em horas
   text_meeting_agenda_for_meeting: agenda para a reunião "%{meeting}"
   text_meeting_agenda_open_are_you_sure: Esta ação sobrepões todas as alterações nos minutos! Pretende continuar?
   text_meeting_closed_description: Esta reunião está fechada. Você não pode mais adicionar/remover itens da agenda.
   text_meeting_closed_dropdown_description: Esta reunião está encerrada. Já não é possível modificar os pontos da ordem de trabalhos ou os resultados.
   text_meeting_closing_are_you_sure: Você tem certeza de que deseja encerar a pauta da reunião?
-  text_meeting_draft_banner: Você está no modo rascunho. Esta reunião não enviará nenhuma atualização de calendário ou convite, mesmo que você altere os detalhes da reunião ou adicione/remoca participantes.
+  text_meeting_draft_banner: Você está no modo de rascunho. Esta reunião não enviará atualizações do calendário nem convites, mesmo que você altere os detalhes da reunião ou adicione/remova participantes.
   text_meeting_draft_description: Prepare sua pauta em modo rascunho. Esta reunião não enviará nenhuma atualização de calendário ou convites, mesmo que você altere os detalhes da reunião ou adicione/remova participantes.
   text_meeting_empty_description1: Comece adicionando os itens da agenda abaixo. Cada item pode conter apenas um título, mas você também pode incluir detalhes adicionais, como duração e anotações.
   text_meeting_empty_description2: Você também pode adicionar referências a pacotes de trabalho existentes. Ao fazer isso, as anotações relacionadas ficarão visíveis automaticamente na guia “Reuniões” do pacote de trabalho.
@@ -764,7 +764,7 @@ pt-BR:
   text_meeting_ics_description: 'Link para a reunião: %{url}'
   text_meeting_ics_meeting_series_description: 'Link para a série de reuniões: %{url}'
   text_meeting_in_progress_description: Você pode modificar a agenda, registrar os resultados de cada item e acompanhar a presença dos participantes. Após a conclusão da reunião, você pode marcá-la como encerrada para bloqueá-la.
-  text_meeting_in_progress_dropdown_description: Registre os resultados como solicitações de informação ou decisões tomadas durante a reunião.
+  text_meeting_in_progress_dropdown_description: Registre os resultados da reunião, como necessidades de informação ou decisões tomadas durante a reunião.
   text_meeting_minutes_for_meeting: ata da reunião "%{meeting}"
   text_meeting_not_editable_anymore: A reunião não pode mais ser editada.
   text_meeting_not_present_anymore: Esta reunião foi excluída. Selecione outra reunião.

@@ -25,12 +25,12 @@ fr:
     github_integration:
       github_actions: Actions
       pull_requests:
-        merged_message: 'La requête pull #%{pr_number} %{pr_link} pour %{repository_link} a été %{pr_state} par %{github_user_link}.'
-        message: 'La requête pull #%{pr_number} %{pr_link} pour %{repository_link} créée par %{github_user_link} a été %{pr_state}.'
-        referenced_message: 'La requête pull #%{pr_number} %{pr_link} pour %{repository_link} créée par %{github_user_link} a référencé ce lot de travaux.'
+        merged_message: 'La pull request #%{pr_number} %{pr_link} du dépôt %{repository_link} a été %{pr_state} par %{github_user_link}.'
+        message: 'La pull request #%{pr_number} %{pr_link} du dépôt %{repository_link} créée par %{github_user_link} a été %{pr_state}.'
+        referenced_message: 'La pull request #%{pr_number} %{pr_link} du dépôt %{repository_link} créée par %{github_user_link} a mentionné ce lot de travaux.'
         states:
-          closed: clôturé
-          draft: brouillon
+          closed: fermée
+          draft: convertie en brouillon
           merged: fusionnée
           opened: ouverte
           ready_for_review: marquée comme prête à être révisée
@@ -42,12 +42,12 @@ fr:
           branch_name: Nom de la branche
           cmd: Créer une branche avec un commit vide
           commit_message: Message de commit
-          copy_error: "❌ La copie a échoué !"
-          copy_success: "✅ Copié !"
+          copy_error: "❌ La copie a échoué !"
+          copy_success: "✅ Copié !"
           title: Extraits de code rapides pour Git
-        title: Demandes de pull
+        title: Pull requests
       tab_prs:
-        empty: Il n'y a pas encore de demandes de pull liées. Liez une PR existante en utilisant le code <code>OP#%{wp_id}</code> dans la description de la PR ou créez une nouvelle PR.
+        empty: Aucune pull request (PR) n'a encore été associée. Associez une PR existante en utilisant le code <code>OP#%{wp_id}</code> dans la description de la PR ou créez une nouvelle PR.
       work_packages:
         tab_name: GitHub
     work_packages:

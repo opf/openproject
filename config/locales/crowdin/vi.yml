@@ -955,6 +955,7 @@ vi:
           must_not_point_to_openproject_directory: must not point to an OpenProject-managed repository directory.
           no_directory: không phải là một thư mục.
           not_available: Nhà cung cấp SCM không có sẵn
+          not_in_allowed_local_paths: is not inside a directory that is allowed for local repositories.
           not_whitelisted: không được cấu hình cho phép.
         role:
           attributes:

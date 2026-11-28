@@ -57,7 +57,7 @@ fr:
       destroy:
         confirmation_message:
           one: Si vous continuez, la synchronisation %{name} sera supprimée et son service (%{count}) ne sera plus géré par LDAP.
-          other: Si vous continuez, la synchronisation %{name} sera supprimée et ses %{count} services ne seront plus gérés par LDAP.
+          other: Si vous continuez, la synchronisation %{name} sera supprimée et ses %{count} services ne seront plus gérés par LDAP.
         heading: Supprimer la synchronisation %{name} ?
         info: Les services et leurs membres sont conservés et deviennent des services permanents. Vous pouvez ensuite les modifier ou les supprimer manuellement dans la rubrique Administration → Utilisateurs et autorisations → Organisation.
         title: Supprimer la synchronisation %{name}
@@ -66,15 +66,15 @@ fr:
         base_dn_text: 'Saisissez le DN de base dont les unités organisationnelles doivent être synchronisées. Ses unités organisationnelles enfants directes deviendront des services de premier niveau. Il doit se trouver en dessous du DN de base de la connexion LDAP sélectionnée.
 
           '
-        guid_attribute_text: 'Facultatif. L''attribut LDAP contenant un identifiant unique et stable (par exemple « objectGUID » ou « entryUUID »). Lorsqu''il est défini, les services conservent leur identité même en cas de changement de nom ou de déplacement de l''unité organisationnelle (OU). Laissez ce champ vide pour effectuer la correspondance par DN.
+        guid_attribute_text: 'Facultatif. L''attribut LDAP contenant un identifiant unique et stable (par exemple « objectGUID » ou « entryUUID »). Lorsqu''il est défini, les services conservent leur identité même en cas de changement de nom ou de déplacement de l''unité organisationnelle (OU). Laissez ce champ vide pour effectuer la correspondance par DN.
 
           '
-        ou_name_attribute_text: L'attribut LDAP utilisé pour désigner le service (par exemple « ou »).
+        ou_name_attribute_text: L'attribut LDAP utilisé pour désigner le service (par exemple « ou »).
         sections:
           connection: Connexion LDAP
           structure: Unités organisationnelles
           users: Utilisateurs
-        structure_filter_string_text: Filtre LDAP RFC 4515 permettant d'identifier les entrées d'unités organisationnelles.
+        structure_filter_string_text: Filtre LDAP RFC 4515 permettant d'identifier les entrées d'unités organisationnelles.
         sync_users_text: 'Si cette option est activée, les utilisateurs situés sous le DN de base sont également créés dans OpenProject. Sans cette option, seuls les comptes existants sont affectés aux services.
 
           '

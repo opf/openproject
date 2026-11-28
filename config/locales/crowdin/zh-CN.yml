@@ -955,6 +955,7 @@ zh-CN:
           must_not_point_to_openproject_directory: 不得指向 OpenProject 管理的仓库目录。
           no_directory: 不是一个目录。
           not_available: SCM提供商不可用
+          not_in_allowed_local_paths: is not inside a directory that is allowed for local repositories.
           not_whitelisted: 配置所不允许的。
         role:
           attributes:

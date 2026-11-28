@@ -755,7 +755,7 @@ pt-BR:
         label: Autocompletar projeto
       click_to_switch_to_project: 'Projeto: %{projectname}'
       context: Contexto do projeto
-      not_available: Projeto N/A
+      not_available: Projeto não aplicável
       required_outside_context: 'Por favor, escolha o projeto onde vai criar o pacote de trabalho para visualizar todos os atributos. Você pode selecionar somente projetos que possuam o tipo acima ativado.
 
         '

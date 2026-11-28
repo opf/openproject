@@ -48,8 +48,8 @@ fr:
   documents:
     active_editors: Éditeurs actifs
     active_editors_count:
-      one: "%{count} éditeur actif"
-      other: "%{count} rédacteurs en activité"
+      one: "%{count} éditeur actif"
+      other: "%{count} éditeurs actifs"
     admin:
       collaboration_settings:
         banner:
@@ -96,18 +96,18 @@ fr:
         heading: Impossible de supprimer le dernier type de document
         message: Il doit toujours y avoir au moins un type de document configuré. Créez d'abord un autre type de document si vous souhaitez supprimer celui-ci.
         title: Impossible de supprimer le type de document
-      confirmation_message: Le type « %{type_name} » est actuellement inutilisé. La suppression de ce type n'aura aucun effet sur les documents existants.
+      confirmation_message: Le type « %{type_name} » est actuellement inutilisé. La suppression de ce type n'aura aucun effet sur les documents existants.
       heading: Supprimer ce type de document ?
       reassign_message:
-        one: Le type « %{type_name} » est actuellement utilisé dans %{document_count} document. Veuillez sélectionner le type auquel le réaffecter.
-        other: Le type « %{type_name} » est actuellement utilisé dans %{document_count} documents. Veuillez sélectionner le type auquel les réaffecter.
+        one: Le type « %{type_name} » est actuellement utilisé dans %{document_count} document. Veuillez sélectionner le type auquel le réaffecter.
+        other: Le type « %{type_name} » est actuellement utilisé dans %{document_count} documents. Veuillez sélectionner le type auquel les réaffecter.
       select_reassign_to_label: Réaffecter les documents à
       title: Supprimer le type de document
     document_categories_deprecation_notice:
       description: |-
         Vos catégories de fichiers existantes ont été converties en types de documents lors de l'introduction du nouveau module Documents.
         Tous les documents existants ont également été migrés vers ces nouveaux types.
-      heading: Les catégories de fichiers sont désormais appelées « Types de documents »
+      heading: Les catégories de fichiers sont désormais appelées « Types de documents »
       primary_action: Configurer les types de documents
       secondary_action: En savoir plus sur le module Documents
     document_type_actions: Actions sur le type de document
@@ -124,7 +124,7 @@ fr:
       currently_offline: Vous êtes actuellement hors ligne.
     label_attachment_author: Auteur de la pièce jointe
     label_categories: Catégories
-    last_updated_at_html: 'Dernière mise à jour : %{time}.'
+    last_updated_at_html: Dernier enregistrement %{time}.
     menu:
       all: Tous les documents
       collaboration_settings: Collaboration en temps réel

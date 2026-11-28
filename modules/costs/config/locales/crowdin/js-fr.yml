@@ -32,7 +32,7 @@ fr:
           chart_value: "%{label}: %{value}"
     label_hour: heure
     label_hours: heures
-    text_are_you_sure: Confirmez-vous ?
+    text_are_you_sure: Confirmez-vous ?
     work_packages:
       properties:
         overallCosts: Coûts globaux

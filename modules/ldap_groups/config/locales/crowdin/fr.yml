@@ -52,11 +52,11 @@ fr:
           '
         filter_string_text: Entrez le filtre RFC4515 LDAP qui renvoie les groupes dans votre LDAP pour les synchroniser avec OpenProject.
         group_name_attribute_text: Saisissez l'attribut du groupe LDAP utilisé pour définir le nom du groupe OpenProject.
-        member_lookup_attribute_text: 'Laissez vide pour utiliser la recherche inversée par défaut : OpenProject recherche les utilisateurs dont l''attribut memberOf correspond au DN du groupe. Cela nécessite que l''attribut memberOf soit présent dans les entrées utilisateur (Active Directory, OpenLDAP avec overlay memberof). Renseignez ici le nom de l''attribut des entrées de groupe qui répertorie les DN des membres pour utiliser plutôt la recherche directe. Exemples : « uniqueMember » (groupOfUniqueNames), « member » (groupOfNames). Utilisez cette option pour les serveurs LDAP qui ne maintiennent pas l’attribut memberOf dans les entrées utilisateur.
+        member_lookup_attribute_text: 'Laissez vide pour utiliser la recherche inversée par défaut : OpenProject recherche les utilisateurs dont l''attribut memberOf correspond au DN du groupe. Cela nécessite que l''attribut memberOf soit présent dans les entrées utilisateur (Active Directory, OpenLDAP avec overlay memberof). Renseignez ici le nom de l''attribut des entrées de groupe qui répertorie les DN des membres pour utiliser plutôt la recherche directe. Exemples : « uniqueMember » (groupOfUniqueNames), « member » (groupOfNames). Utilisez cette option pour les serveurs LDAP qui ne maintiennent pas l''attribut memberOf dans les entrées utilisateur.
 
           '
       label_n_groups_found:
-        one: "%{count} groupe trouvé par le filtre"
+        one: "%{count} groupe trouvé par le filtre"
         other: "%{count} groupes trouvés par le filtre"
         zero: Aucun groupe trouvé par le filtre
       plural: Filtres de synchronisation des groupes LDAP

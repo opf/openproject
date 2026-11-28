@@ -956,6 +956,7 @@ hy:
           must_not_point_to_openproject_directory: չպետք է ուղղորդի OpenProject-ի կողմից կառավարվող պահոցի պանակին։
           no_directory: պանակ չէ։
           not_available: SCM մատակարարը հասանելի չէ
+          not_in_allowed_local_paths: is not inside a directory that is allowed for local repositories.
           not_whitelisted: թույլատրված չէ կազմաձևմամբ։
         role:
           attributes:
