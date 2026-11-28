@@ -54,9 +54,9 @@ See COPYRIGHT and LICENSE files for more details.
 <% if @budgets.empty? %>
   <%= no_results_box %>
 <% else %>
-<%= render partial: "list", locals: { budgets: @budgets } %>
-<%= pagination_links_full @budgets %>
+  <%= render partial: "list", locals: { budgets: @budgets } %>
 <% end %>
+<%= pagy_pagination_links(@pagination, @budgets) %>
 
 <p class="other-formats">
 <%= t(:label_export_to) %>

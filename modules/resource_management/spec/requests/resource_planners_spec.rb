@@ -40,6 +40,14 @@ RSpec.describe "ResourcePlanners requests",
 
   before { login_as user }
 
+  it "links an empty page back to the last visible planner", with_settings: { per_page_options: "1" } do
+    resource_planner
+    get project_resource_planners_path(project, page: 2)
+
+    expect(response.body).to have_link("Previous", href: project_resource_planners_path(project, page: 1))
+    expect(response.body).to have_no_css(".op-pagination--range")
+  end
+
   describe "without the resource_management enterprise feature", with_ee: false do
     it "renders the index with an upsell banner instead of the planners" do
       get project_resource_planners_path(project)

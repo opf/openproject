@@ -43,11 +43,7 @@ module ::ResourceManagement
     before_action :build_resource_planner, only: %i[new]
 
     def index
-      @resource_planners = index_scope
-                             .includes(children: :query)
-                             .order(:name)
-                             .page(page_param)
-                             .per_page(per_page_param)
+      @pagination, @resource_planners = paginate_scope(index_scope.includes(children: :query).order(:name, :id))
 
       render :index, locals: { menu_name: project_or_global_menu }
     end

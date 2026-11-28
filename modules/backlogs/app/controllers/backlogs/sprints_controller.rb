@@ -48,10 +48,7 @@ module Backlogs
     end
 
     def index
-      @sprints = Sprint.for_project(@project)
-                       .order_by_activity
-                       .page(helpers.page_param(params))
-                       .per_page(helpers.per_page_param)
+      @pagination, @sprints = helpers.paginate_scope(Sprint.for_project(@project).order_by_activity)
 
       @work_package_counts = WorkPackage
                                .where(sprint: @sprints, project: @project)

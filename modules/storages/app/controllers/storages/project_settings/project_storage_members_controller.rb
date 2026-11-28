@@ -39,13 +39,12 @@ class Storages::ProjectSettings::ProjectStorageMembersController < Projects::Set
   before_action :find_project_storage, only: %i[index]
 
   def index
-    @project_users = Member
-                   .visible
-                   .of_project(@project)
-                   .joins(:principal)
-                   .preload(roles: :role_permissions, principal: :remote_identities)
-                   .where(principal: { type: "User" })
-                   .paginate(page: page_param, per_page: per_page_param)
+    scope = Member.visible.of_project(@project)
+                  .joins(:principal)
+                  .preload(roles: :role_permissions, principal: :remote_identities)
+                  .where(principal: { type: "User" })
+                  .order(:id)
+    @pagination, @project_users = paginate_scope(scope)
 
     render "/storages/project_settings/project_storage_members/index"
   end

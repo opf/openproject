@@ -44,7 +44,7 @@ module Admin
       @query = ParamsToQueryService
                  .new(LlmModel, current_user, query_class: Queries::LlmModels::LlmModelQuery)
                  .call(params)
-      @models = @query.results.paginate(page: page_param, per_page: per_page_param)
+      @pagination, @models = paginate_scope(@query.results)
     end
 
     # Answers the sub-header's filter input, replacing just the table.
@@ -52,7 +52,7 @@ module Admin
       index
 
       replace_via_turbo_stream(
-        component: LlmConnections::ModelsTableComponent.new(rows: @models, connection: @connection)
+        component: LlmConnections::ModelsTableComponent.new(rows: @models, pagination: @pagination, connection: @connection)
       )
       turbo_streams << turbo_stream.push_state(llm_models_path(params.permit(:filters, :page, :per_page)))
 

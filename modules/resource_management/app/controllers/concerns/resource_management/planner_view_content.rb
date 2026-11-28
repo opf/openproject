@@ -34,7 +34,7 @@ module ResourceManagement
   # their own. Requires @project and @resource_planner to be set.
   module PlannerViewContent
     def work_package_list_content(view)
-      work_packages = work_package_rows(view)
+      pagination, work_packages = work_package_rows(view)
       allocations = ResourceAllocation.allocated_for_work_packages(work_packages)
 
       ResourcePlannerViews::ContentComponent.new(
@@ -42,6 +42,7 @@ module ResourceManagement
         project: @project,
         resource_planner: @resource_planner,
         work_packages:,
+        pagination:,
         allocations:,
         visible_principal_ids: ResourceAllocation.visible_principal_ids(allocations.values.flatten, current_user)
       )
@@ -51,12 +52,13 @@ module ResourceManagement
     # keeps operating on the full, globally-positioned set. Automatic lists can
     # grow unbounded, so those get paginated.
     def work_package_rows(view)
-      return [] unless view.is_a?(ResourceManagement::WorkPackageSelection)
+      return [nil, []] unless view.is_a?(ResourceManagement::WorkPackageSelection)
 
       work_packages = view.work_packages
-      return work_packages.to_a if view.manually_picked?
+      return [nil, work_packages.to_a] if view.manually_picked?
+      return [nil, page_scope_without_count(work_packages)] if view.is_a?(ResourceWorkPackageTimeline)
 
-      work_packages.page(page_param).per_page(per_page_param)
+      paginate_scope(work_packages)
     end
   end
 end

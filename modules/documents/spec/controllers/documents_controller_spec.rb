@@ -225,6 +225,15 @@ RSpec.describe DocumentsController do
   describe "#search", with_settings: { per_page_options: "1 5 10" } do
     let!(:document2) { create(:document, title: "Second Document", project:, type: document_type) }
 
+    it "renders the second page of documents in the search response" do
+      get :search, params: { project_id: project.identifier, per_page: 1, page: 2, sortBy: [["id", "asc"]].to_json },
+                   format: :turbo_stream
+
+      expect(assigns(:documents)).to eq([document2])
+      expect(response.body).to include(document2.title, "(2 - 2/2)")
+      expect(response.body).not_to include(document.title)
+    end
+
     it "returns a turbo_stream response" do
       get :search, params: { project_id: project.identifier, per_page: 1 }, format: :turbo_stream
 
