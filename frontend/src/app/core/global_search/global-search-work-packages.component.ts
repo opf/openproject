@@ -26,11 +26,10 @@
 //++
 
 import {
-  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef, inject,
-  Input,
+  inject,
+  input,
   OnDestroy,
   OnInit,
   Renderer2,
@@ -49,12 +48,19 @@ import {
   WorkPackageIsolatedQuerySpaceDirective,
 } from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
 import { QueryRequestParams } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
-import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
+import { booleanAttributeOr, stringAttribute } from 'core-app/shared/helpers/angular/attribute-inputs';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+
+const SEARCH_SCOPES = ['all', 'current_project', ''] as const;
+type SearchScope = typeof SEARCH_SCOPES[number];
+type SearchMode = 'semantic'|'text';
+
+function isSearchScope(value:unknown):value is SearchScope {
+  return SEARCH_SCOPES.includes(value as SearchScope);
+}
 
 @Component({
   selector: 'opce-global-search-work-packages',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   hostDirectives: [WorkPackageIsolatedQuerySpaceDirective],
   template: `
     <wp-embedded-table [queryProps]="queryProps"
@@ -63,17 +69,20 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
   standalone: false,
 })
 export class GlobalSearchWorkPackagesComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
-  @Input() public searchTerm:string;
+  readonly searchTerm = input('', { transform: stringAttribute('') });
 
-  @Input() public scope:'all'|'current_project'|'';
+  readonly scope = input<SearchScope|undefined, string|null|undefined>(undefined, {
+    transform: (value) => (isSearchScope(value) ? value : undefined),
+  });
 
-  @Input() public searchMode:'semantic'|'text' = 'text';
+  readonly searchMode = input<SearchMode, string|null|undefined>('text', {
+    transform: (value) => (value === 'semantic' ? 'semantic' : 'text'),
+  });
 
-  @Input() public semanticSearchAvailable = false;
+  readonly semanticSearchAvailable = input(false, { transform: booleanAttributeOr(false) });
 
   public queryProps:Partial<QueryRequestParams>;
 
-  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly renderer= inject(Renderer2);
   readonly I18n= inject(I18nService);
   readonly halResourceService= inject(HalResourceService);
@@ -92,23 +101,18 @@ export class GlobalSearchWorkPackagesComponent extends UntilDestroyedMixin imple
     filterButtonText: this.I18n.t('js.button_advanced_filter'),
   };
 
-  constructor() {
-    super();
-    populateInputsFromDataset(this);
-  }
-
   ngOnInit():void {
-    this.wpTableFilters.semanticSearchAvailable = this.semanticSearchAvailable;
+    this.wpTableFilters.semanticSearchAvailable = this.semanticSearchAvailable();
     this.wpTableFilters.semanticSearchEnabled = this.isSemanticSearch;
     this.setQueryProps();
   }
 
   public get isSemanticSearch():boolean {
-    return this.searchMode === 'semantic';
+    return this.searchMode() === 'semantic';
   }
 
   private get useSemanticSearch():boolean {
-    return this.isSemanticSearch && this.semanticSearchAvailable;
+    return this.isSemanticSearch && this.semanticSearchAvailable();
   }
 
   private setQueryProps():void {
@@ -123,16 +127,16 @@ export class GlobalSearchWorkPackagesComponent extends UntilDestroyedMixin imple
           values: [this.searchTermWithoutHash],
         },
       });
-    } else if (this.searchTerm.length > 0) {
+    } else if (this.searchTerm().length > 0) {
       filters.push({
         [this.useSemanticSearch ? 'semanticSearch' : 'search']: {
           operator: '**',
-          values: [this.searchTerm],
+          values: [this.searchTerm()],
         },
       });
     }
 
-    if (this.scope === 'current_project') {
+    if (this.scope() === 'current_project') {
       filters.push({
         subprojectId: {
           operator: '!*',
@@ -142,7 +146,7 @@ export class GlobalSearchWorkPackagesComponent extends UntilDestroyedMixin imple
       columns = ['id', 'subject', 'type', 'status', 'updatedAt'];
     }
 
-    if (this.scope === '' && this.currentProject.id) {
+    if (this.scope() === '' && this.currentProject.id) {
       filters.push({
         subprojectId: {
           operator: '*',
@@ -160,13 +164,14 @@ export class GlobalSearchWorkPackagesComponent extends UntilDestroyedMixin imple
   }
 
   public get searchTermIsId():boolean {
-    return this.searchTermWithoutHash !== this.searchTerm;
+    return this.searchTermWithoutHash !== this.searchTerm();
   }
 
   public get searchTermWithoutHash():string {
-    if (/^#(\d+)/.exec(this.searchTerm)) {
-      return this.searchTerm.substr(1);
+    const searchTerm = this.searchTerm();
+    if (/^#(\d+)/.exec(searchTerm)) {
+      return searchTerm.substr(1);
     }
-    return this.searchTerm;
+    return searchTerm;
   }
 }

@@ -25,10 +25,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, ElementRef, Input, inject } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { WorkPackageTableConfigurationObject } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
 import { QueryRequestParams } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
-import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
+import { booleanAttributeOr, jsonAttribute } from 'core-app/shared/helpers/angular/attribute-inputs';
 import {
   WorkPackageIsolatedQuerySpaceDirective,
 } from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
@@ -39,26 +39,19 @@ export const wpTableEntrySelector = 'wp-embedded-table-entry';
   selector: wpTableEntrySelector,
   hostDirectives: [WorkPackageIsolatedQuerySpaceDirective],
   template: `
-      <wp-embedded-table [queryProps]="queryProps"
-                         [initialLoadingIndicator]="initialLoadingIndicator"
-                         [configuration]="configuration" />
+      <wp-embedded-table [queryProps]="tableQueryProps()"
+                         [initialLoadingIndicator]="initialLoadingIndicator()"
+                         [configuration]="configuration()" />
   `,
   standalone: false,
-  // TODO: This component has been partially migrated to be zoneless-compatible.
-  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
-  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class WorkPackageEmbeddedTableEntryComponent {
-  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  readonly queryProps = input<Partial<QueryRequestParams>>({}, { transform: jsonAttribute<Partial<QueryRequestParams>>({}) });
 
-  @Input() public queryProps:Partial<QueryRequestParams>;
+  readonly configuration = input<WorkPackageTableConfigurationObject>({}, { transform: jsonAttribute<WorkPackageTableConfigurationObject>({}) });
 
-  @Input() public configuration:WorkPackageTableConfigurationObject;
+  readonly initialLoadingIndicator = input(true, { transform: booleanAttributeOr(true) });
 
-  @Input() public initialLoadingIndicator = true;
-
-  constructor() {
-    populateInputsFromDataset(this);
-  }
+  // wp-embedded-table mutates its queryProps input (pageSize, page), so it gets a copy.
+  protected readonly tableQueryProps = computed(() => ({ ...this.queryProps() }));
 }

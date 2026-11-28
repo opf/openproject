@@ -44,6 +44,7 @@ import { RecentItemsService } from 'core-app/core/recent-items.service';
 import { OpenprojectAutocompleterModule } from 'core-app/shared/components/autocompleter/openproject-autocompleter.module';
 import { IconModule } from 'core-app/shared/components/icon/icon.module';
 import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
+import { defineTestCustomElement } from 'core-app/shared/helpers/angular/custom-element.spec-helper';
 
 @Component({
   templateUrl: './global-search-input.component.html',
@@ -90,6 +91,42 @@ describe('global search projected options', () => {
 
     expect(await screen.findByText('Needle in a thread')).toHaveClass('op-autocompleter--wp-subject');
     expect(await screen.findByText('All projects', { exact: false })).toHaveClass('global-search--project-scope');
+  });
+});
+
+describe('GlobalSearchInputComponent as a custom element', () => {
+  let header:HTMLElement;
+
+  beforeEach(async () => {
+    header = document.createElement('header');
+    header.className = 'op-app-header';
+    document.body.append(header);
+    await TestBed.configureTestingModule({
+      imports: [TestGlobalSearchComponent],
+      providers: [
+        States, provideHttpClient(withXhr()), provideHttpClientTesting(),
+        { provide: HalResourceNotificationService, useValue: {} },
+        { provide: GlobalSearchService, useValue: {} },
+        { provide: RecentItemsService, useValue: { recentItems$: of([]) } },
+      ],
+    }).compileComponents();
+  });
+
+  afterEach(() => {
+    header.remove();
+  });
+
+  it('labels the search from the placeholder attribute and follows later changes', async () => {
+    const custom = await defineTestCustomElement(TestGlobalSearchComponent, { placeholder: 'Search in Acme' });
+    const search = custom.element.querySelector('[role="search"]');
+
+    expect(search).toHaveAttribute('aria-label', 'Search in Acme');
+
+    await custom.set('placeholder', 'Find things');
+    expect(search).toHaveAttribute('aria-label', 'Find things');
+
+    await custom.remove('placeholder');
+    expect(search).toHaveAttribute('aria-label', '');
   });
 });
 

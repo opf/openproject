@@ -32,6 +32,7 @@ module WorkPackages
     class ShowComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
+      include CustomElementHelper
 
       def self.wrapper_key = :"work-package-full-view"
 

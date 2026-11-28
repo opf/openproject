@@ -15,12 +15,11 @@
           render(WorkPackages::Details::TabComponent.new(work_package: @work_package, tab: @tab, base_route: @base_route))
         end
         flex.with_row(flex: 1) do
-          helpers.angular_component_tag "opce-wp-split-view",
-                                        inputs: {
-                                          work_package_id: @id,
-                                          resizerClass: "op-work-package-split-view",
-                                          activeTab: @tab
-                                        }
+          custom_element_tag.opce_wp_split_view(
+            work_package_id: @id,
+            resizer_class: "op-work-package-split-view",
+            active_tab: @tab
+          )
         end
       end
     end

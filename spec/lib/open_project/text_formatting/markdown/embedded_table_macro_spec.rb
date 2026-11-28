@@ -45,9 +45,37 @@ RSpec.describe OpenProject::TextFormatting,
     let(:expected) do
       <<~EXPECTED
         <p class="op-uc-p">
-          <opce-macro-embedded-table class="embedded-table" data-query-props='{"columns[]":["id","subject","type","status","assignee","updatedAt"],"showSums":false,"timelineVisible":false,"highlightingMode":"inline","highlightedAttributes[]":["/api/v3/queries/columns/status","/api/v3/queries/columns/priority","/api/v3/queries/columns/dueDate"],"showHierarchies":true,"groupBy":"","filters":"[{"status":{"operator":"o","values":[]}}]","sortBy":"[["id","asc"]]"}'></opce-macro-embedded-table>
+          <opce-macro-embedded-table class="embedded-table" query-props='{"columns[]":["id","subject","type","status","assignee","updatedAt"],"showSums":false,"timelineVisible":false,"highlightingMode":"inline","highlightedAttributes[]":["/api/v3/queries/columns/status","/api/v3/queries/columns/priority","/api/v3/queries/columns/dueDate"],"showHierarchies":true,"groupBy":"","filters":"[{"status":{"operator":"o","values":[]}}]","sortBy":"[["id","asc"]]"}'></opce-macro-embedded-table>
         </p>
       EXPECTED
+    end
+  end
+
+  context "with stored query props" do
+    it_behaves_like "format_text produces" do
+      let(:raw) { %(<macro class="embedded-table" data-query-props='{"a":1}'></macro>) }
+
+      let(:expected) do
+        <<~EXPECTED
+          <p class="op-uc-p">
+            <opce-macro-embedded-table class="embedded-table" query-props='{"a":1}'></opce-macro-embedded-table>
+          </p>
+        EXPECTED
+      end
+    end
+  end
+
+  context "with empty stored query props" do
+    it_behaves_like "format_text produces" do
+      let(:raw) { %(<macro class="embedded-table" data-query-props=" "></macro>) }
+
+      let(:expected) do
+        <<~EXPECTED
+          <p class="op-uc-p">
+            <opce-macro-embedded-table class="embedded-table"></opce-macro-embedded-table>
+          </p>
+        EXPECTED
+      end
     end
   end
 end

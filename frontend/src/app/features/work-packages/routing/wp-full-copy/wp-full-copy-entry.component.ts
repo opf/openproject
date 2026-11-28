@@ -25,11 +25,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, ElementRef, Input, inject } from '@angular/core';
+import { Component, input } from '@angular/core';
 import {
   WorkPackageIsolatedQuerySpaceDirective,
 } from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
-import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
+import { optionalStringAttribute, stringAttribute } from 'core-app/shared/helpers/angular/attribute-inputs';
 
 /**
  * An entry component to be rendered by Rails which opens an isolated query space
@@ -40,22 +40,17 @@ import { populateInputsFromDataset } from 'core-app/shared/components/dataset-in
   standalone: false,
   template: `
     <wp-copy-full-view
-      [stateParams]="{ type: type, parent_id: parentId, projectPath: projectIdentifier, copiedFromWorkPackageId: copiedFromWorkPackageId }"
+      [stateParams]="{ type: type(), parent_id: parentId(), projectPath: projectIdentifier(), copiedFromWorkPackageId: copiedFromWorkPackageId() }"
     ></wp-copy-full-view>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkPackageFullCopyEntryComponent {
-  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
-
-  @Input() type:string;
-  @Input() copiedFromWorkPackageId:string;
-  @Input() parentId?:string;
-  @Input() projectIdentifier?:string;
+  readonly type = input('', { transform: stringAttribute('') });
+  readonly copiedFromWorkPackageId = input('', { transform: stringAttribute('') });
+  readonly parentId = input(undefined, { transform: optionalStringAttribute() });
+  readonly projectIdentifier = input(undefined, { transform: optionalStringAttribute() });
 
   constructor() {
-    populateInputsFromDataset(this);
-
     document.body.classList.add('router--work-packages-full-create');
   }
 }

@@ -51,7 +51,7 @@ RSpec.shared_context "with a sprint report work package table" do
 
   let(:rendered_html) { rendered_component.to_html }
   let(:table_element) { rendered_component.at("opce-embedded-work-package-table") }
-  let(:query_props) { JSON.parse(table_element["data-query-props"]) }
+  let(:query_props) { JSON.parse(table_element["query-props"]) }
 
   shared_examples "renders the sprint report widget box" do
     it "renders a full width widget box" do
@@ -78,7 +78,7 @@ RSpec.shared_context "with a sprint report work package table" do
     include_examples "renders the sprint report widget box"
 
     it "configures table to hide extra UI elements" do
-      expect(table_element["data-configuration"]).to be_json_eql({
+      expect(table_element["configuration"]).to be_json_eql({
         "labelledBy" => "#{described_class.wrapper_key}-header",
         "projectContext" => false,
         "actionsColumnEnabled" => false,
@@ -90,7 +90,7 @@ RSpec.shared_context "with a sprint report work package table" do
     end
 
     it "names the table with its visible widget heading" do
-      configuration = JSON.parse(table_element["data-configuration"])
+      configuration = JSON.parse(table_element["configuration"])
 
       expect(rendered_component).to have_heading(widget_name, level: 3, id: configuration.fetch("labelledBy"))
     end

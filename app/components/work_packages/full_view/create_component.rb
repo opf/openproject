@@ -32,6 +32,7 @@ module WorkPackages
     class CreateComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
+      include CustomElementHelper
 
       def initialize(type:, project:)
         super

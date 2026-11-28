@@ -32,7 +32,7 @@ module Overviews
     include ApplicationHelper
     include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
-    include AngularHelper
+    include CustomElementHelper
     include Turbo::FramesHelper
 
     attr_reader :project, :current_user

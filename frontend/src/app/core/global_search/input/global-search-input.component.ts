@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener, Input, OnDestroy, ViewChild, ViewEncapsulation, inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, input, OnDestroy, ViewChild, ViewEncapsulation, inject } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { first, map, switchMap } from 'rxjs/operators';
 import { GlobalSearchService } from 'core-app/core/global_search/services/global-search.service';
@@ -47,7 +47,7 @@ import {
   ApiV3WorkPackageCachedSubresource,
 } from 'core-app/core/apiv3/endpoints/work_packages/api-v3-work-package-cached-subresource';
 import { RecentItemsService } from 'core-app/core/recent-items.service';
-import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
+import { stringAttribute } from 'core-app/shared/helpers/angular/attribute-inputs';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { announce } from '@primer/live-region-element';
 import { NgOption } from '@ng-select/ng-select';
@@ -73,7 +73,6 @@ function isWorkPackage(item:unknown):item is WorkPackageResource {
 
 @Component({
   selector: 'opce-global-search',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './global-search-input.component.html',
   styleUrls: [
     './global-search-input.component.sass',
@@ -85,7 +84,6 @@ function isWorkPackage(item:unknown):item is WorkPackageResource {
   standalone: false,
 })
 export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
-  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly I18n = inject(I18nService);
   readonly apiV3Service = inject(ApiV3Service);
   readonly pathHelperService = inject(PathHelperService);
@@ -99,7 +97,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
 
   protected readonly accessKeys = accessKeys;
 
-  @Input() public placeholder:string;
+  readonly placeholder = input('', { transform: stringAttribute('') });
 
   @ViewChild('btn', { static: true }) btn:ElementRef<HTMLButtonElement>;
 
@@ -113,7 +111,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   public get effectivePlaceholder():string {
     return this.expanded
       ? this.I18n.t('js.global_search.search_placeholder_expanded')
-      : this.placeholder;
+      : this.placeholder();
   }
 
   private _markable = new BehaviorSubject<boolean>(false);
@@ -155,10 +153,6 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     recently_viewed: this.I18n.t('js.global_search.recently_viewed'),
     search: this.I18n.t('js.autocompleter.search'),
   };
-
-  constructor() {
-    populateInputsFromDataset(this);
-  }
 
   ngAfterViewInit():void {
     this.currentValue = '';

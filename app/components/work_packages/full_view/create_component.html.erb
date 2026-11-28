@@ -1,5 +1,4 @@
-<%= helpers.angular_component_tag "opce-wp-full-create",
-                                  inputs: {
-                                    type: @type,
-                                    projectIdentifier: @project.presence&.identifier
-                                  } %>
+<%= custom_element_tag.opce_wp_full_create(
+      type: @type,
+      project_identifier: @project.presence&.identifier
+    ) %>

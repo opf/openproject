@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, HostListener, inject } from '@angular/core';
+import { Component, OnInit, HostListener, inject, input } from '@angular/core';
 import { combineLatest, merge, Observable, timer } from 'rxjs';
 import { filter, map, shareReplay, switchMap, throttleTime } from 'rxjs/operators';
 import { ActiveWindowService } from 'core-app/core/active-window/active-window.service';
@@ -33,24 +33,22 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { AppBadgeService } from 'core-app/features/in-app-notifications/bell/app-badge.service';
 import { IanBellService } from 'core-app/features/in-app-notifications/bell/state/ian-bell.service';
-import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
+import { numberAttributeOr } from 'core-app/shared/helpers/angular/attribute-inputs';
 
 @Component({
   selector: 'opce-in-app-notification-bell',
   templateUrl: './in-app-notification-bell.component.html',
   styleUrls: ['./in-app-notification-bell.component.sass'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
 export class InAppNotificationBellComponent implements OnInit {
-  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly storeService = inject(IanBellService);
   readonly apiV3Service = inject(ApiV3Service);
   readonly activeWindow = inject(ActiveWindowService);
   readonly pathHelper = inject(PathHelperService);
   readonly appBadge = inject(AppBadgeService);
 
-  @Input() interval = 50000;
+  readonly interval = input(50000, { transform: numberAttributeOr(50000) });
 
   polling$:Observable<number>;
 
@@ -59,10 +57,6 @@ export class InAppNotificationBellComponent implements OnInit {
   unreadCountText$:Observable<number|string>;
 
   public bellDisplayLimit = 99;
-
-  constructor() {
-    populateInputsFromDataset(this);
-  }
 
   // enable other parts of the application to trigger an immediate update
   // e.g. a stimulus controller
@@ -74,12 +68,13 @@ export class InAppNotificationBellComponent implements OnInit {
   }
 
   ngOnInit() {
+    const interval = this.interval();
     this.polling$ = merge(
-      timer(10, this.interval).pipe(filter(() => this.activeWindow.isActive)),
-      timer(10, this.interval * this.appBadge.hiddenPollingFactor).pipe(filter(() => !this.activeWindow.isActive)),
+      timer(10, interval).pipe(filter(() => this.activeWindow.isActive)),
+      timer(10, interval * this.appBadge.hiddenPollingFactor).pipe(filter(() => !this.activeWindow.isActive)),
     )
       .pipe(
-        throttleTime(this.interval),
+        throttleTime(interval),
         switchMap(() => this.storeService.fetchUnread()),
       );
 

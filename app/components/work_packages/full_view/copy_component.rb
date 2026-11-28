@@ -32,6 +32,7 @@ module WorkPackages
     class CopyComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
+      include CustomElementHelper
 
       def initialize(type:, copied_from_work_package_id:, project:)
         super

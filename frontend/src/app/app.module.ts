@@ -372,13 +372,13 @@ export class OpenProjectModule implements DoBootstrap {
   }
 
   private registerCustomElements(injector:Injector) {
-    registerCustomElement('opce-macro-embedded-table', EmbeddedTablesMacroComponent, { injector });
+    registerCustomElement('opce-macro-embedded-table', EmbeddedTablesMacroComponent, { injector }, { attributeInputs: true });
     registerCustomElement('opce-embedded-work-package-table', WorkPackageEmbeddedTableEntryComponent, { injector });
     registerCustomElement('opce-principal', OpPrincipalComponent, { injector }, { attributeInputs: true });
     registerCustomElement('opce-basic-single-date-picker', OpBasicSingleDatePickerComponent, { injector });
     registerCustomElement('opce-basic-single-datetime-picker', OpBasicSingleDatetimePickerComponent, { injector });
     registerCustomElement('opce-range-date-picker', OpBasicRangeDatePickerComponent, { injector });
-    registerCustomElement('opce-global-search', GlobalSearchInputComponent, { injector });
+    registerCustomElement('opce-global-search', GlobalSearchInputComponent, { injector }, { attributeInputs: true });
     registerCustomElement('opce-autocompleter', OpAutocompleterComponent, { injector });
     registerCustomElement('opce-project-autocompleter', ProjectAutocompleterComponent, { injector });
     registerCustomElement('opce-members-autocompleter', MembersAutocompleterComponent, { injector });

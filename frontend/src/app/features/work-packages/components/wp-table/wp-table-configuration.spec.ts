@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectorRef, ElementRef } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { WorkPackageEmbeddedTableEntryComponent } from './embedded/wp-embedded-table-entry.component';
 import { WorkPackageTableConfiguration, WorkPackageTableConfigurationObject } from './wp-table-configuration';
@@ -90,26 +90,27 @@ describe('WorkPackageTableConfiguration', () => {
   });
 });
 
-describe('embedded table configuration dataset', () => {
+describe('embedded table configuration attributes', () => {
   it.each([null, 'demo-project'])('hydrates serialized configuration with project %s', (projectIdentifier) => {
-    const element = document.createElement('wp-embedded-table-entry');
     const provided:WorkPackageTableConfigurationObject = {
       projectContext: false,
       projectIdentifier,
       actionsColumnEnabled: false,
       filterButtonText: 'Refine',
     };
-    element.dataset.configuration = JSON.stringify(provided);
-    element.dataset.queryProps = JSON.stringify({ columns: ['id', 'subject'] });
-    element.dataset.initialLoadingIndicator = 'false';
-    TestBed.configureTestingModule({ providers: [{ provide: ElementRef, useValue: new ElementRef(element) }] });
+    TestBed.overrideComponent(WorkPackageEmbeddedTableEntryComponent, { set: { template: '' } });
+    TestBed.configureTestingModule({ declarations: [WorkPackageEmbeddedTableEntryComponent] });
+    const fixture = TestBed.createComponent(WorkPackageEmbeddedTableEntryComponent);
+    fixture.componentRef.setInput('configuration', JSON.stringify(provided));
+    fixture.componentRef.setInput('queryProps', JSON.stringify({ columns: ['id', 'subject'] }));
+    fixture.componentRef.setInput('initialLoadingIndicator', 'false');
 
-    const entry = TestBed.runInInjectionContext(() => new WorkPackageEmbeddedTableEntryComponent());
-    const configuration = new WorkPackageTableConfiguration(entry.configuration);
+    const entry = fixture.componentInstance;
+    const configuration = new WorkPackageTableConfiguration(entry.configuration());
 
-    expect(entry.configuration).toEqual(provided);
-    expect(entry.queryProps).toEqual({ columns: ['id', 'subject'] });
-    expect(entry.initialLoadingIndicator).toBe(false);
+    expect(entry.configuration()).toEqual(provided);
+    expect(entry.queryProps()).toEqual({ columns: ['id', 'subject'] });
+    expect(entry.initialLoadingIndicator()).toBe(false);
     expect(configuration.projectIdentifier).toBe(projectIdentifier);
     expect(configuration.actionsColumnEnabled).toBe(false);
     expect(configuration.tableVisible).toBe(true);

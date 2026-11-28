@@ -25,12 +25,12 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, ElementRef, inject, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { GridPageComponent } from 'core-app/shared/components/grids/grid/page/grid-page.component';
 import { GRID_PROVIDERS } from 'core-app/shared/components/grids/grid/grid.component';
 import { OpSharedModule } from 'core-app/shared/shared.module';
 import { OpenprojectGridsModule } from 'core-app/shared/components/grids/openproject-grids.module';
-import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
+import { stringAttribute } from 'core-app/shared/helpers/angular/attribute-inputs';
 
 // The OnPush change detection strategy makes the page very slow, especially removing widgets. See #66753
 // TODO: Investigate whether this can be migrated to OnPush after zoneless testing.
@@ -46,17 +46,10 @@ import { populateInputsFromDataset } from 'core-app/shared/components/dataset-in
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
   changeDetection: ChangeDetectionStrategy.Eager,
 })
-export class DashboardComponent extends GridPageComponent implements OnInit {
-  @Input() projectIdentifier:string;
-
-  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
-
-  ngOnInit() {
-    populateInputsFromDataset(this);
-    super.ngOnInit();
-  }
+export class DashboardComponent extends GridPageComponent {
+  readonly projectIdentifier = input('', { transform: stringAttribute('') });
 
   protected gridScopePath():string {
-    return this.pathHelper.projectDashboardsPath(this.projectIdentifier);
+    return this.pathHelper.projectDashboardsPath(this.projectIdentifier());
   }
 }

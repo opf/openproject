@@ -34,6 +34,7 @@ module Backlogs
       class WorkPackageTable < Grids::WidgetComponent
         include Backlogs::CommonHelper
         include Backlogs::SprintsHelper
+        include CustomElementHelper
 
         param :sprint
         param :project

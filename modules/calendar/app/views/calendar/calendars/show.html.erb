@@ -29,7 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 <% html_title(@view&.name.presence || t(:label_calendar_plural)) -%>
 
 <% content_for :content_body do %>
-  <%= angular_component_tag "opce-calendar-view", inputs: { queryId: @view&.id.to_s } %>
+  <%= custom_element_tag.opce_calendar_view(query_id: @view&.id.to_s) %>
 <% end %>
 
 <% content_for :content_body_right do %>
