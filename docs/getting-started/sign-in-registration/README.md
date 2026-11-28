@@ -30,13 +30,21 @@ To sign in to an OpenProject installation with an existing account, please enter
 
 ![Browser search bar showing search words for an OpenProject instance](modern-browser-searchbar.png)
 
-Type in your user name and password in the respective fields and click the blue Sign in button. You will then be signed in to your OpenProject environment. If the autologin option was activated for your installation you will also be able to stay logged in for several days.
+You can sign in on the start page of your OpenProject installation, or by clicking **Sign in** in the header. Both show the same sign-in form:
 
-![Sign in screen for an OpenProject instance](openproject_user_guide_sign_in.png)
+1. Enter your **Username or email** and your **Password**.
+2. Optionally, select **Stay logged in for … days** to remain signed in. The number of days depends on your installation, and the option is only shown if it has been enabled by your administrator.
+3. Click **Sign in**.
+
+You will then be signed in to your OpenProject environment.
+
+![Sign in form of an OpenProject instance with fields for username or email and password](openproject_user_guide_sign_in.png)
 
 ## Sign in with a Google account
 
-Enterprise on-premises and Enterprise cloud customers can sign in with OpenID Connect, using their Google account. To sign in just click the Google button below the sign in form.
+If your administrator has configured single sign-on, the sign-in form also shows the section **Sign in with an external account**, with a button for each configured provider, for example **Continue with Google**.
+
+Enterprise on-premises and Enterprise cloud customers can sign in with OpenID Connect, using their Google account. To sign in, click **Continue with Google** below the sign-in form.
 
 Please enter your email and click the blue Next button.
 
@@ -60,7 +68,9 @@ Please follow the [instructions in our Enterprise cloud edition guide](../../ent
 
 If you have been invited via email to an OpenProject installation, or if you have set up your own OpenProject (trial) installation, you are asked to create a new account in the system.
 
-Please click the link in the invitation email:
+If self-registration is enabled for your OpenProject installation, you can also create an account yourself. In the sign-in form, click **Create a new account** below **You don't have an account yet?**.
+
+If you were invited, click the link in the invitation email:
 
 ![Email activation screen for OpenProject registration](openproject_user_guide_sign_in_activation_email.png)
 
@@ -97,12 +107,12 @@ If you have already logged in before, you can [set your language in your user pr
 
 ## Reset your password
 
-If you forgot your password, you can reset your password by clicking the blue **Forgot your password** link directly below the Sign in field.
+If you forgot your password, you can reset your password by clicking the **Forgot your password?** link above the **Sign in** button.
 
 > [!NOTE]
 > If your administrator has restricted password login for an SSO-enabled instance, the password form and password recovery may not be available. In that case, sign in through your configured identity provider or contact your administrator.
 
-![Forgot password link on OpenProject sign in page](openproject_user_guide_sign_in_forgot_pw_link.png)
+![Forgot password link in the sign-in form of OpenProject](openproject_user_guide_sign_in_forgot_pw_link.png)
 
 You are then asked to enter your email address with which you registered to OpenProject.
 
