@@ -1,0 +1,74 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= helpers.turbo_frame_tag Help::DocumentationDialogComponent.frame_id(@context) do %>
+  <% if @article %>
+    <article class="contextual-help-article">
+      <p class="contextual-help-source"><%= t("contextual_help.source") %></p>
+      <h1 tabindex="-1"><%= @article.title %></h1>
+      <% if @article.enterprise_feature? %>
+        <p class="contextual-help-source"><%= t("contextual_help.enterprise_notice") %></p>
+      <% end %>
+      <% if headings.any? %>
+        <details class="contextual-help-contents">
+          <summary><%= t("contextual_help.contents") %></summary>
+          <nav aria-label="<%= t("contextual_help.contents") %>">
+            <ul>
+              <% headings.each do |heading| %>
+                <li><%= link_to heading.text, "##{heading['id']}", data: { action: "documentation-help#jump" } %></li>
+              <% end %>
+            </ul>
+          </nav>
+        </details>
+      <% end %>
+      <div class="op-uc-container contextual-help-prose"><%= body %></div>
+      <%= link_to t("contextual_help.full_documentation"), @article.url, target: "_blank", rel: "noopener noreferrer" %>
+      <hr>
+      <h2><%= t("contextual_help.related") %></h2>
+      <ul class="contextual-help-article-list">
+        <% @articles.reject { |article| article.id == @article.id }.each do |article| %>
+          <li><%= link_to t("contextual_help.articles.#{article.id}"),
+                          documentation_article_help_path(article_id: article.id, context: @context),
+                          data: { help_article: true } %></li>
+        <% end %>
+      </ul>
+    </article>
+  <% else %>
+    <section class="contextual-help-article">
+      <h1 tabindex="-1"><%= t("contextual_help.#{@context}.title") %></h1>
+      <p><%= t("contextual_help.introduction") %></p>
+      <ul class="contextual-help-article-list">
+        <% @articles.each do |article| %>
+          <li><%= link_to t("contextual_help.articles.#{article.id}"),
+                          documentation_article_help_path(article_id: article.id, context: @context),
+                          data: { help_article: true } %></li>
+        <% end %>
+      </ul>
+    </section>
+  <% end %>
+<% end %>

@@ -26,6 +26,13 @@
           aria: { label: header_button_title },
           title: header_button_title
         )
+        header.with_action_button(
+          mobile_icon: :book,
+          mobile_label: t("contextual_help.initiation.open"),
+          aria: { haspopup: "dialog" },
+          data: { show_dialog_id: Help::DocumentationDialogComponent.dialog_id("initiation") },
+          test_selector: "project-initiation-contextual-help"
+        ) { t("contextual_help.initiation.open") }
       end
     end
   %>
@@ -73,3 +80,4 @@
     end
   %>
 <% end %>
+<%= render Help::DocumentationDialogComponent.new(context: "initiation") %>

@@ -20,3 +20,5 @@
         )
       ) { t("settings.project_initiation_request.wizard_status_button.#{project.project_creation_wizard_artifact_name}") } %>
 <% end %>
+
+<%= render Help::DocumentationDialogComponent.new(context: "initiation", show_button: true) %>
