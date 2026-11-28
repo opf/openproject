@@ -34,7 +34,7 @@ Rails.application.config.to_prepare do
     add(:accountable, ->(wp) { wp.responsible }, label: :responsible)
     add(:assignee, ->(wp) { wp.assigned_to }, label: :assigned_to)
     add(:author, ->(wp) { wp.author }, label: :author)
-    add(:category, ->(wp) { wp.category }, label: :category)
+    add(:category, ->(wp) { wp.categories }, ns::Formatters::ArrayFormatter, label: -> { WorkPackage.human_attribute_name(Setting::WorkPackageMultipleCategories.active? ? :categories : :category) }) # rubocop:disable Layout/LineLength
     add(:creation_date, ->(wp) { wp.created_at }, ns::Formatters::DateFormatter, label: :created_at)
     add(:estimated_time, ->(wp) { wp.estimated_hours }, ns::Formatters::DurationFormatter, label: :estimated_hours)
     add(:remaining_time, ->(wp) { wp.remaining_hours }, ns::Formatters::DurationFormatter, label: :remaining_hours)
@@ -52,7 +52,7 @@ Rails.application.config.to_prepare do
     add(:parent_id, ->(parent) { parent.id }, label: :id)
     add(:parent_assignee, ->(parent) { parent.assigned_to }, label: :assigned_to)
     add(:parent_author, ->(parent) { parent.author }, label: :author)
-    add(:parent_category, ->(parent) { parent.category }, label: :category)
+    add(:parent_category, ->(parent) { parent.categories }, ns::Formatters::ArrayFormatter, label: -> { WorkPackage.human_attribute_name(Setting::WorkPackageMultipleCategories.active? ? :categories : :category) }) # rubocop:disable Layout/LineLength
     add(:parent_creation_date, ->(parent) { parent.created_at }, ns::Formatters::DateFormatter, label: :created_at)
     add(:parent_estimated_time, ->(parent) { parent.estimated_hours }, ns::Formatters::DurationFormatter, label: :estimated_hours)
     add(:parent_remaining_time, ->(parent) { parent.remaining_hours }, ns::Formatters::DurationFormatter, label: :remaining_hours)
