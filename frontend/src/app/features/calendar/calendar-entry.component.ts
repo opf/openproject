@@ -25,25 +25,21 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, inject } from '@angular/core';
-import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
+import { Component, OnDestroy, input } from '@angular/core';
+import { stringAttribute } from 'core-app/shared/helpers/angular/attribute-inputs';
 import {
   WorkPackageIsolatedQuerySpaceDirective,
 } from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
 
 @Component({
   hostDirectives: [WorkPackageIsolatedQuerySpaceDirective],
-  template: '<op-wp-calendar-page [queryId]="queryId"><op-wp-calendar /></op-wp-calendar-page>',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<op-wp-calendar-page [queryId]="queryId()"><op-wp-calendar /></op-wp-calendar-page>',
   standalone: false,
 })
 export class CalendarEntryComponent implements OnDestroy {
-  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
-
-  @Input() queryId:string;
+  readonly queryId = input('', { transform: stringAttribute('') });
 
   constructor() {
-    populateInputsFromDataset(this);
     document.body.classList.add('router--calendar');
   }
 

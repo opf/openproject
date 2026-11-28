@@ -125,10 +125,7 @@ module Redmine::MenuManager::TopMenuHelper
                                                  scheme: :invisible,
                                                  test_selector: "op-ian-bell",
                                                  aria: { label: I18n.t(:label_notification_center_plural) })))
-      concat(angular_component_tag("opce-in-app-notification-bell",
-                                   inputs: {
-                                     interval: Setting.notifications_polling_interval
-                                   }))
+      concat(custom_element_tag.opce_in_app_notification_bell(interval: Setting.notifications_polling_interval))
     end
   end
 

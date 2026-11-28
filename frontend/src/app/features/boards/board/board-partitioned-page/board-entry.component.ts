@@ -25,8 +25,8 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, ElementRef, Injector, Input, OnDestroy, inject } from '@angular/core';
-import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
+import { Component, Injector, OnDestroy, inject, input } from '@angular/core';
+import { stringAttribute } from 'core-app/shared/helpers/angular/attribute-inputs';
 import {
   WorkPackageIsolatedQuerySpaceDirective,
 } from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
@@ -43,8 +43,7 @@ import { QueryUpdatedService } from 'core-app/features/boards/board/query-update
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'board-entry',
   hostDirectives: [WorkPackageIsolatedQuerySpaceDirective],
-  template: '<board-partitioned-page [boardId]="boardId"><board-list-container [boardId]="boardId" /></board-partitioned-page>',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<board-partitioned-page [boardId]="boardId()"><board-list-container [boardId]="boardId()" /></board-partitioned-page>',
   providers: [
     BoardConfigurationService,
     BoardStatusActionService,
@@ -57,15 +56,12 @@ import { QueryUpdatedService } from 'core-app/features/boards/board/query-update
   standalone: false,
 })
 export class BoardEntryComponent implements OnDestroy {
-  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly injector = inject(Injector);
 
-  @Input() boardId:string;
+  readonly boardId = input('', { transform: stringAttribute('') });
 
   constructor() {
     const injector = this.injector;
-
-    populateInputsFromDataset(this);
 
     document.body.classList.add('router--boards-full-view');
 
