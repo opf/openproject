@@ -49,6 +49,14 @@ export default class ListRefreshController extends Controller<FrameElement> {
     useAngularServices(this);
   }
 
+  // A connecting frame with `complete` state means it was restored from the
+  // Turbo cache, its lists may be outdated, so refetch them.
+  connect() {
+    if (this.element.hasAttribute('complete')) {
+      void this.element.reload();
+    }
+  }
+
   servicesConnected() {
     this.subscription = this.halEvents
       .aggregated$('WorkPackage')
