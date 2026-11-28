@@ -39,7 +39,7 @@ import {
 } from 'core-app/core/setup/globals/global-listeners/setup-server-response';
 import { canonicalizeWorkPackageIdInUrl } from 'core-app/core/setup/globals/canonicalize-work-package-id-in-url';
 import { hideElement } from 'core-app/shared/helpers/dom-helpers';
-import { isOpenProjectCustomElement } from './openproject-custom-element';
+import { hasAttributeInputs, isOpenProjectCustomElement, refreshAttributeInputs } from './openproject-custom-element';
 
 export function addTurboGlobalListeners(target:Document = document, signal?:AbortSignal) {
   const runOnRenderAndLoad = () => {
@@ -96,8 +96,22 @@ export function addTurboGlobalListeners(target:Document = document, signal?:Abor
   }, { signal });
 
   target.addEventListener('turbo:before-morph-element', (event) => {
-    // In case the element is an OpenProject custom dom element, morphing is prevented.
-    if (isOpenProjectCustomElement(event.target)) {
+    const element = event.target;
+    if (!isOpenProjectCustomElement(element)) return;
+
+    const constructor = customElements.get(element.localName);
+    if (!constructor) return;
+
+    if (!hasAttributeInputs(constructor)) {
+      event.preventDefault();
+      return;
+    }
+
+    // Turbo dispatches this event without newElement when removing a node, although its types say otherwise.
+    const newElement = (event as CustomEvent<{ newElement?:Element }>).detail?.newElement;
+    if (newElement instanceof HTMLElement) {
+      refreshAttributeInputs(element, newElement);
+      // Angular renders these children into light DOM, which a morph would replace with the server's empty element.
       event.preventDefault();
     }
   }, { signal });

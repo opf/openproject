@@ -29,12 +29,17 @@ import 'reflect-metadata';
 import { Type } from '@angular/core';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { createCustomElement, NgElementConfig } from '@angular/elements';
+import { markAttributeInputs } from 'core-turbo/openproject-custom-element';
 
-export function registerCustomElement(name:string, component:Type<unknown>, config:NgElementConfig) {
+export function registerCustomElement(name:string, component:Type<unknown>, config:NgElementConfig, options:{ attributeInputs?:boolean } = {}) {
   const wrappedElement = createCustomElement(component, config);
   if (customElements.get(name)) {
     debugLog(`${name} custom element already registered.`);
     return;
+  }
+
+  if (options.attributeInputs) {
+    markAttributeInputs(wrappedElement);
   }
 
   customElements.define(name, wrappedElement);

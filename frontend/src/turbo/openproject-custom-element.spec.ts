@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { isOpenProjectCustomElement } from './openproject-custom-element';
+import { isOpenProjectCustomElement, refreshAttributeInputs } from './openproject-custom-element';
 
 describe('isOpenProjectCustomElement', () => {
   it('returns true for an element whose tag starts with OPCE-', () => {
@@ -48,5 +48,71 @@ describe('isOpenProjectCustomElement', () => {
 
   it('returns false for a null event target', () => {
     expect(isOpenProjectCustomElement(null)).toBe(false);
+  });
+});
+
+describe('refreshAttributeInputs', () => {
+  class MarkedElement extends HTMLElement {
+    static readonly opAttributeInputs = true;
+    static readonly observedAttributes = ['name', 'href'];
+  }
+
+  class UnmarkedElement extends HTMLElement {
+    static readonly observedAttributes = ['name'];
+  }
+
+  customElements.define('opce-test-refresh-marked', MarkedElement);
+  customElements.define('opce-test-refresh-unmarked', UnmarkedElement);
+
+  function build(tag:string, attributes:Record<string, string>):HTMLElement {
+    const element = document.createElement(tag);
+    Object.entries(attributes).forEach(([key, value]) => element.setAttribute(key, value));
+    return element;
+  }
+
+  it('copies a changed observed attribute onto a marked element', () => {
+    const element = build('opce-test-refresh-marked', { name: 'old' });
+    const next = build('opce-test-refresh-marked', { name: 'new' });
+
+    refreshAttributeInputs(element, next);
+
+    expect(element.getAttribute('name')).toBe('new');
+  });
+
+  it('adds an observed attribute that is only present on the new element', () => {
+    const element = build('opce-test-refresh-marked', {});
+    const next = build('opce-test-refresh-marked', { href: '/x' });
+
+    refreshAttributeInputs(element, next);
+
+    expect(element.getAttribute('href')).toBe('/x');
+  });
+
+  it('removes an observed attribute that is absent on the new element', () => {
+    const element = build('opce-test-refresh-marked', { name: 'old', href: '/x' });
+    const next = build('opce-test-refresh-marked', { name: 'old' });
+
+    refreshAttributeInputs(element, next);
+
+    expect(element.hasAttribute('href')).toBe(false);
+  });
+
+  it('leaves unobserved attributes untouched', () => {
+    const element = build('opce-test-refresh-marked', { id: 'keep', title: 'a' });
+    const next = build('opce-test-refresh-marked', { id: 'other' });
+
+    refreshAttributeInputs(element, next);
+
+    expect(element.getAttribute('id')).toBe('keep');
+    expect(element.getAttribute('title')).toBe('a');
+  });
+
+  it('does nothing for an unmarked element', () => {
+    const element = build('opce-test-refresh-unmarked', { name: 'old' });
+    const next = build('opce-test-refresh-unmarked', { name: 'new' });
+
+    refreshAttributeInputs(element, next);
+
+    expect(element.getAttribute('name')).toBe('old');
   });
 });

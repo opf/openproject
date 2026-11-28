@@ -28,6 +28,16 @@
 import { addTurboGlobalListeners } from './turbo-global-listeners';
 
 describe('addTurboGlobalListeners — OPCE custom element morph guard', () => {
+  class UnmarkedListenerElement extends HTMLElement {}
+
+  class MarkedListenerElement extends HTMLElement {
+    static readonly opAttributeInputs = true;
+    static readonly observedAttributes = ['name'];
+  }
+
+  customElements.define('opce-test-listener-unmarked', UnmarkedListenerElement);
+  customElements.define('opce-test-listener-marked', MarkedListenerElement);
+
   let controller:AbortController;
 
   beforeEach(() => {
@@ -40,25 +50,66 @@ describe('addTurboGlobalListeners — OPCE custom element morph guard', () => {
     document.body.innerHTML = '';
   });
 
-  function beforeMorph(element:Element):boolean {
+  function beforeMorph(element:Element, newElement?:Element):boolean {
     return element.dispatchEvent(new CustomEvent('turbo:before-morph-element', {
       bubbles: true,
       cancelable: true,
+      detail: { newElement },
     }));
   }
 
-  it('prevents morphing of OPCE-* custom elements', () => {
-    document.body.innerHTML = '<opce-principal></opce-principal>';
-    const element = document.querySelector('opce-principal')!;
+  function appendElement(tagName:string):HTMLElement {
+    const element = document.createElement(tagName);
+    document.body.append(element);
+    return element;
+  }
+
+  it('prevents morphing of defined unmarked OPCE-* elements', () => {
+    const element = appendElement('opce-test-listener-unmarked');
+
+    const notCancelled = beforeMorph(element, document.createElement('opce-test-listener-unmarked'));
+
+    expect(notCancelled).toBe(false);
+  });
+
+  it('prevents removal of defined unmarked OPCE-* elements', () => {
+    const element = appendElement('opce-test-listener-unmarked');
 
     const notCancelled = beforeMorph(element);
 
     expect(notCancelled).toBe(false);
   });
 
+  it('refreshes attributes of marked elements while preventing the morph', () => {
+    const element = appendElement('opce-test-listener-marked');
+    element.setAttribute('name', 'old');
+    const next = document.createElement('opce-test-listener-marked');
+    next.setAttribute('name', 'new');
+
+    const notCancelled = beforeMorph(element, next);
+
+    expect(notCancelled).toBe(false);
+    expect(element.getAttribute('name')).toBe('new');
+  });
+
+  it('does not prevent removal of marked elements', () => {
+    const element = appendElement('opce-test-listener-marked');
+
+    const notCancelled = beforeMorph(element);
+
+    expect(notCancelled).toBe(true);
+  });
+
+  it('leaves OPCE-* elements morphable until their class is defined', () => {
+    const element = appendElement('opce-test-listener-undefined');
+
+    const notCancelled = beforeMorph(element, document.createElement('opce-test-listener-undefined'));
+
+    expect(notCancelled).toBe(true);
+  });
+
   it('leaves plain elements morphable', () => {
-    document.body.innerHTML = '<div></div>';
-    const element = document.querySelector('div')!;
+    const element = appendElement('div');
 
     const notCancelled = beforeMorph(element);
 
