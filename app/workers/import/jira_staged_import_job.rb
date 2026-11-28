@@ -112,6 +112,7 @@ module Import
         elsif batch.properties[:stage] == 8
           Rails.logger.info "Starting stage 9"
           batch.enqueue(stage: 9) do
+            Import::JiraCreateWorkflowTransitionsJob.set(good_job_labels: ["stage_9"]).perform_later(jira_import.id)
             find_each_imported_project(jira_import) do |jira_project|
               Import::JiraCreateParentChildRelationsFromSubtasksJob.set(good_job_labels: ["stage_9"])
                 .perform_later(jira_import.id, jira_project.id)

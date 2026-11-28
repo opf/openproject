@@ -99,6 +99,18 @@ RSpec.shared_context "with jira project import data" do
     download_work_package_attachments
     create_time_entries
   end
+
+  def with_query_cache(&) = ActiveRecord::Base.cache(&)
+
+  # Runs the block right before this job takes the lock, as if another job did it concurrently
+  # through its own database connection.
+  def as_concurrent_job(locked_class, &)
+    allow(OpenProject::Mutex).to receive(:with_advisory_lock)
+      .and_wrap_original do |original, resource_class, *args, **options, &block|
+      ActiveRecord::Base.uncached(dirties: false, &) if resource_class == locked_class
+      original.call(resource_class, *args, **options, &block)
+    end
+  end
 end
 
 # The single demo issue from spec/fixtures/import/jira/issue.json together with every Jira-side

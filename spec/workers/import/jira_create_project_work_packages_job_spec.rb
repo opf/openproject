@@ -300,6 +300,15 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
           expect(references.pluck(:op_entity_class, :uses_existing))
             .to contain_exactly(["Type", false], ["Status", false], ["IssuePriority", false])
         end
+
+        it "writes the type's workflow only for the first issue" do
+          allow(OpenProject::Mutex).to receive(:with_advisory_lock_transaction).and_call_original
+
+          create_work_packages
+
+          expect(OpenProject::Mutex).to have_received(:with_advisory_lock_transaction)
+            .with(an_instance_of(Workflow)).once
+        end
       end
 
       context "when finding or creating a status" do
@@ -320,21 +329,37 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
         end
 
         context "when another job creates the status while this one waits for the lock" do
-          before do
-            allow(OpenProject::Mutex).to receive(:with_advisory_lock)
-              .and_wrap_original do |original, klass, *args, **options, &block|
-              if klass == Status
-                # As if the status was created by another job: create it without changing this job's query cache
-                ActiveRecord::Base.uncached(dirties: false) { create(:status, name: "In Progress") }
-              end
-              original.call(klass, *args, **options, &block)
-            end
-          end
+          before { as_concurrent_job(Status) { create(:status, name: "In Progress") } }
 
           it "uses the status the other job created" do
-            expect { ActiveRecord::Base.cache { create_work_packages } }.to change(Status, :count).by(1)
+            expect { with_query_cache { create_work_packages } }.to change(Status, :count).by(1)
             expect(WorkPackage.last.status.name).to eq("In Progress")
           end
+        end
+      end
+
+      context "when another job adds the status to the type's workflow first" do
+        def add_status(name, type:)
+          status = Status.find_by!(name:)
+          create(:status_transition, type: Type.find_by!(name: type), role: Role.find_by!(name: "JiraMember"),
+                                     old_status: status, new_status: status)
+        end
+
+        def transitions_of(type)
+          Type.find_by!(name: type).default_variant.workflow.status_transitions.pluck(:role_id, :old_status_id, :new_status_id)
+        end
+
+        it "keeps the issue's status and leaves the workflow unchanged" do
+          transitions_from_other_job = nil
+          as_concurrent_job(Workflow) do
+            add_status("In Progress", type: "Bug")
+            transitions_from_other_job = transitions_of("Bug")
+          end
+
+          with_query_cache { create_work_packages }
+
+          expect(WorkPackage.last.status.name).to eq("In Progress")
+          expect(transitions_of("Bug")).to eq(transitions_from_other_job)
         end
       end
 

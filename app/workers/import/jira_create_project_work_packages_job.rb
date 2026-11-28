@@ -104,9 +104,9 @@ module Import
             ActiveRecord::Base.transaction do
               type = create_type(jira_issue, @project)
               status = create_status(jira_issue)
-              update_workflows(type)
-              new_custom_fields = new_custom_fields_in_type(jira_issue, type, @custom_field_registry)
-              update_custom_fields_in_type(type, new_custom_fields) if new_custom_fields.any?
+              # TODO: needs to be adjusted in JIM-336 to operate on the variant
+              ensure_type_has_status(type, status)
+              ensure_type_has_custom_fields(type, jira_issue)
               priority = create_priority(jira_issue) || IssuePriority.default || IssuePriority.active.first
 
               raise "Create a priority. OpenProject work package requires a priority!" if priority.blank?
@@ -262,6 +262,38 @@ module Import
       "jira_import_create_#{klass.name.underscore}_#{name.parameterize(separator: '_')}"
     end
 
+    def ensure_type_has_status(type, status)
+      return if type_has_status?(type, status)
+
+      workflow = type.default_variant.workflow
+      OpenProject::Mutex.with_advisory_lock_transaction(workflow) do
+        next if Status.uncached { type_has_status?(type, status) }
+
+        JiraWorkflowTransitions.allow_all_status_transitions(@project_role, workflow)
+      end
+    end
+
+    def type_has_status?(type, status)
+      type.default_variant.statuses(include_default: true).exists?(status.id)
+    end
+
+    def ensure_type_has_custom_fields(type, jira_issue)
+      return if type_has_custom_fields?(type, jira_issue)
+
+      form = type.default_variant.form_configuration
+      OpenProject::Mutex.with_advisory_lock_transaction(form, WorkPackageTypes::FormConfiguration::LayoutLock::SUFFIX) do
+        type.default_variant.reload
+        new_custom_fields = new_custom_fields_in_type(jira_issue, type, @custom_field_registry)
+        next if new_custom_fields.empty?
+
+        update_custom_fields_in_type(type, new_custom_fields)
+      end
+    end
+
+    def type_has_custom_fields?(type, jira_issue)
+      new_custom_fields_in_type(jira_issue, type, @custom_field_registry).empty?
+    end
+
     def setup_resolution_date_cf(jira_project)
       return if @jira_import.exclude_resolution_fields?
 
@@ -314,21 +346,6 @@ module Import
 
     def labels_by_name
       @labels_by_name ||= Hash.new { |cache, name| cache[name] = Label.named(name).first }
-    end
-
-    def update_workflows(type)
-      Rails.logger.tagged("jira_object_type:issueType", "jira_object_id_or_name:#{type.name}") do
-        statuses = Status.all
-        row = statuses.to_h { |status| [status.id.to_s, ["always"]] }
-        status_params = statuses.to_h { |status| [status.id.to_s, row] }
-        call = Workflows::BulkUpdateService
-                  .new(role: @project_role, workflow: type.default_variant.workflow, tab: "always")
-                  .call(status_params)
-        if call.failure?
-          Rails.logger.error call.message
-          raise call.message
-        end
-      end
     end
 
     # rubocop:disable-next Metrics/AbcSize, Metrics/PerceivedComplexity
