@@ -35,7 +35,7 @@ The Jira Migrator is currently in beta and supports the following data:
 - Sprints and sprint assignments (requires Jira Software, see [Sprints](./field-mapping/#sprints))
 - Issues
 - Issue identifiers
-- Issue descriptions, history, watchers, comments, and attachments
+- Issue descriptions, history, watchers, labels, comments, and attachments
 - Inline images in descriptions and comments
 - Parent-child relationships (sub-tasks)
 - Issue links (blocks, relates to, duplicates, etc.)
@@ -46,6 +46,9 @@ The Jira Migrator is currently in beta and supports the following data:
 - Types
 
 See [the field mapping reference](./field-mapping/) for details.
+
+> [!IMPORTANT]
+> The Jira Migrator does not carry over Jira's access restrictions on individual items. Issues with a Security Level are imported as regular work packages, comments restricted to a role or group are imported as regular comments, and worklogs restricted to a role or group are imported as regular time entries. After the import, they are visible to everyone who can see work packages, comments or time entries in the project. This includes all users who receive the automatically created **JiraMember** role. Check whether you use these restrictions before migrating, see the [Pre-Migration checklist](./pre-migration-checklist/).
 
 ## Data not yet covered by the Migrator
 
@@ -83,7 +86,7 @@ Navigate to _Administration → Import_. To create a new import configuration, c
 ![Jira importer settings under OpenProject administration](openproject_admin_import_jira_import_initial.png)
 
 > [!IMPORTANT]
-> To activate the configuration, you need to activate project-based semantic identifiers on the OpenProject side first. If not yet active, you will see a warning banner. 
+> To start an import, you need to activate project-based semantic identifiers on the OpenProject side first. If not yet active, you will see a warning banner. 
 
 ![Jira importer settings under OpenProject administration](openproject_admin_import_jira_import.png)
 
@@ -91,16 +94,18 @@ Provide the following details:
 
 - A name for the import configuration
 - Your Jira URL
-- A Personal Access Token. The migration tool requires a token with admin permissions. Otherwise, you will get a 403 error during the import process.
+- The authentication method and credentials: either a **Personal Access Token** (recommended) or **Basic auth** with username and password (e.g. for Jira 8 or instances behind a proxy). The Jira user must be a Jira administrator. Otherwise, you will get a 403 error during the import process.
+
+The Jira user must also be a member of every Jira project you want to migrate. Only projects the user is a member of can be selected as import scope.
 
 > [!IMPORTANT]
 > Admin permissions are not enough to import sprints. The token user must also be able to see the Scrum boards of the projects you import, which in Jira depends on the sharing of each board's filter. Sprints the token user cannot see in Jira are skipped, and their issues are imported without a sprint. See [Sprints](./field-mapping/#sprints) for all requirements.
 
 Optionally, select **Exclude resolution fields for this configuration** if you do not want to import Jira's resolution and resolution date. See [Field mapping](field-mapping/) for how these fields are imported otherwise.
 
-### Test configuration
+### Test connection
 
-Click **Test configuration** to verify the connection.
+Click **Test Connection** to verify the connection.
 
 ![Define new Jira import in OpenProject administration](openproject_admin_import_jira_import_new_config.png)
 If the connection is successful, a confirmation banner will appear.
@@ -126,7 +131,7 @@ In the _Get base data_ section, click **Check available data** to retrieve metad
 
 ![Checking available Jira data for import](openproject_admin_import_jira_import_check_data.png)
 
-Once fetched, you will see which data can and cannot be imported. Click **Continue**.
+Once fetched, you will see which data can and cannot be imported. Click **Continue to scope selection**.
 
 ### Configure import
 
@@ -134,9 +139,9 @@ Once fetched, you will see which data can and cannot be imported. Click **Contin
 
 ### Select scope
 
-Next, select the projects you want to import. Click the **Continue to scope selection** button.
+Next, select the projects you want to import. Click the **Select projects to import** button.
 
-In the modal dialog that appears, choose one or more projects and confirm by clicking **Continue**.
+In the modal dialog that appears, choose one or more projects and confirm by clicking **Select**.
 
 ![Project selection modal showing available Jira projects](openproject_admin_import_jira_import_select_projects_modal.png)
 
@@ -152,7 +157,7 @@ Click **Start import** to begin the import process.
 
 ![Start import button in Jira import workflow](openproject_admin_import_jira_import_start_import_button.png)
 
-A warning dialog will appear. Confirm that you understand the limitations (e.g., incomplete feature coverage, recommendation to avoid production use, and the need for backups). Select _I understand_ and click **Start import**.
+A warning dialog will appear. Confirm that you understand the limitations (e.g., incomplete feature coverage, recommendation to avoid production use, and the need for backups). Select _I understand and have a backup_ and click **Start import**.
 
 ![Warning dialog before starting Jira import](openproject_admin_import_jira_import_warning_banner.png)
 
@@ -175,7 +180,7 @@ After the import completes, the data is available in _review mode_. You can:
 
 ### Approve or revert the import
 
-To proceed, choose one of the following actions: **Approve** or **Revert** the import. To leave the import in review mode, click **Close**. You can return to the import at a later point.
+To proceed, choose one of the following actions: **Approve import** or **Revert import**. To leave the import in review mode, click **Close**. You can return to the import at a later point.
 
 ![Approve or revert import buttons in review mode](openproject_admin_import_jira_import_approve_or_revert_import_buttons.png)
 
@@ -191,7 +196,7 @@ A confirmation warning will be shown before proceeding.
 
 #### Revert import
 
-- Removes all data created during the current import run
+- Removes the data created during the current import run. Types, statuses, priorities and labels created by the run are kept if they are used outside the import in the meantime. Changes to existing objects that the run reused (for example the "Jira import" group added to an existing type's form, or group memberships of existing users) are not undone.
 - Does not affect data from previous import runs
 
 A confirmation warning will also be shown.
@@ -207,7 +212,7 @@ You do not need to approve or revert an import immediately after reviewing it.
 
 Click **Close** to leave the import in **review mode** and return to it later. Closing the view does not approve, revert, or otherwise change the imported data.
 
-The import remains listed with the **In review** status. You can reopen it from the import runs overview at any time and continue the review.
+The import remains listed with the **Review mode** status. You can reopen it from the import runs overview at any time and continue the review.
 
 > [!NOTE]
 > Newly created users remain locked for as long as the import is in review mode. They are activated only when the import is approved.
@@ -238,7 +243,7 @@ Opening a configuration displays all import runs associated with it.
 
 The table provides an overview of the runs and their current status, such as:
 
-- **In review**: the import has completed and is waiting to be approved or reverted
+- **Review mode**: the import has completed and is waiting to be approved or reverted
 - **Completed**: the import has been approved and its changes are permanent
 - **Reverted**: the changes made by the import run have been reverted
 
@@ -246,13 +251,13 @@ Use the **…** (three dots) icon at the end of a row to access the available ac
 
 ![Overview of Jira import runs and their current status](openproject_admin_import_jira_import_runs_overview.png)
 
-### Edit an import
+### Edit an import run
 
-Select **Edit import** from the actions menu of an import run to open its details.
+Select **Edit run** from the actions menu of an import run to open its details.
 
 The import details show the selected scope, imported data, completed steps, and the current state of the import.
 
-If the import is still **In review**, you can continue reviewing the imported data and then **approve** or **revert** the import.
+If the import is still in **Review mode**, you can continue reviewing the imported data and then **approve** or **revert** the import.
 
 For more information about these actions, see [Approve or revert the import](#approve-or-revert-the-import).
 

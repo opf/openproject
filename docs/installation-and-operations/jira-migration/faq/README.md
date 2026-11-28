@@ -75,7 +75,7 @@ OpenProject supports Jira Server/Data Center versions 8.x, 9.x, 10.x and 11.x. J
 The documented scope already includes the central foundation for a realistic migration test:
 
 - Projects and project identifiers
-- Issues and selected standard attributes, including subject, description, attachments, due date, estimated hours and remaining hours
+- Issues and selected standard attributes, including subject, description, attachments, labels, due date, estimated hours and remaining hours
 - [Project-based issue identifiers](../../../system-admin-guide/manage-work-packages/work-package-identifiers/)
 - Parent-child relationships (sub-tasks)
 - Issue links (blocks, relates to, duplicates, etc.)
@@ -148,7 +148,7 @@ See also our blog post on [Jira migration strategies](https://www.openproject.or
 
 Yes. OpenProject provides [agile boards](../../../user-guide/agile-boards/) as well as [backlogs and sprints](../../../user-guide/backlogs-scrum/) with sprint planning and sprint boards. A particular strength is the combination of agile work with [work-package hierarchies and relations](../../../user-guide/work-packages/work-package-relations-hierarchies/), [Gantt charts](../../../user-guide/gantt-chart/) and [portfolio structures](../../../user-guide/portfolios/). This makes it possible to connect agile delivery with classic planning and governance in one system.
 
-The roadmap includes further Jira-oriented capabilities such as work-in-progress limits, sprint reports, burndown and velocity charts, multiple active sprints, board swimlanes and cumulative-flow diagrams. Organizations using Advanced Roadmaps, extensive board automation or SAFe can use the documented [SAFe use case](../../../use-cases/safe-framework/) as a starting point and should model their real planning events, metrics, dependencies and cross-team views in a pilot.
+The roadmap includes further Jira-oriented capabilities such as work-in-progress limits, sprint reports, burndown and velocity charts, board swimlanes and cumulative-flow diagrams. Organizations using Advanced Roadmaps, extensive board automation or SAFe can use the documented [SAFe use case](../../../use-cases/safe-framework/) as a starting point and should model their real planning events, metrics, dependencies and cross-team views in a pilot.
 
 ## Can OpenProject replace Jira Service Management?
 
@@ -170,7 +170,7 @@ The [portfolio and program management roadmap](https://www.openproject.org/roadm
 
 ## How does OpenProject support resource and capacity management?
 
-[Team planners](../../../user-guide/team-planner/) provide a visual view of assigned work and help teams coordinate workloads within projects. Resource planning remains connected to the underlying work packages, schedules and responsibilities instead of being maintained in a disconnected planning layer. OpenProject 17.7 will release a dedicated resource management module in OpenProject.
+[Team planners](../../../user-guide/team-planner/) provide a visual view of assigned work and help teams coordinate workloads within projects. Resource planning remains connected to the underlying work packages, schedules and responsibilities instead of being maintained in a disconnected planning layer. OpenProject also provides a dedicated resource management module.
 
 The [resource and capacity management roadmap](https://www.openproject.org/roadmap/#big-picture-alternative) includes cross-project resource planning, capacity visibility and workload balancing. [Multi-project resource management](https://community.openproject.org/projects/OP/work_packages/OP-6038/activity) is still a roadmap item. Organizations using Tempo Planner, BigPicture or similar apps should validate planning granularity, skills and roles, availability, allocations, scenarios and capacity reports against the current release and the roadmap.
 
