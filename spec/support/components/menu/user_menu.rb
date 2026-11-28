@@ -45,7 +45,7 @@ module Components
 
     def expect_user_shown(user_name)
       page.within_test_selector "op-app-header--user-menu-button" do
-        expect(page).to have_element "data-title": "\"#{user_name}\""
+        expect(page).to have_element "name-title": user_name
       end
     end
   end

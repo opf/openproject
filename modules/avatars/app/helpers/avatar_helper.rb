@@ -29,7 +29,7 @@ require "gravatar_image_tag"
 
 module AvatarHelper
   include ::GravatarImageTag
-  include ::AngularHelper
+  include ::CustomElementHelper
 
   GravatarImageTag.configure do |c|
     c.include_size_attributes = false
@@ -92,12 +92,10 @@ module AvatarHelper
 
   def build_principal_avatar_tag(user, **)
     tag_options = merge_default_avatar_options(user, **)
-    inputs = principal_avatar_inputs(user, tag_options)
-    inputs = hover_card_options(user, inputs, tag_options)
+    attributes = principal_avatar_attributes(user, tag_options)
+    attributes = hover_card_options(user, attributes, tag_options)
 
-    angular_component_tag "opce-principal",
-                          class: tag_options[:class],
-                          inputs:
+    custom_element_tag.opce_principal(class: tag_options[:class], **attributes)
   end
 
   def merge_default_avatar_options(user, options)
@@ -129,40 +127,30 @@ module AvatarHelper
 
   private
 
-  def hover_card_options(user, inputs = {}, tag_options = {})
+  def hover_card_options(user, attributes = {}, tag_options = {})
     # The hover card will be triggered by hovering over the avatar (if enabled)
     hover_card = tag_options[:hover_card]
     if hover_card.fetch(:active, true)
-      inputs[:hoverCard] = true
-
-      inputs[:hoverCardUrl] = hover_card_user_path(user.id)
+      attributes[:hover_card] = true
+      attributes[:hover_card_url] = hover_card_user_path(user.id)
     else
-      # We must explicitly set this to false since the angular renderer defines their own default to `true`
-      inputs[:hoverCard] = false
+      # We must explicitly set this to false since the element defines its own default of `true`
+      attributes[:hover_card] = false
     end
 
-    inputs
+    attributes
   end
 
-  def principal_avatar_inputs(user, tag_options)
-    {
-      principal: principal_hash(user),
-      link: tag_options[:link],
-      size: tag_options[:size],
-      hideName: tag_options[:hide_name],
-      nameClasses: tag_options[:name_classes],
-      title: tag_options.fetch(:title, "")
-    }.tap do |inputs|
-      if tag_options.key?(:avatar_image_alt_text)
-        inputs[:avatarImageAltText] = tag_options[:avatar_image_alt_text]
-      end
-      if tag_options[:avatar_image_url]
-        inputs[:avatarImageUrl] = tag_options[:avatar_image_url]
-      end
-      if tag_options[:avatar_fallback_image_url]
-        inputs[:avatarFallbackImageUrl] = tag_options[:avatar_fallback_image_url]
-      end
-    end
+  def principal_avatar_attributes(user, tag_options)
+    tag_options
+      .slice(:size, :hide_name, :name_classes, :avatar_image_alt_text)
+      .merge(
+        principal: principal_hash(user),
+        link: tag_options[:link] || false,
+        name_title: tag_options.fetch(:title, ""),
+        avatar_image_url: tag_options[:avatar_image_url].presence,
+        avatar_fallback_image_url: tag_options[:avatar_fallback_image_url].presence
+      )
   end
 
   def principal_hash(user)

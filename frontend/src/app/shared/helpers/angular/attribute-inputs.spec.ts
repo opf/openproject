@@ -29,6 +29,7 @@ import {
   booleanAttributeOr,
   jsonAttribute,
   numberAttributeOr,
+  optionalStringAttribute,
   stringAttribute,
 } from './attribute-inputs';
 
@@ -66,6 +67,14 @@ describe('attribute input transforms', () => {
       expect(stringAttribute('')(null)).toBe('');
       expect(stringAttribute('')('x')).toBe('x');
       expect(stringAttribute('d')(undefined)).toBe('d');
+    });
+  });
+
+  describe('optionalStringAttribute', () => {
+    it('maps a removed attribute to undefined and passes strings through', () => {
+      expect(optionalStringAttribute()(null)).toBeUndefined();
+      expect(optionalStringAttribute()(undefined)).toBeUndefined();
+      expect(optionalStringAttribute()('x')).toBe('x');
     });
   });
 

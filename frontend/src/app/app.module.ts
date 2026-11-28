@@ -374,7 +374,7 @@ export class OpenProjectModule implements DoBootstrap {
   private registerCustomElements(injector:Injector) {
     registerCustomElement('opce-macro-embedded-table', EmbeddedTablesMacroComponent, { injector });
     registerCustomElement('opce-embedded-work-package-table', WorkPackageEmbeddedTableEntryComponent, { injector });
-    registerCustomElement('opce-principal', OpPrincipalComponent, { injector });
+    registerCustomElement('opce-principal', OpPrincipalComponent, { injector }, { attributeInputs: true });
     registerCustomElement('opce-basic-single-date-picker', OpBasicSingleDatePickerComponent, { injector });
     registerCustomElement('opce-basic-single-datetime-picker', OpBasicSingleDatetimePickerComponent, { injector });
     registerCustomElement('opce-range-date-picker', OpBasicRangeDatePickerComponent, { injector });

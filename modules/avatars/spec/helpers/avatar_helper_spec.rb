@@ -30,7 +30,7 @@
 require "spec_helper"
 
 RSpec.describe AvatarHelper, with_settings: { protocol: "http" } do
-  include AngularHelper
+  include CustomElementHelper
 
   let(:user) { build_stubbed(:user) }
   let(:mail_digest) { Digest::MD5.hexdigest(user.mail) }
@@ -60,19 +60,19 @@ RSpec.describe AvatarHelper, with_settings: { protocol: "http" } do
       id: user.id
     }
 
-    inputs = {
+    attributes = {
       principal:,
-      hideName: true,
-      nameClasses: "",
-      link: nil,
-      title: user.name,
+      link: false,
+      hide_name: true,
+      name_classes: "",
+      name_title: user.name,
       size: "default",
-      hoverCard: hover_card
+      hover_card:
     }
 
-    inputs[:hoverCardUrl] = hover_card_url if hover_card
+    attributes[:hover_card_url] = hover_card_url if hover_card
 
-    angular_component_tag "opce-principal", inputs:
+    custom_element_tag.opce_principal(**attributes)
   end
 
   def local_expected_url(user)
@@ -128,6 +128,42 @@ RSpec.describe AvatarHelper, with_settings: { protocol: "http" } do
       it "returns blank" do
         expect(helper.avatar(user)).to be_html_eql(expected_user_avatar_tag(user))
       end
+    end
+  end
+
+  describe "#avatar attributes" do
+    subject(:node) { Capybara.string(helper.avatar(user)).find("opce-principal") }
+
+    it "renders plain attributes" do
+      expect(node).to match_css("opce-principal[hide-name=''][hover-card=''][size='default'][name-classes='']")
+      expect(node["name-title"]).to eq(user.name)
+      expect(node["data-principal"]).to be_nil
+      expect(JSON.parse(node["principal"]))
+        .to eq("href" => "/api/v3/users/#{user.id}", "name" => user.name, "id" => user.id)
+    end
+
+    it "renders hover-card=false when inactive" do
+      node = Capybara.string(helper.avatar(user, hover_card: { active: false })).find("opce-principal")
+
+      expect(node["hover-card"]).to eq("false")
+      expect(node["hover-card-url"]).to be_nil
+    end
+
+    it "renders link=false" do
+      node = Capybara.string(helper.avatar(user, link: false)).find("opce-principal")
+
+      expect(node["link"]).to eq("false")
+    end
+
+    it "renders link=false when the link option is missing or nil" do
+      expect(node["link"]).to eq("false")
+      expect(Capybara.string(helper.avatar(user, link: nil)).find("opce-principal")["link"]).to eq("false")
+    end
+
+    it "renders link as a bare attribute when true" do
+      node = Capybara.string(helper.avatar(user, link: true)).find("opce-principal")
+
+      expect(node["link"]).to eq("")
     end
   end
 

@@ -166,10 +166,10 @@ RSpec.describe OpPrimer::InplaceEditFieldDialogComponent, type: :component do
       let(:initial_values) { members.pluck(:id) }
 
       def expect_value
-        principals = page.all("opce-principal").map { JSON.parse(it["data-principal"]) }
+        principals = page.all("opce-principal").map { JSON.parse(it["principal"]) }
         expect(principals.pluck("id")).to eq(members.pluck(:id))
         expect(principals.pluck("name")).to eq(members.map(&:name))
-        expect(page).to have_css("opce-principal[data-hide-name='false']", count: members.size)
+        expect(page).to have_css("opce-principal[hide-name='false']", count: members.size)
       end
 
       include_examples "custom field comments and read-only values"

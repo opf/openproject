@@ -58,7 +58,7 @@ RSpec.describe Budgets::ActualLaborBudgetItemsComponent, type: :component do
     it "renders the link to the time entry's user's avatar" do
       rendered = render_inline(subject)
 
-      expect(rendered).to have_css("opce-principal[data-title='\"#{user.name}\"']")
+      expect(rendered).to have_css("opce-principal[name-title='#{user.name}']")
     end
   end
 end

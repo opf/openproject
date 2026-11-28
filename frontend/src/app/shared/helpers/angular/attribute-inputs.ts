@@ -31,6 +31,10 @@ export function stringAttribute(fallback:string):(value:string|null|undefined) =
   return (value) => value ?? fallback;
 }
 
+export function optionalStringAttribute():(value:string|null|undefined) => string|undefined {
+  return (value) => value ?? undefined;
+}
+
 export function booleanAttributeOr(fallback:boolean):(value:boolean|string|null|undefined) => boolean {
   return (value) => (value === null || value === undefined ? fallback : booleanAttribute(value));
 }
