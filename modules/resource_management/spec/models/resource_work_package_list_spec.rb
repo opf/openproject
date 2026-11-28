@@ -44,6 +44,17 @@ RSpec.describe ResourceWorkPackageList do
   end
 
   describe "#build_default_query" do
+    it "excludes subprojects for a project planner's view", with_settings: { display_subprojects_work_packages: true } do
+      expect(view.build_default_query.include_subprojects).to be(false)
+    end
+
+    it "keeps the subproject setting for a global planner's view",
+       with_settings: { display_subprojects_work_packages: true } do
+      global_view = described_class.new(name: "Global view", project: nil, principal: user)
+
+      expect(global_view.build_default_query.include_subprojects).to be(true)
+    end
+
     it "builds a work-package Query scoped to the project and principal" do
       query = view.build_default_query
 
@@ -149,6 +160,14 @@ RSpec.describe ResourceWorkPackageList do
   end
 
   describe "#apply_query_configuration" do
+    it "stops a saved query from including subprojects" do
+      view.query.include_subprojects = true
+
+      view.apply_query_configuration(filter_mode: "automatic", filters_json: nil)
+
+      expect(view.query.include_subprojects).to be(false)
+    end
+
     context "in automatic mode" do
       it "replaces the query filters with the serialized selection" do
         view.apply_query_configuration(
@@ -276,6 +295,35 @@ RSpec.describe ResourceWorkPackageList do
       global_view.query.ordered_work_packages.create!(work_package: unmanaged_work_package, position: 1)
 
       expect(global_view.work_packages).to be_empty
+    end
+
+    context "with a work package in a subproject" do
+      shared_let(:subproject) do
+        create(:project, parent: project, enabled_module_names: %w[resource_management work_package_tracking])
+      end
+      shared_let(:subproject_work_package) { create(:work_package, project: subproject) }
+      shared_let(:viewer) do
+        create(:user,
+               member_with_permissions: {
+                 project => %i[view_work_packages],
+                 subproject => %i[view_work_packages],
+                 plain_project => %i[view_work_packages]
+               })
+      end
+
+      subject(:project_view) do
+        described_class.new(name: "Project view", project:, principal: viewer).tap do |v|
+          v.query = v.build_default_query
+        end
+      end
+
+      it "leaves it out of a project planner's view" do
+        expect(project_view.work_packages).to contain_exactly(managed_work_package)
+      end
+
+      it "lists it in a global planner's view" do
+        expect(global_view.work_packages).to include(subproject_work_package)
+      end
     end
   end
 

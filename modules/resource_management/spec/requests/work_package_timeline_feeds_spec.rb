@@ -173,19 +173,16 @@ RSpec.describe "Work package timeline feeds", type: :rails_request, with_ee: %i[
                         })
       end
 
-      it "offers no click action on it, even though the viewer may allocate in the subproject" do
-        get_events
+      it "does not list the subproject's work package as a row" do
+        get project_resource_planner_view_work_package_timeline_resources_path(project, planner, view, format: :json)
 
-        sub_event = block_events.find { |e| e["id"] == sub_allocation.id }
-        expect(sub_event).to be_present
-        expect(sub_event.dig("extendedProps", "editUrl")).to be_nil
+        expect(response.parsed_body["resources"].map { |r| r["id"].to_i }).to include(wp.id).and exclude(sub_wp.id)
       end
 
-      it "still offers the click action on the planner's own allocations" do
+      it "does not show the subproject's allocations" do
         get_events
 
-        own_event = block_events.find { |e| e["id"] == allocation_a.id }
-        expect(own_event.dig("extendedProps", "editUrl")).to eq(edit_project_resource_allocation_path(project, allocation_a))
+        expect(block_events.pluck("id")).to include(allocation_a.id).and exclude(sub_allocation.id)
       end
     end
   end
