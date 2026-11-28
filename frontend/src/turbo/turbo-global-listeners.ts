@@ -39,7 +39,7 @@ import {
 } from 'core-app/core/setup/globals/global-listeners/setup-server-response';
 import { canonicalizeWorkPackageIdInUrl } from 'core-app/core/setup/globals/canonicalize-work-package-id-in-url';
 import { hideElement } from 'core-app/shared/helpers/dom-helpers';
-import { isOpenProjectCustomElement } from './openproject-custom-element';
+import { isOpenProjectCustomElement, refreshOpenProjectCustomElement } from './openproject-custom-element';
 
 export function addTurboGlobalListeners(target:Document = document, signal?:AbortSignal) {
   const runOnRenderAndLoad = () => {
@@ -96,9 +96,13 @@ export function addTurboGlobalListeners(target:Document = document, signal?:Abor
   }, { signal });
 
   target.addEventListener('turbo:before-morph-element', (event) => {
+    const element = event.target;
+    const { newElement } = event.detail;
     // In case the element is an OpenProject custom dom element, morphing is prevented.
-    if (isOpenProjectCustomElement(event.target)) {
+    // Without a newElement Turbo is removing the element, which must not be blocked.
+    if (isOpenProjectCustomElement(element) && newElement instanceof HTMLElement) {
       event.preventDefault();
+      refreshOpenProjectCustomElement(element, newElement);
     }
   }, { signal });
 }
