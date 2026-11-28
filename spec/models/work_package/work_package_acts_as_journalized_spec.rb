@@ -86,7 +86,7 @@ RSpec.describe WorkPackage do
                          "status_id" => [nil, :status],
                          "priority_id" => [nil, :priority],
                          "project_id" => [nil, :project],
-                         "category_id" => [nil, :category],
+                         "categories" => [nil, -> { category.id.to_s }],
                          "target_versions" => [nil, -> { version.id.to_s }],
                          "start_date" => [nil, Date.new(2013, 1, 24)],
                          "due_date" => [nil, Date.new(2013, 1, 31)],
@@ -199,7 +199,7 @@ RSpec.describe WorkPackage do
                          "status_id" => %i[status other_status],
                          "priority_id" => %i[priority other_priority],
                          "project_id" => %i[project other_project],
-                         "category_id" => [nil, :category],
+                         "categories" => [nil, -> { category.id.to_s }],
                          "target_versions" => [-> { version.id.to_s }, -> { other_version.id.to_s }],
                          "start_date" => [Date.new(2026, 1, 9), Date.new(2013, 1, 24)],
                          "due_date" => [nil, Date.new(2013, 1, 31)],
@@ -275,7 +275,7 @@ RSpec.describe WorkPackage do
                          "status_id" => [nil, :other_status],
                          "priority_id" => [nil, :other_priority],
                          "project_id" => [nil, :other_project],
-                         "category_id" => [nil, :category],
+                         "categories" => [nil, -> { category.id.to_s }],
                          "target_versions" => [nil, -> { other_version.id.to_s }],
                          "start_date" => [nil, Date.new(2013, 1, 24)],
                          "due_date" => [nil, Date.new(2013, 1, 31)],
@@ -354,7 +354,7 @@ RSpec.describe WorkPackage do
                          "status_id" => %i[status other_status],
                          "priority_id" => %i[priority other_priority],
                          "project_id" => %i[project other_project],
-                         "category_id" => [nil, :category],
+                         "categories" => [nil, -> { category.id.to_s }],
                          "target_versions" => [-> { version.id.to_s }, -> { other_version.id.to_s }],
                          "start_date" => [Date.new(2026, 1, 9), Date.new(2013, 1, 24)],
                          "due_date" => [nil, Date.new(2013, 1, 31)],
@@ -589,6 +589,93 @@ RSpec.describe WorkPackage do
 
           expect(journable.last_journal.details)
             .not_to have_key("version_id")
+        end
+      end
+    end
+
+    context "on category changes", with_settings: { journal_aggregation_time_minutes: 0 } do
+      shared_let(:project) { create(:project) }
+      shared_let(:category) { create(:category, project:, name: "Alpha") }
+      shared_let(:other_category) { create(:category, project:, name: "Beta") }
+
+      let(:journable) { create(:work_package, project:, category:) }
+
+      def snapshot_category_ids(journal)
+        Journal::WorkPackageCategoryJournal.where(journal:).pluck(:category_id)
+      end
+
+      it "snapshots the category on creation" do
+        expect(snapshot_category_ids(journable.last_journal)).to contain_exactly(category.id)
+      end
+
+      it "creates a journal with a matching snapshot when the category changes" do
+        expect { journable.update!(category: other_category) }
+          .to change { journable.journals.count }.by(1)
+
+        expect(snapshot_category_ids(journable.last_journal)).to contain_exactly(other_category.id)
+      end
+
+      it "creates no journal on an unrelated save" do
+        journable
+
+        expect { journable.update!(subject: journable.subject) }
+          .not_to change { journable.journals.count }
+      end
+
+      it "records the change as a single categories detail without a category_id detail" do
+        journable.update!(category: other_category)
+
+        expect(journable.last_journal.details)
+          .to eq("categories" => [category.id.to_s, other_category.id.to_s])
+      end
+
+      context "when the old category has been destroyed" do
+        current_user { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
+
+        let(:journal) { journable.last_journal }
+
+        before do
+          journable.update!(category: other_category)
+          category.destroy
+        end
+
+        it "renders a placeholder for the old category and the name of the new one" do
+          expect(journal.render_detail(["categories", [category.id.to_s, other_category.id.to_s]]))
+            .to eq(I18n.t(:text_journal_changed_plain,
+                          label: "<strong>Category</strong>",
+                          linebreak: nil,
+                          old: "<i>(deleted category)</i>",
+                          new: "<i>Beta</i>"))
+        end
+      end
+
+      context "with multiple categories enabled",
+              with_flag: { work_package_multiple_categories: true },
+              with_settings: { work_package_multiple_categories: true } do
+        def set_categories(categories)
+          journable.category_ids_replacements = categories.map(&:id)
+          journable.save!
+        end
+
+        it "snapshots all live categories" do
+          expect { set_categories([category, other_category]) }
+            .to change { journable.journals.count }.by(1)
+
+          expect(snapshot_category_ids(journable.last_journal))
+            .to contain_exactly(category.id, other_category.id)
+        end
+
+        it "creates a journal when only an additional category changes" do
+          expect { set_categories([category, other_category]) }
+            .to change { journable.journals.count }.by(1)
+          expect(journable.category_id).to eq(category.id)
+        end
+
+        it "records both categories on the new side of the categories detail" do
+          set_categories([category, other_category])
+
+          expect(journable.last_journal.details)
+            .to eq("categories" => [category.id.to_s, [category.id, other_category.id].sort.join(",")])
         end
       end
     end

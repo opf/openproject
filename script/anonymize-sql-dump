@@ -503,6 +503,7 @@ INSERT INTO table_manifest SELECT unnest(ARRAY[
   'wiki_pages',
   'wiki_redirects',
   'wikis',
+  'work_package_category_journals',
   'work_package_hierarchies',
   'work_package_journals',
   'work_package_semantic_aliases',

@@ -4413,6 +4413,7 @@ en:
   label_delete_project: "Delete project"
   label_delete_user: "Delete user"
   label_deleted: "deleted"
+  label_deleted_category: "(deleted category)"
   label_deleted_custom_field: "(deleted custom field)"
   label_deleted_custom_item: "(deleted value)"
   label_deleted_custom_option: "(deleted option)"

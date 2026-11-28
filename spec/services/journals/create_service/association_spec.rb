@@ -78,6 +78,16 @@ RSpec.describe Journals::CreateService::Association do
       expect(associations.map(&:class)).to include(Journals::CreateService::Labelable)
     end
 
+    it "includes WorkPackageCategory for a work package" do
+      associations = described_class.for(WorkPackage.new)
+      expect(associations.map(&:class)).to include(Journals::CreateService::WorkPackageCategory)
+    end
+
+    it "excludes WorkPackageCategory for a project" do
+      associations = described_class.for(Project.new)
+      expect(associations.map(&:class)).not_to include(Journals::CreateService::WorkPackageCategory)
+    end
+
     it "excludes associations whose #associated? returns false" do
       journable = instance_double(WorkPackage, customizable?: false, respond_to?: false)
       allow(journable).to receive(:respond_to?).and_return(false)

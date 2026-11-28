@@ -34,7 +34,7 @@ module JournalChanges
 
     merged = all_changes.compact.reduce({}.with_indifferent_access, :merge!)
 
-    @changes = suppress_version_change(merged)
+    @changes = suppress_category_change(suppress_version_change(merged))
   end
 
   def all_changes
@@ -48,6 +48,7 @@ module JournalChanges
       get_target_versions_changes,
       get_observed_in_versions_changes,
       get_labels_changes,
+      get_categories_changes,
       get_file_links_changes,
       get_participants_changes,
       get_agenda_items_changes
@@ -164,6 +165,16 @@ module JournalChanges
     { labels: [old_value, new_value] }
   end
 
+  def get_categories_changes
+    return unless journable.respond_to?(:work_package_categories)
+
+    old_value = predecessor && joined_category_ids(predecessor)
+    new_value = joined_category_ids(self)
+    return if old_value == new_value
+
+    { categories: [old_value, new_value] }
+  end
+
   def get_file_links_changes
     return unless has_file_links?
 
@@ -217,6 +228,12 @@ module JournalChanges
     changes
   end
 
+  def suppress_category_change(changes)
+    changes.delete("category_id") if journable.respond_to?(:work_package_categories)
+
+    changes
+  end
+
   def joined_target_version_ids(journal)
     journal.target_version_journals.map(&:version_id).sort.join(",").presence
   end
@@ -227,6 +244,10 @@ module JournalChanges
 
   def joined_label_ids(journal)
     journal.label_journals.map(&:label_id).sort.join(",").presence
+  end
+
+  def joined_category_ids(journal)
+    journal.work_package_category_journals.map(&:category_id).sort.join(",").presence
   end
 
   def participant_baseline_journal
