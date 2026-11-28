@@ -3,7 +3,7 @@ sidebar_navigation:
   title: Backlogs FAQ
   priority: 001
 description: Frequently asked questions regarding the backlogs module
-keywords: backlogs FAQ, backlogs, backlog, task board, taskboard, version, sprint, scrum
+keywords: backlogs FAQ, backlogs, backlog, task board, taskboard, version, sprint, scrum, sprint report, burndown
 ---
 
 # Frequently asked questions (FAQ) for Backlog and sprints
@@ -11,9 +11,9 @@ keywords: backlogs FAQ, backlogs, backlog, task board, taskboard, version, sprin
 > [!NOTE]
 > With the release of OpenProject 17.3, the **Backlogs** module has undergone significant changes, including the introduction of redesigned sprint handling and updated functionality. As a result, this FAQ page has been revised to reflect the current behavior and concepts.
 >
-> Please note that further improvements are implemented in OpenProject 17.4 and beyond. We will continue to update this page to keep it aligned with the latest product changes.
+> Further improvements have been implemented since then, including backlog buckets in OpenProject 17.4 and sprint reports in OpenProject 18.0. We will continue to update this page to keep it aligned with the latest product changes.
 
-## If I previously had sprints defined using versions, how does the change from sprint to version affect migration and existing data?
+## If I previously had sprints defined using versions, how does the change from version to sprint affect migration and existing data?
 
 Before the OpenProject 17.3 release, the backlog module allowed defining versions that could be used in the left or right columns of the backlog module. There wasn't a designated column for the sprint, but rather the user could decide whether the version should be displayed in the left or right column.
 
@@ -27,7 +27,7 @@ We have chosen a view which is the same in all projects to maintain consistency.
 
 First, you have to make sure the backlog module is active within a project.
 
-- An admin needs to add the field to existing work package forms. 
+- An admin needs to add the field to the [form](../../../system-admin-guide/manage-work-packages/work-package-forms/) used by the work package type.
 - Once added, the sprint field becomes visible on the work package details page and can be edited there as well.
 
 ## Where are my backlog buckets and sprints now?
@@ -46,10 +46,13 @@ The backlog can be sorted manually:
 - The work packages are sorted by creation date.
 - When you add a new work package to the project, it is automatically placed at the bottom of the backlog. 
 
+To move several work packages at once, select multiple cards and move them to a sprint or back to the backlog in one step.
+
 ## How are sprint containers sorted?
 
 - Sprint containers with start/completion dates are sorted by date showing the latest one on the top. 
 - Sprint containers without dates are sorted in an alphanumeric way.
+
 
 ## My task board is gone, where can I get another board?
 
@@ -63,4 +66,12 @@ Additionally, if you would like to see the parent/child relationships, please us
 
 ## Where is my Burndown chart?
 
-Nothing has changed with the Burndown chart. It is synced with the sprint object and can be accessed from the menu of an active sprint.
+Starting with OpenProject 18.0, the burndown chart is part of the [sprint report](../sprint-reports/), together with the burnup chart and other metrics. To open it, click the **More** (three dots) menu of a sprint and select **Sprint report**. Sprint reports are available for active and completed sprints.
+
+## Why does the sprint report of a completed sprint no longer change?
+
+Reports are frozen once a sprint is completed. Changing a work package's status, estimate, or sprint afterwards no longer affects the report. This keeps the results reliable for sprint reviews and for comparing sprints. For more information, see [Reporting on completed sprints](../sprint-reports/#reporting-on-completed-sprints).
+
+## Why are the burndown and burnup charts not displayed in my sprint report?
+
+The burndown and burnup charts are based on estimates. If the reporting unit of your project is set to **None**, these charts are not displayed. To show them, select **Story points** or **Work** under **Project settings → Backlogs → Units**. See [Reporting units](../sprint-reports/#reporting-units).

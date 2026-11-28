@@ -5,12 +5,15 @@ sidebar_navigation:
 description: Enable modules in a project.
 keywords: modules, select module in project, add
 ---
+
 # Enable modules in a project
 
-To **activate or deactivate modules** in a project, select a project from the **Select a project** drop-down menu in the left header navigation, then go to _Project settings -> Modules_.
+To **activate or deactivate modules** in a project, navigate to **Project settings → Modules**.
 
 Setting a checkmark next to a module will activate it for the project, and a new menu item will appear in the project menu on the left.
 
 ![Overview of modules under project settings in OpenProject](openproject_user_guide_project_settings_modules.png)
 
-Visit our [user guide](../../../#overview-of-modules-in-openproject) for an overview of the different modules available in OpenProject.
+## Module dependencies
+
+Activating the [Backlogs module](../../../backlogs-scrum/) automatically activates the [Work packages](../../../work-packages/) and [Boards](../../../agile-boards/) modules, since Work packages and Boards are required for working with sprint boards.

@@ -2,8 +2,8 @@
 sidebar_navigation:
   title: Backlogs settings
   priority: 300
-description: Backlogs settings.
-keywords: backlogs settings, backlogs, types and statuses, statuses considered closed, excluded work package types, sprint sharing, sprint goal, agile, scrum
+description: Configure project-specific Backlogs settings, sprint sharing, and units for agile planning and reporting.
+keywords: backlogs settings, backlogs, types and statuses, statuses considered closed, excluded work package types, sprint sharing, sprint goal, agile, scrum, story points, velocity, effort, capacity, units, work time estimate
 ---
 # Backlogs settings
 
@@ -17,7 +17,7 @@ Under the tab **Types and statuses** you can configure which work package status
 
 You can choose the statuses that represent a closed or finished state in your workflow.
 
-These statuses are treated as closed throughout sprint planning and reporting. They are used when calculating burndown charts and determine which work packages remain in a sprint when it is completed.
+These statuses are treated as closed throughout sprint planning and reporting. They are used when calculating sprint report metrics and determine which work packages remain in a sprint when it is completed.
 
 Examples include:
 
@@ -113,3 +113,29 @@ Multiple active sprints is a **project-level setting** that allows you to enable
 > Having multiple active sprints is only possible when the project is neither sharing nor receiving sprints. To activate this setting, **Don't share** option in the sprint sharing tab must be selected. 
 
 ![Activate multiple active sprints under project settings in OpenProject](openproject_user_guide_project_settings_backlogs_allow_multiple_active_sprints.png)
+
+## Units
+
+Under the **Units** tab, you can configure the default unit of velocity, effort, and capacity to match the way your agile team plans and tracks work. This project-specific setting determines which units are displayed on cards in the backlog and in sprint report charts.
+
+You can choose between three options:
+
+- **Story points:** Cards and charts display story points. Choose this option if your team estimates work using relative effort.
+- **Work time estimate:** Cards and charts display work time estimates. Choose this option if your team estimates effort in units of time.
+- **None:** Charts use the number of work packages instead of an effort estimate. Choose this option if your team does not estimate work. Cards do not display an estimate, and the burndown and burnup charts are not displayed in sprint reports.
+
+Select the desired option and click **Save** to apply your changes.
+
+![Configure the default unit of velocity, effort, and capacity under Backlogs project settings in OpenProject](openproject_user_guide_project_settings_backlogs_units.png)
+
+For more information on how these units are used in agile reporting, see [Sprint reports](../../../backlogs-scrum/sprint-reports/).
+
+## Rebuild positions
+
+If work package positions become inconsistent within the backlog or sprints, you can rebuild them.
+
+Navigate to **Project settings → Backlogs**, open the **More** (three dots) menu in the upper-right corner and select **Rebuild positions**.
+
+![Rebuild positions option in the Backlogs project settings](openproject_user_guide_project_settings_backlogs_rebuild_positions.png)
+
+OpenProject recalculates the positions of work packages within the project while retaining their existing order wherever possible. This action does not change their backlog bucket or sprint assignments.
