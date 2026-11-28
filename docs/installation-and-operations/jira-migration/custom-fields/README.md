@@ -11,8 +11,9 @@ The Jira Migrator automatically detects custom fields that are actually used in 
 creates matching OpenProject custom fields for them. 
 Fields that exist in Jira but contain no values in any imported issue are ignored.
 
-All newly created custom fields are placed in a **Jira import** group in the work package form configuration and 
-are not assigned to any existing project by default.
+All newly created custom fields are placed in a **Jira import** group in the form of the imported project's own 
+variant of the type (see [Issue type](../field-mapping/) in the field mapping). The type's shared form stays unchanged, 
+so the fields do not appear in other projects using the same type.
 
 ## Supported field types
 

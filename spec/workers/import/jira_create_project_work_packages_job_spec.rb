@@ -965,7 +965,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
           it "does not add a resolution date field when no issue has the field set" do
             create_work_packages
             work_package = WorkPackage.find("DPPP-6")
-            expect(work_package.type.default_variant.custom_field_ids).not_to include(resolution_date_cf.id)
+            expect(work_package.type_variant.custom_field_ids).not_to include(resolution_date_cf.id)
           end
 
           context "when the status with resolution already exists" do
@@ -1019,7 +1019,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
               wp_with_date = WorkPackage.find("DPPP-6")
               wp_without_date = WorkPackage.find("DPPP-7")
 
-              expect(wp_without_date.type.default_variant.custom_field_ids).to include(resolution_date_cf.id)
+              expect(wp_without_date.type_variant.custom_field_ids).to include(resolution_date_cf.id)
               expect(wp_without_date.send(resolution_date_cf.attribute_getter)).to be_nil
               expect(wp_with_date.send(resolution_date_cf.attribute_getter)).to eq(Time.utc(2026, 9, 12, 12, 18, 5))
             end
@@ -1031,7 +1031,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
             it "ignores the resolution date field" do
               create_work_packages
               work_package = WorkPackage.find("DPPP-6")
-              expect(work_package.type.default_variant.custom_field_ids).not_to include(resolution_date_cf.id)
+              expect(work_package.type_variant.custom_field_ids).not_to include(resolution_date_cf.id)
             end
           end
 
@@ -1041,7 +1041,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
             it "ignores the field" do
               create_work_packages
               work_package = WorkPackage.find("DPPP-6")
-              expect(work_package.type.default_variant.custom_field_ids).not_to include(resolution_date_cf.id)
+              expect(work_package.type_variant.custom_field_ids).not_to include(resolution_date_cf.id)
             end
           end
         end
